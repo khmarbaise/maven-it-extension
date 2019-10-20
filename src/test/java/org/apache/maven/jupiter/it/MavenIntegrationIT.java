@@ -1,30 +1,30 @@
 package org.apache.maven.jupiter.it;
 
 import static org.apache.maven.jupiter.it.assertj.MavenExecutionResultAssert.assertThat;
-import static org.apache.maven.jupiter.it.extension.maven.MavenVersion.M3_0_5;
-import static org.apache.maven.jupiter.it.extension.maven.MavenVersion.M3_3_1;
 
-import org.apache.maven.jupiter.it.extension.MavenExecutionResult;
+import org.apache.maven.jupiter.it.extension.maven.MavenExecutionResult;
 import org.apache.maven.jupiter.it.extension.MavenIT;
 import org.apache.maven.jupiter.it.extension.MavenTest;
 import org.apache.maven.jupiter.it.extension.maven.MavenCache;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.TestMethodOrder;
 
 /**
  * @author Karl Heinz Marbaise
  */
-@MavenIT(mavenCache = MavenCache.Global, versions = {M3_0_5, M3_3_1})
+@MavenIT(mavenCache = MavenCache.Global)
+@TestMethodOrder(OrderAnnotation.class)
 class MavenIntegrationIT {
 
-  //  @BeforeAll
-  //  void beforeAll() {
-  //  }
+  @MavenTest(goals = {"clean", "install"})
+  @Order(10)
+  void before_first(MavenExecutionResult result) {
+    assertThat(result).isSuccessful();
+  }
 
-  //  @BeforeEach
-  //  void beforeEach() {
-  //    // How to install one or more setup Project's before each test.
-  //  }
-  //
   @MavenTest(debug = true)
+  @Order(20)
   void first_integration_test(MavenExecutionResult result) {
     System.out.println("MavenIntegrationIT.first_integration_test rc:" + result.getReturnCode());
     assertThat(result).isSuccessful();

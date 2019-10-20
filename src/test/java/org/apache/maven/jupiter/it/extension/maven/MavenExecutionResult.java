@@ -1,4 +1,4 @@
-package org.apache.maven.jupiter.it.extension;
+package org.apache.maven.jupiter.it.extension.maven;
 
 public class MavenExecutionResult {
 

@@ -1,5 +1,8 @@
 package org.apache.maven.jupiter.it.extension;
 
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.AnnotatedElement;
@@ -10,7 +13,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.apache.commons.io.FileUtils;
-import org.apache.maven.jupiter.it.extension.MavenExecutionResult.ExecutionResult;
+import org.apache.maven.jupiter.it.extension.maven.MavenExecutionResult;
+import org.apache.maven.jupiter.it.extension.maven.MavenExecutionResult.ExecutionResult;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -105,6 +109,32 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     return mavenTestAnnotation.debug();
   }
 
+  private boolean hasProfiles(Method method) {
+    return getProfiles(method).length > 0;
+  }
+
+  private boolean hasGoals(Method method) {
+    return getGoals(method).length > 0;
+  }
+
+  private String[] getProfiles(Method method) {
+    if (!method.isAnnotationPresent(MavenTest.class)) {
+      throw new IllegalStateException("MavenTest Annotation nicht an der Method");
+    }
+    MavenTest mavenTestAnnotation = method.getAnnotation(MavenTest.class);
+
+    return mavenTestAnnotation.profiles();
+  }
+
+  private String[] getGoals(Method method) {
+    if (!method.isAnnotationPresent(MavenTest.class)) {
+      throw new IllegalStateException("MavenTest Annotation nicht an der Method");
+    }
+    MavenTest mavenTestAnnotation = method.getAnnotation(MavenTest.class);
+
+    return mavenTestAnnotation.goals();
+  }
+
   @Override
   public void beforeTestExecution(ExtensionContext context) throws IOException, InterruptedException {
     System.out.println("MavenITExtension.beforeTestExecution");
@@ -132,6 +162,7 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
         "test-classes/maven-its/" + testClass.getSimpleName() + "/" + methodName.getName());
     FileUtils.copyDirectory(copyMavenPluginProject, projectDirectory);
 
+
     //FIXME: Removed hard coded parts.
     ApplicationExecutor mavenExecutor = new ApplicationExecutor(projectDirectory, integrationTestCaseDirectory,
         new File("/Users/khmarbaise/tools/maven/bin/mvn"), Collections.emptyList(), "mvn");
@@ -141,11 +172,23 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
 
     List<String> executionArguments = new ArrayList<>();
     List<String> defaultArguments = Arrays.asList("-Dmaven.repo.local=" + cacheDirectory.toString(), "--batch-mode",
-        "-V", "clean", "verify", "-Prun-its");
+        "-V");
     executionArguments.addAll(defaultArguments);
+
+    if (hasProfiles(methodName)) {
+      String collect = Arrays.asList(getProfiles(methodName)).stream().collect(joining(",", "-P", ""));
+      executionArguments.add(collect);
+    }
+
     if (isDebug(methodName)) {
       executionArguments.add("-X");
     }
+
+    if (hasGoals(methodName)) {
+      List<String> goals = Arrays.asList(getGoals(methodName)).stream().collect(toList());
+      executionArguments.addAll(goals);
+    }
+
     Process start = mavenExecutor.start(executionArguments);
 
     int processCompletableFuture = start.waitFor();

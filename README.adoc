@@ -84,13 +84,14 @@ Possible options:
 ** StdErr
 ** Log Output as Stream or after finished running
 ** Convenience methods to get information from the log
-*** `isInfo()` which relates to `[INFO] ..`
+*** `isInfo()` which relates to `[INFO] ..` Think about this?
 *** Some things to get output from plugins etc.???
 * Access to the cache directory
 ** With convenience methods to access artifacts/content of artifacts
 ** ???
 * general build result.
 
+### MavenExecutionResult
 
 * MavenExecutionResult
 ** isSuccessful() `BUILD SUCCESS`
@@ -107,6 +108,60 @@ class FirstMavenIT {
   void first_test_case(MavenExecutionResult execResult) {
     assertThat(execResult).isSuccessful();
   }
+  @MavenTest
+  void second_test_case(MavenExecutionResult execResult) {
+    assertThat(execResult).isFailed();
+  }
+
+}
+----
+
+### Run Conditionally Integration Tests
+
+You might want to run an integration test only for a particular Maven version for example
+running only for Maven 3.6.0?
+
+
+
+[source,java]
+.FirstMavenIT.java
+----
+@MavenIT
+class FirstMavenIT {
+
+  @MavenTest
+  @EnabledForMaven(versions=M3_6_0)
+  void first_test_case(MavenExecutionResult execResult) {
+    assertThat(execResult).isSuccessful();
+  }
+
+  @DisabledForMaven(version=M3_0_5)
+  @MavenTest
+  void second_test_case(MavenExecutionResult execResult) {
+    assertThat(execResult).isFailed();
+  }
+
+}
+----
+
+So not run some tests on particular Java version can be handled via usual JUnit Jupiter
+things like:
+
+
+[source,java]
+.FirstMavenIT.java
+----
+@MavenIT
+@DisabledOnJre(JAVA_10)
+class FirstMavenIT {
+
+  @MavenTest
+  @EnabledForMaven(versions=M3_6_0)
+  void first_test_case(MavenExecutionResult execResult) {
+    assertThat(execResult).isSuccessful();
+  }
+
+  @DisabledForMaven(version=M3_0_5)
   @MavenTest
   void second_test_case(MavenExecutionResult execResult) {
     assertThat(execResult).isFailed();
