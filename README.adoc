@@ -1,0 +1,117 @@
+# Overview
+
+Idea is to create an extension which supports writing integration tests
+for Maven plugins etc. in a convenient way.
+
+Also thinking of the integration tests of Maven itself.
+
+Basic Idea is currently similar to maven-invoker-plugin:
+
+Another option would be to combine this with Docker containers which run
+Maven.
+
+Extension starts the appropriate Maven version via ProcessBuilder with
+parameters in it's own directory (`target/maven-it/ ...` )
+
+Setups which are needed can be defined via `@BeforeEach` or `@BeforeAll`
+annotated methods in JUnit Jupiter.
+
+Each test should have it's own .m2 Cache directory to get them completely
+decoupled from each other.
+
+[source,text]
+----
+target
+ +--- maven-its
+         +--- first
+                +--- .m2/
+                +---- project
+                +----
+         +--- second
+                +---
+                +---
+                +---
+----
+
+
+
+[source,java]
+.FirstMavenIT.java
+----
+@MavenIT(separateM2Cache = true)
+class FirstMavenIT {
+
+
+}
+----
+
+Default is to use a commond `$HOME/.m2/repository` cache.
+[source,java]
+.FirstMavenIT.java
+----
+@MavenIT
+class FirstMavenIT {
+
+  @MavenTest
+  void first_test_case(MavenLog log, MavenResult result) {
+    result.isSuccessful();
+  }
+
+
+}
+----
+
+## Execution of Maven itself
+
+* How to get the Maven version which is defined?
+** Define within the same pom file you run your tests?
+** Ok could be downloaded from Central?
+** how to handle repository managers?
+* Where to get configured all the avialble
+Maven versions? On the system?
+or should we simply download it always to be sure?
+
+
+## Parameter Injection
+
+Possible options:
+
+* Information about the built project
+** version, GAV etc. maybe the whole POM tree ?
+** think more in details?
+* Logging output
+** Stdout
+** StdErr
+** Log Output as Stream or after finished running
+** Convenience methods to get information from the log
+*** `isInfo()` which relates to `[INFO] ..`
+*** Some things to get output from plugins etc.???
+* Access to the cache directory
+** With convenience methods to access artifacts/content of artifacts
+** ???
+* general build result.
+
+
+* MavenExecutionResult
+** isSuccessful() `BUILD SUCCESS`
+** isError() `[ERROR]....`
+** is
+
+[source,java]
+.FirstMavenIT.java
+----
+@MavenIT
+class FirstMavenIT {
+
+  @MavenTest
+  void first_test_case(MavenExecutionResult execResult) {
+    assertThat(execResult).isSuccessful();
+  }
+  @MavenTest
+  void second_test_case(MavenExecutionResult execResult) {
+    assertThat(execResult).isFailed();
+  }
+
+}
+----
+
