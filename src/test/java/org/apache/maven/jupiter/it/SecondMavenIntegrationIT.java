@@ -7,11 +7,8 @@ import static org.apache.maven.jupiter.it.extension.maven.MavenVersion.M3_3_1;
 import org.apache.maven.jupiter.it.extension.MavenIT;
 import org.apache.maven.jupiter.it.extension.MavenTest;
 import org.apache.maven.jupiter.it.extension.maven.MavenExecutionResult;
-import org.junit.jupiter.api.condition.DisabledOnJre;
-import org.junit.jupiter.api.condition.JRE;
 
 @MavenIT(versions = {M3_0_5, M3_3_1})
-@DisabledOnJre({JRE.JAVA_11})
 class SecondMavenIntegrationIT {
 
   @MavenTest(profiles = {"run-its"})
