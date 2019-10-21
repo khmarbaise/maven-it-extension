@@ -14,8 +14,10 @@ import java.util.List;
 import java.util.Optional;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.jupiter.it.extension.maven.MavenCache;
+import org.apache.maven.jupiter.it.extension.maven.MavenCacheResult;
 import org.apache.maven.jupiter.it.extension.maven.MavenExecutionResult;
 import org.apache.maven.jupiter.it.extension.maven.MavenExecutionResult.ExecutionResult;
+import org.apache.maven.jupiter.it.extension.maven.MavenLog;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -37,6 +39,8 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
   private static final String BASE_DIRECTORY = "BASE_DIRECTORY";
 
   private static final String EXECUTION_RESULT = "EXECUTION_RESULT";
+  private static final String LOG_RESULT = "LOG_RESULT";
+  private static final String CACHE_RESULT = "CACHE_RESULT";
 
   private static final Namespace NAMESPACE_MAVEN_IT = Namespace.create(MavenITExtension.class);
 
@@ -89,7 +93,7 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
   public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
     System.out.println("MavenITExtension.supportsParameter");
-    List<Class<?>> availableTypes = Arrays.asList(MavenExecutionResult.class);
+    List<Class<?>> availableTypes = Arrays.asList(MavenExecutionResult.class, MavenLog.class, MavenCacheResult.class);
     System.out.println(" --> Checking for " + availableTypes);
     System.out.println(
         "     parameterContext.getParameter().getName() = " + parameterContext.getParameter().getParameterizedType());
@@ -102,7 +106,17 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     System.out.println(" --> MavenITExtension.resolveParameter");
 
     Store nameSpace = extensionContext.getStore(NAMESPACE_MAVEN_IT);
-    return nameSpace.get(EXECUTION_RESULT + extensionContext.getUniqueId(), MavenExecutionResult.class);
+    if (MavenExecutionResult.class.equals(parameterContext.getParameter().getType())) {
+      return nameSpace.get(EXECUTION_RESULT + extensionContext.getUniqueId(), MavenExecutionResult.class);
+    }
+    if (MavenLog.class.equals(parameterContext.getParameter().getType())) {
+      return nameSpace.get(LOG_RESULT + extensionContext.getUniqueId(), MavenLog.class);
+    }
+    if (MavenCacheResult.class.equals(parameterContext.getParameter().getType())) {
+      return nameSpace.get(CACHE_RESULT + extensionContext.getUniqueId(), MavenCacheResult.class);
+    }
+    //TODO: Think about this.
+    return Void.TYPE;
   }
 
   private boolean isDebug(Method method) {
@@ -211,7 +225,13 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
       executionResult = ExecutionResult.Failure;
     }
     MavenExecutionResult result = new MavenExecutionResult(executionResult, processCompletableFuture);
+
+    MavenLog log = new MavenLog(mavenExecutor.getStdout(), mavenExecutor.getStdErr());
+    MavenCacheResult mavenCacheResult = new MavenCacheResult(cacheDirectory.toPath());
+
     nameSpace.put(EXECUTION_RESULT + context.getUniqueId(), result);
+    nameSpace.put(LOG_RESULT + context.getUniqueId(), log);
+    nameSpace.put(CACHE_RESULT + context.getUniqueId(), mavenCacheResult);
   }
 
   @Override

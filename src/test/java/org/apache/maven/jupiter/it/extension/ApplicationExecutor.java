@@ -2,6 +2,8 @@ package org.apache.maven.jupiter.it.extension;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,28 +33,30 @@ public class ApplicationExecutor {
     this.prefix = prefix;
   }
 
-  public ApplicationExecutor(File workingDirectory, File loggingDirectory, File applicationExecutable, List<String> jvmArguments,
-      String prefix) {
-    this(System.getProperty("java.home"), loggingDirectory, workingDirectory, applicationExecutable, jvmArguments, prefix);
+  public ApplicationExecutor(File workingDirectory, File loggingDirectory, File applicationExecutable,
+      List<String> jvmArguments, String prefix) {
+    this(System.getProperty("java.home"), loggingDirectory, workingDirectory, applicationExecutable, jvmArguments,
+        prefix);
   }
 
   public Process start(List<String> startArguments) throws IOException {
 
-//    String javaBin = this.javaHome + "/bin/java";
+    //    String javaBin = this.javaHome + "/bin/java";
 
     List<String> applicationArguments = new ArrayList<>();
     applicationArguments.addAll(Collections.singletonList(applicationExecutable.toString()));
-//    applicationArguments.addAll(jvmArguments);
-//    applicationArguments.addAll(Arrays.asList("-jar", application.getAbsolutePath()));
+    //    applicationArguments.addAll(jvmArguments);
+    //    applicationArguments.addAll(Arrays.asList("-jar", application.getAbsolutePath()));
     applicationArguments.addAll(startArguments);
 
     applicationArguments.forEach(s -> System.out.println("arguments = " + s));
 
     ProcessBuilder pb = new ProcessBuilder(applicationArguments);
     Map<String, String> environment = pb.environment();
-    environment.entrySet().stream().forEach(stringStringEntry -> System.out.println(
-        "environment k:" + stringStringEntry.getKey()
-            + " v:" + stringStringEntry.getValue()));
+    environment.entrySet()
+        .stream()
+        .forEach(stringStringEntry -> System.out.println(
+            "environment k:" + stringStringEntry.getKey() + " v:" + stringStringEntry.getValue()));
     pb.redirectError(new File(loggingDirectory, this.prefix + "-stderr.out"));
     pb.redirectOutput(new File(loggingDirectory, this.prefix + "-stdout.out"));
     pb.directory(workingDirectory);
@@ -62,6 +66,14 @@ public class ApplicationExecutor {
   public int startAndWaitUntilEnded(List<String> args) throws IOException, InterruptedException {
     Process start = start(args);
     return start.waitFor();
+  }
+
+  public Path getStdout() {
+    return Paths.get(loggingDirectory.toString(), this.prefix + "-stdout.out");
+  }
+
+  public Path getStdErr() {
+    return Paths.get(loggingDirectory.toString(), this.prefix + "-stderr.out");
   }
 
   private File doesApplicationExist() {
