@@ -175,6 +175,8 @@
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
         <configuration>
+          <forkCount>4</forkCount>
+          <reuseForks>false</reuseForks>
         </configuration>
 
         <executions>
