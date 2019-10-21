@@ -179,3 +179,9 @@ class FirstMavenIT {
 }
 ----
 
+
+# This which do not yet work
+
+* Currently it is not possible to define the version Maven only within the test case. Unfortunately
+  we have to define it in the Maven pom which is used to download the needed package from Central.
+
