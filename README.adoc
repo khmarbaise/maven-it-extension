@@ -1,23 +1,34 @@
 # Overview
 
-Idea is to create an extension which supports writing integration tests
-for Maven plugins etc. in a convenient way.
+Idea is to create an extension which supports writing integration tests for Maven plugins etc. in a convenient way.
+asdf d fadf adf af
 
 Also thinking of the integration tests of Maven itself.
 
 Basic Idea is currently similar to maven-invoker-plugin:
 
-Another option would be to combine this with Docker containers which run
-Maven.
+Another option would be to combine this with Docker containers which run Maven.
 
-Extension starts the appropriate Maven version via ProcessBuilder with
-parameters in it's own directory (`target/maven-it/ ...` )
+Extension starts the appropriate Maven version via ProcessBuilder with parameters in it's own directory (`target/maven-it/ ...` )
 
-Setups which are needed can be defined via `@BeforeEach` or `@BeforeAll`
-annotated methods in JUnit Jupiter.
+Setups which are needed can be defined via `@BeforeEach` or `@BeforeAll` (NEED TO THINK ABOUT IT) annotated methods in JUnit Jupiter.
 
-Each test should have it's own .m2 Cache directory to get them completely
-decoupled from each other.
+[source,text]
+----
+target
+ +--- maven-its
+         +--- package
+                +--- NameOfTheTestClass1
+                        +--- .m2/
+                        +---- project
+                        +----
+                +--- NameOfTheTestClass2
+                        +--- .m2/
+                        +---- project
+                        +----
+----
+
+Each test should have it's own .m2 Cache directory to get them completely decoupled from each other.
 
 [source,text]
 ----
@@ -33,14 +44,10 @@ target
                 +---
 ----
 
-It is possbile to define the cache for several test cases globally which can simply being
-done by using the following anntation parameter `mavenCache=MavenCache.Global`.
-This give the opportunity to make different tests share the same cache which is like
-a usual setup for a user on a local machine which can be used to test different
-scenarios.
-The other possible value is the default which is `mavenCache=MavenCache.Local` which means
-having the cache locally to each test case. This will separate each integration
-test case from each other.
+It is possbile to define the cache for several test cases globally which can simply being done by using the following anntation parameter `mavenCache=MavenCache.Global`.
+This give the opportunity to make different tests share the same cache which is like a usual setup for a user on a local machine which can be used to test different scenarios.
+The other possible value is the default which is `mavenCache=MavenCache.Local` which means having the cache locally to each test case.
+This will separate each integration test case from each other.
 
 [source,java]
 .FirstMavenIT.java
@@ -51,10 +58,12 @@ class FirstMavenIT {
 
 }
 ----
-As mentioned earlier that each test case has it's own cache. The drawback of this
-is that it increases the runtime of the test overall.
+
+As mentioned earlier that each test case has it's own cache.
+The drawback of this is that it increases the runtime of the test overall.
 
 Default is to use a commond `$HOME/.m2/repository` cache.
+
 [source,java]
 .FirstMavenIT.java
 ----
@@ -76,10 +85,9 @@ class FirstMavenIT {
 ** Define within the same pom file you run your tests?
 ** Ok could be downloaded from Central?
 ** how to handle repository managers?
-* Where to get configured all the avialble
-Maven versions? On the system?
+* Where to get configured all the avialble Maven versions?
+On the system?
 or should we simply download it always to be sure?
-
 
 ## Parameter Injection
 
@@ -127,10 +135,7 @@ class FirstMavenIT {
 
 ### Run Conditionally Integration Tests
 
-You might want to run an integration test only for a particular Maven version for example
-running only for Maven 3.6.0?
-
-
+You might want to run an integration test only for a particular Maven version for example running only for Maven 3.6.0?
 
 [source,java]
 .FirstMavenIT.java
@@ -153,9 +158,7 @@ class FirstMavenIT {
 }
 ----
 
-So not run some tests on particular Java version can be handled via usual JUnit Jupiter
-things like:
-
+So not run some tests on particular Java version can be handled via usual JUnit Jupiter things like:
 
 [source,java]
 .FirstMavenIT.java
@@ -175,13 +178,11 @@ class FirstMavenIT {
   void second_test_case(MavenExecutionResult execResult) {
     assertThat(execResult).isFailed();
   }
-
 }
 ----
 
+#### This which do not work yet
 
-# This which do not yet work
-
-* Currently it is not possible to define the version Maven only within the test case. Unfortunately
-  we have to define it in the Maven pom which is used to download the needed package from Central.
+* Currently it is not possible to define the version Maven only within the test case.
+Unfortunately we have to define it in the Maven pom which is used to download the needed package from Central.
 

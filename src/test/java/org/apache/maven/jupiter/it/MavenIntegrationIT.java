@@ -2,15 +2,18 @@ package org.apache.maven.jupiter.it;
 
 import static org.apache.maven.jupiter.it.assertj.MavenExecutionResultAssert.assertThat;
 
-import org.apache.maven.jupiter.it.extension.maven.MavenExecutionResult;
 import org.apache.maven.jupiter.it.extension.MavenIT;
 import org.apache.maven.jupiter.it.extension.MavenTest;
 import org.apache.maven.jupiter.it.extension.maven.MavenCache;
+import org.apache.maven.jupiter.it.extension.maven.MavenExecutionResult;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
 
 /**
+ * The following test cases are related together cause they are sharing a common cache. Furthermore the test cases or
+ * running in a given order (defined by Order annotation).
+ *
  * @author Karl Heinz Marbaise
  */
 @MavenIT(mavenCache = MavenCache.Global)
