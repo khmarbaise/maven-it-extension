@@ -167,9 +167,13 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     File projectDirectory = new File(integrationTestCaseDirectory, "project");
     projectDirectory.mkdirs();
 
+    String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass.getPackage(),
+        testClass.getSimpleName());
+
     //FIXME: Removed hard coded parts.
-    File copyMavenPluginProject = new File(DirectoryHelper.getTargetDir(),
-        "test-classes/maven-its/" + testClass.getSimpleName() + "/" + methodName.getName());
+    File mavenItsBaseDirectory = new File(DirectoryHelper.getTargetDir(), "test-classes/maven-its");
+    File copyMavenPluginProject = new File(mavenItsBaseDirectory, toFullyQualifiedPath + "/" + methodName.getName());
+    System.out.println("copyMavenPluginProject = " + copyMavenPluginProject);
     FileUtils.copyDirectory(copyMavenPluginProject, projectDirectory);
 
     //FIXME: Removed hard coded parts.
