@@ -26,8 +26,13 @@ class MavenIntegrationIT {
     assertThat(result).isSuccessful();
   }
 
+  @MavenTest(goals = {"clean", "install"})
+  @Order(11)
+  void setup_2(MavenExecutionResult result) {
+    assertThat(result).isSuccessful();
+  }
+
   @MavenTest(debug = true)
-  @Order(20)
   void first_integration_test(MavenExecutionResult result) {
     System.out.println("MavenIntegrationIT.first_integration_test rc:" + result.getReturnCode());
     assertThat(result).isSuccessful();
