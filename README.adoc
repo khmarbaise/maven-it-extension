@@ -33,17 +33,26 @@ target
                 +---
 ----
 
-
+It is possbile to define the cache for several test cases globally which can simply being
+done by using the following anntation parameter `mavenCache=MavenCache.Global`.
+This give the opportunity to make different tests share the same cache which is like
+a usual setup for a user on a local machine which can be used to test different
+scenarios.
+The other possible value is the default which is `mavenCache=MavenCache.Local` which means
+having the cache locally to each test case. This will separate each integration
+test case from each other.
 
 [source,java]
 .FirstMavenIT.java
 ----
-@MavenIT(separateM2Cache = true)
+@MavenIT(mavenCache = MavenCache.Global)
 class FirstMavenIT {
 
 
 }
 ----
+As mentioned earlier that each test case has it's own cache. The drawback of this
+is that it increases the runtime of the test overall.
 
 Default is to use a commond `$HOME/.m2/repository` cache.
 [source,java]
