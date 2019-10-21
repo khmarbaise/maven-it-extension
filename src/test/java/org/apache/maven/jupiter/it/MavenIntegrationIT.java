@@ -4,7 +4,6 @@ import static org.apache.maven.jupiter.it.assertj.MavenExecutionResultAssert.ass
 
 import org.apache.maven.jupiter.it.extension.MavenIT;
 import org.apache.maven.jupiter.it.extension.MavenTest;
-import org.apache.maven.jupiter.it.extension.maven.MavenCache;
 import org.apache.maven.jupiter.it.extension.maven.MavenExecutionResult;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -16,7 +15,7 @@ import org.junit.jupiter.api.TestMethodOrder;
  *
  * @author Karl Heinz Marbaise
  */
-@MavenIT(mavenCache = MavenCache.Global)
+@MavenIT
 @TestMethodOrder(OrderAnnotation.class)
 class MavenIntegrationIT {
 

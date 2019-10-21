@@ -11,6 +11,13 @@ public class DirectoryHelper {
     return new File(System.getProperty("basedir", System.getProperty("user.dir", ".")));
   }
 
+  public static String toFullyQualifiedPath(final Package context, final String resourceName) {
+    return context.getName().replace('.', '/') + "/" + resourceName;
+  }
+  public static String toFullyQualifiedPath(final Package context) {
+    return toFullyQualifiedPath(context, "");
+  }
+
   /**
    * Return the target directory of the current project.
    */
