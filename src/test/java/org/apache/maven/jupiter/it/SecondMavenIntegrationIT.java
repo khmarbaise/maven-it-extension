@@ -15,7 +15,7 @@ import org.apache.maven.jupiter.it.extension.maven.MavenLog;
 @MavenIT(versions = {M3_0_5, M3_3_1})
 class SecondMavenIntegrationIT {
 
-  @MavenTest(profiles = {"run-its"})
+  @MavenTest(activeProfiles = {"run-its"})
   void first_integration_test(MavenExecutionResult result, MavenLog mavenLog, MavenCacheResult mavenCacheResult) throws IOException {
     System.out.println("MavenIntegrationIT.first_integration_test");
     assertThat(result).isFailure();

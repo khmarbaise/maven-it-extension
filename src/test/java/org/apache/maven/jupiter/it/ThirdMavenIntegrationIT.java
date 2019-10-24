@@ -13,7 +13,7 @@ import org.junit.jupiter.api.condition.JRE;
 @DisabledOnJre({JRE.JAVA_11})
 class ThirdMavenIntegrationIT {
 
-  @MavenTest(profiles = {"run-its"})
+  @MavenTest(activeProfiles = {"run-its"})
   void first_integration_test(MavenExecutionResult result) {
     System.out.println("MavenIntegrationIT.first_integration_test");
     assertThat(result).isFailure();

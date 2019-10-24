@@ -32,7 +32,7 @@ public @interface MavenTest {
    * This is the equivalent to the command line like: {@code -Prun-its}
    * @return The defines profiles.
    */
-  String[] profiles() default {};
+  String[] activeProfiles() default {};
 
   /**
    * This turns on {@code -X} (debug:true) for the Maven run or not (debug:false).

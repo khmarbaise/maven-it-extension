@@ -142,7 +142,7 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     }
     MavenTest mavenTestAnnotation = method.getAnnotation(MavenTest.class);
 
-    return mavenTestAnnotation.profiles();
+    return mavenTestAnnotation.activeProfiles();
   }
 
   private String[] getGoals(Method method) {
