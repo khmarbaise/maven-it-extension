@@ -1,6 +1,8 @@
 = Overview
 
-This is a test.
+
+== Basic Idea
+
 
 Idea is to create an extension which supports writing integration tests for Maven plugins etc. in a convenient way.
 Also thinking of the integration tests of Maven itself.
@@ -42,7 +44,7 @@ target
                 +---
 ----
 
-It is possbile to define the cache for several test cases globally which can simply being done by using the following anntation parameter `mavenCache=MavenCache.Global`.
+It is possible to define the cache for several test cases globally which can simply being done by using the following anntation parameter `mavenCache=MavenCache.Global`.
 This give the opportunity to make different tests share the same cache which is like a usual setup for a user on a local machine which can be used to test different scenarios.
 The other possible value is the default which is `mavenCache=MavenCache.Local` which means having the cache locally to each test case.
 This will separate each integration test case from each other.
@@ -63,7 +65,7 @@ The drawback of this is that it increases the runtime of the test overall.
 Default is to use a commond `$HOME/.m2/repository` cache.
 
 [source,java]
-.FirstMavenIT.java
+.SecondMavenIT.java
 ----
 @MavenIT
 class FirstMavenIT {
@@ -114,7 +116,7 @@ Possible options:
 ** is
 
 [source,java]
-.FirstMavenIT.java
+.ThirdMavenIT.java
 ----
 @MavenIT
 class FirstMavenIT {
@@ -136,7 +138,7 @@ class FirstMavenIT {
 You might want to run an integration test only for a particular Maven version for example running only for Maven 3.6.0?
 
 [source,java]
-.FirstMavenIT.java
+.ForthMavenIT.java
 ----
 @MavenIT
 class FirstMavenIT {
@@ -159,7 +161,7 @@ class FirstMavenIT {
 So not run some tests on particular Java version can be handled via usual JUnit Jupiter things like:
 
 [source,java]
-.FirstMavenIT.java
+.FivthMavenIT.java
 ----
 @MavenIT
 @DisabledOnJre(JAVA_10)
@@ -179,7 +181,50 @@ class FirstMavenIT {
 }
 ----
 
-=== This which do not work yet
+
+
+== Assertions in Maven Tests
+
+What kind of assertions do I need to express:
+
+ * Build itself has successfully ended or failed. (Return code?)
+ * Log File contains several information
+ ** Different levels `INFO`,  `WARN` or `ERROR`..
+ *** contains simply one or more lines text
+ *** contains only once or multiple appearance of texts
+ * StdErr output contains particular output or should not contain particular output.
+ * The `target` directory of the built project contains
+   either:
+ ** particular files
+ *** simply exist/do not exist?
+ *** should exist or should not exist
+ *** The files contain particular content? for example or in general directory within
+     the file `MANIFEST.MF`.
+ *** A packaged file  special content?
+ ** directories
+ ** ??
+
+[source,java]
+.SixthMavenIT.java
+----
+@MavenIT
+class FirstMavenIT {
+
+  @MavenTest
+  void first_test_case(MavenExecutionResult execResult) {
+    assertThat(execResult).isSuccessful();
+  }
+
+  @MavenTest
+  void second_test_case(MavenExecutionResult result) {
+    assertThat(result).isFailed().log().contains().plugin("G:A:V");
+    assertThat(result).isSuccess().project("G:A:V").module("G:A:V").target().jar().metainf
+  }
+}
+----
+
+
+=== Things which do not work yet (not complete!)
 
 This is:
 

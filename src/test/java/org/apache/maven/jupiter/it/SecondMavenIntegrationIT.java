@@ -27,6 +27,9 @@ class SecondMavenIntegrationIT {
 
     System.out.println("cacheLocation = " + mavenCacheResult.getStdout().toFile().getAbsolutePath());
 
+//    assertThat(result).log()...
+//    assertThat(result).cache()...
+
     // Pre loading log file into memory ? Drawback Memory usage ?
     Files.readAllLines(mavenLog.getStdout())
         .stream()
