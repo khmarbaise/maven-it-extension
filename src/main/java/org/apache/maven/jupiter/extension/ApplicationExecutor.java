@@ -9,6 +9,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Karl Heinz Marbaise
+ */
 public class ApplicationExecutor {
 
   private final File loggingDirectory;

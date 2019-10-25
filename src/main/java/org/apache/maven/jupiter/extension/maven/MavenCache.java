@@ -1,5 +1,8 @@
 package org.apache.maven.jupiter.extension.maven;
 
+/**
+ * @author Karl Heinz Marbaise
+ */
 public enum MavenCache {
   /**
    * Global means having a single local cache

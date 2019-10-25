@@ -2,6 +2,9 @@ package org.apache.maven.jupiter.extension.maven;
 
 import java.nio.file.Path;
 
+/**
+ * @author Karl Heinz Marbaise
+ */
 public class MavenLog {
 
   private Path stdout;

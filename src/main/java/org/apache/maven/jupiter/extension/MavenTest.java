@@ -20,6 +20,9 @@ import org.junit.jupiter.api.Test;
 @Inherited
 @Test
 @API(status = EXPERIMENTAL, since = "0.1")
+/**
+ * @author Karl Heinz Marbaise
+ */
 public @interface MavenTest {
 
   String[] goals() default {"clean", "verify"};

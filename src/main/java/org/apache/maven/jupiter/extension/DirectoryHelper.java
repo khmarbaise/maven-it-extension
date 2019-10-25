@@ -4,6 +4,9 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * @author Karl Heinz Marbaise
+ */
 public class DirectoryHelper {
 
 

@@ -1,5 +1,8 @@
 package org.apache.maven.jupiter.extension.maven;
 
+/**
+ * @author Karl Heinz Marbaise
+ */
 public enum MavenVersion {
   M3_0_5,
   M3_1_1,

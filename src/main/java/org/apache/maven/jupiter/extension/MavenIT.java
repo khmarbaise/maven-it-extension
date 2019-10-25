@@ -17,6 +17,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @ExtendWith(MavenITExtension.class)
 @Documented
 @API(status = EXPERIMENTAL, since = "0.1")
+/**
+ * @author Karl Heinz Marbaise
+ */
 public @interface MavenIT {
 
   MavenVersion[] versions() default MavenVersion.M3_6_2;

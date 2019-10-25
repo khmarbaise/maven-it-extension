@@ -2,6 +2,9 @@ package org.apache.maven.jupiter.extension.maven;
 
 import java.util.List;
 
+/**
+ * @author Karl Heinz Marbaise
+ */
 public class Projects {
 
   //FIXME: Need to use a real tree structure

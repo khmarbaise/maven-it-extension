@@ -10,6 +10,9 @@ import org.junit.jupiter.api.extension.ExecutionCondition;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.platform.commons.util.Preconditions;
 
+/**
+ * @author Karl Heinz Marbaise
+ */
 public class DisabledForMavenCondition implements ExecutionCondition {
 
   //FIXME: Need to reconsider how to evaluate the maven version which is running?

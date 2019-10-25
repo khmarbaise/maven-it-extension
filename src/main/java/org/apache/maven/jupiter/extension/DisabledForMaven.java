@@ -16,6 +16,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @Documented
 @ExtendWith(DisabledForMavenCondition.class)
 @API(status = EXPERIMENTAL, since = "0.1")
+/**
+ * @author Karl Heinz Marbaise
+ */
 public @interface DisabledForMaven {
 
   MavenVersion[] versions();

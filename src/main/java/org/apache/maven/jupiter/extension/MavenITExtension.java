@@ -33,6 +33,9 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.jupiter.api.extension.TestInstancePostProcessor;
 import org.junit.platform.commons.util.AnnotationUtils;
 
+/**
+ * @author Karl Heinz Marbaise
+ */
 public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, TestInstancePostProcessor,
     ParameterResolver, BeforeTestExecutionCallback, AfterTestExecutionCallback, AfterAllCallback {
 
