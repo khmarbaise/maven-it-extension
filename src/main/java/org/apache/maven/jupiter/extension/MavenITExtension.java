@@ -20,6 +20,8 @@ import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult.ExecutionResult;
 import org.apache.maven.jupiter.extension.maven.MavenLog;
 import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
+import org.apache.maven.jupiter.extension.maven.ProjectHelper;
+import org.apache.maven.model.Model;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -230,7 +232,8 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     MavenLog log = new MavenLog(mavenExecutor.getStdout(), mavenExecutor.getStdErr());
     MavenCacheResult mavenCacheResult = new MavenCacheResult(cacheDirectory.toPath());
 
-    MavenProjectResult mavenProjectResult = new MavenProjectResult();
+    Model model = ProjectHelper.readProject(projectDirectory);
+    MavenProjectResult mavenProjectResult = new MavenProjectResult(projectDirectory, model);
 
     nameSpace.put(Result.ExecutionResult + context.getUniqueId(), result);
     nameSpace.put(Result.LogResult + context.getUniqueId(), log);
