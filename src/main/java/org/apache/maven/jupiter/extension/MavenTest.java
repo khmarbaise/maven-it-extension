@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
  */
 public @interface MavenTest {
 
-  String[] goals() default {"clean", "verify"};
+  String[] goals() default {"clean", "package"};
 
   /**
    * You can define the profiles you would like to get activated: For example for a single profile:

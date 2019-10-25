@@ -19,6 +19,7 @@ import org.apache.maven.jupiter.extension.maven.MavenCacheResult;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult.ExecutionResult;
 import org.apache.maven.jupiter.extension.maven.MavenLog;
+import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -39,19 +40,12 @@ import org.junit.jupiter.api.extension.TestInstancePostProcessor;
 public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, TestInstancePostProcessor,
     ParameterResolver, BeforeTestExecutionCallback, AfterTestExecutionCallback, AfterAllCallback {
 
-  private static final String BASE_DIRECTORY = "BASE_DIRECTORY";
-
-  private static final String EXECUTION_RESULT = "EXECUTION_RESULT";
-  private static final String LOG_RESULT = "LOG_RESULT";
-  private static final String CACHE_RESULT = "CACHE_RESULT";
-
   private static final Namespace NAMESPACE_MAVEN_IT = Namespace.create(MavenITExtension.class);
 
   private Optional<MavenIT> findMavenIt(ExtensionContext context) {
     Optional<ExtensionContext> current = Optional.of(context);
     while (current.isPresent()) {
-      Optional<MavenIT> endToEndTest = findAnnotation(current.get().getRequiredTestClass(),
-          MavenIT.class);
+      Optional<MavenIT> endToEndTest = findAnnotation(current.get().getRequiredTestClass(), MavenIT.class);
       if (endToEndTest.isPresent()) {
         return endToEndTest;
       }
@@ -84,7 +78,7 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     mavenItBaseDirectory.mkdirs();
 
     Store store = context.getStore(NAMESPACE_MAVEN_IT);
-    store.put(BASE_DIRECTORY, mavenItBaseDirectory);
+    store.put(Result.BaseDirectory, mavenItBaseDirectory);
   }
 
   @Override
@@ -96,7 +90,8 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
   public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
     System.out.println("MavenITExtension.supportsParameter");
-    List<Class<?>> availableTypes = Arrays.asList(MavenExecutionResult.class, MavenLog.class, MavenCacheResult.class);
+    List<Class<?>> availableTypes = Arrays.asList(MavenExecutionResult.class, MavenLog.class, MavenCacheResult.class,
+        MavenProjectResult.class);
     System.out.println(" --> Checking for " + availableTypes);
     System.out.println(
         "     parameterContext.getParameter().getName() = " + parameterContext.getParameter().getParameterizedType());
@@ -110,13 +105,16 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
 
     Store nameSpace = extensionContext.getStore(NAMESPACE_MAVEN_IT);
     if (MavenExecutionResult.class.equals(parameterContext.getParameter().getType())) {
-      return nameSpace.get(EXECUTION_RESULT + extensionContext.getUniqueId(), MavenExecutionResult.class);
+      return nameSpace.get(Result.ExecutionResult + extensionContext.getUniqueId(), MavenExecutionResult.class);
     }
     if (MavenLog.class.equals(parameterContext.getParameter().getType())) {
-      return nameSpace.get(LOG_RESULT + extensionContext.getUniqueId(), MavenLog.class);
+      return nameSpace.get(Result.LogResult + extensionContext.getUniqueId(), MavenLog.class);
     }
     if (MavenCacheResult.class.equals(parameterContext.getParameter().getType())) {
-      return nameSpace.get(CACHE_RESULT + extensionContext.getUniqueId(), MavenCacheResult.class);
+      return nameSpace.get(Result.CacheResult + extensionContext.getUniqueId(), MavenCacheResult.class);
+    }
+    if (MavenProjectResult.class.equals(parameterContext.getParameter().getType())) {
+      return nameSpace.get(Result.ProjectResult + extensionContext.getUniqueId(), MavenProjectResult.class);
     }
     //TODO: Think about this.
     return Void.TYPE;
@@ -141,7 +139,7 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
 
   private String[] getProfiles(Method method) {
     if (!method.isAnnotationPresent(MavenTest.class)) {
-      throw new IllegalStateException("MavenTest Annotation nicht an der Method");
+      throw new IllegalStateException("MavenTest Annotation not at the method");
     }
     MavenTest mavenTestAnnotation = method.getAnnotation(MavenTest.class);
 
@@ -150,7 +148,7 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
 
   private String[] getGoals(Method method) {
     if (!method.isAnnotationPresent(MavenTest.class)) {
-      throw new IllegalStateException("MavenTest Annotation nicht an der Method");
+      throw new IllegalStateException("MavenTest Annotation not at the method");
     }
     MavenTest mavenTestAnnotation = method.getAnnotation(MavenTest.class);
 
@@ -164,7 +162,7 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
         .orElseThrow(() -> new IllegalStateException("MavenIT Annotation not found."));
 
     Store nameSpace = context.getStore(NAMESPACE_MAVEN_IT);
-    File mavenItBaseDirectory = nameSpace.get(BASE_DIRECTORY, File.class);
+    File mavenItBaseDirectory = nameSpace.get(Result.BaseDirectory, File.class);
 
     Method methodName = context.getTestMethod().orElseThrow(() -> new IllegalStateException("No method given"));
 
@@ -232,9 +230,12 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     MavenLog log = new MavenLog(mavenExecutor.getStdout(), mavenExecutor.getStdErr());
     MavenCacheResult mavenCacheResult = new MavenCacheResult(cacheDirectory.toPath());
 
-    nameSpace.put(EXECUTION_RESULT + context.getUniqueId(), result);
-    nameSpace.put(LOG_RESULT + context.getUniqueId(), log);
-    nameSpace.put(CACHE_RESULT + context.getUniqueId(), mavenCacheResult);
+    MavenProjectResult mavenProjectResult = new MavenProjectResult();
+
+    nameSpace.put(Result.ExecutionResult + context.getUniqueId(), result);
+    nameSpace.put(Result.LogResult + context.getUniqueId(), log);
+    nameSpace.put(Result.CacheResult + context.getUniqueId(), mavenCacheResult);
+    nameSpace.put(Result.ProjectResult + context.getUniqueId(), mavenProjectResult);
   }
 
   @Override
@@ -245,5 +246,13 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
   @Override
   public void afterAll(ExtensionContext context) {
     System.out.println("MavenITExtension.afterAll root:" + context.getUniqueId());
+  }
+
+  private enum Result {
+    BaseDirectory,
+    ExecutionResult,
+    LogResult,
+    CacheResult,
+    ProjectResult
   }
 }

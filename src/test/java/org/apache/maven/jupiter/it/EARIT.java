@@ -5,10 +5,15 @@ import static org.apache.maven.jupiter.assertj.MavenExecutionResultAssert.assert
 import org.apache.maven.jupiter.extension.MavenIT;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
 
 /**
- * The following test cases are related together cause they are sharing a common cache. Furthermore the test cases or
- * running in a given order (defined by Order annotation).
+ * Examples from Maven EAR Plugin
+ *
+ * Invoker Integration Test:
+ * <ul>
+ *   <li>basic</li>
+ * </ul>
  *
  * @author Karl Heinz Marbaise
  */
@@ -16,7 +21,7 @@ import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 class EARIT {
 
   @MavenTest
-  void basic(MavenExecutionResult result) {
+  void basic(MavenExecutionResult result, MavenProjectResult project) {
     assertThat(result).isSuccessful();
   }
 

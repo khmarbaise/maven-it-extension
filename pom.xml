@@ -78,6 +78,11 @@
         <artifactId>commons-io</artifactId>
         <version>2.6</version>
       </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-model</artifactId>
+        <version>3.3.9</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -110,6 +115,12 @@
     <!--      <artifactId>testcontainers</artifactId>-->
     <!--      <scope>test</scope>-->
     <!--    </dependency>-->
+
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-model</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
