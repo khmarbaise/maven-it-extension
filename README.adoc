@@ -3,9 +3,8 @@
 
 == Basic Idea
 
-
-Idea is to create an extension which supports writing integration tests for Maven plugins etc. in a convenient way.
-Also thinking of the integration tests of Maven itself.
+Idea is to create an extension which supports writing integration tests for Maven plugins etc. in a
+convenient way. Also thinking of the integration tests of Maven itself.
 
 Basic Idea is currently similar to maven-invoker-plugin:
 Another option would be to combine this with Docker containers which run Maven.

@@ -2,6 +2,7 @@ package org.apache.maven.jupiter.it.extension;
 
 import static org.apache.maven.jupiter.it.extension.maven.MavenVersion.M3_6_2;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @ExtendWith(MavenITExtension.class)
+@Documented
 public @interface MavenIT {
 
   MavenVersion[] versions() default M3_6_2;
