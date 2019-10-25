@@ -2,6 +2,7 @@ package org.apache.maven.jupiter.extension;
 
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
+import static org.junit.platform.commons.util.AnnotationUtils.findAnnotation;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +32,6 @@ import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.jupiter.api.extension.TestInstancePostProcessor;
-import org.junit.platform.commons.util.AnnotationUtils;
 
 /**
  * @author Karl Heinz Marbaise
@@ -50,7 +50,7 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
   private Optional<MavenIT> findMavenIt(ExtensionContext context) {
     Optional<ExtensionContext> current = Optional.of(context);
     while (current.isPresent()) {
-      Optional<MavenIT> endToEndTest = AnnotationUtils.findAnnotation(current.get().getRequiredTestClass(),
+      Optional<MavenIT> endToEndTest = findAnnotation(current.get().getRequiredTestClass(),
           MavenIT.class);
       if (endToEndTest.isPresent()) {
         return endToEndTest;
