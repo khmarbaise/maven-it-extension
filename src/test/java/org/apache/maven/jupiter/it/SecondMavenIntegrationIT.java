@@ -1,16 +1,16 @@
 package org.apache.maven.jupiter.it;
 
-import static org.apache.maven.jupiter.it.assertj.MavenExecutionResultAssert.assertThat;
-import static org.apache.maven.jupiter.it.extension.maven.MavenVersion.M3_0_5;
-import static org.apache.maven.jupiter.it.extension.maven.MavenVersion.M3_3_1;
+import static org.apache.maven.jupiter.assertj.MavenExecutionResultAssert.assertThat;
+import static org.apache.maven.jupiter.extension.maven.MavenVersion.M3_0_5;
+import static org.apache.maven.jupiter.extension.maven.MavenVersion.M3_3_1;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import org.apache.maven.jupiter.it.extension.MavenIT;
-import org.apache.maven.jupiter.it.extension.MavenTest;
-import org.apache.maven.jupiter.it.extension.maven.MavenCacheResult;
-import org.apache.maven.jupiter.it.extension.maven.MavenExecutionResult;
-import org.apache.maven.jupiter.it.extension.maven.MavenLog;
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.extension.maven.MavenCacheResult;
+import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import org.apache.maven.jupiter.extension.maven.MavenLog;
 
 @MavenIT(versions = {M3_0_5, M3_3_1})
 class SecondMavenIntegrationIT {

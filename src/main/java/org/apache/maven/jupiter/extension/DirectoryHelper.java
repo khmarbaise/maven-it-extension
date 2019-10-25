@@ -1,4 +1,4 @@
-package org.apache.maven.jupiter.it.extension;
+package org.apache.maven.jupiter.extension;
 
 import java.io.File;
 import java.nio.file.Path;

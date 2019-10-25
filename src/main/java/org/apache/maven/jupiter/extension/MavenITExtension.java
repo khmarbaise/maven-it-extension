@@ -1,4 +1,4 @@
-package org.apache.maven.jupiter.it.extension;
+package org.apache.maven.jupiter.extension;
 
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -13,11 +13,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.apache.commons.io.FileUtils;
-import org.apache.maven.jupiter.it.extension.maven.MavenCache;
-import org.apache.maven.jupiter.it.extension.maven.MavenCacheResult;
-import org.apache.maven.jupiter.it.extension.maven.MavenExecutionResult;
-import org.apache.maven.jupiter.it.extension.maven.MavenExecutionResult.ExecutionResult;
-import org.apache.maven.jupiter.it.extension.maven.MavenLog;
+import org.apache.maven.jupiter.extension.maven.MavenCache;
+import org.apache.maven.jupiter.extension.maven.MavenCacheResult;
+import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import org.apache.maven.jupiter.extension.maven.MavenExecutionResult.ExecutionResult;
+import org.apache.maven.jupiter.extension.maven.MavenLog;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;

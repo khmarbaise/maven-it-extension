@@ -167,12 +167,12 @@ So not run some tests on particular Java version can be handled via usual JUnit 
 class FirstMavenIT {
 
   @MavenTest
-  @EnabledForMaven(versions=M3_6_0)
+  @EnabledForMaven(versions={M3_6_0})
   void first_test_case(MavenExecutionResult execResult) {
     assertThat(execResult).isSuccessful();
   }
 
-  @DisabledForMaven(version=M3_0_5)
+  @DisabledForMaven(version={M3_0_5})
   @MavenTest
   void second_test_case(MavenExecutionResult execResult) {
     assertThat(execResult).isFailed();

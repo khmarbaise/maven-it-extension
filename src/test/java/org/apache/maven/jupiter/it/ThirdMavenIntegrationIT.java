@@ -1,11 +1,11 @@
 package org.apache.maven.jupiter.it;
 
-import static org.apache.maven.jupiter.it.assertj.MavenExecutionResultAssert.assertThat;
+import static org.apache.maven.jupiter.assertj.MavenExecutionResultAssert.assertThat;
 
-import org.apache.maven.jupiter.it.extension.MavenIT;
-import org.apache.maven.jupiter.it.extension.MavenTest;
-import org.apache.maven.jupiter.it.extension.maven.MavenCache;
-import org.apache.maven.jupiter.it.extension.maven.MavenExecutionResult;
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.extension.maven.MavenCache;
+import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 import org.junit.jupiter.api.condition.DisabledOnJre;
 import org.junit.jupiter.api.condition.JRE;
 

@@ -1,4 +1,4 @@
-package org.apache.maven.jupiter.it.extension.maven;
+package org.apache.maven.jupiter.extension.maven;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package org.apache.maven.jupiter.it.assertj;
+package org.apache.maven.jupiter.assertj;
 
-import org.apache.maven.jupiter.it.extension.maven.MavenExecutionResult;
+import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 import org.assertj.core.api.AbstractAssert;
 
 public class MavenExecutionResultAssert extends AbstractAssert<MavenExecutionResultAssert, MavenExecutionResult> {

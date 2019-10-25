@@ -1,4 +1,6 @@
-package org.apache.maven.jupiter.it.extension;
+package org.apache.maven.jupiter.extension;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -6,6 +8,7 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import org.apiguardian.api.API;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -16,6 +19,7 @@ import org.junit.jupiter.api.Test;
 @Documented
 @Inherited
 @Test
+@API(status = EXPERIMENTAL, since = "0.1")
 public @interface MavenTest {
 
   String[] goals() default {"clean", "verify"};
@@ -30,6 +34,7 @@ public @interface MavenTest {
    *    &#x40;MavenTest(profiles = {"run-its", "second-profile"})
    * </pre>
    * This is the equivalent to the command line like: {@code -Prun-its}
+   *
    * @return The defines profiles.
    */
   String[] activeProfiles() default {};
