@@ -20,6 +20,7 @@ package org.apache.maven.jupiter.assertj;
  */
 
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import org.apache.maven.jupiter.extension.maven.MavenLog;
 import org.assertj.core.api.AbstractAssert;
 
 /**
@@ -40,6 +41,11 @@ public class MavenExecutionResultAssert extends AbstractAssert<MavenExecutionRes
    */
   public static MavenExecutionResultAssert assertThat(MavenExecutionResult actual) {
     return new MavenExecutionResultAssert(actual);
+  }
+
+  public MavenLog log() {
+    isNotNull();
+    return this.actual.getMavenLog();
   }
 
   /**
