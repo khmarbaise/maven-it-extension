@@ -39,12 +39,7 @@ class AnnotationHelperTest {
   private Method createMavenTestAnnotationForDefaults() {
     AnnotationDescription mavenTestAnnotationDescription = Builder.ofType(MavenTest.class).build();
 
-    MavenTest mavenTestAnnotation = mavenTestAnnotationDescription.prepare(MavenTest.class).load();
-
-    Method method = mock(Method.class);
-    when(method.isAnnotationPresent(any())).thenReturn(true);
-    when(method.getAnnotation(any())).thenReturn(mavenTestAnnotation);
-    return method;
+    return createAnnotationPrepare(mavenTestAnnotationDescription);
   }
 
   private Method createMavenTestAnnotation(String... profiles) {
@@ -52,12 +47,7 @@ class AnnotationHelperTest {
         .defineArray("activeProfiles", profiles)
         .build();
 
-    MavenTest mavenTestAnnotation = mavenTestAnnotationDescription.prepare(MavenTest.class).load();
-
-    Method method = mock(Method.class);
-    when(method.isAnnotationPresent(any())).thenReturn(true);
-    when(method.getAnnotation(any())).thenReturn(mavenTestAnnotation);
-    return method;
+    return createAnnotationPrepare(mavenTestAnnotationDescription);
   }
 
   private Method createMavenTestAnnotationGoals(String... profiles) {
@@ -65,6 +55,10 @@ class AnnotationHelperTest {
         .defineArray("goals", profiles)
         .build();
 
+    return createAnnotationPrepare(mavenTestAnnotationDescription);
+  }
+
+  private Method createAnnotationPrepare(AnnotationDescription mavenTestAnnotationDescription) {
     MavenTest mavenTestAnnotation = mavenTestAnnotationDescription.prepare(MavenTest.class).load();
 
     Method method = mock(Method.class);
@@ -123,12 +117,7 @@ class AnnotationHelperTest {
           .define("debug", debugState)
           .build();
 
-      MavenTest mavenTestAnnotation = mavenTestAnnotationDescription.prepare(MavenTest.class).load();
-
-      Method method = mock(Method.class);
-      when(method.isAnnotationPresent(any())).thenReturn(true);
-      when(method.getAnnotation(any())).thenReturn(mavenTestAnnotation);
-      return method;
+      return createAnnotationPrepare(mavenTestAnnotationDescription);
     }
   }
 
