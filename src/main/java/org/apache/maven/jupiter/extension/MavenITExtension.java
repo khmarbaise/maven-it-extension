@@ -1,7 +1,29 @@
 package org.apache.maven.jupiter.extension;
 
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
+import static org.apache.maven.jupiter.extension.AnnotationHelper.getActiveProfiles;
+import static org.apache.maven.jupiter.extension.AnnotationHelper.hasActiveProfiles;
+import static org.apache.maven.jupiter.extension.AnnotationHelper.isDebug;
 import static org.junit.platform.commons.util.AnnotationUtils.findAnnotation;
 
 import java.io.File;
@@ -35,12 +57,16 @@ import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.jupiter.api.extension.TestInstancePostProcessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Karl Heinz Marbaise
  */
 public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, TestInstancePostProcessor,
     ParameterResolver, BeforeTestExecutionCallback, AfterTestExecutionCallback, AfterAllCallback {
+
+  private static final Logger LOG = LoggerFactory.getLogger(MavenITExtension.class);
 
   private static final Namespace NAMESPACE_MAVEN_IT = Namespace.create(MavenITExtension.class);
 
@@ -58,7 +84,7 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
 
   @Override
   public void beforeAll(ExtensionContext context) {
-    System.out.println("MavenITExtension.beforeAll root:" + context.getUniqueId());
+    LOG.info("MavenITExtension.beforeAll root {}:", context.getUniqueId());
   }
 
   @Override
@@ -122,30 +148,8 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     return Void.TYPE;
   }
 
-  private boolean isDebug(Method method) {
-    if (!method.isAnnotationPresent(MavenTest.class)) {
-      throw new IllegalStateException("MavenTest Annotation nicht an der Method");
-    }
-    MavenTest mavenTestAnnotation = method.getAnnotation(MavenTest.class);
-
-    return mavenTestAnnotation.debug();
-  }
-
-  private boolean hasProfiles(Method method) {
-    return getProfiles(method).length > 0;
-  }
-
   private boolean hasGoals(Method method) {
     return getGoals(method).length > 0;
-  }
-
-  private String[] getProfiles(Method method) {
-    if (!method.isAnnotationPresent(MavenTest.class)) {
-      throw new IllegalStateException("MavenTest Annotation not at the method");
-    }
-    MavenTest mavenTestAnnotation = method.getAnnotation(MavenTest.class);
-
-    return mavenTestAnnotation.activeProfiles();
   }
 
   private String[] getGoals(Method method) {
@@ -205,8 +209,8 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
         "-V");
     executionArguments.addAll(defaultArguments);
 
-    if (hasProfiles(methodName)) {
-      String collect = Arrays.asList(getProfiles(methodName)).stream().collect(joining(",", "-P", ""));
+    if (hasActiveProfiles(methodName)) {
+      String collect = Arrays.asList(getActiveProfiles(methodName)).stream().collect(joining(",", "-P", ""));
       executionArguments.add(collect);
     }
 

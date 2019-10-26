@@ -1,6 +1,5 @@
 = Overview
 
-
 == Basic Idea
 
 Idea is to create an extension which supports writing integration tests for Maven plugins etc. in a
