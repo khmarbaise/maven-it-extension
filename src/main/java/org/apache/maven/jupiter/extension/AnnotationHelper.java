@@ -28,18 +28,12 @@ import org.junit.platform.commons.util.Preconditions;
 class AnnotationHelper {
 
   static boolean isDebug(Method method) {
-    Preconditions.notNull(method, "method is not allowed to be null.");
-    if (!method.isAnnotationPresent(MavenTest.class)) {
-      throw new IllegalStateException("MavenTest Annotation is not given on method: '" + method.getName() + "'");
-    }
+    checkParameterAndRequirements(method);
     return method.getAnnotation(MavenTest.class).debug();
   }
 
   static String[] getActiveProfiles(Method method) {
-    Preconditions.notNull(method, "method is not allowed to be null.");
-    if (!method.isAnnotationPresent(MavenTest.class)) {
-      throw new IllegalStateException("MavenTest Annotation is not given on method: '" + method.getName() + "'");
-    }
+    checkParameterAndRequirements(method);
 
     return method.getAnnotation(MavenTest.class).activeProfiles();
   }
@@ -53,14 +47,17 @@ class AnnotationHelper {
   }
 
   static String[] getGoals(Method method) {
-    Preconditions.notNull(method, "method is not allowed to be null.");
-    if (!method.isAnnotationPresent(MavenTest.class)) {
-      throw new IllegalStateException("MavenTest Annotation is not given on method: '" + method.getName() + "'");
-    }
+    checkParameterAndRequirements(method);
     MavenTest mavenTestAnnotation = method.getAnnotation(MavenTest.class);
 
     return mavenTestAnnotation.goals();
   }
 
+  private static void checkParameterAndRequirements(Method method) {
+    Preconditions.notNull(method, "method is not allowed to be null.");
+    if (!method.isAnnotationPresent(MavenTest.class)) {
+      throw new IllegalStateException("MavenTest Annotation is not given on method: '" + method.getName() + "'");
+    }
+  }
 
 }
