@@ -37,6 +37,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.jupiter.extension.maven.MavenCache;
 import org.apache.maven.jupiter.extension.maven.MavenCacheResult;
@@ -135,21 +136,12 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
 
     Store nameSpace = extensionContext.getStore(NAMESPACE_MAVEN_IT);
 
-    //FIXME: Need to reconsider to make that simpler?
-    if (MavenExecutionResult.class.equals(parameterContext.getParameter().getType())) {
-      return nameSpace.get(Result.ExecutionResult + extensionContext.getUniqueId(), MavenExecutionResult.class);
-    }
-    if (MavenLog.class.equals(parameterContext.getParameter().getType())) {
-      return nameSpace.get(Result.LogResult + extensionContext.getUniqueId(), MavenLog.class);
-    }
-    if (MavenCacheResult.class.equals(parameterContext.getParameter().getType())) {
-      return nameSpace.get(Result.CacheResult + extensionContext.getUniqueId(), MavenCacheResult.class);
-    }
-    if (MavenProjectResult.class.equals(parameterContext.getParameter().getType())) {
-      return nameSpace.get(Result.ProjectResult + extensionContext.getUniqueId(), MavenProjectResult.class);
-    }
-    //TODO: Think about this.
-    return Void.TYPE;
+    Result result = Stream.of(Result.values())
+        .filter(s -> s.getKlass().equals(parameterContext.getParameter().getType()))
+        .findFirst()
+        .orElseGet(() -> Result.BaseDirectory);
+
+    return nameSpace.get(result + extensionContext.getUniqueId(), result.getKlass());
   }
 
   @Override
@@ -185,7 +177,7 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     //FIXME: Removed hard coded parts.
     File mavenItsBaseDirectory = new File(DirectoryHelper.getTargetDir(), "test-classes/maven-its");
     File copyMavenPluginProject = new File(mavenItsBaseDirectory, toFullyQualifiedPath + "/" + methodName.getName());
-    System.out.println("copyMavenPluginProject = " + copyMavenPluginProject);
+    System.out.println("copyMavenPluginProject = " + copyMavenPluginProject + " projectDirectory = " + projectDirectory);
     FileUtils.copyDirectory(copyMavenPluginProject, projectDirectory);
 
     //FIXME: Removed hard coded parts.
@@ -247,10 +239,20 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
   }
 
   private enum Result {
-    BaseDirectory,
-    ExecutionResult,
-    LogResult,
-    CacheResult,
-    ProjectResult
+    BaseDirectory(Void.class), //????
+    ExecutionResult(MavenExecutionResult.class),
+    LogResult(MavenLog.class),
+    CacheResult(MavenCacheResult.class),
+    ProjectResult(MavenProjectResult.class);
+
+    private Class<?> klass;
+
+    Result(Class<?> klass) {
+      this.klass = klass;
+    }
+
+    Class<?> getKlass() {
+      return klass;
+    }
   }
 }

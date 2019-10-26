@@ -24,6 +24,7 @@ import static org.apache.maven.jupiter.assertj.MavenITAssertions.assertThat;
 import org.apache.maven.jupiter.extension.MavenIT;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import org.apache.maven.jupiter.extension.maven.MavenLog;
 import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
 
 /**
@@ -68,8 +69,9 @@ class EARIT {
   }
 
   @MavenTest
-  void resource_custom_directory(MavenExecutionResult result, MavenProjectResult project) {
+  void resource_custom_directory(MavenExecutionResult result, MavenProjectResult project, MavenLog log) {
     assertThat(result).isSuccessful();
+    assertThat(log).isSuccessful();
     assertThat(project).hasTarget()
         .withEarFile()
         .containsOnlyOnce("META-INF/application.xml", "APP-INF/classes/foo.properties");

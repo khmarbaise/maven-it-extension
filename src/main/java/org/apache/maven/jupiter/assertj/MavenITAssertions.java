@@ -20,6 +20,7 @@ package org.apache.maven.jupiter.assertj;
  */
 
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import org.apache.maven.jupiter.extension.maven.MavenLog;
 import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
 
 /**
@@ -35,5 +36,9 @@ public class MavenITAssertions {
 
   public static MavenProjectResultAssert assertThat(MavenProjectResult actual) {
     return new MavenProjectResultAssert(actual);
+  }
+
+  public static MavenLogAssert assertThat(MavenLog actual) {
+    return new MavenLogAssert(actual);
   }
 }
