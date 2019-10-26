@@ -223,6 +223,48 @@ class FirstMavenIT {
 ----
 
 
+=== Target Directory Handling
+
+[source,java]
+.SeventhMavenIT.java
+----
+import static org.apache.maven.jupiter.assertj.MavenProjectResultAssert.assertThat;
+
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
+
+@MavenIT
+class FirstMavenIT {
+
+  @MavenTest
+  void second_test_case(MavenProjectResult project) {
+    assertThat(project).hasTarget()
+        .withEarFile()
+        .containsOnlyOnce(
+            "META-INF/application.xml",
+            "META-INF/appserver-application.xml"
+        );
+  }
+  @MavenTest
+  void third_test_case(MavenProjectResult project) {
+    assertThat(project).hasTarget()
+        .withEarFile()
+        .doesNotContain("commons-io-1.4.jar")
+        .containsOnlyOnce(
+            "commons-lang-commons-lang-2.5.jar",
+            "META-INF/application.xml",
+            "META-INF/MANIFEST.MF"
+        );
+  }
+}
+----
+
+
+
+
+
+
 === Things which do not work yet (not complete!)
 
 This is:
