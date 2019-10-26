@@ -34,8 +34,12 @@ class AnnotationHelper {
 
   static String[] getActiveProfiles(Method method) {
     checkParameterAndRequirements(method);
-
     return method.getAnnotation(MavenTest.class).activeProfiles();
+  }
+
+  static String[] getGoals(Method method) {
+    checkParameterAndRequirements(method);
+    return method.getAnnotation(MavenTest.class).goals();
   }
 
   static boolean hasActiveProfiles(Method method) {
@@ -44,13 +48,6 @@ class AnnotationHelper {
 
   static boolean hasGoals(Method method) {
     return getGoals(method).length > 0;
-  }
-
-  static String[] getGoals(Method method) {
-    checkParameterAndRequirements(method);
-    MavenTest mavenTestAnnotation = method.getAnnotation(MavenTest.class);
-
-    return mavenTestAnnotation.goals();
   }
 
   private static void checkParameterAndRequirements(Method method) {
