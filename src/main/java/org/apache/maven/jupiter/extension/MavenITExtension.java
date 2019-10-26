@@ -22,7 +22,9 @@ package org.apache.maven.jupiter.extension;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static org.apache.maven.jupiter.extension.AnnotationHelper.getActiveProfiles;
+import static org.apache.maven.jupiter.extension.AnnotationHelper.getGoals;
 import static org.apache.maven.jupiter.extension.AnnotationHelper.hasActiveProfiles;
+import static org.apache.maven.jupiter.extension.AnnotationHelper.hasGoals;
 import static org.apache.maven.jupiter.extension.AnnotationHelper.isDebug;
 import static org.junit.platform.commons.util.AnnotationUtils.findAnnotation;
 
@@ -146,19 +148,6 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     }
     //TODO: Think about this.
     return Void.TYPE;
-  }
-
-  private boolean hasGoals(Method method) {
-    return getGoals(method).length > 0;
-  }
-
-  private String[] getGoals(Method method) {
-    if (!method.isAnnotationPresent(MavenTest.class)) {
-      throw new IllegalStateException("MavenTest Annotation not at the method");
-    }
-    MavenTest mavenTestAnnotation = method.getAnnotation(MavenTest.class);
-
-    return mavenTestAnnotation.goals();
   }
 
   @Override
