@@ -102,8 +102,8 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
 
     try (JarFile jarFile = new JarFile(earFile)) {
       if (!Stream.of(files)
-          .allMatch(fileEntry -> jarFile.stream().allMatch(jarEntry -> fileEntry.equals(jarEntry.getName())))) {
-        failWithMessage("The ear file <%s> does not contain all given elements.", files);
+          .allMatch(fileItem -> jarFile.stream().allMatch(jarEntry -> fileItem.equals(jarEntry.getName())))) {
+        failWithMessage("The ear file <%s> does not contain all given elements.", (Object[])files);
       }
     } catch (IOException e) {
       failWithMessage("IOException happened. <%s> file:<%s>", e.getMessage(), earFile.getAbsolutePath());

@@ -66,4 +66,12 @@ class EARIT {
         .doesNotContain("commons-lang-2.5")
         .containsOnlyOnce("META-INF/application.xml", "META-INF/MANIFEST.MF");
   }
+
+  @MavenTest
+  void resource_custom_directory(MavenExecutionResult result, MavenProjectResult project) {
+    assertThat(result).isSuccessful();
+    assertThat(project).hasTarget()
+        .withEarFile()
+        .containsOnlyOnce("META-INF/application.xml", "APP-INF/classes/foo.properties");
+  }
 }
