@@ -41,6 +41,11 @@ import org.junit.jupiter.api.Test;
 @API(status = EXPERIMENTAL, since = "0.1")
 public @interface MavenTest {
 
+  /**
+   * Defines the goals which are being executed.
+   *
+   * @return The default goals {@code clean} and {@code package}.
+   */
   String[] goals() default {"clean", "package"};
 
   /**

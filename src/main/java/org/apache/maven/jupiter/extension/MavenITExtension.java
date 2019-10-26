@@ -134,6 +134,8 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     System.out.println(" --> MavenITExtension.resolveParameter");
 
     Store nameSpace = extensionContext.getStore(NAMESPACE_MAVEN_IT);
+
+    //FIXME: Need to reconsider to make that simpler?
     if (MavenExecutionResult.class.equals(parameterContext.getParameter().getType())) {
       return nameSpace.get(Result.ExecutionResult + extensionContext.getUniqueId(), MavenExecutionResult.class);
     }
