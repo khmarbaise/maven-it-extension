@@ -63,7 +63,7 @@ class EARIT {
     assertThat(result).isSuccessful();
     assertThat(project).hasTarget()
         .withEarFile()
-        .doesNotContain("commons-lang-2.5")
+        .doesNotContain("commons-lang-commons-lang-2.5.jar")
         .containsOnlyOnce("META-INF/application.xml", "META-INF/MANIFEST.MF");
   }
 

@@ -23,10 +23,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.jar.JarFile;
-import java.util.stream.Stream;
 import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
 import org.apache.maven.model.Model;
 import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.Assertions;
 
 /**
  * @author Karl Heinz Marbaise
@@ -101,10 +101,10 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     File earFile = new File(target, artifact);
 
     try (JarFile jarFile = new JarFile(earFile)) {
-      if (!Stream.of(files)
-          .allMatch(fileItem -> jarFile.stream().allMatch(jarEntry -> fileItem.equals(jarEntry.getName())))) {
-        failWithMessage("The ear file <%s> does not contain all given elements.", (Object[])files);
-      }
+      Assertions.assertThat(jarFile.stream())
+          .describedAs("Checking ear file names.")
+          .extracting(jarEntry -> jarEntry.getName())
+          .containsOnlyOnce(files);
     } catch (IOException e) {
       failWithMessage("IOException happened. <%s> file:<%s>", e.getMessage(), earFile.getAbsolutePath());
     }
@@ -112,7 +112,22 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
   }
 
   public MavenProjectResultAssert doesNotContain(String... excludeItems) {
-    //FIXME: Implement.
+    isNotNull();
+    hasTarget();
+
+    Model model = this.actual.getModel();
+    File target = new File(this.actual.getBaseDir(), "target");
+    String artifact = model.getArtifactId() + "-" + model.getVersion() + ".ear";
+    File earFile = new File(target, artifact);
+
+    try (JarFile jarFile = new JarFile(earFile)) {
+      Assertions.assertThat(jarFile
+          .stream())
+          .extracting(jarEntry -> jarEntry.getName())
+          .doesNotContain(excludeItems);
+    } catch (IOException e) {
+      failWithMessage("IOException happened. <%s> file:<%s>", e.getMessage(), earFile.getAbsolutePath());
+    }
     return myself;
   }
 }

@@ -173,57 +173,11 @@
     </testResources>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>copy-dependencies</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.apache.maven</groupId>
-                  <artifactId>apache-maven</artifactId>
-                  <version>3.6.2</version>
-                  <classifier>bin</classifier>
-                  <type>tar.gz</type>
-                  <overWrite>true</overWrite>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.apache.maven</groupId>
-                  <artifactId>apache-maven</artifactId>
-                  <version>3.6.0</version>
-                  <classifier>bin</classifier>
-                  <type>tar.gz</type>
-                  <overWrite>true</overWrite>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.apache.maven</groupId>
-                  <artifactId>apache-maven</artifactId>
-                  <version>3.5.0</version>
-                  <classifier>bin</classifier>
-                  <type>tar.gz</type>
-                  <overWrite>true</overWrite>
-                </artifactItem>
-              </artifactItems>
-              <overWriteReleases>true</overWriteReleases>
-              <overWriteSnapshots>true</overWriteSnapshots>
-              <overWriteIfNewer>true</overWriteIfNewer>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
         <configuration>
           <forkCount>1</forkCount>
           <reuseForks>false</reuseForks>
         </configuration>
-
         <executions>
           <execution>
             <goals>
