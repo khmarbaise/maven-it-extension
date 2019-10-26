@@ -214,13 +214,15 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     if (processCompletableFuture != 0) {
       executionResult = ExecutionResult.Failure;
     }
-    MavenExecutionResult result = new MavenExecutionResult(executionResult, processCompletableFuture);
 
     MavenLog log = new MavenLog(mavenExecutor.getStdout(), mavenExecutor.getStdErr());
     MavenCacheResult mavenCacheResult = new MavenCacheResult(cacheDirectory.toPath());
 
     Model model = ProjectHelper.readProject(projectDirectory);
     MavenProjectResult mavenProjectResult = new MavenProjectResult(projectDirectory, model);
+
+    MavenExecutionResult result = new MavenExecutionResult(executionResult, processCompletableFuture, log,
+        mavenProjectResult, mavenCacheResult);
 
     nameSpace.put(Result.ExecutionResult + context.getUniqueId(), result);
     nameSpace.put(Result.LogResult + context.getUniqueId(), log);

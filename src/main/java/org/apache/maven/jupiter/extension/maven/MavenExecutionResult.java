@@ -28,9 +28,19 @@ public class MavenExecutionResult {
 
   private final int returnCode;
 
-  public MavenExecutionResult(ExecutionResult result, int returnCode) {
+  private final MavenLog mavenLog;
+
+  private final MavenProjectResult mavenProjectResult;
+
+  private final MavenCacheResult mavenCacheResult;
+
+  public MavenExecutionResult(ExecutionResult result, int returnCode, MavenLog mavenLog,
+      MavenProjectResult mavenProjectResult, MavenCacheResult mavenCacheResult) {
     this.result = result;
     this.returnCode = returnCode;
+    this.mavenLog = mavenLog;
+    this.mavenProjectResult = mavenProjectResult;
+    this.mavenCacheResult = mavenCacheResult;
   }
 
   public int getReturnCode() {
@@ -51,6 +61,18 @@ public class MavenExecutionResult {
 
   public ExecutionResult getResult() {
     return this.result;
+  }
+
+  public MavenLog getMavenLog() {
+    return mavenLog;
+  }
+
+  public MavenCacheResult getMavenCacheResult() {
+    return mavenCacheResult;
+  }
+
+  public MavenProjectResult getMavenProjectResult() {
+    return mavenProjectResult;
   }
 
   public enum ExecutionResult {
