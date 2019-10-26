@@ -267,6 +267,33 @@ class FirstMavenIT {
 }
 ----
 
+=== New Ideas
+
+The following are example how an integration test could look like:
+
+[source,java]
+.UnknownMavenIT.java
+----
+@MavenIT
+class FirstMavenIT {
+
+  @MavenTest
+  void third_test_case(MavenProjectResult project) {
+    assertThat(project)
+      .hasCache()
+        .withEarFile("G:A:V").containsOnlyOnce("...")
+        .withJarFile("...").contains("..")
+        .withPomFile("g:a:v:c").containsDependency("xxx")
+        .withArchive(".tar.gz").contains("...");
+    assertThat(project).log().contains("...")
+    assertThat(project).hasModule("A:G").hasTarget().withEarFile()....
+    assertThat(project).build().isSuccessful().hasTarget()
+  }
+}
+----
+
+
+
 
 === Things which do not work yet (not complete!)
 

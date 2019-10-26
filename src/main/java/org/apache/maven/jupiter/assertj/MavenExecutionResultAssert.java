@@ -27,7 +27,7 @@ import org.assertj.core.api.AbstractAssert;
  */
 public class MavenExecutionResultAssert extends AbstractAssert<MavenExecutionResultAssert, MavenExecutionResult> {
 
-  public MavenExecutionResultAssert(MavenExecutionResult actual) {
+  protected MavenExecutionResultAssert(MavenExecutionResult actual) {
     super(actual, MavenExecutionResultAssert.class);
   }
 

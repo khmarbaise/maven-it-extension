@@ -33,7 +33,7 @@ import org.assertj.core.api.AbstractAssert;
  */
 public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultAssert, MavenProjectResult> {
 
-  public MavenProjectResultAssert(MavenProjectResult actual) {
+  protected MavenProjectResultAssert(MavenProjectResult actual) {
     super(actual, MavenProjectResultAssert.class);
   }
 
@@ -71,7 +71,6 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     return myself;
   }
 
-  //FIXME: containsExactly(...) ?
   public MavenProjectResultAssert contains(List<String> files) {
     isNotNull();
     hasTarget();
@@ -81,8 +80,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     String artifact = model.getArtifactId() + "-" + model.getVersion() + ".ear";
     File earFile = new File(target, artifact);
 
-    try {
-      JarFile jarFile = new JarFile(earFile);
+    try (JarFile jarFile = new JarFile(earFile)) {
       if (!files.stream()
           .allMatch(fileEntry -> jarFile.stream().anyMatch(jarEntry -> fileEntry.equals(jarEntry.getName())))) {
         failWithMessage("The ear file <%s> does not contain all given elements.", files);
@@ -102,9 +100,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     String artifact = model.getArtifactId() + "-" + model.getVersion() + ".ear";
     File earFile = new File(target, artifact);
 
-    try {
-      JarFile jarFile = new JarFile(earFile);
-
+    try (JarFile jarFile = new JarFile(earFile)) {
       if (!Stream.of(files)
           .allMatch(fileEntry -> jarFile.stream().allMatch(jarEntry -> fileEntry.equals(jarEntry.getName())))) {
         failWithMessage("The ear file <%s> does not contain all given elements.", files);

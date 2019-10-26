@@ -38,4 +38,12 @@ class EARIT {
         .containsOnlyOnce("commons-lang-commons-lang-2.5.jar", "META-INF/application.xml", "META-INF/MANIFEST.MF");
   }
 
+  @MavenTest
+  void packaging_excludes(MavenExecutionResult result, MavenProjectResult project) {
+    assertThat(result).isSuccessful();
+    assertThat(project).hasTarget()
+        .withEarFile()
+        .doesNotContain("commons-lang-2.5")
+        .containsOnlyOnce("META-INF/application.xml", "META-INF/MANIFEST.MF");
+  }
 }
