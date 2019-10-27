@@ -57,6 +57,16 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     return myself;
   }
 
+  public MavenProjectResultAssert has(String directory) {
+    isNotNull();
+    File target = new File(this.actual.getBaseDir(), directory);
+    if (!target.isDirectory() && !target.exists()) {
+      failWithMessage("The given directory <%s> of <%s> does not exist.", directory,
+          actual.getBaseDir().getAbsolutePath());
+    }
+    return myself;
+  }
+
   public MavenProjectResultAssert withEarFile() {
     isNotNull();
     hasTarget();
@@ -64,6 +74,34 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     Model model = this.actual.getModel();
     File target = new File(this.actual.getBaseDir(), "target");
     String artifact = model.getArtifactId() + "-" + model.getVersion() + ".ear";
+    File earFile = new File(target, artifact);
+    if (!earFile.isFile() && !earFile.canRead()) {
+      failWithMessage("The ear file <%s> does not exist or can not be read.", earFile.getAbsolutePath());
+    }
+    return myself;
+  }
+
+  public MavenProjectResultAssert withJarFile() {
+    isNotNull();
+    hasTarget();
+
+    Model model = this.actual.getModel();
+    File target = new File(this.actual.getBaseDir(), "target");
+    String artifact = model.getArtifactId() + "-" + model.getVersion() + ".jar";
+    File earFile = new File(target, artifact);
+    if (!earFile.isFile() && !earFile.canRead()) {
+      failWithMessage("The ear file <%s> does not exist or can not be read.", earFile.getAbsolutePath());
+    }
+    return myself;
+  }
+
+  public MavenProjectResultAssert withWarFile() {
+    isNotNull();
+    hasTarget();
+
+    Model model = this.actual.getModel();
+    File target = new File(this.actual.getBaseDir(), "target");
+    String artifact = model.getArtifactId() + "-" + model.getVersion() + ".war";
     File earFile = new File(target, artifact);
     if (!earFile.isFile() && !earFile.canRead()) {
       failWithMessage("The ear file <%s> does not exist or can not be read.", earFile.getAbsolutePath());
@@ -121,10 +159,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     File earFile = new File(target, artifact);
 
     try (JarFile jarFile = new JarFile(earFile)) {
-      Assertions.assertThat(jarFile
-          .stream())
-          .extracting(jarEntry -> jarEntry.getName())
-          .doesNotContain(excludeItems);
+      Assertions.assertThat(jarFile.stream()).extracting(jarEntry -> jarEntry.getName()).doesNotContain(excludeItems);
     } catch (IOException e) {
       failWithMessage("IOException happened. <%s> file:<%s>", e.getMessage(), earFile.getAbsolutePath());
     }

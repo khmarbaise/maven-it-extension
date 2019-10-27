@@ -1,46 +1,232 @@
+:toc:
+
 = Overview
 
-== Basic Idea
+== Current Situation
 
-Idea is to create an extension which supports writing integration tests for Maven plugins etc. in a
-convenient way. Also thinking of the integration tests of Maven itself.
+=== Maven Plugin Testing Harness
+
+The https://maven.apache.org/plugin-testing/maven-plugin-testing-harness/index.html[Maven Plugin Testing Harness]
+is intended to write tests for using parameters correctly and several other setup situations but
+the test setup is separated into a unit test like part in code and a part which
+is pom like
+
+ * It's bound to versions of Maven core which might caused issues testing other versions of Maven.
+
+RECONSIDER this content...
+
+=== Maven Invoker Plugin
+
+In https://maven.apache.org/plugins/maven-invoker-plugin/[Maven Invoker Plugin] the following issues
+exist:
+
+ * Parallelization does not work and is not easy to integrate based on
+   current concept and code base.
+ * Separating caches for each build is hard to implement or make a common
+   cache possible for a set of integration tests.
+ * A Concept like `BeforeEach` or `BeforeAll` is current not really possible.
+ * Writing the integration tests forces one to write in Groovy or Beanshell
+ * Integrationtests are not that expressive as they should be. No support
+   to make it easier to write integration tests.
+ * Conditions (assertions) are hard to express and based on the experience there is
+   a lot of repetition in integration tests overall.
+ ** Conditions for execution or the expected result is expressed in a separate file
+    https://maven.apache.org/plugins/maven-invoker-plugin/integration-test-mojo.html#invokerPropertiesFile[`invoker.properties`].
+
+=== Maven Verifier Plugin
+
+The https://maven.apache.org/plugins/maven-verifier-plugin/[Maven Verifier Plugin] is intended to
+write tests to check for the existence of files or the absence of files but in the end it is
+very limited.
+
+=== Maven Verifier Component
+
+The https://maven.apache.org/shared/maven-verifier/[Maven Verifier Component] is intended to write a
+kind of tests:
+
+ * You can set the command line parameters for an executed instance of
+   Maven like `-s`, `-X` etc.
+ * Execute goals like `package` or a like.
+ * It contains some methods like `assertFilePresent`, `assertFileMatches`,
+   `verifyArtifactPresence` etc. but not a comprehensive set of methods.
+ * Some parts are like Maven Invoker Plugin for example starting an external
+   process with Maven (something like starting Maven on command line.).
+
+=== Areas
+
+Currently the ideas describes can be applied to Maven Plugin development as well
+as on
+RECONSIDER the following: `Maven Core development`.
+
+=== Conclusion
+
+It is needed to have a combination of Maven Invoker Plugin, Maven Verifier etc. into
+a single Testing framework which should make it possible to make integration tests
+easier to write and make them more expressive what the idea of the tests is.
+
+Furthermore it would be helpful to have an integration into IDE with support of them.
+
+
+== Basic Idea
+The expressiveness of tests is a very important part of writing integration tests or
+test at all. If a test is not easy to understand a test it very likely that it is not written.
+
+Lets take a look into the following code snippet which is an idea how an integration
+test for a Maven Plugins/Maven Extensions or Maven itself could look like:
+[source,java]
+----
+@MavenIT
+class FirstMavenIT {
+
+  @MavenTest
+  void the_first_test_case(MavenProjectResult result) {
+    assertThat(result)
+      .project()
+        .hasTarget()
+          .withEarFile()
+            .containsOnlyOnce("META-INF/MANIFEST.MF")
+        .log()
+          .info().contains("Writing data to file")
+        .cache()
+          .withEarFile("G:A:V")
+          .withPomFile("G:A:V")
+          .withMetadata().contains("xxx");
+
+    assertThat(result)
+      .project()
+        .hasModule("A:G")
+          .hasTarget()
+            .withEarFile()....
+    assertThat(result).build().isSuccessful().hasTarget()
+  }
+}
+----
+
+== Concept
+
+Idea is to create an JUnit Jupiter extension which supports writing integration tests for Maven
+plugins etc. in a convenient way.
+
+//TODO: Also thinking of the integration tests of Maven itself.
 
 Basic Idea is currently similar to maven-invoker-plugin:
 Another option would be to combine this with Docker containers which run Maven.
-Extension starts the appropriate Maven version via ProcessBuilder with parameters in it's own directory (`target/maven-it/ ...` )
+Extension starts the appropriate Maven version via ProcessBuilder with parameters in it's own directory
+(`target/maven-it/ ...` )
 
-Setups which are needed can be defined via `@BeforeEach` or `@BeforeAll` (NEED TO THINK ABOUT IT) annotated methods in JUnit Jupiter.
+//TODO: The following is currently not true!
+//Setups which are needed can be defined via `@BeforeEach` or `@BeforeAll` (NEED TO THINK ABOUT IT) annotated methods in JUnit Jupiter.
 
+ * Separate
+
+ * Existing repository which contains already installed artifacts for
+   special case (see versions-maven-plugin??)
+   Im Verzeichnis des Projektes (default: `local-repo` ?) + settings.xml
+
+
+== Example
+
+The following integration test is a skeleton of an integration which implies some conventions
+
+[source,java]
+.FirstIT.java
+----
+package org.it;
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+
+@MavenIT
+class FirstIT {
+
+  @MavenTest
+  void first(MavenExecutionResult result) {
+  }
+
+  @MavenTest
+  void second(MavenExecutionResult result) {
+  }
+
+
+}
+----
+
+The directory structure of an integration test will look like this. This is by convention the same
+as for any kind of test or integration test in Maven.
+[source,text]
+----
+src
+ +-- test
+      +-- java
+            +-- org
+                 +-- it
+                      +-- FirstIT.java
+----
+The convention is simply by mapping the method name into a directory. The `resources`
+directory is the location where to find the project for the integration tests. Basic
+start is the class name `FirstIT` which defines the base directory for each test case.
+
+The intermediate directory `maven-its` is intended to separate the usual resources from the
+integration test resources.
+//TODO: May be we need to reconsider this
+[source,text]
+----
+src
+ +-- test
+      +-- resources
+            +-- maven-its
+                +-- org
+                     +-- it
+                          +-- FirstIT
+----
+
+Now we have the need to separate each test case from each other which is done via the method name of
+the test case within the test class  `FirstIT` which has the methods `first` and `second` in our
+examples. This will look like the following:
+[source,text]
+----
+src
+ +-- test
+      +-- resources
+            +-- maven-its
+                +-- org
+                     +-- it
+                          +-- FirstIT
+                                +- first
+                                     +- src
+                                     +- pom.xml
+                                +- second
+                                     +- src
+                                     +- pom.xml
+----
+During the execution of the integration tests the following directory will be created within the
+`target` directory:
 [source,text]
 ----
 target
- +--- maven-its
-         +--- package
-                +--- NameOfTheTestClass1
-                        +--- .m2/
-                        +---- project
-                        +----
-                +--- NameOfTheTestClass2
-                        +--- .m2/
-                        +---- project
-                        +----
+ +- maven-its
+        +- org
+           +- it
+              +- FirstIT
+                  +- first
+                        +- .m2/
+                        +- project
+                        +- mvn-stdout.log
+                        +- mvn-stderr.log
+                        +- other logs
+                  +- second
+                        +- .m2/
+                        +- project
+                        +- mvn-stdout.log
+                        +- mvn-stderr.log
+                        +- other logs
 ----
+Based on the above you can see that each test case (method within the class) has it's own
+local cache (`.m2/repository`). You see the resulting project is built within the `project` folder
+to make separated from log files and local cache. The result of this setup is that each
+test case is completely separated from each other test case and gives us an easy way to parallelize
+the integration test cases in a simple way.
 
-Each test should have it's own .m2 Cache directory to get them completely decoupled from each other.
-
-[source,text]
-----
-target
- +--- maven-its
-         +--- first
-                +--- .m2/
-                +---- project
-                +----
-         +--- second
-                +---
-                +---
-                +---
-----
 
 It is possible to define the cache for several test cases globally which can simply being done by using the following anntation parameter `mavenCache=MavenCache.Global`.
 This give the opportunity to make different tests share the same cache which is like a usual setup for a user on a local machine which can be used to test different scenarios.
@@ -76,6 +262,29 @@ class FirstMavenIT {
 
 }
 ----
+
+
+
+Separate repository which contains already installed artifacts:
+[source,text]
+----
+src
+ +-- test
+      +-- resources
+            +-- maven-its
+                +-- org
+                     +-- it
+                          +-- FirstIT
+                                +- .local-repo
+                                +- first
+                                     +- src
+                                     +- pom.xml
+                                +- second
+                                     +- src
+                                     +- pom.xml
+----
+
+
 
 == Execution of Maven itself
 
@@ -267,6 +476,10 @@ class FirstMavenIT {
 ----
 
 === New Ideas
+
+The basic idea is to have the assertions based on an entry point which is
+`MavenExecutionResultAssert` related to `MavenExecutionResult`.
+
 
 The following are example how an integration test could look like:
 

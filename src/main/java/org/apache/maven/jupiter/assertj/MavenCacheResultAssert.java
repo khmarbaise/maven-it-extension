@@ -20,30 +20,26 @@ package org.apache.maven.jupiter.assertj;
  */
 
 import org.apache.maven.jupiter.extension.maven.MavenCacheResult;
-import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
-import org.apache.maven.jupiter.extension.maven.MavenLog;
-import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
+import org.assertj.core.api.AbstractAssert;
 
 /**
- * Entry point to all Maven specific assertions needed in integration testing.
- *
  * @author Karl Heinz Marbaise
  */
-public class MavenITAssertions {
+public class MavenCacheResultAssert extends AbstractAssert<MavenCacheResultAssert, MavenCacheResult> {
 
-  public static MavenExecutionResultAssert assertThat(MavenExecutionResult actual) {
-    return new MavenExecutionResultAssert(actual);
+  protected MavenCacheResultAssert(MavenCacheResult actual) {
+    super(actual, MavenCacheResultAssert.class);
   }
 
-  public static MavenProjectResultAssert assertThat(MavenProjectResult actual) {
-    return new MavenProjectResultAssert(actual);
-  }
-
-  public static MavenLogAssert assertThat(MavenLog actual) {
-    return new MavenLogAssert(actual);
-  }
-
+  /**
+   * An entry point for MavenCacheResult to follow AssertJ standard <code>assertThat()</code> statements.<br>
+   * With a static import, one's can write directly : <code>assertThat(result).isSuccessful();</code>
+   *
+   * @param actual the MavenLog we want to make assertions on.
+   * @return a new </code>{@link MavenCacheResultAssert}</code>
+   */
   public static MavenCacheResultAssert assertThat(MavenCacheResult actual) {
     return new MavenCacheResultAssert(actual);
   }
+
 }
