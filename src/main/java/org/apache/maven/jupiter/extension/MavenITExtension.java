@@ -24,7 +24,6 @@ import static java.util.stream.Collectors.toList;
 import static org.apache.maven.jupiter.extension.AnnotationHelper.getActiveProfiles;
 import static org.apache.maven.jupiter.extension.AnnotationHelper.getGoals;
 import static org.apache.maven.jupiter.extension.AnnotationHelper.hasActiveProfiles;
-import static org.apache.maven.jupiter.extension.AnnotationHelper.hasGoals;
 import static org.apache.maven.jupiter.extension.AnnotationHelper.isDebug;
 import static org.junit.platform.commons.util.AnnotationUtils.findAnnotation;
 
@@ -96,15 +95,11 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     Class<?> testClass = context.getTestClass()
         .orElseThrow(() -> new ExtensionConfigurationException("MavenITExtension is only supported for classes."));
 
-    MavenIT mavenITAnnotation = findMavenIt(context).orElseThrow(
-        () -> new IllegalStateException("Annotation is not present."));
-
     File baseDirectory = new File(DirectoryHelper.getTargetDir(), "maven-it");
     String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass.getPackage(),
         testClass.getSimpleName());
     System.out.println("toFullyQualifiedPath = " + toFullyQualifiedPath);
 
-    //    File mavenItBaseDirectory = new File(baseDirectory, DirectoryHelper.path(context.getUniqueId()).toString());
     File mavenItBaseDirectory = new File(baseDirectory, toFullyQualifiedPath);
     mavenItBaseDirectory.mkdirs();
 
@@ -177,7 +172,8 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     //FIXME: Removed hard coded parts.
     File mavenItsBaseDirectory = new File(DirectoryHelper.getTargetDir(), "test-classes/maven-its");
     File copyMavenPluginProject = new File(mavenItsBaseDirectory, toFullyQualifiedPath + "/" + methodName.getName());
-    System.out.println("copyMavenPluginProject = " + copyMavenPluginProject + " projectDirectory = " + projectDirectory);
+    System.out.println(
+        "copyMavenPluginProject = " + copyMavenPluginProject + " projectDirectory = " + projectDirectory);
     FileUtils.copyDirectory(copyMavenPluginProject, projectDirectory);
 
     //FIXME: Removed hard coded parts.
@@ -201,10 +197,8 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
       executionArguments.add("-X");
     }
 
-    if (hasGoals(methodName)) {
-      List<String> goals = Arrays.asList(getGoals(methodName)).stream().collect(toList());
-      executionArguments.addAll(goals);
-    }
+    String[] resultingGoals = GoalPriority.goals(mavenIT.goals(), getGoals(methodName));
+    executionArguments.addAll(Stream.of(resultingGoals).collect(toList()));
 
     Process start = mavenExecutor.start(executionArguments);
 

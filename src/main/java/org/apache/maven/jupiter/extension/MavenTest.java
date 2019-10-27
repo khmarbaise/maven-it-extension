@@ -42,11 +42,12 @@ import org.junit.jupiter.api.Test;
 public @interface MavenTest {
 
   /**
-   * Defines the goals which are being executed.
+   * Defines the goals which are being executed. This can be used to simply override the given goals by {@link
+   * MavenIT#goals()}.
    *
-   * @return The default goals {@code clean} and {@code package}.
+   * @return The default goals are none given.
    */
-  String[] goals() default {"clean", "package"};
+  String[] goals() default {};
 
   /**
    * You can define the profile you would like to activate: For example for a single profile:

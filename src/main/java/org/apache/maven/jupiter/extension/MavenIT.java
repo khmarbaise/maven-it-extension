@@ -57,7 +57,6 @@ public @interface MavenIT {
    */
   String[] goals() default {"package"};
 
-
   /**
    * This can be used to activate debugging output within the maven build {@code -X} option.
    *
