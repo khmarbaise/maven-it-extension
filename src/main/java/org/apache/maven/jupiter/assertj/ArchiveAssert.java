@@ -62,6 +62,10 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
     return myself;
   }
 
+  public ArchiveAssert containsOnlyOnce(List<String> files) {
+    return containsOnlyOnce(files.toArray(new String[] {}));
+  }
+
   public ArchiveAssert containsOnlyOnce(String... files) {
     try (JarFile jarFile = new JarFile(this.actual)) {
       Assertions.assertThat(jarFile.stream())
