@@ -81,32 +81,46 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     return new ArchiveAssert(earFile, this.actual.getModel());
   }
 
-  public MavenProjectResultAssert withJarFile() {
+  public ArchiveAssert withJarFile() {
     isNotNull();
     hasTarget();
 
     Model model = this.actual.getModel();
     File target = new File(this.actual.getBaseDir(), "target");
     String artifact = model.getArtifactId() + "-" + model.getVersion() + ".jar";
-    File earFile = new File(target, artifact);
-    if (!earFile.isFile() && !earFile.canRead()) {
-      failWithMessage("The ear file <%s> does not exist or can not be read.", earFile.getAbsolutePath());
+    File jarFile = new File(target, artifact);
+    if (!jarFile.isFile() && !jarFile.canRead()) {
+      failWithMessage("The ear file <%s> does not exist or can not be read.", jarFile.getAbsolutePath());
     }
-    return myself;
+    return new ArchiveAssert(jarFile, this.actual.getModel());
   }
 
-  public MavenProjectResultAssert withWarFile() {
+  public ArchiveAssert withWarFile() {
     isNotNull();
     hasTarget();
 
     Model model = this.actual.getModel();
     File target = new File(this.actual.getBaseDir(), "target");
     String artifact = model.getArtifactId() + "-" + model.getVersion() + ".war";
-    File earFile = new File(target, artifact);
-    if (!earFile.isFile() && !earFile.canRead()) {
-      failWithMessage("The ear file <%s> does not exist or can not be read.", earFile.getAbsolutePath());
+    File warFile = new File(target, artifact);
+    if (!warFile.isFile() && !warFile.canRead()) {
+      failWithMessage("The ear file <%s> does not exist or can not be read.", warFile.getAbsolutePath());
     }
-    return myself;
+    return new ArchiveAssert(warFile, this.actual.getModel());
+  }
+
+  public ArchiveAssert withRarFile() {
+    isNotNull();
+    hasTarget();
+
+    Model model = this.actual.getModel();
+    File target = new File(this.actual.getBaseDir(), "target");
+    String artifact = model.getArtifactId() + "-" + model.getVersion() + ".rar";
+    File rarFile = new File(target, artifact);
+    if (!rarFile.isFile() && !rarFile.canRead()) {
+      failWithMessage("The ear file <%s> does not exist or can not be read.", rarFile.getAbsolutePath());
+    }
+    return new ArchiveAssert(rarFile, this.actual.getModel());
   }
 
   public MavenProjectResultAssert contains(List<String> files) {
