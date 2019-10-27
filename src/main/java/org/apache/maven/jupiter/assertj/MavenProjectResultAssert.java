@@ -26,7 +26,6 @@ import java.util.jar.JarFile;
 import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
 import org.apache.maven.model.Model;
 import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.api.Assertions;
 
 /**
  * @author Karl Heinz Marbaise
@@ -67,7 +66,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     return myself;
   }
 
-  public MavenProjectResultAssert withEarFile() {
+  public ArchiveAssert withEarFile() {
     isNotNull();
     hasTarget();
 
@@ -75,10 +74,17 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     File target = new File(this.actual.getBaseDir(), "target");
     String artifact = model.getArtifactId() + "-" + model.getVersion() + ".ear";
     File earFile = new File(target, artifact);
-    if (!earFile.isFile() && !earFile.canRead()) {
+    if (!earFile.isFile() && !earFile.canRead() && !earFile.isHidden()) {
       failWithMessage("The ear file <%s> does not exist or can not be read.", earFile.getAbsolutePath());
     }
-    return myself;
+
+    JarFile earArchive = null; //TODO: Can we make that better?
+    try {
+      earArchive = new JarFile(earFile);
+    } catch (IOException e) {
+      failWithMessage("The ear file caused an exception. <%s>", e.getMessage());
+    }
+    return new ArchiveAssert(earArchive, this.actual.getModel());
   }
 
   public MavenProjectResultAssert withJarFile() {
@@ -129,40 +135,4 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     return myself;
   }
 
-  public MavenProjectResultAssert containsOnlyOnce(String... files) {
-    isNotNull();
-    hasTarget();
-
-    Model model = this.actual.getModel();
-    File target = new File(this.actual.getBaseDir(), "target");
-    String artifact = model.getArtifactId() + "-" + model.getVersion() + ".ear";
-    File earFile = new File(target, artifact);
-
-    try (JarFile jarFile = new JarFile(earFile)) {
-      Assertions.assertThat(jarFile.stream())
-          .describedAs("Checking ear file names.")
-          .extracting(jarEntry -> jarEntry.getName())
-          .containsOnlyOnce(files);
-    } catch (IOException e) {
-      failWithMessage("IOException happened. <%s> file:<%s>", e.getMessage(), earFile.getAbsolutePath());
-    }
-    return myself;
-  }
-
-  public MavenProjectResultAssert doesNotContain(String... excludeItems) {
-    isNotNull();
-    hasTarget();
-
-    Model model = this.actual.getModel();
-    File target = new File(this.actual.getBaseDir(), "target");
-    String artifact = model.getArtifactId() + "-" + model.getVersion() + ".ear";
-    File earFile = new File(target, artifact);
-
-    try (JarFile jarFile = new JarFile(earFile)) {
-      Assertions.assertThat(jarFile.stream()).extracting(jarEntry -> jarEntry.getName()).doesNotContain(excludeItems);
-    } catch (IOException e) {
-      failWithMessage("IOException happened. <%s> file:<%s>", e.getMessage(), earFile.getAbsolutePath());
-    }
-    return myself;
-  }
 }

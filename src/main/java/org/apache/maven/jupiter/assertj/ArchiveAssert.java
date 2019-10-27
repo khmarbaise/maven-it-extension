@@ -1,0 +1,71 @@
+package org.apache.maven.jupiter.assertj;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.jar.JarFile;
+import org.apache.maven.model.Model;
+import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.Assertions;
+
+public class ArchiveAssert extends AbstractAssert<ArchiveAssert, JarFile> {
+
+  private Model model;
+
+  private List<String> includes;
+
+  ArchiveAssert(JarFile earFile, Model model) {
+    super(earFile, ArchiveAssert.class);
+    this.model = model;
+    this.includes = new ArrayList<>();
+  }
+
+  /**
+   * This will ignore the files within an archive
+   * <ul>
+   *   <li>META-INF/maven/&lt;groupId&gt;/&lt;artifactId&gt;/pom.xml</li>
+   *   <li>META-INF/maven/&lt;groupId&gt;/&lt;artifactId&gt;/pom.properties</li>
+   * </ul>
+   *
+   * @return {@link ArchiveAssert}
+   */
+  public ArchiveAssert ignoreMavenFiles() {
+    this.includes.addAll(
+        Arrays.asList("META-INF/maven/" + this.model.getGroupId() + "/" + this.model.getArtifactId() + "pom.xml",
+            "META-INF/maven/" + this.model.getGroupId() + "/" + this.model.getArtifactId() + "pom.properties"));
+    return myself;
+  }
+
+  public ArchiveAssert ignoreManifest() {
+    this.includes.addAll(Arrays.asList("META-INF/MANIFEST.MF"));
+    return myself;
+  }
+
+  public ArchiveAssert doesNotContain(String... files) {
+    try (JarFile jarFile = this.actual) {
+      List<String> includes = Arrays.asList(files);
+      Assertions.assertThat(jarFile.stream())
+          .describedAs("Checking ear file names.")
+          .extracting(jarEntry -> jarEntry.getName())
+          .doesNotContain(includes.toArray(new String[] {}));
+    } catch (IOException e) {
+      failWithMessage("IOException happened. <%s> file:<%s>", e.getMessage());
+    }
+    return myself;
+  }
+
+  public ArchiveAssert containsOnlyOnce(String... files) {
+    try (JarFile jarFile = this.actual) {
+      Assertions.assertThat(jarFile.stream())
+          .describedAs("Checking ear file names.")
+          .extracting(jarEntry -> jarEntry.getName())
+          .containsOnlyOnce(files);
+    } catch (IOException e) {
+      failWithMessage("IOException happened. <%s> file:<%s>", e.getMessage());
+    }
+    return myself;
+  }
+
+
+}
