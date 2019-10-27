@@ -15,13 +15,14 @@ exist:
 * Separating caches for each build is hard to implement or make a common
 cache possible for a set of integration tests.
 * A Concept like `BeforeEach` or `BeforeAll` is current not really possible.
-* Writing the integration tests forces one to write in Groovy or Beanshell
+** The concept with `setup` project is not correctly working at the moment.
+* Writing the integration tests forces one to write in Groovy or Beanshell.
 * Integrationtests are not that expressive as they should be. No support
 to make it easier to write integration tests.
 * Conditions (assertions) are hard to express and based on the experience there is
 a lot of repetition in integration tests overall.
-** Conditions for execution (only to execute on JDK11) and the expected result is
-expressed in a separate file which in the end is a mixture of different things which violates
+** Conditions for execution (for example only to be executed on JDK11) and the expected result is
+expressed in single separate file which in the end is a mixture of different things which violates
 https://en.wikipedia.org/wiki/Separation_of_concerns[separation of concern paradigm]
 https://maven.apache.org/plugins/maven-invoker-plugin/integration-test-mojo.html#invokerPropertiesFile[`invoker.properties`].
 
@@ -31,13 +32,14 @@ The https://maven.apache.org/plugins/maven-verifier-plugin/[Maven Verifier Plugi
 write tests to check for the existence of files or the absence of files but in the end it is
 very limited.
 
+//TODO: Enhance here with more details?
+
 === Maven Verifier Component
 
 The https://maven.apache.org/shared/maven-verifier/[Maven Verifier Component] is intended to write a
 kind of tests:
 
-* You can set the command line parameters for an executed instance of
-Maven like `-s`, `-X` etc.
+* You can set the command line parameters for an executed instance of Maven like `-s`, `-X` etc.
 * Execute goals like `package` or a like.
 * It contains some methods like `assertFilePresent`, `assertFileMatches`,
    `verifyArtifactPresence` etc. but not a comprehensive set of methods.
@@ -51,7 +53,8 @@ is intended to write tests for using parameters correctly and several other setu
 the test setup is separated into a unit test like part in code and a part which
 is pom like
 
-* It's bound to versions of Maven core which might caused issues testing other versions of Maven.
+* It's bound to versions of Maven core which might caused issues during testing with other versions
+  of Maven.
 
 //TODO: RECONSIDER this content...
 
@@ -65,7 +68,7 @@ as on...
 
 It is needed to have a combination of Maven Invoker Plugin, Maven Verifier etc. into
 a single Testing framework which should make it possible to make integration tests
-easier to write and make them more expressive what the idea of the tests is.
+easier to write and make them more expressive what the idea of a tests is.
 
 Furthermore it would be helpful to have an integration into IDE with support of them.
 
@@ -108,9 +111,9 @@ class FirstMavenIT {
 == Concept
 
 Idea is to create an https://junit.org/junit5/[JUnit Jupiter extension] which supports writing
-integration tests for Maven plugins etc. in a convenient way. Also is to make custom assertions with
-https://assertj.github.io/doc/[AssertJ] library which makes it easier to express the intention of a
-test.
+integration tests for Maven plugins etc. in a convenient way. Also it would make sense to make
+custom assertions with https://assertj.github.io/doc/[AssertJ] library which makes it easier to
+express the intention of a test.
 
 //TODO: Also thinking of the integration tests of Maven itself.
 
@@ -166,8 +169,8 @@ src
                       +-- FirstIT.java
 ----
 //TODO: Reconsider the following paragraph (content? move to somewhere else)
-The convention is simply by mapping the method name into a directory. The `resources`
-directory is the location where to find the project for the integration tests. Basic
+The convention is simply by mapping the method name (including the package name) into a directory.
+The `resources `directory is the location where to find the project for the integration tests. Basic
 start is the class name `FirstIT` which defines the base directory for each test case.
 
 The intermediate directory `maven-its` is intended to separate the usual resources from the

@@ -172,6 +172,26 @@
       </testResource>
     </testResources>
     <plugins>
+      <!--
+       ! Currently a hack to copy the artifacts of the plugin/extension under tests
+       ! into a location which can be used by integration tests until we have our own
+       ! plugin doing this.
+      -->
+      <plugin>
+        <artifactId>maven-invoker-plugin</artifactId>
+        <version>3.2.1</version>
+        <executions>
+          <execution>
+            <id>install-artifacts</id>
+            <goals>
+              <goal>install</goal>
+            </goals>
+            <configuration>
+              <localRepositoryPath>${project.build.directory}/invoker-repo</localRepositoryPath>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
         <configuration>

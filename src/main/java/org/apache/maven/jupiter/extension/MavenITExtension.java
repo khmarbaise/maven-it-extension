@@ -72,6 +72,9 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
 
   private static final Namespace NAMESPACE_MAVEN_IT = Namespace.create(MavenITExtension.class);
 
+  private static final String TARGET_DIRECTORY = "TARGET_DIRECTORY";
+
+
   private Optional<MavenIT> findMavenIt(ExtensionContext context) {
     Optional<ExtensionContext> current = Optional.of(context);
     while (current.isPresent()) {
@@ -105,6 +108,7 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
 
     Store store = context.getStore(NAMESPACE_MAVEN_IT);
     store.put(Result.BaseDirectory, mavenItBaseDirectory);
+    store.put(TARGET_DIRECTORY, DirectoryHelper.getTargetDir());
   }
 
   @Override
@@ -147,6 +151,7 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
 
     Store nameSpace = context.getStore(NAMESPACE_MAVEN_IT);
     File mavenItBaseDirectory = nameSpace.get(Result.BaseDirectory, File.class);
+    File targetDirectory = nameSpace.get(TARGET_DIRECTORY, File.class);
 
     Method methodName = context.getTestMethod().orElseThrow(() -> new IllegalStateException("No method given"));
 
@@ -168,6 +173,9 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
 
     String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass.getPackage(),
         testClass.getSimpleName());
+
+    //FIXME: Copy artifacts from maven-invoker-plugin:install location into each cache
+    FileUtils.copyDirectory(new File(targetDirectory, "invoker-repo"), cacheDirectory);
 
     //FIXME: Removed hard coded parts.
     File mavenItsBaseDirectory = new File(DirectoryHelper.getTargetDir(), "test-classes/maven-its");
