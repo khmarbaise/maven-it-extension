@@ -49,13 +49,13 @@ class MavenIntegrationIT {
   }
 
   @MavenTest
-  @Order(11)
+  @Order(20)
   @DisplayName("where setup two is needed.")
   void setup_2(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
 
-  @MavenTest(debug = true, goals = {"verify"})
+  @MavenTest(debug = true, goals = {"clean", "verify"})
   @DisplayName("and the test case tries to check for resultion issue.")
   void first_integration_test(MavenExecutionResult result) {
     System.out.println("MavenIntegrationIT.first_integration_test rc:" + result.getReturnCode());

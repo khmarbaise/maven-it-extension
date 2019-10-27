@@ -34,6 +34,9 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.PreconditionViolationException;
 
+/**
+ * @author Karl Heinz Marbaise
+ */
 class AnnotationHelperTest {
 
   private Method createMavenTestAnnotationForDefaults() {
@@ -209,10 +212,10 @@ class AnnotationHelperTest {
     }
 
     @Test
-    @DisplayName("return the default value which is { 'clean', 'package' }")
+    @DisplayName("return the default value which is {} (empty)")
     void should_return_default_value() {
       Method mavenTestAnnotationForDefaults = createMavenTestAnnotationForDefaults();
-      assertThat(AnnotationHelper.getGoals(mavenTestAnnotationForDefaults)).containsExactly("clean", "package");
+      assertThat(AnnotationHelper.getGoals(mavenTestAnnotationForDefaults)).isEmpty();
     }
 
   }
@@ -243,7 +246,7 @@ class AnnotationHelperTest {
     @DisplayName("return true for defined default goals.")
     void should_return_true_for_active_profiles() {
       Method mavenTestAnnotation = createMavenTestAnnotationForDefaults();
-      assertThat(AnnotationHelper.hasGoals(mavenTestAnnotation)).isTrue();
+      assertThat(AnnotationHelper.hasGoals(mavenTestAnnotation)).isFalse();
     }
 
     @Test
