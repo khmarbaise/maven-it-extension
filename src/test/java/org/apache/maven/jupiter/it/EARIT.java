@@ -40,7 +40,8 @@ import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
  *
  * @author Karl Heinz Marbaise
  */
-@MavenIT class EARIT {
+@MavenIT
+class EARIT {
 
   @MavenTest
   void basic(MavenExecutionResult result, MavenProjectResult project) {
