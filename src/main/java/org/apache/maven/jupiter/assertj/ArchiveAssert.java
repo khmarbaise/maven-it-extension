@@ -20,6 +20,7 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
     super(earFile, ArchiveAssert.class);
     this.model = model;
     this.includes = new ArrayList<>();
+    //TODO: currently ignore maven files and MANIFEST.MF
     ignoreMavenFiles();
     ignoreManifest();
   }
