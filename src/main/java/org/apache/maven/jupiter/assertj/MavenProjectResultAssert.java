@@ -78,7 +78,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
       failWithMessage("The ear file <%s> does not exist or can not be read.", earFile.getAbsolutePath());
     }
 
-    return new ArchiveAssert(earFile, this.actual.getModel());
+    return new ArchiveAssert(earFile, this.actual.getModel(), this.myself);
   }
 
   public ArchiveAssert withJarFile() {
@@ -92,7 +92,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     if (!jarFile.isFile() && !jarFile.canRead()) {
       failWithMessage("The ear file <%s> does not exist or can not be read.", jarFile.getAbsolutePath());
     }
-    return new ArchiveAssert(jarFile, this.actual.getModel());
+    return new ArchiveAssert(jarFile, this.actual.getModel(), this.myself);
   }
 
   public ArchiveAssert withWarFile() {
@@ -106,7 +106,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     if (!warFile.isFile() && !warFile.canRead()) {
       failWithMessage("The ear file <%s> does not exist or can not be read.", warFile.getAbsolutePath());
     }
-    return new ArchiveAssert(warFile, this.actual.getModel());
+    return new ArchiveAssert(warFile, this.actual.getModel(), this.myself);
   }
 
   public ArchiveAssert withRarFile() {
@@ -120,7 +120,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     if (!rarFile.isFile() && !rarFile.canRead()) {
       failWithMessage("The ear file <%s> does not exist or can not be read.", rarFile.getAbsolutePath());
     }
-    return new ArchiveAssert(rarFile, this.actual.getModel());
+    return new ArchiveAssert(rarFile, this.actual.getModel(), this.myself);
   }
 
   public MavenProjectResultAssert contains(List<String> files) {

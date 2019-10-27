@@ -16,10 +16,13 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
 
   private List<String> includes;
 
-  ArchiveAssert(File earFile, Model model) {
+  private MavenProjectResultAssert parent;
+
+  ArchiveAssert(File earFile, Model model, MavenProjectResultAssert parent) {
     super(earFile, ArchiveAssert.class);
     this.model = model;
     this.includes = new ArrayList<>();
+    this.parent = parent;
     //TODO: currently ignore maven files and MANIFEST.MF
     ignoreMavenFiles();
     ignoreManifest();
@@ -71,4 +74,7 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
     return myself;
   }
 
+  public MavenProjectResultAssert and() {
+    return this.parent;
+  }
 }
