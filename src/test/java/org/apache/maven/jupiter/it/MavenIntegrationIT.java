@@ -30,8 +30,8 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
 
 /**
- * The following test cases are related together cause they are sharing a common cache. Furthermore the test cases or
- * running in a given order (defined by Order annotation).
+ * The following test cases are related together cause they are sharing a common cache {@code @MavenIT(mavenCache =
+ * MavenCache.Global)}. Furthermore the {@code setup*} cases or running in a given order (defined by Order annotation).
  *
  * @author Karl Heinz Marbaise
  */
