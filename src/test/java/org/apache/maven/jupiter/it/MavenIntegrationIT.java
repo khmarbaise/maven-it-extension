@@ -25,6 +25,7 @@ import org.apache.maven.jupiter.extension.MavenIT;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenCache;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -35,23 +36,27 @@ import org.junit.jupiter.api.TestMethodOrder;
  *
  * @author Karl Heinz Marbaise
  */
-@MavenIT(mavenCache = MavenCache.Global)
+@MavenIT(mavenCache = MavenCache.Global, goals = {"install"})
 @TestMethodOrder(OrderAnnotation.class)
+@DisplayName("This is integration test Nr. 1")
 class MavenIntegrationIT {
 
-  @MavenTest(goals = {"clean", "install"})
+  @MavenTest
   @Order(10)
+  @DisplayName("where setup one is needed.")
   void setup(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
 
-  @MavenTest(goals = {"clean", "install"})
+  @MavenTest
   @Order(11)
+  @DisplayName("where setup two is needed.")
   void setup_2(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
 
-  @MavenTest(debug = true)
+  @MavenTest(debug = true, goals = {"verify"})
+  @DisplayName("and the test case tries to check for resultion issue.")
   void first_integration_test(MavenExecutionResult result) {
     System.out.println("MavenIntegrationIT.first_integration_test rc:" + result.getReturnCode());
     assertThat(result).isSuccessful();

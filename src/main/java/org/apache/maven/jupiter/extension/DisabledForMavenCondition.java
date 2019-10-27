@@ -34,12 +34,7 @@ import org.junit.platform.commons.util.Preconditions;
  */
 public class DisabledForMavenCondition implements ExecutionCondition {
 
-  //FIXME: Need to reconsider how to evaluate the maven version which is running?
-//  static final ConditionEvaluationResult ENABLED_ON_CURRENT_JRE = //
-//      enabled("Enabled on JRE version: " + System.getProperty("java.version"));
-//
-//  static final ConditionEvaluationResult DISABLED_ON_CURRENT_JRE = //
-//      disabled("Disabled on JRE version: " + System.getProperty("java.version"));
+  //FIXME: Need to reconsider how to evaluate the maven version which is running? before we start the test case?
 
   private static final ConditionEvaluationResult ENABLED_BY_DEFAULT = enabled("@DisabledForMaven is not present");
 
@@ -49,8 +44,8 @@ public class DisabledForMavenCondition implements ExecutionCondition {
     if (optional.isPresent()) {
       MavenVersion[] versions = optional.get().versions();
       Preconditions.condition(versions.length > 0, "You must declare at least one version in @DisabledForMaven");
-//      return (Arrays.stream(versions).anyMatch(JRE::isCurrentVersion)) ? ENABLED_ON_CURRENT_JRE
-//          : DISABLED_ON_CURRENT_JRE;
+//      return (Arrays.stream(versions).anyMatch(MavenVersion::isCurrentVersion)) ? ENABLED_ON_CURRENT_MAVEN_VERSION
+//          : XXXX;
     }
     return ENABLED_BY_DEFAULT;
   }

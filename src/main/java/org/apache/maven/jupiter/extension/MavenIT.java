@@ -31,20 +31,38 @@ import org.apache.maven.jupiter.extension.maven.MavenVersion;
 import org.apiguardian.api.API;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+/**
+ * @author Karl Heinz Marbaise
+ */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @ExtendWith(MavenITExtension.class)
 @Documented
 @API(status = EXPERIMENTAL, since = "0.1")
-/**
- * @author Karl Heinz Marbaise
- */
 public @interface MavenIT {
 
+  //TODO: Reconsider?
   MavenVersion[] versions() default MavenVersion.M3_6_2;
 
+  /**
+   * @return {@link MavenCache}
+   */
   MavenCache mavenCache() default MavenCache.Local;
 
-  boolean mavenDebug() default false;
+  /**
+   * Defines the goals which are being executed by default for
+   * all test cases within the class.
+   *
+   * @return The default goals which is executed is {@code package}.
+   */
+  String[] goals() default {"package"};
+
+
+  /**
+   * This can be used to activate debugging output within the maven build {@code -X} option.
+   *
+   * @return {@code true} or {@code false}
+   */
+  boolean debug() default false;
 
 }
