@@ -78,13 +78,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
       failWithMessage("The ear file <%s> does not exist or can not be read.", earFile.getAbsolutePath());
     }
 
-    JarFile earArchive = null; //TODO: Can we make that better?
-    try {
-      earArchive = new JarFile(earFile);
-    } catch (IOException e) {
-      failWithMessage("The ear file caused an exception. <%s>", e.getMessage());
-    }
-    return new ArchiveAssert(earArchive, this.actual.getModel());
+    return new ArchiveAssert(earFile, this.actual.getModel());
   }
 
   public MavenProjectResultAssert withJarFile() {

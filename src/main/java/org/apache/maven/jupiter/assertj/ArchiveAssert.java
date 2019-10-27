@@ -1,5 +1,6 @@
 package org.apache.maven.jupiter.assertj;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,16 +10,18 @@ import org.apache.maven.model.Model;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 
-public class ArchiveAssert extends AbstractAssert<ArchiveAssert, JarFile> {
+public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
 
   private Model model;
 
   private List<String> includes;
 
-  ArchiveAssert(JarFile earFile, Model model) {
+  ArchiveAssert(File earFile, Model model) {
     super(earFile, ArchiveAssert.class);
     this.model = model;
     this.includes = new ArrayList<>();
+    ignoreMavenFiles();
+    ignoreManifest();
   }
 
   /**
@@ -43,7 +46,7 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, JarFile> {
   }
 
   public ArchiveAssert doesNotContain(String... files) {
-    try (JarFile jarFile = this.actual) {
+    try (JarFile jarFile = new JarFile(this.actual)) {
       List<String> includes = Arrays.asList(files);
       Assertions.assertThat(jarFile.stream())
           .describedAs("Checking ear file names.")
@@ -56,7 +59,7 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, JarFile> {
   }
 
   public ArchiveAssert containsOnlyOnce(String... files) {
-    try (JarFile jarFile = this.actual) {
+    try (JarFile jarFile = new JarFile(this.actual)) {
       Assertions.assertThat(jarFile.stream())
           .describedAs("Checking ear file names.")
           .extracting(jarEntry -> jarEntry.getName())
@@ -66,6 +69,5 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, JarFile> {
     }
     return myself;
   }
-
 
 }
