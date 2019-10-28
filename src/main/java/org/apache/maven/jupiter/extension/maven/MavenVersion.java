@@ -73,7 +73,6 @@ public enum MavenVersion {
    * executed Maven version.
    */
   public boolean isCurrentVersion() {
-    System.out.println("this:" + this.getVersionString() + " CURRENT:" + CURRENT_MAVEN_VERSION.getVersionString());
     return this == CURRENT_MAVEN_VERSION;
   }
 

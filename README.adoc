@@ -445,6 +445,15 @@ only for Maven 3.6.0?
 [source,java]
 .ForthMavenIT.java
 ----
+import static org.apache.maven.jupiter.assertj.MavenExecutionResultAssert.assertThat;
+import static org.apache.maven.jupiter.extension.maven.MavenVersion.M3_0_5;
+import static org.apache.maven.jupiter.extension.maven.MavenVersion.M3_6_0;
+
+import org.apache.maven.jupiter.extension.DisabledForMaven;
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+
 @MavenIT
 class FirstMavenIT {
 

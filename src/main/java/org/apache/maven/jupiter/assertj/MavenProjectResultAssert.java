@@ -50,7 +50,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
   public MavenProjectResultAssert hasTarget() {
     isNotNull();
     File target = new File(this.actual.getBaseDir(), "target");
-    if (!target.isDirectory() && !target.exists()) {
+    if (!target.isDirectory() && !target.exists() && !target.isHidden()) {
       failWithMessage("The target directory of <%s> does not exist.", actual.getBaseDir().getAbsolutePath());
     }
     return myself;
@@ -59,7 +59,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
   public MavenProjectResultAssert has(String directory) {
     isNotNull();
     File target = new File(this.actual.getBaseDir(), directory);
-    if (!target.isDirectory() && !target.exists()) {
+    if (!target.isDirectory() && !target.exists() && !target.isHidden()) {
       failWithMessage("The given directory <%s> of <%s> does not exist.", directory,
           actual.getBaseDir().getAbsolutePath());
     }
