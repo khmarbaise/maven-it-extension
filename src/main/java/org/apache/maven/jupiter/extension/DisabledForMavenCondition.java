@@ -52,7 +52,7 @@ class DisabledForMavenCondition implements ExecutionCondition {
   public ConditionEvaluationResult evaluateExecutionCondition(ExtensionContext context) {
     Optional<DisabledForMaven> optional = findAnnotation(context.getElement(), DisabledForMaven.class);
     if (optional.isPresent()) {
-      MavenVersion[] versions = optional.get().versions();
+      MavenVersion[] versions = optional.get().value();
       Preconditions.condition(versions.length > 0, "You must declare at least one version in @DisabledForMaven");
       return Stream.of(versions).anyMatch(MavenVersion::isCurrentVersion) ? DISABLED_ON_CURRENT_MAVEN_VERSION
           : ENABLED_ON_CURRENT_MAVEN_VERSION;

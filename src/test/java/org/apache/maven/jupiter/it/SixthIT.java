@@ -29,7 +29,7 @@ import org.apache.maven.jupiter.extension.maven.MavenCache;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 
 @MavenIT(mavenCache = MavenCache.Global)
-@DisabledForMaven(versions = M3_6_2)
+@DisabledForMaven(value = M3_6_2)
 class SixthIT {
 
   @MavenTest

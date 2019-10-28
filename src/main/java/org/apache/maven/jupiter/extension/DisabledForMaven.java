@@ -68,5 +68,5 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @API(status = EXPERIMENTAL, since = "0.1")
 public @interface DisabledForMaven {
 
-  MavenVersion[] versions();
+  MavenVersion[] value();
 }
