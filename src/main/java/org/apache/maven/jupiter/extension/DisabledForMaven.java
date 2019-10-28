@@ -30,14 +30,42 @@ import org.apache.maven.jupiter.extension.maven.MavenVersion;
 import org.apiguardian.api.API;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-@Target({ ElementType.TYPE, ElementType.METHOD })
+/**
+ * {@code @DisabledForMaven} is used to signal that the annotated test class or test method is <em>disabled</em> on one
+ * or more specified Maven version which the tests are being run with.
+ *
+ * <p>When applied at the class level, all test methods within that class
+ * will be disabled on the same specified Maven version.
+ *
+ * <p>If a test method is disabled via this annotation, that does not prevent
+ * the test class from being instantiated. Rather, it prevents the execution of the test method and method-level
+ * lifecycle callbacks such as {@code @BeforeEach} methods, {@code @AfterEach} methods, and corresponding extension
+ * APIs.
+ *
+ * <p>This annotation may be used as a meta-annotation in order to create a
+ * custom <em>composed annotation</em> that inherits the semantics of this annotation.
+ *
+ * <h4>Warning</h4>
+ *
+ * @author Karl Heinz Marbaise
+ * @see org.apache.maven.jupiter.extension.maven.MavenVersion
+ * @see org.junit.jupiter.api.condition.EnabledOnOs
+ * @see org.junit.jupiter.api.condition.EnabledOnJre
+ * @see org.junit.jupiter.api.condition.DisabledOnJre
+ * @see org.junit.jupiter.api.condition.EnabledForJreRange
+ * @see org.junit.jupiter.api.condition.DisabledForJreRange
+ * @see org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
+ * @see org.junit.jupiter.api.condition.DisabledIfEnvironmentVariable
+ * @see org.junit.jupiter.api.condition.EnabledIfSystemProperty
+ * @see org.junit.jupiter.api.condition.DisabledIfSystemProperty
+ * @see org.junit.jupiter.api.Disabled
+ * @since 0.1
+ */
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @ExtendWith(DisabledForMavenCondition.class)
 @API(status = EXPERIMENTAL, since = "0.1")
-/**
- * @author Karl Heinz Marbaise
- */
 public @interface DisabledForMaven {
 
   MavenVersion[] versions();

@@ -24,7 +24,7 @@ import org.junit.platform.commons.util.Preconditions;
 /**
  * @author Karl Heinz Marbaise
  */
-public final class GoalPriority {
+final class GoalPriority {
 
   /**
    * The goals which are defined by {@link MavenTest} can overwrite the goals defined by {@link MavenIT}. In {@link
@@ -34,7 +34,7 @@ public final class GoalPriority {
    * @param mavenTestGoals The goals which are defined in {@link MavenTest}
    * @return The goals which are defined by {@link MavenTest} if have been overwritten.
    */
-  public static String[] goals(String[] mavenITGoals, String[] mavenTestGoals) {
+  static String[] goals(String[] mavenITGoals, String[] mavenTestGoals) {
     Preconditions.notNull(mavenITGoals, "mavenITGoals is not allowed to be null.");
     Preconditions.notNull(mavenTestGoals, "mavenTestGoals is not allowed to be null.");
     if (mavenTestGoals.length == 0) {

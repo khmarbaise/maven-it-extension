@@ -71,14 +71,14 @@ public class ApplicationExecutor {
     //    applicationArguments.addAll(Arrays.asList("-jar", application.getAbsolutePath()));
     applicationArguments.addAll(startArguments);
 
-    applicationArguments.forEach(s -> System.out.println("arguments = " + s));
+//    applicationArguments.forEach(s -> System.out.println("arguments = " + s));
 
     ProcessBuilder pb = new ProcessBuilder(applicationArguments);
     Map<String, String> environment = pb.environment();
-    environment.entrySet()
-        .stream()
-        .forEach(stringStringEntry -> System.out.println(
-            "environment k:" + stringStringEntry.getKey() + " v:" + stringStringEntry.getValue()));
+//    environment.entrySet()
+//        .stream()
+//        .forEach(stringStringEntry -> System.out.println(
+//            "environment k:" + stringStringEntry.getKey() + " v:" + stringStringEntry.getValue()));
     pb.redirectError(new File(loggingDirectory, this.prefix + "-stderr.out"));
     pb.redirectOutput(new File(loggingDirectory, this.prefix + "-stdout.out"));
     pb.directory(workingDirectory);

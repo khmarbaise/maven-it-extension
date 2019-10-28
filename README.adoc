@@ -567,6 +567,12 @@ The following are example how an integration test could look like:
 [source,java]
 .UnknownMavenIT.java
 ----
+import static org.apache.maven.jupiter.assertj.MavenProjectResultAssert.assertThat;
+
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
+
 @MavenIT
 class FirstMavenIT {
 

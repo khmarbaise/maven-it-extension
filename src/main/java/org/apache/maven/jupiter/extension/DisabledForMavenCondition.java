@@ -19,10 +19,12 @@ package org.apache.maven.jupiter.extension;
  * under the License.
  */
 
+import static org.junit.jupiter.api.extension.ConditionEvaluationResult.disabled;
 import static org.junit.jupiter.api.extension.ConditionEvaluationResult.enabled;
 import static org.junit.platform.commons.util.AnnotationUtils.findAnnotation;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.apache.maven.jupiter.extension.maven.MavenVersion;
 import org.junit.jupiter.api.extension.ConditionEvaluationResult;
 import org.junit.jupiter.api.extension.ExecutionCondition;
@@ -30,11 +32,19 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.platform.commons.util.Preconditions;
 
 /**
+ * {@link ExecutionCondition} for {@link DisabledForMaven @DisableForMaven}.
+ *
  * @author Karl Heinz Marbaise
+ * @see DisabledForMaven
+ * @since 0.1
  */
-public class DisabledForMavenCondition implements ExecutionCondition {
+class DisabledForMavenCondition implements ExecutionCondition {
 
-  //FIXME: Need to reconsider how to evaluate the maven version which is running? before we start the test case?
+  static final ConditionEvaluationResult ENABLED_ON_CURRENT_MAVEN_VERSION = //
+      enabled("Enabled on Maven version: " + System.getProperty("maven.version"));
+
+  static final ConditionEvaluationResult DISABLED_ON_CURRENT_MAVEN_VERSION = //
+      disabled("Disabled on Maven version: " + System.getProperty("maven.version"));
 
   private static final ConditionEvaluationResult ENABLED_BY_DEFAULT = enabled("@DisabledForMaven is not present");
 
@@ -44,8 +54,8 @@ public class DisabledForMavenCondition implements ExecutionCondition {
     if (optional.isPresent()) {
       MavenVersion[] versions = optional.get().versions();
       Preconditions.condition(versions.length > 0, "You must declare at least one version in @DisabledForMaven");
-//      return (Arrays.stream(versions).anyMatch(MavenVersion::isCurrentVersion)) ? ENABLED_ON_CURRENT_MAVEN_VERSION
-//          : XXXX;
+      return Stream.of(versions).anyMatch(MavenVersion::isCurrentVersion) ? DISABLED_ON_CURRENT_MAVEN_VERSION
+          : ENABLED_ON_CURRENT_MAVEN_VERSION;
     }
     return ENABLED_BY_DEFAULT;
   }
