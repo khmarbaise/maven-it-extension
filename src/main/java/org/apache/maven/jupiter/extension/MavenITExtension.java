@@ -70,7 +70,6 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
 
   private static final String TARGET_DIRECTORY = "TARGET_DIRECTORY";
 
-
   private Optional<MavenIT> findMavenIt(ExtensionContext context) {
     Optional<ExtensionContext> current = Optional.of(context);
     while (current.isPresent()) {
@@ -97,7 +96,7 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     File baseDirectory = new File(DirectoryHelper.getTargetDir(), "maven-it");
     String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass.getPackage(),
         testClass.getSimpleName());
-//    System.out.println("toFullyQualifiedPath = " + toFullyQualifiedPath);
+    //    System.out.println("toFullyQualifiedPath = " + toFullyQualifiedPath);
 
     File mavenItBaseDirectory = new File(baseDirectory, toFullyQualifiedPath);
     mavenItBaseDirectory.mkdirs();
@@ -109,25 +108,25 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
 
   @Override
   public void postProcessTestInstance(Object testInstance, ExtensionContext context) {
-//    System.out.println("MavenITExtension.postProcessTestInstance " + context.getUniqueId());
+    //    System.out.println("MavenITExtension.postProcessTestInstance " + context.getUniqueId());
   }
 
   @Override
   public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
-//    System.out.println("MavenITExtension.supportsParameter");
+    //    System.out.println("MavenITExtension.supportsParameter");
     List<Class<?>> availableTypes = Arrays.asList(MavenExecutionResult.class, MavenLog.class, MavenCacheResult.class,
         MavenProjectResult.class);
-//    System.out.println(" --> Checking for " + availableTypes);
-//    System.out.println(
-//        "     parameterContext.getParameter().getName() = " + parameterContext.getParameter().getParameterizedType());
+    //    System.out.println(" --> Checking for " + availableTypes);
+    //    System.out.println(
+    //        "     parameterContext.getParameter().getName() = " + parameterContext.getParameter().getParameterizedType());
     return availableTypes.contains(parameterContext.getParameter().getParameterizedType());
   }
 
   @Override
   public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
-//    System.out.println(" --> MavenITExtension.resolveParameter");
+    //    System.out.println(" --> MavenITExtension.resolveParameter");
 
     Store nameSpace = extensionContext.getStore(NAMESPACE_MAVEN_IT);
 
@@ -141,7 +140,7 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
 
   @Override
   public void beforeTestExecution(ExtensionContext context) throws IOException, InterruptedException {
-//    System.out.println("MavenITExtension.beforeTestExecution");
+    //    System.out.println("MavenITExtension.beforeTestExecution");
     AnnotatedElement annotatedElement = context.getElement()
         .orElseThrow(() -> new IllegalStateException("MavenIT Annotation not found."));
 
@@ -153,7 +152,7 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
 
     Class<?> testClass = context.getTestClass().orElseThrow(() -> new IllegalStateException("Test class not found."));
     MavenIT mavenIT = testClass.getAnnotation(MavenIT.class);
-//    System.out.println("mavenIT = " + mavenIT);
+    //    System.out.println("mavenIT = " + mavenIT);
 
     File integrationTestCaseDirectory = new File(mavenItBaseDirectory, methodName.getName());
     integrationTestCaseDirectory.mkdirs();
@@ -176,12 +175,16 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     //FIXME: Removed hard coded parts.
     File mavenItsBaseDirectory = new File(DirectoryHelper.getTargetDir(), "test-classes/maven-its");
     File copyMavenPluginProject = new File(mavenItsBaseDirectory, toFullyQualifiedPath + "/" + methodName.getName());
-//    System.out.println(
-//        "copyMavenPluginProject = " + copyMavenPluginProject + " projectDirectory = " + projectDirectory);
+    //    System.out.println(
+    //        "copyMavenPluginProject = " + copyMavenPluginProject + " projectDirectory = " + projectDirectory);
     FileUtils.copyDirectory(copyMavenPluginProject, projectDirectory);
 
     String mavenHome = System.getProperty("maven.home");
     System.out.println("mavenHome = " + mavenHome);
+    if (mavenHome == null || mavenHome.isEmpty()) {
+      // currently not set; using hard coded path? Need to reconsider how to set it?
+      mavenHome = "/Users/khmarbaise/tools/maven";
+    }
     //FIXME: Very likely we need to tweak for Windows environment?
     String mvnLocation = mavenHome + "/bin/mvn";
 
@@ -235,12 +238,12 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
 
   @Override
   public void afterTestExecution(ExtensionContext context) {
-//    System.out.println("MavenITExtension.afterTestExecution");
+    //    System.out.println("MavenITExtension.afterTestExecution");
   }
 
   @Override
   public void afterAll(ExtensionContext context) {
-//    System.out.println("MavenITExtension.afterAll root:" + context.getUniqueId());
+    //    System.out.println("MavenITExtension.afterAll root:" + context.getUniqueId());
   }
 
   private enum Result {
