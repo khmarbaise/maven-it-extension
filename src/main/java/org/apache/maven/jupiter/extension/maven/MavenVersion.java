@@ -32,7 +32,7 @@ import org.junit.platform.commons.util.StringUtils;
  */
 @API(status = EXPERIMENTAL, since = "0.1")
 public enum MavenVersion {
-  UNKNOWN("UNKOWN"),
+  UNKNOWN("UNKOWN"), //TODO: Need to reconsider?
   M3_0_5("3.0.5"),
   M3_1_1("3.1.1"),
   M3_2_5("3.2.5"),
@@ -58,6 +58,7 @@ public enum MavenVersion {
 
   private static MavenVersion determineCurrentVersion() {
     String currentVersion = System.getProperty("maven.version");
+    //TODO: Think about usage of interal API?
     if (StringUtils.isBlank(currentVersion)) {
       logger.debug(
           () -> "JVM system property 'maven.version' is undefined. It is therefore not possible to detect Maven version.");

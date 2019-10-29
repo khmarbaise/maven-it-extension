@@ -26,29 +26,29 @@ import java.nio.file.Paths;
 /**
  * @author Karl Heinz Marbaise
  */
-public class DirectoryHelper {
+class DirectoryHelper {
 
 
-  public static File getMavenBaseDir() {
+  static File getMavenBaseDir() {
     return new File(System.getProperty("basedir", System.getProperty("user.dir", ".")));
   }
 
-  public static String toFullyQualifiedPath(final Package context, final String resourceName) {
+  static String toFullyQualifiedPath(final Package context, final String resourceName) {
     return context.getName().replace('.', '/') + "/" + resourceName;
   }
-  public static String toFullyQualifiedPath(final Package context) {
+  static String toFullyQualifiedPath(final Package context) {
     return toFullyQualifiedPath(context, "");
   }
 
   /**
    * Return the target directory of the current project.
    */
-  public static File getTargetDir() {
+  static File getTargetDir() {
     return new File(getMavenBaseDir(), "target");
   }
 
   // https://stackoverflow.com/a/1184263/1431016
-  public static Path path(String string) {
+  static Path path(String string) {
     char escape = '%'; // ... or some other legal char.
     int len = string.length();
     StringBuilder builder = new StringBuilder(len);
