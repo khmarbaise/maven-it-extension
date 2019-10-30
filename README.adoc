@@ -8,6 +8,10 @@
 :maven-verifier: https://maven.apache.org/shared/maven-verifier/[Maven Verifier]
 :github-versions-maven-plugin: https://github.com/mojohaus/versions-maven-plugin[Versions Maven Plugin]
 :maven-ear-plugin-build: https://builds.apache.org/view/M-R/view/Maven/job/maven-box/job/maven-ear-plugin/job/master/[Apache Maven EAR Plugin Builds]
+:maven-invoker-properties: https://maven.apache.org/plugins/maven-invoker-plugin/integration-test-mojo.html#invokerPropertiesFile[`invoker.properties`].
+:maven-plugin-testing-harness: https://maven.apache.org/plugin-testing/maven-plugin-testing-harness/index.html[Maven Plugin Testing Harness]
+:maven-core-it-example: https://github.com/apache/maven-integration-testing/blob/master/core-it-suite/src/test/java/org/apache/maven/it/MavenIT0041ArtifactTypeFromPluginExtensionTest.java[Example of Maven Integration Test]
+
 
 = Overview
 
@@ -19,12 +23,13 @@ We will use some terms in this document:
 
 === Maven Invoker Plugin
 
-In https://maven.apache.org/plugins/maven-invoker-plugin/[Maven Invoker Plugin] the following issues
-exist:
+In {maven-invoker-plugin} the following issues exist:
 
 * Parallelizing does not work and is not easy to integrate based on
   current concept and code base.
-* Separating caches (aka repositories) for each build is hard to implement
+** Apart from being implemented it would hard to express the prevention
+of parallel execution in some situations.
+* Separating caches for each build is hard to implement
 * Get a common cache for a set of integration tests is even harder.
 * A Concept like `BeforeEach` or `BeforeAll` is current not really possible.
 ** The concept with `setup` project is not correctly working at the moment.
@@ -65,10 +70,9 @@ process with Maven (something like starting Maven on command line.).
 
 === Maven Plugin Testing Harness
 
-The https://maven.apache.org/plugin-testing/maven-plugin-testing-harness/index.html[Maven Plugin Testing Harness]
-is intended to write tests for using parameters correctly and several other setup situations but
-the test setup is separated into a unit test like part in code and a part which
-is pom like
+The {maven-plugin-testing-harness}is intended to write tests for using parameters correctly and
+several other setup situations but the test setup is separated into a unit test like part in code
+and a part which is pom like
 
 * It's bound to versions of Maven core which might caused issues during testing with other versions
   of Maven.
