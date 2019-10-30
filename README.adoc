@@ -7,6 +7,7 @@
 :maven-invoker-plugin: https://maven.apache.org/plugins/maven-invoker-plugin[Maven Invoker Plugin]
 :maven-verifier: https://maven.apache.org/shared/maven-verifier/[Maven Verifier]
 :github-versions-maven-plugin: https://github.com/mojohaus/versions-maven-plugin[Versions Maven Plugin]
+:maven-ear-plugin-build: https://builds.apache.org/view/M-R/view/Maven/job/maven-box/job/maven-ear-plugin/job/master/[Apache Maven EAR Plugin Builds]
 
 = Overview
 
@@ -28,6 +29,9 @@ exist:
 * A Concept like `BeforeEach` or `BeforeAll` is current not really possible.
 ** The concept with `setup` project is not correctly working at the moment.
 * Writing integration tests forces one to write in Groovy or Beanshell.
+** This means to enhance the number of dependencies. In days of Java 5 until 7 it had been an
+advantage to use Groovy with it's supports for closures etc. which made it simpler and easier
+to write things for integration tests, but since JDK 8 it is not necessary anymore.
 * Integrationtests are not that expressive as they should be.
 * Violation of https://en.wikipedia.org/wiki/Separation_of_concerns[separation of concern paradigm]
 ** Conditions
@@ -70,6 +74,35 @@ is pom like
   of Maven.
 
 //TODO: RECONSIDER this content...
+
+=== Why not Spock?
+
+So you might ask why not using Spock or any other testing framework for such purposes?
+Let me summarize the different aspects I had in mind:
+
+* People often tend to write Java code (which is valid), cause
+they don't know Groovy or don't want to learn a new language
+just to write tests. This means in the end: Why Groovy? Just use Java.
+* It's much easier for new contributors/devs to get into the
+project if you only need to know Java to write plugins, unit
+tests and integration tests. So removing a supplemental
+hurdle will help.
+* Support for most recent Java versions which is a complete
+blocker for the Apache Maven project, cause the Apache Maven Project is  running builds
+in a very early stage which would block us (see our builds for example {maven-ear-plugin-build}).
+Currently spock is not yet tested/build against JDK11+ ?
+So having a Testing framework which might not work on most
+recent versions is a complete blocker.
+* In earlier days I would have argued to use Spock based
+on the language features but since JDK8 I don't see any advantage
+in using Groovy over Java anymore.
+* Spock does not support parallelizing of tests (full blocker for me)
+* Good IDE Support for Groovy is at the moment only given in
+IDEA IntelliJ as well as for DSL support for Spock.
+That would block many people. This blocker based on the usage
+of a particular IDE is not acceptable for an open source project
+like the Apache Maven Project and from my own point of view as
+an Apache Maven PMC member this is simply a no go.
 
 === Conclusion
 
