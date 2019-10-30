@@ -638,3 +638,66 @@ This is:
  * Currently it is not possible to define the version Maven only within the test case.
 Unfortunately we have to define it in the Maven pom which is used to download the needed package from Central.
 
+
+== TODO List
+
+ * Testing parallization looks already very good. The following run is using parallel execution
+ of the tests:
+
+```
+[INFO]
+[INFO] --- maven-failsafe-plugin:2.22.1:integration-test (default) @ maven-ear-plugin ---
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.apache.maven.plugins.ear.it.EARIT
+[WARNING] Tests run: 5, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 5.31 s - in org.apache.maven.plugins.ear.it.EARIT
+[INFO]
+[INFO] Results:
+[INFO]
+[WARNING] Tests run: 5, Failures: 0, Errors: 0, Skipped: 1
+[INFO]
+[INFO]
+[INFO] --- maven-checkstyle-plugin:3.0.0:check (checkstyle-check) @ maven-ear-plugin ---
+[INFO] There are 3 errors reported by Checkstyle 6.18 with config/maven_checks.xml ruleset.
+[INFO] Ignored 3 errors, 0 violation remaining.
+[INFO]
+[INFO] --- maven-failsafe-plugin:2.22.1:verify (default) @ maven-ear-plugin ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  17.844 s
+[INFO] Finished at: 2019-10-29T22:13:38+01:00
+[INFO] ------------------------------------------------------------------------
+```
+
+ * Testing without parallizing the tests:
+
+```
+[INFO]
+[INFO] --- maven-failsafe-plugin:2.22.1:integration-test (default) @ maven-ear-plugin ---
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.apache.maven.plugins.ear.it.EARIT
+[WARNING] Tests run: 5, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 10.786 s - in org.apache.maven.plugins.ear.it.EARIT
+[INFO]
+[INFO] Results:
+[INFO]
+[WARNING] Tests run: 5, Failures: 0, Errors: 0, Skipped: 1
+[INFO]
+[INFO]
+[INFO] --- maven-checkstyle-plugin:3.0.0:check (checkstyle-check) @ maven-ear-plugin ---
+[INFO] There are 3 errors reported by Checkstyle 6.18 with config/maven_checks.xml ruleset.
+[INFO] Ignored 3 errors, 0 violation remaining.
+[INFO]
+[INFO] --- maven-failsafe-plugin:2.22.1:verify (default) @ maven-ear-plugin ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  23.275 s
+[INFO] Finished at: 2019-10-29T22:15:38+01:00
+[INFO] ------------------------------------------------------------------------
+```

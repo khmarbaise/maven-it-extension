@@ -77,6 +77,17 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
     }
     return myself;
   }
+  public ArchiveAssert containsOnly(String... files) {
+    try (JarFile jarFile = new JarFile(this.actual)) {
+      Assertions.assertThat(jarFile.stream())
+          .describedAs("Checking ear file names.")
+          .extracting(jarEntry -> jarEntry.getName())
+          .containsOnly(files);
+    } catch (IOException e) {
+      failWithMessage("IOException happened. <%s> file:<%s>", e.getMessage());
+    }
+    return myself;
+  }
 
   public MavenProjectResultAssert and() {
     return this.parent;
