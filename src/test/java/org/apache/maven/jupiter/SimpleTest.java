@@ -21,12 +21,12 @@ package org.apache.maven.jupiter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.jupiter.api.Disabled;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
-@Disabled
 class SimpleTest {
 
   @Test
@@ -38,5 +38,41 @@ class SimpleTest {
     System.out.println("b = " + b);
 
     assertThat(earFiles).doesNotContain("X").containsOnlyOnce("B", "C");
+  }
+
+  List<String> convert(String[] inputList) {
+    List<String> result = new ArrayList<>();
+    for (String s : inputList) {
+      String[] split = s.split("/");
+      String tmp = split[0] + "/";
+      result.add(tmp);
+      for (int i = 1; i < split.length; i++) {
+        System.out.println("i = " + i + " '" + split[i] + "'");
+        tmp += split[i];
+        result.add(tmp);
+      }
+    }
+    return result;
+  }
+
+  @Test
+  void name() {
+    String[] files = {"META-INF/application.xml", "APP-INF/classes/foo.properties"};
+    String[] expectedResult = {"META-INF/", "META-INF/application.xml", "APP-INF/", "APP-INF/classes/",
+        "APP-INF/classes/foo.properties"};
+
+    Stream.of(files).forEach(s -> System.out.println("s = " + s));
+
+    List<String> actual = convert(files);
+    assertThat(actual).containsExactly(expectedResult);
+  }
+
+  @Test
+  void check_for_list() {
+    String[] expectedResult = {"META-INF/", "META-INF/application.xml", "APP-INF/", "APP-INF/classes/",
+        "APP-INF/classes/foo.properties"};
+
+    assertThat(expectedResult).allSatisfy(s -> s.startsWith("APP-INF"))
+        .contains("APP-INF/", "APP-INF/classes/", "APP-INF/classes/foo.properties");
   }
 }

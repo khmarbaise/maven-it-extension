@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.jar.JarFile;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.apache.maven.model.Model;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
@@ -39,8 +41,14 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
    */
   public ArchiveAssert ignoreMavenFiles() {
     this.includes.addAll(
-        Arrays.asList("META-INF/maven/" + this.model.getGroupId() + "/" + this.model.getArtifactId() + "pom.xml",
-            "META-INF/maven/" + this.model.getGroupId() + "/" + this.model.getArtifactId() + "pom.properties"));
+        Arrays.asList(
+            "META-INF/",
+            "META-INF/maven/",
+            "META-INF/maven/" + this.model.getGroupId() + "/",
+            "META-INF/maven/" + this.model.getGroupId() + "/" + this.model.getArtifactId() + "/",
+            "META-INF/maven/" + this.model.getGroupId() + "/" + this.model.getArtifactId() + "/pom.xml",
+            "META-INF/maven/" + this.model.getGroupId() + "/" + this.model.getArtifactId() + "/pom.properties")
+    );
     return myself;
   }
 
@@ -77,12 +85,20 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
     }
     return myself;
   }
+
   public ArchiveAssert containsOnly(String... files) {
+
+    List<String> splittedList = Stream.of(files).flatMap(s -> Stream.of(s.split("/"))).collect(Collectors.toList());
+
     try (JarFile jarFile = new JarFile(this.actual)) {
+      List<String> listOfEntries = new ArrayList<>();
+      listOfEntries.addAll(this.includes);
+      listOfEntries.addAll(Arrays.asList(files));
+      listOfEntries.addAll(splittedList);
       Assertions.assertThat(jarFile.stream())
           .describedAs("Checking ear file names.")
           .extracting(jarEntry -> jarEntry.getName())
-          .containsOnly(files);
+          .containsExactlyInAnyOrderElementsOf(listOfEntries);
     } catch (IOException e) {
       failWithMessage("IOException happened. <%s> file:<%s>", e.getMessage());
     }
