@@ -28,11 +28,11 @@ jobs:
   linux:
     name: 'Linux'
     runs-on: ubuntu-latest
-    container: junitteam/build:latest
+    container: "maven:3.6.2-jdk-8-slim"
     steps:
       - uses: actions/checkout@master
       - name: 'Test'
-        run: mvn -V --no-transfer-progress clean verify -Prun-its -Drat.ignoreErrors=true -Dmaven.test.failure.ignore -Dcheckstyle.skip=true
+        run: docker run -it --rm --name "${{ matrix.jdk }}" -v "$(pwd)":/usr/src/mymaven -w /usr/src/mymaven maven:3.6.2-jdk-8-slim mvn -V --no-transfer-progress clean verify -Prun-its -Drat.ignoreErrors=true -Dmaven.test.failure.ignore -Dcheckstyle.skip=true
 
   windows:
     name: 'Windows'
