@@ -6,9 +6,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.soebes.smpp</groupId>
-    <artifactId>smpp</artifactId>
-    <version>5.0.0</version>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-plugins</artifactId>
+    <version>33</version>
     <relativePath/>
   </parent>
 
@@ -20,7 +20,7 @@
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
     <!--
-     ! Stack Trace Ausgabe bei Tests vollständig.
+     ! full stack trace output in tests. 
     -->
     <trimStackTrace>false</trimStackTrace>
   </properties>
@@ -46,7 +46,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.0.0</version>
+        <version>3.1.0</version>
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
@@ -101,7 +101,7 @@
       <dependency>
         <groupId>net.bytebuddy</groupId>
         <artifactId>byte-buddy</artifactId>
-        <version>1.10.1</version>
+        <version>1.10.2</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -228,6 +228,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.1</version>
           <configuration>
             <compilerArgs>
               <arg>-Xlint:deprecation</arg>
