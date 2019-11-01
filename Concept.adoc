@@ -1,0 +1,43 @@
+
+:maven-plugins: https://maven.apache.org/plugins/[Maven Plugins]
+
+:toc:
+
+= Basic Idea
+
+The expressiveness of tests is a very important part of writing integration tests or
+test in general. If a test is not easy to understand a test it very likely not being written.
+
+Lets take a look into the following code snippet which is an idea how an integration
+test for a {maven-plugins}/Maven Extensions/Maven-Core should look like:
+[source,java]
+----
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
+
+@MavenIT
+class FirstMavenIT {
+
+  @MavenTest
+  void the_first_test_case(MavenProjectResult result) {
+    assertThat(result)
+      .build()
+        .isSuccessful()
+      .and()
+      .project()
+        .hasTarget()
+          .withEarFile()
+            .containsOnlyOnce("META-INF/MANIFEST.MF")
+        .log()
+          .info().contains("Writing data to file")
+      .cache()
+          .withEarFile("G:A:V")
+          .withPomFile("G:A:V")
+          .withMetadata().contains("xxx");
+  }
+}
+----
+
