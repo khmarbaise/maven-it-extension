@@ -173,12 +173,15 @@
   <build>
     <testResources>
       <testResource>
-        <directory>src/test/filtered-resources</directory>
-        <filtering>true</filtering>
-      </testResource>
-      <testResource>
         <directory>src/test/resources</directory>
         <filtering>false</filtering>
+      </testResource>
+      <!--
+       ! Currently those tests do need to be filtered.
+      -->
+      <testResource>
+        <directory>src/test/resources-its</directory>
+        <filtering>true</filtering>
       </testResource>
     </testResources>
     <plugins>

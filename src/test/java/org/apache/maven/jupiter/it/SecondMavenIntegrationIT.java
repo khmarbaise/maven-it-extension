@@ -30,8 +30,10 @@ import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenCacheResult;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 import org.apache.maven.jupiter.extension.maven.MavenLog;
+import org.junit.jupiter.api.Disabled;
 
 @MavenIT(versions = {M3_0_5, M3_3_1})
+@Disabled
 class SecondMavenIntegrationIT {
 
   @MavenTest(activeProfiles = {"run-its"})

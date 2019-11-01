@@ -5,8 +5,10 @@ import static org.apache.maven.jupiter.assertj.MavenExecutionResultAssert.assert
 import org.apache.maven.jupiter.extension.MavenIT;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import org.junit.jupiter.api.Disabled;
 
 @MavenIT
+@Disabled
 class ExperimentalIT {
 
   @MavenTest

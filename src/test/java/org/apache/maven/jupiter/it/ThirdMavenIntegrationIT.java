@@ -25,11 +25,13 @@ import org.apache.maven.jupiter.extension.MavenIT;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenCache;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.condition.DisabledOnJre;
 import org.junit.jupiter.api.condition.JRE;
 
 @MavenIT(mavenCache = MavenCache.Global)
 @DisabledOnJre({JRE.JAVA_11})
+@Disabled
 class ThirdMavenIntegrationIT {
 
   @MavenTest(activeProfiles = {"run-its"})

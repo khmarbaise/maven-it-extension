@@ -163,7 +163,7 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     FileUtils.copyDirectory(new File(targetDirectory, "invoker-repo"), cacheDirectory);
 
     //FIXME: Removed hard coded parts.
-    File mavenItsBaseDirectory = new File(DirectoryHelper.getTargetDir(), "test-classes/maven-its");
+    File mavenItsBaseDirectory = new File(DirectoryHelper.getTargetDir(), "test-classes");
     File copyMavenPluginProject = new File(mavenItsBaseDirectory, toFullyQualifiedPath + "/" + methodName.getName());
     FileUtils.copyDirectory(copyMavenPluginProject, projectDirectory);
 

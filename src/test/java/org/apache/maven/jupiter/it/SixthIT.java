@@ -20,16 +20,15 @@ package org.apache.maven.jupiter.it;
  */
 
 import static org.apache.maven.jupiter.assertj.MavenExecutionResultAssert.assertThat;
-import static org.apache.maven.jupiter.extension.maven.MavenVersion.M3_6_2;
 
-import org.apache.maven.jupiter.extension.DisabledForMaven;
 import org.apache.maven.jupiter.extension.MavenIT;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenCache;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import org.junit.jupiter.api.Disabled;
 
 @MavenIT(mavenCache = MavenCache.Global)
-@DisabledForMaven(M3_6_2)
+@Disabled
 class SixthIT {
 
   @MavenTest

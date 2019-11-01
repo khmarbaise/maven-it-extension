@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.jar.JarFile;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+@Disabled
 class EARFileContentTest {
 
   @Test
