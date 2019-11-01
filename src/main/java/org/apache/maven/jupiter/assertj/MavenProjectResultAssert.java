@@ -22,6 +22,7 @@ package org.apache.maven.jupiter.assertj;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.jar.JarFile;
 import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
 import org.apache.maven.model.Model;
@@ -32,8 +33,16 @@ import org.assertj.core.api.AbstractAssert;
  */
 public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultAssert, MavenProjectResult> {
 
+  private Optional<MavenProjectResultAssert> parent;
+
   protected MavenProjectResultAssert(MavenProjectResult actual) {
     super(actual, MavenProjectResultAssert.class);
+    this.parent = Optional.empty();
+  }
+
+  protected MavenProjectResultAssert(MavenProjectResult actual, MavenProjectResultAssert parent) {
+    super(actual, MavenProjectResultAssert.class);
+    this.parent = Optional.of(parent);
   }
 
   /**
@@ -50,7 +59,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
   public MavenProjectResultAssert hasTarget() {
     isNotNull();
     File target = new File(this.actual.getBaseDir(), "target");
-    if (!target.isDirectory() && !target.exists() && !target.isHidden()) {
+    if (!target.isDirectory() || !target.exists() || !target.isHidden()) {
       failWithMessage("The target directory of <%s> does not exist.", actual.getBaseDir().getAbsolutePath());
     }
     return myself;
@@ -140,6 +149,26 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     } catch (IOException e) {
       failWithMessage("IOException happened. <%s> file:<%s>", e.getMessage(), earFile.getAbsolutePath());
     }
+    return myself;
+  }
+
+  /**
+   * A module can have a `target` directory or but in contradiction to a an aggregator project which does not have a
+   * `target` directory. So it shouldn't be checked.
+   *
+   * @param moduleName The name of the module.
+   * @return ..
+   */
+  public MavenProjectResultAssert hasModule(String moduleName) {
+    isNotNull();
+
+    File moduleNameFile = new File(this.actual.getBaseDir(), moduleName);
+
+    if (!moduleNameFile.exists() || !moduleNameFile.isHidden() && !moduleNameFile.isDirectory()) {
+      failWithMessage("expected having a module <%s> which does not exist", moduleName);
+    }
+    //    MavenProjectResult mavenProjectResult = new MavenProjectResult(moduleNameFile, )
+    //new MavenProjectResultAssert()
     return myself;
   }
 

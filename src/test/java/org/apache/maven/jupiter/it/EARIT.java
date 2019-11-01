@@ -86,4 +86,14 @@ class EARIT {
         .withEarFile()
         .containsOnlyOnce("org.apache.maven-maven-core-3.0.jar", "META-INF/application.xml");
   }
+
+  @MavenTest
+  void skinny_wars_javaee5(MavenExecutionResult result, MavenProjectResult project, MavenLog log) {
+    assertThat(result).isSuccessful();
+    assertThat(project)
+        .hasModule("war-module")
+        .hasModule("ear-module")
+        .withEarFile()
+        .containsOnlyOnce("org.apache.maven-maven-core-3.0.jar", "META-INF/application.xml");
+  }
 }

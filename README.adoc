@@ -670,6 +670,24 @@ class FirstMavenIT {
 
 === Things which do not work yet (not complete!)
 
+* [ ] I can't define a version within the goals at the moment? See the following example:
++
+[source,java]
+.UnknownMavenIT.java
+----
+@MavenIT
+class FirstMavenIT {
+
+  @MavenTest(goals={"clean org.apache.maven.plugins:maven-assembly-plugin:${project.version}:single"})
+  void third_test_case(MavenProjectResult project) {
+    assertThat(project)
+      ...
+  }
+}
+----
+
+
+
 This is:
 
  * Currently it is not possible to define the version Maven only within the test case.
