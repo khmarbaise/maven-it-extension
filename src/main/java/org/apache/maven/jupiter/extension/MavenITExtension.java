@@ -167,6 +167,7 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     File copyMavenPluginProject = new File(mavenItsBaseDirectory, toFullyQualifiedPath + "/" + methodName.getName());
     FileUtils.copyDirectory(copyMavenPluginProject, projectDirectory);
 
+
     String mavenHome = System.getProperty("maven.home");
     if (mavenHome == null || mavenHome.isEmpty()) {
       //FIXME: currently not set; using hard coded path? Need to reconsider how to set it?

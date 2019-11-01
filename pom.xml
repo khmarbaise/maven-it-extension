@@ -207,6 +207,23 @@
         <configuration>
           <forkCount>5</forkCount>
           <reuseForks>false</reuseForks>
+          <!--
+           ! currently needed to run integration tests.
+          -->
+          <systemProperties>
+            <maven.version>${maven.version}</maven.version>
+            <maven.home>${maven.home}</maven.home>
+          </systemProperties>
+          <properties>
+            <!--
+             ! needed to be moved into the extension (resources) which should automatically support
+             ! parallelization.
+            -->
+            <configurationParameters>
+              junit.jupiter.execution.parallel.enabled = true
+              junit.jupiter.execution.parallel.mode.default = concurrent
+            </configurationParameters>
+          </properties>
         </configuration>
         <executions>
           <execution>
