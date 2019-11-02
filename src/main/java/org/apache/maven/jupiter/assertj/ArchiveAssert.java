@@ -1,13 +1,31 @@
 package org.apache.maven.jupiter.assertj;
 
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.jar.JarFile;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import org.apache.maven.jupiter.assertj.archiver.ArchiverHelper;
 import org.apache.maven.model.Model;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
@@ -40,20 +58,19 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
    * @return {@link ArchiveAssert}
    */
   public ArchiveAssert ignoreMavenFiles() {
-    this.includes.addAll(
-        Arrays.asList(
-            "META-INF/",
-            "META-INF/maven/",
-            "META-INF/maven/" + this.model.getGroupId() + "/",
-            "META-INF/maven/" + this.model.getGroupId() + "/" + this.model.getArtifactId() + "/",
+    //@formatter:off
+    this.includes.addAll(ArchiverHelper.convertToEntries(
+        new String[] {
             "META-INF/maven/" + this.model.getGroupId() + "/" + this.model.getArtifactId() + "/pom.xml",
-            "META-INF/maven/" + this.model.getGroupId() + "/" + this.model.getArtifactId() + "/pom.properties")
+            "META-INF/maven/" + this.model.getGroupId() + "/" + this.model.getArtifactId() + "/pom.properties"
+        })
     );
+    //@formatter:on
     return myself;
   }
 
   public ArchiveAssert ignoreManifest() {
-    this.includes.addAll(Arrays.asList("META-INF/MANIFEST.MF"));
+    this.includes.addAll(ArchiverHelper.convertToEntries(new String[] {"META-INF/MANIFEST.MF"}));
     return myself;
   }
 
@@ -86,15 +103,17 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
     return myself;
   }
 
+  /**
+   * @param files List of entries which should be part of the archive.
+   * @return {@link ArchiveAssert}
+   * @implNote Currently ignoring files given via {@link #includes}. Reconsider this.?
+   */
   public ArchiveAssert containsOnly(String... files) {
-
-    List<String> splittedList = Stream.of(files).flatMap(s -> Stream.of(s.split("/"))).collect(Collectors.toList());
 
     try (JarFile jarFile = new JarFile(this.actual)) {
       List<String> listOfEntries = new ArrayList<>();
       listOfEntries.addAll(this.includes);
-      listOfEntries.addAll(Arrays.asList(files));
-      listOfEntries.addAll(splittedList);
+      listOfEntries.addAll(ArchiverHelper.convertToEntries(files));
       Assertions.assertThat(jarFile.stream())
           .describedAs("Checking ear file names.")
           .extracting(jarEntry -> jarEntry.getName())
