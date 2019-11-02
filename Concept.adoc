@@ -241,3 +241,97 @@ the integration test cases in a simple way.
 * [ ] POM Less builds currently not tried.
 * [ ] XXX
 
+
+== Real Life Examples
+
+=== Maven Assembly plugin
+==== Custom-ContainerDescriptorHandler Test Case
+
+https://github.com/apache/maven-assembly-plugin/blob/master/src/it/projects/container-descriptors/custom-containerDescriptorHandler
+
+Example Test case `custom-containerDescriptorHandler` from Maven Assembly Plugin:
+
+[source]
+----
+custom-containerDescriptorHandler (master)$ tree
+.
+├── assembly
+│   ├── a.properties
+│   ├── pom.xml
+│   └── src
+│       ├── assemble
+│       │   └── bin.xml
+│       └── config
+│           ├── a
+│           │   └── file.txt
+│           └── b
+│               └── file.txt
+├── handler-def
+│   ├── pom.xml
+│   └── src
+│       └── main
+│           └── resources
+│               └── META-INF
+│                   └── plexus
+│                       └── components.xml
+├── invoker.properties
+├── pom.xml <1>
+└── verify.bsh
+----
+<1> What is the purpose of this pom file?
+
+Based on the `invoker.properties` file this test case is divided into two steps:
+The first step is to install the `handler-def` project into local cache and
+second run `package` phase on the project `assembly`.
+
+[source,properties]
+.invoker.properties
+----
+invoker.project.1=handler-def
+invoker.goals.1=install
+
+invoker.project.2=assembly
+invoker.goals.2=package
+----
+
+The question is coming up how to translate that to the new integration test framework:
+
+[source,java]
+.CustomContainerDescriptorHandlerIT.java
+----
+package org.it;
+import static org.apache.maven.jupiter.assertj.MavenITAssertions.assertThat;
+
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.extension.maven.MavenCache;
+import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.TestMethodOrder;
+
+@MavenIT(mavenCache = MavenCache.Global)
+@TestMethodOrder(OrderAnnotation.class)
+class CustomContainerDescriptorHandlerIT {
+
+  @MavenTest(goals = {"install"})
+  @Order(10)
+  void handler_ref(MavenExecutionResult result) {
+    assertThat(result).isSuccessful();
+  }
+
+  @MavenTest
+  void assembly(MavenExecutionResult result) {
+    assertThat(result).isSuccessful();
+    // check content of the `assembly/target/ directory
+    // Details see https://github.com/apache/maven-assembly-plugin/blob/master/src/it/projects/container-descriptors/custom-containerDescriptorHandler/verify.bsh
+  }
+
+}
+----
+
+Currently this test case contains a single issue which means it uses an project
+which is run as a general setup project from {maven-invoker-plugin}.
+
+https://github.com/apache/maven-assembly-plugin/tree/master/src/it/it-project-parent
+
