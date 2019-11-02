@@ -128,7 +128,7 @@ also being enhanced by writing custom assertions.
 
 == Basic Idea
 The expressiveness of tests is a very important part of writing integration tests or
-test in general. If a test is not easy to understand a test it very likely not being written.
+test in general. If a test is not easy to understand it is very likely not being written.
 
 Lets take a look into the following code snippet which is an idea how an integration
 test for a {maven-plugins}/Maven Extensions/Maven-Core could look like:
@@ -686,6 +686,8 @@ class FirstMavenIT {
 }
 ----
 
+Later we will create an plugin for the purpose an can inject the information into the test cases as
+we already did like in {maven-invoker-plugin}.
 
 
 This is:

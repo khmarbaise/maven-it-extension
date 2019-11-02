@@ -11,11 +11,12 @@
 
 == Overview (Level 1)
 The expressiveness of tests is a very important part of writing integration tests or
-test in general. If a test is not easy to understand a test it very likely not being written.
+test in general. If a test is not easy to understand it is very likely not being written.
 
 Lets take a look into the following code which gives you an impression how an integration
 test for a {maven-plugins}/Maven Extensions/Maven-Core should look like:
 
+//TODO: There are several details which are not yet clear how to solve them?
 [source,java]
 ----
 package org.it;
@@ -49,96 +50,194 @@ class FirstMavenIT {
 }
 ----
 
-== Convention over Configuration Paradigm (Level 1)
+== Structuring Integration Tests
 
+=== The Test Class(es)
 The location of the above integration test defaults to `src/test/java/<package>/FirstMavenIT.java`.
-The selected name like `*IT.java` implies that it will be executed by {maven-failsafe-plugin} by convention.
-This will result in a directory structure as follows:
+The selected name like `<any>IT.java` implies that it will be executed by {maven-failsafe-plugin}
+by convention. This will result in a directory structure as follows:
 [source,text]
 ----
-src
- +- test
-     +- java
-          +- org
-              +- it
-                 +- FirstIT.java
+.
+└── src/
+    └── test/
+        └── java/
+            └── org/
+                └── it/
+                    └── FirstIT.java
 ----
-Defining integration tests we need also projects which are the *test cases*. This needs
-to be put somewhere in the directory tree to be easily associated with the test `FirstMavenIT`.
+For the defined integration tests we need also projects which are the *real test cases* (Maven projects).
+This needs to be put somewhere in the directory tree to be easily associated with the test `FirstMavenIT`.
 
 The project to be used as an test case is implied to be located into
 `src/test/resources-its/<package>/FirstMavenIT` this looks like this:
 
 [source,text]
 ----
-src
- +- test
-     +- resources-its
-          +- org
-              +- it
-                 +- FirstIT
+.
+└── src/
+    └── test/
+        └── resources-its/
+            └── org/
+                └── it/
+                    └── FirstIT/
 ----
 But now where to put the separated *test cases*? This can easily achieved by using the
-*method name*  within the test class which is `the_first_test_case` in our example. This results
-in the following directory layout:
+*method name* within the test class `FirstIT` which is `the_first_test_case` in our example.
+This results in the following directory layout:
 
 [source,text]
 ----
-src
- +- test
-     +- resources-its
-          +- org
-              +- it
-                 +- FirstIT
-                     +-- the_first_test_case
+.
+└── src/
+    └── test/
+        └── resources-its/
+            └── org/
+                └── it/
+                    └── FirstIT/
+                        └── the_first_test_case/
+                            ├── src/
+                            └── pom.xml
+----
+This approach solves the issue having several test cases within a single test class `FirstIT` which
+is a usual way to write tests.
+
+=== Test Case Execution
+
+During the execution of the integration tests the following directory structure will be created
+within the `target` directory:
+[source,text]
+----
+.
+└──target/
+   └── maven-its/
+       └── org/
+           └── it/
+               └── FirstIT/
+                   └── the_first_test_case/
+                       ├── .m2/
+                       ├── project/
+                       │   ├── src/
+                       │   ├── target/
+                       │   └── pom.xml
+                       ├── mvn-stdout.log
+                       ├── mvn-stderr.log
+                       └── other logs
 ----
 
-This approach solves the issue having several test cases within a single test class which is a usual
-way to write tests.
+Based on the above you can see that each test case (method within the test class) has it's own
+local cache (`.m2/repository`). Furthermore you see the resulting project is built within the `project`
+folder. This give you a view of a built project like you did on plain command line and take a look
+into it. The output of the built is written into `mvn-stdout.log` (stdout) and the output to stderr
+is written to `mvn-stderr.log`.
+//TODO: Define `other logs` ? environment output, command line parameters ?
+//Needs to be implemented
 
+=== Parallelization
 
-
-//-
-
-
-
-* The header in AsciiDoc must start with a document title.
-+
+Based on the previous definitions and structure you can now derive the structure of the test cases
+as well as the resulting output in `target` directory if you take a look into the following example:
+[source,java]
 ----
-= Document Title
+package org.it;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+
+@MavenIT
+class FirstMavenIT {
+
+  @MavenTest
+  void the_first_test_case(MavenExecutionResult result) {
+     ...
+  }
+  @MavenTest
+  void the_second_test_case(MavenExecutionResult result) {
+     ...
+  }
+  @MavenTest
+  void the_third_test_case(MavenExecutionResult result) {
+     ...
+  }
+}
 ----
-+
-Keep in mind that the header is optional.
 
-* Optional Author and Revision information immediately follows the header title.
-+
+The structure of the Maven projects in `resources-its` directory:
+[source,text]
 ----
-= Document Title
-Doc Writer <doc.writer@asciidoc.org>
-v1.0, 2013-01-01
-----
-
-Here we continue the text.
-Here we continue the text.
-Here we continue the text.
-Here we continue the text.
-
-* The header in AsciiDoc must start with a document title.
-+
---
-Here's an example of a document title:
-
-----
-= Document Title
+.
+└── src/
+    └── test/
+        └── resources-its/
+            └── org/
+                └── it/
+                    └── FirstIT/
+                        ├── the_first_test_case/
+                        │   ├── src/
+                        │   └── pom.xml
+                        ├── the_second_test_case/
+                        │   ├── src/
+                        │   └── pom.xml
+                        └── the_this_test_case/
+                            ├── src/
+                            └── pom.xml
 ----
 
-NOTE: The header is optional.
---
+The resulting structure after run will look like this:
+[source,text]
+----
+.
+└──target/
+   └── maven-its/
+       └── org/
+           └── it/
+               └── FirstIT/
+                   └── the_first_test_case/
+                   │   ├── .m2/
+                   │   ├── project/
+                   │   │   ├── src/
+                   │   │   ├── target/
+                   │   │   └── pom.xml
+                   │   ├── mvn-stdout.log
+                   │   ├── mvn-stderr.log
+                   │   └── other logs
+                   ├── the_second_test_case/
+                   │   ├── .m2/
+                   │   ├── project/
+                   │   │   ├── src/
+                   │   │   ├── target/
+                   │   │   └── pom.xml
+                   │   ├── mvn-stdout.log
+                   │   ├── mvn-stderr.log
+                   │   └── other logs
+                   └── the_third_test_case/
+                       ├── .m2/
+                       ├── project/
+                       │   ├── src/
+                       │   ├── target/
+                       │   └── pom.xml
+                       ├── mvn-stdout.log
+                       ├── mvn-stderr.log
+                       └── other logs
+----
 
-.TODO List
-* [ ] Document
-* [ ] More
-* [ ] More
-* [ ] More
-* [ ] More
+So this means we can easily parallelize the execution of each test case `the_first_test_case`,
+`the_second_test_case` and `the_third_test_case` cause each test case is decoupled from each other.
+
+
+to make separated from log files and local cache. The result of this setup is that each
+//TODO: The following needs to be checked by having parallelize on per class base or on test case base?
+test case is completely separated from each other test case and gives us an easy way to parallelize
+the integration test cases in a simple way.
+
+
+== Open Things
+
+.Things which currently not checked
+* [ ] A build/tool(s) run without relation to Maven?
+* [ ] POM Less builds currently not tried.
+* [ ] XXX
 

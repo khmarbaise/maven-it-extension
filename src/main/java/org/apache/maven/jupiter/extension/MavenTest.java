@@ -42,7 +42,7 @@ import org.junit.jupiter.api.Test;
 public @interface MavenTest {
 
   /**
-   * Defines the goals which are being executed. This can be used to simply override the given goals by {@link
+   * Defines the goals which are being executed. This can be used to simply override the goals given in {@link
    * MavenIT#goals()}.
    *
    * @return The default goals are none given.
