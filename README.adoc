@@ -493,6 +493,7 @@ import static org.apache.maven.jupiter.extension.maven.MavenVersion.M3_0_5;
 import static org.apache.maven.jupiter.extension.maven.MavenVersion.M3_6_0;
 
 import org.apache.maven.jupiter.extension.DisabledForMaven;
+import org.apache.maven.jupiter.extension.EnabledForMaven;
 import org.apache.maven.jupiter.extension.MavenIT;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
