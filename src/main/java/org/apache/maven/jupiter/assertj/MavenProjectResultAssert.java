@@ -20,12 +20,9 @@ package org.apache.maven.jupiter.assertj;
  */
 
 import java.io.File;
-import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
-import java.util.jar.JarFile;
 import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
-import org.apache.maven.model.Model;
+import org.apache.maven.jupiter.extension.maven.ProjectHelper;
 import org.assertj.core.api.AbstractAssert;
 
 /**
@@ -75,91 +72,11 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     return myself;
   }
 
-  public ArchiveAssert withEarFile() {
-    isNotNull();
-    hasTarget();
-
-    Model model = this.actual.getModel();
-    File target = new File(this.actual.getBaseDir(), "target");
-    String artifact = model.getArtifactId() + "-" + model.getVersion() + ".ear";
-    File earFile = new File(target, artifact);
-    if (!earFile.isFile() && !earFile.canRead() && !earFile.isHidden()) {
-      failWithMessage("The ear file <%s> does not exist or can not be read.", earFile.getAbsolutePath());
-    }
-
-    return new ArchiveAssert(earFile, this.actual.getModel(), this.myself);
-  }
-
-  public ArchiveAssert withJarFile() {
-    isNotNull();
-    hasTarget();
-
-    Model model = this.actual.getModel();
-    File target = new File(this.actual.getBaseDir(), "target");
-    String artifact = model.getArtifactId() + "-" + model.getVersion() + ".jar";
-    File jarFile = new File(target, artifact);
-    if (!jarFile.isFile() && !jarFile.canRead()) {
-      failWithMessage("The ear file <%s> does not exist or can not be read.", jarFile.getAbsolutePath());
-    }
-    return new ArchiveAssert(jarFile, this.actual.getModel(), this.myself);
-  }
-
-  public ArchiveAssert withWarFile() {
-    isNotNull();
-    hasTarget();
-
-    Model model = this.actual.getModel();
-    File target = new File(this.actual.getBaseDir(), "target");
-    String artifact = model.getArtifactId() + "-" + model.getVersion() + ".war";
-    File warFile = new File(target, artifact);
-    if (!warFile.isFile() && !warFile.canRead()) {
-      failWithMessage("The ear file <%s> does not exist or can not be read.", warFile.getAbsolutePath());
-    }
-    return new ArchiveAssert(warFile, this.actual.getModel(), this.myself);
-  }
-
-  public ArchiveAssert withRarFile() {
-    isNotNull();
-    hasTarget();
-
-    Model model = this.actual.getModel();
-    File target = new File(this.actual.getBaseDir(), "target");
-    String artifact = model.getArtifactId() + "-" + model.getVersion() + ".rar";
-    File rarFile = new File(target, artifact);
-    if (!rarFile.isFile() && !rarFile.canRead()) {
-      failWithMessage("The ear file <%s> does not exist or can not be read.", rarFile.getAbsolutePath());
-    }
-    return new ArchiveAssert(rarFile, this.actual.getModel(), this.myself);
-  }
-
-  public MavenProjectResultAssert contains(List<String> files) {
-    isNotNull();
-    hasTarget();
-
-    Model model = this.actual.getModel();
-    File target = new File(this.actual.getBaseDir(), "target");
-    String artifact = model.getArtifactId() + "-" + model.getVersion() + ".ear";
-    File earFile = new File(target, artifact);
-
-    try (JarFile jarFile = new JarFile(earFile)) {
-      if (!files.stream()
-          .allMatch(fileEntry -> jarFile.stream().anyMatch(jarEntry -> fileEntry.equals(jarEntry.getName())))) {
-        failWithMessage("The ear file <%s> does not contain all given elements.", files);
-      }
-    } catch (IOException e) {
-      failWithMessage("IOException happened. <%s> file:<%s>", e.getMessage(), earFile.getAbsolutePath());
-    }
-    return myself;
-  }
-
   /**
-   * A module can have a `target` directory or but in contradiction to a an aggregator project which does not have a
-   * `target` directory. So it shouldn't be checked.
-   *
    * @param moduleName The name of the module.
    * @return ..
    */
-  public MavenProjectResultAssert hasModule(String moduleName) {
+  public MavenModuleResultAssert hasModule(String moduleName) {
     isNotNull();
 
     File moduleNameFile = new File(this.actual.getBaseDir(), moduleName);
@@ -167,9 +84,10 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     if (!moduleNameFile.exists() || !moduleNameFile.isHidden() && !moduleNameFile.isDirectory()) {
       failWithMessage("expected having a module <%s> which does not exist", moduleName);
     }
-    //    MavenProjectResult mavenProjectResult = new MavenProjectResult(moduleNameFile, )
-    //new MavenProjectResultAssert()
-    return myself;
+
+    MavenProjectResult mavenProjectResult = new MavenProjectResult(moduleNameFile,
+        ProjectHelper.readProject(moduleNameFile));
+    return new MavenModuleResultAssert(mavenProjectResult);
   }
 
 }

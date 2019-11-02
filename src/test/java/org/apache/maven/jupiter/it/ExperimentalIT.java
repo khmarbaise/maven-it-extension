@@ -21,9 +21,9 @@ class ExperimentalIT {
   @MavenTest
   void second(MavenExecutionResult result) {
     assertThat(result).log();
-    assertThat(result).project().hasTarget().withEarFile();
-    assertThat(result).project().hasTarget().withJarFile();
-    assertThat(result).project().hasTarget().withWarFile();
+    assertThat(result).project().hasModule("ear-module").hasTarget().withEarFile();
+    assertThat(result).project().hasModule("jar-module").hasTarget().withJarFile();
+    assertThat(result).project().hasModule("war-module").hasTarget().withWarFile();
     assertThat(result).cache();
   }
 }

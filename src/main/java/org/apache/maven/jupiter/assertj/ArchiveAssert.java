@@ -39,9 +39,9 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
 
   private List<String> includes;
 
-  private MavenProjectResultAssert parent;
+  private MavenModuleResultAssert parent;
 
-  ArchiveAssert(File earFile, Model model, MavenProjectResultAssert parent) {
+  ArchiveAssert(File earFile, Model model, MavenModuleResultAssert parent) {
     super(earFile, ArchiveAssert.class);
     this.model = model;
     this.includes = new ArrayList<>();
@@ -68,7 +68,6 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
             "META-INF/maven/" + this.model.getGroupId() + "/" + this.model.getArtifactId() + "/pom.properties"
         })
     );
-    //@formatter:on
     return myself;
   }
 
@@ -112,22 +111,22 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
    * @implNote Currently ignoring files given via {@link #includes}. Reconsider this.?
    */
   public ArchiveAssert containsOnly(String... files) {
+    List<String> includes = new ArrayList<>();
+    includes.addAll(ArchiverHelper.convertToEntries(files));
+    includes.addAll(this.includes);
 
     try (JarFile jarFile = new JarFile(this.actual)) {
-      List<String> listOfEntries = new ArrayList<>();
-      listOfEntries.addAll(this.includes);
-      listOfEntries.addAll(ArchiverHelper.convertToEntries(files));
       Assertions.assertThat(jarFile.stream())
           .describedAs("Checking ear file names.")
           .extracting(jarEntry -> jarEntry.getName())
-          .containsExactlyInAnyOrderElementsOf(listOfEntries);
+          .containsOnly(includes.toArray(new String[]{}));
     } catch (IOException e) {
       failWithMessage("IOException happened. <%s> file:<%s>", e.getMessage());
     }
     return myself;
   }
 
-  public MavenProjectResultAssert and() {
+  public MavenModuleResultAssert and() {
     return this.parent;
   }
 }

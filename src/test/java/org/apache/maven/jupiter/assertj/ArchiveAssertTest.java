@@ -60,7 +60,7 @@ class ArchiveAssertTest {
 //    ArchiveEntryContent content = ArchiveEntryContent.create().files("META-INF/application.xml", "APP-INF/classes/foo.properties");
 //    assertThat(earFile).isEqualTo(content);
 
-    Assertions.assertThat(earFile)
+    Assertions.assertThat(earFile);
     ArchiveAssert as = new ArchiveAssert(earFile, modelMock, null);
     as.containsOnly(files);
   }
