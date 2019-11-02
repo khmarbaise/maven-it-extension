@@ -26,8 +26,11 @@ import java.nio.file.Paths;
 /**
  * @author Karl Heinz Marbaise
  */
-class DirectoryHelper {
+final class DirectoryHelper {
 
+  private DirectoryHelper() {
+    //intentionaly empty.
+  }
 
   static File getMavenBaseDir() {
     return new File(System.getProperty("basedir", System.getProperty("user.dir", ".")));

@@ -30,6 +30,9 @@ import org.apache.maven.model.Model;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 
+/**
+ * @author Karl Heinz Marbaise
+ */
 public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
 
   private Model model;
