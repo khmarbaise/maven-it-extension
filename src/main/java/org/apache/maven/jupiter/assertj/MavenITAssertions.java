@@ -46,4 +46,7 @@ public class MavenITAssertions {
   public static MavenCacheResultAssert assertThat(MavenCacheResult actual) {
     return new MavenCacheResultAssert(actual);
   }
+//  public static ArchiveAssert assertThat(ArchiveFile file) {
+//    return new ArchiveAssert(actual);
+//  }
 }

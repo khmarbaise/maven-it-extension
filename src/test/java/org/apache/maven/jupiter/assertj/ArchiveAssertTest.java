@@ -24,6 +24,7 @@ import static org.mockito.Mockito.when;
 import java.io.File;
 import java.net.URL;
 import org.apache.maven.model.Model;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -56,6 +57,10 @@ class ArchiveAssertTest {
     when(modelMock.getGroupId()).thenReturn("org.apache.maven.its.ear.resourcecustomdirectory");
     when(modelMock.getArtifactId()).thenReturn("test");
 
+//    ArchiveEntryContent content = ArchiveEntryContent.create().files("META-INF/application.xml", "APP-INF/classes/foo.properties");
+//    assertThat(earFile).isEqualTo(content);
+
+    Assertions.assertThat(earFile)
     ArchiveAssert as = new ArchiveAssert(earFile, modelMock, null);
     as.containsOnly(files);
   }
