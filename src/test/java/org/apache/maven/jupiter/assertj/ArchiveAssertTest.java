@@ -19,36 +19,44 @@ package org.apache.maven.jupiter.assertj;
  * under the License.
  */
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.net.URL;
 import org.apache.maven.model.Model;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 /**
  * @author Karl Heinz Marbaise
  */
 class ArchiveAssertTest {
 
+  /*
+    testing: META-INF/
+    testing: META-INF/MANIFEST.MF
+    testing: META-INF/application.xml
+    testing: META-INF/maven/
+    testing: META-INF/maven/org.apache.maven.its.ear.resourcecustomdirectory/
+    testing: META-INF/maven/org.apache.maven.its.ear.resourcecustomdirectory/test/
+    testing: META-INF/maven/org.apache.maven.its.ear.resourcecustomdirectory/test/pom.xml
+    testing: META-INF/maven/org.apache.maven.its.ear.resourcecustomdirectory/test/pom.properties
+    testing: APP-INF/
+    testing: APP-INF/classes/
+    testing: APP-INF/classes/foo.properties
+
+   */
   @Test
   void name() {
     URL resource = this.getClass().getResource("/example-files/test-1.0.ear");
     File earFile = new File(resource.getFile());
     String[] files = {"META-INF/application.xml", "APP-INF/classes/foo.properties"};
 
-    Model model = createModel();
+    Model modelMock = Mockito.mock(Model.class);
+    when(modelMock.getGroupId()).thenReturn("org.apache.maven.its.ear.resourcecustomdirectory");
+    when(modelMock.getArtifactId()).thenReturn("test");
 
-    ArchiveAssert as = new ArchiveAssert(earFile, model, null);
-    assertThatCode(() -> as.containsOnly(files)).doesNotThrowAnyException();
-  }
-
-  private Model createModel() {
-    Model model = mock(Model.class);
-    when(model.getGroupId()).thenReturn("org.apache.maven.its.ear.resourcecustomdirectory");
-    when(model.getArtifactId()).thenReturn("test");
-    return model;
+    ArchiveAssert as = new ArchiveAssert(earFile, modelMock, null);
+    as.containsOnly(files);
   }
 }

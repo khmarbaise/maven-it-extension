@@ -1,4 +1,4 @@
-= Maven Plugin Integration Testing (Level 0)
+= Maven Integration Testing (Level 0)
 :author: Karl Heinz Marbaise
 :email: khmarbaise@apache.org
 :revnumber: 0.1.0
@@ -35,13 +35,14 @@ class FirstMavenIT {
     assertThat(result)
       .build()
         .isSuccessful()
-      .and()
       .project()
+        .log()
+          .info()
+            .contains("Writing data to file")
+          .debug().isEmpty()
         .hasTarget()
           .withEarFile()
             .containsOnlyOnce("META-INF/MANIFEST.MF")
-        .log()
-          .info().contains("Writing data to file")
       .cache()
           .withEarFile("G:A:V")
           .withPomFile("G:A:V")
