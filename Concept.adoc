@@ -5,6 +5,7 @@
 :sectnums:
 :toc:
 
+:maven-invoker-plugin: https://maven.apache.org/plugins/maven-invoker-plugin[Maven Invoker Plugin]
 :maven-plugins: https://maven.apache.org/plugins/[Maven Plugins]
 :maven-failsafe-plugin: https://maven.apache.org/surefire/maven-failsafe-plugin/[Maven Failsafe Plugin]
 
@@ -332,6 +333,8 @@ class CustomContainerDescriptorHandlerIT {
 
 Currently this test case contains a single issue which means it uses an project
 which is run as a general setup project from {maven-invoker-plugin}.
-
 https://github.com/apache/maven-assembly-plugin/tree/master/src/it/it-project-parent
+
+Based on this setup you will get separated log files for each run in it's own directory not concatenated
+into a single file.
 
