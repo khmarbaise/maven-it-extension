@@ -89,22 +89,6 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
     return myself;
   }
 
-  public ArchiveAssert containsOnlyOnce(List<String> files) {
-    return containsOnlyOnce(files.toArray(new String[] {}));
-  }
-
-  public ArchiveAssert containsOnlyOnce(String... files) {
-    try (JarFile jarFile = new JarFile(this.actual)) {
-      Assertions.assertThat(jarFile.stream())
-          .describedAs("Checking ear file names.")
-          .extracting(jarEntry -> jarEntry.getName())
-          .containsOnlyOnce(files);
-    } catch (IOException e) {
-      failWithMessage("IOException happened. <%s> file:<%s>", e.getMessage());
-    }
-    return myself;
-  }
-
   /**
    * @param files List of entries which should be part of the archive.
    * @return {@link ArchiveAssert}

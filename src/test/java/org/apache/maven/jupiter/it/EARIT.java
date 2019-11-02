@@ -91,9 +91,28 @@ class EARIT {
   void skinny_wars_javaee5(MavenExecutionResult result, MavenProjectResult project, MavenLog log) {
     assertThat(result).isSuccessful();
 
+    /*
+    Archive:  war-module-1.0.war
+    testing: META-INF/MANIFEST.MF     OK
+    testing: META-INF/                OK
+    testing: WEB-INF/                 OK
+    testing: WEB-INF/classes/         OK
+    testing: WEB-INF/lib/             OK
+    testing: WEB-INF/lib/commons-lang-2.5.jar   OK
+    testing: WEB-INF/web.xml          OK
+    testing: META-INF/maven/org.apache.maven.its.ear.skinnywars/war-module/pom.xml   OK
+    testing: META-INF/maven/org.apache.maven.its.ear.skinnywars/war-module/pom.properties   OK
+
+     */
     assertThat(project)
         .hasModule("war-module")
         .hasTarget().withWarFile();
+
+//        .containsOnly(
+//            "WEB-INF/web.xml",
+//            "WEB-INF/classes/", //produces an empty entry without files correct?
+//            "WEB-INF/lib/commons-lang-2.5.jar"
+//    )   ;
 
     /*
     Archive:  ear-module-1.0.ear
@@ -115,6 +134,7 @@ class EARIT {
           .hasTarget()
           .withEarFile()
         .containsOnly(
+            "META-INF/application.xml",
             "lib/commons-lang-commons-lang-2.5.jar",
             "org.apache.maven.its.ear.skinnywars-war-module-1.0.war"
         );
