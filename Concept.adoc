@@ -249,13 +249,12 @@ on a test case or on a more general way.
 
 
 === Setup Projects
-We have in general two different scenarios.
-
+We have in general three different scenarios.
 
 .Scenarios
 * Project setup for a single test case
 * Project setup for a number of test cases.
-* Global setup projects which will be executed only once.
+* Global setup projects which should be executed only once.
 
 ==== Setup Project for single test case
 
@@ -306,6 +305,16 @@ class FirstMavenIT {
 The best and simplest solution would be to use
 the `@BeforeEach` annotation. That would make the intention of the author
 easy to understand and simply being expressed.
+
+The disadvantage of this setup would be to execute a full maven build for the
+setup project within the beforeEach method for each test case method.
+
+One issue is the question where to put the cache for all those test cases?
+
+The beforeEach and the particular test case must be using the same case
+otherwise we have no relationship between the beforeEach and the particular
+test case? Is this a good idea? (We have made the assumption if not defined different
+that each test case is using a separate cache)
 
 [source,java]
 ----
