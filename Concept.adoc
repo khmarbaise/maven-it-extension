@@ -234,18 +234,19 @@ to make separated from log files and local cache. The result of this setup is th
 test case is completely separated from each other test case and gives us an easy way to parallelize
 the integration test cases in a simple way.
 
-
 == Open Things
 
-.Things which currently not checked
-* [ ] A build/tool(s) run without relation to Maven?
+.Things which currently not working or net yet tested/thought about
+* [ ] A build/tool(s) running without relation to Maven?
       This means we only need to define what we start simply a different thing than Maven.
 * [ ] POM Less builds currently not tried.
 * [ ] Setup projects which should be run
 * [ ] General Setup repositories which already contain particular dependencies which are needed
 for test cases. Here we need to make it possible having a local repository to be pre defined
 on a test case or on a more general way.
-
+* [ ] Support for a mock repository manager (mrm) to make tests cases with deploy/releases
+ etc. possible. A thought might be to integrate the functionalitly of mrm into this
+ extension and somehow configure that for the test cases?
 
 
 === Setup Projects
@@ -259,7 +260,7 @@ We have in general three different scenarios.
 ==== Setup Project for single test case
 
 Based on the nested class option in JUnit jupiter it would be
-the best to express that via nested class with only a single test case
+the best approach to express that via nested class with only a single test case
 and an appropriate `@BeforeEach` method which describes the pre defined
 setup.
 [source,java]
@@ -311,10 +312,11 @@ setup project within the beforeEach method for each test case method.
 
 One issue is the question where to put the cache for all those test cases?
 
-The beforeEach and the particular test case must be using the same case
-otherwise we have no relationship between the beforeEach and the particular
-test case? Is this a good idea? (We have made the assumption if not defined different
+The beforeEach and the particular test case must be using the same cache
+otherwise we have no relationship between the beforeEach method and the particular
+test cases? Is this a good idea? (We have made the assumption if not defined different
 that each test case is using a separate cache)
+It could assumed having a global cache for test cases which are within the nested class?
 
 [source,java]
 ----
@@ -324,7 +326,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.apache.maven.jupiter.extension.MavenIT;
 import org.apache.maven.jupiter.extension.MavenTest;
-import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;import org.junit.jupiter.api.BeforeEach;
+import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import org.junit.jupiter.api.BeforeEach;
 
 @MavenIT
 class FirstMavenIT {
@@ -350,12 +353,78 @@ class FirstMavenIT {
 }
 ----
 
+Baseds on the previously written the conclusion would be to make it possible
+to use inheritance between the test classes to express a setup/beforeach for a hierarchie
+of integration test cases which from my point of view sounds like a bad idea?
+Need to reconsider?
+
 === General Setup Repositories
 
 General Setup repositories which already contain particular dependencies which are needed
 for test cases. Here we need to make it possible having a local repository to be pre defined
 on a test case or on a more general way.
 
+The simplest solutin would be to create a directory called something like `.predefined-repo` in
+a particular directory level which implies that this directory will be used as a repository.
+This can be taken as a pre installed local cache with particular dependencies etc.
+
+Let us take a look at the example:
+[source,text]
+----
+.
+└── src/
+    └── test/
+        └── resources-its/
+            └── org/
+                └── it/
+                    └── FirstIT/
+                        └── the_first_test_case/
+                            ├── .predefined-repo
+                            ├── src/
+                            └── pom.xml
+----
+This would mean that the .predefined-repo contains already installed artifacts etc.
+which can be used to run a test against this based on the method name `the_first_test_case`
+this is limited to a single test method.
+
+This can be made a more general thing to define it on a class level like the following:
+[source,text]
+----
+.
+└── src/
+    └── test/
+        └── resources-its/
+            └── org/
+                └── it/
+                    └── FirstIT/
+                        ├── .predefined-repo
+                        └── the_first_test_case/
+                            ├── src/
+                            └── pom.xml
+----
+
+This would mean having a predefined repository defined for all test cases within the whole
+test class.
+
+If we move that directory a supplemental level up like the following:
+
+[source,text]
+----
+.
+└── src/
+    └── test/
+        └── resources-its/
+            └── org/
+                └── it/
+                    ├── .predefined-repo
+                    └── FirstIT/
+                        └── the_first_test_case/
+                            ├── src/
+                            └── pom.xml
+----
+
+This would mean that the predefined repository is available for all integration test
+classes within the whole package inclusive all sub packages.
 
 
 == Real Life Examples
