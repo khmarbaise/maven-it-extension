@@ -1,4 +1,4 @@
-= Maven Plugin Integration Testing (Level 0)
+= Maven Plugin Integration Testing
 :author: Karl Heinz Marbaise
 :email: khmarbaise@apache.org
 :revnumber: 0.1.0
@@ -10,7 +10,7 @@
 :maven-failsafe-plugin: https://maven.apache.org/surefire/maven-failsafe-plugin/[Maven Failsafe Plugin]
 
 
-== Overview (Level 1)
+== Overview
 The expressiveness of tests is a very important part of writing integration tests or
 test in general. If a test is not easy to understand it is very likely not being written.
 
@@ -100,8 +100,8 @@ This results in the following directory layout:
                             ├── src/
                             └── pom.xml
 ----
-This approach solves the issue having several test cases within a single test class `FirstIT` which
-is a usual way to write tests.
+This approach gives us the opportunity to write several integration test cases within a
+single test class `FirstIT` and also separates them easily.
 
 === Test Case Execution
 
@@ -127,8 +127,8 @@ within the `target` directory:
 ----
 
 Based on the above you can see that each test case (method within the test class) has it's own
-local cache (`.m2/repository`). Furthermore you see the resulting project is built within the `project`
-folder. This give you a view of a built project like you did on plain command line and take a look
+local cache (`.m2/repository`). Furthermore you see that the project is built within the `project`
+folder. This gives you a view of the built project as you did on plain command line and take a look
 into it. The output of the built is written into `mvn-stdout.log` (stdout) and the output to stderr
 is written to `mvn-stderr.log`.
 //TODO: Define `other logs` ? environment output, command line parameters ?
@@ -239,11 +239,121 @@ the integration test cases in a simple way.
 
 .Things which currently not checked
 * [ ] A build/tool(s) run without relation to Maven?
+      This means we only need to define what we start simply a different thing than Maven.
 * [ ] POM Less builds currently not tried.
-* [ ] XXX
+* [ ] Setup projects which should be run
+* [ ] General Setup repositories which already contain particular dependencies which are needed
+for test cases. Here we need to make it possible having a local repository to be pre defined
+on a test case or on a more general way.
+
+
+
+=== Setup Projects
+We have in general two different scenarios.
+
+
+.Scenarios
+* Project setup for a single test case
+* Project setup for a number of test cases.
+* Global setup projects which will be executed only once.
+
+==== Setup Project for single test case
+
+Based on the nested class option in JUnit jupiter it would be
+the best to express that via nested class with only a single test case
+and an appropriate `@BeforeEach` method which describes the pre defined
+setup.
+[source,java]
+----
+package org.it;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import org.junit.jupiter.api.Nested;
+
+@MavenIT
+class FirstMavenIT {
+  @Nested
+  class TestCaseWithSetup {
+      @BeforeEach
+      void beforeEach(MavenExecutionResult result) {
+        //..
+      }
+
+      @MavenTest
+      void the_first_test_case(MavenExecutionResult result) {
+         ...
+      }
+  }
+
+  @MavenTest
+  void the_first_test_case(MavenExecutionResult result) {
+     ...
+  }
+
+  @MavenTest
+  void the_second_test_case(MavenExecutionResult result) {
+     ...
+  }
+
+}
+----
+==== Setup Project for a number of test cases
+
+The best and simplest solution would be to use
+the `@BeforeEach` annotation. That would make the intention of the author
+easy to understand and simply being expressed.
+
+[source,java]
+----
+package org.it;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;import org.junit.jupiter.api.BeforeEach;
+
+@MavenIT
+class FirstMavenIT {
+
+  @BeforeEach
+  void beforeEach(MavenExecutionResult result) {
+    //..
+  }
+
+  @MavenTest
+  void the_first_test_case(MavenExecutionResult result) {
+     ...
+  }
+
+  @MavenTest
+  void the_second_test_case(MavenExecutionResult result) {
+     ...
+  }
+  @MavenTest
+  void the_third_test_case(MavenExecutionResult result) {
+     ...
+  }
+}
+----
+
+=== General Setup Repositories
+
+General Setup repositories which already contain particular dependencies which are needed
+for test cases. Here we need to make it possible having a local repository to be pre defined
+on a test case or on a more general way.
+
 
 
 == Real Life Examples
+
+Within this chapter we describe different integration test cases which are done in integration
+tests with maven-invoker or with other tests for different maven plugins etc. to see
+if we missed something which is needed to get that framework forward.
 
 === Maven Assembly plugin
 ==== Custom-ContainerDescriptorHandler Test Case
@@ -295,7 +405,8 @@ invoker.project.2=assembly
 invoker.goals.2=package
 ----
 
-The question is coming up how to translate that to the new integration test framework:
+The question is coming up how can we translate that to the new integration test framework.
+The simple answer is like this:
 
 [source,java]
 .CustomContainerDescriptorHandlerIT.java
