@@ -194,11 +194,14 @@
         <version>3.2.1</version>
         <executions>
           <execution>
-            <id>install-artifacts</id>
+            <!--
+             ! Overwriting the configuration which is inherited
+            -->
+            <id>integration-test</id>
             <goals>
               <goal>install</goal>
             </goals>
-            <configuration>
+            <configuration combine.children="override">
               <localRepositoryPath>${project.build.directory}/invoker-repo</localRepositoryPath>
             </configuration>
           </execution>
