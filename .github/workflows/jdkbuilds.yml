@@ -20,4 +20,4 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Test
-        run: mvn -V --no-transfer-progress clean verify -Prun-its -Drat.ignoreErrors=true -Dmaven.test.failure.ignore -Dcheckstyle.skip=true
+        run: mvn -V --no-transfer-progress clean verify -Prun-its -Drat.ignoreErrors=true --fail-at-end -Dcheckstyle.skip=true

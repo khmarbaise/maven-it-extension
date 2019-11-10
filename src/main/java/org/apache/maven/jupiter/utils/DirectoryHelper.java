@@ -1,4 +1,4 @@
-package org.apache.maven.jupiter.extension;
+package org.apache.maven.jupiter.utils;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -26,24 +26,20 @@ import java.nio.file.Paths;
 /**
  * @author Karl Heinz Marbaise
  */
-class DirectoryHelper {
+public class DirectoryHelper {
 
-
-  static File getMavenBaseDir() {
+  public static File getMavenBaseDir() {
     return new File(System.getProperty("basedir", System.getProperty("user.dir", ".")));
   }
 
-  static String toFullyQualifiedPath(final Package context, final String resourceName) {
-    return context.getName().replace('.', '/') + "/" + resourceName;
-  }
-  static String toFullyQualifiedPath(final Package context) {
-    return toFullyQualifiedPath(context, "");
+  public static String toFullyQualifiedPath(Class<?> testClass) {
+    return testClass.getCanonicalName().replace('.', '/');
   }
 
   /**
    * Return the target directory of the current project.
    */
-  static File getTargetDir() {
+  public static File getTargetDir() {
     return new File(getMavenBaseDir(), "target");
   }
 
@@ -58,8 +54,7 @@ class DirectoryHelper {
         builder.append('~');
         continue;
       }
-      if (ch < ' '
-          || ch >= 0x7F // || ch == fileSep || ... // add other illegal chars
+      if (ch < ' ' || ch >= 0x7F // || ch == fileSep || ... // add other illegal chars
           || (ch == '.' && i == 0) // we don't want to collide with "." or ".."!
           || ch == escape) {
         builder.append(escape);

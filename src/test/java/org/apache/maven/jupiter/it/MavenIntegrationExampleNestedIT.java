@@ -19,32 +19,29 @@ package org.apache.maven.jupiter.it;
  * under the License.
  */
 
-import static org.apache.maven.jupiter.assertj.MavenExecutionResultAssert.assertThat;
-
 import org.apache.maven.jupiter.extension.MavenIT;
-import org.apache.maven.jupiter.extension.MavenRepository;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.condition.DisabledOnJre;
-import org.junit.jupiter.api.condition.JRE;
+import org.junit.jupiter.api.Nested;
 
 @MavenIT
-@MavenRepository
-@DisabledOnJre({JRE.JAVA_11})
-@Disabled
-class ThirdMavenIntegrationIT {
-
-  @MavenTest(activeProfiles = {"run-its"})
-  void first_integration_test(MavenExecutionResult result) {
-    System.out.println("MavenIntegrationIT.first_integration_test");
-    assertThat(result).isFailure();
-  }
+class MavenIntegrationExampleNestedIT {
 
   @MavenTest
-  void second_integration_test_case(MavenExecutionResult result) {
-    System.out.println("MavenIntegrationIT.first_integration_test");
-    assertThat(result).isFailure();
+  void packaging_includes(MavenExecutionResult result) {
+  }
+
+  @Nested
+  class NestedExample {
+
+    @MavenTest
+    void basic(MavenExecutionResult result) {
+    }
+
+    @MavenTest
+    void packaging_includes(MavenExecutionResult result) {
+    }
+
   }
 
 }

@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.jar.JarFile;
 import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
+import org.apache.maven.jupiter.extension.maven.ProjectHelper;
 import org.apache.maven.model.Model;
 import org.assertj.core.api.AbstractAssert;
 
@@ -59,7 +60,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
   public MavenProjectResultAssert hasTarget() {
     isNotNull();
     File target = new File(this.actual.getBaseDir(), "target");
-    if (!target.isDirectory() || !target.exists() || !target.isHidden()) {
+    if (!target.isDirectory() || !target.exists() || target.isHidden()) {
       failWithMessage("The target directory of <%s> does not exist.", actual.getBaseDir().getAbsolutePath());
     }
     return myself;
@@ -68,7 +69,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
   public MavenProjectResultAssert has(String directory) {
     isNotNull();
     File target = new File(this.actual.getBaseDir(), directory);
-    if (!target.isDirectory() && !target.exists() && !target.isHidden()) {
+    if (!target.isDirectory() || !target.exists() || target.isHidden()) {
       failWithMessage("The given directory <%s> of <%s> does not exist.", directory,
           actual.getBaseDir().getAbsolutePath());
     }
@@ -83,7 +84,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     File target = new File(this.actual.getBaseDir(), "target");
     String artifact = model.getArtifactId() + "-" + model.getVersion() + ".ear";
     File earFile = new File(target, artifact);
-    if (!earFile.isFile() && !earFile.canRead() && !earFile.isHidden()) {
+    if (!earFile.isFile() || !earFile.canRead() || earFile.isHidden()) {
       failWithMessage("The ear file <%s> does not exist or can not be read.", earFile.getAbsolutePath());
     }
 
@@ -167,9 +168,20 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     if (!moduleNameFile.exists() || !moduleNameFile.isHidden() && !moduleNameFile.isDirectory()) {
       failWithMessage("expected having a module <%s> which does not exist", moduleName);
     }
-    //    MavenProjectResult mavenProjectResult = new MavenProjectResult(moduleNameFile, )
-    //new MavenProjectResultAssert()
     return myself;
+  }
+
+  public MavenProjectResultAssert withModule(String moduleName) {
+    isNotNull();
+
+    File moduleNameFile = new File(this.actual.getBaseDir(), moduleName);
+
+    if (!moduleNameFile.exists() || !moduleNameFile.isHidden() && !moduleNameFile.isDirectory()) {
+      failWithMessage("expected having a module <%s> which does not exist", moduleName);
+    }
+    Model model = ProjectHelper.readProject(moduleNameFile);
+    MavenProjectResult mavenProjectResult = new MavenProjectResult(moduleNameFile, model);
+    return new MavenProjectResultAssert(mavenProjectResult);
   }
 
 }

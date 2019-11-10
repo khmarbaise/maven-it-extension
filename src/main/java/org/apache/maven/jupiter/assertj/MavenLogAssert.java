@@ -19,6 +19,10 @@ package org.apache.maven.jupiter.assertj;
  * under the License.
  */
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.apache.maven.jupiter.extension.maven.MavenLog;
 import org.assertj.core.api.AbstractAssert;
 
@@ -56,4 +60,55 @@ public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
     //    }
     return myself;
   }
+
+  List<String> createLogStream() {
+    try {
+      //TODO: Need to reconsider if there isn't a better way to return the stream?
+      // lines() gives a stream which might be a better solution?
+      //    InputStream resourceAsStream = this.getClass().getResourceAsStream("/mvn-stdout.out");
+      //    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
+      return Files.readAllLines(this.actual.getStdout());
+    } catch (IOException e) {
+      //FIXME: Logging exception.
+    }
+    //FIXME: Need to reconsider the following?
+    return null;
+  }
+
+  /**
+   * The logging output on stdout is given back in a list of strings. The prefix {@code [INFO]} (including the following
+   * space) has been filtered out of this already.
+   *
+   * @return list of Strings which contains the log output
+   */
+  public List<String> info() {
+    return createLogStream().stream()
+        .filter(p -> p.startsWith("[INFO]"))
+        .map(s -> s.substring(7))
+        .collect(Collectors.toList());
+  }
+
+  public void buildSuccess() {
+    this.info()
+        .stream()
+        .filter(s -> s.equals("BUILD SUCESS"))
+        .findAny()
+        .orElseThrow(() -> new IllegalStateException("CCC"));
+  }
+
+  public void buildFailure() {
+    this.info()
+        .stream()
+        .filter(s -> s.equals("BUILD FAILURE"))
+        .findAny()
+        .orElseThrow(() -> new IllegalStateException("Not .."));
+  }
+
+  public List<String> debug() {
+    return createLogStream().stream()
+        .filter(p -> p.startsWith("[DEBUG]"))
+        .map(s -> s.substring(9))
+        .collect(Collectors.toList());
+  }
+
 }

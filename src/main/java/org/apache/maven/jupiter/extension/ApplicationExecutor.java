@@ -19,14 +19,19 @@ package org.apache.maven.jupiter.extension;
  * under the License.
  */
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * @author Karl Heinz Marbaise
@@ -92,6 +97,11 @@ public class ApplicationExecutor {
 
   public Path getStdout() {
     return Paths.get(loggingDirectory.toString(), this.prefix + "-stdout.out");
+  }
+
+  Stream<String> createLogStream() {
+    InputStream resourceAsStream = this.getClass().getResourceAsStream("/mvn-stdout.out");
+    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
   }
 
   public Path getStdErr() {

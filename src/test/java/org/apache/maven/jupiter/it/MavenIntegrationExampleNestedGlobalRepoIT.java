@@ -19,32 +19,39 @@ package org.apache.maven.jupiter.it;
  * under the License.
  */
 
-import static org.apache.maven.jupiter.assertj.MavenExecutionResultAssert.assertThat;
-
 import org.apache.maven.jupiter.extension.MavenIT;
 import org.apache.maven.jupiter.extension.MavenRepository;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.condition.DisabledOnJre;
-import org.junit.jupiter.api.condition.JRE;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
+/**
+ * The {@code @Execution(ExecutionMode.SAME_THREAD} needs
+ * to be defined cause otherwise all three test cases
+ * run in parallel and will influence each other which would
+ * result in failures.
+ */
 @MavenIT
 @MavenRepository
-@DisabledOnJre({JRE.JAVA_11})
-@Disabled
-class ThirdMavenIntegrationIT {
-
-  @MavenTest(activeProfiles = {"run-its"})
-  void first_integration_test(MavenExecutionResult result) {
-    System.out.println("MavenIntegrationIT.first_integration_test");
-    assertThat(result).isFailure();
-  }
+@Execution(ExecutionMode.SAME_THREAD)
+class MavenIntegrationExampleNestedGlobalRepoIT {
 
   @MavenTest
-  void second_integration_test_case(MavenExecutionResult result) {
-    System.out.println("MavenIntegrationIT.first_integration_test");
-    assertThat(result).isFailure();
+  void packaging_includes(MavenExecutionResult result) {
+  }
+
+  @MavenIT
+  class NestedExample {
+
+    @MavenTest
+    void basic(MavenExecutionResult result) {
+    }
+
+    @MavenTest
+    void packaging_includes(MavenExecutionResult result) {
+    }
+
   }
 
 }

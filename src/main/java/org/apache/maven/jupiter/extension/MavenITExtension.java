@@ -25,11 +25,9 @@ import static org.apache.maven.jupiter.extension.AnnotationHelper.getActiveProfi
 import static org.apache.maven.jupiter.extension.AnnotationHelper.getGoals;
 import static org.apache.maven.jupiter.extension.AnnotationHelper.hasActiveProfiles;
 import static org.apache.maven.jupiter.extension.AnnotationHelper.isDebug;
-import static org.junit.platform.commons.util.AnnotationUtils.findAnnotation;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,17 +36,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
-import org.apache.maven.jupiter.extension.maven.MavenCache;
 import org.apache.maven.jupiter.extension.maven.MavenCacheResult;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult.ExecutionResult;
 import org.apache.maven.jupiter.extension.maven.MavenLog;
 import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
 import org.apache.maven.jupiter.extension.maven.ProjectHelper;
+import org.apache.maven.jupiter.utils.DirectoryHelper;
 import org.apache.maven.model.Model;
-import org.junit.jupiter.api.extension.AfterAllCallback;
-import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
-import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionConfigurationException;
@@ -58,24 +53,38 @@ import org.junit.jupiter.api.extension.ExtensionContext.Store;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
-import org.junit.jupiter.api.extension.TestInstancePostProcessor;
 
 /**
  * @author Karl Heinz Marbaise
  */
-public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, TestInstancePostProcessor,
-    ParameterResolver, BeforeTestExecutionCallback, AfterTestExecutionCallback, AfterAllCallback {
+public class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeTestExecutionCallback {
 
   private static final Namespace NAMESPACE_MAVEN_IT = Namespace.create(MavenITExtension.class);
 
   private static final String TARGET_DIRECTORY = "TARGET_DIRECTORY";
 
-  private Optional<MavenIT> findMavenIt(ExtensionContext context) {
+  private Optional<Class<?>> findMavenRepositoryTestClass(ExtensionContext context) {
     Optional<ExtensionContext> current = Optional.of(context);
     while (current.isPresent()) {
-      Optional<MavenIT> endToEndTest = findAnnotation(current.get().getRequiredTestClass(), MavenIT.class);
-      if (endToEndTest.isPresent()) {
-        return endToEndTest;
+      if (current.get().getTestClass().isPresent()) {
+        Class<?> testClass = current.get().getTestClass().get();
+        if (testClass.isAnnotationPresent(MavenRepository.class)) {
+          return Optional.of(testClass);
+        }
+      }
+      current = current.get().getParent();
+    }
+    return Optional.empty();
+  }
+
+  private Optional<Class<?>> findMavenITClass(ExtensionContext context) {
+    Optional<ExtensionContext> current = Optional.of(context);
+    while (current.isPresent()) {
+      if (current.get().getTestClass().isPresent()) {
+        Class<?> testClass = current.get().getTestClass().get();
+        if (testClass.isAnnotationPresent(MavenIT.class)) {
+          return Optional.of(testClass);
+        }
       }
       current = current.get().getParent();
     }
@@ -83,34 +92,28 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
   }
 
   @Override
-  public void beforeAll(ExtensionContext context) {
-  }
-
-  @Override
-  public void beforeEach(ExtensionContext context) throws Exception {
+  public void beforeEach(ExtensionContext context) {
     Class<?> testClass = context.getTestClass()
         .orElseThrow(() -> new ExtensionConfigurationException("MavenITExtension is only supported for classes."));
 
     //FIXME: Need to reconsider the maven-it directory?
     File baseDirectory = new File(DirectoryHelper.getTargetDir(), "maven-it");
-    String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass.getPackage(),
-        testClass.getSimpleName());
+    String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);
 
     File mavenItBaseDirectory = new File(baseDirectory, toFullyQualifiedPath);
     mavenItBaseDirectory.mkdirs();
 
     Store store = context.getStore(NAMESPACE_MAVEN_IT);
-    store.put(Result.BaseDirectory, mavenItBaseDirectory);
+    store.put(Result.BaseDirectory, baseDirectory);
+    store.put(Result.BaseITDirectory, mavenItBaseDirectory);
     store.put(TARGET_DIRECTORY, DirectoryHelper.getTargetDir());
-  }
-
-  @Override
-  public void postProcessTestInstance(Object testInstance, ExtensionContext context) {
   }
 
   @Override
   public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
+    //Java9+
+    // List.of(...)
     List<Class<?>> availableTypes = Arrays.asList(MavenExecutionResult.class, MavenLog.class, MavenCacheResult.class,
         MavenProjectResult.class);
     return availableTypes.contains(parameterContext.getParameter().getParameterizedType());
@@ -125,39 +128,38 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     Result result = Stream.of(Result.values())
         .filter(s -> s.getKlass().equals(parameterContext.getParameter().getType()))
         .findFirst()
-        .orElseGet(() -> Result.BaseDirectory);
+        .orElseGet(() -> Result.BaseITDirectory);
 
     return nameSpace.get(result + extensionContext.getUniqueId(), result.getKlass());
   }
 
   @Override
   public void beforeTestExecution(ExtensionContext context) throws IOException, InterruptedException {
-    AnnotatedElement annotatedElement = context.getElement()
-        .orElseThrow(() -> new IllegalStateException("MavenIT Annotation not found."));
-
     Store nameSpace = context.getStore(NAMESPACE_MAVEN_IT);
-    File mavenItBaseDirectory = nameSpace.get(Result.BaseDirectory, File.class);
+    File mavenItBaseDirectory = nameSpace.get(Result.BaseITDirectory, File.class);
+    File mavenBaseDirectory = nameSpace.get(Result.BaseDirectory, File.class);
     File targetDirectory = nameSpace.get(TARGET_DIRECTORY, File.class);
 
     Method methodName = context.getTestMethod().orElseThrow(() -> new IllegalStateException("No method given"));
 
     Class<?> testClass = context.getTestClass().orElseThrow(() -> new IllegalStateException("Test class not found."));
-    MavenIT mavenIT = testClass.getAnnotation(MavenIT.class);
-
     File integrationTestCaseDirectory = new File(mavenItBaseDirectory, methodName.getName());
     integrationTestCaseDirectory.mkdirs();
 
-    File cacheDirectory = new File(integrationTestCaseDirectory, ".m2/repository");
-    if (MavenCache.Global.equals(mavenIT.mavenCache())) {
-      cacheDirectory = new File(mavenItBaseDirectory, ".m2/repository");
+    Optional<Class<?>> optionalMavenRepository = findMavenRepositoryTestClass(context);
+    File cacheDirectory = new File(integrationTestCaseDirectory, ".m2/repository"); //Hard coded default.
+    if (optionalMavenRepository.isPresent()) {
+      MavenRepository mavenRepository = optionalMavenRepository.get().getAnnotation(MavenRepository.class);
+      String repositoryPath = DirectoryHelper.toFullyQualifiedPath(optionalMavenRepository.get());
+      File cacheDirectoryBase = new File(mavenBaseDirectory, repositoryPath);
+      cacheDirectory = new File(cacheDirectoryBase, mavenRepository.value());
     }
     cacheDirectory.mkdirs();
 
     File projectDirectory = new File(integrationTestCaseDirectory, "project");
     projectDirectory.mkdirs();
 
-    String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass.getPackage(),
-        testClass.getSimpleName());
+    String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);
 
     //FIXME: Copy artifacts from maven-invoker-plugin:install location into each cache HARD CODED!!
     FileUtils.copyDirectory(new File(targetDirectory, "invoker-repo"), cacheDirectory);
@@ -166,7 +168,6 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     File mavenItsBaseDirectory = new File(DirectoryHelper.getTargetDir(), "test-classes");
     File copyMavenPluginProject = new File(mavenItsBaseDirectory, toFullyQualifiedPath + "/" + methodName.getName());
     FileUtils.copyDirectory(copyMavenPluginProject, projectDirectory);
-
 
     String mavenHome = System.getProperty("maven.home");
     if (mavenHome == null || mavenHome.isEmpty()) {
@@ -189,7 +190,7 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     executionArguments.addAll(defaultArguments);
 
     if (hasActiveProfiles(methodName)) {
-      String collect = Arrays.asList(getActiveProfiles(methodName)).stream().collect(joining(",", "-P", ""));
+      String collect = Stream.of(getActiveProfiles(methodName)).collect(joining(",", "-P", ""));
       executionArguments.add(collect);
     }
 
@@ -197,7 +198,9 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
       executionArguments.add("-X");
     }
 
-    String[] resultingGoals = GoalPriority.goals(mavenIT.goals(), getGoals(methodName));
+    Class<?> mavenIT = findMavenITClass(context).orElseThrow(IllegalStateException::new);
+    MavenIT mavenITAnnotation = mavenIT.getAnnotation(MavenIT.class);
+    String[] resultingGoals = GoalPriority.goals(mavenITAnnotation.goals(), getGoals(methodName));
     executionArguments.addAll(Stream.of(resultingGoals).collect(toList()));
 
     Process start = mavenExecutor.start(executionArguments);
@@ -224,16 +227,9 @@ public class MavenITExtension implements BeforeEachCallback, BeforeAllCallback, 
     nameSpace.put(Result.ProjectResult + context.getUniqueId(), mavenProjectResult);
   }
 
-  @Override
-  public void afterTestExecution(ExtensionContext context) {
-  }
-
-  @Override
-  public void afterAll(ExtensionContext context) {
-  }
-
   private enum Result {
-    BaseDirectory(Void.class), //????
+    BaseDirectory(Void.class),
+    BaseITDirectory(Void.class), //????
     ExecutionResult(MavenExecutionResult.class),
     LogResult(MavenLog.class),
     CacheResult(MavenCacheResult.class),

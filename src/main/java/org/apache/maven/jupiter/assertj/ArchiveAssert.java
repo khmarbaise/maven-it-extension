@@ -35,6 +35,7 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
    *   <li>META-INF/maven/&lt;groupId&gt;/&lt;artifactId&gt;/pom.properties</li>
    * </ul>
    *
+   *
    * @return {@link ArchiveAssert}
    */
   public ArchiveAssert ignoreMavenFiles() {

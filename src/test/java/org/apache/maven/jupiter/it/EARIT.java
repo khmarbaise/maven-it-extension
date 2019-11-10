@@ -82,6 +82,10 @@ class EARIT {
   void transitive_excludes(MavenExecutionResult result, MavenProjectResult project, MavenLog log) {
     assertThat(result).isSuccessful();
     assertThat(log).isSuccessful();
+    assertThat(log).info().stream().filter(s -> s.startsWith("TESTING"));
+    assertThat(log).debug().stream().filter(s -> s.endsWith("FAILURE"));
+    //assertThat(log).buildFailure(); DOES NOT WORK YET
+
     assertThat(project).hasTarget()
         .withEarFile()
         .containsOnlyOnce("org.apache.maven-maven-core-3.0.jar", "META-INF/application.xml");
@@ -92,8 +96,29 @@ class EARIT {
     assertThat(result).isSuccessful();
     assertThat(project)
         .hasModule("war-module")
-        .hasModule("ear-module")
+        .hasModule("ear-module");
+
+    /*
+    target (issue-4-maven-log-file-assertions *)$ unzip -t ear-module-1.0.ear
+Archive:  ear-module-1.0.ear
+    testing: META-INF/MANIFEST.MF     OK
+    testing: META-INF/                OK
+    testing: lib/                     OK
+    testing: META-INF/maven/          OK
+    testing: META-INF/maven/org.apache.maven.its.ear.skinnywars/   OK
+    testing: META-INF/maven/org.apache.maven.its.ear.skinnywars/ear-module/   OK
+    testing: org.apache.maven.its.ear.skinnywars-war-module-1.0.war   OK
+    testing: META-INF/application.xml   OK
+    testing: lib/commons-lang-commons-lang-2.5.jar   OK
+    testing: META-INF/maven/org.apache.maven.its.ear.skinnywars/ear-module/pom.xml   OK
+    testing: META-INF/maven/org.apache.maven.its.ear.skinnywars/ear-module/pom.properties   OK
+No errors detected in compressed data of ear-module-1.0.ear.
+     */
+    assertThat(project)
+        .withModule("ear-module")
         .withEarFile()
-        .containsOnlyOnce("org.apache.maven-maven-core-3.0.jar", "META-INF/application.xml");
+        .containsOnlyOnce("org.apache.maven.its.ear.skinnywars-war-module-1.0.war",
+            "lib/commons-lang-commons-lang-2.5.jar",
+            "META-INF/application.xml");
   }
 }

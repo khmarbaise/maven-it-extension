@@ -9,6 +9,8 @@
 :maven-plugins: https://maven.apache.org/plugins/[Maven Plugins]
 :maven-failsafe-plugin: https://maven.apache.org/surefire/maven-failsafe-plugin/[Maven Failsafe Plugin]
 
+:mock-repository-manager: https://www.mojohaus.org/mrm/index.html[Mock Repository Manager]
+
 
 == Overview
 The expressiveness of tests is a very important part of writing integration tests or
@@ -175,7 +177,7 @@ The structure of the Maven projects in `resources-its` directory:
         └── resources-its/
             └── org/
                 └── it/
-                    └── FirstIT/
+                    └── FirstMavenIT/
                         ├── the_first_test_case/
                         │   ├── src/
                         │   └── pom.xml
@@ -195,7 +197,7 @@ The resulting structure after run will look like this:
    └── maven-its/
        └── org/
            └── it/
-               └── FirstIT/
+               └── FirstMavenIT/
                    └── the_first_test_case/
                    │   ├── .m2/
                    │   ├── project/
@@ -247,7 +249,196 @@ on a test case or on a more general way.
 * [ ] Support for a mock repository manager (mrm) to make tests cases with deploy/releases
  etc. possible. A thought might be to integrate the functionalitly of mrm into this
  extension and somehow configure that for the test cases?
+* [ ] Support for {mock-repository-manager}
 
+
+== Ideas
+=== Separation for Cache (aka Local Maven Repository)
+
+`@MavenRepository` should be implemented as separate Extension or separate annotation?
+
+Currently the definition for the cache would be defined in one go with the `@MavenIT`
+annotations which implies the following test cases would assume
+that the cache is defined for all tests which means globally to the given
+class which in the following is not correct as it is newly defined for the
+`NestedExample` class.
+If I redefined the `@MavenIT(mavenCache=MavenCache.Global)` on the
+nested class `NestedExample` it would result into having an other
+cache for the nested class but not what I wanted to have.
+
+So the cache definition should not being made in relationship with the `@MavenIT`
+annotation.
+
+[source,java]
+----
+@MavenIT(mavenCache = MavenCache.Global)
+class MavenIntegrationExampleNestedGlobalRepoIT {
+
+  @MavenTest
+  void packaging_includes(MavenExecutionResult result) {
+  }
+
+  @MavenIT
+  class NestedExample {
+
+    @MavenTest
+    void basic(MavenExecutionResult result) {
+    }
+
+    @MavenTest
+    void packaging_includes(MavenExecutionResult result) {
+    }
+
+  }
+
+}
+----
+
+The solution would be to have a separate annotation for the `@MavenRepository`
+to defined the cache. So the following code shows directly that the
+repository is defined on the highest class level which can be inherited
+automatically.
+The annotation in its default form defines the repository to be
+defined in `.m2/repository`. It might be a good idea to make it configurable(?)
+If we like to change the behaviour in derived class the annotation
+can be added on the derived classes as well.
+[source,java]
+----
+@MavenIT
+@MavenRepository
+class MavenIntegrationExampleNestedGlobalRepoIT {
+
+  @MavenTest
+  void packaging_includes(MavenExecutionResult result) {
+  }
+
+  @MavenIT
+  class NestedExample {
+
+    @MavenTest
+    void basic(MavenExecutionResult result) {
+    }
+
+    @MavenTest
+    void packaging_includes(MavenExecutionResult result) {
+    }
+
+  }
+
+}
+----
+
+The following gives you an impression of making the repository defined in another
+directory. (This will overwrite the default.)
+[source,java]
+----
+@MavenIT
+@MavenRepository(".anton")
+class MavenIntegrationExampleNestedGlobalRepoIT {
+
+  @MavenTest
+  void packaging_includes(MavenExecutionResult result) {
+  }
+
+  @MavenIT
+  class NestedExample {
+
+    @MavenTest
+    void basic(MavenExecutionResult result) {
+    }
+
+    @MavenTest
+    void packaging_includes(MavenExecutionResult result) {
+    }
+  }
+}
+----
+
+The annotation is better decision to be open for later enhancements if we think
+about separating repositories for releases, snapshots etc. So this annotation
+could easily enhanced with parameters like the following:
+[source,java]
+----
+import org.apache.maven.jupiter.extension.MavenIT;
+@MavenIT
+@MavenRepository(releases=".releases", snapshots=".snapshots")
+class IntegrationIT {
+
+}
+----
+
+
+=== Mock Repository Manager
+Mock Repository Manager:
+
+Support for the Mock Repository Manager
+
+Defining the url by default `localhost:Port`...
+
+Need to define the port via random ? Random Factory for all Tests to prevent
+collision for different tests (Parallelization!).
+
+Should be implemented as separate extension.
+
+Inject URL as property for the calling MVN process.
+
+[source,java]
+----
+@MavenIT
+@MavenMockRepositoryManager
+class FirstMavenIT {
+
+  @MavenTest
+  void the_second_test_case(MavenExecutionResult result) {
+    //
+  }
+
+}
+----
+
+There are several things to be defined like the source repository which contains
+artifacts https://www.mojohaus.org/mrm/mrm-maven-plugin/examples/invoker-tests.html[already installed an repository]
+
+The default directory where to find artifacts which are already within the repository can be
+found in a directory `.mrm`
+
+The position where we defined the `@MavenMockRepositoryManager` annotation shows us
+on which level we would like to support the usage of it. The above example defines it
+on integration test class level which means all methods/nested classes will inherit it
+by default if not overwritten.
+
+
+The following examples shows that the mock repository manager will only be
+used for the single test case `the_second_test_case`.
+
+[source,java]
+----
+@MavenIT
+class FirstMavenIT {
+
+  @MavenTest
+  void the_first_test_case(MavenExecutionResult result) {
+    //
+  }
+
+  @MavenTest
+  @MavenMockRepositoryManager
+  void the_second_test_case(MavenExecutionResult result) {
+    //
+  }
+
+}
+----
+If we would like to have a mock repository manager should be used for a large number
+of test would could defined the annotation `@MavenMockRepositoryManager` on
+a separate class/interface which is implemented/extends from for the classes which should be
+used.
+
+==== Implementation Hints
+
+Might be implemented as proxies for the JVM ?
+resolving things like central/ or repo1.maven.org? Or would it be better
+to define a `settings.xml` file?
 
 === Setup Projects
 We have in general three different scenarios.
@@ -367,7 +558,7 @@ General Setup repositories which already contain particular dependencies which a
 for test cases. Here we need to make it possible having a local repository to be pre defined
 on a test case or on a more general way.
 
-The simplest solutin would be to create a directory called something like `.predefined-repo` in
+The simplest solution would be to create a directory called something like `.predefined-repo` in
 a particular directory level which implies that this directory will be used as a repository.
 This can be taken as a pre installed local cache with particular dependencies etc.
 
@@ -473,7 +664,7 @@ custom-containerDescriptorHandler (master)$ tree
 <1> What is the purpose of this pom file?
 
 Based on the `invoker.properties` file this test case is divided into two steps:
-The first step is to install the `handler-def` project into local cache and
+The first step is to `install` the `handler-def` project into local cache and
 second run `package` phase on the project `assembly`.
 
 [source,properties]
@@ -493,17 +684,19 @@ The simple answer is like this:
 .CustomContainerDescriptorHandlerIT.java
 ----
 package org.it;
+
 import static org.apache.maven.jupiter.assertj.MavenITAssertions.assertThat;
 
 import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenRepository;
 import org.apache.maven.jupiter.extension.MavenTest;
-import org.apache.maven.jupiter.extension.maven.MavenCache;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
 
-@MavenIT(mavenCache = MavenCache.Global)
+@MavenIT
+@MavenRepository
 @TestMethodOrder(OrderAnnotation.class)
 class CustomContainerDescriptorHandlerIT {
 
@@ -530,3 +723,68 @@ https://github.com/apache/maven-assembly-plugin/tree/master/src/it/it-project-pa
 Based on this setup you will get separated log files for each run in it's own directory not concatenated
 into a single file.
 
+
+==== Grouping Test Cases(Might move to other location)
+
+This will result in grouping tests within the single class.
+
+Thinking into another level a test could look like this:
+
+[source,java]
+.ContainerDescriptorHandlerIT.java
+----
+package org.it;
+
+import static org.apache.maven.jupiter.assertj.MavenITAssertions.assertThat;
+
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenRepository;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.TestMethodOrder;
+
+@TestMethodOrder(OrderAnnotation.class)
+class ContainerDescriptorsIT {
+
+  @Nested
+  @MavenIT
+  @MavenRepository
+  class CustomContainerDescriptorHandler {
+
+    @MavenTest(goals = {"install"})
+    @Order(10)
+    void handler_ref(MavenExecutionResult result) {
+      assertThat(result).isSuccessful();
+    }
+
+    @MavenTest
+    void assembly(MavenExecutionResult result) {
+      assertThat(result).isSuccessful();
+      // check content of the `assembly/target/ directory
+      // Details see https://github.com/apache/maven-assembly-plugin/blob/master/src/it/projects/container-descriptors/custom-containerDescriptorHandler/verify.bsh
+    }
+  }
+
+  @MavenIT
+  @MavenRepository
+  class ConfiguredHandler {
+
+    @MavenTest(goals = {"install"})
+    @Order(10)
+    void handler_ref(MavenExecutionResult result) {
+      assertThat(result).isSuccessful();
+    }
+
+    @MavenTest
+    void assembly(MavenExecutionResult result) {
+      assertThat(result).isSuccessful();
+      // check content of the `assembly/target/ directory
+      // Details see https://github.com/apache/maven-assembly-plugin/blob/master/src/it/projects/container-descriptors/custom-containerDescriptorHandler/verify.bsh
+    }
+  }
+
+}
+----

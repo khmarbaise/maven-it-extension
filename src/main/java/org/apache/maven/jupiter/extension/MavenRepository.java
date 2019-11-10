@@ -1,4 +1,4 @@
-package org.apache.maven.jupiter.it;
+package org.apache.maven.jupiter.extension;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,20 +19,28 @@ package org.apache.maven.jupiter.it;
  * under the License.
  */
 
-import static org.apache.maven.jupiter.assertj.MavenExecutionResultAssert.assertThat;
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
-import org.apache.maven.jupiter.extension.MavenIT;
-import org.apache.maven.jupiter.extension.MavenTest;
-import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
-import org.junit.jupiter.api.Disabled;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import org.apiguardian.api.API;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-@MavenIT
-@Disabled("Currently disabled based on MEAR-566")
-class SixthIT {
+/**
+ * @author Karl Heinz Marbaise
+ */
+@Target({ElementType.TYPE, ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+@ExtendWith(MavenITExtension.class)
+@Documented
+@Inherited
+@API(status = EXPERIMENTAL, since = "0.1")
+public @interface MavenRepository {
 
-  @MavenTest
-  void basic(MavenExecutionResult result) {
-    assertThat(result).isSuccessful();
-  }
+  String value() default ".m2/repository";
 
 }

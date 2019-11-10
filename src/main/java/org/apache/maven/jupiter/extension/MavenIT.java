@@ -26,9 +26,9 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import org.apache.maven.jupiter.extension.maven.MavenCache;
 import org.apache.maven.jupiter.extension.maven.MavenVersion;
 import org.apiguardian.api.API;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
@@ -38,16 +38,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @Retention(RetentionPolicy.RUNTIME)
 @ExtendWith(MavenITExtension.class)
 @Documented
+@Nested
 @API(status = EXPERIMENTAL, since = "0.1")
 public @interface MavenIT {
 
   //TODO: Reconsider?
   MavenVersion[] versions() default MavenVersion.M3_6_2;
-
-  /**
-   * @return {@link MavenCache}
-   */
-  MavenCache mavenCache() default MavenCache.Local;
 
   /**
    * Defines the goals which are being executed by default for

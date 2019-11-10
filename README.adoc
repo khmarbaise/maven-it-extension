@@ -294,22 +294,30 @@ the integration test cases in a simple way.
 
 
 It is possible to define the cache for several test cases globally which can simply being done by
-using the following annotation parameter `mavenCache=MavenCache.Global`.
+using the following annotation `@MavenRepository`.
 This give the opportunity to make different tests share the same cache which is like a usual setup
 for a user on a local machine which can be used to test different scenarios.
-The other possible value is the default which is `mavenCache=MavenCache.Local` which means having
-the cache locally to each test case. This will separate each integration test case from each other.
+The default behaviour is that each test case has it's own local cache `.m2/repository`.
 
+One very important thing is to mention that if you define `@MavenRepository` as given in the
+following example you have to be aware of that those test cases running by default in parallel
+which mean you have to limit the thread usage via `@Execution(ExecutionMode.SAME_THREAD)` otherwise
+it could happen you might get strange errors.
 [source,java]
 .FirstMavenIT.java
 ----
 package org.it;
-import org.apache.maven.jupiter.extension.MavenIT;
-import org.apache.maven.jupiter.extension.MavenTest;
-import org.apache.maven.jupiter.extension.maven.MavenCache;
-import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 
-@MavenIT(mavenCache = MavenCache.Global)
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenRepository;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
+
+@MavenIT
+@MavenRepository
+@Execution(ExecutionMode.SAME_THREAD)
 class FirstIT {
 
   @MavenTest
@@ -325,21 +333,24 @@ class FirstIT {
 Sometimes it could be useful to setup a number of project together to test things related to
 usage of other other artifacts or other projects etc. this can be achieved by using the following
 setup:
+
 [source,java]
 .MavenIntegrationIT.java
 ----
 package org.it;
+
 import static org.apache.maven.jupiter.assertj.MavenITAssertions.assertThat;
 
 import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenRepository;
 import org.apache.maven.jupiter.extension.MavenTest;
-import org.apache.maven.jupiter.extension.maven.MavenCache;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
 
-@MavenIT(mavenCache = MavenCache.Global)
+@MavenIT
+@MavenRepository
 @TestMethodOrder(OrderAnnotation.class)
 class MavenIntegrationIT {
 
@@ -361,8 +372,8 @@ class MavenIntegrationIT {
   }
 }
 ----
-Based on the given annotation with parameters `@MavenIT(mavenCache = MavenCache.Global)` this will
-define a global cache for each of the test cases within the given test class `MavenIntegrationIT`.
+Based on the given annotation  `@MavenRepository` this will
+define a global cache for all of the test cases within the given test class `MavenIntegrationIT`.
 
 So based on the above test case you will get a resulting directory structure which looks like this:
 [source,text]

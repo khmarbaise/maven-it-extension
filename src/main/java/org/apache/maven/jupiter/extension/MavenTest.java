@@ -76,7 +76,7 @@ public @interface MavenTest {
    * configuration if you need. Best practice is to follow the convention over configuration paradigm.
    *
    * @return The name of the project which is used.
-   * FIXME: Currently not implemented. Idea!
+   * @implNote FIXME: Currently not implemented. Idea!
    */
   String project() default "";
 }
