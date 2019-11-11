@@ -16,8 +16,13 @@
 
 = Overview
 
+[.float-group]
+--
+[.left]
 image::https://github.com/khmarbaise/maven-it-extension/workflows/JDKBuilds/badge.svg[link="https://github.com/khmarbaise/maven-it-extension/actions?query=workflow%3AJDKBuilds"]
+[.left]
 image::https://github.com/khmarbaise/maven-it-extension/workflows/Main/badge.svg[link="https://github.com/khmarbaise/maven-it-extension/actions?query=workflow%3AMain"]
+--
 
 We will use some terms in this document:
 
