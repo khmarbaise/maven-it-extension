@@ -208,7 +208,7 @@ directory will look like this:
        └── org/
            └── it/
                └── SeveralMavenIT/
-                   └── the_first_test_case/
+                   ├── the_first_test_case/
                    │   ├── .m2/
                    │   ├── project/
                    │   │   ├── src/
