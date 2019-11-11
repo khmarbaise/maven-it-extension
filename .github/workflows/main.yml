@@ -26,7 +26,7 @@ on:
 
 jobs:
   linux:
-    name: 'Linux'
+    name: Linux
     runs-on: ubuntu-latest
     container: "maven:3.6.2-jdk-8-slim"
     steps:
@@ -46,7 +46,7 @@ jobs:
 #        shell: bash
 #        run: mvn -V --no-transfer-progress clean verify -Prun-its -Drat.ignoreErrors=true --fail-at-end -Dcheckstyle.skip=true
   mac:
-    name: 'Mac OS'
+    name: MacOS
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@master
