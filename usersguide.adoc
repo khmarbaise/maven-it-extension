@@ -5,10 +5,22 @@
 :sectnums:
 :toc:
 
+:junit-jupiter: https://junit.org/junit5/[JUnit Jupiter]
+
 :maven-invoker-plugin: https://maven.apache.org/plugins/maven-invoker-plugin[Maven Invoker Plugin]
 :maven-plugins: https://maven.apache.org/plugins/[Maven Plugins]
 :maven-failsafe-plugin: https://maven.apache.org/surefire/maven-failsafe-plugin/[Maven Failsafe Plugin]
 :mock-repository-manager: https://www.mojohaus.org/mrm/index.html[Mock Repository Manager]
+
+== Basics
+
+This integration test framework is an extension for {junit-jupiter}. The usage of JUnit Jupiter
+already gives a lot of support for things are very useful in case of writing unit- and integration
+tests.
+
+== Status
+
+The current status of this extension is experimental.
 
 == Overview
 The expressiveness of tests is a very important part of writing integration tests or
@@ -38,6 +50,10 @@ class FirstMavenIT {
 
 }
 ----
+
+The above used assertions like `assertThat(..)` are custom assertions which will be explained in
+later chapters
+//FIXME: link to chapter for assertions.
 
 == Structuring Integration Tests
 
@@ -100,9 +116,40 @@ The usage of the *method name* implies some limitations based on the naming rule
 The best practice is to write *method names* with lowercase letters and separate words by using an
 underscore `_`. This will prevent issues with case insensitive file systems.
 
+=== Test Case Execution
+
+During the execution of the integration tests the following directory structure will be created
+within the `target` directory:
+[source,text]
+----
+.
+└──target/
+   └── maven-its/
+       └── org/
+           └── it/
+               └── FirstMavenIT/
+                   └── the_first_test_case/
+                       ├── .m2/
+                       ├── project/
+                       │   ├── src/
+                       │   ├── target/
+                       │   └── pom.xml
+                       ├── mvn-stdout.log
+                       ├── mvn-stderr.log
+                       └── other logs
+----
+Based on the above you can see that each *test case* (method within the test class `FirstMavenIT`)
+has it's own local repository (aka local cache) `.m2/repository`. Furthermore you see that the
+project is built within the `project` directory. This gives you a view of the built project as you
+did on plain command line and take a look into it. The output of the built is written into
+`mvn-stdout.log` (stdout) and the output to stderr is written to `mvn-stderr.log`.
+//TODO: Define `other logs` ? environment output, command line parameters ?
+//FIXME: Needs to be implemented
+
 === Several Test Cases
 If we like to define several integration test cases within a single test class `SeveralMavenIT`
-which means the resulting test class looks like this:
+we have to define different methods which are the test cases. This results in the following
+class layout:
 [source,java]
 ----
 package org.it;
@@ -195,36 +242,6 @@ in the `mvn-stderr.log`. In the `project` directory you will find the usual `tar
 which contains the Maven output which might be interesting as well. Furthermore the
 local cache (aka maven repository) is available separately for each test case and can be found
 in the `.m2/repository` directory.
-
-=== Test Case Execution
-
-During the execution of the integration tests the following directory structure will be created
-within the `target` directory:
-[source,text]
-----
-.
-└──target/
-   └── maven-its/
-       └── org/
-           └── it/
-               └── FirstMavenIT/
-                   └── the_first_test_case/
-                       ├── .m2/
-                       ├── project/
-                       │   ├── src/
-                       │   ├── target/
-                       │   └── pom.xml
-                       ├── mvn-stdout.log
-                       ├── mvn-stderr.log
-                       └── other logs
-----
-Based on the above you can see that each *test case* (method within the test class `FirstMavenIT`)
-has it's own local repository (aka local cache) `.m2/repository`. Furthermore you see that the
-project is built within the `project` directory. This gives you a view of the built project as you
-did on plain command line and take a look into it. The output of the built is written into
-`mvn-stdout.log` (stdout) and the output to stderr is written to `mvn-stderr.log`.
-//TODO: Define `other logs` ? environment output, command line parameters ?
-//FIXME: Needs to be implemented
 
 
 
