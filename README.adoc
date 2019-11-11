@@ -16,8 +16,8 @@
 
 = Overview
 
-image::https://github.com/khmarbaise/maven-it-extension/workflows/JDKBuilds/badge.svg[Action Status:JDK Builds]
-image::https://github.com/khmarbaise/maven-it-extension/workflows/Main/badge.svg[Action Status: Main]
+image::https://github.com/khmarbaise/maven-it-extension/workflows/JDKBuilds/badge.svg[link="https://github.com/khmarbaise/maven-it-extension/actions?query=workflow%3AJDKBuilds"]
+image::https://github.com/khmarbaise/maven-it-extension/workflows/Main/badge.svg[link="https://github.com/khmarbaise/maven-it-extension/actions?query=workflow%3AMain"]
 
 We will use some terms in this document:
 
