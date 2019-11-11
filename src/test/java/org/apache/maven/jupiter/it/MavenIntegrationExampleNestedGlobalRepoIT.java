@@ -23,25 +23,24 @@ import org.apache.maven.jupiter.extension.MavenIT;
 import org.apache.maven.jupiter.extension.MavenRepository;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.junit.jupiter.api.Nested;
 
 /**
- * The {@code @Execution(ExecutionMode.SAME_THREAD} needs
- * to be defined cause otherwise all three test cases
- * run in parallel and will influence each other which would
- * result in failures.
+ * The {@code @Execution(ExecutionMode.SAME_THREAD} needs to be defined cause otherwise all three test cases run in
+ * parallel and will influence each other which would result in failures.
+ *
+ * Based on convenience we have put the usage of {@code @Execution(ExecutionMode.SAME_THREAD} into the {@code
+ * @MavenRepository} annotation which makes it easier to use.
  */
 @MavenIT
 @MavenRepository
-@Execution(ExecutionMode.SAME_THREAD)
 class MavenIntegrationExampleNestedGlobalRepoIT {
 
   @MavenTest
   void packaging_includes(MavenExecutionResult result) {
   }
 
-  @MavenIT
+  @Nested
   class NestedExample {
 
     @MavenTest

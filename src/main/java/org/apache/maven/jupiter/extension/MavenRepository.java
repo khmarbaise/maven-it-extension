@@ -29,6 +29,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import org.apiguardian.api.API;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 /**
  * @author Karl Heinz Marbaise
@@ -38,6 +40,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @ExtendWith(MavenITExtension.class)
 @Documented
 @Inherited
+@Execution(ExecutionMode.SAME_THREAD)
 @API(status = EXPERIMENTAL, since = "0.1")
 public @interface MavenRepository {
 

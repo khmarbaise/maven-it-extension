@@ -243,6 +243,143 @@ which contains the Maven output which might be interesting as well. Furthermore 
 local cache (aka maven repository) is available separately for each test case and can be found
 in the `.m2/repository` directory.
 
+== Scenarios
+
+=== Grouping Test Cases
+Sometimes it makes sense to group test into different groups together. This can be achieved
+via the `@Nested` annotation which is provided by {junit-jupiter}. This would result in
+a test class like this:
+[source,java]
+.MavenIntegrationGroupingIT.java
+----
+@MavenIT
+class MavenIntegrationGroupingIT {
+
+  @MavenTest
+  void packaging_includes(MavenExecutionResult result) {
+  }
+
+  @Nested
+  class NestedExample {
+
+    @MavenTest
+    void basic(MavenExecutionResult result) {
+    }
+
+    @MavenTest
+    void packaging_includes(MavenExecutionResult result) {
+    }
+
+  }
+}
+----
+After test execution the resulting directory tree looks like this:
+[source,text]
+----
+.
+└──target/
+   └── maven-its/
+       └── org/
+           └── it/
+               └── MavenIntegrationGroupingIT/
+                   ├── packaging_includes/
+                   │   ├── .m2/
+                   │   ├── project/
+                   │   │   ├── src/
+                   │   │   ├── target/
+                   │   │   └── pom.xml
+                   │   ├── mvn-stdout.log
+                   │   ├── mvn-stderr.log
+                   │   └── other logs
+                   └── NestedExample/
+                       ├── basic/
+                       │   ├── .m2/
+                       │   ├── project/
+                       │   │   ├── src/
+                       │   │   ├── target/
+                       │   │   └── pom.xml
+                       │   ├── mvn-stdout.log
+                       │   ├── mvn-stderr.log
+                       │   └── other logs
+                       └── packaging_includes/
+                           ├── .m2/
+                           ├── project/
+                           │   ├── src/
+                           │   ├── target/
+                           │   └── pom.xml
+                           ├── mvn-stdout.log
+                           ├── mvn-stderr.log
+                           └── other logs
+----
+
+
+=== Common Maven Cache
+
+In all previous test case examples the maven cache (aka maven repository)
+is created separately for each of the test cases (*test methods*). There are times
+where you need to have a common cache (aka maven repository) for two or more test
+cases together. This can be achieved easily via the `@MavenRepository` annotation.
+The usage looks like the following:
+
+[source,java]
+.MavenIntegrationExampleNestedGlobalRepoIT.java
+----
+package org.it;
+
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenRepository;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+
+@MavenIT
+@MavenRepository
+class MavenITWithGlobalMavenCacheIT {
+
+  @MavenTest
+  void packaging_includes(MavenExecutionResult result) {
+  }
+
+  @MavenTest
+  void basic(MavenExecutionResult result) {
+  }
+
+}
+----
+
+After test execution the resulting directory tree looks like this:
+[source,text]
+----
+.
+└──target/
+   └── maven-its/
+       └── org/
+           └── it/
+               └── MavenITWithGlobalMavenCacheIT/
+                   ├── .m2/
+                   ├── packaging_includes/
+                   │   ├── project/
+                   │   │   ├── src/
+                   │   │   ├── target/
+                   │   │   └── pom.xml
+                   │   ├── mvn-stdout.log
+                   │   ├── mvn-stderr.log
+                   │   └── other logs
+                   └── basic/
+                       ├── project/
+                       │   ├── src/
+                       │   ├── target/
+                       │   └── pom.xml
+                       ├── mvn-stdout.log
+                       ├── mvn-stderr.log
+                       └── other logs
+----
+
+== Test Case Execution
+
+
+Based on the given structure of directories etc. it is easy to run all test
+cases in parallel which saves a lot of time.
+This mean by default all the test cases are running in parallel.
 
 
 
