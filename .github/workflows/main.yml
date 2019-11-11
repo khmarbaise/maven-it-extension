@@ -15,6 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 #
+name: Main
 on:
   push:
     branches:
@@ -46,7 +47,7 @@ jobs:
 #        shell: bash
 #        run: mvn -V --no-transfer-progress clean verify -Prun-its -Drat.ignoreErrors=true --fail-at-end -Dcheckstyle.skip=true
   mac:
-    name: MacOS
+    name: 'Mac OS'
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@master
