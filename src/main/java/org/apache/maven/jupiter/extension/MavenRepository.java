@@ -41,6 +41,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @API(status = EXPERIMENTAL, since = "0.1")
 public @interface MavenRepository {
 
+  /**
+   * Defines the location of the local cache (aka local repository).
+   *
+   * @return The location of the local cache.
+   */
   String value() default ".m2/repository";
 
 }

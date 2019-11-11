@@ -32,6 +32,9 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
+ * This annotation defines the base to run any kind of integration
+ * tests.
+ *
  * @author Karl Heinz Marbaise
  */
 @Target(ElementType.TYPE)

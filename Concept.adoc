@@ -247,7 +247,7 @@ the integration test cases in a simple way.
 for test cases. Here we need to make it possible having a local repository to be pre defined
 on a test case or on a more general way.
 * [ ] Support for a mock repository manager (mrm) to make tests cases with deploy/releases
- etc. possible. A thought might be to integrate the functionalitly of mrm into this
+ etc. possible. A thought might be to integrate the functionality of mrm into this
  extension and somehow configure that for the test cases?
 * [ ] Support for {mock-repository-manager}
 

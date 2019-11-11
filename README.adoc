@@ -12,8 +12,10 @@
 :maven-plugin-testing-harness: https://maven.apache.org/plugin-testing/maven-plugin-testing-harness/index.html[Maven Plugin Testing Harness]
 :maven-core-it-example: https://github.com/apache/maven-integration-testing/blob/master/core-it-suite/src/test/java/org/apache/maven/it/MavenIT0041ArtifactTypeFromPluginExtensionTest.java[Example of Maven Integration Test]
 
-
 = Overview
+
+https://github.com/khmarbaise/maven-it-extension/workflows/jdkbuilds/badge.svg[Action Status: JDK Builds]
+https://github.com/khmarbaise/maven-it-extension/workflows/main/badge.svg[Action Status: main]
 
 We will use some terms in this document:
 
