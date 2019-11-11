@@ -1,0 +1,157 @@
+= Maven Integration Testing Users Guide
+:author: Karl Heinz Marbaise
+:email: khmarbaise@apache.org
+:revnumber: 0.1.0
+:sectnums:
+:toc:
+
+:maven-invoker-plugin: https://maven.apache.org/plugins/maven-invoker-plugin[Maven Invoker Plugin]
+:maven-plugins: https://maven.apache.org/plugins/[Maven Plugins]
+:maven-failsafe-plugin: https://maven.apache.org/surefire/maven-failsafe-plugin/[Maven Failsafe Plugin]
+:mock-repository-manager: https://www.mojohaus.org/mrm/index.html[Mock Repository Manager]
+
+== Overview
+The expressiveness of tests is a very important part of writing integration tests or
+test in general. If a test is not easy to understand it is very likely not being written.
+
+Lets take a look into the following code which gives you an impression how an integration
+test for a {maven-plugins}/Maven Extensions/Maven-Core should look like:
+
+//FIXME: There are several details which are not yet clear how to solve them?
+[source,java]
+----
+package org.it;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+
+@MavenIT
+class FirstMavenIT {
+
+  @MavenTest
+  void the_first_test_case(MavenExecutionResult result) {
+    assertThat(result).build().isSuccessful();
+  }
+
+}
+----
+
+== Structuring Integration Tests
+
+=== The Test Class(es)
+The location of an integration test defaults to `src/test/java/<package>/FirstMavenIT.java`.
+The selected naming schema like `<any>IT.java` implies that it will be executed by {maven-failsafe-plugin}
+by convention. This will lead us in a directory structure as follows:
+[source,text]
+----
+.
+└── src/
+    └── test/
+        └── java/
+            └── org/
+                └── it/
+                    └── FirstMavenIT.java
+----
+In case of an integration test for a Maven plugin/extension or others we need to be able to
+define also the projects which are the *real test cases* (Maven projects).
+This needs to be put somewhere in the directory tree to be easily associated with the given
+test `FirstMavenIT`.
+
+The project to be used as an test case is implied to be located into
+`src/test/resources-its/<package>/FirstMavenIT` this looks like this:
+//TODO: should we keep the location `resources-its` ?
+[source,text]
+----
+.
+└── src/
+    └── test/
+        └── resources-its/
+            └── org/
+                └── it/
+                    └── FirstMavenIT/
+----
+Currently this location is separated from all other resources directory to make filtering easier
+to be configured within your `pom.xml` file and preventing interfering with other configurations.
+
+We have a test class for example `FirstMavenIT` but what if we like to write several test cases?
+So we need to make separation between different *test cases* which can be achieved by using
+the *method name* within the test class `FirstMavenIT` which is `the_first_test_case` in our example.
+This results in the following directory layout:
+
+[source,text]
+----
+.
+└── src/
+    └── test/
+        └── resources-its/
+            └── org/
+                └── it/
+                    └── FirstMavenIT/
+                        └── the_first_test_case/
+                            ├── src/
+                            └── pom.xml
+----
+This approach gives us the opportunity to write several integration test cases within a
+single test class `FirstMavenIT` and also separates them easily.
+The usage of the *method name* implies some limitations based on the naming rules for *method names*.
+The best practice is to write *method names* with lowercase letters and separate words by using an
+underscore `_`. This will prevent issues with case insensitive file systems.
+
+=== Test Case Execution
+
+During the execution of the integration tests the following directory structure will be created
+within the `target` directory:
+[source,text]
+----
+.
+└──target/
+   └── maven-its/
+       └── org/
+           └── it/
+               └── FirstMavenIT/
+                   └── the_first_test_case/
+                       ├── .m2/
+                       ├── project/
+                       │   ├── src/
+                       │   ├── target/
+                       │   └── pom.xml
+                       ├── mvn-stdout.log
+                       ├── mvn-stderr.log
+                       └── other logs
+----
+Based on the above you can see that each *test case* (method within the test class `FirstMavenIT`)
+has it's own local repository (aka local cache) `.m2/repository`. Furthermore you see that the
+project is built within the `project` directory. This gives you a view of the built project as you
+did on plain command line and take a look into it. The output of the built is written into
+`mvn-stdout.log` (stdout) and the output to stderr is written to `mvn-stderr.log`.
+//TODO: Define `other logs` ? environment output, command line parameters ?
+//FIXME: Needs to be implemented
+
+==== BACKUP AREA
+
+[source,java]
+.filename.java
+----
+    assertThat(result)
+      .project()
+        .hasTarget()
+          .withEarFile()
+            .containsOnlyOnce("META-INF/MANIFEST.MF");
+
+    assertThat(result)
+      .project()
+        .log()
+          .info().contains("Writing data to file");
+
+    assertThat(result)
+      .cache()
+          .hasEarFile("G:A:V")
+          .hasPomFile("G:A:V")
+          .hasMetadata("G:A")
+            .contains("xxx");
+----
+
+

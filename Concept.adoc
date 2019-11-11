@@ -253,7 +253,7 @@ on a test case or on a more general way.
 
 
 == Ideas
-=== Separation for Cache (aka Local Maven Repository)
+=== Separation of the cache (aka Local Maven Repository)
 
 `@MavenRepository` should be implemented as separate Extension or separate annotation?
 
