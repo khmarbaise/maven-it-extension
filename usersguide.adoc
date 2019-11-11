@@ -41,7 +41,7 @@ class FirstMavenIT {
 
 == Structuring Integration Tests
 
-=== The Test Class(es)
+=== A Single Test Case
 The location of an integration test defaults to `src/test/java/<package>/FirstMavenIT.java`.
 The selected naming schema like `<any>IT.java` implies that it will be executed by {maven-failsafe-plugin}
 by convention. This will lead us in a directory structure as follows:
@@ -100,6 +100,102 @@ The usage of the *method name* implies some limitations based on the naming rule
 The best practice is to write *method names* with lowercase letters and separate words by using an
 underscore `_`. This will prevent issues with case insensitive file systems.
 
+=== Several Test Cases
+If we like to define several integration test cases within a single test class `SeveralMavenIT`
+which means the resulting test class looks like this:
+[source,java]
+----
+package org.it;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+
+@MavenIT
+class SeveralMavenIT {
+
+  @MavenTest
+  void the_first_test_case(MavenExecutionResult result) {
+     ...
+  }
+  @MavenTest
+  void the_second_test_case(MavenExecutionResult result) {
+     ...
+  }
+  @MavenTest
+  void the_third_test_case(MavenExecutionResult result) {
+     ...
+  }
+}
+----
+The structure for the Maven projects which are used by each of the test cases (*method names*)
+looks like the following:
+[source,text]
+----
+.
+└── src/
+    └── test/
+        └── resources-its/
+            └── org/
+                └── it/
+                    └── SeveralMavenIT/
+                        ├── the_first_test_case/
+                        │   ├── src/
+                        │   └── pom.xml
+                        ├── the_second_test_case/
+                        │   ├── src/
+                        │   └── pom.xml
+                        └── the_this_test_case/
+                            ├── src/
+                            └── pom.xml
+----
+After running the integration tests the resulting directory structure in the `target`
+directory will look like this:
+[source,text]
+----
+.
+└──target/
+   └── maven-its/
+       └── org/
+           └── it/
+               └── SeveralMavenIT/
+                   └── the_first_test_case/
+                   │   ├── .m2/
+                   │   ├── project/
+                   │   │   ├── src/
+                   │   │   ├── target/
+                   │   │   └── pom.xml
+                   │   ├── mvn-stdout.log
+                   │   ├── mvn-stderr.log
+                   │   └── other logs
+                   ├── the_second_test_case/
+                   │   ├── .m2/
+                   │   ├── project/
+                   │   │   ├── src/
+                   │   │   ├── target/
+                   │   │   └── pom.xml
+                   │   ├── mvn-stdout.log
+                   │   ├── mvn-stderr.log
+                   │   └── other logs
+                   └── the_third_test_case/
+                       ├── .m2/
+                       ├── project/
+                       │   ├── src/
+                       │   ├── target/
+                       │   └── pom.xml
+                       ├── mvn-stdout.log
+                       ├── mvn-stderr.log
+                       └── other logs
+----
+Based on the structure you can exactly dive into each test case separately and take
+a look at the console output of the test case via `mvn-stdout.log` or maybe in case of errors
+in the `mvn-stderr.log`. In the `project` directory you will find the usual `target` directory
+which contains the Maven output which might be interesting as well. Furthermore the
+local cache (aka maven repository) is available separately for each test case and can be found
+in the `.m2/repository` directory.
+
 === Test Case Execution
 
 During the execution of the integration tests the following directory structure will be created
@@ -129,6 +225,9 @@ did on plain command line and take a look into it. The output of the built is wr
 `mvn-stdout.log` (stdout) and the output to stderr is written to `mvn-stderr.log`.
 //TODO: Define `other logs` ? environment output, command line parameters ?
 //FIXME: Needs to be implemented
+
+
+
 
 ==== BACKUP AREA
 
