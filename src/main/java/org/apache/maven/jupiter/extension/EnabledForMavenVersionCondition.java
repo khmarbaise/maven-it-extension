@@ -32,13 +32,13 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.platform.commons.util.Preconditions;
 
 /**
- * {@link ExecutionCondition} for {@link DisabledForMaven @DisableForMaven}.
+ * {@link ExecutionCondition} for {@link EnabledForMavenVersion @EnabledForMaven}.
  *
  * @author Karl Heinz Marbaise
- * @see DisabledForMaven
+ * @see EnabledForMavenVersion
  * @since 0.1
  */
-class DisabledForMavenCondition implements ExecutionCondition {
+class EnabledForMavenVersionCondition implements ExecutionCondition {
 
   static final ConditionEvaluationResult ENABLED_ON_CURRENT_MAVEN_VERSION = //
       enabled("Enabled on Maven version: " + System.getProperty("maven.version"));
@@ -46,16 +46,16 @@ class DisabledForMavenCondition implements ExecutionCondition {
   static final ConditionEvaluationResult DISABLED_ON_CURRENT_MAVEN_VERSION = //
       disabled("Disabled on Maven version: " + System.getProperty("maven.version"));
 
-  private static final ConditionEvaluationResult ENABLED_BY_DEFAULT = enabled("@DisabledForMaven is not present");
+  private static final ConditionEvaluationResult ENABLED_BY_DEFAULT = enabled("@EnabledForMaven is not present");
 
   @Override
   public ConditionEvaluationResult evaluateExecutionCondition(ExtensionContext context) {
-    Optional<DisabledForMaven> optional = findAnnotation(context.getElement(), DisabledForMaven.class);
+    Optional<EnabledForMavenVersion> optional = findAnnotation(context.getElement(), EnabledForMavenVersion.class);
     if (optional.isPresent()) {
       MavenVersion[] versions = optional.get().value();
       Preconditions.condition(versions.length > 0, "You must declare at least one version in @DisabledForMaven");
-      return Stream.of(versions).anyMatch(MavenVersion::isCurrentVersion) ? DISABLED_ON_CURRENT_MAVEN_VERSION
-          : ENABLED_ON_CURRENT_MAVEN_VERSION;
+      return Stream.of(versions).anyMatch(MavenVersion::isCurrentVersion) ? ENABLED_ON_CURRENT_MAVEN_VERSION
+          : DISABLED_ON_CURRENT_MAVEN_VERSION;
     }
     return ENABLED_BY_DEFAULT;
   }

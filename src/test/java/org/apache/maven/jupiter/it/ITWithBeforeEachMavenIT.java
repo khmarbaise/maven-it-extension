@@ -1,16 +1,15 @@
 package org.apache.maven.jupiter.it;
 
+import org.apache.maven.jupiter.extension.BeforeEachMaven;
 import org.apache.maven.jupiter.extension.MavenIT;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
-import org.apache.maven.jupiter.extension.maven.MavenExecutor;
-import org.junit.jupiter.api.BeforeEach;
 
 @MavenIT
-class ITWithBeforeEachIT {
+class ITWithBeforeEachMavenIT {
 
-  @BeforeEach
-  void beforeEach(MavenExecutor executor) {
+  @BeforeEachMaven
+  void beforeEach() {
     System.out.println("* beforeEach of ITWithBeforeEachIT");
     //System.out.println("* result = " + executor);
   }

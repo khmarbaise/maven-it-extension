@@ -1,4 +1,4 @@
-package org.apache.maven.jupiter.utils;
+package org.apache.maven.jupiter.extension.maven;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,26 +19,19 @@ package org.apache.maven.jupiter.utils;
  * under the License.
  */
 
-import java.io.File;
+import java.util.StringJoiner;
 
-/**
- * @author Karl Heinz Marbaise
- */
-public class DirectoryHelper {
+public class MavenExecutor {
 
-  public static File getMavenBaseDir() {
-    return new File(System.getProperty("basedir", System.getProperty("user.dir", ".")));
+  private String executorName;
+
+  public MavenExecutor(String executorName) {
+    this.executorName = executorName;
   }
 
-  public static String toFullyQualifiedPath(Class<?> testClass) {
-    return testClass.getCanonicalName().replace('.', '/');
+  @Override
+  public String toString() {
+    return new StringJoiner(", ", MavenExecutor.class.getSimpleName() + "[", "]").add(
+        "executorName='" + executorName + "'").toString();
   }
-
-  /**
-   * Return the target directory of the current project.
-   */
-  public static File getTargetDir() {
-    return new File(getMavenBaseDir(), "target");
-  }
-
 }

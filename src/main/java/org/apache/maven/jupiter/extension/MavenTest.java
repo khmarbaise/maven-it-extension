@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
 @Documented
 @Inherited
 @Test
-@API(status = EXPERIMENTAL, since = "0.1")
+@API(status = EXPERIMENTAL, since = "0.1.0")
 public @interface MavenTest {
 
   /**

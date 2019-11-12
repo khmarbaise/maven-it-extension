@@ -30,7 +30,7 @@ import org.junit.platform.commons.util.StringUtils;
 /**
  * @author Karl Heinz Marbaise
  */
-@API(status = EXPERIMENTAL, since = "0.1")
+@API(status = EXPERIMENTAL, since = "0.1.0")
 public enum MavenVersion {
   UNKNOWN("UNKOWN"), //TODO: Need to reconsider?
   M3_0_5("3.0.5"),

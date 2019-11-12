@@ -19,6 +19,8 @@ package org.apache.maven.jupiter.extension.maven;
  * under the License.
  */
 
+import java.util.StringJoiner;
+
 /**
  * @author Karl Heinz Marbaise
  */
@@ -79,5 +81,15 @@ public class MavenExecutionResult {
     Successful,
     Failure,
     Error
+  }
+
+  @Override
+  public String toString() {
+    return new StringJoiner(", ", MavenExecutionResult.class.getSimpleName() + "[", "]").add("result=" + result)
+        .add("returnCode=" + returnCode)
+        .add("mavenLog=" + mavenLog)
+        .add("mavenProjectResult=" + mavenProjectResult)
+        .add("mavenCacheResult=" + mavenCacheResult)
+        .toString();
   }
 }

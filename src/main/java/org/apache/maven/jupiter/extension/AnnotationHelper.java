@@ -20,6 +20,8 @@ package org.apache.maven.jupiter.extension;
  */
 
 import java.lang.reflect.Method;
+import java.util.Optional;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.platform.commons.util.Preconditions;
 
 /**
@@ -55,6 +57,34 @@ class AnnotationHelper {
     if (!method.isAnnotationPresent(MavenTest.class)) {
       throw new IllegalStateException("MavenTest Annotation is not given on method: '" + method.getName() + "'");
     }
+  }
+
+  static Optional<Class<?>> findMavenRepositoryAnnotation(ExtensionContext context) {
+    Optional<ExtensionContext> current = Optional.of(context);
+    while (current.isPresent()) {
+      if (current.get().getTestClass().isPresent()) {
+        Class<?> testClass = current.get().getTestClass().get();
+        if (testClass.isAnnotationPresent(MavenRepository.class)) {
+          return Optional.of(testClass);
+        }
+      }
+      current = current.get().getParent();
+    }
+    return Optional.empty();
+  }
+
+  static Optional<Class<?>> findMavenITAnnotation(ExtensionContext context) {
+    Optional<ExtensionContext> current = Optional.of(context);
+    while (current.isPresent()) {
+      if (current.get().getTestClass().isPresent()) {
+        Class<?> testClass = current.get().getTestClass().get();
+        if (testClass.isAnnotationPresent(MavenIT.class)) {
+          return Optional.of(testClass);
+        }
+      }
+      current = current.get().getParent();
+    }
+    return Optional.empty();
   }
 
 }

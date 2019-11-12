@@ -23,6 +23,7 @@ import org.apache.maven.jupiter.extension.MavenIT;
 import org.apache.maven.jupiter.extension.MavenRepository;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 
 /**
@@ -30,11 +31,24 @@ import org.junit.jupiter.api.Nested;
  * parallel and will influence each other which would result in failures.
  *
  * Based on convenience we have put the usage of {@code @Execution(ExecutionMode.SAME_THREAD} into the {@code
+ *
  * @MavenRepository} annotation which makes it easier to use.
  */
 @MavenIT
 @MavenRepository
 class MavenIntegrationExampleNestedGlobalRepoIT {
+
+  @BeforeEach
+  void beforeEachOne(MavenExecutionResult result) {
+    System.out.println("beforeEachOne: result = " + result);
+    System.out.println("beforeEachOne: MavenIntegrationExampleNestedGlobalRepoIT.beforeEach");
+  }
+
+  @BeforeEach
+  void beforeEachTwo(MavenExecutionResult result) {
+    System.out.println("beforeEachTwo: result = " + result);
+    System.out.println("beforeEachTwo: MavenIntegrationExampleNestedGlobalRepoIT.beforeEach");
+  }
 
   @MavenTest
   void packaging_includes(MavenExecutionResult result) {
@@ -44,11 +58,12 @@ class MavenIntegrationExampleNestedGlobalRepoIT {
   class NestedExample {
 
     @MavenTest
-    void basic(MavenExecutionResult result) {
+    void basic(MavenExecutionResult executor) {
     }
 
     @MavenTest
     void packaging_includes(MavenExecutionResult result) {
+      // ..
     }
 
   }

@@ -47,7 +47,7 @@ to write things for integration tests, but since JDK 8 it is not necessary anymo
 * Integrationtests are not that expressive as they should be.
 * Violation of https://en.wikipedia.org/wiki/Separation_of_concerns[separation of concern paradigm]
 ** Conditions
-*** Assertions are hard to express cause one implicit assertion is that a build will be successful
+*** Assertions are hard to express cause one implicit assertion is that a build has to be successful
 *** Conditions for the execution of a test for example are:
 **** should be executed only on JDK11
 **** should be executed only on Maven 3.3.9 and above
@@ -97,7 +97,7 @@ just to write tests. This means in the end: Why Groovy? Just use Java.
 * It's much easier for new contributors/devs to get into the
 project if you only need to know Java to write plugins, unit
 tests and integration tests. So removing a supplemental
-hurdle will help.
+barrier will help.
 * Support for most recent Java versions which is a complete
 blocker for the Apache Maven project, cause the Apache Maven Project is  running builds
 in a very early stage which would block us (see our builds for example {maven-ear-plugin-build}).
@@ -510,8 +510,8 @@ import static org.apache.maven.jupiter.assertj.MavenExecutionResultAssert.assert
 import static org.apache.maven.jupiter.extension.maven.MavenVersion.M3_0_5;
 import static org.apache.maven.jupiter.extension.maven.MavenVersion.M3_6_0;
 
-import org.apache.maven.jupiter.extension.DisabledForMaven;
-import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.DisabledForMavenVersion;
+import org.apache.maven.jupiter.extension.EnabledForMavenVersion;import org.apache.maven.jupiter.extension.MavenIT;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 
@@ -519,12 +519,12 @@ import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 class FirstMavenIT {
 
   @MavenTest
-  @EnabledForMaven(M3_6_0)
+  @EnabledForMavenVersion(M3_6_0)
   void first_test_case(MavenExecutionResult execResult) {
     assertThat(execResult).isSuccessful();
   }
 
-  @DisabledForMaven(M3_0_5)
+  @DisabledForMavenVersion(M3_0_5)
   @MavenTest
   void second_test_case(MavenExecutionResult execResult) {
     assertThat(execResult).isFailed();
@@ -538,20 +538,32 @@ So not run some tests on particular Java version can be handled via usual JUnit 
 [source,java]
 .FivthMavenIT.java
 ----
+import static org.apache.maven.jupiter.assertj.MavenITAssertions.assertThat;
+import static org.apache.maven.jupiter.extension.maven.MavenVersion.M3_0_5;
+import static org.apache.maven.jupiter.extension.maven.MavenVersion.M3_6_0;
+
+import org.apache.maven.jupiter.extension.DisabledForMavenVersion;
+import org.apache.maven.jupiter.extension.EnabledForMavenVersion;
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import org.junit.jupiter.api.condition.DisabledOnJre;
+import org.junit.jupiter.api.condition.JRE;
+
 @MavenIT
-@DisabledOnJre(JAVA_10)
+@DisabledOnJre(JRE.JAVA_10)
 class FirstMavenIT {
 
   @MavenTest
-  @EnabledForMaven(M3_6_0)
+  @EnabledForMavenVersion(M3_6_0)
   void first_test_case(MavenExecutionResult execResult) {
     assertThat(execResult).isSuccessful();
   }
 
-  @DisabledForMaven(M3_0_5)
+  @DisabledForMavenVersion(M3_0_5)
   @MavenTest
   void second_test_case(MavenExecutionResult execResult) {
-    assertThat(execResult).isFailed();
+    assertThat(execResult).isFailure();
   }
 }
 ----

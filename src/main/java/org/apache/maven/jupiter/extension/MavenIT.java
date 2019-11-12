@@ -31,8 +31,9 @@ import org.apiguardian.api.API;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
- * This annotation defines the base to run any kind of integration
- * tests.
+ * This annotation defines the base to run any kind of integration tests.
+ *
+ * <p>This also defines defines some useful defaults.</p>
  *
  * @author Karl Heinz Marbaise
  */
@@ -40,15 +41,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @Retention(RetentionPolicy.RUNTIME)
 @ExtendWith(MavenITExtension.class)
 @Documented
-@API(status = EXPERIMENTAL, since = "0.1")
+@API(status = EXPERIMENTAL, since = "0.1.0")
 public @interface MavenIT {
 
   //TODO: Reconsider?
   MavenVersion[] versions() default MavenVersion.M3_6_2;
 
   /**
-   * Defines the goals which are being executed by default for
-   * all test cases within the class.
+   * Defines the goals which are being executed by default for all test cases within the class.
    *
    * @return The default goals which is executed is {@code package}.
    */

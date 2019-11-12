@@ -26,7 +26,7 @@ The current status of this extension is experimental.
 The expressiveness of tests is a very important part of writing integration tests or
 test in general. If a test is not easy to understand it is very likely not being written.
 
-Lets take a look into the following code which gives you an impression how an integration
+Lets take a look into the following code example which gives you an impression how an integration
 test for a {maven-plugins}/Maven Extensions/Maven-Core should look like:
 
 //FIXME: There are several details which are not yet clear how to solve them?
@@ -89,13 +89,14 @@ The project to be used as an test case is implied to be located into
                 └── it/
                     └── FirstMavenIT/
 ----
-Currently this location is separated from all other resources directory to make filtering easier
-to be configured within your `pom.xml` file and preventing interfering with other configurations.
+Currently this location is separated from all other resources directories to make filtering easier
+which has to be configured within your `pom.xml` file and preventing interfering with other
+configurations.
 
-We have a test class for example `FirstMavenIT` but what if we like to write several test cases?
-So we need to make separation between different *test cases* which can be achieved by using
-the *method name* within the test class `FirstMavenIT` which is `the_first_test_case` in our example.
-This results in the following directory layout:
+We have an integration test class for example `FirstMavenIT` but what if we like to write several
+test cases? So we need to make separation between different *test cases* which can be achieved by
+using the *method name* within the test class `FirstMavenIT` which is `the_first_test_case` in our
+example. This results in the following directory layout:
 
 [source,text]
 ----

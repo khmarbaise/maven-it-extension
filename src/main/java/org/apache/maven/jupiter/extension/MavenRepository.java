@@ -41,7 +41,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Documented
 @Inherited
 @Execution(ExecutionMode.SAME_THREAD)
-@API(status = EXPERIMENTAL, since = "0.1")
+@API(status = EXPERIMENTAL, since = "0.1.0")
 public @interface MavenRepository {
 
   /**

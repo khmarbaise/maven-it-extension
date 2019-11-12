@@ -1,4 +1,4 @@
-package org.apache.maven.jupiter.utils;
+package org.apache.maven.jupiter.extension;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,26 +19,11 @@ package org.apache.maven.jupiter.utils;
  * under the License.
  */
 
-import java.io.File;
+import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 
-/**
- * @author Karl Heinz Marbaise
- */
-public class DirectoryHelper {
+class MavenITNameSpace {
+  static final Namespace NAMESPACE_MAVEN_IT = Namespace.create(MavenITExtension.class);
 
-  public static File getMavenBaseDir() {
-    return new File(System.getProperty("basedir", System.getProperty("user.dir", ".")));
-  }
-
-  public static String toFullyQualifiedPath(Class<?> testClass) {
-    return testClass.getCanonicalName().replace('.', '/');
-  }
-
-  /**
-   * Return the target directory of the current project.
-   */
-  public static File getTargetDir() {
-    return new File(getMavenBaseDir(), "target");
-  }
+  static final String TARGET_DIRECTORY = "TARGET_DIRECTORY";
 
 }

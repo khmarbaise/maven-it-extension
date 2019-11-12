@@ -1,4 +1,4 @@
-package org.apache.maven.jupiter.utils;
+package org.apache.maven.jupiter.extension;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,26 +19,26 @@ package org.apache.maven.jupiter.utils;
  * under the License.
  */
 
-import java.io.File;
+import org.apache.maven.jupiter.extension.maven.MavenCacheResult;
+import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import org.apache.maven.jupiter.extension.maven.MavenLog;
+import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
 
-/**
- * @author Karl Heinz Marbaise
- */
-public class DirectoryHelper {
+enum Result {
+  BaseDirectory(Void.class), //????
+  BaseITDirectory(Void.class), //????
+  ExecutionResult(MavenExecutionResult.class),
+  LogResult(MavenLog.class),
+  CacheResult(MavenCacheResult.class),
+  ProjectResult(MavenProjectResult.class);
 
-  public static File getMavenBaseDir() {
-    return new File(System.getProperty("basedir", System.getProperty("user.dir", ".")));
+  private Class<?> klass;
+
+  Result(Class<?> klass) {
+    this.klass = klass;
   }
 
-  public static String toFullyQualifiedPath(Class<?> testClass) {
-    return testClass.getCanonicalName().replace('.', '/');
+  Class<?> getKlass() {
+    return klass;
   }
-
-  /**
-   * Return the target directory of the current project.
-   */
-  public static File getTargetDir() {
-    return new File(getMavenBaseDir(), "target");
-  }
-
 }

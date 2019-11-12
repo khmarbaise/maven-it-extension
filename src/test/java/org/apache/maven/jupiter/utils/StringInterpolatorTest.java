@@ -8,8 +8,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +16,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Karl Heinz Marbaise
  */
-@DisplayNameGeneration(value = DisplayNameGenerator.ReplaceUnderscores.class)
 class StringInterpolatorTest {
 
   @Test
@@ -40,7 +37,7 @@ class StringInterpolatorTest {
 
     String givenString = "the answer to ${key}, ${secondKey} and everything.";
 
-    List<String> keysInGivenString = interpolator.keys(givenString);
+    List<String> keysInGivenString = StringInterpolator.keys(givenString);
     assertThat(keysInGivenString).containsOnly("key", "secondKey");
   }
 

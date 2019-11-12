@@ -28,17 +28,19 @@ import static org.apache.maven.jupiter.extension.AnnotationHelper.isDebug;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.jupiter.extension.maven.MavenCacheResult;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult.ExecutionResult;
+import org.apache.maven.jupiter.extension.maven.MavenExecutor;
 import org.apache.maven.jupiter.extension.maven.MavenLog;
 import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
 import org.apache.maven.jupiter.extension.maven.ProjectHelper;
@@ -48,54 +50,27 @@ import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionConfigurationException;
 import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
+import org.junit.jupiter.api.extension.InvocationInterceptor;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
+import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
 
 /**
  * @author Karl Heinz Marbaise
  */
-public class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeTestExecutionCallback {
-
-  private static final Namespace NAMESPACE_MAVEN_IT = Namespace.create(MavenITExtension.class);
-
-  private static final String TARGET_DIRECTORY = "TARGET_DIRECTORY";
-
-  private Optional<Class<?>> findMavenRepositoryTestClass(ExtensionContext context) {
-    Optional<ExtensionContext> current = Optional.of(context);
-    while (current.isPresent()) {
-      if (current.get().getTestClass().isPresent()) {
-        Class<?> testClass = current.get().getTestClass().get();
-        if (testClass.isAnnotationPresent(MavenRepository.class)) {
-          return Optional.of(testClass);
-        }
-      }
-      current = current.get().getParent();
-    }
-    return Optional.empty();
-  }
-
-  private Optional<Class<?>> findMavenITClass(ExtensionContext context) {
-    Optional<ExtensionContext> current = Optional.of(context);
-    while (current.isPresent()) {
-      if (current.get().getTestClass().isPresent()) {
-        Class<?> testClass = current.get().getTestClass().get();
-        if (testClass.isAnnotationPresent(MavenIT.class)) {
-          return Optional.of(testClass);
-        }
-      }
-      current = current.get().getParent();
-    }
-    return Optional.empty();
-  }
+public class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeTestExecutionCallback,
+    InvocationInterceptor {
 
   @Override
   public void beforeEach(ExtensionContext context) {
+    System.out.println("! MavenITExtension: beforeEach()");
     Class<?> testClass = context.getTestClass()
         .orElseThrow(() -> new ExtensionConfigurationException("MavenITExtension is only supported for classes."));
 
+    System.out.println(
+        "! MavenITExtension: beforeEach() context.getTestMethod() = " + context.getTestMethod().get().getName());
     //FIXME: Need to reconsider the maven-it directory?
     File baseDirectory = new File(DirectoryHelper.getTargetDir(), "maven-it");
     String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);
@@ -103,71 +78,85 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     File mavenItBaseDirectory = new File(baseDirectory, toFullyQualifiedPath);
     mavenItBaseDirectory.mkdirs();
 
-    Store store = context.getStore(NAMESPACE_MAVEN_IT);
+    Store store = context.getStore(MavenITNameSpace.NAMESPACE_MAVEN_IT);
     store.put(Result.BaseDirectory, baseDirectory);
     store.put(Result.BaseITDirectory, mavenItBaseDirectory);
-    store.put(TARGET_DIRECTORY, DirectoryHelper.getTargetDir());
+    store.put(MavenITNameSpace.TARGET_DIRECTORY, DirectoryHelper.getTargetDir());
   }
 
   @Override
   public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
+    Executable declaringExecutable = parameterContext.getParameter().getDeclaringExecutable();
+    Parameter parameter = parameterContext.getParameter();
+    System.out.println("parameterContext.getParameter() = " + parameter.getName());
+    System.out.println("declaringExecutable.getParameters() = " + declaringExecutable.getParameterCount());
     //Java9+
     // List.of(...)
-    List<Class<?>> availableTypes = Arrays.asList(MavenExecutionResult.class, MavenLog.class, MavenCacheResult.class,
-        MavenProjectResult.class);
-    return availableTypes.contains(parameterContext.getParameter().getParameterizedType());
+    System.out.println("! supportsParameter: parameterContext = " + extensionContext.getTestMethod().get().getName());
+    if (parameterContext.getParameter().getType() == MavenExecutor.class) {
+      return true;
+    } else {
+      return Stream.of(Result.values())
+          .anyMatch(result -> parameterContext.getParameter().getType() == result.getKlass());
+    }
+
+    //    List<Class<?>> availableTypes = Arrays.asList(MavenExecutionResult.class, MavenLog.class, MavenCacheResult.class,
+    //        MavenProjectResult.class);
+    //    return availableTypes.contains(parameterContext.getParameter().getType());
   }
 
   @Override
   public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
 
-    Store nameSpace = extensionContext.getStore(NAMESPACE_MAVEN_IT);
+    System.out.println("!*** resolveParameter *** !");
+    System.out.println("! Testmethode: " + extensionContext.getTestMethod().get().getName());
+    System.out.println("! extensionContext.getElement() = " + extensionContext.getElement());
+
+    Store nameSpace = extensionContext.getStore(MavenITNameSpace.NAMESPACE_MAVEN_IT);
 
     Result result = Stream.of(Result.values())
-        .filter(s -> s.getKlass().equals(parameterContext.getParameter().getType()))
+        .filter(s -> s.getKlass() == parameterContext.getParameter().getType())
         .findFirst()
         .orElseGet(() -> Result.BaseITDirectory);
 
-    return nameSpace.get(result + extensionContext.getUniqueId(), result.getKlass());
+    if (parameterContext.getParameter().getType().equals(MavenExecutor.class)) {
+      System.out.println("! Parameter type MavenExecutor");
+      return new MavenExecutor("ExecutorName");
+    } else {
+      return nameSpace.get(result + extensionContext.getUniqueId(), result.getKlass());
+    }
+  }
+
+  @Override
+  public void interceptBeforeEachMethod(Invocation<Void> invocation,
+      ReflectiveInvocationContext<Method> invocationContext, ExtensionContext extensionContext) throws Throwable {
+    System.out.println("+-------------------------------------------------------------------+");
+    System.out.println("! invocationContext = method: " + invocationContext.getExecutable().getName());
+    if (extensionContext.getTestMethod().isPresent()) {
+      System.out.println("! invocation = " + extensionContext.getTestMethod().get().getName());
+    }
+    invocation.proceed();
+    System.out.println("^-------------------------------------------------------------------^");
   }
 
   @Override
   public void beforeTestExecution(ExtensionContext context) throws IOException, InterruptedException {
-    Store nameSpace = context.getStore(NAMESPACE_MAVEN_IT);
-    File mavenItBaseDirectory = nameSpace.get(Result.BaseITDirectory, File.class);
-    File mavenBaseDirectory = nameSpace.get(Result.BaseDirectory, File.class);
-    File targetDirectory = nameSpace.get(TARGET_DIRECTORY, File.class);
+    System.out.println("! MavenITExtension: beforeTestExecution: context.getTestMethod() = " + context.getTestMethod()
+        .get()
+        .getName());
 
-    Method methodName = context.getTestMethod().orElseThrow(() -> new IllegalStateException("No method given"));
+    DirectoryResolverResult directoryResolverResult = new DirectoryResolverResult(context);
 
-    Class<?> testClass = context.getTestClass().orElseThrow(() -> new IllegalStateException("Test class not found."));
-    File integrationTestCaseDirectory = new File(mavenItBaseDirectory, methodName.getName());
+    File integrationTestCaseDirectory = directoryResolverResult.getIntegrationTestCaseDirectory();
     integrationTestCaseDirectory.mkdirs();
+    directoryResolverResult.getProjectDirectory().mkdirs();
+    directoryResolverResult.getCacheDirectory().mkdirs();
 
-    Optional<Class<?>> optionalMavenRepository = findMavenRepositoryTestClass(context);
-    File cacheDirectory = new File(integrationTestCaseDirectory, ".m2/repository"); //Hard coded default.
-    if (optionalMavenRepository.isPresent()) {
-      MavenRepository mavenRepository = optionalMavenRepository.get().getAnnotation(MavenRepository.class);
-      String repositoryPath = DirectoryHelper.toFullyQualifiedPath(optionalMavenRepository.get());
-      File cacheDirectoryBase = new File(mavenBaseDirectory, repositoryPath);
-      cacheDirectory = new File(cacheDirectoryBase, mavenRepository.value());
-    }
-    cacheDirectory.mkdirs();
-
-    File projectDirectory = new File(integrationTestCaseDirectory, "project");
-    projectDirectory.mkdirs();
-
-    String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);
-
-    //FIXME: Copy artifacts from maven-invoker-plugin:install location into each cache HARD CODED!!
-    FileUtils.copyDirectory(new File(targetDirectory, "invoker-repo"), cacheDirectory);
-
-    //FIXME: Removed hard coded parts.
-    File mavenItsBaseDirectory = new File(DirectoryHelper.getTargetDir(), "test-classes");
-    File copyMavenPluginProject = new File(mavenItsBaseDirectory, toFullyQualifiedPath + "/" + methodName.getName());
-    FileUtils.copyDirectory(copyMavenPluginProject, projectDirectory);
+    //FIXME: Copy artifacts from maven-invoker-plugin:install location into each cache; Currently HARD CODED!!
+    FileUtils.copyDirectory(directoryResolverResult.getComponentUnderTestDirectory(), directoryResolverResult.getCacheDirectory());
+    FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(), directoryResolverResult.getProjectDirectory());
 
     String mavenHome = System.getProperty("maven.home");
     if (mavenHome == null || mavenHome.isEmpty()) {
@@ -178,17 +167,18 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     String mvnLocation = mavenHome + "/bin/mvn";
 
     //FIXME: Removed hard coded parts.
-    ApplicationExecutor mavenExecutor = new ApplicationExecutor(projectDirectory, integrationTestCaseDirectory,
-        new File(mvnLocation), Collections.emptyList(), "mvn");
+    ApplicationExecutor mavenExecutor = new ApplicationExecutor(directoryResolverResult.getProjectDirectory(),
+        integrationTestCaseDirectory, new File(mvnLocation), Collections.emptyList(), "mvn");
 
     //Process start = mavenExecutor.start(Arrays.asList("--no-transfer-progress", "-V", "clean", "verify"));
     //FIXME: Need to think about the default options given for a IT.
 
     List<String> executionArguments = new ArrayList<>();
-    List<String> defaultArguments = Arrays.asList("-Dmaven.repo.local=" + cacheDirectory.toString(), "--batch-mode",
-        "-V");
+    List<String> defaultArguments = Arrays.asList(
+        "-Dmaven.repo.local=" + directoryResolverResult.getCacheDirectory().toString(), "--batch-mode", "-V");
     executionArguments.addAll(defaultArguments);
 
+    Method methodName = context.getTestMethod().orElseThrow(() -> new IllegalStateException("No method given"));
     if (hasActiveProfiles(methodName)) {
       String collect = Stream.of(getActiveProfiles(methodName)).collect(joining(",", "-P", ""));
       executionArguments.add(collect);
@@ -198,7 +188,7 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
       executionArguments.add("-X");
     }
 
-    Class<?> mavenIT = findMavenITClass(context).orElseThrow(IllegalStateException::new);
+    Class<?> mavenIT = AnnotationHelper.findMavenITAnnotation(context).orElseThrow(IllegalStateException::new);
     MavenIT mavenITAnnotation = mavenIT.getAnnotation(MavenIT.class);
     String[] resultingGoals = GoalPriority.goals(mavenITAnnotation.goals(), getGoals(methodName));
     executionArguments.addAll(Stream.of(resultingGoals).collect(toList()));
@@ -213,36 +203,19 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     }
 
     MavenLog log = new MavenLog(mavenExecutor.getStdout(), mavenExecutor.getStdErr());
-    MavenCacheResult mavenCacheResult = new MavenCacheResult(cacheDirectory.toPath());
+    MavenCacheResult mavenCacheResult = new MavenCacheResult(directoryResolverResult.getCacheDirectory().toPath());
 
-    Model model = ProjectHelper.readProject(projectDirectory);
-    MavenProjectResult mavenProjectResult = new MavenProjectResult(projectDirectory, model);
+    Model model = ProjectHelper.readProject(directoryResolverResult.getProjectDirectory());
+    MavenProjectResult mavenProjectResult = new MavenProjectResult(directoryResolverResult.getProjectDirectory(), model);
 
     MavenExecutionResult result = new MavenExecutionResult(executionResult, processCompletableFuture, log,
         mavenProjectResult, mavenCacheResult);
 
+    Store nameSpace = context.getStore(MavenITNameSpace.NAMESPACE_MAVEN_IT);
     nameSpace.put(Result.ExecutionResult + context.getUniqueId(), result);
     nameSpace.put(Result.LogResult + context.getUniqueId(), log);
     nameSpace.put(Result.CacheResult + context.getUniqueId(), mavenCacheResult);
     nameSpace.put(Result.ProjectResult + context.getUniqueId(), mavenProjectResult);
   }
 
-  private enum Result {
-    BaseDirectory(Void.class),
-    BaseITDirectory(Void.class), //????
-    ExecutionResult(MavenExecutionResult.class),
-    LogResult(MavenLog.class),
-    CacheResult(MavenCacheResult.class),
-    ProjectResult(MavenProjectResult.class);
-
-    private Class<?> klass;
-
-    Result(Class<?> klass) {
-      this.klass = klass;
-    }
-
-    Class<?> getKlass() {
-      return klass;
-    }
-  }
 }
