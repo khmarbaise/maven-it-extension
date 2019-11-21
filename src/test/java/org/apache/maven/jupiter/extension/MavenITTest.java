@@ -23,7 +23,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.description.annotation.AnnotationDescription;
-import org.apache.maven.jupiter.extension.maven.MavenVersion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -63,8 +62,4 @@ class MavenITTest {
     assertThat(mavenITAnnotation.goals()).containsExactly("package");
   }
 
-  @Test
-  void the_default_for_versions_is_maven_3_6_2() {
-    assertThat(mavenITAnnotation.versions()).containsExactly(MavenVersion.M3_6_2);
-  }
 }
