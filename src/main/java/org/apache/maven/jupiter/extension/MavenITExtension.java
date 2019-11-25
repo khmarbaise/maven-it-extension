@@ -84,6 +84,9 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     store.put(MavenITNameSpace.TARGET_DIRECTORY, DirectoryHelper.getTargetDir());
   }
 
+  private static final List<Class<?>> VALID_PARAMETER_TYPES = Arrays.asList(MavenExecutionResult.class, MavenLog.class,
+      MavenCacheResult.class, MavenProjectResult.class, MavenExecutor.class);
+
   @Override
   public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
@@ -93,17 +96,8 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     System.out.println("declaringExecutable.getParameters() = " + declaringExecutable.getParameterCount());
     //Java9+
     // List.of(...)
-    System.out.println("! supportsParameter: parameterContext = " + extensionContext.getTestMethod().get().getName());
-    if (parameterContext.getParameter().getType() == MavenExecutor.class) {
-      return true;
-    } else {
-      return Stream.of(Result.values())
-          .anyMatch(result -> parameterContext.getParameter().getType() == result.getKlass());
-    }
 
-    //    List<Class<?>> availableTypes = Arrays.asList(MavenExecutionResult.class, MavenLog.class, MavenCacheResult.class,
-    //        MavenProjectResult.class);
-    //    return availableTypes.contains(parameterContext.getParameter().getType());
+    return VALID_PARAMETER_TYPES.contains(parameterContext.getParameter().getType());
   }
 
   @Override
@@ -155,9 +149,13 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     directoryResolverResult.getCacheDirectory().mkdirs();
 
     //FIXME: Copy artifacts from maven-invoker-plugin:install location into each cache; Currently HARD CODED!!
-    FileUtils.copyDirectory(directoryResolverResult.getComponentUnderTestDirectory(), directoryResolverResult.getCacheDirectory());
-    FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(), directoryResolverResult.getProjectDirectory());
+    FileUtils.copyDirectory(directoryResolverResult.getComponentUnderTestDirectory(),
+        directoryResolverResult.getCacheDirectory());
+    FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),
+        directoryResolverResult.getProjectDirectory());
 
+    ExecutorMaven executorMaven = new ExecutorMaven(directoryResolverResult, context);
+    executorMaven.execute();
     String mavenHome = System.getProperty("maven.home");
     if (mavenHome == null || mavenHome.isEmpty()) {
       //FIXME: currently not set; using hard coded path? Need to reconsider how to set it?
@@ -206,7 +204,8 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     MavenCacheResult mavenCacheResult = new MavenCacheResult(directoryResolverResult.getCacheDirectory().toPath());
 
     Model model = ProjectHelper.readProject(directoryResolverResult.getProjectDirectory());
-    MavenProjectResult mavenProjectResult = new MavenProjectResult(directoryResolverResult.getProjectDirectory(), model);
+    MavenProjectResult mavenProjectResult = new MavenProjectResult(directoryResolverResult.getProjectDirectory(),
+        model);
 
     MavenExecutionResult result = new MavenExecutionResult(executionResult, processCompletableFuture, log,
         mavenProjectResult, mavenCacheResult);
