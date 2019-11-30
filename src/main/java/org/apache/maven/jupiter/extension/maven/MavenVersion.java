@@ -19,13 +19,14 @@ package org.apache.maven.jupiter.extension.maven;
  * under the License.
  */
 
-import static org.apiguardian.api.API.Status.EXPERIMENTAL;
-
-import java.util.stream.Stream;
 import org.apiguardian.api.API;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
 import org.junit.platform.commons.util.StringUtils;
+
+import java.util.stream.Stream;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
  * @author Karl Heinz Marbaise
@@ -44,7 +45,8 @@ public enum MavenVersion {
   M3_5_4("3.5.4"),
   M3_6_0("3.6.0"),
   M3_6_1("3.6.1"),
-  M3_6_2("3.6.2");
+  M3_6_2("3.6.2"),
+  M3_6_3("3.6.3");
 
   private static final Logger logger = LoggerFactory.getLogger(MavenVersion.class);
 
@@ -58,7 +60,7 @@ public enum MavenVersion {
 
   private static MavenVersion determineCurrentVersion() {
     String currentVersion = System.getProperty("maven.version");
-    //TODO: Think about usage of interal API?
+    //FIXME: Think about usage of interal API?
     if (StringUtils.isBlank(currentVersion)) {
       logger.debug(
           () -> "JVM system property 'maven.version' is undefined. It is therefore not possible to detect Maven version.");
