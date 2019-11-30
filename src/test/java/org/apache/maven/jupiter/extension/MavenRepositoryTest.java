@@ -19,13 +19,13 @@ package org.apache.maven.jupiter.extension;
  * under the License.
  */
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.description.annotation.AnnotationDescription;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for the {@link MavenRepository} annotation.
@@ -45,10 +45,10 @@ class MavenRepositoryTest {
     AnnotationDescription annotation = AnnotationDescription.Builder.ofType(MavenRepository.class).build();
 
     Class<?> objectBuilder = new ByteBuddy().subclass(Object.class)
-        .annotateType(annotation)
-        .make()
-        .load(this.getClass().getClassLoader())
-        .getLoaded();
+      .annotateType(annotation)
+      .make()
+      .load(this.getClass().getClassLoader())
+      .getLoaded();
     this.mavenITAnnotation = objectBuilder.getAnnotation(MavenRepository.class);
   }
 

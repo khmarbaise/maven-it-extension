@@ -739,7 +739,8 @@ Unfortunately we have to define it in the Maven pom which is used to download th
  * Testing parallization looks already very good. The following run is using parallel execution
  of the tests:
 
-```
+[source]
+----
 [INFO]
 [INFO] --- maven-failsafe-plugin:2.22.1:integration-test (default) @ maven-ear-plugin ---
 [INFO]
@@ -765,11 +766,12 @@ Unfortunately we have to define it in the Maven pom which is used to download th
 [INFO] Total time:  17.844 s
 [INFO] Finished at: 2019-10-29T22:13:38+01:00
 [INFO] ------------------------------------------------------------------------
-```
+----
 
  * Testing without parallizing the tests:
 
-```
+[source]
+----
 [INFO]
 [INFO] --- maven-failsafe-plugin:2.22.1:integration-test (default) @ maven-ear-plugin ---
 [INFO]
@@ -795,4 +797,4 @@ Unfortunately we have to define it in the Maven pom which is used to download th
 [INFO] Total time:  23.275 s
 [INFO] Finished at: 2019-10-29T22:15:38+01:00
 [INFO] ------------------------------------------------------------------------
-```
+----

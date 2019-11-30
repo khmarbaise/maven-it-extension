@@ -19,16 +19,15 @@ package org.apache.maven.jupiter.extension;
  * under the License.
  */
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test to check the annotation defined defaults of {@link MavenTest}.
  *
  * @author Karl Heinz Marbaise
- *
  */
 class MavenTestTest {
 

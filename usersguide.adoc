@@ -142,7 +142,7 @@ within the `target` directory:
 Based on the above you can see that each *test case* (method within the test class `FirstMavenIT`)
 has it's own local repository (aka local cache) `.m2/repository`. Furthermore you see that the
 project is built within the `project` directory. This gives you a view of the built project as you
-did on plain command line and take a look into it. The output of the built is written into
+did on plain command line and take a look into it. The output of the build is written into
 `mvn-stdout.log` (stdout) and the output to stderr is written to `mvn-stderr.log`.
 //TODO: Define `other logs` ? environment output, command line parameters ?
 //FIXME: Needs to be implemented
@@ -319,7 +319,8 @@ After test execution the resulting directory tree looks like this:
 In all previous test case examples the maven cache (aka maven repository)
 is created separately for each of the test cases (*test methods*). There are times
 where you need to have a common cache (aka maven repository) for two or more test
-cases together. This can be achieved easily via the `@MavenRepository` annotation.
+cases together. This can be achieved easily via the `@MavenRepository` annotation
+(based on the usage of this annotation the parallelizing is automatically deactivated).
 The usage looks like the following:
 
 [source,java]
