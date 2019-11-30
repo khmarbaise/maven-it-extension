@@ -19,8 +19,6 @@ package org.apache.maven.jupiter.it;
  * under the License.
  */
 
-import static org.apache.maven.jupiter.assertj.MavenExecutionResultAssert.assertThat;
-
 import org.apache.maven.jupiter.extension.MavenIT;
 import org.apache.maven.jupiter.extension.MavenRepository;
 import org.apache.maven.jupiter.extension.MavenTest;
@@ -30,10 +28,11 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import static org.apache.maven.jupiter.assertj.MavenExecutionResultAssert.assertThat;
+
 /**
- * The following test cases are related together cause they are sharing a common cache {@code @MavenIT(mavenCache =
- * MavenCache.Global)}. Furthermore the {@code setup*} cases or running in a given order (defined by {@link
- * OrderAnnotation}).
+ * The following test cases are related together cause they are sharing a common cache {@link MavenRepository}.
+ * Furthermore the {@code setup*} cases running in a given order (defined by {@link OrderAnnotation}).
  *
  * @author Karl Heinz Marbaise
  */

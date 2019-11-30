@@ -29,6 +29,9 @@ public class MavenExecutor {
     this.executorName = executorName;
   }
 
+  public MavenExecutionResult execute() {
+    return new MavenExecutionResult();
+  }
   @Override
   public String toString() {
     return new StringJoiner(", ", MavenExecutor.class.getSimpleName() + "[", "]").add(
