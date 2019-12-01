@@ -30,7 +30,7 @@ public class MavenExecutor {
   }
 
   public MavenExecutionResult execute() {
-    return new MavenExecutionResult();
+    return null;
   }
   @Override
   public String toString() {
