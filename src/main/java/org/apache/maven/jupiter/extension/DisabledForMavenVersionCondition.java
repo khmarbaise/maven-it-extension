@@ -46,7 +46,8 @@ class DisabledForMavenVersionCondition implements ExecutionCondition {
   static final ConditionEvaluationResult DISABLED_ON_CURRENT_MAVEN_VERSION = //
       disabled("Disabled on Maven version: " + System.getProperty("maven.version"));
 
-  private static final ConditionEvaluationResult ENABLED_BY_DEFAULT = enabled("@DisabledForMavenVersion is not present");
+  private static final ConditionEvaluationResult ENABLED_BY_DEFAULT = enabled(
+      "@DisabledForMavenVersion is not present");
 
   @Override
   public ConditionEvaluationResult evaluateExecutionCondition(ExtensionContext context) {

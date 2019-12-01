@@ -46,43 +46,6 @@ class DirectoryResolverResult {
 
   private final File componentUnderTestDirectory;
 
-  class DirectoryResolver {
-
-    DirectoryResolverResult resolve() {
-      return new DirectoryResolverResult(null);
-    }
-  }
-
-  class DirectoryExtensionContextResolver {
-
-    private File mavenItBaseDirectory;
-
-    private File mavenBaseDirectory;
-
-    private File targetDirectory;
-
-    DirectoryResolverResult resolve(ExtensionContext context) {
-      Store nameSpace = context.getStore(MavenITNameSpace.NAMESPACE_MAVEN_IT);
-      this.mavenItBaseDirectory = nameSpace.get(Result.BaseITDirectory, File.class);
-      this.mavenBaseDirectory = nameSpace.get(Result.BaseDirectory, File.class);
-      this.targetDirectory = nameSpace.get(MavenITNameSpace.TARGET_DIRECTORY, File.class);
-
-      return new DirectoryResolverResult(context);
-    }
-
-    public File getMavenItBaseDirectory() {
-      return mavenItBaseDirectory;
-    }
-
-    public File getMavenBaseDirectory() {
-      return mavenBaseDirectory;
-    }
-
-    public File getTargetDirectory() {
-      return targetDirectory;
-    }
-  }
-
   DirectoryResolverResult(ExtensionContext context) {
     Store nameSpace = context.getStore(MavenITNameSpace.NAMESPACE_MAVEN_IT);
     this.mavenItBaseDirectory = nameSpace.get(Result.BaseITDirectory, File.class);
@@ -99,7 +62,6 @@ class DirectoryResolverResult {
     Class<?> testClass = context.getTestClass().orElseThrow(() -> new IllegalStateException("Test class not found."));
     String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);
     this.sourceMavenProject = new File(this.mavenItsBaseDirectory, toFullyQualifiedPath + "/" + methodName.getName());
-
 
     Optional<Class<?>> optionalMavenRepository = AnnotationHelper.findMavenRepositoryAnnotation(context);
     if (optionalMavenRepository.isPresent()) {
@@ -148,6 +110,43 @@ class DirectoryResolverResult {
 
   File getTargetDirectory() {
     return targetDirectory;
+  }
+
+  class DirectoryResolver {
+
+    DirectoryResolverResult resolve() {
+      return new DirectoryResolverResult(null);
+    }
+  }
+
+  class DirectoryExtensionContextResolver {
+
+    private File mavenItBaseDirectory;
+
+    private File mavenBaseDirectory;
+
+    private File targetDirectory;
+
+    DirectoryResolverResult resolve(ExtensionContext context) {
+      Store nameSpace = context.getStore(MavenITNameSpace.NAMESPACE_MAVEN_IT);
+      this.mavenItBaseDirectory = nameSpace.get(Result.BaseITDirectory, File.class);
+      this.mavenBaseDirectory = nameSpace.get(Result.BaseDirectory, File.class);
+      this.targetDirectory = nameSpace.get(MavenITNameSpace.TARGET_DIRECTORY, File.class);
+
+      return new DirectoryResolverResult(context);
+    }
+
+    public File getMavenItBaseDirectory() {
+      return mavenItBaseDirectory;
+    }
+
+    public File getMavenBaseDirectory() {
+      return mavenBaseDirectory;
+    }
+
+    public File getTargetDirectory() {
+      return targetDirectory;
+    }
   }
 
 }

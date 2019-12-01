@@ -31,8 +31,8 @@ import org.apiguardian.api.API;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
- * {@code @DisabledForMaven} is used to signal that the annotated test class or test method is <em>disabled</em> on one
- * or more specified Maven version which the tests are being run with.
+ * {@code @DisabledForMavenVersion} is used to signal that the annotated test class or test method is
+ * <em>disabled</em> on one or more specified Maven version which the tests are being run with.
  *
  * <p>When applied at the class level, all test methods within that class
  * will be disabled on the same specified Maven version.

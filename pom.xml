@@ -246,6 +246,11 @@
           <groupId>org.asciidoctor</groupId>
           <artifactId>asciidoctor-maven-plugin</artifactId>
           <version>2.0.0-RC.1</version>
+          <configuration>
+            <attributes>
+              <revnumber>${project.version}</revnumber>
+            </attributes>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
