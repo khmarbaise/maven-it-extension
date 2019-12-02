@@ -23,14 +23,13 @@ import org.apache.maven.jupiter.extension.MavenIT;
 import org.apache.maven.jupiter.extension.MavenRepository;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.junit.jupiter.api.Nested;
 
+@MavenIT
 class MavenIntegrationExampleNestedWithoutNoneNestedTestGlobalRepoIT {
 
-  @MavenIT
   @MavenRepository
-  @Execution(ExecutionMode.SAME_THREAD)
+  @Nested
   class NestedExample {
 
     @MavenTest
