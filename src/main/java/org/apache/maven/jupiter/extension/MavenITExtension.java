@@ -65,12 +65,12 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
 
   @Override
   public void beforeEach(ExtensionContext context) {
-    System.out.println("! MavenITExtension: beforeEach()");
+//    System.out.println("! MavenITExtension: beforeEach()");
     Class<?> testClass = context.getTestClass()
         .orElseThrow(() -> new ExtensionConfigurationException("MavenITExtension is only supported for classes."));
 
-    System.out.println(
-        "! MavenITExtension: beforeEach() context.getTestMethod() = " + context.getTestMethod().get().getName());
+//    System.out.println(
+//        "! MavenITExtension: beforeEach() context.getTestMethod() = " + context.getTestMethod().get().getName());
     //FIXME: Need to reconsider the maven-it directory?
     File baseDirectory = new File(DirectoryHelper.getTargetDir(), "maven-it");
     String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);
@@ -92,8 +92,8 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
       throws ParameterResolutionException {
     Executable declaringExecutable = parameterContext.getParameter().getDeclaringExecutable();
     Parameter parameter = parameterContext.getParameter();
-    System.out.println("parameterContext.getParameter() = " + parameter.getName());
-    System.out.println("declaringExecutable.getParameters() = " + declaringExecutable.getParameterCount());
+//    System.out.println("parameterContext.getParameter() = " + parameter.getName());
+//    System.out.println("declaringExecutable.getParameters() = " + declaringExecutable.getParameterCount());
     //Java9+
     // List.of(...)
 
@@ -104,10 +104,10 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
   public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
 
-    System.out.println("!*** resolveParameter *** !");
-    System.out.println("! Testmethode: " + extensionContext.getTestMethod().get().getName());
-    System.out.println("! extensionContext.getElement() = " + extensionContext.getElement());
-
+//    System.out.println("!*** resolveParameter *** !");
+//    System.out.println("! Testmethode: " + extensionContext.getTestMethod().get().getName());
+//    System.out.println("! extensionContext.getElement() = " + extensionContext.getElement());
+//
     Store nameSpace = extensionContext.getStore(MavenITNameSpace.NAMESPACE_MAVEN_IT);
 
     Result result = Stream.of(Result.values())
@@ -116,7 +116,7 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
         .orElseGet(() -> Result.BaseITDirectory);
 
     if (parameterContext.getParameter().getType().equals(MavenExecutor.class)) {
-      System.out.println("! Parameter type MavenExecutor");
+//      System.out.println("! Parameter type MavenExecutor");
       return new MavenExecutor("ExecutorName");
     } else {
       return nameSpace.get(result + extensionContext.getUniqueId(), result.getKlass());
@@ -126,20 +126,20 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
   @Override
   public void interceptBeforeEachMethod(Invocation<Void> invocation,
       ReflectiveInvocationContext<Method> invocationContext, ExtensionContext extensionContext) throws Throwable {
-    System.out.println("+-------------------------------------------------------------------+");
-    System.out.println("! invocationContext = method: " + invocationContext.getExecutable().getName());
-    if (extensionContext.getTestMethod().isPresent()) {
-      System.out.println("! invocation = " + extensionContext.getTestMethod().get().getName());
-    }
+//    System.out.println("+-------------------------------------------------------------------+");
+//    System.out.println("! invocationContext = method: " + invocationContext.getExecutable().getName());
+//    if (extensionContext.getTestMethod().isPresent()) {
+//      System.out.println("! invocation = " + extensionContext.getTestMethod().get().getName());
+//    }
     invocation.proceed();
-    System.out.println("^-------------------------------------------------------------------^");
+//    System.out.println("^-------------------------------------------------------------------^");
   }
 
   @Override
   public void beforeTestExecution(ExtensionContext context) throws IOException, InterruptedException {
-    System.out.println("! MavenITExtension: beforeTestExecution: context.getTestMethod() = " + context.getTestMethod()
-        .get()
-        .getName());
+//    System.out.println("! MavenITExtension: beforeTestExecution: context.getTestMethod() = " + context.getTestMethod()
+//        .get()
+//        .getName());
 
     DirectoryResolverResult directoryResolverResult = new DirectoryResolverResult(context);
 

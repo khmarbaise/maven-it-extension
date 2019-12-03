@@ -736,6 +736,9 @@ Unfortunately we have to define it in the Maven pom which is used to download th
 
 == TODO List
 
+
+== Comparison
+
  * Testing parallization looks already very good. The following run is using parallel execution
  of the tests:
 
@@ -748,11 +751,11 @@ Unfortunately we have to define it in the Maven pom which is used to download th
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
 [INFO] Running org.apache.maven.plugins.ear.it.EARIT
-[WARNING] Tests run: 5, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 5.31 s - in org.apache.maven.plugins.ear.it.EARIT
+[WARNING] Tests run: 15, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 21.297 s - in org.apache.maven.plugins.ear.it.EARIT
 [INFO]
 [INFO] Results:
 [INFO]
-[WARNING] Tests run: 5, Failures: 0, Errors: 0, Skipped: 1
+[WARNING] Tests run: 15, Failures: 0, Errors: 0, Skipped: 2
 [INFO]
 [INFO]
 [INFO] --- maven-checkstyle-plugin:3.0.0:check (checkstyle-check) @ maven-ear-plugin ---
@@ -763,38 +766,85 @@ Unfortunately we have to define it in the Maven pom which is used to download th
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  17.844 s
-[INFO] Finished at: 2019-10-29T22:13:38+01:00
+[INFO] Total time:  32.282 s
+[INFO] Finished at: 2019-12-03T18:51:21+01:00
 [INFO] ------------------------------------------------------------------------
 ----
 
- * Testing without parallizing the tests:
+ * The usual way via maven-invoker
 
 [source]
 ----
 [INFO]
+[INFO] --- maven-invoker-plugin:3.2.1:integration-test (integration-test) @ maven-ear-plugin ---
+[INFO] Building: skinny-wars-filenamemapping-full/pom.xml
+[INFO] run post-build script verify.bsh
+[INFO]           skinny-wars-filenamemapping-full/pom.xml ......... SUCCESS (4.1 s)
+[INFO] Building: jboss/pom.xml
+[INFO] run post-build script verify.bsh
+[INFO]           jboss/pom.xml .................................... SUCCESS (1.6 s)
+[INFO] Building: skinny-wars/pom.xml
+[INFO] run post-build script verify.bsh
+[INFO]           skinny-wars/pom.xml .............................. SUCCESS (2.3 s)
+[INFO] Building: transitive-excludes/pom.xml
+[INFO] run post-build script verify.bsh
+[INFO]           transitive-excludes/pom.xml ...................... SUCCESS (1.6 s)
+[INFO] Building: MEAR-198/pom.xml
+[INFO] run post-build script verify.bsh
+[INFO]           MEAR-198/pom.xml ................................. SUCCESS (1.7 s)
+[INFO] Building: non-skinny-wars/pom.xml
+[INFO] run post-build script verify.bsh
+[INFO]           non-skinny-wars/pom.xml .......................... SUCCESS (2.3 s)
+[INFO] Building: filenamemapping-usage-fail/pom.xml
+[INFO] run post-build script verify.groovy
+[INFO]           filenamemapping-usage-fail/pom.xml ............... SUCCESS (2.5 s)
+[INFO] Building: MEAR-243-skinny-wars-provided/pom.xml
+[INFO] run post-build script verify.bsh
+[INFO]           MEAR-243-skinny-wars-provided/pom.xml ............ SUCCESS (2.3 s)
+[INFO] Building: basic/pom.xml
+[INFO] run post-build script verify.bsh
+[INFO]           basic/pom.xml .................................... SUCCESS (1.7 s)
+[INFO] Building: packaging-includes/pom.xml
+[INFO] run post-build script verify.bsh
+[INFO]           packaging-includes/pom.xml ....................... SUCCESS (1.7 s)
+[INFO] Building: resource-custom-directory/pom.xml
+[INFO] run post-build script verify.bsh
+[INFO]           resource-custom-directory/pom.xml ................ SUCCESS (1.6 s)
+[INFO] Building: skinny-wars-javaee5/pom.xml
+[INFO] run post-build script verify.bsh
+[INFO]           skinny-wars-javaee5/pom.xml ...................... SUCCESS (2.9 s)
+[INFO] Building: skinny-wars-filenamemapping-no-version/pom.xml
+[INFO] run post-build script verify.bsh
+[INFO]           skinny-wars-filenamemapping-no-version/pom.xml ... SUCCESS (2.3 s)
+[INFO] Building: same-artifactId/pom.xml
+[INFO] run post-build script verify.groovy
+[INFO]           same-artifactId/pom.xml .......................... SUCCESS (3.4 s)
+[INFO] Building: packaging-excludes/pom.xml
+[INFO] run post-build script verify.bsh
+[INFO]           packaging-excludes/pom.xml ....................... SUCCESS (1.7 s)
+[INFO] Building: descriptor-encoding/pom.xml
+[INFO] run post-build script verify.groovy
+[INFO]           descriptor-encoding/pom.xml ...................... SUCCESS (2.0 s)
+[INFO]
 [INFO] --- maven-failsafe-plugin:2.22.1:integration-test (default) @ maven-ear-plugin ---
-[INFO]
-[INFO] -------------------------------------------------------
-[INFO]  T E S T S
-[INFO] -------------------------------------------------------
-[INFO] Running org.apache.maven.plugins.ear.it.EARIT
-[WARNING] Tests run: 5, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 10.786 s - in org.apache.maven.plugins.ear.it.EARIT
-[INFO]
-[INFO] Results:
-[INFO]
-[WARNING] Tests run: 5, Failures: 0, Errors: 0, Skipped: 1
-[INFO]
+[INFO] Tests are skipped.
 [INFO]
 [INFO] --- maven-checkstyle-plugin:3.0.0:check (checkstyle-check) @ maven-ear-plugin ---
 [INFO] There are 3 errors reported by Checkstyle 6.18 with config/maven_checks.xml ruleset.
 [INFO] Ignored 3 errors, 0 violation remaining.
 [INFO]
+[INFO] --- maven-invoker-plugin:3.2.1:verify (integration-test) @ maven-ear-plugin ---
+[INFO] -------------------------------------------------
+[INFO] Build Summary:
+[INFO]   Passed: 16, Failed: 0, Errors: 0, Skipped: 0
+[INFO] -------------------------------------------------
+[INFO]
 [INFO] --- maven-failsafe-plugin:2.22.1:verify (default) @ maven-ear-plugin ---
+[INFO] Tests are skipped.
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  23.275 s
-[INFO] Finished at: 2019-10-29T22:15:38+01:00
+[INFO] Total time:  44.882 s
+[INFO] Finished at: 2019-12-03T18:48:53+01:00
 [INFO] ------------------------------------------------------------------------
 ----
