@@ -711,7 +711,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.apache.maven.jupiter.extension.MavenIT;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
-import org.assertj.core.api.Assertions;
 
 @MavenIT
 class FirstMavenIT {
