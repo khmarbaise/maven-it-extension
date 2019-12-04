@@ -12,11 +12,11 @@ import org.assertj.core.api.Assertions;
 
 public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
 
-  private Model model;
+  private final Model model;
 
-  private List<String> includes;
+  private final List<String> includes;
 
-  private MavenProjectResultAssert parent;
+  private final MavenProjectResultAssert parent;
 
   ArchiveAssert(File earFile, Model model, MavenProjectResultAssert parent) {
     super(earFile, ArchiveAssert.class);
