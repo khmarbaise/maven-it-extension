@@ -28,9 +28,7 @@ import static org.apache.maven.jupiter.extension.AnnotationHelper.isDebug;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,7 +39,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.maven.jupiter.extension.maven.MavenCacheResult;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult.ExecutionResult;
-import org.apache.maven.jupiter.extension.maven.MavenExecutor;
 import org.apache.maven.jupiter.extension.maven.MavenLog;
 import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
 import org.apache.maven.jupiter.extension.maven.ProjectHelper;
@@ -66,9 +63,6 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
 
   private static final Logger LOGGER = Logger.getLogger(MavenITExtension.class.getName());
 
-  private static final List<Class<?>> VALID_PARAMETER_TYPES = Arrays.asList(MavenExecutionResult.class, MavenLog.class,
-      MavenCacheResult.class, MavenProjectResult.class, MavenExecutor.class);
-
   @Override
   public void beforeEach(ExtensionContext context) {
     Class<?> testClass = context.getTestClass()
@@ -90,12 +84,10 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
   @Override
   public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
-    Executable declaringExecutable = parameterContext.getParameter().getDeclaringExecutable();
-    Parameter parameter = parameterContext.getParameter();
     //Java9+
     // List.of(...)
-
-    return VALID_PARAMETER_TYPES.contains(parameterContext.getParameter().getType());
+    return Stream.of(ParameterType.values())
+        .anyMatch(parameterType -> parameterType.getKlass() == parameterContext.getParameter().getType());
   }
 
   @Override
