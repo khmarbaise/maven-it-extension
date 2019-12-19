@@ -210,7 +210,7 @@
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
         <configuration>
-          <forkCount>5</forkCount>
+          <forkCount>3</forkCount>
           <reuseForks>false</reuseForks>
           <!--
            ! currently needed to run integration tests.
