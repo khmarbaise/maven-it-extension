@@ -19,26 +19,10 @@ package org.apache.maven.jupiter.extension;
  * under the License.
  */
 
-import org.apache.maven.jupiter.extension.maven.MavenCacheResult;
-import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
-import org.apache.maven.jupiter.extension.maven.MavenLog;
-import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
-
-enum Result {
-  BaseDirectory(Void.class), //????
-  BaseITDirectory(Void.class), //????
-  ExecutionResult(MavenExecutionResult.class),
-  LogResult(MavenLog.class),
-  CacheResult(MavenCacheResult.class),
-  ProjectResult(MavenProjectResult.class);
-
-  private Class<?> klass;
-
-  Result(Class<?> klass) {
-    this.klass = klass;
-  }
-
-  Class<?> getKlass() {
-    return klass;
-  }
+/**
+ * @author Karl Heinz Marbaise
+ */
+enum Storage {
+  BASE_DIRECTORY,
+  BASE_IT_DIRECTORY,
 }

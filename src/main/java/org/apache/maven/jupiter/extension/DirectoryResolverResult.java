@@ -48,8 +48,8 @@ class DirectoryResolverResult {
 
   DirectoryResolverResult(ExtensionContext context) {
     Store nameSpace = context.getStore(MavenITNameSpace.NAMESPACE_MAVEN_IT);
-    this.mavenItBaseDirectory = nameSpace.get(Result.BaseITDirectory, File.class);
-    this.mavenBaseDirectory = nameSpace.get(Result.BaseDirectory, File.class);
+    this.mavenItBaseDirectory = nameSpace.get(Storage.BASE_IT_DIRECTORY, File.class);
+    this.mavenBaseDirectory = nameSpace.get(Storage.BASE_DIRECTORY, File.class);
     this.targetDirectory = nameSpace.get(MavenITNameSpace.TARGET_DIRECTORY, File.class);
 
     Method methodName = context.getTestMethod().orElseThrow(() -> new IllegalStateException("No method given"));
@@ -129,8 +129,8 @@ class DirectoryResolverResult {
 
     DirectoryResolverResult resolve(ExtensionContext context) {
       Store nameSpace = context.getStore(MavenITNameSpace.NAMESPACE_MAVEN_IT);
-      this.mavenItBaseDirectory = nameSpace.get(Result.BaseITDirectory, File.class);
-      this.mavenBaseDirectory = nameSpace.get(Result.BaseDirectory, File.class);
+      this.mavenItBaseDirectory = nameSpace.get(Storage.BASE_IT_DIRECTORY, File.class);
+      this.mavenBaseDirectory = nameSpace.get(Storage.BASE_DIRECTORY, File.class);
       this.targetDirectory = nameSpace.get(MavenITNameSpace.TARGET_DIRECTORY, File.class);
 
       return new DirectoryResolverResult(context);

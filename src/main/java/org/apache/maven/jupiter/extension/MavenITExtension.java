@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.jupiter.extension.maven.MavenCacheResult;
@@ -63,14 +64,16 @@ import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
 public class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeTestExecutionCallback,
     InvocationInterceptor {
 
+  private static final Logger LOGGER = Logger.getLogger(MavenITExtension.class.getName());
+
+  private static final List<Class<?>> VALID_PARAMETER_TYPES = Arrays.asList(MavenExecutionResult.class, MavenLog.class,
+      MavenCacheResult.class, MavenProjectResult.class, MavenExecutor.class);
+
   @Override
   public void beforeEach(ExtensionContext context) {
-//    System.out.println("! MavenITExtension: beforeEach()");
     Class<?> testClass = context.getTestClass()
         .orElseThrow(() -> new ExtensionConfigurationException("MavenITExtension is only supported for classes."));
 
-//    System.out.println(
-//        "! MavenITExtension: beforeEach() context.getTestMethod() = " + context.getTestMethod().get().getName());
     //FIXME: Need to reconsider the maven-it directory?
     File baseDirectory = new File(DirectoryHelper.getTargetDir(), "maven-it");
     String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);
@@ -79,21 +82,16 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     mavenItBaseDirectory.mkdirs();
 
     Store store = context.getStore(MavenITNameSpace.NAMESPACE_MAVEN_IT);
-    store.put(Result.BaseDirectory, baseDirectory);
-    store.put(Result.BaseITDirectory, mavenItBaseDirectory);
+    store.put(Storage.BASE_DIRECTORY, baseDirectory);
+    store.put(Storage.BASE_IT_DIRECTORY, mavenItBaseDirectory);
     store.put(MavenITNameSpace.TARGET_DIRECTORY, DirectoryHelper.getTargetDir());
   }
-
-  private static final List<Class<?>> VALID_PARAMETER_TYPES = Arrays.asList(MavenExecutionResult.class, MavenLog.class,
-      MavenCacheResult.class, MavenProjectResult.class, MavenExecutor.class);
 
   @Override
   public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
     Executable declaringExecutable = parameterContext.getParameter().getDeclaringExecutable();
     Parameter parameter = parameterContext.getParameter();
-//    System.out.println("parameterContext.getParameter() = " + parameter.getName());
-//    System.out.println("declaringExecutable.getParameters() = " + declaringExecutable.getParameterCount());
     //Java9+
     // List.of(...)
 
@@ -104,42 +102,24 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
   public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
 
-//    System.out.println("!*** resolveParameter *** !");
-//    System.out.println("! Testmethode: " + extensionContext.getTestMethod().get().getName());
-//    System.out.println("! extensionContext.getElement() = " + extensionContext.getElement());
-//
     Store nameSpace = extensionContext.getStore(MavenITNameSpace.NAMESPACE_MAVEN_IT);
 
-    Result result = Stream.of(Result.values())
+    ParameterType parameterType = Stream.of(ParameterType.values())
         .filter(s -> s.getKlass() == parameterContext.getParameter().getType())
         .findFirst()
-        .orElseGet(() -> Result.BaseITDirectory);
+        .orElseThrow(() -> new IllegalStateException("Unknown parameter type"));
 
-    if (parameterContext.getParameter().getType().equals(MavenExecutor.class)) {
-//      System.out.println("! Parameter type MavenExecutor");
-      return new MavenExecutor("ExecutorName");
-    } else {
-      return nameSpace.get(result + extensionContext.getUniqueId(), result.getKlass());
-    }
+    return nameSpace.get(parameterType + extensionContext.getUniqueId(), parameterType.getKlass());
   }
 
   @Override
   public void interceptBeforeEachMethod(Invocation<Void> invocation,
       ReflectiveInvocationContext<Method> invocationContext, ExtensionContext extensionContext) throws Throwable {
-//    System.out.println("+-------------------------------------------------------------------+");
-//    System.out.println("! invocationContext = method: " + invocationContext.getExecutable().getName());
-//    if (extensionContext.getTestMethod().isPresent()) {
-//      System.out.println("! invocation = " + extensionContext.getTestMethod().get().getName());
-//    }
     invocation.proceed();
-//    System.out.println("^-------------------------------------------------------------------^");
   }
 
   @Override
   public void beforeTestExecution(ExtensionContext context) throws IOException, InterruptedException {
-//    System.out.println("! MavenITExtension: beforeTestExecution: context.getTestMethod() = " + context.getTestMethod()
-//        .get()
-//        .getName());
 
     DirectoryResolverResult directoryResolverResult = new DirectoryResolverResult(context);
 
@@ -211,10 +191,10 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
         mavenProjectResult, mavenCacheResult);
 
     Store nameSpace = context.getStore(MavenITNameSpace.NAMESPACE_MAVEN_IT);
-    nameSpace.put(Result.ExecutionResult + context.getUniqueId(), result);
-    nameSpace.put(Result.LogResult + context.getUniqueId(), log);
-    nameSpace.put(Result.CacheResult + context.getUniqueId(), mavenCacheResult);
-    nameSpace.put(Result.ProjectResult + context.getUniqueId(), mavenProjectResult);
+    nameSpace.put(ParameterType.ExecutionResult + context.getUniqueId(), result);
+    nameSpace.put(ParameterType.LogResult + context.getUniqueId(), log);
+    nameSpace.put(ParameterType.CacheResult + context.getUniqueId(), mavenCacheResult);
+    nameSpace.put(ParameterType.ProjectResult + context.getUniqueId(), mavenProjectResult);
   }
 
 }

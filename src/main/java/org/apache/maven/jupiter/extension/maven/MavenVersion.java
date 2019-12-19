@@ -19,14 +19,13 @@ package org.apache.maven.jupiter.extension.maven;
  * under the License.
  */
 
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+
+import java.util.stream.Stream;
 import org.apiguardian.api.API;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
 import org.junit.platform.commons.util.StringUtils;
-
-import java.util.stream.Stream;
-
-import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
  * @author Karl Heinz Marbaise
@@ -62,7 +61,7 @@ public enum MavenVersion {
     String currentVersion = System.getProperty("maven.version");
     //FIXME: Think about usage of interal API?
     if (StringUtils.isBlank(currentVersion)) {
-      logger.debug(
+      logger.error(
           () -> "JVM system property 'maven.version' is undefined. It is therefore not possible to detect Maven version.");
     }
     return Stream.of(values())
