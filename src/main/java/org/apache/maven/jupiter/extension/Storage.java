@@ -25,4 +25,5 @@ package org.apache.maven.jupiter.extension;
 enum Storage {
   BASE_DIRECTORY,
   BASE_IT_DIRECTORY,
+  TARGET_DIRECTORY
 }

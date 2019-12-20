@@ -24,7 +24,6 @@ import java.lang.reflect.Method;
 import java.util.Optional;
 import org.apache.maven.jupiter.utils.DirectoryHelper;
 import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.ExtensionContext.Store;
 
 class DirectoryResolverResult {
 
@@ -47,10 +46,11 @@ class DirectoryResolverResult {
   private final File componentUnderTestDirectory;
 
   DirectoryResolverResult(ExtensionContext context) {
-    Store nameSpace = context.getStore(MavenITNameSpace.NAMESPACE_MAVEN_IT);
-    this.mavenItBaseDirectory = nameSpace.get(Storage.BASE_IT_DIRECTORY, File.class);
-    this.mavenBaseDirectory = nameSpace.get(Storage.BASE_DIRECTORY, File.class);
-    this.targetDirectory = nameSpace.get(MavenITNameSpace.TARGET_DIRECTORY, File.class);
+    StorageHelper sh = new StorageHelper(context);
+
+    this.mavenItBaseDirectory = sh.get(Storage.BASE_IT_DIRECTORY, File.class);
+    this.mavenBaseDirectory = sh.get(Storage.BASE_DIRECTORY, File.class);
+    this.targetDirectory = sh.get(Storage.TARGET_DIRECTORY, File.class);
 
     Method methodName = context.getTestMethod().orElseThrow(() -> new IllegalStateException("No method given"));
     this.integrationTestCaseDirectory = new File(this.mavenItBaseDirectory, methodName.getName());
@@ -128,10 +128,10 @@ class DirectoryResolverResult {
     private File targetDirectory;
 
     DirectoryResolverResult resolve(ExtensionContext context) {
-      Store nameSpace = context.getStore(MavenITNameSpace.NAMESPACE_MAVEN_IT);
-      this.mavenItBaseDirectory = nameSpace.get(Storage.BASE_IT_DIRECTORY, File.class);
-      this.mavenBaseDirectory = nameSpace.get(Storage.BASE_DIRECTORY, File.class);
-      this.targetDirectory = nameSpace.get(MavenITNameSpace.TARGET_DIRECTORY, File.class);
+      StorageHelper sh = new StorageHelper(context);
+      this.mavenItBaseDirectory = sh.get(Storage.BASE_IT_DIRECTORY, File.class);
+      this.mavenBaseDirectory = sh.get(Storage.BASE_DIRECTORY, File.class);
+      this.targetDirectory = sh.get(Storage.TARGET_DIRECTORY, File.class);
 
       return new DirectoryResolverResult(context);
     }

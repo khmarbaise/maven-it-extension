@@ -48,7 +48,6 @@ import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionConfigurationException;
 import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.ExtensionContext.Store;
 import org.junit.jupiter.api.extension.InvocationInterceptor;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
@@ -75,10 +74,10 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     File mavenItBaseDirectory = new File(baseDirectory, toFullyQualifiedPath);
     mavenItBaseDirectory.mkdirs();
 
-    Store store = context.getStore(MavenITNameSpace.NAMESPACE_MAVEN_IT);
-    store.put(Storage.BASE_DIRECTORY, baseDirectory);
-    store.put(Storage.BASE_IT_DIRECTORY, mavenItBaseDirectory);
-    store.put(MavenITNameSpace.TARGET_DIRECTORY, DirectoryHelper.getTargetDir());
+    StorageHelper sh = new StorageHelper(context);
+    sh.put(Storage.BASE_DIRECTORY, baseDirectory);
+    sh.put(Storage.BASE_IT_DIRECTORY, mavenItBaseDirectory);
+    sh.put(Storage.TARGET_DIRECTORY, DirectoryHelper.getTargetDir());
   }
 
   @Override
@@ -94,14 +93,14 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
   public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
 
-    Store nameSpace = extensionContext.getStore(MavenITNameSpace.NAMESPACE_MAVEN_IT);
+    StorageHelper sh = new StorageHelper(extensionContext);
 
     ParameterType parameterType = Stream.of(ParameterType.values())
         .filter(s -> s.getKlass() == parameterContext.getParameter().getType())
         .findFirst()
         .orElseThrow(() -> new IllegalStateException("Unknown parameter type"));
 
-    return nameSpace.get(parameterType + extensionContext.getUniqueId(), parameterType.getKlass());
+    return sh.get(parameterType + extensionContext.getUniqueId(), parameterType.getKlass());
   }
 
   @Override
@@ -182,11 +181,8 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     MavenExecutionResult result = new MavenExecutionResult(executionResult, processCompletableFuture, log,
         mavenProjectResult, mavenCacheResult);
 
-    Store nameSpace = context.getStore(MavenITNameSpace.NAMESPACE_MAVEN_IT);
-    nameSpace.put(ParameterType.ExecutionResult + context.getUniqueId(), result);
-    nameSpace.put(ParameterType.LogResult + context.getUniqueId(), log);
-    nameSpace.put(ParameterType.CacheResult + context.getUniqueId(), mavenCacheResult);
-    nameSpace.put(ParameterType.ProjectResult + context.getUniqueId(), mavenProjectResult);
+    StorageHelper sh = new StorageHelper(context);
+    sh.safe(result, log, mavenCacheResult, mavenProjectResult);
   }
 
 }
