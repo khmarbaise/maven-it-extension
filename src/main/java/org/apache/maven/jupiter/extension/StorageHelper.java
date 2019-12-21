@@ -1,5 +1,6 @@
 package org.apache.maven.jupiter.extension;
 
+import java.io.File;
 import org.apache.maven.jupiter.extension.maven.MavenCacheResult;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 import org.apache.maven.jupiter.extension.maven.MavenLog;
@@ -33,6 +34,13 @@ final class StorageHelper {
     nameSpace.put(key, value);
   }
 
+  void safe(File baseDirectory, File mavenItBaseDirectory, File targetDirectory) {
+    StorageHelper sh = new StorageHelper(context);
+    sh.put(Storage.BASE_DIRECTORY, baseDirectory);
+    sh.put(Storage.BASE_IT_DIRECTORY, mavenItBaseDirectory);
+    sh.put(Storage.TARGET_DIRECTORY, targetDirectory);
+
+  }
   void safe(MavenExecutionResult result, MavenLog log, MavenCacheResult mavenCacheResult, MavenProjectResult mavenProjectResult) {
     put(ParameterType.ExecutionResult + context.getUniqueId(), result);
     put(ParameterType.LogResult + context.getUniqueId(), log);

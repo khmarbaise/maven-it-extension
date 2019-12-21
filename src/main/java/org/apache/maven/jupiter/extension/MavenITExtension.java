@@ -72,12 +72,15 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);
 
     File mavenItBaseDirectory = new File(baseDirectory, toFullyQualifiedPath);
+    //TODO: What happends if the directory has been created by the run before?
+    // should we delete that structure here?
     mavenItBaseDirectory.mkdirs();
 
     StorageHelper sh = new StorageHelper(context);
-    sh.put(Storage.BASE_DIRECTORY, baseDirectory);
-    sh.put(Storage.BASE_IT_DIRECTORY, mavenItBaseDirectory);
-    sh.put(Storage.TARGET_DIRECTORY, DirectoryHelper.getTargetDir());
+    sh.safe(baseDirectory, mavenItBaseDirectory, DirectoryHelper.getTargetDir());
+//    sh.put(Storage.BASE_DIRECTORY, baseDirectory);
+//    sh.put(Storage.BASE_IT_DIRECTORY, mavenItBaseDirectory);
+//    sh.put(Storage.TARGET_DIRECTORY, DirectoryHelper.getTargetDir());
   }
 
   @Override
