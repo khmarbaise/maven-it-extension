@@ -1,4 +1,4 @@
-package org.apache.maven.jupiter.extension.utils;
+package org.apache.maven.jupiter.extension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;

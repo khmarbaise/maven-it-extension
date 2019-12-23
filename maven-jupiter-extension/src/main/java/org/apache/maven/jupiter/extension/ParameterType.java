@@ -19,11 +19,11 @@ package org.apache.maven.jupiter.extension;
  * under the License.
  */
 
-import org.apache.maven.jupiter.extension.maven.MavenCacheResult;
-import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
-import org.apache.maven.jupiter.extension.maven.MavenExecutor;
-import org.apache.maven.jupiter.extension.maven.MavenLog;
-import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
+import org.apache.maven.jupiter.maven.MavenCacheResult;
+import org.apache.maven.jupiter.maven.MavenExecutionResult;
+import org.apache.maven.jupiter.maven.MavenExecutor;
+import org.apache.maven.jupiter.maven.MavenLog;
+import org.apache.maven.jupiter.maven.MavenProjectResult;
 
 /**
  * @author Karl Heinz Marbaise

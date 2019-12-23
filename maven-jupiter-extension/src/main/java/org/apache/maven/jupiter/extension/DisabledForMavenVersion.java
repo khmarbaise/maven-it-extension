@@ -26,7 +26,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import org.apache.maven.jupiter.extension.maven.MavenVersion;
+import org.apache.maven.jupiter.maven.MavenVersion;
 import org.apiguardian.api.API;
 import org.junit.jupiter.api.extension.ExtendWith;
 

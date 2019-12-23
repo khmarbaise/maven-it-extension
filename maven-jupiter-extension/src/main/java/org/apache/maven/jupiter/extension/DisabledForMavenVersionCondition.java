@@ -25,7 +25,7 @@ import static org.junit.platform.commons.util.AnnotationUtils.findAnnotation;
 
 import java.util.Optional;
 import java.util.stream.Stream;
-import org.apache.maven.jupiter.extension.maven.MavenVersion;
+import org.apache.maven.jupiter.maven.MavenVersion;
 import org.junit.jupiter.api.extension.ConditionEvaluationResult;
 import org.junit.jupiter.api.extension.ExecutionCondition;
 import org.junit.jupiter.api.extension.ExtensionContext;

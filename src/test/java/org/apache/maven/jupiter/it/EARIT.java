@@ -19,13 +19,13 @@ package org.apache.maven.jupiter.it;
  * under the License.
  */
 
-import static org.apache.maven.jupiter.assertj.MavenITAssertions.assertThat;
+import static org.apache.maven.assertj.MavenITAssertions.assertThat;
 
 import org.apache.maven.jupiter.extension.MavenIT;
 import org.apache.maven.jupiter.extension.MavenTest;
-import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
-import org.apache.maven.jupiter.extension.maven.MavenLog;
-import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
+import org.apache.maven.jupiter.maven.MavenExecutionResult;
+import org.apache.maven.jupiter.maven.MavenLog;
+import org.apache.maven.jupiter.maven.MavenProjectResult;
 
 /**
  * Examples taken from Maven EAR Plugin
