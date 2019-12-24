@@ -33,7 +33,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: 'Test'
-        run: mvn -V --no-transfer-progress clean verify -Prun-its -Drat.ignoreErrors=true --fail-at-end -Dcheckstyle.skip=true
+        run: mvn -V --no-transfer-progress clean verify -Drat.ignoreErrors=true --fail-at-end -Dcheckstyle.skip=true
 #  windows:
 #    name: 'Windows'
 #    runs-on: windows-latest
@@ -45,7 +45,7 @@ jobs:
 #          java-version: 8
 #      - name: 'Test'
 #        shell: bash
-#        run: mvn -V --no-transfer-progress clean verify -Prun-its -Drat.ignoreErrors=true --fail-at-end -Dcheckstyle.skip=true
+#        run: mvn -V --no-transfer-progress clean verify -Drat.ignoreErrors=true --fail-at-end -Dcheckstyle.skip=true
   mac:
     name: 'Mac OS'
     runs-on: macos-latest
@@ -56,4 +56,4 @@ jobs:
         with:
           java-version: 8
       - name: 'Test'
-        run: mvn -V --no-transfer-progress clean verify -Prun-its -Drat.ignoreErrors=true --fail-at-end -Dcheckstyle.skip=true
+        run: mvn -V --no-transfer-progress clean verify -Drat.ignoreErrors=true --fail-at-end -Dcheckstyle.skip=true
