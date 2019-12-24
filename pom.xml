@@ -128,76 +128,6 @@
   </dependencyManagement>
 
   <build>
-    <testResources>
-      <testResource>
-        <directory>src/test/resources</directory>
-        <filtering>false</filtering>
-      </testResource>
-      <!--
-       ! Currently those tests do need to be filtered.
-      -->
-      <testResource>
-        <directory>src/test/resources-its</directory>
-        <filtering>true</filtering>
-      </testResource>
-    </testResources>
-    <plugins>
-      <!--
-       ! Currently a hack to copy the artifacts of the plugin/extension under tests
-       ! into a location which can be used by integration tests until we have our own
-       ! plugin doing this.
-      -->
-      <plugin>
-        <artifactId>maven-invoker-plugin</artifactId>
-        <version>3.2.1</version>
-        <executions>
-          <execution>
-            <!--
-             ! Overwriting the configuration which is inherited
-            -->
-            <id>integration-test</id>
-            <goals>
-              <goal>install</goal>
-            </goals>
-            <configuration combine.children="override">
-              <localRepositoryPath>${project.build.directory}/invoker-repo</localRepositoryPath>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <configuration>
-          <forkCount>3</forkCount>
-          <reuseForks>false</reuseForks>
-          <!--
-           ! currently needed to run integration tests.
-          -->
-          <systemProperties>
-            <maven.version>${maven.version}</maven.version>
-            <maven.home>${maven.home}</maven.home>
-          </systemProperties>
-          <properties>
-            <!--
-             ! needed to be moved into the extension (resources) which should automatically support
-             ! parallelization.
-            -->
-            <configurationParameters>
-              junit.jupiter.execution.parallel.enabled = true
-              junit.jupiter.execution.parallel.mode.default = concurrent
-            </configurationParameters>
-          </properties>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>integration-test</goal>
-              <goal>verify</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -209,6 +139,11 @@
               <revnumber>${project.version}</revnumber>
             </attributes>
           </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-invoker-plugin</artifactId>
+          <version>3.2.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -270,6 +205,7 @@
     <module>maven-jupiter-extension</module>
     <module>maven-it-assertions</module>
     <module>maven-it-maven</module>
+    <module>it-examples</module>
   </modules>
 
 
