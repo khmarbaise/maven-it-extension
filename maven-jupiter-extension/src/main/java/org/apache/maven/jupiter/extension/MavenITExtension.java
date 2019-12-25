@@ -77,10 +77,7 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     mavenItBaseDirectory.mkdirs();
 
     StorageHelper sh = new StorageHelper(context);
-    sh.safe(baseDirectory, mavenItBaseDirectory, DirectoryHelper.getTargetDir());
-//    sh.put(Storage.BASE_DIRECTORY, baseDirectory);
-//    sh.put(Storage.BASE_IT_DIRECTORY, mavenItBaseDirectory);
-//    sh.put(Storage.TARGET_DIRECTORY, DirectoryHelper.getTargetDir());
+    sh.save(baseDirectory, mavenItBaseDirectory, DirectoryHelper.getTargetDir());
   }
 
   @Override
@@ -185,7 +182,7 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
         mavenProjectResult, mavenCacheResult);
 
     StorageHelper sh = new StorageHelper(context);
-    sh.safe(result, log, mavenCacheResult, mavenProjectResult);
+    sh.save(result, log, mavenCacheResult, mavenProjectResult);
   }
 
 }

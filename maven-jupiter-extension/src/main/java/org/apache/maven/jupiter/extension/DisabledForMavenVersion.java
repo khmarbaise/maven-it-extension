@@ -48,7 +48,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * <h4>Warning</h4>
  *
  * @author Karl Heinz Marbaise
- * @see org.apache.maven.jupiter.extension.maven.MavenVersion
+ * @see org.apache.maven.jupiter.maven.MavenVersion
  * @see org.junit.jupiter.api.condition.EnabledOnOs
  * @see org.junit.jupiter.api.condition.EnabledOnJre
  * @see org.junit.jupiter.api.condition.DisabledOnJre

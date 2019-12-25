@@ -28,6 +28,9 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
 
+/**
+ * @author Karl Heinz Marbaise
+ */
 final class StorageHelper {
 
   private static final Namespace NAMESPACE_MAVEN_IT = Namespace.create(MavenITExtension.class);
@@ -53,18 +56,18 @@ final class StorageHelper {
     nameSpace.put(key, value);
   }
 
-  void safe(File baseDirectory, File mavenItBaseDirectory, File targetDirectory) {
+  void save(File baseDirectory, File mavenItBaseDirectory, File targetDirectory) {
     StorageHelper sh = new StorageHelper(context);
     sh.put(Storage.BASE_DIRECTORY, baseDirectory);
     sh.put(Storage.BASE_IT_DIRECTORY, mavenItBaseDirectory);
     sh.put(Storage.TARGET_DIRECTORY, targetDirectory);
-
   }
-  void safe(MavenExecutionResult result, MavenLog log, MavenCacheResult mavenCacheResult, MavenProjectResult mavenProjectResult) {
+
+  void save(MavenExecutionResult result, MavenLog log, MavenCacheResult mavenCacheResult,
+      MavenProjectResult mavenProjectResult) {
     put(ParameterType.ExecutionResult + context.getUniqueId(), result);
     put(ParameterType.LogResult + context.getUniqueId(), log);
     put(ParameterType.CacheResult + context.getUniqueId(), mavenCacheResult);
     put(ParameterType.ProjectResult + context.getUniqueId(), mavenProjectResult);
-
   }
 }
