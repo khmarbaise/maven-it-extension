@@ -19,38 +19,29 @@ package org.apache.maven.jupiter.extension;
  * under the License.
  */
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import java.lang.annotation.Annotation;
+import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.description.annotation.AnnotationDescription;
+import net.bytebuddy.description.annotation.AnnotationDescription.Builder;
 
 /**
- * Unit test for the {@link MavenIT} annotation.
- *
- * <p>This test is intended to check the default values which have been defined
- * within the annotation that they won't be changed unintentionally.</p>
+ * Helper Class to prevent code duplication in {@link MavenITTest} and {@link MavenRepositoryTest}.
  *
  * @author Karl Heinz Marbaise
  */
-@DisplayName("The annotation should keep")
-class MavenITTest {
+class Helper {
 
-  private MavenIT mavenITAnnotation;
+  static <ANNOTATION extends Annotation> ANNOTATION createAnnotation(ClassLoader classLoader,
+      Class<ANNOTATION> annotationType) {
+    AnnotationDescription annotationDescription = Builder.ofType(annotationType).build();
 
-  @BeforeEach
-  private void beforeEach() {
-    this.mavenITAnnotation = Helper.createAnnotation(this.getClass().getClassLoader(), MavenIT.class);
-  }
+    Class<?> objectBuilder = new ByteBuddy().subclass(Object.class)
+        .annotateType(annotationDescription)
+        .make()
+        .load(classLoader)
+        .getLoaded();
+    return objectBuilder.getAnnotation(annotationType);
 
-  @Test
-  void the_default_value_for_debug_as_false() {
-    assertThat(mavenITAnnotation.debug()).isFalse();
-  }
-
-  @Test
-  void the_default_value_for_goals_is_package() {
-    assertThat(mavenITAnnotation.goals()).containsExactly("package");
   }
 
 }
