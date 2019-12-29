@@ -40,7 +40,7 @@ class MavenITTest {
 
   @BeforeEach
   private void beforeEach() {
-    this.mavenITAnnotation = Helper.createAnnotation(this.getClass().getClassLoader(), MavenIT.class);
+    this.mavenITAnnotation = Helper.createAnnotation(this.getClass(), MavenIT.class);
   }
 
   @Test

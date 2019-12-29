@@ -31,14 +31,14 @@ import net.bytebuddy.description.annotation.AnnotationDescription.Builder;
  */
 class Helper {
 
-  static <ANNOTATION extends Annotation> ANNOTATION createAnnotation(ClassLoader classLoader,
+  static <ANNOTATION extends Annotation> ANNOTATION createAnnotation(Class<?> theClass,
       Class<ANNOTATION> annotationType) {
     AnnotationDescription annotationDescription = Builder.ofType(annotationType).build();
 
     Class<?> objectBuilder = new ByteBuddy().subclass(Object.class)
         .annotateType(annotationDescription)
         .make()
-        .load(classLoader)
+        .load(theClass.getClassLoader())
         .getLoaded();
     return objectBuilder.getAnnotation(annotationType);
 
