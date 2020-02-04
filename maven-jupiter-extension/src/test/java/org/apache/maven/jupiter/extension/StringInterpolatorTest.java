@@ -52,8 +52,6 @@ class StringInterpolatorTest {
   @Test
   void interpolate_keys_should_return_keys_of_the_given_string() {
 
-    StringInterpolator interpolator = new StringInterpolator(Collections.emptyMap());
-
     String givenString = "the answer to ${key}, ${secondKey} and everything.";
 
     List<String> keysInGivenString = StringInterpolator.keys(givenString);

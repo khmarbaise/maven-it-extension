@@ -22,6 +22,8 @@ package org.apache.maven.jupiter.extension;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Method;
 import net.bytebuddy.description.annotation.AnnotationDescription;
@@ -31,7 +33,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.PreconditionViolationException;
 import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
 
 /**
  * @author Karl Heinz Marbaise
@@ -63,9 +64,9 @@ class AnnotationHelperTest {
   private Method createAnnotationPrepare(AnnotationDescription mavenTestAnnotationDescription) {
     MavenTest mavenTestAnnotation = mavenTestAnnotationDescription.prepare(MavenTest.class).load();
 
-    Method method = Mockito.mock(Method.class);
-    Mockito.when(method.isAnnotationPresent(ArgumentMatchers.any())).thenReturn(true);
-    Mockito.when(method.getAnnotation(ArgumentMatchers.any())).thenReturn(mavenTestAnnotation);
+    Method method = mock(Method.class);
+    when(method.isAnnotationPresent(ArgumentMatchers.any())).thenReturn(true);
+    when(method.getAnnotation(ArgumentMatchers.any())).thenReturn(mavenTestAnnotation);
     return method;
   }
 
@@ -83,9 +84,9 @@ class AnnotationHelperTest {
     @Test
     @DisplayName("fail when MavenTest annotation is not present.")
     void should_fail_with_illegal_state_exception() {
-      Method method = Mockito.mock(Method.class);
-      Mockito.when(method.isAnnotationPresent(ArgumentMatchers.any())).thenReturn(false);
-      Mockito.when(method.getName()).thenReturn("The unknown method.");
+      Method method = mock(Method.class);
+      when(method.isAnnotationPresent(ArgumentMatchers.any())).thenReturn(false);
+      when(method.getName()).thenReturn("The unknown method.");
 
       assertThatIllegalStateException().isThrownBy(() -> AnnotationHelper.isDebug(method))
         .withMessage("MavenTest Annotation is not given on method: 'The unknown method.'");
@@ -164,9 +165,9 @@ class AnnotationHelperTest {
     @Test
     @DisplayName("fail when MavenTest annotation is not present.")
     void should_fail_with_illegal_state_exception() {
-      Method method = Mockito.mock(Method.class);
-      Mockito.when(method.isAnnotationPresent(ArgumentMatchers.any())).thenReturn(false);
-      Mockito.when(method.getName()).thenReturn("The unknown method.");
+      Method method = mock(Method.class);
+      when(method.isAnnotationPresent(ArgumentMatchers.any())).thenReturn(false);
+      when(method.getName()).thenReturn("The unknown method.");
 
       assertThatIllegalStateException().isThrownBy(() -> AnnotationHelper.getActiveProfiles(method))
         .withMessage("MavenTest Annotation is not given on method: 'The unknown method.'");
@@ -202,9 +203,9 @@ class AnnotationHelperTest {
     @Test
     @DisplayName("fail when MavenTest annotation is not present.")
     void should_fail_with_illegal_state_exception() {
-      Method method = Mockito.mock(Method.class);
-      Mockito.when(method.isAnnotationPresent(ArgumentMatchers.any())).thenReturn(false);
-      Mockito.when(method.getName()).thenReturn("The unknown method.");
+      Method method = mock(Method.class);
+      when(method.isAnnotationPresent(ArgumentMatchers.any())).thenReturn(false);
+      when(method.getName()).thenReturn("The unknown method.");
 
       assertThatIllegalStateException().isThrownBy(() -> AnnotationHelper.getGoals(method))
         .withMessage("MavenTest Annotation is not given on method: 'The unknown method.'");
@@ -233,9 +234,9 @@ class AnnotationHelperTest {
     @Test
     @DisplayName("fail when MavenTest annotation is not present.")
     void should_fail_with_illegal_state_exception() {
-      Method method = Mockito.mock(Method.class);
-      Mockito.when(method.isAnnotationPresent(ArgumentMatchers.any())).thenReturn(false);
-      Mockito.when(method.getName()).thenReturn("The unknown method.");
+      Method method = mock(Method.class);
+      when(method.isAnnotationPresent(ArgumentMatchers.any())).thenReturn(false);
+      when(method.getName()).thenReturn("The unknown method.");
 
       assertThatIllegalStateException().isThrownBy(() -> AnnotationHelper.hasGoals(method))
         .withMessage("MavenTest Annotation is not given on method: 'The unknown method.'");
