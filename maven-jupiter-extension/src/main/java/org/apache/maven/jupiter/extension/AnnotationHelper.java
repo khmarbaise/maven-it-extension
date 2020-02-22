@@ -19,6 +19,7 @@ package org.apache.maven.jupiter.extension;
  * under the License.
  */
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Optional;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -59,12 +60,12 @@ class AnnotationHelper {
     }
   }
 
-  static Optional<Class<?>> findMavenRepositoryAnnotation(ExtensionContext context) {
+  static Optional<Class<?>> findAnnotation(ExtensionContext context, Class<? extends Annotation> annotationClass) {
     Optional<ExtensionContext> current = Optional.of(context);
     while (current.isPresent()) {
       if (current.get().getTestClass().isPresent()) {
         Class<?> testClass = current.get().getTestClass().get();
-        if (testClass.isAnnotationPresent(MavenRepository.class)) {
+        if (testClass.isAnnotationPresent(annotationClass)) {
           return Optional.of(testClass);
         }
       }
@@ -73,18 +74,12 @@ class AnnotationHelper {
     return Optional.empty();
   }
 
+  static Optional<Class<?>> findMavenRepositoryAnnotation(ExtensionContext context) {
+    return findAnnotation(context, MavenRepository.class);
+  }
+
   static Optional<Class<?>> findMavenITAnnotation(ExtensionContext context) {
-    Optional<ExtensionContext> current = Optional.of(context);
-    while (current.isPresent()) {
-      if (current.get().getTestClass().isPresent()) {
-        Class<?> testClass = current.get().getTestClass().get();
-        if (testClass.isAnnotationPresent(MavenIT.class)) {
-          return Optional.of(testClass);
-        }
-      }
-      current = current.get().getParent();
-    }
-    return Optional.empty();
+    return findAnnotation(context, MavenIT.class);
   }
 
 }
