@@ -84,39 +84,32 @@ class DirectoryResolverResult {
     return cacheDirectory;
   }
 
-  File getSourceMavenProject() {
+  final File getSourceMavenProject() {
     return sourceMavenProject;
   }
 
-  File getMavenItsBaseDirectory() {
+  final File getMavenItsBaseDirectory() {
     return mavenItsBaseDirectory;
   }
 
-  File getProjectDirectory() {
+  final File getProjectDirectory() {
     return projectDirectory;
   }
 
-  File getIntegrationTestCaseDirectory() {
+  final File getIntegrationTestCaseDirectory() {
     return integrationTestCaseDirectory;
   }
 
-  File getMavenItBaseDirectory() {
+  final File getMavenItBaseDirectory() {
     return mavenItBaseDirectory;
   }
 
-  File getMavenBaseDirectory() {
+  final File getMavenBaseDirectory() {
     return mavenBaseDirectory;
   }
 
-  File getTargetDirectory() {
+  final File getTargetDirectory() {
     return targetDirectory;
-  }
-
-  class DirectoryResolver {
-
-    DirectoryResolverResult resolve() {
-      return new DirectoryResolverResult(null);
-    }
   }
 
   class DirectoryExtensionContextResolver {

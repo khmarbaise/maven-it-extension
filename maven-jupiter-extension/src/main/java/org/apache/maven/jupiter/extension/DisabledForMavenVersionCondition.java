@@ -40,11 +40,11 @@ import org.junit.platform.commons.util.Preconditions;
  */
 class DisabledForMavenVersionCondition implements ExecutionCondition {
 
-  static final ConditionEvaluationResult ENABLED_ON_CURRENT_MAVEN_VERSION = //
-      enabled("Enabled on Maven version: " + System.getProperty("maven.version"));
+  static final ConditionEvaluationResult ENABLED_ON_CURRENT_MAVEN_VERSION = enabled(
+      "Enabled on Maven version: " + System.getProperty("maven.version"));
 
-  static final ConditionEvaluationResult DISABLED_ON_CURRENT_MAVEN_VERSION = //
-      disabled("Disabled on Maven version: " + System.getProperty("maven.version"));
+  static final ConditionEvaluationResult DISABLED_ON_CURRENT_MAVEN_VERSION = disabled(
+      "Disabled on Maven version: " + System.getProperty("maven.version"));
 
   private static final ConditionEvaluationResult ENABLED_BY_DEFAULT = enabled(
       "@DisabledForMavenVersion is not present");

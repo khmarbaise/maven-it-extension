@@ -60,7 +60,7 @@ class AnnotationHelper {
     }
   }
 
-  static Optional<Class<?>> findAnnotation(ExtensionContext context, Class<? extends Annotation> annotationClass) {
+  private static Optional<Class<?>> findAnnotation(ExtensionContext context, Class<? extends Annotation> annotationClass) {
     Optional<ExtensionContext> current = Optional.of(context);
     while (current.isPresent()) {
       if (current.get().getTestClass().isPresent()) {

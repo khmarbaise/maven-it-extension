@@ -40,6 +40,9 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @ExtendWith(MavenITExtension.class)
 @Documented
 @Inherited
+// Prevent running with multiple threads
+// cause otherwise this would result in crashes.
+// Need to reconsider this.
 @Execution(ExecutionMode.SAME_THREAD)
 @API(status = EXPERIMENTAL, since = "0.1.0")
 public @interface MavenRepository {
