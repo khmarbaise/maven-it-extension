@@ -1,0 +1,3 @@
+install:
+    - mvn install -Drat.ignoreErrors=true -Dcheckstyle.skip=true -DskipTests
+
