@@ -38,6 +38,7 @@
   <packaging>pom</packaging>
 
   <properties>
+    <mockito.version>3.3.0</mockito.version>
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
     <!--
@@ -69,17 +70,17 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.2.4</version>
+        <version>${mockito.version}</version>
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-inline</artifactId>
-        <version>3.2.4</version>
+        <version>${mockito.version}</version>
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-junit-jupiter</artifactId>
-        <version>3.2.4</version>
+        <version>${mockito.version}</version>
       </dependency>
       <dependency>
         <groupId>nl.jqno.equalsverifier</groupId>
