@@ -747,15 +747,73 @@ we already did like in {maven-invoker-plugin}.
 This is:
 
  * Currently it is not possible to define the version Maven only within the test case.
-Unfortunately we have to define it in the Maven pom which is used to download the needed package from Central.
+   Unfortunately we have to define it in the Maven pom which is used to download the
+   needed package from Central.
 
 
 == TODO List
 
+=== Support for running with several Maven Versions
+
+ * Currently we are limited to run under the Maven version which is used by
+   running the integration tests.
+
+ * We need to consider where we ran tests with different versions of Maven to check
+   compatibility for things. Something like this:
+
+ * Based on the above requirements the following question will arise:
+ ** Where to download the appropriate Apache Maven versions?
+ ** Handle each test case separately into a separate directory to
+    keep them independent.
+
+[source,java]
+.MultiVersionIT.java
+----
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
+
+@MavenIT
+@MavenVersion({3_0_5, 3_3_9})
+class FirstMavenIT {
+
+  @MavenTest
+  void third_test_case(MavenProjectResult project) {
+    assertThat(project)
+      ...
+  }
+}
+----
+
+* Defining a range for Maven versions which will be used to execute the tests.
+
+[source,java]
+.MultiVersionIT.java
+----
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
+
+@MavenIT
+@MavenVersionRange(from = 3_0_5, upto=3_6_3)
+class FirstMavenIT {
+
+  @MavenTest
+  void third_test_case(MavenProjectResult project) {
+    assertThat(project)
+      ...
+  }
+}
+----
+
 
 == Comparison
 
- * Testing parallization looks already very good. The following run is using parallel execution
+ * Testing parallelization looks already very good. The following run is using parallel execution
  of the tests:
 
 [source]
