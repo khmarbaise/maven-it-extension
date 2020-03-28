@@ -645,6 +645,7 @@ tests with maven-invoker or with other tests for different maven plugins etc. to
 if we missed something which is needed to get that framework forward.
 
 === Maven Assembly plugin
+
 ==== Custom-ContainerDescriptorHandler Test Case
 
 https://github.com/apache/maven-assembly-plugin/blob/master/src/it/projects/container-descriptors/custom-containerDescriptorHandler
@@ -741,7 +742,8 @@ Based on this setup you will get separated log files for each run in it's own di
 into a single file.
 
 
-==== Grouping Test Cases(Might move to other location)
+==== Grouping Test Cases
+//Might move to other location
 
 This will result in grouping tests within the single class.
 
