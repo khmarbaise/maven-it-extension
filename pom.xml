@@ -250,7 +250,7 @@
     <module>maven-executor</module>
     <module>maven-it-plugin</module>
     <module>maven-jupiter-extension</module>
-    <module>maven-it-assertions</module>
+    <module>maven-it-assertj</module>
     <module>maven-it-maven</module>
     <module>it-examples</module>
   </modules>

@@ -31,7 +31,9 @@
     <version>0.1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>maven-it-assertions</artifactId>
+  <artifactId>maven-it-assertj</artifactId>
+
+  <description>AssertJ Assertions for Maven Integration tests.</description>
 
   <dependencies>
     <dependency>
