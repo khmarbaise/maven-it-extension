@@ -25,9 +25,8 @@
 :maven-invoker-plugin: https://maven.apache.org/plugins/maven-invoker-plugin[Maven Invoker Plugin]
 :maven-plugins: https://maven.apache.org/plugins/[Maven Plugins]
 :maven-failsafe-plugin: https://maven.apache.org/surefire/maven-failsafe-plugin/[Maven Failsafe Plugin]
-
+:maven-release-plugin: https://github.com/apache/maven-release/tree/master/maven-release-plugin
 :mock-repository-manager: https://www.mojohaus.org/mrm/index.html[Mock Repository Manager]
-
 
 == Overview
 The expressiveness of tests is a very important part of writing integration tests or
@@ -258,7 +257,8 @@ the integration test cases in a simple way.
 .Things which currently not working or net yet tested/thought about
 * [ ] A build/tool(s) running without relation to Maven?
       This means we only need to define what we start simply a different thing than Maven.
-* [ ] POM Less builds currently not tried.
+      Would we like to support this?
+* [ ] POM Less builds currently not tried. Calling only a goal like `site:stage` ?
 * [ ] Setup projects which should be run
 * [ ] General Setup repositories which already contain particular dependencies which are needed
 for test cases. Here we need to make it possible having a local repository to be pre defined
@@ -283,7 +283,7 @@ If I redefined the `@MavenIT(mavenCache=MavenCache.Global)` on the
 nested class `NestedExample` it would result into having an other
 cache for the nested class but not what I wanted to have.
 
-So the cache definition should not being made in relationship with the `@MavenIT`
+So the cache definition should *not* being made in relationship with the `@MavenIT`
 annotation.
 
 [source,java]
@@ -312,7 +312,7 @@ class MavenIntegrationExampleNestedGlobalRepoIT {
 ----
 
 The solution would be to have a separate annotation for the `@MavenRepository`
-to defined the cache. So the following code shows directly that the
+to define the cache. So the following code shows directly that the
 repository is defined on the highest class level which can be inherited
 automatically.
 The annotation in its default form defines the repository to be
@@ -346,7 +346,7 @@ class MavenIntegrationExampleNestedGlobalRepoIT {
 ----
 
 The following gives you an impression of making the repository defined in another
-directory. (This will overwrite the default.)
+directory. (This would overwrite the default.)
 [source,java]
 ----
 @MavenIT
@@ -386,18 +386,27 @@ class IntegrationIT {
 
 
 === Mock Repository Manager
-Mock Repository Manager:
+The Mock Repository Manager is as the name implies a mock for the a repository.
+This is sometimes useful to test things like creating releases
+[maven-release-plugin][maven-release-plugin].
 
-Support for the Mock Repository Manager
+In general there are some question coming up:
 
-Defining the url by default `localhost:Port`...
+* Based on the idea parallel nature of those integration tests we need to prevent using the same
+  port for each execution. This needs to be injected into the appropriate test run.
+  Usually we would use `localhost:Port`.
+* A repository manager can be used to deploy artifacts (during a test) into it and afterwards check
+  the content somehow. (For example if checksum have been correctly created).
+* A repository manager could be used to download artifacts from it. ? Test Case? (Reconsider?)
+* Reuse of existing repos (filled up with special dependencies) in several tests cases to
+  prevent copying of all artifacts?
 
-Need to define the port via random ? Random Factory for all Tests to prevent
-collision for different tests (Parallelization!).
 
-Should be implemented as separate extension.
-
-Inject URL as property for the calling MVN process.
+// Defining the url by default `localhost:Port`...
+//Need to define the port via random ? Random Factory for all Tests to prevent
+//collision for different tests (Parallelization!).
+//Should be implemented as separate extension.
+//Inject URL as property for the calling MVN process.
 
 [source,java]
 ----

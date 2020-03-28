@@ -70,7 +70,7 @@ class DirectoryResolverResult {
       File cacheDirectoryBase = new File(this.mavenBaseDirectory, repositoryPath);
       this.cacheDirectory = new File(cacheDirectoryBase, mavenRepository.value());
     } else {
-      //Hard coded default. Should we get the default from the Annotation?
+      //FIXME: Hard coded default. Should we get the default from the Annotation?
       this.cacheDirectory = new File(this.integrationTestCaseDirectory, ".m2/repository");
     }
 

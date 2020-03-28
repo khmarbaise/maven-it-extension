@@ -73,18 +73,15 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
 
     File mavenItBaseDirectory = new File(baseDirectory, toFullyQualifiedPath);
     //TODO: What happends if the directory has been created by the run before?
-    // should we delete that structure here?
+    // should we delete that structure here? Maybe we should make this configurable.
     mavenItBaseDirectory.mkdirs();
 
-    StorageHelper sh = new StorageHelper(context);
-    sh.save(baseDirectory, mavenItBaseDirectory, DirectoryHelper.getTargetDir());
+    new StorageHelper(context).save(baseDirectory, mavenItBaseDirectory, DirectoryHelper.getTargetDir());
   }
 
   @Override
   public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
-    //Java9+
-    // List.of(...)
     return Stream.of(ParameterType.values())
         .anyMatch(parameterType -> parameterType.getKlass() == parameterContext.getParameter().getType());
   }
@@ -181,8 +178,7 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     MavenExecutionResult result = new MavenExecutionResult(executionResult, processCompletableFuture, log,
         mavenProjectResult, mavenCacheResult);
 
-    StorageHelper sh = new StorageHelper(context);
-    sh.save(result, log, mavenCacheResult, mavenProjectResult);
+    new StorageHelper(context).save(result, log, mavenCacheResult, mavenProjectResult);
   }
 
 }
