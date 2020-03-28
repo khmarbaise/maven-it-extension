@@ -39,19 +39,20 @@ import org.junit.jupiter.api.Disabled;
 class SecondMavenIntegrationIT {
 
   @MavenTest(activeProfiles = {"run-its"})
-void first_integration_test(MavenExecutionResult result, MavenLog mavenLog, MavenCacheResult mavenCacheResult) throws IOException {
+  void first_integration_test(MavenExecutionResult result, MavenLog mavenLog, MavenCacheResult mavenCacheResult)
+      throws IOException {
     System.out.println("MavenIntegrationIT.first_integration_test");
     assertThat(result).isFailure();
-//    assertThat(mavenLog).stdOut().hasWarning();
-//    assertThat(mavenLog).stdErr().isEmpty();
+    //    assertThat(mavenLog).stdOut().hasWarning();
+    //    assertThat(mavenLog).stdErr().isEmpty();
 
-//    assertThat(mavenCacheResult).containsArtifact("g:a:v");
-//    assertThat(mavenCacheResult).contains().g("G").a("A").v("1.0").c("class").t("type");
+    //    assertThat(mavenCacheResult).containsArtifact("g:a:v");
+    //    assertThat(mavenCacheResult).contains().g("G").a("A").v("1.0").c("class").t("type");
 
     System.out.println("cacheLocation = " + mavenCacheResult.getStdout().toFile().getAbsolutePath());
 
-//    assertThat(result).log()...
-//    assertThat(result).cache()...
+    //    assertThat(result).log()...
+    //    assertThat(result).cache()...
 
     // Pre loading log file into memory ? Drawback Memory usage ?
     Files.readAllLines(mavenLog.getStdout())
