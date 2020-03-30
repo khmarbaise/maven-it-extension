@@ -901,7 +901,7 @@ invoker.buildResult.4=success
 ----
 
 This could be translated into the following:
-[source]
+[source,java]
 .UpdateChildModuleIT.java
 ----
 @TestMethodOrder(OrderAnnotation.class)
