@@ -22,6 +22,7 @@ package org.apache.maven.jupiter.extension;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static org.apache.maven.jupiter.extension.AnnotationHelper.getActiveProfiles;
+import static org.apache.maven.jupiter.extension.AnnotationHelper.getCommandLineOptions;
 import static org.apache.maven.jupiter.extension.AnnotationHelper.getGoals;
 import static org.apache.maven.jupiter.extension.AnnotationHelper.hasActiveProfiles;
 import static org.apache.maven.jupiter.extension.AnnotationHelper.isDebug;
@@ -58,7 +59,7 @@ import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
  * @author Karl Heinz Marbaise
  */
 public class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeTestExecutionCallback,
-    InvocationInterceptor {
+    InvocationInterceptor{
 
   private static final Logger LOGGER = Logger.getLogger(MavenITExtension.class.getName());
 
@@ -139,20 +140,27 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     //Process start = mavenExecutor.start(Arrays.asList("--no-transfer-progress", "-V", "clean", "verify"));
     //FIXME: Need to think about the default options given for a IT.
 
+
     List<String> executionArguments = new ArrayList<>();
+
+
     List<String> defaultArguments = Arrays.asList(
-        "-Dmaven.repo.local=" + directoryResolverResult.getCacheDirectory().toString(), "--batch-mode", "-V");
+        "-Dmaven.repo.local=" + directoryResolverResult.getCacheDirectory().toString(), MavenOptions.BATCH_MODE, MavenOptions.SHOW_VERSION);
     executionArguments.addAll(defaultArguments);
 
     Method methodName = context.getTestMethod().orElseThrow(() -> new IllegalStateException("No method given"));
     if (hasActiveProfiles(methodName)) {
-      String collect = Stream.of(getActiveProfiles(methodName)).collect(joining(",", "-P", ""));
+      String collect = Stream.of(getActiveProfiles(methodName))
+          .collect(joining(",", MavenOptions.ACTIVATE_PROFILES, ""));
       executionArguments.add(collect);
     }
 
+
     if (isDebug(methodName)) {
-      executionArguments.add("-X");
+      executionArguments.add(MavenOptions.DEBUG);
     }
+
+    executionArguments.addAll(Stream.of(getCommandLineOptions(methodName)).collect(toList()));
 
     Class<?> mavenIT = AnnotationHelper.findMavenITAnnotation(context).orElseThrow(IllegalStateException::new);
     MavenIT mavenITAnnotation = mavenIT.getAnnotation(MavenIT.class);

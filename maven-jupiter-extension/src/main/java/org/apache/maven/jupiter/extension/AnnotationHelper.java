@@ -45,6 +45,12 @@ class AnnotationHelper {
     return method.getAnnotation(MavenTest.class).goals();
   }
 
+  //TODO: We might consider to return a Stream instead of String[]
+  static String[] getCommandLineOptions(Method method) {
+    checkParameterAndRequirements(method);
+    return method.getAnnotation(MavenTest.class).options();
+  }
+
   static boolean hasActiveProfiles(Method method) {
     return getActiveProfiles(method).length > 0;
   }
@@ -60,7 +66,8 @@ class AnnotationHelper {
     }
   }
 
-  private static Optional<Class<?>> findAnnotation(ExtensionContext context, Class<? extends Annotation> annotationClass) {
+  private static Optional<Class<?>> findAnnotation(ExtensionContext context,
+      Class<? extends Annotation> annotationClass) {
     Optional<ExtensionContext> current = Optional.of(context);
     while (current.isPresent()) {
       if (current.get().getTestClass().isPresent()) {

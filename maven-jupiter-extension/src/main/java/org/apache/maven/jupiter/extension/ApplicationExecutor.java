@@ -25,8 +25,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -62,28 +64,28 @@ public class ApplicationExecutor {
 
   public ApplicationExecutor(File workingDirectory, File loggingDirectory, File applicationExecutable,
       List<String> jvmArguments, String prefix) {
+    //TODO: This should be made configurable
     this(System.getProperty("java.home"), loggingDirectory, workingDirectory, applicationExecutable, jvmArguments,
         prefix);
   }
 
   public Process start(List<String> startArguments) throws IOException {
 
-    //    String javaBin = this.javaHome + "/bin/java";
-
     List<String> applicationArguments = new ArrayList<>();
+    //TODO: Can make that better?
     applicationArguments.addAll(Collections.singletonList(applicationExecutable.toString()));
-    //    applicationArguments.addAll(jvmArguments);
-    //    applicationArguments.addAll(Arrays.asList("-jar", application.getAbsolutePath()));
     applicationArguments.addAll(startArguments);
 
-    //    applicationArguments.forEach(s -> System.out.println("arguments = " + s));
+    //TODO: Can make that better?
+    try {
+      Files.write(Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + "-arguments.log"), applicationArguments,
+          StandardOpenOption.CREATE);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
     ProcessBuilder pb = new ProcessBuilder(applicationArguments);
     Map<String, String> environment = pb.environment();
-    //    environment.entrySet()
-    //        .stream()
-    //        .forEach(stringStringEntry -> System.out.println(
-    //            "environment k:" + stringStringEntry.getKey() + " v:" + stringStringEntry.getValue()));
     pb.redirectError(new File(loggingDirectory, this.prefix + "-stderr.out"));
     pb.redirectOutput(new File(loggingDirectory, this.prefix + "-stdout.out"));
     pb.directory(workingDirectory);

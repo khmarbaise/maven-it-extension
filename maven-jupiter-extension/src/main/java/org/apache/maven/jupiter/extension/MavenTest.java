@@ -65,6 +65,31 @@ public @interface MavenTest {
   String[] activeProfiles() default {};
 
   /**
+   * You can define a single option like this:
+   * <pre>
+   *    &#x40;MavenTest(options = {"-o"})
+   * </pre>
+   * This is the equivalent to the command line like: {@code -o}.
+   *
+   * You can of course combine several options like the following:
+   * <pre>
+   *    &#x40;MavenTest(options = {"-X", "-o"})
+   * </pre>
+   * This is the equivalent to the command line like: {@code -X -o}
+   *
+   * You can make your options a little bit more readable by using
+   * {@link MavenOptions} like the following:
+   * <pre>
+   *    &#x40;MavenTest(options = {MavenOptions.DEBUG, "-o"})
+   * </pre>
+   *
+   * @see MavenOptions
+   * @return The defined options.
+   *
+   */
+  String[] options() default {};
+
+  /**
    * This turns on {@code -X} (debug:true) for the Maven run or not (debug:false).
    *
    * @return Debug
