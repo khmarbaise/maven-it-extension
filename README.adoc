@@ -103,6 +103,12 @@ and a part which is pom like
 
 //TODO: RECONSIDER this content...
 
+=== Mock Repository Manager
+
+Currently it's only possible to have a single instance of the mock repository manager running which
+is based on the limited concept cause we need to define it in the `pom.xml`. Of course
+we could start two or more instances but this would make the setup more or less unreadable.
+
 === Why not Spock?
 
 So you might ask why not using Spock or any other testing framework for such purposes?

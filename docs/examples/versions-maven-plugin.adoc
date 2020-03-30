@@ -1,0 +1,525 @@
+= Real World Examples
+
+:versions-maven-plugin: https://github.com/mojohaus/versions-maven-plugin
+So a usual run with integration tests via:
+[source,bash]
+----
+mvn clean verify -Prun-its
+----
+for the {versions-maven-plugin}[Version Maven Plugin] looks like this:
+
+[source,text]
+----
+[INFO] --- maven-invoker-plugin:3.0.0:install (integration-test) @ versions-maven-plugin ---
+[INFO] Installing /Users/khmarbaise/ws-git-codehaus/versions-maven-plugin/pom.xml to /Users/khmarbaise/ws-git-codehaus/versions-maven-plugin/target/local-repo/org/codehaus/mojo/versions-maven-plugin/2.8-SNAPSHOT/versions-maven-plugin-2.8-SNAPSHOT.pom
+[INFO] Installing /Users/khmarbaise/ws-git-codehaus/versions-maven-plugin/target/versions-maven-plugin-2.8-SNAPSHOT.jar to /Users/khmarbaise/ws-git-codehaus/versions-maven-plugin/target/local-repo/org/codehaus/mojo/versions-maven-plugin/2.8-SNAPSHOT/versions-maven-plugin-2.8-SNAPSHOT.jar
+[INFO]
+[INFO] --- maven-invoker-plugin:3.0.0:run (integration-test) @ versions-maven-plugin ---
+[INFO] Running Setup Jobs
+[INFO] Building: setup-provide-rules-in-jar/pom.xml
+[INFO]           setup-provide-rules-in-jar/pom.xml ............... SUCCESS (3.1 s)
+[INFO] Building: it-use-latest-versions-001/pom.xml
+[INFO] snapshot org.codehaus.mojo:versions-maven-plugin:2.8-SNAPSHOT: checking for updates from nexus
+[INFO] org.codehaus.mojo.versions-maven-plugin.2.8-SNAPSHOT: checking for updates from nexus
+[INFO] artifact localhost:dummy-api: checking for updates from nexus
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-versions-001/pom.xml ............... SUCCESS (2.7 s)
+[INFO] Building: it-use-latest-releases-003/pom.xml
+[INFO] artifact localhost:version-rules: checking for updates from nexus
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-releases-003/pom.xml ............... SUCCESS (1.9 s)
+[INFO] Building: it-use-latest-releases-004/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-releases-004/pom.xml ............... SUCCESS (1.7 s)
+[INFO] Building: it-use-latest-versions-006/pom.xml
+[INFO] artifact localhost:latest-versions-api: checking for updates from nexus
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-versions-006/pom.xml ............... SUCCESS (1.8 s)
+[INFO] Building: it-property-updates-report-001/pom.xml
+[INFO] snapshot localhost:dummy-api:1.1-SNAPSHOT: checking for updates from nexus
+[INFO] localhost.dummy-api.1.1-SNAPSHOT: checking for updates from nexus
+[INFO] snapshot localhost:dummy-api:1.1.2-SNAPSHOT: checking for updates from nexus
+[INFO] localhost.dummy-api.1.1.2-SNAPSHOT: checking for updates from nexus
+[INFO] snapshot localhost:dummy-api:1.9.1-SNAPSHOT: checking for updates from nexus
+[INFO] localhost.dummy-api.1.9.1-SNAPSHOT: checking for updates from nexus
+[INFO] artifact localhost:dummy-maven-plugin: checking for updates from nexus
+[INFO] artifact localhost:dummy-impl: checking for updates from nexus
+[INFO] run script verify.bsh
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by bsh.reflect.ReflectManagerImpl (file:/Users/khmarbaise/.m2/repository/org/beanshell/bsh/2.0b4/bsh-2.0b4.jar) to method java.lang.AbstractStringBuilder.append(java.lang.String)
+WARNING: Please consider reporting this to the maintainers of bsh.reflect.ReflectManagerImpl
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[INFO]           it-property-updates-report-001/pom.xml ........... SUCCESS (3.0 s)
+[INFO] Building: it-display-dependency-updates-002/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-display-dependency-updates-002/pom.xml ........ SUCCESS (2.1 s)
+[INFO] Building: it-display-dependency-updates-005/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-display-dependency-updates-005/pom.xml ........ SUCCESS (2.1 s)
+[INFO] Building: it-use-latest-versions-008/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-versions-008/pom.xml ............... SUCCESS (2.0 s)
+[INFO] Building: it-set-008/pom.xml
+[INFO] run script verify.groovy
+[INFO]           it-set-008/pom.xml ............................... SUCCESS (2.6 s)
+[INFO] Building: it-resolve-ranges-001/pom.xml
+[INFO] artifact org.apache.maven:maven-project: checking for updates from nexus
+[INFO] artifact org.codehaus.plexus:plexus-utils: checking for updates from nexus
+[INFO] run script verify.bsh
+[INFO]           it-resolve-ranges-001/pom.xml .................... SUCCESS (1.9 s)
+[INFO] Building: it-use-reactor-002/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-reactor-002/pom.xml ....................... SUCCESS (2.8 s)
+[INFO] Building: it-resolve-ranges-006/pom.xml
+[INFO] artifact localhost:dummy-parent: checking for updates from nexus
+[INFO] run script verify.bsh
+[INFO]           it-resolve-ranges-006/pom.xml .................... SUCCESS (2.0 s)
+[INFO] Building: it-set-006/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-set-006/pom.xml ............................... SUCCESS (1.8 s)
+[INFO] Building: it-update-parent-004/pom.xml
+[INFO] artifact localhost:dummy-parent2: checking for updates from nexus
+[INFO] run script verify.bsh
+[INFO]           it-update-parent-004/pom.xml ..................... SUCCESS (2.0 s)
+[INFO] Building: it-set-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-set-001/pom.xml ............................... SUCCESS (3.8 s)
+[INFO] Building: it-update-parent-003/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-parent-003/pom.xml ..................... SUCCESS (1.8 s)
+[INFO] Building: it-plugin-updates-report-002/pom.xml
+[INFO] artifact org.apache.maven.plugins:maven-assembly-plugin: checking for updates from nexus
+[INFO] artifact org.apache.maven.plugins:maven-antrun-plugin: checking for updates from nexus
+[INFO] artifact org.apache.maven.plugins:maven-dependency-plugin: checking for updates from nexus
+[INFO] artifact org.apache.maven.plugins:maven-clean-plugin: checking for updates from nexus
+[INFO] artifact org.apache.maven.plugins:maven-project-info-reports-plugin: checking for updates from nexus
+[INFO] artifact org.apache.maven.plugins:maven-release-plugin: checking for updates from nexus
+[INFO] artifact org.apache.maven.plugins:maven-site-plugin: checking for updates from nexus
+[INFO] run script verify.bsh
+[INFO]           it-plugin-updates-report-002/pom.xml ............. SUCCESS (2.5 s)
+[INFO] Building: it-use-latest-versions-009/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-versions-009/pom.xml ............... SUCCESS (2.1 s)
+[INFO] Building: it-display-dependency-updates-004/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-display-dependency-updates-004/pom.xml ........ SUCCESS (1.8 s)
+[INFO] Building: it-display-dependency-updates-003/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-display-dependency-updates-003/pom.xml ........ SUCCESS (1.7 s)
+[INFO] Building: it-use-latest-versions-007/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-versions-007/pom.xml ............... SUCCESS (1.8 s)
+[INFO] Building: it-use-latest-releases-005/pom.xml
+[INFO] artifact localhost:update-api: checking for updates from nexus
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-releases-005/pom.xml ............... SUCCESS (1.8 s)
+[INFO] Building: it-use-latest-releases-002/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-releases-002/pom.xml ............... SUCCESS (1.7 s)
+[INFO] Building: it-update-parent-002/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-parent-002/pom.xml ..................... SUCCESS (1.8 s)
+[INFO] Building: it-plugin-updates-report-003/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-plugin-updates-report-003/pom.xml ............. SUCCESS (2.8 s)
+[INFO] Building: it-set-007/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-set-007/pom.xml ............................... SUCCESS (2.0 s)
+[INFO] Building: it-display-dependency-updates-issue-34-1/pom.xml
+[INFO] run script verify.groovy
+[INFO]           it-display-dependency-updates-issue-34-1/pom.xml . SUCCESS (1.7 s)
+[INFO] Building: it-dependency-updates-report-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-dependency-updates-report-001/pom.xml ......... SUCCESS (2.3 s)
+[INFO] Building: it-update-properties-007/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-007/pom.xml ................. SUCCESS (1.8 s)
+[INFO] Building: it-set-010-issue-198/pom.xml
+[INFO] run script verify.groovy
+[INFO]           it-set-010-issue-198/pom.xml ..................... SUCCESS (2.0 s)
+[INFO] Building: it-update-properties-009/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-009/pom.xml ................. SUCCESS (1.8 s)
+[INFO] Building: it-display-plugin-updates-005/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-display-plugin-updates-005/pom.xml ............ SUCCESS (3.0 s)
+[INFO] Building: it-display-plugin-updates-002/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-display-plugin-updates-002/pom.xml ............ SUCCESS (2.6 s)
+[INFO] Building: it-update-properties-008/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-008/pom.xml ................. SUCCESS (1.8 s)
+[INFO] Building: it-update-properties-issue-98-1/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-issue-98-1/pom.xml .......... SUCCESS (2.0 s)
+[INFO] Building: it-update-properties-006/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-006/pom.xml ................. SUCCESS (1.8 s)
+[INFO] Building: it-update-properties-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-001/pom.xml ................. SUCCESS (1.9 s)
+[INFO] Building: it-display-plugin-updates-003/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-display-plugin-updates-003/pom.xml ............ SUCCESS (2.3 s)
+[INFO] Building: it-display-plugin-updates-004/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-display-plugin-updates-004/pom.xml ............ SUCCESS (2.3 s)
+[INFO] Building: it-compare-dependencies-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-compare-dependencies-001/pom.xml .............. SUCCESS (2.0 s)
+[INFO] Building: it-use-next-snapshots-002/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-next-snapshots-002/pom.xml ................ SUCCESS (1.9 s)
+[INFO] Building: it-use-next-releases-004/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-next-releases-004/pom.xml ................. SUCCESS (1.8 s)
+[INFO] Building: it-use-next-releases-003/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-next-releases-003/pom.xml ................. SUCCESS (1.9 s)
+[INFO] Building: it-use-next-versions-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-next-versions-001/pom.xml ................. SUCCESS (1.9 s)
+[INFO] Building: it-update-properties-023/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-023/pom.xml ................. SUCCESS (1.9 s)
+[INFO] Building: it-update-child-modules-002/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-child-modules-002/pom.xml .............. SUCCESS (4.4 s)
+[INFO] Building: it-update-properties-012/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-012/pom.xml ................. SUCCESS (1.7 s)
+[INFO] Building: it-update-properties-015/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-015/pom.xml ................. SUCCESS (1.7 s)
+[INFO] Building: it-use-next-releases-002/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-next-releases-002/pom.xml ................. SUCCESS (1.8 s)
+[INFO] Building: it-set-property-002/pom.xml
+[INFO] artifact test.package:module: checking for updates from nexus
+[INFO] run script verify.bsh
+[INFO]           it-set-property-002/pom.xml ...................... SUCCESS (1.9 s)
+[INFO] Building: it-update-properties-014/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-014/pom.xml ................. SUCCESS (1.8 s)
+[INFO] Building: it-update-properties-013/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-013/pom.xml ................. SUCCESS (1.7 s)
+[INFO] Building: it-update-properties-022/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-022/pom.xml ................. SUCCESS (1.7 s)
+[INFO] Building: it-set-014/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-set-014/pom.xml ............................... SUCCESS (1.8 s)
+[INFO] Building: it-encoding-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-encoding-001/pom.xml .......................... SUCCESS (1.9 s)
+[INFO] Building: it-set-013/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-set-013/pom.xml ............................... SUCCESS (2.2 s)
+[INFO] Building: it-update-property-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-property-001/pom.xml ................... SUCCESS (2.5 s)
+[INFO] Building: it-use-latest-snapshots-005/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-snapshots-005/pom.xml .............. SUCCESS (2.2 s)
+[INFO] Building: it-use-latest-snapshots-002/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-snapshots-002/pom.xml .............. SUCCESS (2.5 s)
+[INFO] Building: it-set-scm-tag-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-set-scm-tag-001/pom.xml ....................... SUCCESS (1.9 s)
+[INFO] Building: it-display-property-updates-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-display-property-updates-001/pom.xml .......... SUCCESS (1.8 s)
+[INFO] Building: it-set-012/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-set-012/pom.xml ............................... SUCCESS (2.2 s)
+[INFO] Building: it-update-property-issue-140-1/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-property-issue-140-1/pom.xml ........... SUCCESS (1.9 s)
+[INFO] Building: it-update-properties-issue-279-1/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-issue-279-1/pom.xml ......... SUCCESS (1.8 s)
+[INFO] Building: it-use-next-versions-002-snapshot/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-next-versions-002-snapshot/pom.xml ........ SUCCESS (1.8 s)
+[INFO] Building: it-set-015/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-set-015/pom.xml ............................... SUCCESS (1.9 s)
+[INFO] Building: it-rules-via-classpath-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-rules-via-classpath-001/pom.xml ............... SUCCESS (2.1 s)
+[INFO] Building: it-unlock-snapshots-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-unlock-snapshots-001/pom.xml .................. SUCCESS (1.7 s)
+[INFO] Building: it-use-releases-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-releases-001/pom.xml ...................... SUCCESS (1.9 s)
+[INFO] Building: it-use-latest-versions-012/pom.xml
+[INFO] snapshot localhost:dummy-parent3:1.0.0-SNAPSHOT: checking for updates from nexus
+[INFO] localhost.dummy-parent3.1.0.0-SNAPSHOT: checking for updates from nexus
+[INFO] artifact test.bigversion:dummy-lib: checking for updates from nexus
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-versions-012/pom.xml ............... SUCCESS (1.9 s)
+[INFO] Building: it-use-latest-snapshots-003/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-snapshots-003/pom.xml .............. SUCCESS (1.9 s)
+[INFO] Building: it-use-latest-snapshots-004/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-snapshots-004/pom.xml .............. SUCCESS (1.9 s)
+[INFO] Building: it-use-reactor-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-reactor-001/pom.xml ....................... SUCCESS (2.0 s)
+[INFO] Building: it-resolve-ranges-005/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-resolve-ranges-005/pom.xml .................... SUCCESS (1.8 s)
+[INFO] Building: it-display-dependency-updates-issue-34-4/pom.xml
+[INFO] run script verify.groovy
+[INFO]           it-display-dependency-updates-issue-34-4/pom.xml . SUCCESS (2.0 s)
+[INFO] Building: it-display-dependency-updates-issue-34-3/pom.xml
+[INFO] run script verify.groovy
+[INFO]           it-display-dependency-updates-issue-34-3/pom.xml . SUCCESS (1.6 s)
+[INFO] Building: it-resolve-ranges-002/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-resolve-ranges-002/pom.xml .................... SUCCESS (1.9 s)
+[INFO] Building: it-set-002/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-set-002/pom.xml ............................... SUCCESS (1.8 s)
+[INFO] Building: it-plugin-updates-report-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-plugin-updates-report-001/pom.xml ............. SUCCESS (2.6 s)
+[INFO] Building: it-set-005/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-set-005/pom.xml ............................... SUCCESS (1.9 s)
+[INFO] Building: it-use-latest-versions-005/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-versions-005/pom.xml ............... SUCCESS (1.7 s)
+[INFO] Building: it-use-latest-releases-007/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-releases-007/pom.xml ............... SUCCESS (1.8 s)
+[INFO] Building: it-use-latest-versions-002/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-versions-002/pom.xml ............... SUCCESS (1.8 s)
+[INFO] Building: it-display-dependency-updates-006/pom.xml
+[INFO] artifact localhost:issue-114-artifact: checking for updates from nexus
+[INFO] run script verify.bsh
+[INFO]           it-display-dependency-updates-006/pom.xml ........ SUCCESS (1.7 s)
+[INFO] Building: it-set-001-issue-76/pom.xml
+[INFO] run script verify.groovy
+[INFO]           it-set-001-issue-76/pom.xml ...................... SUCCESS (1.8 s)
+[INFO] Building: it-display-dependency-updates-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-display-dependency-updates-001/pom.xml ........ SUCCESS (1.8 s)
+[INFO] Building: it-set-004/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-set-004/pom.xml ............................... SUCCESS (1.8 s)
+[INFO] Building: it-update-parent-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-parent-001/pom.xml ..................... SUCCESS (1.8 s)
+[INFO] Building: it-set-003/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-set-003/pom.xml ............................... SUCCESS (1.8 s)
+[INFO] Building: it-resolve-ranges-003/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-resolve-ranges-003/pom.xml .................... SUCCESS (1.8 s)
+[INFO] Building: it-display-dependency-updates-issue-34-2/pom.xml
+[INFO] run script verify.groovy
+[INFO]           it-display-dependency-updates-issue-34-2/pom.xml . SUCCESS (1.7 s)
+[INFO] Building: it-display-dependency-updates-issue-34-5/pom.xml
+[INFO] run script verify.groovy
+[INFO]           it-display-dependency-updates-issue-34-5/pom.xml . SUCCESS (1.7 s)
+[INFO] Building: it-resolve-ranges-004/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-resolve-ranges-004/pom.xml .................... SUCCESS (1.8 s)
+[INFO] Building: it-use-latest-versions-003/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-versions-003/pom.xml ............... SUCCESS (1.8 s)
+[INFO] Building: it-use-latest-releases-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-releases-001/pom.xml ............... SUCCESS (1.8 s)
+[INFO] Building: it-use-latest-releases-006/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-releases-006/pom.xml ............... SUCCESS (1.8 s)
+[INFO] Building: it-use-latest-versions-004/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-versions-004/pom.xml ............... SUCCESS (1.8 s)
+[INFO] Building: it-display-plugin-updates-008/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-display-plugin-updates-008/pom.xml ............ SUCCESS (2.2 s)
+[INFO] Building: it-display-plugin-updates-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-display-plugin-updates-001/pom.xml ............ SUCCESS (2.2 s)
+[INFO] Building: it-display-plugin-updates-006/pom.xml
+[INFO] artifact org.codehaus:mojo: checking for updates from nexus
+[INFO] artifact org.apache.maven:plugins: checking for updates from nexus
+[INFO] artifact org.codehaus.mojo:versions-maven-plugin: checking for updates from nexus
+[INFO] run script verify.bsh
+[INFO]           it-display-plugin-updates-006/pom.xml ............ SUCCESS (2.8 s)
+[INFO] Building: it-update-properties-004/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-004/pom.xml ................. SUCCESS (1.8 s)
+[INFO] Building: it-dependency-updates-report-002/pom.xml
+[INFO] snapshot localhost:dummy-api:2.1.1-SNAPSHOT: checking for updates from nexus
+[INFO] localhost.dummy-api.2.1.1-SNAPSHOT: checking for updates from nexus
+[INFO] run script verify.bsh
+[INFO]           it-dependency-updates-report-002/pom.xml ......... SUCCESS (2.4 s)
+[INFO] Building: it-update-properties-003/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-003/pom.xml ................. SUCCESS (1.8 s)
+[INFO] Building: it-display-plugin-updates-007/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-display-plugin-updates-007/pom.xml ............ SUCCESS (2.2 s)
+[INFO] Building: it-update-property-issue-140/pom.xml
+[INFO] artifact test.package:moduleTest: checking for updates from nexus
+[INFO] run script verify.bsh
+[INFO]           it-update-property-issue-140/pom.xml ............. SUCCESS (1.8 s)
+[INFO] Building: it-update-properties-issue-98-2/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-issue-98-2/pom.xml .......... SUCCESS (1.8 s)
+[INFO] Building: it-dependency-updates-report-003/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-dependency-updates-report-003/pom.xml ......... SUCCESS (2.4 s)
+[INFO] Building: it-update-properties-002/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-002/pom.xml ................. SUCCESS (1.9 s)
+[INFO] Building: it-dependency-updates-report-004/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-dependency-updates-report-004/pom.xml ......... SUCCESS (2.5 s)
+[INFO] Building: it-update-properties-005/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-005/pom.xml ................. SUCCESS (1.8 s)
+[INFO] Building: it-update-properties-018/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-018/pom.xml ................. SUCCESS (2.1 s)
+[INFO] Building: it-update-properties-020/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-020/pom.xml ................. SUCCESS (1.9 s)
+[INFO] Building: it-update-child-modules-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-child-modules-001/pom.xml .............. SUCCESS (5.4 s)
+[INFO] Building: it-update-properties-016/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-016/pom.xml ................. SUCCESS (1.8 s)
+[INFO] Building: it-update-properties-011/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-011/pom.xml ................. SUCCESS (1.9 s)
+[INFO] Building: it-compare-dependencies-002/pom.xml
+[INFO] artifact junit:junit: checking for updates from nexus
+[INFO] run script verify.bsh
+[INFO]           it-compare-dependencies-002/pom.xml .............. SUCCESS (2.0 s)
+[INFO] Building: it-use-next-snapshots-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-next-snapshots-001/pom.xml ................ SUCCESS (1.8 s)
+[INFO] Building: it-compare-dependencies-005/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-compare-dependencies-005/pom.xml .............. SUCCESS (1.9 s)
+[INFO] Building: it-use-next-versions-002/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-next-versions-002/pom.xml ................. SUCCESS (2.6 s)
+[INFO] Building: it-update-properties-010/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-010/pom.xml ................. SUCCESS (1.8 s)
+[INFO] Building: it-update-properties-017/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-017/pom.xml ................. SUCCESS (1.8 s)
+[INFO] Building: it-update-properties-021/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-021/pom.xml ................. SUCCESS (2.3 s)
+[INFO] Building: it-update-properties-019/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-019/pom.xml ................. SUCCESS (2.4 s)
+[INFO] Building: it-use-next-releases-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-next-releases-001/pom.xml ................. SUCCESS (2.0 s)
+[INFO] Building: it-use-next-versions-003/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-next-versions-003/pom.xml ................. SUCCESS (1.8 s)
+[INFO] Building: it-compare-dependencies-004/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-compare-dependencies-004/pom.xml .............. SUCCESS (2.1 s)
+[INFO] Building: it-compare-dependencies-003/pom.xml
+[INFO] artifact org.apache.maven:maven-artifact: checking for updates from nexus
+[INFO] artifact org.apache.maven:maven-model: checking for updates from nexus
+[INFO] run script verify.bsh
+[INFO]           it-compare-dependencies-003/pom.xml .............. SUCCESS (2.3 s)
+[INFO] Building: it-set-property-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-set-property-001/pom.xml ...................... SUCCESS (2.6 s)
+[INFO] Building: it-use-latest-snapshots-001/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-snapshots-001/pom.xml .............. SUCCESS (2.3 s)
+[INFO] Building: it-use-releases-003/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-releases-003/pom.xml ...................... SUCCESS (2.0 s)
+[INFO] Building: it-use-latest-versions-010/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-versions-010/pom.xml ............... SUCCESS (2.5 s)
+[INFO] Building: it-set-scm-tag-002/pom.xml
+[INFO]           it-set-scm-tag-002/pom.xml ....................... SUCCESS (1.9 s)
+[INFO] Building: it-update-properties-issue-279-4/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-issue-279-4/pom.xml ......... SUCCESS (1.9 s)
+[INFO] Building: it-set-010/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-set-010/pom.xml ............................... SUCCESS (1.8 s)
+[INFO] Building: it-update-property-issue-140-3/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-property-issue-140-3/pom.xml ........... SUCCESS (1.8 s)
+[INFO] Building: it-update-properties-issue-279-3/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-issue-279-3/pom.xml ......... SUCCESS (1.8 s)
+[INFO] Building: it-rules-via-classpath-003/pom.xml
+[INFO] artifact localhost:setup-provide-rules-in-jar: checking for updates from nexus
+[INFO] run script verify.bsh
+[INFO]           it-rules-via-classpath-003/pom.xml ............... SUCCESS (2.0 s)
+[INFO] Building: it-update-property-002/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-property-002/pom.xml ................... SUCCESS (1.8 s)
+[INFO] Building: it-use-latest-versions-011/pom.xml
+[INFO] artifact localhost:dummy-parent3: checking for updates from nexus
+[INFO] run script verify.bsh
+[INFO]           it-use-latest-versions-011/pom.xml ............... SUCCESS (1.8 s)
+[INFO] Building: it-set-scm-tag-003/pom.xml
+[INFO]           it-set-scm-tag-003/pom.xml ....................... SUCCESS (1.7 s)
+[INFO] Building: it-set-scm-tag-004/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-set-scm-tag-004/pom.xml ....................... SUCCESS (1.8 s)
+[INFO] Building: it-use-releases-002/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-use-releases-002/pom.xml ...................... SUCCESS (1.8 s)
+[INFO] Building: it-update-properties-issue-279-2/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-issue-279-2/pom.xml ......... SUCCESS (1.8 s)
+[INFO] Building: it-update-property-issue-140-2/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-property-issue-140-2/pom.xml ........... SUCCESS (1.8 s)
+[INFO] Building: it-set-016/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-set-016/pom.xml ............................... SUCCESS (1.9 s)
+[INFO] Building: it-rules-via-classpath-002/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-rules-via-classpath-002/pom.xml ............... SUCCESS (1.9 s)
+[INFO] Building: it-update-properties-issue-279-5/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-update-properties-issue-279-5/pom.xml ......... SUCCESS (1.8 s)
+[INFO] Building: it-set-011/pom.xml
+[INFO] run script verify.bsh
+[INFO]           it-set-011/pom.xml ............................... SUCCESS (1.8 s)
+[INFO] -------------------------------------------------
+[INFO] Build Summary:
+[INFO]   Passed: 148, Failed: 0, Errors: 0, Skipped: 0
+[INFO] -------------------------------------------------
+[INFO]
+[INFO] --- mrm-maven-plugin:1.1.0:stop (default) @ versions-maven-plugin ---
+[INFO] Stopping Mock Repository Manager on http://localhost:62036
+[INFO] Stopped SocketConnector@0.0.0.0:62036
+[INFO] Mock Repository Manager http://localhost:62036 is stopped.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  05:16 min
+[INFO] Finished at: 2020-03-30T20:59:54+02:00
+[INFO] ------------------------------------------------------------------------
+----
+

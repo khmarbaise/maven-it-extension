@@ -28,6 +28,8 @@
 :maven-release-plugin: https://github.com/apache/maven-release/tree/master/maven-release-plugin
 :mock-repository-manager: https://www.mojohaus.org/mrm/index.html[Mock Repository Manager]
 
+:versions-maven-plugin: https://github.com/mojohaus/versions-maven-plugin
+
 == Overview
 The expressiveness of tests is a very important part of writing integration tests or
 test in general. If a test is not easy to understand it is very likely not being written.
@@ -252,23 +254,6 @@ to make separated from log files and local cache. The result of this setup is th
 test case is completely separated from each other test case and gives us an easy way to parallelize
 the integration test cases in a simple way.
 
-== Open Things
-
-.Things which currently not working or net yet tested/thought about
-* [ ] A build/tool(s) running without relation to Maven?
-      This means we only need to define what we start simply a different thing than Maven.
-      Would we like to support this?
-* [ ] POM Less builds currently not tried. Calling only a goal like `site:stage` ?
-* [ ] Setup projects which should be run
-* [ ] General Setup repositories which already contain particular dependencies which are needed
-for test cases. Here we need to make it possible having a local repository to be pre defined
-on a test case or on a more general way.
-* [ ] Support for a mock repository manager (mrm) to make tests cases with deploy/releases
- etc. possible. A thought might be to integrate the functionality of mrm into this
- extension and somehow configure that for the test cases?
-* [ ] Support for {mock-repository-manager}
-
-
 == Ideas
 === Separation of the cache (aka Local Maven Repository)
 
@@ -394,9 +379,9 @@ In general there are some question coming up:
 
 * Based on the idea parallel nature of those integration tests we need to prevent using the same
   port for each execution. This needs to be injected into the appropriate test run.
-  Usually we would use `localhost:Port`.
+  Usually we would use `localhost:Port` (Is `localhost` sufficient?).
 * A repository manager can be used to deploy artifacts (during a test) into it and afterwards check
-  the content somehow. (For example if checksum have been correctly created).
+  the content somehow. (For example if checksum have been correctly created and deployed).
 * A repository manager could be used to download artifacts from it. ? Test Case? (Reconsider?)
 * Reuse of existing repos (filled up with special dependencies) in several tests cases to
   prevent copying of all artifacts?
@@ -816,3 +801,163 @@ class ContainerDescriptorsIT {
 
 }
 ----
+
+
+=== Versions Maven Plugin
+
+
+
+
+==== The test cases.
+
+Several of the integration test cases for the {versions-maven-plugin}[Versions Maven Plugins] are using the following
+content for the `invoker.properties` (or very similar)
+
+[source]
+.invoker.properites
+----
+invoker.goals=${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies
+invoker.systemPropertiesFile = test.properties
+----
+and the `test.properties` files looks like this:
+[source]
+.test.properties
+----
+remotePom=localhost:dummy-bom-pom:1.0
+reportOutputFile=target/depDiffs.txt
+----
+so the first part in `invoker.properties` which contains `invoker.goals` means to call Maven like this:
+[source,shell]
+----
+mvn ${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies
+----
+where a placeholder `${project.groupId}` is being replaced with the `groupId` of the project (plugin)
+which the tests should run on. `${project.artifactId}` will be replaced with the `artifactId` and
+`${project.version}` with the version of the project. In the end a call will look like this:
+
+[source,shell]
+----
+mvn org.codehaus.mojo:versions-maven-plugin:2.7.0-SNAPSHOT:compare-dependencies
+----
+Now let us come to the `test.properties` which is simply being translated to the following:
+(backslashes are only added to make it more readable)
+
+[source,shell]
+----
+mvn org.codehaus.mojo:versions-maven-plugin:2.7.0-SNAPSHOT:compare-dependencies \
+    -DremotePom="localhost:dummy-bom-pom:1.0" \
+    -DreportOutputFile="target/depDiffs.txt"
+----
+
+Now let us assume we could translate that very easy:
+
+[source,java]
+.FirstIT.java
+----
+@MavenIT
+class CustomContainerDescriptorHandlerIT {
+
+  @MavenTest(goals = {"${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies"})
+  void calling_a_goal(...) {
+    ...
+  }
+
+  @MavenTest(goals = {"${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies"},
+    systemProperties = {
+      "remotePom=localhost:dummy-bom-pom:1.0",
+      "reportOutputFile=target/depDiffs.txt"
+  })
+  void calling_a_goal_with_sytem_properties(...) {
+    ...
+  }
+}
+----
+
+==== Testcase
+
+Think about the following:
+[source]
+.invoker.properties
+----
+# first check that the root project builds ok
+invoker.goals.1=-o validate
+invoker.nonRecursive.1=true
+invoker.buildResult.1=success
+
+# second check that adding the child project into the mix breaks things
+invoker.goals.2=-o validate
+invoker.nonRecursive.2=false
+invoker.buildResult.2=failure
+
+# third fix the build with our plugin
+invoker.goals.3=${project.groupId}:${project.artifactId}:${project.version}:update-child-modules
+invoker.nonRecursive.3=true
+invoker.buildResult.3=success
+
+# forth, confirm that the build is fixed
+invoker.goals.4=validate
+invoker.nonRecursive.4=false
+invoker.buildResult.4=success
+----
+
+This could be translated into the following:
+[source]
+.UpdateChildModuleIT.java
+----
+class UpdateChildModuleIT {
+
+  @Nested
+  @MavenRepository
+  class One {
+    @MavenTest(options = {"-o"}, goals = { "validate" })
+    @Order(10)
+    void first_test(MavenExecutionResult result) {
+      assertThat(result).isSuccessful();
+    }
+
+    @MavenTest(options = {"-o"}, goals = { "validate" })
+    @Order(20)
+    @DisplayName("where setup two is needed.")
+    void second_test(MavenExecutionResult result) {
+      assertThat(result).isFailure();
+    }
+
+    @MavenTest(options = {"-N"}, goals = { "${project.groupId}:${project.artifactId}:${project.version}:update-child-modules" })
+    @Order(30)
+    @DisplayName("where setup two is needed.")
+    void third_test(MavenExecutionResult result) {
+      assertThat(result).isSuccessful();
+    }
+
+    @MavenTest(goals = { "validate" })
+    @Order(10)
+    void forth_test(MavenExecutionResult result) {
+      assertThat(result).isSuccessful();
+    }
+  }
+..
+  @Nested
+  @MavenRepository
+  class Second {
+   ..
+  }
+}
+----
+
+== Open Things
+
+.Things which currently not working or net yet tested/thought about
+* [ ] A build/tool(s) running without relation to Maven?
+This means we only need to define what we start simply a different thing than Maven.
+Would we like to support this?
+* [ ] POM Less builds currently not tried. Calling only a goal like `site:stage` ?
+* [ ] Setup projects which should be run
+* [ ] General Setup repositories which already contain particular dependencies which are needed
+for test cases. Here we need to make it possible having a local repository to be pre defined
+on a test case or on a more general way.
+* [ ] Support for a mock repository manager (mrm) to make tests cases with deploy/releases
+etc. possible. A thought might be to integrate the functionality of mrm into this
+extension and somehow configure that for the test cases?
+* [ ] Support for {mock-repository-manager}
+* [ ] Options like `--non-recursive` etc. should be supported. I think all options of Maven.
+
