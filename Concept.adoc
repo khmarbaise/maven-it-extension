@@ -760,10 +760,10 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
 
 @TestMethodOrder(OrderAnnotation.class)
+@MavenIT
 class ContainerDescriptorsIT {
 
   @Nested
-  @MavenIT
   @MavenRepository
   class CustomContainerDescriptorHandler {
 
@@ -781,7 +781,7 @@ class ContainerDescriptorsIT {
     }
   }
 
-  @MavenIT
+  @Nested
   @MavenRepository
   class ConfiguredHandler {
 
@@ -904,6 +904,8 @@ This could be translated into the following:
 [source]
 .UpdateChildModuleIT.java
 ----
+@TestMethodOrder(OrderAnnotation.class)
+@MavenIT
 class UpdateChildModuleIT {
 
   @Nested
