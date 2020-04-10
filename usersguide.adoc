@@ -28,21 +28,31 @@
 :maven-failsafe-plugin: https://maven.apache.org/surefire/maven-failsafe-plugin/[Maven Failsafe Plugin]
 :mock-repository-manager: https://www.mojohaus.org/mrm/index.html[Mock Repository Manager]
 
-== Basics
+== Overview
+
+The idea of integration tests für Maven Plugins, Maven Extensions, Maven Core is to keep the
+functionality the way it has been defined independent of refactoring code or improving
+functionality.
+
+This {junit-jupiter-extension} will give exactly that in a very convenient way. JUnit Jupiter
+already gives a lot of support in writing unit- and integration tests.
+This support is given by opportunities in running tests based on conditions
+or to enable or disable particular tests.
 
 This integration test framework is an extension for {junit-jupiter}. The usage of JUnit Jupiter
-already gives a lot of support for things are very useful in case of writing unit- and integration
-tests.
+already gives a lot of support for things which are very useful while writing unit- and integration
+tests. The idea of testing is to express the requirements in code. Those are in other words
+the tests which should be written.
 
 == Status
 
-The current status of this extension is experimental.
+The current status of this extension is experimental or some people call it Proof of Concept (PoC).
 
 == Overview
 The expressiveness of tests is a very important part of writing integration tests or
 test in general. If a test is not easy to understand it is very likely not being written.
 
-Lets take a look into the following code example which gives you an impression how an integration
+Let us take a look into the following test code example which gives you an impression how an integration
 test for a {maven-plugins}/Maven Extensions/Maven-Core should look like:
 
 //FIXME: There are several details which are not yet clear how to solve them?
@@ -56,19 +66,22 @@ import org.apache.maven.jupiter.extension.MavenIT;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 
-@MavenIT
+@MavenIT // <1>
 class FirstMavenIT {
 
-  @MavenTest
+  @MavenTest // <2>
   void the_first_test_case(MavenExecutionResult result) {
-    assertThat(result).build().isSuccessful();
+    assertThat(result).build().isSuccessful(); // <3>
   }
 
 }
 ----
-
-The above used assertions like `assertThat(..)` are custom assertions which will be explained in
+<1> The Maven Integration test annotation
+<2> The Maven Test annotation.
+<3> The above used assertions like `assertThat(..)` are custom assertions which will be explained in
 later chapters
+
+
 //FIXME: link to chapter for assertions.
 
 == Structuring Integration Tests
