@@ -516,7 +516,7 @@ One issue is the question where to put the cache for all those test cases?
 
 One requirement based on the above idea is to use the same cache for
 the beforeEach and the appropriate test case.
-What about parallelisation?
+What about parallelization?
 The beforeEach and the particular test case must be using the same cache
 otherwise we have no relationship between the beforeEach method and the particular
 test cases? Is this a good idea? (We have made the assumption if not defined different
