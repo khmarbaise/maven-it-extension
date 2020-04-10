@@ -23,6 +23,7 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static org.apache.maven.jupiter.extension.AnnotationHelper.getActiveProfiles;
 import static org.apache.maven.jupiter.extension.AnnotationHelper.getCommandLineOptions;
+import static org.apache.maven.jupiter.extension.AnnotationHelper.getCommandLineSystemProperties;
 import static org.apache.maven.jupiter.extension.AnnotationHelper.getGoals;
 import static org.apache.maven.jupiter.extension.AnnotationHelper.hasActiveProfiles;
 import static org.apache.maven.jupiter.extension.AnnotationHelper.isDebug;
@@ -160,6 +161,8 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
       executionArguments.add(MavenOptions.DEBUG);
     }
 
+    executionArguments.addAll(Stream.of(getCommandLineSystemProperties(methodName))
+        .map(arg -> "-D" + arg).collect(toList()));
     executionArguments.addAll(Stream.of(getCommandLineOptions(methodName)).collect(toList()));
 
     Class<?> mavenIT = AnnotationHelper.findMavenITAnnotation(context).orElseThrow(IllegalStateException::new);

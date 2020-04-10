@@ -89,6 +89,28 @@ public @interface MavenTest {
    */
   String[] options() default {};
 
+
+  /**
+   * By using {@code systemProperties} you can define the
+   * properties which will be given to the command line
+   * call of Maven.
+   *
+   * <pre>
+   *    &#x40;MavenTest(options = {systemProperteis {
+   *      "remotePom=localhost:dummy-bom-pom:1.0",
+   *      "reportOutputFile=target/depDiffs.txt"
+   *    })
+   * </pre>
+   * This will be the equivalent of giving the properties via command line
+   * like this:
+   * <pre>
+   *   mvn -DremotePom=localhost:dummy-bom-pom:1.0 -DreportOutputFile=target/depDiffs.txt ...
+   * </pre>
+   *
+   * @return The defines system properties.
+   */
+  String[] systemProperties() default {};
+
   /**
    * This turns on {@code -X} (debug:true) for the Maven run or not (debug:false).
    *

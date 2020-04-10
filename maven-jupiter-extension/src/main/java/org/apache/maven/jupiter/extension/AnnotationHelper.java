@@ -50,6 +50,11 @@ class AnnotationHelper {
     checkParameterAndRequirements(method);
     return method.getAnnotation(MavenTest.class).options();
   }
+  //TODO: We might consider to return a Stream instead of String[]
+  static String[] getCommandLineSystemProperties(Method method) {
+    checkParameterAndRequirements(method);
+    return method.getAnnotation(MavenTest.class).systemProperties();
+  }
 
   static boolean hasActiveProfiles(Method method) {
     return getActiveProfiles(method).length > 0;

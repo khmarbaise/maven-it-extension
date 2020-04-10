@@ -37,4 +37,10 @@ class OptionsIT {
     assertThat(result).isSuccessful();
   }
 
+  // Using two system properties -Daccent=true -Dgolem=three
+  @MavenTest(systemProperties = { "accent=true", "golem=three"})
+  void second_integration_test(MavenExecutionResult result) {
+    assertThat(result).isSuccessful();
+  }
+
 }
