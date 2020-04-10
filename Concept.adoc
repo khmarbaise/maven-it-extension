@@ -565,9 +565,9 @@ Need to reconsider?
 
 === General Setup Repositories
 
-General Setup repositories which already contain particular dependencies which are needed
+General Setup repositories which already contains particular dependencies which are needed
 for test cases. Here we need to make it possible having a local repository to be pre defined
-on a test case or on a more general way.
+on a test case base or on test class or even on several classes or all tests.
 
 The simplest solution would be to create a directory called something like `.predefined-repo` in
 a particular directory level which implies that this directory will be used as a repository.
@@ -588,7 +588,7 @@ Let us take a look at the example:
                             ├── src/
                             └── pom.xml
 ----
-This would mean that the .predefined-repo contains already installed artifacts etc.
+This would mean that the `.predefined-repo` contains already installed artifacts etc.
 which can be used to run a test against this based on the method name `the_first_test_case`
 this is limited to a single test method.
 
@@ -604,14 +604,17 @@ This can be made a more general thing to define it on a class level like the fol
                     └── FirstIT/
                         ├── .predefined-repo
                         └── the_first_test_case/
+                        │   ├── src/
+                        │   └── pom.xml
+                        └── the_second_test_case/
                             ├── src/
                             └── pom.xml
 ----
 
 This would mean having a predefined repository defined for all test cases within the whole
-test class.
+test class (`the_first_test_case` and `the_second_test_case`).
 
-If we move that directory a supplemental level up like the following:
+If we move that directory level up like the following:
 
 [source,text]
 ----
@@ -627,7 +630,6 @@ If we move that directory a supplemental level up like the following:
                             ├── src/
                             └── pom.xml
 ----
-
 This would mean that the predefined repository is available for all integration test
 classes within the whole package inclusive all sub packages.
 
