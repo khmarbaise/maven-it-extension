@@ -25,7 +25,7 @@
 :maven-invoker-plugin: https://maven.apache.org/plugins/maven-invoker-plugin[Maven Invoker Plugin]
 :maven-plugins: https://maven.apache.org/plugins/[Maven Plugins]
 :maven-failsafe-plugin: https://maven.apache.org/surefire/maven-failsafe-plugin/[Maven Failsafe Plugin]
-:maven-release-plugin: https://github.com/apache/maven-release/tree/master/maven-release-plugin
+:maven-release-plugin: https://github.com/apache/maven-release/tree/master/maven-release-plugin[Maven Release Plugin]
 :mock-repository-manager: https://www.mojohaus.org/mrm/index.html[Mock Repository Manager]
 
 :versions-maven-plugin: https://github.com/mojohaus/versions-maven-plugin
@@ -373,9 +373,9 @@ class IntegrationIT {
 === Mock Repository Manager
 The Mock Repository Manager is as the name implies a mock for the a repository.
 This is sometimes useful to test things like creating releases
-[maven-release-plugin][maven-release-plugin].
+{maven-release-plugin}.
 
-In general there are some question coming up:
+In general there are coming some question up:
 
 * Based on the idea parallel nature of those integration tests we need to prevent using the same
   port for each execution. This needs to be injected into the appropriate test run.
@@ -808,7 +808,7 @@ class ContainerDescriptorsIT {
 
 
 
-==== The test cases.
+==== The Test cases.
 
 Several of the integration test cases for the {versions-maven-plugin}[Versions Maven Plugins] are using the following
 content for the `invoker.properties` (or very similar)
@@ -872,6 +872,19 @@ class CustomContainerDescriptorHandlerIT {
   }
 }
 ----
+
+Now I'm asking why do we use this bunch of placeholders
+`${project.groupId}:${project.artifactId}:${project.version}`. Only based on the fear that the groupId
+or artifactId or version could change. A change in groupId or artifactId is very rare. I've never seen
+a change in groupId nor artifactId in plugin projects. What changes more often is the
+version of the artifact which means with each release. So  it would make sense to define for the
+version a placeholder like `${project.version}`.
+
+The described above is a blocking line between the running of a Maven plugin and the running
+of an integration test from within the IDE.
+
+CAUTION: We could create a simple workaround and write a property file during the initial setup
+and reuse it's content during the run of the integration tests inside the IDE.
 
 ==== Testcase
 

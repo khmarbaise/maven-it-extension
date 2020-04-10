@@ -64,7 +64,8 @@ to write things for integration tests, but since JDK 8 it is not necessary anymo
 * Integrationtests are not that expressive as they should be.
 * Violation of https://en.wikipedia.org/wiki/Separation_of_concerns[separation of concern paradigm]
 ** Conditions
-*** Assertions are hard to express cause one implicit assertion is that a build has to be successful
+*** Assertions are hard to express cause one implicit assertion is that a build has to be successful.
+Of course you can define that build should fail.
 *** Conditions for the execution of a test for example are:
 **** should be executed only on JDK11
 **** should be executed only on Maven 3.3.9 and above
@@ -91,6 +92,11 @@ The {maven-verifier} is intended to write a kind of tests:
    `verifyArtifactPresence` etc. but not a comprehensive set of methods.
 * Some parts are like Maven Invoker Plugin for example starting an external
 process with Maven (something like starting Maven on command line.).
+* Is JUnit 3 based.
+* Manually https://github.com/apache/maven-integration-testing/blob/master/core-it-suite/src/test/java/org/apache/maven/it/IntegrationTestSuite.java[maintained TestSuite]
+to execute all integration tests of Maven Core.
+* Each Testcase must be expressed by a separate https://github.com/apache/maven-integration-testing/blob/master/core-it-suite/src/test/java/org/apache/maven/it/MavenIT0090EnvVarInterpolationTest.java[Test class].
+* Manually https://github.com/apache/maven-integration-testing/blob/master/core-it-suite/src/test/java/org/apache/maven/it/MavenITmng6391PrintVersionTest.java[implemented conditionally execution].
 
 === Maven Plugin Testing Harness
 
@@ -100,6 +106,8 @@ and a part which is pom like
 
 * It's bound to versions of Maven core which might caused issues during testing with other versions
   of Maven.
+* https://maven.apache.org/plugin-testing/maven-plugin-testing-harness/getting-started/index.html
+* Also JUnit 4 based.
 
 //TODO: RECONSIDER this content...
 
