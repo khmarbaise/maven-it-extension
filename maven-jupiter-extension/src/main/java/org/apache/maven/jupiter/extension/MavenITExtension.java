@@ -129,8 +129,6 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),
         directoryResolverResult.getProjectDirectory());
 
-    ExecutorMaven executorMaven = new ExecutorMaven(directoryResolverResult, context);
-    executorMaven.execute();
     String mavenHome = System.getProperty("maven.home");
     if (mavenHome == null || mavenHome.isEmpty()) {
       //FIXME: currently not set; using hard coded path? Need to reconsider how to set it?
@@ -142,10 +140,6 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     //FIXME: Removed hard coded parts.
     ApplicationExecutor mavenExecutor = new ApplicationExecutor(directoryResolverResult.getProjectDirectory(),
         integrationTestCaseDirectory, new File(mvnLocation), Collections.emptyList(), "mvn");
-
-    //Process start = mavenExecutor.start(Arrays.asList("--no-transfer-progress", "-V", "clean", "verify"));
-    //FIXME: Need to think about the default options given for a IT.
-
 
     List<String> executionArguments = new ArrayList<>();
 

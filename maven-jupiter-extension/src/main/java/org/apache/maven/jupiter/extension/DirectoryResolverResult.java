@@ -25,6 +25,9 @@ import java.util.Optional;
 import org.apache.maven.jupiter.extension.utils.DirectoryHelper;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
+/**
+ * @author Karl Heinz Marbaise
+ */
 class DirectoryResolverResult {
 
   private final File mavenItBaseDirectory;
