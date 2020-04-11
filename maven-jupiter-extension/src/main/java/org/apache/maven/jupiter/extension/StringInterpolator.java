@@ -19,8 +19,6 @@ package org.apache.maven.jupiter.extension;
  * under the License.
  */
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -38,32 +36,21 @@ public class StringInterpolator {
   private static final Pattern PLACEHOLDER_PATTERN = Pattern.compile(
       Pattern.quote("${") + "(.*?)" + Pattern.quote("}"));
 
-  private Map<String, Object> mapping;
+  private Map<String, String> mapping;
 
   /**
    * @param mapping the map which contains the mapping between key and value. {@code null is not allowed}
    * @throws IllegalArgumentException in case of giving {@code null} for {@code mapping}.
    */
-  public StringInterpolator(Map<String, Object> mapping) {
+  public StringInterpolator(Map<String, String> mapping) {
     this.mapping = Objects.requireNonNull(mapping, "mapping is not allowed to be null.");
-  }
-
-  public static List<String> keys(String keyString) {
-    Objects.requireNonNull(keyString, "keyString is not allowed to be null.");
-    List<String> result = new ArrayList<>();
-    Matcher matcher = PLACEHOLDER_PATTERN.matcher(keyString);
-    while (matcher.find()) {
-      result.add(matcher.group(1));
-    }
-    return result;
   }
 
   /**
    * @param stringToBeInterpolated The string which will interpolated.
    * @return The interpolated string.
    * @throws IllegalArgumentException in case of giving {@code null} for {@code givenString}.
-   * @throws IllegalArgumentException in case of missing a key in the mapping. TODO: Correct? Or should we use a
-   * different Exception type?
+   * @throws IllegalArgumentException in case of missing a key in the mapping.
    */
   public String interpolate(String stringToBeInterpolated) {
     Objects.requireNonNull(stringToBeInterpolated, "stringToBeInterpolated is not allowed to be null.");
@@ -71,10 +58,10 @@ public class StringInterpolator {
     StringBuffer sb = new StringBuffer();
     while (matcher.find()) {
       if (!mapping.containsKey(matcher.group(1))) {
-        throw new IllegalArgumentException("The key " + matcher.group(1) + " does not exist.");
+        continue;
       }
 
-      String escaped = Matcher.quoteReplacement(mapping.get(matcher.group(1)).toString());
+      String escaped = Matcher.quoteReplacement(mapping.get(matcher.group(1)));
       matcher.appendReplacement(sb, escaped);
     }
     matcher.appendTail(sb);

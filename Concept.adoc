@@ -882,11 +882,8 @@ a change in groupId nor artifactId in plugin projects. What changes more often i
 version of the artifact which means with each release. So  it would make sense to define for the
 version a placeholder like `${project.version}`.
 
-The described above is a blocking line between the running of a Maven plugin and the running
-of an integration test from within the IDE.
-
-CAUTION: We could create a simple workaround and write a property file during the initial setup
-and reuse it's content during the run of the integration tests inside the IDE.
+NOTE: Based on the approach to simply read the `pom.xml` file of the project under test this
+can be solved easily. This makes it also possible to run the IT within the IDE.
 
 ==== Testcase
 
@@ -978,3 +975,14 @@ extension and somehow configure that for the test cases?
 * [ ] Support for {mock-repository-manager}
 * [ ] Options like `--non-recursive` etc. should be supported. I think all options of Maven.
 
+
+== Ideas
+
+If we change the code of a plugin within the IDE the Integration test will not test
+against the changed code only against the latest built jar files.
+The IDE compiles the changes code into `target/classes`... something about the classpath?
+
+Tricky idea:
+If we start an integration test we could check if the class files are newer than the created jar
+file and build via `mvn package` the project under test and copy them into the appropriate
+directories and then run the test as usual.

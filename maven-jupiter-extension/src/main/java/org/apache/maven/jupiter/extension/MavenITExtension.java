@@ -29,12 +29,15 @@ import static org.apache.maven.jupiter.extension.AnnotationHelper.hasActiveProfi
 import static org.apache.maven.jupiter.extension.AnnotationHelper.isDebug;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
@@ -46,6 +49,7 @@ import org.apache.maven.jupiter.maven.MavenLog;
 import org.apache.maven.jupiter.maven.MavenProjectResult;
 import org.apache.maven.jupiter.maven.ProjectHelper;
 import org.apache.maven.model.Model;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionConfigurationException;
@@ -109,7 +113,8 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
   }
 
   @Override
-  public void beforeTestExecution(ExtensionContext context) throws IOException, InterruptedException {
+  public void beforeTestExecution(ExtensionContext context)
+      throws IOException, InterruptedException, XmlPullParserException {
 
     DirectoryResolverResult directoryResolverResult = new DirectoryResolverResult(context);
 
@@ -167,8 +172,27 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
 
     Class<?> mavenIT = AnnotationHelper.findMavenITAnnotation(context).orElseThrow(IllegalStateException::new);
     MavenIT mavenITAnnotation = mavenIT.getAnnotation(MavenIT.class);
-    String[] resultingGoals = GoalPriority.goals(mavenITAnnotation.goals(), getGoals(methodName));
-    executionArguments.addAll(Stream.of(resultingGoals).collect(toList()));
+    //FIXME: We need to filter placeholder here?
+
+    //FIXME: Need to introduce better directory names
+    //Refactor out the following lines
+    File mavenBaseDirectory = new File(directoryResolverResult.getTargetDirectory(), "..");
+    File pomFile = new File(mavenBaseDirectory, "pom.xml");
+    PomReader pomReader = new PomReader(new FileInputStream(pomFile));
+    ModelReader modelReader = new ModelReader(pomReader.getModel());
+    Map<String, String> keyValues = new HashMap<>();
+    //The following three elements we are reading from the original pom file.
+    keyValues.put("project.groupId", modelReader.getGroupId());
+    keyValues.put("project.artifactId", modelReader.getArtifactId());
+    keyValues.put("project.version", modelReader.getVersion());
+
+    List<String> resultingGoals = Stream.of(GoalPriority.goals(mavenITAnnotation.goals(), getGoals(methodName))).collect(toList());
+    PropertiesFilter propertiesFilter = new PropertiesFilter(keyValues, resultingGoals);
+
+    //TODO: We should consider to make replacements also in systemProperties annotation possible.
+
+    List<String> filteredGoals = propertiesFilter.filter();
+    executionArguments.addAll(filteredGoals);
 
     Process start = mavenExecutor.start(executionArguments);
 

@@ -20,12 +20,10 @@ package org.apache.maven.jupiter.extension;
  */
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -39,7 +37,7 @@ class StringInterpolatorTest {
 
   @Test
   void interpolate_should_replace_a_single_placeholder() {
-    Map<String, Object> mapping = Collections.singletonMap("key", "life");
+    Map<String, String> mapping = Collections.singletonMap("key", "life");
 
     StringInterpolator interpolator = new StringInterpolator(mapping);
 
@@ -50,17 +48,8 @@ class StringInterpolatorTest {
   }
 
   @Test
-  void interpolate_keys_should_return_keys_of_the_given_string() {
-
-    String givenString = "the answer to ${key}, ${secondKey} and everything.";
-
-    List<String> keysInGivenString = StringInterpolator.keys(givenString);
-    assertThat(keysInGivenString).containsOnly("key", "secondKey");
-  }
-
-  @Test
   void interpolate_should_interpolate_two_placeholders() {
-    Map<String, Object> mapping = new HashMap<>();
+    Map<String, String> mapping = new HashMap<>();
     mapping.put("key", "life");
     mapping.put("value", "everything");
 
@@ -73,22 +62,21 @@ class StringInterpolatorTest {
   }
 
   @Test
-  void interpolate_fails_with_illegal_argument_exception_while_using_placeholders_which_does_not_exist() {
-    Map<String, Object> mapping = new HashMap<>();
+  void interpolate_should_return_the_original_if_there_is_an_unknown_key() {
+    Map<String, String> mapping = new HashMap<>();
     mapping.put("key", "of the key");
     mapping.put("value", "wrongValue");
 
     StringInterpolator interpolator = new StringInterpolator(mapping);
 
-    String givenString = "The name ${key} will replace the ${wrongKey}.";
+    String givenString = "The name of the key will replace the ${wrongKey}.";
 
-    assertThatIllegalArgumentException().isThrownBy(() -> interpolator.interpolate(givenString))
-        .withMessage("The key wrongKey does not exist.");
+    assertThat(interpolator.interpolate(givenString)).isEqualTo(givenString);
   }
 
   @Test
   void interpolate_an_empty_string() {
-    Map<String, Object> mapping = Collections.singletonMap("key", "TheValue");
+    Map<String, String> mapping = Collections.singletonMap("key", "TheValue");
 
     String interpolated = new StringInterpolator(mapping).interpolate("");
     assertThat(interpolated).isEqualTo("");
@@ -110,11 +98,6 @@ class StringInterpolatorTest {
           .withMessage("stringToBeInterpolated is not allowed to be null.");
     }
 
-    @Test
-    void interpolate_keys_fails_with_null_pointer_exception_argument_while_using_null_parameter() {
-      assertThatNullPointerException().isThrownBy(() -> StringInterpolator.keys(null))
-          .withMessage("keyString is not allowed to be null.");
-    }
   }
 
 }
