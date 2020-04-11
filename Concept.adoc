@@ -810,7 +810,7 @@ class ContainerDescriptorsIT {
 
 
 
-==== The Test cases.
+==== The Test case Example 1
 
 Several of the integration test cases for the {versions-maven-plugin}[Versions Maven Plugins] are using the following
 content for the `invoker.properties` (or very similar)
@@ -887,6 +887,58 @@ can be solved easily. This makes it also possible to run the IT within the IDE.
 
 ==== Testcase
 
+
+==== Test Case IT-SET-001
+[source]
+.it-set-001
+----
+invoker.goals.1=${project.groupId}:${project.artifactId}:${project.version}:set -DnewVersion=2.0
+invoker.nonRecursive.1=true
+invoker.buildResult.1=success
+
+invoker.goals.2=${project.groupId}:${project.artifactId}:${project.version}:set -DnewVersion=2.0 -DgroupId=* -DartifactId=* -DoldVersion=*
+invoker.nonRecursive.2=true
+invoker.buildResult.2=success
+invoker.description.2=Test the set mojo when the new version is the same as the old version, using wildcards. This kind of build used to fail accourding the issue 83 from github.
+----
+
+The above means to execute on the same project several executions of maven calls. This breaks at the moment
+the idea of separation of the builds by method.
+
+But it might be expressed by using `@MavenProject` annotation which defines such thing.
+The name of the method can be a sub directory which contains `mvn-stdout.log` etc. 
+[source,java]
+.ITSETIT.java
+----
+@TestMethodOrder(OrderAnnotation.class)
+@MavenIT
+class setVersionIT {
+
+  @Nested
+  @MavenRepository
+  @MavenProject("set_001") //Define the project to be used. Only valid on Nested class or root class.
+  @DisplayName("Test the set mojo when the new version is the same as the old version, using wildcards. This kind of build used to fail accourding the issue 83 from github.")
+  class Set001 {
+    @MavenTest(options = {"-N"}, goals = { "${project.groupId}:${project.artifactId}:${project.version}:set"}
+      systemProperties = {"newVersion=2.0"})
+    @Order(10)
+    void first_test(MavenExecutionResult result) {
+      assertThat(result).isSuccessful();
+    }
+
+    @MavenTest(options = {"-N"}, goals = { "${project.groupId}:${project.artifactId}:${project.version}:set"}
+      systemProperties = {"newVersion=2.0", "groupId=*", "artifactId=*", "DoldVersion=*"})
+    @Order(20)
+    @DisplayName("where setup two is needed.")
+    void second_test(MavenExecutionResult result) {
+      assertThat(result).isFailure();
+    }
+
+}
+----
+
+
+==== Test Case UPDATE-CHILD-MODULES-001
 Think about the following:
 [source]
 .invoker.properties
@@ -922,6 +974,7 @@ class UpdateChildModuleIT {
 
   @Nested
   @MavenRepository
+  @MavenProject("name-x") //Define the project to be used.
   class One {
     @MavenTest(options = {"-o"}, goals = { "validate" })
     @Order(10)
@@ -949,12 +1002,7 @@ class UpdateChildModuleIT {
       assertThat(result).isSuccessful();
     }
   }
-..
-  @Nested
-  @MavenRepository
-  class Second {
-   ..
-  }
+
 }
 ----
 
