@@ -906,7 +906,9 @@ The above means to execute on the same project several executions of maven calls
 the idea of separation of the builds by method.
 
 But it might be expressed by using `@MavenProject` annotation which defines such thing.
-The name of the method can be a sub directory which contains `mvn-stdout.log` etc. 
+The name of the method can be a sub directory which contains `mvn-stdout.log` etc.
+
+NOTE: We should make the `@MavenRepository` part of `@MavenProject`.
 [source,java]
 .ITSETIT.java
 ----
