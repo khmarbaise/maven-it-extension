@@ -28,6 +28,8 @@ import org.apache.maven.jupiter.maven.MavenProjectResult;
 import org.apache.maven.jupiter.maven.ProjectHelper;
 import org.apache.maven.model.Model;
 import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.AbstractFileAssert;
+import org.assertj.core.api.Assertions;
 
 /**
  * @author Karl Heinz Marbaise
@@ -74,6 +76,17 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
           actual.getBaseDir().getAbsolutePath());
     }
     return myself;
+  }
+
+  public AbstractFileAssert<?> withFile(String fileName) {
+    isNotNull();
+    //FIXME: wrong way...need to reconsider.
+    File target = new File(this.actual.getBaseDir(), "target");
+    if (!target.isDirectory() || !target.exists() || target.isHidden()) {
+      failWithMessage("The target directory of <%s> does not exist.", actual.getBaseDir().getAbsolutePath());
+    }
+    File fileNameFile = new File(target, fileName);
+    return Assertions.assertThat(fileNameFile);
   }
 
   public ArchiveAssert withEarFile() {
