@@ -1059,7 +1059,6 @@ on a test case or on a more general way.
 etc. possible. A thought might be to integrate the functionality of mrm into this
 extension and somehow configure that for the test cases?
 * [ ] Support for {mock-repository-manager}
-* [ ] Options like `--non-recursive` etc. should be supported. I think all options of Maven.
 
 
 == Ideas

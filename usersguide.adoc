@@ -647,6 +647,12 @@ something different this can be achieved by using `@MavenProject("another_projec
 
 == Test Case Execution
 
+
+=== Conditions in Tests
+
+
+
+
 WARNING: !!This should be done by a `junit-jupiter` configuration file by the user of the extension.
 
 Based on the given structure of directories etc. it is easy to run all test
