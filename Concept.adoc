@@ -371,13 +371,14 @@ class IntegrationIT {
 
 
 === Mock Repository Manager
-The Mock Repository Manager is as the name implies a mock for the a repository.
+The Mock Repository Manager is as the name implies a mock for a repository.
 This is sometimes useful to test things like creating releases
-{maven-release-plugin}.
+{maven-release-plugin} or define particular content for remote repositories within
+integration tests for the {versions-maven-plugin}[Versions Maven Plugin].
 
-In general there are coming some question up:
+In general there are coming up the following questions:
 
-* Based on the idea parallel nature of those integration tests we need to prevent using the same
+* Based on the parallel nature of those integration tests we need to prevent using the same
   port for each execution. This needs to be injected into the appropriate test run.
   Usually we would use `localhost:Port` (Is `localhost` sufficient?).
 * A repository manager can be used to deploy artifacts (during a test) into it and afterwards check
@@ -400,18 +401,46 @@ In general there are coming some question up:
 class FirstMavenIT {
 
   @MavenTest
-  void the_second_test_case(MavenExecutionResult result) {
+  void the_first_test_case(MavenExecutionResult result) {
     //
   }
 
 }
 ----
 
+We need to assume that for the execution of Mock Repository Manager we need to have
+a `settings.xml` template available which can be filled with the current values and
+being placed into the resulting test case directory.
+
+After running an integration test with support of the Mock Repository Manager
+the directory structure looks like the following:
+[source,text]
+----
+.
+└──target/
+   └── maven-its/
+       └── org/
+           └── it/
+               │   settings.xml (Template)
+               └── FirstMavenIT/
+                   └── the_first_test_case/
+                       ├── .m2/
+                       ├── project/
+                       │   ├── src/
+                       │   ├── target/
+                       │   └── pom.xml
+                       ├── mvn-stdout.log
+                       ├── mvn-stderr.log
+                       ├── settings.xml
+                       └── other logs
+----
+
+
 There are several things to be defined like the source repository which contains
 artifacts https://www.mojohaus.org/mrm/mrm-maven-plugin/examples/invoker-tests.html[already installed an repository]
 
 The default directory where to find artifacts which are already within the repository can be
-found in a directory `.mrm`
+found in a directory called `.mrm` at the same level as the `@MavenMockRepositoryManager` annotation.
 
 The position where we defined the `@MavenMockRepositoryManager` annotation shows us
 on which level we would like to support the usage of it. The above example defines it
@@ -440,16 +469,20 @@ class FirstMavenIT {
 
 }
 ----
-If we would like to have a mock repository manager should be used for a large number
-of test would could defined the annotation `@MavenMockRepositoryManager` on
+If we would like to have a mock repository manager should be used for a larger number
+of tests we could define the annotation `@MavenMockRepositoryManager` on
 a separate class/interface which is implemented/extends from for the classes which should be
 used.
 
 ==== Implementation Hints
 
-Might be implemented as proxies for the JVM ?
-resolving things like central/ or repo1.maven.org? Or would it be better
-to define a `settings.xml` file?
+* Maybe we can simply use the mrm modules like `mrm-api`, `mrm-servlet` and `mrm-webapp`.
+
+// Might be implemented as proxies for the JVM ?
+// resolving things like central/ or repo1.maven.org? Or would it be better
+// to define a `settings.xml` file?
+
+
 
 === Setup Projects
 We have in general three different scenarios.
