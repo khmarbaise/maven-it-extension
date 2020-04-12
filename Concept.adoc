@@ -922,6 +922,9 @@ can be solved easily. This makes it also possible to run the IT within the IDE.
 
 
 ==== Test Case IT-SET-001
+
+The following `invoker.properties` describes a test case which comprises of two consecutive calls of
+Maven on the same directory (project):
 [source]
 .it-set-001
 ----
@@ -938,7 +941,7 @@ invoker.description.2=Test the set mojo when the new version is the same as the 
 The above means to execute on the same project several executions of maven calls. This breaks at the moment
 the idea of separation of the builds by method.
 
-But it might be expressed by using `@MavenProject` annotation which defines such thing.
+This might be expressed by using `@MavenProject` annotation which defines such thing.
 The name of the method can be a sub directory which contains `mvn-stdout.log` etc.
 
 NOTE: We should make the `@MavenRepository` part of `@MavenProject`.

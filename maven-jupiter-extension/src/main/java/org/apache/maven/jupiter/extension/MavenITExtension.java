@@ -74,15 +74,15 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
         .orElseThrow(() -> new ExtensionConfigurationException("MavenITExtension is only supported for classes."));
 
     //FIXME: Need to reconsider the maven-it directory?
-    File baseDirectory = new File(DirectoryHelper.getTargetDir(), "maven-it");
+    File mavenItBaseDirectory = new File(DirectoryHelper.getTargetDir(), "maven-it");
     String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);
 
-    File mavenItBaseDirectory = new File(baseDirectory, toFullyQualifiedPath);
-    //TODO: What happends if the directory has been created by the run before?
+    File mavenItTestCaseBaseDirectory = new File(mavenItBaseDirectory, toFullyQualifiedPath);
+    //TODO: What happends if the directory has been created by a previous run?
     // should we delete that structure here? Maybe we should make this configurable.
-    mavenItBaseDirectory.mkdirs();
+    mavenItTestCaseBaseDirectory.mkdirs();
 
-    new StorageHelper(context).save(baseDirectory, mavenItBaseDirectory, DirectoryHelper.getTargetDir());
+    new StorageHelper(context).save(mavenItBaseDirectory, mavenItTestCaseBaseDirectory, DirectoryHelper.getTargetDir());
   }
 
   @Override

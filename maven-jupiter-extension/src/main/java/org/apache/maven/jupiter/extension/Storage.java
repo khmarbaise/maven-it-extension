@@ -23,7 +23,14 @@ package org.apache.maven.jupiter.extension;
  * @author Karl Heinz Marbaise
  */
 enum Storage {
-  BASE_DIRECTORY,
-  BASE_IT_DIRECTORY,
+  /**
+   * The {@code target/maven-it} directory.
+   */
+  MAVEN_IT_BASEDIRECTORY,
+  /**
+   * The directory for the single test cases which is being built of the
+   * {@code package+testClassName+(Optional:NestedClassNames)+MethodName}.
+   */
+  MAVEN_IT_TESTCASE_BASEDIRECTORY,
   TARGET_DIRECTORY
 }

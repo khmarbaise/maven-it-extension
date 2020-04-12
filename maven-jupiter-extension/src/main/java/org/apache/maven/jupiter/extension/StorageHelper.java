@@ -56,10 +56,10 @@ final class StorageHelper {
     nameSpace.put(key, value);
   }
 
-  void save(File baseDirectory, File mavenItBaseDirectory, File targetDirectory) {
+  void save(File mavenItBaseDirectory, File mavenItTestCaseBaseDirectory, File targetDirectory) {
     StorageHelper sh = new StorageHelper(context);
-    sh.put(Storage.BASE_DIRECTORY, baseDirectory);
-    sh.put(Storage.BASE_IT_DIRECTORY, mavenItBaseDirectory);
+    sh.put(Storage.MAVEN_IT_BASEDIRECTORY, mavenItBaseDirectory);
+    sh.put(Storage.MAVEN_IT_TESTCASE_BASEDIRECTORY, mavenItTestCaseBaseDirectory);
     sh.put(Storage.TARGET_DIRECTORY, targetDirectory);
   }
 

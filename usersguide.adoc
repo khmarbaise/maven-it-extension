@@ -446,7 +446,6 @@ class CompareDependenciesIT
             "The following property differences were found:", "", "  none" ) );
     }
 }
-
 ----
 
 

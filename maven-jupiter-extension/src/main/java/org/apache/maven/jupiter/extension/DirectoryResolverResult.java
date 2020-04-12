@@ -30,7 +30,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
  */
 class DirectoryResolverResult {
 
-  private final File mavenItBaseDirectory;
+  private final File mavenItTestCaseBaseDirectory;
 
   private final File mavenBaseDirectory;
 
@@ -51,12 +51,12 @@ class DirectoryResolverResult {
   DirectoryResolverResult(ExtensionContext context) {
     StorageHelper sh = new StorageHelper(context);
 
-    this.mavenItBaseDirectory = sh.get(Storage.BASE_IT_DIRECTORY, File.class);
-    this.mavenBaseDirectory = sh.get(Storage.BASE_DIRECTORY, File.class);
+    this.mavenItTestCaseBaseDirectory = sh.get(Storage.MAVEN_IT_TESTCASE_BASEDIRECTORY, File.class);
+    this.mavenBaseDirectory = sh.get(Storage.MAVEN_IT_BASEDIRECTORY, File.class);
     this.targetDirectory = sh.get(Storage.TARGET_DIRECTORY, File.class);
 
     Method methodName = context.getTestMethod().orElseThrow(() -> new IllegalStateException("No method given"));
-    this.integrationTestCaseDirectory = new File(this.mavenItBaseDirectory, methodName.getName());
+    this.integrationTestCaseDirectory = new File(this.mavenItTestCaseBaseDirectory, methodName.getName());
 
     this.projectDirectory = new File(integrationTestCaseDirectory, "project");
     this.mavenItsBaseDirectory = new File(DirectoryHelper.getTargetDir(), "test-classes");
@@ -103,8 +103,8 @@ class DirectoryResolverResult {
     return integrationTestCaseDirectory;
   }
 
-  final File getMavenItBaseDirectory() {
-    return mavenItBaseDirectory;
+  final File getMavenItTestCaseBaseDirectory() {
+    return mavenItTestCaseBaseDirectory;
   }
 
   final File getMavenBaseDirectory() {
@@ -125,8 +125,8 @@ class DirectoryResolverResult {
 
     DirectoryResolverResult resolve(ExtensionContext context) {
       StorageHelper sh = new StorageHelper(context);
-      this.mavenItBaseDirectory = sh.get(Storage.BASE_IT_DIRECTORY, File.class);
-      this.mavenBaseDirectory = sh.get(Storage.BASE_DIRECTORY, File.class);
+      this.mavenItBaseDirectory = sh.get(Storage.MAVEN_IT_TESTCASE_BASEDIRECTORY, File.class);
+      this.mavenBaseDirectory = sh.get(Storage.MAVEN_IT_BASEDIRECTORY, File.class);
       this.targetDirectory = sh.get(Storage.TARGET_DIRECTORY, File.class);
 
       return new DirectoryResolverResult(context);
