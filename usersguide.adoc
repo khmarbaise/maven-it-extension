@@ -70,15 +70,16 @@ import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 class FirstMavenIT {
 
   @MavenTest // <2>
-  void the_first_test_case(MavenExecutionResult result) {
-    assertThat(result).build().isSuccessful(); // <3>
+  void the_first_test_case(MavenExecutionResult result) { //<3>
+    assertThat(result).build().isSuccessful(); // <4>
   }
 
 }
 ----
 <1> The Maven Integration test annotation
 <2> The Maven Test annotation.
-<3> The above used assertions like `assertThat(..)` are custom assertions which will be explained in
+<3> The result of the execution is injected into the test method (details in Chapter link:xx[xx])
+<4> The above used assertions like `assertThat(..)` are custom assertions which will be explained in
 later chapters
 
 
@@ -90,7 +91,7 @@ later chapters
 The location of an integration test defaults to `src/test/java/<package>/FirstMavenIT.java`.
 The selected naming schema like `<any>IT.java` implies that it will be executed by {maven-failsafe-plugin}
 by convention. This will lead us in a directory structure as follows:
-[source,text]
+[source]
 ----
 .
 └── src/
@@ -99,6 +100,7 @@ by convention. This will lead us in a directory structure as follows:
             └── org/
                 └── it/
                     └── FirstMavenIT.java
+
 ----
 In case of an integration test for a Maven plugin/extension or others we need to be able to
 define also the projects which are the *real test cases* (Maven projects).
@@ -154,7 +156,7 @@ within the `target` directory:
 ----
 .
 └──target/
-   └── maven-its/
+   └── maven-it/
        └── org/
            └── it/
                └── FirstMavenIT/
@@ -166,13 +168,16 @@ within the `target` directory:
                        │   └── pom.xml
                        ├── mvn-stdout.log
                        ├── mvn-stderr.log
-                       └── other logs
+                       ├── mvn-arguments.log
+                       └── orther logs.
 ----
 Based on the above you can see that each *test case* (method within the test class `FirstMavenIT`)
 has it's own local repository (aka local cache) `.m2/repository`. Furthermore you see that the
 project is built within the `project` directory. This gives you a view of the built project as you
 did on plain command line and take a look into it. The output of the build is written into
-`mvn-stdout.log` (stdout) and the output to stderr is written to `mvn-stderr.log`.
+`mvn-stdout.log` (stdout) and the output to stderr is written to `mvn-stderr.log`. The used
+command line parameters to call Maven is put into `mvn-arguments.log`.
+
 //TODO: Define `other logs` ? environment output, command line parameters ?
 //FIXME: Needs to be implemented
 
@@ -234,7 +239,7 @@ directory will look like this:
 ----
 .
 └──target/
-   └── maven-its/
+   └── maven-it/
        └── org/
            └── it/
                └── SeveralMavenIT/
@@ -272,7 +277,119 @@ in the `mvn-stderr.log`. In the `project` directory you will find the usual `tar
 which contains the Maven output which might be interesting as well. Furthermore the
 local cache (aka maven repository) is available separately for each test case and can be found
 in the `.m2/repository` directory.
+<<<
+== Goals, Properties and Command Line Options
 
+=== Goals
+
+In each test case method you define `@MavenTest` which says execute Maven with the given
+default goals and parameters. A typical integration test looks like this:
+[source,java]
+.BasicIT.java
+----
+@MavenIT
+class BasicIT {
+
+  @MavenTest
+  void first(MavenExecutionResult result) {
+  }
+}
+----
+So now the question is: Which goals and parameters will be used to execute Maven for the `first`
+test case? In general the `@MavenIT` annotation defines a default set of goals which will be executed
+if not defined otherwise. The default for goals in `@MavenIT` is `package`. That means if we keep
+the test as in our example maven would be called like `mvn package`. From a technical perspective
+some other parameters have been added which is `mvn -Dmaven.repo.local=Path package`.
+The `-Dmaven.repo.local=..` is needed to make sure that each call uses the defined local cache
+(See link:"Common Maven Cache"[Common Maven Cache]).
+You can of course change the default for the goal if you like by simply changing the parameter for
+`@MavenIT(goals = {"install"})` that would mean to execute all subjacent tests like `mvn -D.. install`
+instead of `mvn -D .. package`. A usual command parameter set includes
+`--batch-mode` and `-V` (This can't be changed currently.).
+
+How could you write a test which uses a plugin goal instead? You can simply define the
+goal(s) with the `@MavenTest` annotation like this:
+
+[source,java]
+----
+@MavenTest( goals = {"${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies"})
+----
+
+The used `goals` in the above `@MavenTest` will overwrite any goal which is defined by `@MavenIT`. The `goals`
+also supports replacement of placeholders where currently the following are supported:
+
+* ${project.groupId}
+* ${project.artifactId}
+* ${project.version}
+
+Those are the ones which are used in the majority of cases for Maven plugins. If you like to
+call several goals and/or lifecycle parts in one go you can simply define it like this:
+
+[source,java]
+----
+@MavenTest( goals = {
+    "${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies",
+    "site:stage",
+    "install"
+})
+void test_case(MavenExecutionResult result) {
+..
+}
+----
+
+=== SystemProperties
+
+There are situations where you need to use system properties which are usually defined on command like this:
+[source,bash]
+----
+mvn versions:set -DgenerateBackups=false -DnewVersion=2.0
+----
+This can be achieved by enhancing the `@MavenTest` annotation with `systemProperties` which could look like this:
+
+[source,java]
+.CompareDependenciesIT.java
+----
+package org.codehaus.mojo.versions.it;
+
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.maven.MavenExecutionResult;
+import org.apache.maven.jupiter.maven.MavenProjectResult;
+
+import static org.apache.maven.assertj.MavenITAssertions.assertThat;
+
+@MavenIT
+class CompareDependenciesIT
+{
+    @MavenTest( goals = {"${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies"},
+                systemProperties = {
+                    "remotePom=localhost:dummy-bom-pom:1.0",
+                    "reportOutputFile=target/depDiffs.txt"}
+               )
+    void it_compare_dependencies_001( MavenExecutionResult result )
+    {
+       ...
+    }
+}
+----
+
+=== Command Line Options
+In different scenarios it is needed to define command line options like `--non-recursive` etc. This can be
+done by using the `options` part of `@MavenTest`. There is a convenience class `MavenOptions` available
+which contains all existing command line options. You are not forced to use the `MavenOptions` class.
+
+[source,java]
+----
+@MavenTest( options = {MavenOptions.NON_RECURSIVE, "--offline"},
+            goals = {"${project.groupId}:${project.artifactId}:${project.version}:set"},
+            systemProperties = {"newVersion=2.0"} )
+void first( MavenExecutionResult result )
+{
+    assertThat( result ).isSuccessful();
+}
+----
+
+<<<
 == Scenarios
 
 === Grouping Test Cases
@@ -308,7 +425,7 @@ After test execution the resulting directory tree looks like this:
 ----
 .
 └──target/
-   └── maven-its/
+   └── maven-it/
        └── org/
            └── it/
                └── MavenIntegrationGroupingIT/
@@ -382,7 +499,7 @@ After test execution the resulting directory tree looks like this:
 ----
 .
 └──target/
-   └── maven-its/
+   └── maven-it/
        └── org/
            └── it/
                └── MavenITWithGlobalMavenCacheIT/
@@ -404,9 +521,133 @@ After test execution the resulting directory tree looks like this:
                        ├── mvn-stderr.log
                        └── other logs
 ----
+The usage of `@MavenRepository` is also possible in combination with `@Nested` which could look like
+this:
+
+[source,java]
+.MavenIntegrationGroupingIT.java
+----
+@MavenIT
+class MavenIntegrationGroupingIT {
+
+  @MavenTest
+  void packaging_includes(MavenExecutionResult result) {
+  }
+
+  @Nested
+  @MavenRepository
+  class NestedExample {
+
+    @MavenTest
+    void basic(MavenExecutionResult result) {
+    }
+
+    @MavenTest
+    void packaging_includes(MavenExecutionResult result) {
+    }
+
+  }
+}
+----
+That would result in having a common cache for the methods `basic` and `packaging_includes` within
+the nested class `NestedExample`. The test method `packaging_includes` will have a cache of it's own.
+
+
+=== Single Project With Several Executions
+
+Sometimes you need to execute a consecutive number of commands (usually maven executions) on the same
+single project. This means in the end having a single project and executing several maven execution
+on that project. Such a use case looks like this:
+
+[source,java]
+.SetIT.java
+----
+@MavenIT
+class SetIT
+{
+    private static final String VERSIONS_PLUGIN = "${project.groupId}:${project.artifactId}:${project.version}";
+
+    @Nested
+    @MavenProject
+    @TestMethodOrder( OrderAnnotation.class )
+    @DisplayName( "Test case related to https://github.com/mojohaus/versions-maven-plugin/issues/83" )
+    class set_001
+    {
+
+        @MavenTest( options = MavenOptions.NON_RECURSIVE, goals = {VERSIONS_PLUGIN + ":set"},
+                    systemProperties = {"newVersion=2.0"} )
+        @Order(10)
+        void first( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+        {
+            assertThat( result ).isSuccessful();
+        }
+
+        @MavenTest( options = MavenOptions.NON_RECURSIVE, goals = {VERSIONS_PLUGIN + ":set"},
+                    systemProperties = {"newVersion=2.0", "groupId=*", "artifactId=*", "oldVersion=*"} )
+        @Order(20)
+        void second( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+        {
+            assertThat( result ).isSuccessful();
+        }
+    }
+
+}
+
+----
+The important part here is the `@MavenProject` annotation which marks the nested class as a container
+which contains executions (`first` and `second`) with conditions on the same single project.
+The `@MavenProject` defines that project name which is by default `maven_project`.
+This means you have to define the project you would like to test on like this:
+[source,text]
+----
+.
+└── src/
+    └── test/
+        └── resources-its/
+            └── org/
+                └── it/
+                    └── SetIT/
+                        └── set_001/
+                            └── maven_project/
+                                ├── src/
+                                └── pom.xml
+----
+
+After test execution it looks like this:
+
+[source,text]
+----
+.
+└──target/
+   └── maven-it/
+       └── org/
+           └── it/
+               └── SetIT/
+                   └── set_001/
+                       └── maven_project/
+                           ├── .m2/
+                           ├── project/
+                           │   ├── src/
+                           │   ├── target/
+                           │   └── pom.xml
+                           ├── first-mvn-arguments.log
+                           ├── first-mvn-stdout.log
+                           ├── first-mvn-stderr.log
+                           ├── second-mvn-arguments.log
+                           ├── second-mvn-stdout.log
+                           └── second-mvn-stderr.log
+----
+Each test case defined by the method name `first` and `second` has been executed on the same
+project `maven_project`. Each execution has it's own sets of log files which can be identified
+by the prefix based on the method name like `first-mvn-arguments.log` etc.
+
+The `@MavenProject` annotation can only be used on a nested class or on the test class itself
+(where `@MavenIT` is located.). If you like to change the name of the project `maven_project` into
+something different this can be achieved by using `@MavenProject("another_project_name")`.
 
 == Test Case Execution
 
+WARNING: !!This should be done by a `junit-jupiter` configuration file by the user of the extension.
 
 Based on the given structure of directories etc. it is easy to run all test
 cases in parallel which saves a lot of time.

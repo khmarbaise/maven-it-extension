@@ -118,12 +118,4 @@ public @interface MavenTest {
    */
   boolean debug() default false;
 
-  /**
-   * By default the project name is interpolated by the name of the test method. This can be overwritten by this
-   * configuration if you need. Best practice is to follow the convention over configuration paradigm.
-   *
-   * @return The name of the project which is used.
-   * @implNote FIXME: Currently not implemented. Idea!
-   */
-  String project() default "";
 }

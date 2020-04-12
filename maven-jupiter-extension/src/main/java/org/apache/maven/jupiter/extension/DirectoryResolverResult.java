@@ -56,7 +56,15 @@ class DirectoryResolverResult {
     this.targetDirectory = sh.get(Storage.TARGET_DIRECTORY, File.class);
 
     Method methodName = context.getTestMethod().orElseThrow(() -> new IllegalStateException("No method given"));
-    this.integrationTestCaseDirectory = new File(this.mavenItTestCaseBaseDirectory, methodName.getName());
+
+    Optional<Class<?>> mavenProject = AnnotationHelper.findMavenProjectAnnotation(context);
+    if (mavenProject.isPresent()) {
+      MavenProject mavenProjectAnnotation = mavenProject.get().getAnnotation(MavenProject.class);
+      this.integrationTestCaseDirectory = new File(this.getMavenItTestCaseBaseDirectory(),
+          mavenProjectAnnotation.value());
+    } else {
+      this.integrationTestCaseDirectory = new File(this.getMavenItTestCaseBaseDirectory(), methodName.getName());
+    }
 
     this.projectDirectory = new File(integrationTestCaseDirectory, "project");
     this.mavenItsBaseDirectory = new File(DirectoryHelper.getTargetDir(), "test-classes");
@@ -64,7 +72,12 @@ class DirectoryResolverResult {
 
     Class<?> testClass = context.getTestClass().orElseThrow(() -> new IllegalStateException("Test class not found."));
     String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);
-    this.sourceMavenProject = new File(this.mavenItsBaseDirectory, toFullyQualifiedPath + "/" + methodName.getName());
+    if (mavenProject.isPresent()) {
+      MavenProject mavenProjectAnnotation = mavenProject.get().getAnnotation(MavenProject.class);
+      this.sourceMavenProject = new File(this.mavenItsBaseDirectory, toFullyQualifiedPath + "/" + mavenProjectAnnotation.value());
+    } else {
+      this.sourceMavenProject = new File(this.mavenItsBaseDirectory, toFullyQualifiedPath + "/" + methodName.getName());
+    }
 
     Optional<Class<?>> optionalMavenRepository = AnnotationHelper.findMavenRepositoryAnnotation(context);
     if (optionalMavenRepository.isPresent()) {

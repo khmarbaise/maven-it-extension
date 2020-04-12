@@ -32,7 +32,7 @@ import org.apache.maven.jupiter.maven.MavenProjectResult;
  *
  * Invoker Integration Test:
  * <ul>
- *   <li>basic</li>
+ *   <li>test_project_root</li>
  *   <li>packaging_includes</li>
  *   <li>packaging_excludes</li>
  *   <li>transitive_excludes</li>

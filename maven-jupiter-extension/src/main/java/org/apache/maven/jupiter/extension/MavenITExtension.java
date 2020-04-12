@@ -38,6 +38,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
@@ -137,9 +138,16 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     //FIXME: Very likely we need to tweak for Windows environment? see maven-invoker how to find Maven executable?
     String mvnLocation = mavenHome + "/bin/mvn";
 
+    String prefix = "mvn";
+    Method methodName = context.getTestMethod().orElseThrow(() -> new IllegalStateException("No method given"));
+    Optional<Class<?>> mavenProject = AnnotationHelper.findMavenProjectAnnotation(context);
+    if (mavenProject.isPresent()) {
+      prefix = methodName.getName() + "-mvn";
+    }
+
     //FIXME: Removed hard coded parts.
     ApplicationExecutor mavenExecutor = new ApplicationExecutor(directoryResolverResult.getProjectDirectory(),
-        integrationTestCaseDirectory, new File(mvnLocation), Collections.emptyList(), "mvn");
+        integrationTestCaseDirectory, new File(mvnLocation), Collections.emptyList(), prefix);
 
     List<String> executionArguments = new ArrayList<>();
 
@@ -148,7 +156,6 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
         "-Dmaven.repo.local=" + directoryResolverResult.getCacheDirectory().toString(), MavenOptions.BATCH_MODE, MavenOptions.SHOW_VERSION);
     executionArguments.addAll(defaultArguments);
 
-    Method methodName = context.getTestMethod().orElseThrow(() -> new IllegalStateException("No method given"));
     if (hasActiveProfiles(methodName)) {
       String collect = Stream.of(getActiveProfiles(methodName))
           .collect(joining(",", MavenOptions.ACTIVATE_PROFILES, ""));

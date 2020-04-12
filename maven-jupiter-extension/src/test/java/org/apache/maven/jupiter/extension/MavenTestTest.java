@@ -52,7 +52,8 @@ class MavenTestTest {
   @Test
   void default_project_should_be_empty() {
     assertThat(mavenTestAnnotation.goals()).isEmpty();
-    assertThat(mavenTestAnnotation.project()).isEmpty();
+    assertThat(mavenTestAnnotation.options()).isEmpty();
+    assertThat(mavenTestAnnotation.systemProperties()).isEmpty();
     assertThat(mavenTestAnnotation.activeProfiles()).isEmpty();
   }
 

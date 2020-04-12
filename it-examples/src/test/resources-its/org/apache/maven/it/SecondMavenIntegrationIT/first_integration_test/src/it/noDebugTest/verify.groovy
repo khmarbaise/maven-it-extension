@@ -51,7 +51,7 @@ if (!targetFolder.exists()) {
 }
 
 classifierList.each { classifier ->
-    def tf = new File (targetFolder, "basic-no-debug-test-" + projectVersion + "-" + classifier + ".war")
+    def tf = new File (targetFolder, "test_project_root-no-debug-test-" + projectVersion + "-" + classifier + ".war")
     println "Checking ${classifier}: " + tf.getAbsolutePath()
     if (!tf.exists()) {
         throw new FileNotFoundException("The file " + tf.getAbsolutePath() + " does not exists.")
