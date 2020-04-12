@@ -732,31 +732,8 @@ class FirstMavenIT {
 
 === Things which do not work yet (not complete!)
 
-* [ ] I can't define a version within the goals at the moment? See the following example:
-+
-[source,java]
-.UnknownMavenIT.java
-----
-import static org.assertj.core.api.Assertions.assertThat;
-
-import org.apache.maven.jupiter.extension.MavenIT;
-import org.apache.maven.jupiter.extension.MavenTest;
-import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
-
-@MavenIT
-class FirstMavenIT {
-
-  @MavenTest(goals={"clean", "org.apache.maven.plugins:maven-assembly-plugin:${project.version}:single"})
-  void third_test_case(MavenProjectResult project) {
-    assertThat(project)
-      ...
-  }
-}
-----
-
 Later we will create an plugin for the purpose an can inject the information into the test cases as
 we already did like in {maven-invoker-plugin}.
-
 
 This is:
 
