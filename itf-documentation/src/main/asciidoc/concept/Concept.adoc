@@ -532,23 +532,25 @@ test you should let inject `MavenExecutionResult result` cause that gives you th
 to write assertion on the result of the maven execution or what has written into the resulting
 structure.
 
-* `assertThat(result).isSuccessful();`
 [source,java]
 ----
-assertThat(result).isSuccessful();
-----
+@MavenTest
+void first_test_case(MavenExecutionResult result) {
+    assertThat( result ).isSuccessful()
+        .project()
+           .hasPom()
+               .parent().g("X").a("y").version("1.0").relativePath("../../pom.xml")
+               .parent().g("X").a("y").version("1.0").relativePath() // default relative path "../pom.xml"
+               .dependencies().hasDependency("groupId:artifactId:version") // check that at leat one exists.
+               .dependencies().containsOnly("groupId:artifactId:version") // check that only one exists.
+               .dependencies().containsOnly("groupId:artifactId:version") // check that only one exists.
+               .dependencyManagement()....
+               .build()...
+           .target()
+               .earFile()
+                  .containsOnlyOnce("META-INF/application.xml", "META-INF/appserver-application.xml");
+.
 
-
-asdfasdf
-[source,java]
-----
-@MavenTest( goals = {VERSIONS_PLUGIN + ":set"},
-            systemProperties = {"newVersion=2.3"} )
-void set_001_issue_76 (MavenExecutionResult result) {
-    assertThat( result ).isSuccessful();
-        .project().hasModule( "xx" ).hasPom().
-          .hasPom().withVersion("2.3")
-                   .hasDependencies().with;
 
 }
 
