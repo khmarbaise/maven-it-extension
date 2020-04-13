@@ -773,8 +773,72 @@ class FirstMavenIT {
 
 
 
+== Assertions
 
-== Expressing Assertions
+Let us look into a simple integration test. We would like to concentrate on the assertion part.
+[source,java]
+----
+@MavenIT
+class FirstIT {
+  @MavenTest
+  void the_first_test_case(MavenExecutionResult result) {
+    assertThat(result).isSuccessful();
+  }
+}
+----
+After the test has run the resulting directory structure looks like this:
+[source,text]
+----
+.
+└──target/
+   └── maven-its/
+       └── org/
+           └── it/
+               └── FirstIT/
+                   └── the_first_test_case/
+                       ├── .m2/
+                       ├── project/
+                       │   ├── src/
+                       │   ├── target/
+                       │   └── pom.xml
+                       ├── mvn-stdout.log
+                       ├── mvn-stderr.log
+                       └── other logs
+----
+So now lets focus on the assertions which are written in the test. In each integration
+test you should let inject `MavenExecutionResult result` cause that gives you the opportunity
+to write assertion on the result of the maven execution or what has written into the resulting
+structure.
+
+Let us start with two general assertions:
+
+* `assertThat(result).isSuccessful();` The build was successful (return code of Maven run 0).
+* `assertThat(result).isFailure();` The build has failed (return code of Maven run != 0).
+
+Sometimes this is sufficient but more often you have more complex scenarios to be checked.
+
+Based on the directory structure in the result you can make assumptions about the
+names which can be used in your assertions like the following:
+
+* `assertThat(result).project()....` which will go into the `project` directory
+* `assertThat(result).cache()...` will go into the `.m2/repository` directory.
+* `assertThat(result).log()..' will result into the access of the `mvn-stdout.log` file.
+// FIXME: * `assertThat(result).stdout()..' will result into the access of the `mvn-stdout.log` file.
+// FIXME: * `assertThat(result).stderr()..' will result into the access of the `mvn-stderr.log` file.
+
+[source,java]
+----
+
+----
+
+
+    assertThat(project).hasTarget()
+        .withEarFile()
+        .containsOnlyOnce("META-INF/application.xml", "META-INF/appserver-application.xml");
+
+
+
+=== Expressing Assertions
 
 
 [source,java]
