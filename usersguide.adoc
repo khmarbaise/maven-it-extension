@@ -78,9 +78,11 @@ class FirstMavenIT {
 ----
 <1> The Maven Integration test annotation
 <2> The Maven Test annotation.
-<3> The result of the execution is injected into the test method (details in Chapter link:xx[xx])
+<3> The result of the execution is injected into the test method (details in Chapter link:[Needs to be written])
 <4> The above used assertions like `assertThat(..)` are custom assertions which will be explained in
 later chapters
+
+
 
 
 //FIXME: link to chapter for assertions.
@@ -269,7 +271,7 @@ directory will look like this:
                        │   └── pom.xml
                        ├── mvn-stdout.log
                        ├── mvn-stderr.log
-                       └── other logs
+                       └── mvn-arguments.log
 ----
 Based on the structure you can exactly dive into each test case separately and take
 a look at the console output of the test case via `mvn-stdout.log` or maybe in case of errors
@@ -301,7 +303,7 @@ if not defined otherwise. The default for goals in `@MavenIT` is `package`. That
 the test as in our example maven would be called like `mvn package`. From a technical perspective
 some other parameters have been added which is `mvn -Dmaven.repo.local=Path package`.
 The `-Dmaven.repo.local=..` is needed to make sure that each call uses the defined local cache
-(See link:"Common Maven Cache"[Common Maven Cache]).
+(See link:_common_maven_cache[Common Maven Cache]).
 You can of course change the default for the goal if you like by simply changing the parameter for
 `@MavenIT(goals = {"install"})` that would mean to execute all subjacent tests like `mvn -D.. install`
 instead of `mvn -D .. package`. A usual command parameter set includes
@@ -543,7 +545,7 @@ class MavenIntegrationGroupingIT {
     }
 
     @MavenTest
-    void packaging_includes(MavenExecutionResult result) {
+    void packaging_excludes(MavenExecutionResult result) {
     }
 
   }
@@ -551,7 +553,44 @@ class MavenIntegrationGroupingIT {
 ----
 That would result in having a common cache for the methods `basic` and `packaging_includes` within
 the nested class `NestedExample`. The test method `packaging_includes` will have a cache of it's own.
+The directory tree looks like this:
 
+[source,text]
+----
+.
+└──target/
+   └── maven-it/
+       └── org/
+           └── it/
+               └── MavenIntegrationGroupingIT/
+                   ├── packaging_includes/
+                   │   ├── .m2/
+                   │   ├── project/
+                   │   │   ├── src/
+                   │   │   ├── target/
+                   │   │   └── pom.xml
+                   │   ├── mvn-stdout.log
+                   │   ├── mvn-stderr.log
+                   │   └── other logs
+                   └── NestedExample/
+                       ├── .m2/
+                       ├── basic/
+                       │   ├── project/
+                       │   │   ├── src/
+                       │   │   ├── target/
+                       │   │   └── pom.xml
+                       │   ├── mvn-stdout.log
+                       │   ├── mvn-stderr.log
+                       │   └── other logs
+                       └── packaging_excludes/
+                           ├── project/
+                           │   ├── src/
+                           │   ├── target/
+                           │   └── pom.xml
+                           ├── mvn-stdout.log
+                           ├── mvn-stderr.log
+                           └── other logs
+----
 
 === Single Project With Several Executions
 
@@ -650,14 +689,80 @@ something different this can be achieved by using `@MavenProject("another_projec
 
 === Conditions in Tests
 
+You might want to run an integration test only for a particular Maven version for example running
+only for Maven 3.6.0? So how could you express this? The following code will show how you can do
+that.
 
+[source,java]
+.ForthMavenIT.java
+----
+import static org.apache.maven.jupiter.assertj.MavenExecutionResultAssert.assertThat;
+import static org.apache.maven.jupiter.extension.maven.MavenVersion.M3_0_5;
+import static org.apache.maven.jupiter.extension.maven.MavenVersion.M3_6_0;
 
+import org.apache.maven.jupiter.extension.DisabledForMavenVersion;
+import org.apache.maven.jupiter.extension.EnabledForMavenVersion;
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 
-WARNING: !!This should be done by a `junit-jupiter` configuration file by the user of the extension.
+@MavenIT
+class FirstMavenIT {
 
-Based on the given structure of directories etc. it is easy to run all test
-cases in parallel which saves a lot of time.
-This mean by default all the test cases are running in parallel.
+  @MavenTest
+  @EnabledForMavenVersion(M3_6_0)
+  void first_test_case(MavenExecutionResult execResult) {
+    assertThat(execResult).isSuccessful();
+  }
+
+  @DisabledForMavenVersion(M3_0_5)
+  @MavenTest
+  void second_test_case(MavenExecutionResult execResult) {
+    assertThat(execResult).isFailure();
+  }
+
+}
+----
+
+So not run some tests on particular Java version can be handled via usual JUnit Jupiter things like:
+
+//TODO: Make reference to JUnit Jupiter Manual
+[source,java]
+----
+import static org.apache.maven.jupiter.assertj.MavenITAssertions.assertThat;
+import static org.apache.maven.jupiter.extension.maven.MavenVersion.M3_0_5;
+import static org.apache.maven.jupiter.extension.maven.MavenVersion.M3_6_0;
+
+import org.apache.maven.jupiter.extension.DisabledForMavenVersion;
+import org.apache.maven.jupiter.extension.EnabledForMavenVersion;
+import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenTest;
+import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import org.junit.jupiter.api.condition.DisabledOnJre;
+import org.junit.jupiter.api.condition.JRE;
+
+@MavenIT
+@DisabledOnJre(JRE.JAVA_10)
+class FirstMavenIT {
+
+  @MavenTest
+  @EnabledForMavenVersion(M3_6_0)
+  void first_test_case(MavenExecutionResult execResult) {
+    assertThat(execResult).isSuccessful();
+  }
+
+  @DisabledForMavenVersion(M3_0_5)
+  @MavenTest
+  void second_test_case(MavenExecutionResult execResult) {
+    assertThat(execResult).isFailure();
+  }
+}
+----
+
+// WARNING: !!This should be done by a `junit-jupiter` configuration file by the user of the extension.
+//Based on the given structure of directories etc. it is easy to run all test
+//cases in parallel which saves a lot of time.
+//This mean by default all the test cases are running in parallel.
 
 
 

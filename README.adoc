@@ -28,6 +28,7 @@
 :maven-invoker-properties: https://maven.apache.org/plugins/maven-invoker-plugin/integration-test-mojo.html#invokerPropertiesFile[`invoker.properties`].
 :maven-plugin-testing-harness: https://maven.apache.org/plugin-testing/maven-plugin-testing-harness/index.html[Maven Plugin Testing Harness]
 :maven-core-it-example: https://github.com/apache/maven-integration-testing/blob/master/core-it-suite/src/test/java/org/apache/maven/it/MavenIT0041ArtifactTypeFromPluginExtensionTest.java[Example of Maven Integration Test]
+:maintained: https://github.com/apache/maven-integration-testing/blob/master/core-it-suite/src/test/java/org/apache/maven/it/IntegrationTestSuite.java[maintained TestSuite]
 
 = Overview
 
@@ -63,11 +64,10 @@ of parallel execution in some situations.
 ** This means to enhance the number of dependencies. In days of Java 5 until 7 it had been an
 advantage to use Groovy with it's supports for closures etc. which made it simpler and easier
 to write things for integration tests, but since JDK 8 it is not necessary anymore.
-* Integrationtests are not that expressive as they should be.
+* Integrationtest are not that expressive as they should be.
 * Violation of https://en.wikipedia.org/wiki/Separation_of_concerns[separation of concern paradigm]
 ** Conditions
-*** Assertions are hard to express cause one implicit assertion is that a build has to be successful.
-Of course you can define that build should fail.
+*** Assertions are hard to express cause one implicit assertion is that a build has to be successful (can be changed if necessary)
 *** Conditions for the execution of a test for example are:
 **** should be executed only on JDK11
 **** should be executed only on Maven 3.3.9 and above
@@ -89,16 +89,17 @@ The {maven-verifier} is intended to write integration tests for Maven ...
 The {maven-verifier} is intended to write a kind of tests:
 
 * You can set the command line parameters for an executed instance of Maven like `-s`, `-X` etc.
-* Execute goals like `package` or a like.
+* Execute goals like `package` or alike.
 * It contains some methods like `assertFilePresent`, `assertFileMatches`,
    `verifyArtifactPresence` etc. but not a comprehensive set of methods.
 * Some parts are like Maven Invoker Plugin for example starting an external
 process with Maven (something like starting Maven on command line.).
 * Is JUnit 3 based.
-* Manually https://github.com/apache/maven-integration-testing/blob/master/core-it-suite/src/test/java/org/apache/maven/it/IntegrationTestSuite.java[maintained TestSuite]
+* Manually {maintained}
 to execute all integration tests of Maven Core.
 * Each Testcase must be expressed by a separate https://github.com/apache/maven-integration-testing/blob/master/core-it-suite/src/test/java/org/apache/maven/it/MavenIT0090EnvVarInterpolationTest.java[Test class].
 * Manually https://github.com/apache/maven-integration-testing/blob/master/core-it-suite/src/test/java/org/apache/maven/it/MavenITmng6391PrintVersionTest.java[implemented conditionally execution].
+* Conditions for execution only based on a self implemented constructor part which defines the Maven version under which it should run or not.
 
 === Maven Plugin Testing Harness
 
@@ -133,7 +134,7 @@ tests and integration tests. So removing a supplemental
 barrier will help.
 * Support for most recent Java versions which is a complete
 blocker for the Apache Maven project, cause the Apache Maven Project is  running builds
-in a very early stage which would block us (see our builds for example {maven-ear-plugin-build}).
+in a very early stage (Early access) which would block us (see our builds for example {maven-ear-plugin-build}).
 Currently spock is not yet tested/build against JDK11+ ?
 So having a Testing framework which might not work on most
 recent versions is a complete blocker.
@@ -145,21 +146,21 @@ in using Groovy over Java anymore.
 IDEA IntelliJ as well as for DSL support for Spock.
 That would block many people. This blocker based on the usage
 of a particular IDE is not acceptable for an open source project
-like the Apache Maven Project and from my own point of view as
+like the Apache Maven Project and from my point of view as
 an Apache Maven PMC member this is simply a no go.
 
 === Conclusion
 
 It is needed to have a combination of {maven-invoker-plugin}, Maven Verifier etc. into
 a single Testing framework which should make it possible to make integration tests
-easier to write and make them more expressive about what the intention of a tests exactly is.
+easier to write and make them more expressive about what the intention of what a test exactly is.
 
 It looks like a good solution to use existing frameworks like {junit-jupiter} and assertions like
 {assertj} library to express what it's needed. This in result will give automatically
 many advantages for example the integration into the IDE as well as writing the tests in
 Java code and furthermore opens easy ways to use existing Java libraries.
 
-Using {junit-jupiter} as base will solve a lot things which are already supported by {junit-jupiter}
+Using {junit-jupiter} as base will solve lot of things which are already supported by {junit-jupiter}
 like conditional execution of Tests based on JRE or possible deactivation based on
 properties etc.
 
@@ -170,7 +171,7 @@ also being enhanced by writing custom assertions.
 The expressiveness of tests is a very important part of writing integration tests or
 test in general. If a test is not easy to understand it is very likely not being written.
 
-Lets take a look into the following code snippet which is an idea how an integration
+Let us take a look into the following code snippet which is an idea how an integration
 test for a {maven-plugins}/Maven Extensions/Maven-Core could look like:
 [source,java]
 ----
@@ -413,7 +414,7 @@ class MavenIntegrationIT {
 }
 ----
 Based on the given annotation  `@MavenRepository` this will
-define a global cache for all of the test cases within the given test class `MavenIntegrationIT`.
+define a global cache for all test cases within the given test class `MavenIntegrationIT`.
 
 So based on the above test case you will get a resulting directory structure which looks like this:
 [source,text]
