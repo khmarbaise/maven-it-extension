@@ -495,6 +495,67 @@ used.
 // to define a `settings.xml` file?
 
 
+=== Assertions
+
+Let us look into a simple integration test. We would like to concentrate on the asserion part.
+[source,java]
+----
+@MavenIT
+class FirstIT {
+  @MavenTest
+  void the_first_test_case(MavenExecutionResult result) {
+    assertThat(result).isSuccessful();
+  }
+}
+----
+After the test has run the resulting directory structure looks like this:
+[source,text]
+----
+.
+└──target/
+   └── maven-its/
+       └── org/
+           └── it/
+               └── FirstIT/
+                   └── the_first_test_case/
+                       ├── .m2/
+                       ├── project/
+                       │   ├── src/
+                       │   ├── target/
+                       │   └── pom.xml
+                       ├── mvn-stdout.log
+                       ├── mvn-stderr.log
+                       └── other logs
+----
+So now lets focus on the assertions which are written in the test. In each integration
+test you should let inject `MavenExecutionResult result` cause that gives you the opportunity
+to write assertion on the result of the maven execution or what has written into the resulting
+structure.
+
+* `assertThat(result).isSuccessful();`
+[source,java]
+----
+assertThat(result).isSuccessful();
+----
+
+
+asdfasdf
+[source,java]
+----
+@MavenTest( goals = {VERSIONS_PLUGIN + ":set"},
+            systemProperties = {"newVersion=2.3"} )
+void set_001_issue_76 (MavenExecutionResult result) {
+    assertThat( result ).isSuccessful();
+        .project().hasModule( "xx" ).hasPom().
+          .hasPom().withVersion("2.3")
+                   .hasDependencies().with;
+
+}
+
+----
+
+
+
 
 === Setup Projects
 We have in general three different scenarios.
