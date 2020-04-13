@@ -19,8 +19,12 @@ package org.apache.maven.jupiter.maven;
  * under the License.
  */
 
-import java.util.StringJoiner;
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
+import java.util.StringJoiner;
+import org.apiguardian.api.API;
+
+@API(status = EXPERIMENTAL, since = "0.1.0")
 public class MavenExecutor {
 
   private String executorName;

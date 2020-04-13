@@ -19,11 +19,16 @@ package org.apache.maven.jupiter.extension;
  * under the License.
  */
 
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+
+import org.apiguardian.api.API;
+
 /**
  * The different command line options which are supported by Apache Maven.
  *
  * @author Karl Heinz Marbaise
  */
+@API(status = EXPERIMENTAL, since = "0.1.0")
 public final class MavenOptions {
 
   /**

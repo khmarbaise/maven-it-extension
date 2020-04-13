@@ -19,6 +19,8 @@ package org.apache.maven.jupiter.maven;
  * under the License.
  */
 
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -26,11 +28,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.apiguardian.api.API;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 /**
  * @author Karl Heinz Marbaise
  */
+@API(status = EXPERIMENTAL, since = "0.1.0")
 public final class ProjectHelper {
 
   private ProjectHelper() {

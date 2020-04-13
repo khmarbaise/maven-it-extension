@@ -18,15 +18,20 @@
 = Maven Integration Testing Users Guide
 :author: Karl Heinz Marbaise
 :email: khmarbaise@apache.org
+:version-label:0.1.0
 :sectnums:
 :toc:
 
 :junit-jupiter: https://junit.org/junit5/[JUnit Jupiter]
-
+:junit-jupiter-user-guide: https://junit.org/junit5/docs/current/user-guide/[JUnit Jupiter User Guide]
 :maven-invoker-plugin: https://maven.apache.org/plugins/maven-invoker-plugin[Maven Invoker Plugin]
 :maven-plugins: https://maven.apache.org/plugins/[Maven Plugins]
 :maven-failsafe-plugin: https://maven.apache.org/surefire/maven-failsafe-plugin/[Maven Failsafe Plugin]
 :mock-repository-manager: https://www.mojohaus.org/mrm/index.html[Mock Repository Manager]
+
+== Status
+
+The current status of this extension is experimental while some people call it Proof of Concept (PoC).
 
 == Overview
 
@@ -34,28 +39,20 @@ The idea of integration tests für Maven Plugins, Maven Extensions, Maven Core i
 functionality the way it has been defined independent of refactoring code or improving
 functionality.
 
-This {junit-jupiter-extension} will give exactly that in a very convenient way. JUnit Jupiter
-already gives a lot of support in writing unit- and integration tests.
-This support is given by opportunities in running tests based on conditions
-or to enable or disable particular tests.
-
-This integration test framework is an extension for {junit-jupiter}. The usage of JUnit Jupiter
+This maven integration test framework is an extension for {junit-jupiter}. The usage of JUnit Jupiter
 already gives a lot of support for things which are very useful while writing unit- and integration
 tests. The idea of testing is to express the requirements in code. Those are in other words
 the tests which should be written.
 
-== Status
+If you are not familiar with JUnit Jupiter I strongly recommend reading the
+{junit-jupiter-user-guide} first.
 
-The current status of this extension is experimental while some people call it Proof of Concept (PoC).
-
-== Overview
 The expressiveness of tests is a very important part of writing integration tests or
 test in general. If a test is not easy to understand it is very likely not being written.
 
 Let us take a look into the following test code example which gives you an impression how an integration
 test for a {maven-plugins}/Maven Extensions/Maven-Core should look like:
 
-//FIXME: There are several details which are not yet clear how to solve them?
 [source,java]
 ----
 package org.it;
@@ -80,19 +77,18 @@ class FirstMavenIT {
 <2> The Maven Test annotation.
 <3> The result of the execution is injected into the test method (details in Chapter link:[Needs to be written])
 <4> The above used assertions like `assertThat(..)` are custom assertions which will be explained in
-later chapters
-
-
-
+later chapter.
 
 //FIXME: link to chapter for assertions.
 
+
+<<<
 == Structuring Integration Tests
 
 === A Single Test Case
 The location of an integration test defaults to `src/test/java/<package>/FirstMavenIT.java`.
-The selected naming schema like `<any>IT.java` implies that it will be executed by {maven-failsafe-plugin}
-by convention. This will lead us in a directory structure as follows:
+The selected naming schema like `<any>IT.java` implies that it will be executed by the
+{maven-failsafe-plugin} by convention. This will lead us in a directory structure as follows:
 [source]
 ----
 .
@@ -178,7 +174,7 @@ has it's own local repository (aka local cache) `.m2/repository`. Furthermore yo
 project is built within the `project` directory. This gives you a view of the built project as you
 did on plain command line and take a look into it. The output of the build is written into
 `mvn-stdout.log` (stdout) and the output to stderr is written to `mvn-stderr.log`. The used
-command line parameters to call Maven is put into `mvn-arguments.log`.
+command line parameters to call Maven are put into `mvn-arguments.log`.
 
 //TODO: Define `other logs` ? environment output, command line parameters ?
 //FIXME: Needs to be implemented
@@ -279,7 +275,9 @@ in the `mvn-stderr.log`. In the `project` directory you will find the usual `tar
 which contains the Maven output which might be interesting as well. Furthermore the
 local cache (aka maven repository) is available separately for each test case and can be found
 in the `.m2/repository` directory.
+
 <<<
+
 == Goals, Properties and Command Line Options
 
 === Goals
@@ -604,27 +602,35 @@ on that project. Such a use case looks like this:
 @MavenIT
 class SetIT
 {
-    private static final String VERSIONS_PLUGIN = "${project.groupId}:${project.artifactId}:${project.version}";
+    private static final String VERSIONS_PLUGIN =
+      "${project.groupId}:${project.artifactId}:${project.version}";
 
     @Nested
     @MavenProject
     @TestMethodOrder( OrderAnnotation.class )
-    @DisplayName( "Test case related to https://github.com/mojohaus/versions-maven-plugin/issues/83" )
     class set_001
     {
 
-        @MavenTest( options = MavenOptions.NON_RECURSIVE, goals = {VERSIONS_PLUGIN + ":set"},
-                    systemProperties = {"newVersion=2.0"} )
+        @MavenTest(
+            options = MavenOptions.NON_RECURSIVE,
+            goals = {VERSIONS_PLUGIN + ":set"},
+            systemProperties = {"newVersion=2.0"} )
         @Order(10)
-        void first( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+        void first( MavenExecutionResult result )
         {
             assertThat( result ).isSuccessful();
         }
 
-        @MavenTest( options = MavenOptions.NON_RECURSIVE, goals = {VERSIONS_PLUGIN + ":set"},
-                    systemProperties = {"newVersion=2.0", "groupId=*", "artifactId=*", "oldVersion=*"} )
+        @MavenTest(
+            options = MavenOptions.NON_RECURSIVE,
+            goals = {VERSIONS_PLUGIN + ":set"},
+            systemProperties = {
+                "newVersion=2.0",
+                "groupId=*",
+                "artifactId=*",
+                "oldVersion=*"} )
         @Order(20)
-        void second( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+        void second( MavenExecutionResult result)
         {
             assertThat( result ).isSuccessful();
         }
@@ -799,6 +805,9 @@ class CompareDependenciesIT
     }
 }
 ----
+
+== Configuration in Maven
+
 
 
 == BACKUP AREA

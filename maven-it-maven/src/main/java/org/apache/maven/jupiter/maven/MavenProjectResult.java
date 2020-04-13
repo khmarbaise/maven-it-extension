@@ -19,12 +19,16 @@ package org.apache.maven.jupiter.maven;
  * under the License.
  */
 
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+
 import java.io.File;
 import org.apache.maven.model.Model;
+import org.apiguardian.api.API;
 
 /**
  * @author Karl Heinz Marbaise
  */
+@API(status = EXPERIMENTAL, since = "0.1.0")
 public class MavenProjectResult {
 
   private final File baseDir;
