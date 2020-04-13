@@ -41,8 +41,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
+
 import org.apache.commons.io.FileUtils;
-import org.apache.maven.jupiter.extension.utils.DirectoryHelper;
 import org.apache.maven.jupiter.maven.MavenCacheResult;
 import org.apache.maven.jupiter.maven.MavenExecutionResult;
 import org.apache.maven.jupiter.maven.MavenExecutionResult.ExecutionResult;

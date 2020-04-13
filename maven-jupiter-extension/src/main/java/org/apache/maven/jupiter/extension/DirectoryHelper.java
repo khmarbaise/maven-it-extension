@@ -1,4 +1,4 @@
-package org.apache.maven.jupiter.extension.utils;
+package org.apache.maven.jupiter.extension;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

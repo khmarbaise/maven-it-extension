@@ -22,7 +22,7 @@ package org.apache.maven.jupiter.extension;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Optional;
-import org.apache.maven.jupiter.extension.utils.DirectoryHelper;
+
 import org.junit.jupiter.api.extension.ExtensionContext;
 
 /**
