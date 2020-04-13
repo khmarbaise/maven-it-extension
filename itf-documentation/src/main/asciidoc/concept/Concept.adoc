@@ -1137,6 +1137,84 @@ class UpdateChildModuleIT {
 }
 ----
 
+
+==== Test Case set_001_issue_76
+
+The test case checks the content of the `pom.xml` within the `project` directory
+for particular content.
+
+[source,groovy]
+.verify.groovy
+----
+boolean test()
+{
+    result = true;
+    try
+    {
+        parentPomFile = new File( basedir, "pom.xml" );
+        pomReader = new MavenXpp3Reader();
+        pomModel = pomReader.read( new InputStreamReader( new FileInputStream( parentPomFile ) ) );
+   
+        result = result && verifyThatDependencyHasNotBeenChanged( pomModel.getDependencies() );
+        result = result && verifyThatTheProjectVerisonHasBeenChanged( pomModel );
+
+    }
+    catch( Throwable t )
+    {
+        t.printStackTrace();
+        return false;
+    }
+    
+    return result;
+}
+
+
+// == Support functions ===
+boolean verifyThatTheProjectVerisonHasBeenChanged( model ) {
+
+      if ( !"2.3".equals(model.getVersion()) )
+      {
+          System.err.println("Model version not been changed " + model.getId() );
+          return false;
+      }
+    return true;
+}
+
+boolean verifyThatDependencyHasNotBeenChanged( dependencies ) {
+
+      Dependency dep = dependencies.get(0)
+      if ( !"2.2".equals(dep.getVersion()) )
+      {
+          System.err.println("Dependency has been changed " + dep.getId() );
+          return false;
+      }
+    return true;
+}
+
+return test();
+
+----
+
+The test case with framework support looks like this.
+Currently the support for the assertions done on the result are not very convenient.
+
+[source,java]
+.SetIT.java
+----
+@MavenTest( goals = {VERSIONS_PLUGIN + ":set"}, systemProperties = {"newVersion=2.3"} )
+void set_001_issue_76 (MavenExecutionResult result) {
+    assertThat( result ).isSuccessful()
+        .project()
+          .hasPom()
+            .withVersion("2.3")
+            .hasDependencies().with;
+
+}
+
+----
+
+
+
 == Open Things
 
 .Things which currently not working or net yet tested/thought about
