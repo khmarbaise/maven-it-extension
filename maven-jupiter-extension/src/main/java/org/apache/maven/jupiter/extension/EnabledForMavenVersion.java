@@ -62,7 +62,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@ExtendWith(DisabledForMavenVersionCondition.class)
+@ExtendWith(EnabledForMavenVersionCondition.class)
 @API(status = EXPERIMENTAL, since = "0.1.0")
 public @interface EnabledForMavenVersion {
 
