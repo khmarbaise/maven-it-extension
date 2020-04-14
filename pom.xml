@@ -44,6 +44,13 @@
     <tag>HEAD</tag>
   </scm>
 
+  <distributionManagement>
+    <repository>
+      <id>github-maven-it-extension</id>
+      <name>GitHub khmarbaise Maven IT Extension</name>
+      <url>https://maven.pkg.github.com/khmarbaise/maven-it-extension</url>
+    </repository>
+  </distributionManagement>
   <properties>
     <mockito.version>3.3.0</mockito.version>
     <maven.compiler.source>8</maven.compiler.source>
