@@ -77,7 +77,10 @@ class FirstMavenIT {
 <1> The Maven Integration test annotation
 <2> The Maven Test annotation.
 <3> The result of the execution is injected into the test method (details in Chapter link:[Needs to be written])
-<4> The above used assertions like `assertThat(..)` are custom assertions which will be explained in
+<4> The above used assertions like `assertThat(..)` are custom assertions which will be
+explained in link:_assertions[Assertions].
+
+
 later chapter.
 
 //FIXME: link to chapter for assertions.
@@ -338,6 +341,12 @@ void test_case(MavenExecutionResult result) {
 }
 ----
 
+The equivalent on command line would be:
+[source,bash]
+----
+mvn ${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies site:stage install
+----
+
 === SystemProperties
 
 There are situations where you need to use system properties which are usually defined on command like this:
@@ -375,13 +384,25 @@ class CompareDependenciesIT
 ----
 
 === Command Line Options
-In different scenarios it is needed to define command line options like `--non-recursive` etc. This can be
-done by using the `options` part of `@MavenTest`. There is a convenience class `MavenOptions` available
-which contains all existing command line options. You are not forced to use the `MavenOptions` class.
+In different scenarios it is needed to define command line options for example `--non-recursive` etc.
+This can be done by using the `options` part of `@MavenTest`. There is a convenience class
+`MavenOptions` available which contains all existing command line options. You are not forced to
+use the `MavenOptions` class.
 
 [source,java]
 ----
 @MavenTest( options = {MavenOptions.NON_RECURSIVE, "--offline"},
+            goals = {"${project.groupId}:${project.artifactId}:${project.version}:set"},
+            systemProperties = {"newVersion=2.0"} )
+void first( MavenExecutionResult result )
+{
+    assertThat( result ).isSuccessful();
+}
+----
+This gives you the choice to decide to use `MavenOptions` or not:
+[source,java]
+----
+@MavenTest( options = {"-N", "--offline"},
             goals = {"${project.groupId}:${project.artifactId}:${project.version}:set"},
             systemProperties = {"newVersion=2.0"} )
 void first( MavenExecutionResult result )
@@ -466,8 +487,9 @@ After test execution the resulting directory tree looks like this:
 In all previous test case examples the maven cache (aka maven repository)
 is created separately for each of the test cases (*test methods*). There are times
 where you need to have a common cache (aka maven repository) for two or more test
-cases together. This can be achieved easily via the `@MavenRepository` annotation
-(based on the usage of this annotation the parallelizing is automatically deactivated).
+cases together. This can be achieved easily via the `@MavenRepository`
+annotation.footnote:[Base on the usage of this annotation the parallelizing is automatically deactivated
+cause Maven has never been designed to make a parallel access to the maven cache possible.]
 The usage looks like the following:
 
 [source,java]
@@ -522,8 +544,12 @@ After test execution the resulting directory tree looks like this:
                        ├── mvn-stderr.log
                        └── other logs
 ----
-The usage of `@MavenRepository` is also possible in combination with `@Nested` which could look like
-this:
+There you see that the `.m2/` directory (maven local cache) is directly located
+under the `MavenITWithGlobalMavenCacheIT` directory which is the equivalent of the
+`MavenITWithGlobalMavenCacheIT` class.
+
+The usage of `@MavenRepository` is also possible in combination with `@Nested` annotation which
+will look like this:
 
 [source,java]
 .MavenIntegrationGroupingIT.java
@@ -767,8 +793,10 @@ class FirstMavenIT {
 }
 ----
 
+[#_assertions]
 == Assertions
 
+[#_overview]
 === Overview
 Let us take a look into a simple integration test. We would like to concentrate on the assertion part.
 [source,java]
