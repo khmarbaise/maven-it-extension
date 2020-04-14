@@ -939,7 +939,8 @@ class CompareDependenciesIT
 
 == Configuration in Maven
 
-You have decided to use this tool this means you have to build it on your own.
+You have decided to use this tool to test your plugin/extension etc. this means you have to build
+it on your own.
 
 NOTE: Currently it is not published to Central repository.
 
@@ -949,13 +950,55 @@ NOTE: Currently it is not published to Central repository.
 
 You have to call the following command line to built it:
 [source,bash]
-.filename.sh
 ----
 mvn clean install -DskipTests -Drat.ignoreErrors=true -Dcheckstyle.skip=true
 ----
 
+If you like to know how a start point looks like you can take a look
+into the https://github.com/khmarbaise/maven-it-extension/tree/master/it-examples[`it-examples`]
+project which shows the current configuration you need to do.
 
+The first part are the dependencies you need to add to your project.
+The `${project.version}` has to be replaced with the current version
+of the compiled project currently: `0.1.0-SNAPSHOT`. The `assertj-core` dependency is there cause
+I have used for development and currently nothing else is supported(see `maven-it-assertj`).
 
+//FIXME: Restructuring the document into sub parts.
+[source,xml]
+----
+include::it-examples/pom.xml[tag=dependencies]
+----
+
+Further more you have to copy the `src/test/resources-its` directory including
+filtering. You need to be careful which delimiter you have chosen. So you might
+need to tweak your configuration based on your choices.
+[source,xml]
+----
+include::it-examples/pom.xml[tag=resources]
+----
+
+The next thing is you have to configure `maven-invoker-plugin` with the `install` goal
+like this:
+[source,xml]
+----
+include::it-examples/pom.xml[tag=invoker]
+----
+Finally you have to add a configuration for {maven-failsafe-plugin} like the following:
+
+[source,xml]
+----
+include::it-examples/pom.xml[tag=failsafe]
+----
+The two properties given `maven.version` transfers the version of Maven which is used
+to the maven integration extension and the `maven.home` transfer the information
+of where to find the current Maven installation. This is needed to start
+the Maven process from within the integration tests.
+
+The usage of {maven-failsafe-plugin} implies the naming convention for the integration
+tests like `*IT.java` but of course you can change that by using the appropriate configuration.
+
+NOTE: The whole given configuration should be replaced by separate maven plugin later. This
+is currently not available, but I'm prototyping that already.
 
 == BACKUP AREA
 

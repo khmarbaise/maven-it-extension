@@ -1077,11 +1077,12 @@ extension and somehow configure that for the test cases?
 
 == Ideas
 
-If we change the code of a plugin within the IDE the Integration test will not test
+* If we change the code of a plugin within the IDE the Integration test will not test
 against the changed code only against the latest built jar files.
 The IDE compiles the changes code into `target/classes`... something about the classpath?
 
-Tricky idea:
+* Tricky idea:
 If we start an integration test we could check if the class files are newer than the created jar
 file and build via `mvn package` the project under test and copy them into the appropriate
 directories and then run the test as usual.
+
