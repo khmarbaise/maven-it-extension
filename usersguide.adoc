@@ -769,7 +769,8 @@ class FirstMavenIT {
 
 == Assertions
 
-Let us look into a simple integration test. We would like to concentrate on the assertion part.
+=== Overview
+Let us take a look into a simple integration test. We would like to concentrate on the assertion part.
 [source,java]
 ----
 @MavenIT
@@ -799,10 +800,9 @@ After the test has run the resulting directory structure looks like this:
                        ├── mvn-stderr.log
                        └── other logs
 ----
-So now lets focus on the assertions which are written in the test. In each integration
-test you should let inject `MavenExecutionResult result` cause that gives you the opportunity
-to write assertion on the result of the maven execution or what has written into the resulting
-structure.
+In each integration test you should let inject `MavenExecutionResult result` as a parameter of your
+test case method cause that gives you the opportunity to write assertion on the result of the maven
+execution or what has written into the resulting structure.
 
 Let us start with two general assertions:
 
@@ -824,21 +824,25 @@ names which can be used in your assertions like the following:
 // FIXME: * `assertThat(result).stderr()..' will result into the access of the `mvn-stderr.log` file.
 
 So next will be to check that a file in the `target` directory has been created during a test and
-should contain a defined content. How should that be expressed. The following gives you an example
-how to do that:
+should contain the required content. How should that be expressed? The following gives you an example
+how you can achieve that:
 [source,java]
-.filename.java
 ----
 assertThat( result ).isSuccessful()
   .project()
   .hasTarget()
-  .withFile( "depDiffs.txt" )
-  .hasContent( String.join( "\n", "The following differences were found:", "", "  none", "",
-    "The following property differences were found:", "", "  none" ) );
+    .withFile( "depDiffs.txt" )
+      .hasContent( String.join( "\n",
+          "The following differences were found:",
+          "",
+          "  none", "",
+          "The following property differences were found:",
+          "",
+          "  none" ) );
 ----
-The first check `.isSuccessful()` checks if the build was fine than we go into `project` directory
-and with `withTarget()` we check the existence of the `target` directory as well as going into
-that directory. And finally we append `withFile(...)` which defines which file and redirects to
+The first part `.isSuccessful()` checks that the build has gone fine than we go into `project`
+directory and via `withTarget()` we check the existence of the `target` directory as well as going
+into that directory. Finally we append `withFile(...)` which selects which file and redirects to
 the `AbstractFileAssert<?>` of AssertJ which gives you the choice to check the content of the file
 as you like.
 
@@ -849,9 +853,6 @@ assertThat(project).hasTarget()
     .containsOnlyOnce("META-INF/application.xml", "META-INF/appserver-application.xml");
 
 ----
-
-
-
 
 
 === Expressing Assertions
