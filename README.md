@@ -35,6 +35,9 @@
 * The Background Guide (More detailed why this framework exists.)
   * [![HTML](https://img.shields.io/badge/HTML-background-green)][background-html]
 
+* Release 0.1.0 is available via GitHub Packages:
+  * https://maven.pkg.github.com/khmarbaise/maven-it-extension
+
 # General Overview
 The basic thing about integration testing of Maven Plugins / Maven Extensions etc. 
 is currently that the existing solutions are not a very concise and comprehensive solutions which
