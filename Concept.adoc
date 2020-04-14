@@ -1086,3 +1086,26 @@ If we start an integration test we could check if the class files are newer than
 file and build via `mvn package` the project under test and copy them into the appropriate
 directories and then run the test as usual.
 
+* Assertion Idea
+[source,java]
+----
+    assertThat(result)
+      .project()
+        .hasTarget()
+          .withEarFile()
+            .containsOnlyOnce("META-INF/MANIFEST.MF");
+
+    assertThat(result)
+      .project()
+        .log()
+          .info().contains("Writing data to file");
+
+    assertThat(result)
+      .cache()
+          .hasEarFile("G:A:V")
+          .hasPomFile("G:A:V")
+          .hasMetadata("G:A")
+            .contains("xxx");
+----
+
+

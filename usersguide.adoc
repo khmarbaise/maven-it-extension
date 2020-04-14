@@ -34,13 +34,13 @@
 
 The current status of this extension is experimental while some people call it Proof of Concept (PoC).
 
-
 == About this Guide
 
 This guide represents the current state of development and things which work (or more accurate: **should work**).
 If you find things which do not work as described here or even don't work please don't hesitate
 to https://github.com/khmarbaise/maven-it-extension/issues[create an appropriate issue] and describe
-what does not work or does not work as described or maybe not work as you might expect it to work.
+what does not work or does not work at all as described or maybe does not work as you might expect
+it to work.
 
 WARNING: This guide is of course not a guarantee that it works cause the project is in a very
 early stage. We don't even have a formal first public release in Central repository.
@@ -89,13 +89,10 @@ class FirstMavenIT {
 <2> The Maven Test annotation.
 <3> The result of the execution is injected into the test method (details in Chapter link:[Needs to be written])
 <4> The above used assertions like `assertThat(..)` are custom assertions which will be
-explained in link:_assertions[Assertions].
+explained in link:#_assertions[Assertions chapter].
 
-
-later chapter.
 
 //FIXME: link to chapter for assertions.
-
 
 <<<
 == Structuring Integration Tests
@@ -951,8 +948,95 @@ NOTE: Currently it is not published to Central repository.
 You have to call the following command line to built it:
 [source,bash]
 ----
-mvn clean install -DskipTests -Drat.ignoreErrors=true -Dcheckstyle.skip=true
+mvn clean install -Drat.ignoreErrors=true -Dcheckstyle.skip=true
 ----
+This will run the whole build including the execution of the integration
+test in the `it-examples` modules. This can take a while and should produce an output similar like
+this:
+
+[source]
+----
+[INFO]
+[INFO] --- maven-failsafe-plugin:3.0.0-M4:integration-test (default) @ it-examples ---
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.apache.maven.it.MavenProjectIT
+[INFO] Running org.apache.maven.it.EARIT
+[INFO] Running org.apache.maven.it.MavenIntegrationExampleNestedWithoutNoneNestedTestGlobalRepoIT
+[INFO] Running org.apache.maven.it.MavenIntegrationIT
+[INFO] Running org.apache.maven.it.ITWithBeforeEachIT
+[INFO] Running org.apache.maven.it.MavenIntegrationExampleNestedIT
+[INFO] Running org.apache.maven.it.MavenIntegrationExampleNestedIT$NestedExample
+[INFO] Running org.apache.maven.it.MavenIntegrationExampleNestedWithoutNoneNestedTestGlobalRepoIT$NestedExample
+[INFO] Running org.apache.maven.it.MavenProjectIT$NestedExample
+* beforeEach of ITWithBeforeEachIT
+(basic) result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=org.apache.maven.jupiter.maven.MavenLog@527cc5b5, mavenProjectResult=org.apache.maven.jupiter.maven.MavenProjectResult@1d4ee4b5, mavenCacheResult=org.apache.maven.jupiter.maven.MavenCacheResult@32af542e]
+result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=org.apache.maven.jupiter.maven.MavenLog@2297613c, mavenProjectResult=org.apache.maven.jupiter.maven.MavenProjectResult@170591ab, mavenCacheResult=org.apache.maven.jupiter.maven.MavenCacheResult@3a2e59f5]
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.154 s - in org.apache.maven.it.ITWithBeforeEachIT
+[INFO] Running org.apache.maven.it.ITWithBeforeEachMavenIT
+* beforeEach of ITWithBeforeEachIT
+(packaging_includes) result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=org.apache.maven.jupiter.maven.MavenLog@3dec45bb, mavenProjectResult=org.apache.maven.jupiter.maven.MavenProjectResult@6273e4cd, mavenCacheResult=org.apache.maven.jupiter.maven.MavenCacheResult@15c71c77]
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.803 s - in org.apache.maven.it.MavenProjectIT$NestedExample
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 15.812 s - in org.apache.maven.it.MavenIntegrationExampleNestedWithoutNoneNestedTestGlobalRepoIT$NestedExample
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 15.827 s - in org.apache.maven.it.MavenIntegrationExampleNestedWithoutNoneNestedTestGlobalRepoIT
+[INFO] Running org.apache.maven.it.OptionsIT
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 19.271 s - in org.apache.maven.it.MavenIntegrationExampleNestedIT$NestedExample
+result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=org.apache.maven.jupiter.maven.MavenLog@72cdd5a6, mavenProjectResult=org.apache.maven.jupiter.maven.MavenProjectResult@f4722a9, mavenCacheResult=org.apache.maven.jupiter.maven.MavenCacheResult@7a584e6c]
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.195 s - in org.apache.maven.it.ITWithBeforeEachMavenIT
+[WARNING] Tests run: 4, Failures: 0, Errors: 0, Skipped: 3, Time elapsed: 25.138 s - in org.apache.maven.it.MavenProjectIT
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.834 s - in org.apache.maven.it.OptionsIT
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 29.786 s - in org.apache.maven.it.MavenIntegrationExampleNestedIT
+MavenIntegrationIT.first_integration_test rc:0
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 38.138 s - in org.apache.maven.it.MavenIntegrationIT
+[INFO] Running org.apache.maven.it.MavenProjectRootIT
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 38.787 s - in org.apache.maven.it.EARIT
+(basic) result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=org.apache.maven.jupiter.maven.MavenLog@3a9efdc0, mavenProjectResult=org.apache.maven.jupiter.maven.MavenProjectResult@60d533db, mavenCacheResult=org.apache.maven.jupiter.maven.MavenCacheResult@4f37c2ba]
+(packaging_includes) result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=org.apache.maven.jupiter.maven.MavenLog@5ffaad4b, mavenProjectResult=org.apache.maven.jupiter.maven.MavenProjectResult@12473b89, mavenCacheResult=org.apache.maven.jupiter.maven.MavenCacheResult@5bc599f1]
+(basic) result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=org.apache.maven.jupiter.maven.MavenLog@2a96b221, mavenProjectResult=org.apache.maven.jupiter.maven.MavenProjectResult@200cc2cd, mavenCacheResult=org.apache.maven.jupiter.maven.MavenCacheResult@bbc3e36]
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.454 s - in org.apache.maven.it.MavenProjectRootIT
+[INFO] Running org.apache.maven.it.MavenIntegrationExampleNestedGlobalRepoIT
+beforeEachOne: result = null
+beforeEachOne: MavenIntegrationExampleNestedGlobalRepoIT.beforeEach
+beforeEachTwo: result = null
+beforeEachTwo: MavenIntegrationExampleNestedGlobalRepoIT.beforeEach
+[INFO] Running org.apache.maven.it.MavenIntegrationExampleNestedGlobalRepoIT$NestedExample
+beforeEachOne: result = null
+beforeEachOne: MavenIntegrationExampleNestedGlobalRepoIT.beforeEach
+beforeEachTwo: result = null
+beforeEachTwo: MavenIntegrationExampleNestedGlobalRepoIT.beforeEach
+beforeEachOne: result = null
+beforeEachOne: MavenIntegrationExampleNestedGlobalRepoIT.beforeEach
+beforeEachTwo: result = null
+beforeEachTwo: MavenIntegrationExampleNestedGlobalRepoIT.beforeEach
+[WARNING] Tests run: 4, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 3.517 s - in org.apache.maven.it.MavenIntegrationExampleNestedGlobalRepoIT$NestedExample
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.155 s - in org.apache.maven.it.MavenIntegrationExampleNestedGlobalRepoIT
+[INFO]
+[INFO] Results:
+[INFO]
+[WARNING] Tests run: 31, Failures: 0, Errors: 0, Skipped: 4
+[INFO]
+[INFO]
+[INFO] --- maven-checkstyle-plugin:3.0.0:check (checkstyle-check) @ it-examples ---
+[INFO]
+[INFO] --- maven-failsafe-plugin:3.0.0-M4:verify (default) @ it-examples ---
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for maven-it-extension 0.1.0-SNAPSHOT:
+[INFO]
+[INFO] maven-it-extension ................................. SUCCESS [  1.789 s]
+[INFO] maven-executor ..................................... SUCCESS [  0.458 s]
+[INFO] maven-it-plugin .................................... SUCCESS [  0.089 s]
+[INFO] maven-it-maven ..................................... SUCCESS [  0.695 s]
+[INFO] maven-jupiter-extension ............................ SUCCESS [  3.662 s]
+[INFO] maven-it-assertj ................................... SUCCESS [  1.152 s]
+[INFO] it-examples ........................................ SUCCESS [ 55.565 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+----
+
+
 
 If you like to know how a start point looks like you can take a look
 into the https://github.com/khmarbaise/maven-it-extension/tree/master/it-examples[`it-examples`]
@@ -979,6 +1063,7 @@ include::it-examples/pom.xml[tag=resources]
 
 The next thing is you have to configure `maven-invoker-plugin` with the `install` goal
 like this:
+
 [source,xml]
 ----
 include::it-examples/pom.xml[tag=invoker]
@@ -999,29 +1084,4 @@ tests like `*IT.java` but of course you can change that by using the appropriate
 
 NOTE: The whole given configuration should be replaced by separate maven plugin later. This
 is currently not available, but I'm prototyping that already.
-
-== BACKUP AREA
-
-[source,java]
-.filename.java
-----
-    assertThat(result)
-      .project()
-        .hasTarget()
-          .withEarFile()
-            .containsOnlyOnce("META-INF/MANIFEST.MF");
-
-    assertThat(result)
-      .project()
-        .log()
-          .info().contains("Writing data to file");
-
-    assertThat(result)
-      .cache()
-          .hasEarFile("G:A:V")
-          .hasPomFile("G:A:V")
-          .hasMetadata("G:A")
-            .contains("xxx");
-----
-
 

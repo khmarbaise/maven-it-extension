@@ -110,7 +110,7 @@
             <goals>
               <goal>install</goal>
             </goals>
-            <configuration combine.children="override">
+            <configuration>
               <localRepositoryPath>${project.build.directory}/invoker-repo</localRepositoryPath>
             </configuration>
           </execution>
