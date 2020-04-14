@@ -18,7 +18,7 @@
 = Maven Integration Testing Users Guide
 :author: Karl Heinz Marbaise
 :email: khmarbaise@apache.org
-:version-label:0.1.0
+:revnumber: 0.1.0
 :sectnums:
 :toc:
 
@@ -33,6 +33,17 @@
 == Status
 
 The current status of this extension is experimental while some people call it Proof of Concept (PoC).
+
+
+== About this Guide
+
+This guide represents the current state of development and things which work (or more accurate: **should work**).
+If you find things which do not work as described here or even don't work please don't hesitate
+to https://github.com/khmarbaise/maven-it-extension/issues[create an appropriate issue] and describe
+what does not work or does not work as described or maybe not work as you might expect it to work.
+
+WARNING: This guide is of course not a guarantee that it works cause the project is in a very
+early stage. We don't even have a formal first public release in Central repository.
 
 == Overview
 
@@ -901,21 +912,48 @@ import static org.apache.maven.assertj.MavenITAssertions.assertThat;
 @MavenIT
 class CompareDependenciesIT
 {
-    @MavenTest( goals = {"${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies"},
-                systemProperties = {"remotePom=localhost:dummy-bom-pom:1.0", "reportOutputFile=target/depDiffs.txt"} )
-    void it_compare_dependencies_001( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+    @MavenTest(
+      goals =
+        {"${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies"},
+      systemProperties = {
+          "remotePom=localhost:dummy-bom-pom:1.0",
+          "reportOutputFile=target/depDiffs.txt"
+      } )
+    void it_compare_dependencies_001( MavenExecutionResult result )
     {
         assertThat( result ).isSuccessful()
           .project()
           .hasTarget()
           .withFile( "depDiffs.txt" )
-          .hasContent( String.join( "\n", "The following differences were found:", "", "  none", "",
-            "The following property differences were found:", "", "  none" ) );
+          .hasContent( String.join( "\n",
+            "The following differences were found:",
+            "",
+            "  none",
+            "",
+            "The following property differences were found:",
+            "",
+            "  none" ) );
     }
 }
 ----
 
 == Configuration in Maven
+
+You have decided to use this tool this means you have to build it on your own.
+
+NOTE: Currently it is not published to Central repository.
+
+.Prerequisites
+- JDK 8+ must be installed
+- https://maven.apache.org/[Apache Maven 3.6.3]
+
+You have to call the following command line to built it:
+[source,bash]
+.filename.sh
+----
+mvn clean install -DskipTests -Drat.ignoreErrors=true -Dcheckstyle.skip=true
+----
+
 
 
 

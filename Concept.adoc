@@ -15,7 +15,7 @@
 //   specific language governing permissions and limitations
 //   under the License.
 //
-= Maven Plugin Integration Testing
+= Maven Plugin Integration Testing Concept Guide
 :author: Karl Heinz Marbaise
 :email: khmarbaise@apache.org
 :revnumber: 0.1.0
@@ -29,6 +29,20 @@
 :mock-repository-manager: https://www.mojohaus.org/mrm/index.html[Mock Repository Manager]
 
 :versions-maven-plugin: https://github.com/mojohaus/versions-maven-plugin
+
+== What is this?
+
+This is a concept guide for me as a developer to write down ideas and conceptional
+things about the Maven Integration Testing framework.
+
+* How I think things could be done from a user perspective
+* How I might implement things
+* What kind of limitations I think exist or not
+* I taken a deeper look into existing integration tests and check how I could handle that
+with current development or what's needed to target the issues etc.
+
+WARNING: This is neither the status of the development nor something which is implemented. There
+are things which already implemented from this guide but they must not.
 
 == Overview
 The expressiveness of tests is a very important part of writing integration tests or
