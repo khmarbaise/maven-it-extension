@@ -34,7 +34,7 @@
 
   <groupId>org.apache.maven.jupiter.extension</groupId>
   <artifactId>maven-it-extension</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.0</version>
   <packaging>pom</packaging>
 
   <scm>
