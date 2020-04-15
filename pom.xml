@@ -26,14 +26,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.apache.maven</groupId>
-    <artifactId>maven-parent</artifactId>
-    <version>34</version>
+    <groupId>com.soebes.smpp</groupId>
+    <artifactId>smpp</artifactId>
+    <version>4.1.2</version> <!-- need to reconsider -->
     <relativePath/>
   </parent>
 
-  <groupId>org.apache.maven.jupiter.extension</groupId>
-  <artifactId>maven-it-extension</artifactId>
+  <groupId>com.soebes.itf.jupiter.extension</groupId>
+  <artifactId>itf-extension</artifactId>
   <version>0.2.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
@@ -231,29 +231,29 @@
                 </rules>
               </configuration>
             </execution>
-            <execution>
-              <id>enforce-bytecode-version</id>
-              <goals>
-                <goal>enforce</goal>
-              </goals>
-              <configuration combine.children="override">
-                <rules>
-                  <enforceBytecodeVersion>
-                    <maxJdkVersion>${maven.compiler.target}</maxJdkVersion>
-                    <excludes>
-                      <exclude>org.junit.jupiter:junit-jupiter-api</exclude>
-                      <exclude>org.junit.jupiter:junit-jupiter-engine</exclude>
-                      <exclude>org.junit.platform:junit-platform-commons</exclude>
-                      <exclude>org.junit.jupiter:junit-jupiter-params</exclude>
-                      <execlude>org.junit.platform:junit-platform-engine</execlude>
-                      <exclude>org.opentest4j:opentest4j</exclude>
-                      <exclude>org.apiguardian:apiguardian-api</exclude>
-                      <exclude>javax.xml.bind:jaxb-api</exclude>
-                    </excludes>
-                  </enforceBytecodeVersion>
-                </rules>
-              </configuration>
-            </execution>
+<!--            <execution>-->
+<!--              <id>enforce-bytecode-version</id>-->
+<!--              <goals>-->
+<!--                <goal>enforce</goal>-->
+<!--              </goals>-->
+<!--              <configuration combine.children="override">-->
+<!--                <rules>-->
+<!--                  <enforceBytecodeVersion>-->
+<!--                    <maxJdkVersion>${maven.compiler.target}</maxJdkVersion>-->
+<!--                    <excludes>-->
+<!--                      <exclude>org.junit.jupiter:junit-jupiter-api</exclude>-->
+<!--                      <exclude>org.junit.jupiter:junit-jupiter-engine</exclude>-->
+<!--                      <exclude>org.junit.platform:junit-platform-commons</exclude>-->
+<!--                      <exclude>org.junit.jupiter:junit-jupiter-params</exclude>-->
+<!--                      <execlude>org.junit.platform:junit-platform-engine</execlude>-->
+<!--                      <exclude>org.opentest4j:opentest4j</exclude>-->
+<!--                      <exclude>org.apiguardian:apiguardian-api</exclude>-->
+<!--                      <exclude>javax.xml.bind:jaxb-api</exclude>-->
+<!--                    </excludes>-->
+<!--                  </enforceBytecodeVersion>-->
+<!--                </rules>-->
+<!--              </configuration>-->
+<!--            </execution>-->
           </executions>
         </plugin>
       </plugins>
@@ -261,12 +261,12 @@
   </build>
 
   <modules>
-    <module>maven-executor</module>
-    <module>maven-it-plugin</module>
-    <module>maven-jupiter-extension</module>
-    <module>maven-it-assertj</module>
-    <module>maven-it-maven</module>
-    <module>it-examples</module>
+    <module>itf-executor</module>
+    <module>itf-maven-plugin</module>
+    <module>itf-jupiter-extension</module>
+    <module>itf-assertj</module>
+    <module>itf-extension-maven</module>
+    <module>itf-examples</module>
   </modules>
 
 

@@ -15,10 +15,10 @@
 //   specific language governing permissions and limitations
 //   under the License.
 //
-= Maven Integration Testing Users Guide
+= Integration Testing Framework Users Guide
 :author: Karl Heinz Marbaise
 :email: khmarbaise@apache.org
-:revnumber: 0.1.0
+:revnumber: 0.2.0
 :sectnums:
 :toc:
 
@@ -948,60 +948,78 @@ NOTE: Currently it is not published to Central repository.
 You have to call the following command line to built it:
 [source,bash]
 ----
-mvn clean install -Drat.ignoreErrors=true -Dcheckstyle.skip=true
+mvn clean install
 ----
 This will run the whole build including the execution of the integration
-test in the `it-examples` modules. This can take a while and should produce an output similar like
+test in the `itf-examples` modules. This can take a while and should produce an output similar like
 this:
 
 [source]
 ----
 [INFO]
-[INFO] --- maven-failsafe-plugin:3.0.0-M4:integration-test (default) @ it-examples ---
+[INFO] --- maven-jar-plugin:3.1.1:jar (default-jar) @ itf-examples ---
+[WARNING] JAR will be empty - no content was marked for inclusion!
+[INFO] Building jar: /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/itf-examples-0.2.0-SNAPSHOT.jar
+[INFO]
+[INFO] --- maven-site-plugin:3.7.1:attach-descriptor (attach-descriptor) @ itf-examples ---
+[INFO] Skipping because packaging 'jar' is not pom.
+[INFO]
+[INFO] --- maven-invoker-plugin:3.2.1:install (integration-test) @ itf-examples ---
+[INFO] Installing /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-jupiter-extension/pom.xml to /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/invoker-repo/com/soebes/itf/jupiter/extension/itf-jupiter-extension/0.2.0-SNAPSHOT/itf-jupiter-extension-0.2.0-SNAPSHOT.pom
+[INFO] Installing /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-jupiter-extension/target/itf-jupiter-extension-0.2.0-SNAPSHOT.jar to /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/invoker-repo/com/soebes/itf/jupiter/extension/itf-jupiter-extension/0.2.0-SNAPSHOT/itf-jupiter-extension-0.2.0-SNAPSHOT.jar
+[INFO] Installing /Users/khmarbaise/ws-git-apache/maven-it-extension/pom.xml to /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/invoker-repo/com/soebes/itf/jupiter/extension/itf-extension/0.2.0-SNAPSHOT/itf-extension-0.2.0-SNAPSHOT.pom
+[INFO] Installing /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-extension-maven/pom.xml to /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/invoker-repo/com/soebes/itf/jupiter/extension/itf-extension-maven/0.2.0-SNAPSHOT/itf-extension-maven-0.2.0-SNAPSHOT.pom
+[INFO] Installing /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-extension-maven/target/itf-extension-maven-0.2.0-SNAPSHOT.jar to /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/invoker-repo/com/soebes/itf/jupiter/extension/itf-extension-maven/0.2.0-SNAPSHOT/itf-extension-maven-0.2.0-SNAPSHOT.jar
+[INFO] Installing /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-assertj/pom.xml to /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/invoker-repo/com/soebes/itf/jupiter/extension/itf-assertj/0.2.0-SNAPSHOT/itf-assertj-0.2.0-SNAPSHOT.pom
+[INFO] Installing /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-assertj/target/itf-assertj-0.2.0-SNAPSHOT.jar to /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/invoker-repo/com/soebes/itf/jupiter/extension/itf-assertj/0.2.0-SNAPSHOT/itf-assertj-0.2.0-SNAPSHOT.jar
+[INFO] Installing /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/pom.xml to /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/invoker-repo/com/soebes/itf/jupiter/extension/itf-examples/0.2.0-SNAPSHOT/itf-examples-0.2.0-SNAPSHOT.pom
+[INFO] Installing /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/itf-examples-0.2.0-SNAPSHOT.jar to /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/invoker-repo/com/soebes/itf/jupiter/extension/itf-examples/0.2.0-SNAPSHOT/itf-examples-0.2.0-SNAPSHOT.jar
+[INFO]
+[INFO] --- maven-failsafe-plugin:3.0.0-M4:integration-test (default) @ itf-examples ---
 [INFO]
 [INFO] -------------------------------------------------------
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
-[INFO] Running org.apache.maven.it.MavenProjectIT
-[INFO] Running org.apache.maven.it.EARIT
-[INFO] Running org.apache.maven.it.MavenIntegrationExampleNestedWithoutNoneNestedTestGlobalRepoIT
-[INFO] Running org.apache.maven.it.MavenIntegrationIT
-[INFO] Running org.apache.maven.it.ITWithBeforeEachIT
-[INFO] Running org.apache.maven.it.MavenIntegrationExampleNestedIT
-[INFO] Running org.apache.maven.it.MavenIntegrationExampleNestedIT$NestedExample
-[INFO] Running org.apache.maven.it.MavenIntegrationExampleNestedWithoutNoneNestedTestGlobalRepoIT$NestedExample
-[INFO] Running org.apache.maven.it.MavenProjectIT$NestedExample
+[INFO] Running com.soebes.itf.examples.EARIT
+[INFO] Running com.soebes.itf.examples.MavenProjectIT
+[INFO] Running com.soebes.itf.examples.MavenIntegrationExampleNestedIT
+[INFO] Running com.soebes.itf.examples.ITWithBeforeEachIT
+[INFO] Running com.soebes.itf.examples.MavenIntegrationExampleNestedWithoutNoneNestedTestGlobalRepoIT
+[INFO] Running com.soebes.itf.examples.MavenIntegrationIT
+[INFO] Running com.soebes.itf.examples.MavenIntegrationExampleNestedIT$NestedExample
+[INFO] Running com.soebes.itf.examples.MavenIntegrationExampleNestedWithoutNoneNestedTestGlobalRepoIT$NestedExample
+[INFO] Running com.soebes.itf.examples.MavenProjectIT$NestedExample
 * beforeEach of ITWithBeforeEachIT
-(basic) result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=org.apache.maven.jupiter.maven.MavenLog@527cc5b5, mavenProjectResult=org.apache.maven.jupiter.maven.MavenProjectResult@1d4ee4b5, mavenCacheResult=org.apache.maven.jupiter.maven.MavenCacheResult@32af542e]
-result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=org.apache.maven.jupiter.maven.MavenLog@2297613c, mavenProjectResult=org.apache.maven.jupiter.maven.MavenProjectResult@170591ab, mavenCacheResult=org.apache.maven.jupiter.maven.MavenCacheResult@3a2e59f5]
-[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.154 s - in org.apache.maven.it.ITWithBeforeEachIT
-[INFO] Running org.apache.maven.it.ITWithBeforeEachMavenIT
+(basic) result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=com.soebes.itf.jupiter.maven.MavenLog@18b0d71, mavenProjectResult=com.soebes.itf.jupiter.maven.MavenProjectResult@6ba7b73, mavenCacheResult=com.soebes.itf.jupiter.maven.MavenCacheResult@50d1e210]
+result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=com.soebes.itf.jupiter.maven.MavenLog@b045628, mavenProjectResult=com.soebes.itf.jupiter.maven.MavenProjectResult@49ecd06a, mavenCacheResult=com.soebes.itf.jupiter.maven.MavenCacheResult@1994110a]
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.325 s - in com.soebes.itf.examples.ITWithBeforeEachIT
+(packaging_includes) result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=com.soebes.itf.jupiter.maven.MavenLog@464cc2cb, mavenProjectResult=com.soebes.itf.jupiter.maven.MavenProjectResult@459feafd, mavenCacheResult=com.soebes.itf.jupiter.maven.MavenCacheResult@5484e35a]
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 17.442 s - in com.soebes.itf.examples.MavenProjectIT$NestedExample
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 18.279 s - in com.soebes.itf.examples.MavenIntegrationExampleNestedWithoutNoneNestedTestGlobalRepoIT$NestedExample
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 18.297 s - in com.soebes.itf.examples.MavenIntegrationExampleNestedWithoutNoneNestedTestGlobalRepoIT
+[INFO] Running com.soebes.itf.examples.ITWithBeforeEachMavenIT
 * beforeEach of ITWithBeforeEachIT
-(packaging_includes) result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=org.apache.maven.jupiter.maven.MavenLog@3dec45bb, mavenProjectResult=org.apache.maven.jupiter.maven.MavenProjectResult@6273e4cd, mavenCacheResult=org.apache.maven.jupiter.maven.MavenCacheResult@15c71c77]
-[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.803 s - in org.apache.maven.it.MavenProjectIT$NestedExample
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 15.812 s - in org.apache.maven.it.MavenIntegrationExampleNestedWithoutNoneNestedTestGlobalRepoIT$NestedExample
-[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 15.827 s - in org.apache.maven.it.MavenIntegrationExampleNestedWithoutNoneNestedTestGlobalRepoIT
-[INFO] Running org.apache.maven.it.OptionsIT
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 19.271 s - in org.apache.maven.it.MavenIntegrationExampleNestedIT$NestedExample
-result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=org.apache.maven.jupiter.maven.MavenLog@72cdd5a6, mavenProjectResult=org.apache.maven.jupiter.maven.MavenProjectResult@f4722a9, mavenCacheResult=org.apache.maven.jupiter.maven.MavenCacheResult@7a584e6c]
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.195 s - in org.apache.maven.it.ITWithBeforeEachMavenIT
-[WARNING] Tests run: 4, Failures: 0, Errors: 0, Skipped: 3, Time elapsed: 25.138 s - in org.apache.maven.it.MavenProjectIT
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.834 s - in org.apache.maven.it.OptionsIT
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 29.786 s - in org.apache.maven.it.MavenIntegrationExampleNestedIT
+[INFO] Running com.soebes.itf.examples.OptionsIT
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 21.473 s - in com.soebes.itf.examples.MavenIntegrationExampleNestedIT$NestedExample
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 27.352 s - in com.soebes.itf.examples.MavenProjectIT
+result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=com.soebes.itf.jupiter.maven.MavenLog@2cf8d855, mavenProjectResult=com.soebes.itf.jupiter.maven.MavenProjectResult@62d887cc, mavenCacheResult=com.soebes.itf.jupiter.maven.MavenCacheResult@6ee151ef]
+[WARNING] Tests run: 2, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 9.787 s - in com.soebes.itf.examples.ITWithBeforeEachMavenIT
+[WARNING] Tests run: 5, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 31.526 s - in com.soebes.itf.examples.MavenIntegrationExampleNestedIT
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.384 s - in com.soebes.itf.examples.OptionsIT
 MavenIntegrationIT.first_integration_test rc:0
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 38.138 s - in org.apache.maven.it.MavenIntegrationIT
-[INFO] Running org.apache.maven.it.MavenProjectRootIT
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 38.787 s - in org.apache.maven.it.EARIT
-(basic) result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=org.apache.maven.jupiter.maven.MavenLog@3a9efdc0, mavenProjectResult=org.apache.maven.jupiter.maven.MavenProjectResult@60d533db, mavenCacheResult=org.apache.maven.jupiter.maven.MavenCacheResult@4f37c2ba]
-(packaging_includes) result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=org.apache.maven.jupiter.maven.MavenLog@5ffaad4b, mavenProjectResult=org.apache.maven.jupiter.maven.MavenProjectResult@12473b89, mavenCacheResult=org.apache.maven.jupiter.maven.MavenCacheResult@5bc599f1]
-(basic) result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=org.apache.maven.jupiter.maven.MavenLog@2a96b221, mavenProjectResult=org.apache.maven.jupiter.maven.MavenProjectResult@200cc2cd, mavenCacheResult=org.apache.maven.jupiter.maven.MavenCacheResult@bbc3e36]
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.454 s - in org.apache.maven.it.MavenProjectRootIT
-[INFO] Running org.apache.maven.it.MavenIntegrationExampleNestedGlobalRepoIT
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 38.953 s - in com.soebes.itf.examples.MavenIntegrationIT
+[INFO] Running com.soebes.itf.examples.MavenProjectRootIT
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 40.687 s - in com.soebes.itf.examples.EARIT
+(basic) result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=com.soebes.itf.jupiter.maven.MavenLog@64eeb421, mavenProjectResult=com.soebes.itf.jupiter.maven.MavenProjectResult@6e5f8454, mavenCacheResult=com.soebes.itf.jupiter.maven.MavenCacheResult@69c72cf9]
+(packaging_includes) result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=com.soebes.itf.jupiter.maven.MavenLog@7c6516ff, mavenProjectResult=com.soebes.itf.jupiter.maven.MavenProjectResult@6d3bfaee, mavenCacheResult=com.soebes.itf.jupiter.maven.MavenCacheResult@7f54be39]
+(basic) result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=com.soebes.itf.jupiter.maven.MavenLog@2f24e5ce, mavenProjectResult=com.soebes.itf.jupiter.maven.MavenProjectResult@7b22dc3b, mavenCacheResult=com.soebes.itf.jupiter.maven.MavenCacheResult@49fca53b]
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.494 s - in com.soebes.itf.examples.MavenProjectRootIT
+[INFO] Running com.soebes.itf.examples.MavenIntegrationExampleNestedGlobalRepoIT
 beforeEachOne: result = null
 beforeEachOne: MavenIntegrationExampleNestedGlobalRepoIT.beforeEach
 beforeEachTwo: result = null
 beforeEachTwo: MavenIntegrationExampleNestedGlobalRepoIT.beforeEach
-[INFO] Running org.apache.maven.it.MavenIntegrationExampleNestedGlobalRepoIT$NestedExample
+[INFO] Running com.soebes.itf.examples.MavenIntegrationExampleNestedGlobalRepoIT$NestedExample
 beforeEachOne: result = null
 beforeEachOne: MavenIntegrationExampleNestedGlobalRepoIT.beforeEach
 beforeEachTwo: result = null
@@ -1010,32 +1028,35 @@ beforeEachOne: result = null
 beforeEachOne: MavenIntegrationExampleNestedGlobalRepoIT.beforeEach
 beforeEachTwo: result = null
 beforeEachTwo: MavenIntegrationExampleNestedGlobalRepoIT.beforeEach
-[WARNING] Tests run: 4, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 3.517 s - in org.apache.maven.it.MavenIntegrationExampleNestedGlobalRepoIT$NestedExample
-[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.155 s - in org.apache.maven.it.MavenIntegrationExampleNestedGlobalRepoIT
+[WARNING] Tests run: 4, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 3.455 s - in com.soebes.itf.examples.MavenIntegrationExampleNestedGlobalRepoIT$NestedExample
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.401 s - in com.soebes.itf.examples.MavenIntegrationExampleNestedGlobalRepoIT
 [INFO]
 [INFO] Results:
 [INFO]
 [WARNING] Tests run: 31, Failures: 0, Errors: 0, Skipped: 4
 [INFO]
 [INFO]
-[INFO] --- maven-checkstyle-plugin:3.0.0:check (checkstyle-check) @ it-examples ---
+[INFO] --- jacoco-maven-plugin:0.8.4:report (default) @ itf-examples ---
+[INFO] Skipping JaCoCo execution due to missing classes directory.
 [INFO]
-[INFO] --- maven-failsafe-plugin:3.0.0-M4:verify (default) @ it-examples ---
+[INFO] --- maven-failsafe-plugin:3.0.0-M4:verify (default) @ itf-examples ---
 [INFO] ------------------------------------------------------------------------
-[INFO] Reactor Summary for maven-it-extension 0.1.0-SNAPSHOT:
+[INFO] Reactor Summary for itf-extension 0.2.0-SNAPSHOT:
 [INFO]
-[INFO] maven-it-extension ................................. SUCCESS [  1.789 s]
-[INFO] maven-executor ..................................... SUCCESS [  0.458 s]
-[INFO] maven-it-plugin .................................... SUCCESS [  0.089 s]
-[INFO] maven-it-maven ..................................... SUCCESS [  0.695 s]
-[INFO] maven-jupiter-extension ............................ SUCCESS [  3.662 s]
-[INFO] maven-it-assertj ................................... SUCCESS [  1.152 s]
-[INFO] it-examples ........................................ SUCCESS [ 55.565 s]
+[INFO] itf-extension ...................................... SUCCESS [  1.215 s]
+[INFO] itf-executor ....................................... SUCCESS [  0.417 s]
+[INFO] itf-maven-plugin ................................... SUCCESS [  0.023 s]
+[INFO] itf-extension-maven ................................ SUCCESS [  0.448 s]
+[INFO] itf-jupiter-extension .............................. SUCCESS [  4.365 s]
+[INFO] itf-assertj ........................................ SUCCESS [  1.390 s]
+[INFO] itf-examples ....................................... SUCCESS [01:00 min]
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:09 min
+[INFO] Finished at: 2020-04-15T20:53:51+02:00
+[INFO] ------------------------------------------------------------------------
 ----
-
 
 
 If you like to know how a start point looks like you can take a look
@@ -1050,7 +1071,7 @@ I have used for development and currently nothing else is supported(see `maven-i
 //FIXME: Restructuring the document into sub parts.
 [source,xml]
 ----
-include::it-examples/pom.xml[tag=dependencies]
+include::itf-examples/pom.xml[tag=dependencies]
 ----
 
 Further more you have to copy the `src/test/resources-its` directory including
@@ -1058,7 +1079,7 @@ filtering. You need to be careful which delimiter you have chosen. So you might
 need to tweak your configuration based on your choices.
 [source,xml]
 ----
-include::it-examples/pom.xml[tag=resources]
+include::itf-examples/pom.xml[tag=resources]
 ----
 
 The next thing is you have to configure `maven-invoker-plugin` with the `install` goal
@@ -1066,13 +1087,13 @@ like this:
 
 [source,xml]
 ----
-include::it-examples/pom.xml[tag=invoker]
+include::itf-examples/pom.xml[tag=invoker]
 ----
 Finally you have to add a configuration for {maven-failsafe-plugin} like the following:
 
 [source,xml]
 ----
-include::it-examples/pom.xml[tag=failsafe]
+include::itf-examples/pom.xml[tag=failsafe]
 ----
 The two properties given `maven.version` transfers the version of Maven which is used
 to the maven integration extension and the `maven.home` transfer the information

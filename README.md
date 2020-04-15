@@ -14,15 +14,14 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-# Maven Integration Testing Framework
+# Integration Testing Framework Extension
 
 [![Apache License, Version 2.0, January 2004](https://img.shields.io/github/license/apache/maven.svg?label=License)][license]
-[![Maven Central](https://img.shields.io/maven-central/v/org.apache.maven.jupiter.extension/maven-it-extension.svg?label=Maven%20Central)](https://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.apache.maven.jupiter.extension%22%20AND%20a%3A%22maven-it-extension%22)
+[![Maven Central](https://img.shields.io/maven-central/v/com.soebes.itf.jupiter.extension/maven-it-extension.svg?label=Maven%20Central)](https://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.soebes.itf.jupiter.extension%22%20AND%20a%3A%22itf-extension%22)
 [![JDKBuilds](https://github.com/khmarbaise/maven-it-extension/workflows/JDKBuilds/badge.svg)][jdkbuilds]
 [![Main](https://github.com/khmarbaise/maven-it-extension/workflows/Main/badge.svg)][mainbuilds]
 [![Issues](https://img.shields.io/github/issues/khmarbaise/maven-it-extension)](https://github.com/khmarbaise/maven-it-extension/issues)
 [![Issues Closed](https://img.shields.io/github/issues-closed/khmarbaise/maven-it-extension)](https://github.com/khmarbaise/maven-it-extension/issues?q=is%3Aissue+is%3Aclosed)
-
  
 * Users Guide
   * [![PDF](https://img.shields.io/badge/PDF-Usersguide-green)][usersguide-pdf]
@@ -34,9 +33,6 @@
 
 * The Background Guide (More detailed why this framework exists.)
   * [![HTML](https://img.shields.io/badge/HTML-background-green)][background-html]
-
-* Release 0.1.0 is available via GitHub Packages:
-  * https://maven.pkg.github.com/khmarbaise/maven-it-extension
 
 # General Overview
 The basic thing about integration testing of Maven Plugins / Maven Extensions etc. 
