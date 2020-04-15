@@ -19,9 +19,7 @@
   under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -29,19 +27,19 @@
     <groupId>com.soebes.smpp</groupId>
     <artifactId>smpp</artifactId>
     <version>5.0.1</version> <!-- need to reconsider -->
-    <relativePath/>
+    <relativePath />
   </parent>
 
   <groupId>com.soebes.itf.jupiter.extension</groupId>
   <artifactId>itf-extension</artifactId>
-  <version>0.2.0-SNAPSHOT</version>
+  <version>0.2.0</version>
   <packaging>pom</packaging>
 
   <scm>
     <connection>scm:git:https://github.com/khmarbaise/maven-it-extension.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/khmarbaise/maven-it-extension.git</developerConnection>
     <url>https://github.com/khmarbaise/maven-it-extension</url>
-    <tag>HEAD</tag>
+    <tag>itf-extension-0.2.0</tag>
   </scm>
 
   <distributionManagement>
