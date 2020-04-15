@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MavenITExtension.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">itf-jupiter-extension</a> &gt; <a href="index.source.html" class="el_package">com.soebes.itf.jupiter.extension</a> &gt; <span class="el_source">MavenITExtension.java</span></div><h1>MavenITExtension.java</h1><pre class="source lang-java linenums">package com.soebes.itf.jupiter.extension;
+
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.getActiveProfiles;
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.getCommandLineOptions;
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.getCommandLineSystemProperties;
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.getGoals;
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.hasActiveProfiles;
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.isDebug;
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.logging.Logger;
+import java.util.stream.Stream;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.maven.model.Model;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
+import org.junit.jupiter.api.extension.ExtensionConfigurationException;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.InvocationInterceptor;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ParameterResolver;
+import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
+
+import com.soebes.itf.jupiter.maven.MavenCacheResult;
+import com.soebes.itf.jupiter.maven.MavenExecutionResult;
+import com.soebes.itf.jupiter.maven.MavenLog;
+import com.soebes.itf.jupiter.maven.MavenProjectResult;
+import com.soebes.itf.jupiter.maven.ProjectHelper;
+import com.soebes.itf.jupiter.maven.MavenExecutionResult.ExecutionResult;
+
+/**
+ * @author Karl Heinz Marbaise
+ */
+<span class="nc" id="L69">public class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeTestExecutionCallback,</span>
+    InvocationInterceptor{
+
+<span class="nc" id="L72">  private static final Logger LOGGER = Logger.getLogger(MavenITExtension.class.getName());</span>
+
+  @Override
+  public void beforeEach(ExtensionContext context) {
+<span class="nc" id="L76">    Class&lt;?&gt; testClass = context.getTestClass()</span>
+<span class="nc" id="L77">        .orElseThrow(() -&gt; new ExtensionConfigurationException(&quot;MavenITExtension is only supported for classes.&quot;));</span>
+
+    //FIXME: Need to reconsider the maven-it directory?
+<span class="nc" id="L80">    File mavenItBaseDirectory = new File(DirectoryHelper.getTargetDir(), &quot;maven-it&quot;);</span>
+<span class="nc" id="L81">    String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);</span>
+
+<span class="nc" id="L83">    File mavenItTestCaseBaseDirectory = new File(mavenItBaseDirectory, toFullyQualifiedPath);</span>
+    //TODO: What happends if the directory has been created by a previous run?
+    // should we delete that structure here? Maybe we should make this configurable.
+<span class="nc" id="L86">    mavenItTestCaseBaseDirectory.mkdirs();</span>
+
+<span class="nc" id="L88">    new StorageHelper(context).save(mavenItBaseDirectory, mavenItTestCaseBaseDirectory, DirectoryHelper.getTargetDir());</span>
+<span class="nc" id="L89">  }</span>
+
+  @Override
+  public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
+      throws ParameterResolutionException {
+<span class="nc" id="L94">    return Stream.of(ParameterType.values())</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        .anyMatch(parameterType -&gt; parameterType.getKlass() == parameterContext.getParameter().getType());</span>
+  }
+
+  @Override
+  public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
+      throws ParameterResolutionException {
+
+<span class="nc" id="L102">    StorageHelper sh = new StorageHelper(extensionContext);</span>
+
+<span class="nc" id="L104">    ParameterType parameterType = Stream.of(ParameterType.values())</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">        .filter(s -&gt; s.getKlass() == parameterContext.getParameter().getType())</span>
+<span class="nc" id="L106">        .findFirst()</span>
+<span class="nc" id="L107">        .orElseThrow(() -&gt; new IllegalStateException(&quot;Unknown parameter type&quot;));</span>
+
+<span class="nc" id="L109">    return sh.get(parameterType + extensionContext.getUniqueId(), parameterType.getKlass());</span>
+  }
+
+  @Override
+  public void interceptBeforeEachMethod(Invocation&lt;Void&gt; invocation,
+      ReflectiveInvocationContext&lt;Method&gt; invocationContext, ExtensionContext extensionContext) throws Throwable {
+<span class="nc" id="L115">    invocation.proceed();</span>
+<span class="nc" id="L116">  }</span>
+
+  @Override
+  public void beforeTestExecution(ExtensionContext context)
+      throws IOException, InterruptedException, XmlPullParserException {
+
+<span class="nc" id="L122">    DirectoryResolverResult directoryResolverResult = new DirectoryResolverResult(context);</span>
+
+<span class="nc" id="L124">    File integrationTestCaseDirectory = directoryResolverResult.getIntegrationTestCaseDirectory();</span>
+<span class="nc" id="L125">    integrationTestCaseDirectory.mkdirs();</span>
+<span class="nc" id="L126">    directoryResolverResult.getProjectDirectory().mkdirs();</span>
+<span class="nc" id="L127">    directoryResolverResult.getCacheDirectory().mkdirs();</span>
+
+    //FIXME: Copy artifacts from maven-invoker-plugin:install location into each cache; Currently HARD CODED!!
+<span class="nc" id="L130">    FileUtils.copyDirectory(directoryResolverResult.getComponentUnderTestDirectory(),</span>
+<span class="nc" id="L131">        directoryResolverResult.getCacheDirectory());</span>
+<span class="nc" id="L132">    FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),</span>
+<span class="nc" id="L133">        directoryResolverResult.getProjectDirectory());</span>
+
+<span class="nc" id="L135">    String mavenHome = System.getProperty(&quot;maven.home&quot;);</span>
+<span class="nc bnc" id="L136" title="All 4 branches missed.">    if (mavenHome == null || mavenHome.isEmpty()) {</span>
+      //FIXME: currently not set; using hard coded path? Need to reconsider how to set it?
+<span class="nc" id="L138">      mavenHome = &quot;/Users/khmarbaise/tools/maven&quot;;</span>
+    }
+    //FIXME: Very likely we need to tweak for Windows environment? see maven-invoker how to find Maven executable?
+<span class="nc" id="L141">    String mvnLocation = mavenHome + &quot;/bin/mvn&quot;;</span>
+
+<span class="nc" id="L143">    String prefix = &quot;mvn&quot;;</span>
+<span class="nc" id="L144">    Method methodName = context.getTestMethod().orElseThrow(() -&gt; new IllegalStateException(&quot;No method given&quot;));</span>
+<span class="nc" id="L145">    Optional&lt;Class&lt;?&gt;&gt; mavenProject = AnnotationHelper.findMavenProjectAnnotation(context);</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">    if (mavenProject.isPresent()) {</span>
+<span class="nc" id="L147">      prefix = methodName.getName() + &quot;-mvn&quot;;</span>
+    }
+
+    //FIXME: Removed hard coded parts.
+<span class="nc" id="L151">    ApplicationExecutor mavenExecutor = new ApplicationExecutor(directoryResolverResult.getProjectDirectory(),</span>
+<span class="nc" id="L152">        integrationTestCaseDirectory, new File(mvnLocation), Collections.emptyList(), prefix);</span>
+
+<span class="nc" id="L154">    List&lt;String&gt; executionArguments = new ArrayList&lt;&gt;();</span>
+
+
+<span class="nc" id="L157">    List&lt;String&gt; defaultArguments = Arrays.asList(</span>
+<span class="nc" id="L158">        &quot;-Dmaven.repo.local=&quot; + directoryResolverResult.getCacheDirectory().toString(), MavenOptions.BATCH_MODE, MavenOptions.SHOW_VERSION);</span>
+<span class="nc" id="L159">    executionArguments.addAll(defaultArguments);</span>
+
+<span class="nc bnc" id="L161" title="All 2 branches missed.">    if (hasActiveProfiles(methodName)) {</span>
+<span class="nc" id="L162">      String collect = Stream.of(getActiveProfiles(methodName))</span>
+<span class="nc" id="L163">          .collect(joining(&quot;,&quot;, MavenOptions.ACTIVATE_PROFILES, &quot;&quot;));</span>
+<span class="nc" id="L164">      executionArguments.add(collect);</span>
+    }
+
+
+<span class="nc bnc" id="L168" title="All 2 branches missed.">    if (isDebug(methodName)) {</span>
+<span class="nc" id="L169">      executionArguments.add(MavenOptions.DEBUG);</span>
+    }
+
+<span class="nc" id="L172">    executionArguments.addAll(Stream.of(getCommandLineSystemProperties(methodName))</span>
+<span class="nc" id="L173">        .map(arg -&gt; &quot;-D&quot; + arg).collect(toList()));</span>
+<span class="nc" id="L174">    executionArguments.addAll(Stream.of(getCommandLineOptions(methodName)).collect(toList()));</span>
+
+<span class="nc" id="L176">    Class&lt;?&gt; mavenIT = AnnotationHelper.findMavenITAnnotation(context).orElseThrow(IllegalStateException::new);</span>
+<span class="nc" id="L177">    MavenIT mavenITAnnotation = mavenIT.getAnnotation(MavenIT.class);</span>
+    //FIXME: We need to filter placeholder here?
+
+    //FIXME: Need to introduce better directory names
+    //Refactor out the following lines
+<span class="nc" id="L182">    File mavenBaseDirectory = new File(directoryResolverResult.getTargetDirectory(), &quot;..&quot;);</span>
+<span class="nc" id="L183">    File pomFile = new File(mavenBaseDirectory, &quot;pom.xml&quot;);</span>
+<span class="nc" id="L184">    PomReader pomReader = new PomReader(new FileInputStream(pomFile));</span>
+<span class="nc" id="L185">    ModelReader modelReader = new ModelReader(pomReader.getModel());</span>
+<span class="nc" id="L186">    Map&lt;String, String&gt; keyValues = new HashMap&lt;&gt;();</span>
+    //The following three elements we are reading from the original pom file.
+<span class="nc" id="L188">    keyValues.put(&quot;project.groupId&quot;, modelReader.getGroupId());</span>
+<span class="nc" id="L189">    keyValues.put(&quot;project.artifactId&quot;, modelReader.getArtifactId());</span>
+<span class="nc" id="L190">    keyValues.put(&quot;project.version&quot;, modelReader.getVersion());</span>
+
+<span class="nc" id="L192">    List&lt;String&gt; resultingGoals = Stream.of(GoalPriority.goals(mavenITAnnotation.goals(), getGoals(methodName))).collect(toList());</span>
+<span class="nc" id="L193">    PropertiesFilter propertiesFilter = new PropertiesFilter(keyValues, resultingGoals);</span>
+
+    //TODO: We should consider to make replacements also in systemProperties annotation possible.
+
+<span class="nc" id="L197">    List&lt;String&gt; filteredGoals = propertiesFilter.filter();</span>
+<span class="nc" id="L198">    executionArguments.addAll(filteredGoals);</span>
+
+<span class="nc" id="L200">    Process start = mavenExecutor.start(executionArguments);</span>
+
+<span class="nc" id="L202">    int processCompletableFuture = start.waitFor();</span>
+
+<span class="nc" id="L204">    ExecutionResult executionResult = ExecutionResult.Successful;</span>
+<span class="nc bnc" id="L205" title="All 2 branches missed.">    if (processCompletableFuture != 0) {</span>
+<span class="nc" id="L206">      executionResult = ExecutionResult.Failure;</span>
+    }
+
+<span class="nc" id="L209">    MavenLog log = new MavenLog(mavenExecutor.getStdout(), mavenExecutor.getStdErr());</span>
+<span class="nc" id="L210">    MavenCacheResult mavenCacheResult = new MavenCacheResult(directoryResolverResult.getCacheDirectory().toPath());</span>
+
+<span class="nc" id="L212">    Model model = ProjectHelper.readProject(directoryResolverResult.getProjectDirectory());</span>
+<span class="nc" id="L213">    MavenProjectResult mavenProjectResult = new MavenProjectResult(directoryResolverResult.getProjectDirectory(),</span>
+        model);
+
+<span class="nc" id="L216">    MavenExecutionResult result = new MavenExecutionResult(executionResult, processCompletableFuture, log,</span>
+        mavenProjectResult, mavenCacheResult);
+
+<span class="nc" id="L219">    new StorageHelper(context).save(result, log, mavenCacheResult, mavenProjectResult);</span>
+<span class="nc" id="L220">  }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
