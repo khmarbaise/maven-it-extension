@@ -35,7 +35,7 @@ public class DirectoryHelper {
   }
 
   /**
-   * Return the target directory of the current project.
+   * @return the target directory of the current project.
    */
   public static File getTargetDir() {
     return new File(getMavenBaseDir(), "target");

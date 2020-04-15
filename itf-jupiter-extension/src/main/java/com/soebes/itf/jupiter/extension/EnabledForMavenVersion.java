@@ -19,7 +19,9 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+import com.soebes.itf.jupiter.maven.MavenVersion;
+import org.apiguardian.api.API;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -27,10 +29,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.apiguardian.api.API;
-import org.junit.jupiter.api.extension.ExtendWith;
-
-import com.soebes.itf.jupiter.maven.MavenVersion;
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
  * {@code @EnabledForMavenVersion} is used to signal that the annotated test class or test method is
@@ -46,8 +45,6 @@ import com.soebes.itf.jupiter.maven.MavenVersion;
  *
  * <p>This annotation may be used as a meta-annotation in order to create a
  * custom <em>composed annotation</em> that inherits the semantics of this annotation.
- *
- * <h4>Warning</h4>
  *
  * @author Karl Heinz Marbaise
  * @see MavenVersion
