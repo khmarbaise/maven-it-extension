@@ -937,9 +937,10 @@ class CompareDependenciesIT
 == Configuration in Maven
 
 You have decided to use this tool to test your plugin/extension etc. this means you have to build
-it on your own.
+it on your own. I strongly recommend to start with version 0.2.0 cause this makes it easier for you
+and you don't need to build the artifacts on your own.
 
-NOTE: Currently it is not published to Central repository.
+NOTE: Starting with version 0.2.0 it will be published to central repository.
 
 .Prerequisites
 - JDK 8+ must be installed
