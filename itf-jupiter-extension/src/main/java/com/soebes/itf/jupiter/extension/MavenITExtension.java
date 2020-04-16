@@ -1,12 +1,5 @@
 package com.soebes.itf.jupiter.extension;
 
-import static com.soebes.itf.jupiter.extension.AnnotationHelper.getActiveProfiles;
-import static com.soebes.itf.jupiter.extension.AnnotationHelper.getCommandLineOptions;
-import static com.soebes.itf.jupiter.extension.AnnotationHelper.getCommandLineSystemProperties;
-import static com.soebes.itf.jupiter.extension.AnnotationHelper.getGoals;
-import static com.soebes.itf.jupiter.extension.AnnotationHelper.hasActiveProfiles;
-import static com.soebes.itf.jupiter.extension.AnnotationHelper.isDebug;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -26,8 +19,25 @@ import static com.soebes.itf.jupiter.extension.AnnotationHelper.isDebug;
  * under the License.
  */
 
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
+import com.soebes.itf.jupiter.maven.MavenCacheResult;
+import com.soebes.itf.jupiter.maven.MavenExecutionResult;
+import com.soebes.itf.jupiter.maven.MavenExecutionResult.ExecutionResult;
+import com.soebes.itf.jupiter.maven.MavenLog;
+import com.soebes.itf.jupiter.maven.MavenProjectResult;
+import com.soebes.itf.jupiter.maven.ProjectHelper;
+import org.apache.commons.io.FileUtils;
+import org.apache.maven.model.Model;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import org.junit.jupiter.api.condition.OS;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
+import org.junit.jupiter.api.extension.ExtensionConfigurationException;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.InvocationInterceptor;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ParameterResolver;
+import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,25 +53,14 @@ import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.maven.model.Model;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
-import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
-import org.junit.jupiter.api.extension.ExtensionConfigurationException;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.InvocationInterceptor;
-import org.junit.jupiter.api.extension.ParameterContext;
-import org.junit.jupiter.api.extension.ParameterResolutionException;
-import org.junit.jupiter.api.extension.ParameterResolver;
-import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
-
-import com.soebes.itf.jupiter.maven.MavenCacheResult;
-import com.soebes.itf.jupiter.maven.MavenExecutionResult;
-import com.soebes.itf.jupiter.maven.MavenLog;
-import com.soebes.itf.jupiter.maven.MavenProjectResult;
-import com.soebes.itf.jupiter.maven.ProjectHelper;
-import com.soebes.itf.jupiter.maven.MavenExecutionResult.ExecutionResult;
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.getActiveProfiles;
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.getCommandLineOptions;
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.getCommandLineSystemProperties;
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.getGoals;
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.hasActiveProfiles;
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.isDebug;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 
 /**
  * @author Karl Heinz Marbaise
@@ -137,8 +136,11 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
       //FIXME: currently not set; using hard coded path? Need to reconsider how to set it?
       mavenHome = "/Users/khmarbaise/tools/maven";
     }
-    //FIXME: Very likely we need to tweak for Windows environment? see maven-invoker how to find Maven executable?
     String mvnLocation = mavenHome + "/bin/mvn";
+    if (OS.WINDOWS.isCurrentOs()) {
+      mvnLocation += ".cmd";
+    }
+
 
     String prefix = "mvn";
     Method methodName = context.getTestMethod().orElseThrow(() -> new IllegalStateException("No method given"));
