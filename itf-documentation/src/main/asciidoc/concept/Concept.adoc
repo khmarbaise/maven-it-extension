@@ -18,7 +18,6 @@
 = Integration Testing Framework Concept Guide
 :author: Karl Heinz Marbaise
 :email: khmarbaise@apache.org
-:revnumber: 0.2.0
 :sectnums:
 :toc:
 
@@ -58,9 +57,9 @@ package org.it;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.apache.maven.jupiter.extension.MavenIT;
-import org.apache.maven.jupiter.extension.MavenTest;
-import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
 @MavenIT
 class FirstMavenIT {
@@ -178,9 +177,9 @@ package org.it;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.apache.maven.jupiter.extension.MavenIT;
-import org.apache.maven.jupiter.extension.MavenTest;
-import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
 @MavenIT
 class FirstMavenIT {
@@ -375,7 +374,7 @@ about separating repositories for releases, snapshots etc. So this annotation
 could easily enhanced with parameters like the following:
 [source,java]
 ----
-import org.apache.maven.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenIT;
 @MavenIT
 @MavenRepository(releases=".releases", snapshots=".snapshots")
 class IntegrationIT {
@@ -518,9 +517,9 @@ package org.it;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.apache.maven.jupiter.extension.MavenIT;
-import org.apache.maven.jupiter.extension.MavenTest;
-import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import org.junit.jupiter.api.Nested;
 
 @MavenIT
@@ -576,9 +575,9 @@ package org.it;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.apache.maven.jupiter.extension.MavenIT;
-import org.apache.maven.jupiter.extension.MavenTest;
-import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import org.junit.jupiter.api.BeforeEach;
 
 @MavenIT
@@ -591,16 +590,16 @@ class FirstMavenIT {
 
   @MavenTest
   void the_first_test_case(MavenExecutionResult result) {
-     ...
+     //...
   }
 
   @MavenTest
   void the_second_test_case(MavenExecutionResult result) {
-     ...
+     //...
   }
   @MavenTest
   void the_third_test_case(MavenExecutionResult result) {
-     ...
+     //...
   }
 }
 ----
@@ -746,12 +745,12 @@ The simple answer is like this:
 ----
 package org.it;
 
-import static org.apache.maven.jupiter.assertj.MavenITAssertions.assertThat;
+import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
-import org.apache.maven.jupiter.extension.MavenIT;
-import org.apache.maven.jupiter.extension.MavenRepository;
-import org.apache.maven.jupiter.extension.MavenTest;
-import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenRepository;
+import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -797,12 +796,12 @@ Thinking into another level a test could look like this:
 ----
 package org.it;
 
-import static org.apache.maven.jupiter.assertj.MavenITAssertions.assertThat;
+import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
-import org.apache.maven.jupiter.extension.MavenIT;
-import org.apache.maven.jupiter.extension.MavenRepository;
-import org.apache.maven.jupiter.extension.MavenTest;
-import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenRepository;
+import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Order;

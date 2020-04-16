@@ -18,7 +18,6 @@
 = Integration Testing Framework Users Guide
 :author: Karl Heinz Marbaise
 :email: khmarbaise@apache.org
-:revnumber: 0.2.0
 :sectnums:
 :toc:
 
@@ -29,6 +28,8 @@
 :maven-plugins: https://maven.apache.org/plugins/[Maven Plugins]
 :maven-failsafe-plugin: https://maven.apache.org/surefire/maven-failsafe-plugin/[Maven Failsafe Plugin]
 :mock-repository-manager: https://www.mojohaus.org/mrm/index.html[Mock Repository Manager]
+
+:itfexample: _basedir/../..
 
 == Status
 
@@ -804,7 +805,6 @@ class FirstMavenIT {
 [#_assertions]
 == Assertions
 
-[#_overview]
 === Overview
 Let us take a look into a simple integration test. We would like to concentrate on the assertion part.
 [source,java]
@@ -1072,7 +1072,7 @@ I have used for development and currently nothing else is supported(see `maven-i
 //FIXME: Restructuring the document into sub parts.
 [source,xml]
 ----
-include::itf-examples/pom.xml[tag=dependencies]
+include::{itfexample}/itf-examples/pom.xml[tag=dependencies]
 ----
 
 Further more you have to copy the `src/test/resources-its` directory including
@@ -1080,7 +1080,7 @@ filtering. You need to be careful which delimiter you have chosen. So you might
 need to tweak your configuration based on your choices.
 [source,xml]
 ----
-include::itf-examples/pom.xml[tag=resources]
+include::{itfexample}/itf-examples/pom.xml[tag=resources]
 ----
 
 The next thing is you have to configure `maven-invoker-plugin` with the `install` goal
@@ -1088,13 +1088,13 @@ like this:
 
 [source,xml]
 ----
-include::itf-examples/pom.xml[tag=invoker]
+include::{itfexample}/itf-examples/pom.xml[tag=invoker]
 ----
 Finally you have to add a configuration for {maven-failsafe-plugin} like the following:
 
 [source,xml]
 ----
-include::itf-examples/pom.xml[tag=failsafe]
+include::{itfexample}/itf-examples/pom.xml[tag=failsafe]
 ----
 The two properties given `maven.version` transfers the version of Maven which is used
 to the maven integration extension and the `maven.home` transfer the information
@@ -1105,5 +1105,6 @@ The usage of {maven-failsafe-plugin} implies the naming convention for the integ
 tests like `*IT.java` but of course you can change that by using the appropriate configuration.
 
 NOTE: The whole given configuration should be replaced by separate maven plugin later. This
-is currently not available, but I'm prototyping that already.
+is currently not available, but I'm prototyping that already. First part the [installation of the
+artifacts](https://github.com/khmarbaise/maven-it-extension/issues/33) should be solved.
 

@@ -161,11 +161,11 @@ also being enhanced by writing custom assertions.
 
 [jdkbuilds]: https://github.com/khmarbaise/maven-it-extension/actions?query=workflow%3AJDKBuilds
 [mainbuilds]: https://github.com/khmarbaise/maven-it-extension/actions?query=workflow%3AMain
-[usersguide-html]: https://khmarbaise.github.io/maven-it-extension/usersguide.html
-[usersguide-pdf]: https://khmarbaise.github.io/maven-it-extension/usersguide.pdf
-[conceptguide-html]: https://khmarbaise.github.io/maven-it-extension/Concept.html
-[conceptguide-pdf]: https://khmarbaise.github.io/maven-it-extension/Concept.pdf
-[background-html]: https://khmarbaise.github.io/maven-it-extension/background.html
+[usersguide-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/usersguide.html
+[usersguide-pdf]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/usersguide.pdf
+[conceptguide-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/concept/Concept.html
+[conceptguide-pdf]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/concept/Concept.pdf
+[background-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/background/background.html
 [license]: https://www.apache.org/licenses/LICENSE-2.0
 [junit-jupiter]: https://junit.org/junit5/
 [junit-jupiter-extension]: https://junit.org/junit5/docs/current/user-guide/#extensions
