@@ -17,7 +17,7 @@
 # Integration Testing Framework Extension
 
 [![Apache License, Version 2.0, January 2004](https://img.shields.io/github/license/apache/maven.svg?label=License)][license]
-[![Maven Central](https://img.shields.io/maven-central/v/com.soebes.itf.jupiter.extension/maven-it-extension.svg?label=Maven%20Central)](https://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.soebes.itf.jupiter.extension%22%20AND%20%3A%22itf-extension%22)
+[![Maven Central](https://img.shields.io/maven-central/v/com.soebes.itf.jupiter.extension/maven-it-extension.svg?label=Maven%20Central)](https://search.maven.org/search?q=g%3Acom.soebes.itf.jupiter.extension)
 [![JDKBuilds](https://github.com/khmarbaise/maven-it-extension/workflows/JDKBuilds/badge.svg)][jdkbuilds]
 [![Main](https://github.com/khmarbaise/maven-it-extension/workflows/Main/badge.svg)][mainbuilds]
 [![Issues](https://img.shields.io/github/issues/khmarbaise/maven-it-extension)](https://github.com/khmarbaise/maven-it-extension/issues)
