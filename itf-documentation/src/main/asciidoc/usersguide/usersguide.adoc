@@ -48,7 +48,7 @@ early stage. We don't even have a formal first public release in Central reposit
 
 == Overview
 
-The idea of integration tests für Maven Plugins, Maven Extensions, Maven Core is to keep the
+The idea of integration tests for Maven Plugins, Maven Extensions, Maven Core is to keep the
 functionality the way it has been defined independent of refactoring code or improving
 functionality.
 
