@@ -26,7 +26,7 @@
   <parent>
     <groupId>com.soebes.smpp</groupId>
     <artifactId>smpp</artifactId>
-    <version>5.0.1</version> <!-- need to reconsider -->
+    <version>5.0.2</version> <!-- need to reconsider -->
     <relativePath />
   </parent>
 
