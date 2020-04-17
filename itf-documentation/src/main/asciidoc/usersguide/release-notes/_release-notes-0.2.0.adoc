@@ -1,0 +1,26 @@
+[[release-notes-0.2.0]]
+== Pre-release 0.2.0
+
+:issue-30: https://github.com/khmarbaise/maven-it-extension/issues/30[Fixed #30]
+:issue-29: https://github.com/khmarbaise/maven-it-extension/issues/29[Fixed #29]
+:release-0_2_0: https://github.com/khmarbaise/maven-it-extension/milestone/2
+
+*Date of Release:* April 15, 2020
+
+*Scope:*
+
+- Changed package names and maven coordinates to make it possible to
+  publish in https://central.sonatype.org/[Central Repository].
+
+*Details*
+
+* {issue-30} - Upgrade parent to 5.0.1 smpp
+* {issue-29} - Change coordinates / Change Names
+  - renamed groupId.
+  - Renamed artifactId's.
+  - Renamed modules
+  - Renamed packages.
+  - Renamed documents.
+  - Fixed docs.
+
+The full release notes can be found here {release-0_2_0}[Release 0.2.0].

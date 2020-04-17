@@ -19,7 +19,7 @@
 :author: Karl Heinz Marbaise
 :email: khmarbaise@apache.org
 :sectnums:
-:toc:
+:toc: left
 
 :maven-invoker-plugin: https://maven.apache.org/plugins/maven-invoker-plugin[Maven Invoker Plugin]
 :maven-plugins: https://maven.apache.org/plugins/[Maven Plugins]

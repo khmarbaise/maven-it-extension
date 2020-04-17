@@ -1,0 +1,35 @@
+[[release-notes-0.3.0]]
+== Pre-release 0.3.0
+
+:issue-31: https://github.com/khmarbaise/maven-it-extension/issues/31[Fixed #31]
+:issue-32: https://github.com/khmarbaise/maven-it-extension/issues/32[Fixed #32]
+:issue-33: https://github.com/khmarbaise/maven-it-extension/issues/33[Fixed #33]
+:issue-34: https://github.com/khmarbaise/maven-it-extension/issues/34[Fixed #34]
+:issue-36: https://github.com/khmarbaise/maven-it-extension/issues/36[Fixed #36]
+:release-0_3_0: https://github.com/khmarbaise/maven-it-extension/milestone/3
+
+*Date of Release:* ?, ?
+
+*Scope:*
+
+ - Working build on Windows.
+ - Basic Maven Plugin for installation of artifacts.
+ - License file in project.
+ - Release Notes documentation.
+
+*Details*
+
+ * {issue-32} - Build on Windows as well
+ * {issue-33}
+   - Create a maven plugin which handles the installation of artifacts
+   - This removes the need to use maven-invoker-plugin with a weird configuration.
+ * {issue-34} - Add LICENSE file to the project
+ * {issue-36} - Create a release notes documentation.
+ * {issue-31}
+   - Imports in documentations are not correct anymore.
+   - Fixed includes
+   - building of html/pdf during the build.
+   - Fixed site generation to render also docs in correct location.
+   - Moved docs to itf-documentation project.
+
+The full release notes can be found here {release-0_3_0}[Release 0.3.0].

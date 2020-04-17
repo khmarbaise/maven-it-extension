@@ -27,11 +27,16 @@
   * [![PDF](https://img.shields.io/badge/PDF-Usersguide-green)][usersguide-pdf]
   * [![HTML](https://img.shields.io/badge/HTML-Usersguide-green)][usersguide-html]
 
+* Release Notes
+  * [![PDF](https://img.shields.io/badge/PDF-Releasenotes-green)][releasenotes-pdf]
+  * [![HTML](https://img.shields.io/badge/HTML-Releasenotes-green)][releasenotes-html]
+
 * Concept Guide (My Ideas)
   * [![PDF](https://img.shields.io/badge/PDF-Conceptguide-green)][conceptguide-pdf]
   * [![HTML](https://img.shields.io/badge/HTML-Conceptguide-green)][conceptguide-html]
 
 * The Background Guide (More detailed why this framework exists.)
+  * [![PDF](https://img.shields.io/badge/PDF-background-green)][background-pdf]
   * [![HTML](https://img.shields.io/badge/HTML-background-green)][background-html]
 
 # General Overview
@@ -166,6 +171,9 @@ also being enhanced by writing custom assertions.
 [conceptguide-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/concept/Concept.html
 [conceptguide-pdf]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/concept/Concept.pdf
 [background-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/background/background.html
+[background-pdf]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/background/background.pdf
+[releasenotes-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/release-notes/release-notes.html
+[releasenotes-pdf]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/release-notes/release-notes.pdf
 [license]: https://www.apache.org/licenses/LICENSE-2.0
 [junit-jupiter]: https://junit.org/junit5/
 [junit-jupiter-extension]: https://junit.org/junit5/docs/current/user-guide/#extensions

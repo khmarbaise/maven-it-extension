@@ -19,7 +19,7 @@
 :author: Karl Heinz Marbaise
 :email: khmarbaise@apache.org
 :sectnums:
-:toc:
+:toc: left
 
 :junit-jupiter: https://junit.org/junit5/[JUnit Jupiter]
 :junit-jupiter-extension: https://junit.org/junit5/docs/current/user-guide/#extensions[JUnit Jupiter extension]
