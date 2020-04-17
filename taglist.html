@@ -112,10 +112,6 @@
                       <li class="dropdown-submenu">
                                       <a href="project-reports.html"  title="Project Reports">Project Reports</a>
               <ul class="dropdown-menu">
-                                  <li>      <a href="xref/index.html"  title="Source Xref">Source Xref</a>
-</li>
-                                  <li>      <a href="xref-test/index.html"  title="Test Source Xref">Test Source Xref</a>
-</li>
                                   <li>      <a href="surefire-report.html"  title="Surefire Report">Surefire Report</a>
 </li>
                                   <li>      <a href="dependency-updates-report.html"  title="Dependency Updates Report">Dependency Updates Report</a>
@@ -163,7 +159,7 @@
                   <li id="publishDate">Last Published: 2020-04-18
                       <span class="divider">|</span>
                    </li>
-                  <li id="projectVersion">Version: 0.3.0
+                  <li id="projectVersion">Version: 0.3.1-SNAPSHOT
                       </li>
                       
               
@@ -243,27 +239,13 @@
           <span class="icon-chevron-right"></span>
         Project Information</a>
                   </li>
-                                                                                                                                                                                                          
+                                                                                                                                                                      
       <li>
   
                           <a href="project-reports.html" title="Project Reports">
           <span class="icon-chevron-down"></span>
         Project Reports</a>
                     <ul class="nav nav-list">
-                    
-      <li>
-  
-                          <a href="xref/index.html" title="Source Xref">
-          <span class="none"></span>
-        Source Xref</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="xref-test/index.html" title="Test Source Xref">
-          <span class="none"></span>
-        Test Source Xref</a>
-            </li>
                     
       <li>
   
@@ -357,67 +339,67 @@
 <th>Line</th></tr>
 <tr class="a">
 <td>Logging exception.</td>
-<td><a href="./xref/com/soebes/itf/extension/assertj/MavenLogAssert.html#74">74</a></td></tr>
+<td>74</td></tr>
 <tr class="b">
 <td>Need to reconsider the following?</td>
-<td><a href="./xref/com/soebes/itf/extension/assertj/MavenLogAssert.html#76">76</a></td></tr>
+<td>76</td></tr>
 <tr class="a">
 <th>com.soebes.itf.extension.assertj.MavenProjectResultAssert</th>
 <th>Line</th></tr>
 <tr class="b">
 <td>wrong way...need to reconsider.</td>
-<td><a href="./xref/com/soebes/itf/extension/assertj/MavenProjectResultAssert.html#85">85</a></td></tr>
+<td>85</td></tr>
 <tr class="a">
 <th>com.soebes.itf.jupiter.extension.DirectoryResolverResult</th>
 <th>Line</th></tr>
 <tr class="b">
 <td>Hard coded default. Should we get the default from the Annotation?</td>
-<td><a href="./xref/com/soebes/itf/jupiter/extension/DirectoryResolverResult.html#89">89</a></td></tr>
+<td>89</td></tr>
 <tr class="a">
 <th>com.soebes.itf.jupiter.extension.MavenITExtension</th>
 <th>Line</th></tr>
 <tr class="b">
 <td>Need to reconsider the maven-it directory?</td>
-<td><a href="./xref/com/soebes/itf/jupiter/extension/MavenITExtension.html#78">78</a></td></tr>
+<td>78</td></tr>
 <tr class="a">
 <td>Copy artifacts from maven-invoker-plugin:install location into each cache; Currently HARD CODED!!</td>
-<td><a href="./xref/com/soebes/itf/jupiter/extension/MavenITExtension.html#128">128</a></td></tr>
+<td>128</td></tr>
 <tr class="b">
 <td>currently not set; using hard coded path? Need to reconsider how to set it?</td>
-<td><a href="./xref/com/soebes/itf/jupiter/extension/MavenITExtension.html#136">136</a></td></tr>
+<td>136</td></tr>
 <tr class="a">
 <td>Removed hard coded parts.</td>
-<td><a href="./xref/com/soebes/itf/jupiter/extension/MavenITExtension.html#152">152</a></td></tr>
+<td>152</td></tr>
 <tr class="b">
 <td>We need to filter placeholder here?</td>
-<td><a href="./xref/com/soebes/itf/jupiter/extension/MavenITExtension.html#180">180</a></td></tr>
+<td>180</td></tr>
 <tr class="a">
 <td>Need to introduce better directory names Refactor out the following lines</td>
-<td><a href="./xref/com/soebes/itf/jupiter/extension/MavenITExtension.html#182">182</a></td></tr>
+<td>182</td></tr>
 <tr class="b">
 <th>com.soebes.itf.jupiter.extension.ModelReader</th>
 <th>Line</th></tr>
 <tr class="a">
 <td>this.model.getParent() == null what should be the consequence?</td>
-<td><a href="./xref/com/soebes/itf/jupiter/extension/ModelReader.html#42">42</a></td></tr>
+<td>42</td></tr>
 <tr class="b">
 <th>com.soebes.itf.jupiter.maven.MavenVersion</th>
 <th>Line</th></tr>
 <tr class="a">
 <td>Think about usage of interal API?</td>
-<td><a href="./xref/com/soebes/itf/jupiter/maven/MavenVersion.html#62">62</a></td></tr>
+<td>62</td></tr>
 <tr class="b">
 <th>com.soebes.itf.jupiter.maven.Projects</th>
 <th>Line</th></tr>
 <tr class="a">
 <td>Need to use a real tree structure to support real project reactors with different levels etc.</td>
-<td><a href="./xref/com/soebes/itf/jupiter/maven/Projects.html#33">33</a></td></tr>
+<td>33</td></tr>
 <tr class="b">
 <th>com.soebes.itf.maven.plugin.BasicIT</th>
 <th>Line</th></tr>
 <tr class="a">
 <td>The following should be made easier See https://github.com/khmarbaise/maven-it-extension/issues/39</td>
-<td><a href="./xref-test/com/soebes/itf/maven/plugin/BasicIT.html#42">42</a></td></tr></table></section><section>
+<td>42</td></tr></table></section><section>
 <h3><a name="Todo_Work"></a><a name="tag_class_1">Todo Work</a></h3>
 <p><b>Number of occurrences found in the code: 12</b></p>
 <table border="0" class="table table-striped">
@@ -426,61 +408,61 @@
 <th>Line</th></tr>
 <tr class="a">
 <td>currently ignore maven files and MANIFEST.MF</td>
-<td><a href="./xref/com/soebes/itf/extension/assertj/ArchiveAssert.html#45">45</a></td></tr>
+<td>45</td></tr>
 <tr class="b">
 <th>com.soebes.itf.extension.assertj.MavenLogAssert</th>
 <th>Line</th></tr>
 <tr class="a">
 <td>Need to reconsider if there isn't a better way to return the stream? lines() gives a stream which might be a better solution? InputStream resourceAsStream = this.getClass().getResourceAsStream(&quot;/mvn-stdout.out&quot;); return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();</td>
-<td><a href="./xref/com/soebes/itf/extension/assertj/MavenLogAssert.html#68">68</a></td></tr>
+<td>68</td></tr>
 <tr class="b">
 <th>com.soebes.itf.jupiter.extension.AnnotationHelper</th>
 <th>Line</th></tr>
 <tr class="a">
 <td>We might consider to return a Stream instead of String[]</td>
-<td><a href="./xref/com/soebes/itf/jupiter/extension/AnnotationHelper.html#48">48</a></td></tr>
+<td>48</td></tr>
 <tr class="b">
 <td>We might consider to return a Stream instead of String[]</td>
-<td><a href="./xref/com/soebes/itf/jupiter/extension/AnnotationHelper.html#53">53</a></td></tr>
+<td>53</td></tr>
 <tr class="a">
 <th>com.soebes.itf.jupiter.extension.ApplicationExecutor</th>
 <th>Line</th></tr>
 <tr class="b">
 <td>This should be made configurable</td>
-<td><a href="./xref/com/soebes/itf/jupiter/extension/ApplicationExecutor.html#67">67</a></td></tr>
+<td>67</td></tr>
 <tr class="a">
 <td>Can make that better?</td>
-<td><a href="./xref/com/soebes/itf/jupiter/extension/ApplicationExecutor.html#75">75</a></td></tr>
+<td>75</td></tr>
 <tr class="b">
 <td>Can make that better?</td>
-<td><a href="./xref/com/soebes/itf/jupiter/extension/ApplicationExecutor.html#79">79</a></td></tr>
+<td>79</td></tr>
 <tr class="a">
 <th>com.soebes.itf.jupiter.extension.MavenITExtension</th>
 <th>Line</th></tr>
 <tr class="b">
 <td>What happends if the directory has been created by a previous run? should we delete that structure here? Maybe we should make this configurable.</td>
-<td><a href="./xref/com/soebes/itf/jupiter/extension/MavenITExtension.html#83">83</a></td></tr>
+<td>83</td></tr>
 <tr class="a">
 <td>We should consider to make replacements also in systemProperties annotation possible.</td>
-<td><a href="./xref/com/soebes/itf/jupiter/extension/MavenITExtension.html#197">197</a></td></tr>
+<td>197</td></tr>
 <tr class="b">
 <th>com.soebes.itf.jupiter.extension.PropertiesFilter</th>
 <th>Line</th></tr>
 <tr class="a">
 <td>Need to reconsider this.</td>
-<td><a href="./xref/com/soebes/itf/jupiter/extension/PropertiesFilter.html#55">55</a></td></tr>
+<td>55</td></tr>
 <tr class="b">
 <th>com.soebes.itf.jupiter.maven.MavenVersion</th>
 <th>Line</th></tr>
 <tr class="a">
 <td>Need to reconsider?</td>
-<td><a href="./xref/com/soebes/itf/jupiter/maven/MavenVersion.html#35">35</a></td></tr>
+<td>35</td></tr>
 <tr class="b">
 <th>com.soebes.itf.maven.plugin.InstallMojo</th>
 <th>Line</th></tr>
 <tr class="a">
 <td>We should consider to implement this? installExtraArtifacts( extraArtifacts );</td>
-<td><a href="./xref/com/soebes/itf/maven/plugin/InstallMojo.html#115">115</a></td></tr></table></section></section>
+<td>115</td></tr></table></section></section>
                   </div>
             </div>
           </div>
