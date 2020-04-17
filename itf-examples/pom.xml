@@ -63,6 +63,17 @@
     <pluginManagement>
       <plugins>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <configuration>
+            <!--
+             ! We need to skip any check cause we use a plugin which
+             ! is not a release only at the time of the release.
+            -->
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+        <plugin>
           <groupId>org.apache.rat</groupId>
           <artifactId>apache-rat-plugin</artifactId>
           <configuration>
@@ -92,30 +103,22 @@
     <plugins>
       <!-- end::resources[] -->
 
-      <!-- tag::invoker[] -->
-      <!--
-       ! Currently a hack to copy the artifacts of the plugin/extension under tests
-       ! into a location which can be used by integration tests until we have our own
-       ! plugin doing this.
-      -->
+      <!-- tag::itf-maven-plugin[] -->
       <plugin>
-        <artifactId>maven-invoker-plugin</artifactId>
+        <groupId>com.soebes.itf.jupiter.extension</groupId>
+        <artifactId>itf-maven-plugin</artifactId>
+        <version>${project.version}</version>
         <executions>
           <execution>
-            <!--
-             ! Overwriting the configuration which is inherited
-            -->
-            <id>integration-test</id>
+            <id>installing</id>
             <goals>
               <goal>install</goal>
             </goals>
-            <configuration>
-              <localRepositoryPath>${project.build.directory}/invoker-repo</localRepositoryPath>
-            </configuration>
           </execution>
         </executions>
       </plugin>
-      <!-- end::invoker[] -->
+      <!-- end::itf-maven-plugin[] -->
+
       <!-- tag::failsafe[] -->
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>

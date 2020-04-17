@@ -79,7 +79,7 @@ public class ApplicationExecutor {
     //TODO: Can make that better?
     try {
       Files.write(Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + "-arguments.log"), applicationArguments,
-          StandardOpenOption.CREATE);
+          StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
     } catch (IOException e) {
       e.printStackTrace();
     }

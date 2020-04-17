@@ -22,16 +22,30 @@
 :toc:
 
 :junit-jupiter: https://junit.org/junit5/[JUnit Jupiter]
+:junit-jupiter-extension: https://junit.org/junit5/docs/current/user-guide/#extensions
 :junit-jupiter-user-guide: https://junit.org/junit5/docs/current/user-guide/[JUnit Jupiter User Guide]
 :junit-jupiter-user-guide-conditional-jre: https://junit.org/junit5/docs/current/user-guide/#writing-tests-conditional-execution-jre
 :maven-invoker-plugin: https://maven.apache.org/plugins/maven-invoker-plugin[Maven Invoker Plugin]
 :maven-plugins: https://maven.apache.org/plugins/[Maven Plugins]
 :maven-failsafe-plugin: https://maven.apache.org/surefire/maven-failsafe-plugin/[Maven Failsafe Plugin]
 :mock-repository-manager: https://www.mojohaus.org/mrm/index.html[Mock Repository Manager]
+:backgorund-guide: https://khmarbaise.github.io/maven-it-extension/itf-documentation/background/background.html
+:itf-issues: https://github.com/khmarbaise/maven-it-extension/issues
 
 :itfexample: _basedir/../..
 
-== Status
+== Overview
+
+This document intends to give a comprehensive reference for programmers writing
+integration tests for Maven Plugins / Maven Core Extensions / Maven Core.
+
+=== What is Integration Testing Framework?
+The Integration Testing Framework (ITF for short) is in its foundation a {junit-jupiter-extension}[JUnit Jupiter Extension]
+which supports you in writing integration tests for Maven Plugins etc. There are several aspects
+that makes writing integration tests for Maven Plugins at the
+{backgorund-guide}[moment harder than it should be]. This is the reason why this framework exists.
+
+=== Status
 
 The current status of this extension is experimental while some people call it Proof of Concept (PoC).
 
@@ -39,9 +53,8 @@ The current status of this extension is experimental while some people call it P
 
 This guide represents the current state of development and things which work (or more accurate: **should work**).
 If you find things which do not work as described here or even don't work please don't hesitate
-to https://github.com/khmarbaise/maven-it-extension/issues[create an appropriate issue] and describe
-what does not work or does not work at all as described or maybe does not work as you might expect
-it to work.
+to {itf-issues}[create an appropriate issue] and describe what does not work or does not work at
+all as described or maybe does not work as you might expect it to work.
 
 WARNING: This guide is of course not a guarantee that it works cause the project is in a very
 early stage.
@@ -72,9 +85,9 @@ package org.it;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.apache.maven.jupiter.extension.MavenIT;
-import org.apache.maven.jupiter.extension.MavenTest;
-import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
 @MavenIT // <1>
 class FirstMavenIT {
@@ -202,9 +215,9 @@ package org.it;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.apache.maven.jupiter.extension.MavenIT;
-import org.apache.maven.jupiter.extension.MavenTest;
-import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
 @MavenIT
 class SeveralMavenIT {
@@ -370,12 +383,12 @@ This can be achieved by enhancing the `@MavenTest` annotation with `systemProper
 ----
 package org.codehaus.mojo.versions.it;
 
-import org.apache.maven.jupiter.extension.MavenIT;
-import org.apache.maven.jupiter.extension.MavenTest;
-import org.apache.maven.jupiter.maven.MavenExecutionResult;
-import org.apache.maven.jupiter.maven.MavenProjectResult;
+import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.maven.MavenExecutionResult;
+import com.soebes.itf.jupiter.maven.MavenProjectResult;
 
-import static org.apache.maven.assertj.MavenITAssertions.assertThat;
+import com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
 @MavenIT
 class CompareDependenciesIT
@@ -506,10 +519,10 @@ The usage looks like the following:
 ----
 package org.it;
 
-import org.apache.maven.jupiter.extension.MavenIT;
-import org.apache.maven.jupiter.extension.MavenRepository;
-import org.apache.maven.jupiter.extension.MavenTest;
-import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenRepository;
+import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
 @MavenIT
 @MavenRepository
@@ -738,15 +751,15 @@ that.
 [source,java]
 .ForthMavenIT.java
 ----
-import static org.apache.maven.jupiter.assertj.MavenExecutionResultAssert.assertThat;
-import static org.apache.maven.jupiter.extension.maven.MavenVersion.M3_0_5;
-import static org.apache.maven.jupiter.extension.maven.MavenVersion.M3_6_0;
+import static com.soebes.itf.extension.assertj.MavenCacheResultAssert.assertThat;
+import static com.soebes.itf.jupiter.maven.MavenVersion.M3_0_5;
+import static com.soebes.itf.jupiter.maven.MavenVersion.M3_6_0;
 
-import org.apache.maven.jupiter.extension.DisabledForMavenVersion;
-import org.apache.maven.jupiter.extension.EnabledForMavenVersion;
-import org.apache.maven.jupiter.extension.MavenIT;
-import org.apache.maven.jupiter.extension.MavenTest;
-import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import com.soebes.itf.jupiter.extension.DisabledForMavenVersion;
+import com.soebes.itf.jupiter.extension.EnabledForMavenVersion;
+import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
 @MavenIT
 class FirstMavenIT {
@@ -772,15 +785,15 @@ If you like to disable some tests on a particular Java version this can be handl
 //TODO: Make reference to JUnit Jupiter Manual
 [source,java]
 ----
-import static org.apache.maven.jupiter.assertj.MavenITAssertions.assertThat;
-import static org.apache.maven.jupiter.extension.maven.MavenVersion.M3_0_5;
-import static org.apache.maven.jupiter.extension.maven.MavenVersion.M3_6_0;
+import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
+import static com.soebes.itf.jupiter.maven.MavenVersion.M3_0_5;
+import static com.soebes.itf.jupiter.maven.MavenVersion.M3_6_0;
 
-import org.apache.maven.jupiter.extension.DisabledForMavenVersion;
-import org.apache.maven.jupiter.extension.EnabledForMavenVersion;
-import org.apache.maven.jupiter.extension.MavenIT;
-import org.apache.maven.jupiter.extension.MavenTest;
-import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
+import com.soebes.itf.jupiter.extension.DisabledForMavenVersion;
+import com.soebes.itf.jupiter.extension.EnabledForMavenVersion;
+import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import org.junit.jupiter.api.condition.DisabledOnJre;
 import org.junit.jupiter.api.condition.JRE;
 
@@ -899,12 +912,12 @@ assertThat(project).hasTarget()
 ----
 package org.codehaus.mojo.versions.it;
 
-import org.apache.maven.jupiter.extension.MavenIT;
-import org.apache.maven.jupiter.extension.MavenTest;
-import org.apache.maven.jupiter.maven.MavenExecutionResult;
-import org.apache.maven.jupiter.maven.MavenProjectResult;
+import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.maven.MavenExecutionResult;
+import com.soebes.itf.jupiter.maven.MavenProjectResult;
 
-import static org.apache.maven.assertj.MavenITAssertions.assertThat;
+import com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
 @MavenIT
 class CompareDependenciesIT
@@ -937,8 +950,9 @@ class CompareDependenciesIT
 == Configuration in Maven
 
 You have decided to use this tool to test your plugin/extension etc. this means you have to build
-it on your own. I strongly recommend to start with version 0.2.0 cause this makes it easier for you
-and you don't need to build the artifacts on your own.
+it on your own. I strongly recommend to start with most recent release version which makes it easier
+for you. If you like to use the most recent development version you can of course build it on your
+own.
 
 NOTE: Starting with version 0.2.0 it will be published to central repository.
 
@@ -1061,13 +1075,14 @@ beforeEachTwo: MavenIntegrationExampleNestedGlobalRepoIT.beforeEach
 
 
 If you like to know how a start point looks like you can take a look
-into the https://github.com/khmarbaise/maven-it-extension/tree/master/it-examples[`it-examples`]
-project which shows the current configuration you need to do.
+into the https://github.com/khmarbaise/maven-it-extension/tree/master/itf-examples[`itf-examples`]
+project which shows the current configuration you need to have.
 
 The first part are the dependencies you need to add to your project.
 The `${project.version}` has to be replaced with the current version
-of the compiled project currently: `0.1.0-SNAPSHOT`. The `assertj-core` dependency is there cause
-I have used for development and currently nothing else is supported(see `maven-it-assertj`).
+of the compiled project currently for example: `0.1.0-SNAPSHOT`.
+The `assertj-core` dependency is there cause I have used for development and currently nothing
+else is supported(see `itf-assertj`).
 
 //FIXME: Restructuring the document into sub parts.
 [source,xml]
@@ -1083,12 +1098,12 @@ need to tweak your configuration based on your choices.
 include::{itfexample}/itf-examples/pom.xml[tag=resources]
 ----
 
-The next thing is you have to configure `maven-invoker-plugin` with the `install` goal
+The next thing is you have to configure `itf-maven-plugin` with the `install` goal
 like this:
 
 [source,xml]
 ----
-include::{itfexample}/itf-examples/pom.xml[tag=invoker]
+include::{itfexample}/itf-examples/pom.xml[tag=itf-maven-plugin]
 ----
 Finally you have to add a configuration for {maven-failsafe-plugin} like the following:
 
@@ -1097,14 +1112,14 @@ Finally you have to add a configuration for {maven-failsafe-plugin} like the fol
 include::{itfexample}/itf-examples/pom.xml[tag=failsafe]
 ----
 The two properties given `maven.version` transfers the version of Maven which is used
-to the maven integration extension and the `maven.home` transfer the information
+within the itf-jupiter-extension and the `maven.home` transfers the information
 of where to find the current Maven installation. This is needed to start
 the Maven process from within the integration tests.
 
 The usage of {maven-failsafe-plugin} implies the naming convention for the integration
 tests like `*IT.java` but of course you can change that by using the appropriate configuration.
 
-NOTE: The whole given configuration should be replaced by separate maven plugin later. This
-is currently not available, but I'm prototyping that already. First part the [installation of the
-artifacts](https://github.com/khmarbaise/maven-it-extension/issues/33) should be solved.
+NOTE: The whole given configuration should be replaced by separate maven plugin later.
+The first part meaning the installation of the artifacts is done but of course
+there are parts which where missing.
 
