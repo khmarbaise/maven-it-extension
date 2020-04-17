@@ -79,7 +79,7 @@ public class ApplicationExecutor {
     //TODO: Can make that better?
     try {
 <span class="nc" id="L81">      Files.write(Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + &quot;-arguments.log&quot;), applicationArguments,</span>
-          StandardOpenOption.CREATE);
+          StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
 <span class="nc" id="L83">    } catch (IOException e) {</span>
 <span class="nc" id="L84">      e.printStackTrace();</span>
 <span class="nc" id="L85">    }</span>

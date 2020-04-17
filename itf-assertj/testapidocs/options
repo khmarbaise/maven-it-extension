@@ -1,25 +1,25 @@
 -classpath
-'/Users/khmarbaise/ws-git-apache/maven-it-extension/itf-assertj/target/classes:/Users/khmarbaise/ws-git-apache/maven-it-extension/itf-assertj/target/test-classes:/Users/khmarbaise/ws-git-apache/maven-it-extension/itf-extension-maven/target/classes:/Users/khmarbaise/.m2/repository/org/apache/maven/maven-model/3.3.9/maven-model-3.3.9.jar:/Users/khmarbaise/.m2/repository/org/codehaus/plexus/plexus-utils/3.0.22/plexus-utils-3.0.22.jar:/Users/khmarbaise/.m2/repository/org/apache/commons/commons-lang3/3.4/commons-lang3-3.4.jar:/Users/khmarbaise/.m2/repository/org/apiguardian/apiguardian-api/1.1.0/apiguardian-api-1.1.0.jar:/Users/khmarbaise/.m2/repository/org/junit/platform/junit-platform-commons/1.6.2/junit-platform-commons-1.6.2.jar:/Users/khmarbaise/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.6.2/junit-jupiter-engine-5.6.2.jar:/Users/khmarbaise/.m2/repository/org/junit/platform/junit-platform-engine/1.6.2/junit-platform-engine-1.6.2.jar:/Users/khmarbaise/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/khmarbaise/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.6.2/junit-jupiter-api-5.6.2.jar:/Users/khmarbaise/.m2/repository/org/assertj/assertj-core/3.15.0/assertj-core-3.15.0.jar'
+'/Users/khmarbaise/ws-git-apache/maven-it-extension/target/checkout/itf-assertj/target/classes:/Users/khmarbaise/ws-git-apache/maven-it-extension/target/checkout/itf-assertj/target/test-classes:/Users/khmarbaise/ws-git-apache/maven-it-extension/target/checkout/itf-extension-maven/target/itf-extension-maven-0.3.0.jar:/Users/khmarbaise/.m2/repository/org/apache/maven/maven-model/3.3.9/maven-model-3.3.9.jar:/Users/khmarbaise/.m2/repository/org/codehaus/plexus/plexus-utils/3.0.22/plexus-utils-3.0.22.jar:/Users/khmarbaise/.m2/repository/org/apache/commons/commons-lang3/3.4/commons-lang3-3.4.jar:/Users/khmarbaise/.m2/repository/org/apiguardian/apiguardian-api/1.1.0/apiguardian-api-1.1.0.jar:/Users/khmarbaise/.m2/repository/org/junit/platform/junit-platform-commons/1.6.2/junit-platform-commons-1.6.2.jar:/Users/khmarbaise/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.6.2/junit-jupiter-engine-5.6.2.jar:/Users/khmarbaise/.m2/repository/org/junit/platform/junit-platform-engine/1.6.2/junit-platform-engine-1.6.2.jar:/Users/khmarbaise/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/khmarbaise/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.6.2/junit-jupiter-api-5.6.2.jar:/Users/khmarbaise/.m2/repository/org/assertj/assertj-core/3.15.0/assertj-core-3.15.0.jar'
 -encoding
 'UTF-8'
 -protected
 -quiet
 -sourcepath
-'/Users/khmarbaise/ws-git-apache/maven-it-extension/itf-assertj/src/test/java'
+'/Users/khmarbaise/ws-git-apache/maven-it-extension/target/checkout/itf-assertj/src/test/java:/Users/khmarbaise/ws-git-apache/maven-it-extension/target/checkout/itf-assertj/target/generated-test-sources/test-annotations'
 -author
 -bottom
 'Copyright &#169; 2011&#x2013;2020 <a href="http://www.soebes.com">SoftwareEntwicklung Beratung Schulung</a>. All rights reserved.'
 -charset
 'UTF-8'
 -d
-'/Users/khmarbaise/ws-git-apache/maven-it-extension/itf-assertj/target/site/testapidocs'
+'/Users/khmarbaise/ws-git-apache/maven-it-extension/target/checkout/itf-assertj/target/site/testapidocs'
 -docencoding
 'UTF-8'
 -doctitle
-'itf-assertj 0.2.1-SNAPSHOT Test API'
+'itf-assertj 0.3.0 Test API'
 -linkoffline
-'https://docs.oracle.com/en/java/javase/11/docs/api' '/Users/khmarbaise/ws-git-apache/maven-it-extension/itf-assertj/target/javadoc-bundle-options'
+'https://docs.oracle.com/en/java/javase/11/docs/api' '/Users/khmarbaise/ws-git-apache/maven-it-extension/target/checkout/itf-assertj/target/javadoc-bundle-options'
 -use
 -version
 -windowtitle
-'itf-assertj 0.2.1-SNAPSHOT Test API'
+'itf-assertj 0.3.0 Test API'

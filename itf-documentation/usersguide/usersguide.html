@@ -442,14 +442,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
 <span id="email" class="email"><a href="mailto:khmarbaise@apache.org">khmarbaise@apache.org</a></span><br>
-<span id="revnumber">version 0.2.1-SNAPSHOT</span>
+<span id="revnumber">version 0.3.0</span>
 </div>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_status">1. Status</a></li>
+<li><a href="#_overview">1. Overview</a>
+<ul class="sectlevel2">
+<li><a href="#_what_is_integration_testing_framework">1.1. What is Integration Testing Framework?</a></li>
+<li><a href="#_status">1.2. Status</a></li>
+</ul>
+</li>
 <li><a href="#_about_this_guide">2. About this Guide</a></li>
-<li><a href="#_overview">3. Overview</a></li>
+<li><a href="#_overview_2">3. Overview</a></li>
 <li><a href="#_structuring_integration_tests">4. Structuring Integration Tests</a>
 <ul class="sectlevel2">
 <li><a href="#_a_single_test_case">4.1. A Single Test Case</a></li>
@@ -478,7 +483,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_assertions">8. Assertions</a>
 <ul class="sectlevel2">
-<li><a href="#_overview_2">8.1. Overview</a></li>
+<li><a href="#_overview_3">8.1. Overview</a></li>
 <li><a href="#_expressing_assertions">8.2. Expressing Assertions</a></li>
 </ul>
 </li>
@@ -488,10 +493,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_status">1. Status</h2>
+<h2 id="_overview">1. Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
+<p>This document intends to give a comprehensive reference for programmers writing
+integration tests for Maven Plugins / Maven Core Extensions / Maven Core.</p>
+</div>
+<div class="sect2">
+<h3 id="_what_is_integration_testing_framework">1.1. What is Integration Testing Framework?</h3>
+<div class="paragraph">
+<p>The Integration Testing Framework (ITF for short) is in its foundation a <a href="https://junit.org/junit5/docs/current/user-guide/#extensions">JUnit Jupiter Extension</a>
+which supports you in writing integration tests for Maven Plugins etc. There are several aspects
+that makes writing integration tests for Maven Plugins at the
+<a href="https://khmarbaise.github.io/maven-it-extension/itf-documentation/background/background.html">moment harder than it should be</a>. This is the reason why this framework exists.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_status">1.2. Status</h3>
+<div class="paragraph">
 <p>The current status of this extension is experimental while some people call it Proof of Concept (PoC).</p>
+</div>
 </div>
 </div>
 </div>
@@ -501,9 +522,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="paragraph">
 <p>This guide represents the current state of development and things which work (or more accurate: <strong>should work</strong>).
 If you find things which do not work as described here or even don&#8217;t work please don&#8217;t hesitate
-to <a href="https://github.com/khmarbaise/maven-it-extension/issues">create an appropriate issue</a> and describe
-what does not work or does not work at all as described or maybe does not work as you might expect
-it to work.</p>
+to <a href="https://github.com/khmarbaise/maven-it-extension/issues">create an appropriate issue</a> and describe what does not work or does not work at
+all as described or maybe does not work as you might expect it to work.</p>
 </div>
 <div class="admonitionblock warning">
 <table>
@@ -521,7 +541,7 @@ early stage.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_overview">3. Overview</h2>
+<h2 id="_overview_2">3. Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The idea of integration tests for Maven Plugins, Maven Extensions, Maven Core is to keep the
@@ -552,9 +572,9 @@ test for a <a href="https://maven.apache.org/plugins/">Maven Plugins</a>/Maven E
 
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">org.assertj.core.api.Assertions.assertThat</span>;
 
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenIT</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenTest</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.maven.MavenExecutionResult</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenIT</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenTest</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenExecutionResult</span>;
 
 <span class="annotation">@MavenIT</span> // <b class="conum">(1)</b>
 <span class="type">class</span> <span class="class">FirstMavenIT</span> {
@@ -710,9 +730,9 @@ class layout:</p>
 
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">org.assertj.core.api.Assertions.assertThat</span>;
 
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenIT</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenTest</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.maven.MavenExecutionResult</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenIT</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenTest</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenExecutionResult</span>;
 
 <span class="annotation">@MavenIT</span>
 <span class="type">class</span> <span class="class">SeveralMavenIT</span> {
@@ -912,12 +932,12 @@ call several goals and/or lifecycle parts in one go you can simply define it lik
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">org.codehaus.mojo.versions.it</span>;
 
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenIT</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenTest</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.maven.MavenExecutionResult</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.maven.MavenProjectResult</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenIT</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenTest</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenExecutionResult</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenProjectResult</span>;
 
-<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.apache.maven.assertj.MavenITAssertions.assertThat</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.extension.assertj.MavenITAssertions.assertThat</span>;
 
 <span class="annotation">@MavenIT</span>
 <span class="type">class</span> <span class="class">CompareDependenciesIT</span>
@@ -1064,10 +1084,10 @@ The usage looks like the following:</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">org.it</span>;
 
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenIT</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenRepository</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenTest</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.maven.MavenExecutionResult</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenIT</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenRepository</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenTest</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenExecutionResult</span>;
 
 <span class="annotation">@MavenIT</span>
 <span class="annotation">@MavenRepository</span>
@@ -1315,15 +1335,15 @@ that.</p>
 <div class="listingblock">
 <div class="title">ForthMavenIT.java</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.apache.maven.jupiter.assertj.MavenExecutionResultAssert.assertThat</span>;
-<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.apache.maven.jupiter.extension.maven.MavenVersion.M3_0_5</span>;
-<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.apache.maven.jupiter.extension.maven.MavenVersion.M3_6_0</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">com.soebes.itf.extension.assertj.MavenCacheResultAssert.assertThat</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">com.soebes.itf.jupiter.maven.MavenVersion.M3_0_5</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">com.soebes.itf.jupiter.maven.MavenVersion.M3_6_0</span>;
 
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.DisabledForMavenVersion</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.EnabledForMavenVersion</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenIT</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenTest</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.maven.MavenExecutionResult</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.DisabledForMavenVersion</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.EnabledForMavenVersion</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenIT</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenTest</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenExecutionResult</span>;
 
 <span class="annotation">@MavenIT</span>
 <span class="type">class</span> <span class="class">FirstMavenIT</span> {
@@ -1349,15 +1369,15 @@ that.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.apache.maven.jupiter.assertj.MavenITAssertions.assertThat</span>;
-<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.apache.maven.jupiter.extension.maven.MavenVersion.M3_0_5</span>;
-<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.apache.maven.jupiter.extension.maven.MavenVersion.M3_6_0</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">com.soebes.itf.extension.assertj.MavenITAssertions.assertThat</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">com.soebes.itf.jupiter.maven.MavenVersion.M3_0_5</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">com.soebes.itf.jupiter.maven.MavenVersion.M3_6_0</span>;
 
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.DisabledForMavenVersion</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.EnabledForMavenVersion</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenIT</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenTest</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.maven.MavenExecutionResult</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.DisabledForMavenVersion</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.EnabledForMavenVersion</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenIT</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenTest</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenExecutionResult</span>;
 <span class="keyword">import</span> <span class="include">org.junit.jupiter.api.condition.DisabledOnJre</span>;
 <span class="keyword">import</span> <span class="include">org.junit.jupiter.api.condition.JRE</span>;
 
@@ -1386,7 +1406,7 @@ that.</p>
 <h2 id="_assertions">8. Assertions</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_overview_2">8.1. Overview</h3>
+<h3 id="_overview_3">8.1. Overview</h3>
 <div class="paragraph">
 <p>Let us take a look into a simple integration test. We would like to concentrate on the assertion part.</p>
 </div>
@@ -1503,12 +1523,12 @@ as you like.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">org.codehaus.mojo.versions.it</span>;
 
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenIT</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenTest</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.maven.MavenExecutionResult</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.maven.MavenProjectResult</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenIT</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenTest</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenExecutionResult</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenProjectResult</span>;
 
-<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.apache.maven.assertj.MavenITAssertions.assertThat</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.extension.assertj.MavenITAssertions.assertThat</span>;
 
 <span class="annotation">@MavenIT</span>
 <span class="type">class</span> <span class="class">CompareDependenciesIT</span>
@@ -1546,8 +1566,9 @@ as you like.</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>You have decided to use this tool to test your plugin/extension etc. this means you have to build
-it on your own. I strongly recommend to start with version 0.2.0 cause this makes it easier for you
-and you don&#8217;t need to build the artifacts on your own.</p>
+it on your own. I strongly recommend to start with most recent release version which makes it easier
+for you. If you like to use the most recent development version you can of course build it on your
+own.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1691,14 +1712,15 @@ beforeEachTwo: MavenIntegrationExampleNestedGlobalRepoIT.beforeEach
 </div>
 <div class="paragraph">
 <p>If you like to know how a start point looks like you can take a look
-into the <a href="https://github.com/khmarbaise/maven-it-extension/tree/master/it-examples"><code>it-examples</code></a>
-project which shows the current configuration you need to do.</p>
+into the <a href="https://github.com/khmarbaise/maven-it-extension/tree/master/itf-examples"><code>itf-examples</code></a>
+project which shows the current configuration you need to have.</p>
 </div>
 <div class="paragraph">
 <p>The first part are the dependencies you need to add to your project.
 The <code>${project.version}</code> has to be replaced with the current version
-of the compiled project currently: <code>0.1.0-SNAPSHOT</code>. The <code>assertj-core</code> dependency is there cause
-I have used for development and currently nothing else is supported(see <code>maven-it-assertj</code>).</p>
+of the compiled project currently for example: <code>0.1.0-SNAPSHOT</code>.
+The <code>assertj-core</code> dependency is there cause I have used for development and currently nothing
+else is supported(see <code>itf-assertj</code>).</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1750,30 +1772,21 @@ need to tweak your configuration based on your choices.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>The next thing is you have to configure <code>maven-invoker-plugin</code> with the <code>install</code> goal
+<p>The next thing is you have to configure <code>itf-maven-plugin</code> with the <code>install</code> goal
 like this:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml">      <span class="comment">&lt;!--
-       ! Currently a hack to copy the artifacts of the plugin/extension under tests
-       ! into a location which can be used by integration tests until we have our own
-       ! plugin doing this.
-      --&gt;</span>
-      <span class="tag">&lt;plugin&gt;</span>
-        <span class="tag">&lt;artifactId&gt;</span>maven-invoker-plugin<span class="tag">&lt;/artifactId&gt;</span>
+<pre class="CodeRay highlight"><code data-lang="xml">      <span class="tag">&lt;plugin&gt;</span>
+        <span class="tag">&lt;groupId&gt;</span>com.soebes.itf.jupiter.extension<span class="tag">&lt;/groupId&gt;</span>
+        <span class="tag">&lt;artifactId&gt;</span>itf-maven-plugin<span class="tag">&lt;/artifactId&gt;</span>
+        <span class="tag">&lt;version&gt;</span>${project.version}<span class="tag">&lt;/version&gt;</span>
         <span class="tag">&lt;executions&gt;</span>
           <span class="tag">&lt;execution&gt;</span>
-            <span class="comment">&lt;!--
-             ! Overwriting the configuration which is inherited
-            --&gt;</span>
-            <span class="tag">&lt;id&gt;</span>integration-test<span class="tag">&lt;/id&gt;</span>
+            <span class="tag">&lt;id&gt;</span>installing<span class="tag">&lt;/id&gt;</span>
             <span class="tag">&lt;goals&gt;</span>
               <span class="tag">&lt;goal&gt;</span>install<span class="tag">&lt;/goal&gt;</span>
             <span class="tag">&lt;/goals&gt;</span>
-            <span class="tag">&lt;configuration&gt;</span>
-              <span class="tag">&lt;localRepositoryPath&gt;</span>${project.build.directory}/invoker-repo<span class="tag">&lt;/localRepositoryPath&gt;</span>
-            <span class="tag">&lt;/configuration&gt;</span>
           <span class="tag">&lt;/execution&gt;</span>
         <span class="tag">&lt;/executions&gt;</span>
       <span class="tag">&lt;/plugin&gt;</span></code></pre>
@@ -1808,7 +1821,7 @@ like this:</p>
 </div>
 <div class="paragraph">
 <p>The two properties given <code>maven.version</code> transfers the version of Maven which is used
-to the maven integration extension and the <code>maven.home</code> transfer the information
+within the itf-jupiter-extension and the <code>maven.home</code> transfers the information
 of where to find the current Maven installation. This is needed to start
 the Maven process from within the integration tests.</p>
 </div>
@@ -1823,9 +1836,9 @@ tests like <code>*IT.java</code> but of course you can change that by using the 
 <div class="title">Note</div>
 </td>
 <td class="content">
-The whole given configuration should be replaced by separate maven plugin later. This
-is currently not available, but I&#8217;m prototyping that already. First part the [installation of the
-artifacts](<a href="https://github.com/khmarbaise/maven-it-extension/issues/33" class="bare">https://github.com/khmarbaise/maven-it-extension/issues/33</a>) should be solved.
+The whole given configuration should be replaced by separate maven plugin later.
+The first part meaning the installation of the artifacts is done but of course
+there are parts which where missing.
 </td>
 </tr>
 </table>
@@ -1841,8 +1854,8 @@ artifacts](<a href="https://github.com/khmarbaise/maven-it-extension/issues/33" 
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.2.1-SNAPSHOT<br>
-Last updated 2020-04-16 20:41:39 +0200
+Version 0.3.0<br>
+Last updated 2020-04-18 00:29:40 +0200
 </div>
 </div>
 <style>
