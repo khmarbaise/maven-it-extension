@@ -63,8 +63,12 @@ public class InstallMojo extends AbstractMojo {
 	@Parameter(defaultValue = "${project}", required = true, readonly = true)
 	private MavenProject project;
 
-	@Parameter(defaultValue = "${project.basedir}/target/invoker-repo", required = true)
-	private File invokerRepository;
+	/**
+	 * This defines the location where the installed artifacts are installed for
+	 * consumption during the integration tests.
+	 */
+	@Parameter(defaultValue = "${project.basedir}/target/itf-repo", required = true)
+	private File itfRepository;
 
 	@Component
 	private RepositoryManager repositoryManager;
@@ -121,11 +125,11 @@ public class InstallMojo extends AbstractMojo {
 	private void createTestRepository()
 			throws MojoExecutionException {
 
-		if (!invokerRepository.exists() && !invokerRepository.mkdirs()) {
-			throw new MojoExecutionException("Failed to create directory: " + invokerRepository);
+		if (!itfRepository.exists() && !itfRepository.mkdirs()) {
+			throw new MojoExecutionException("Failed to create directory: " + itfRepository);
 		}
 		projectBuildingRequest =
-				repositoryManager.setLocalRepositoryBasedir(session.getProjectBuildingRequest(), invokerRepository);
+				repositoryManager.setLocalRepositoryBasedir(session.getProjectBuildingRequest(), itfRepository);
 	}
 
 	/**
@@ -152,7 +156,7 @@ public class InstallMojo extends AbstractMojo {
 
 			if (installedArtifacts.add(artifact.getId())) {
 				artifact.setFile(file);
-				installer.install(projectBuildingRequest, invokerRepository,
+				installer.install(projectBuildingRequest, itfRepository,
 						Collections.singletonList(artifact));
 			} else {
 				getLog().debug("Not re-installing " + artifact + ", " + file);
@@ -185,7 +189,7 @@ public class InstallMojo extends AbstractMojo {
 
 			if (copiedArtifacts.add(artifact.getId())) {
 				File destination =
-						new File(invokerRepository,
+						new File(itfRepository,
 								repositoryManager.getPathForLocalArtifact(projectBuildingRequest, artifact));
 
 				getLog().debug("Installing " + file + " to " + destination);

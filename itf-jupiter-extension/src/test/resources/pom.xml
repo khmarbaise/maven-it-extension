@@ -524,7 +524,7 @@
               <goal>install</goal>
             </goals>
             <configuration combine.children="override">
-              <localRepositoryPath>${project.build.directory}/invoker-repo</localRepositoryPath>
+              <localRepositoryPath>${project.build.directory}/itf-repo</localRepositoryPath>
             </configuration>
           </execution>
         </executions>

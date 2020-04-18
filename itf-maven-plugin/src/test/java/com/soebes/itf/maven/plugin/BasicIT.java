@@ -25,7 +25,7 @@ class BasicIT {
 
 	/**
 	 * The test will check that the jar of the test project will be installed into the
-	 * {@code invoker-repo} and the appropriate {@codoe pom.xml} file.
+	 * {@code itf-repo} and the appropriate {@codoe pom.xml} file.
 	 *
 	 * The given test project does not have any dependencies nor any code.
 	 *
@@ -41,9 +41,9 @@ class BasicIT {
 
 		//FIXME: The following should be made easier See https://github.com/khmarbaise/maven-it-extension/issues/39
 		File target = new File(result.getMavenProjectResult().getBaseDir(), "target");
-		File invokerRepo = new File(target, "invoker-repo");
+		File itfRepo = new File(target, "itf-repo");
 
-		File install_should_not_fail = new File(invokerRepo, "com/soebes/itf/maven/plugin/its/install_should_not_fail");
+		File install_should_not_fail = new File(itfRepo, "com/soebes/itf/maven/plugin/its/install_should_not_fail");
 
 		assertThat(install_should_not_fail).isDirectory().satisfies(isnf -> {
 			assertThat(new File(isnf, "maven-metadata-local.xml")).isNotEmpty();
@@ -60,7 +60,7 @@ class BasicIT {
 
 	/**
 	 * The test will check that the jar of the test project and the single dependency
-	 * will be installed into the {@code invoker-repo} and the appropriate {@codoe pom.xml} file.
+	 * will be installed into the {@code itf-repo} and the appropriate {@codoe pom.xml} file.
 	 *
 	 * The given test project has only a single dependency but no code at all.
 	 * The single dependency is <a href="https://search.maven.org/artifact/org.apiguardian/apiguardian-api/1.1.0/jar">apiguardian-api 1.1.0</a>
@@ -77,9 +77,9 @@ class BasicIT {
 		MavenITAssertions.assertThat(result).isSuccessful().project();
 
 		File target = new File(result.getMavenProjectResult().getBaseDir(), "target");
-		File invokerRepo = new File(target, "invoker-repo");
+		File itfRepo = new File(target, "itf-repo");
 
-		File install_should_not_fail = new File(invokerRepo, "com/soebes/itf/maven/plugin/its/install_with_a_single_dependency");
+		File install_should_not_fail = new File(itfRepo, "com/soebes/itf/maven/plugin/its/install_with_a_single_dependency");
 		assertThat(install_should_not_fail).isDirectory().satisfies(isnf -> {
 			assertThat(new File(isnf, "maven-metadata-local.xml")).isNotEmpty();
 			assertThat(new File(isnf, "1.0")).isDirectory().satisfies(v10 -> {
@@ -91,7 +91,7 @@ class BasicIT {
 			});
 		});
 
-		File apiguardian = new File(invokerRepo, "org/apiguardian/apiguardian-api");
+		File apiguardian = new File(itfRepo, "org/apiguardian/apiguardian-api");
 		assertThat(apiguardian).isDirectory().satisfies(isnf -> {
 			assertThat(new File(isnf, "maven-metadata-local.xml")).isNotEmpty();
 			assertThat(new File(isnf, "1.1.0")).isDirectory().satisfies(v10 -> {
@@ -105,7 +105,7 @@ class BasicIT {
 
 	/**
 	 * The test will check that the jar of the test project and the single dependency
-	 * will be installed into the {@code invoker-repo} and the appropriate {@codoe pom.xml} file
+	 * will be installed into the {@code itf-repo} and the appropriate {@code pom.xml} file
 	 * including their transitive dependencies.
 	 *
 	 * The given test project has a single dependency but no code at all.
@@ -126,9 +126,9 @@ class BasicIT {
 		MavenITAssertions.assertThat(result).isSuccessful().project();
 
 		File target = new File(result.getMavenProjectResult().getBaseDir(), "target");
-		File invokerRepo = new File(target, "invoker-repo");
+		File itfRepo = new File(target, "itf-repo");
 
-		File install_should_not_fail = new File(invokerRepo, "com/soebes/itf/maven/plugin/its/install_with_dep_and_transitive_dep");
+		File install_should_not_fail = new File(itfRepo, "com/soebes/itf/maven/plugin/its/install_with_dep_and_transitive_dep");
 		assertThat(install_should_not_fail).isDirectory().satisfies(isnf -> {
 			assertThat(new File(isnf, "1.0")).isDirectory().satisfies(v10 -> {
 				assertThat(v10).satisfies(file -> {
@@ -138,7 +138,7 @@ class BasicIT {
 			});
 		});
 
-		File junit = new File(invokerRepo, "junit/junit");
+		File junit = new File(itfRepo, "junit/junit");
 		assertThat(junit).isDirectory().satisfies(isnf -> {
 			assertThat(new File(isnf, "4.13")).isDirectory().satisfies(v4_13 -> {
 				assertThat(v4_13).satisfies(file -> {
@@ -148,7 +148,7 @@ class BasicIT {
 			});
 		});
 
-		File hamcrestCore = new File(invokerRepo, "org/hamcrest/hamcrest-core");
+		File hamcrestCore = new File(itfRepo, "org/hamcrest/hamcrest-core");
 		assertThat(hamcrestCore).isDirectory().satisfies(isnf -> {
 			assertThat(new File(isnf, "1.3")).isDirectory().satisfies(v13 -> {
 				assertThat(v13).satisfies(file -> {
@@ -158,7 +158,7 @@ class BasicIT {
 			});
 		});
 
-		File hamcrestParent = new File(invokerRepo, "org/hamcrest/hamcrest-parent");
+		File hamcrestParent = new File(itfRepo, "org/hamcrest/hamcrest-parent");
 		assertThat(hamcrestParent).isDirectory().satisfies(isnf -> {
 			assertThat(new File(isnf, "1.3")).isDirectory().satisfies(v10 -> {
 				assertThat(v10).satisfies(file -> {

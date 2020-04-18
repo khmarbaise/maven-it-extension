@@ -1,0 +1,23 @@
+[[release-notes-0.4.0]]
+== Pre-release 0.4.0
+
+:issue-40: https://github.com/khmarbaise/maven-it-extension/issues/40[Fixed #40]
+:release-0_4_0: https://github.com/khmarbaise/maven-it-extension/milestone/4?closed=1
+
+*Date of Release:* ??, 2020
+
+*Scope:*
+
+ - Renamed `invoker-repo` into `itf-repo`
+
+*Details*
+
+ * {issue-40} - Changed from `invoker-repo` to `itf-repo`.
+
+*Breaking Changes*
+
+ * itf-maven-plugin uses now the location `itf-repo` instead
+   `invoker-repo`. This can break tests which have been written
+    with version 0.3.0 and before.
+
+The full release notes can be found here {release-0_4_0}[Release 0.4.0].

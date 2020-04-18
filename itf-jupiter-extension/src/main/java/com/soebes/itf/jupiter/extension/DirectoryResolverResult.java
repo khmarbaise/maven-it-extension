@@ -68,7 +68,7 @@ class DirectoryResolverResult {
 
     this.projectDirectory = new File(integrationTestCaseDirectory, "project");
     this.mavenItsBaseDirectory = new File(DirectoryHelper.getTargetDir(), "test-classes");
-    this.componentUnderTestDirectory = new File(this.getTargetDirectory(), "invoker-repo"); // Hard Coded!!
+    this.componentUnderTestDirectory = new File(this.getTargetDirectory(), "itf-repo"); // Hard Coded!!
 
     Class<?> testClass = context.getTestClass().orElseThrow(() -> new IllegalStateException("Test class not found."));
     String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);
