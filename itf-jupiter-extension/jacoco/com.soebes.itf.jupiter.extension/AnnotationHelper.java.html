@@ -96,8 +96,12 @@ import java.util.Optional;
 <span class="nc" id="L96">    return findAnnotation(context, MavenProject.class);</span>
   }
 
+  static Optional&lt;Class&lt;?&gt;&gt; findMavenPredefinedRepositoryAnnotation(ExtensionContext context) {
+<span class="nc" id="L100">    return findAnnotation(context, MavenPredefinedRepository.class);</span>
+  }
+
   static Optional&lt;Class&lt;?&gt;&gt; findMavenITAnnotation(ExtensionContext context) {
-<span class="nc" id="L100">    return findAnnotation(context, MavenIT.class);</span>
+<span class="nc" id="L104">    return findAnnotation(context, MavenIT.class);</span>
   }
 
 }

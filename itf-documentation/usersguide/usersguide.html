@@ -473,7 +473,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_grouping_test_cases">6.1. Grouping Test Cases</a></li>
 <li><a href="#_common_maven_cache">6.2. Common Maven Cache</a></li>
-<li><a href="#_single_project_with_several_executions">6.3. Single Project With Several Executions</a></li>
+<li><a href="#_predefined_repository_content_for_tests">6.3. Predefined Repository Content for Tests</a></li>
+<li><a href="#_single_project_with_several_executions">6.4. Single Project With Several Executions</a></li>
 </ul>
 </li>
 <li><a href="#_test_case_execution_2">7. Test Case Execution</a>
@@ -1171,7 +1172,7 @@ will look like this:</p>
 </div>
 <div class="paragraph">
 <p>That would result in having a common cache for the methods <code>basic</code> and <code>packaging_includes</code> within
-the nested class <code>NestedExample</code>. The test method <code>packaging_includes</code> will have a cache of it&#8217;s own.
+the nested class <code>NestedExample</code>. The test method <code>packaging_includes</code> will have a cache on it&#8217;s own.
 The directory tree looks like this:</p>
 </div>
 <div class="listingblock">
@@ -1213,7 +1214,114 @@ The directory tree looks like this:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_single_project_with_several_executions">6.3. Single Project With Several Executions</h3>
+<h3 id="_predefined_repository_content_for_tests">6.3. Predefined Repository Content for Tests</h3>
+<div class="paragraph">
+<p>There are existing test cases in which you need predefined dependencies cause you can&#8217;t rely
+on existing dependencies in the central repository or anywhere else.
+You have the option to define a repository either per testcase or per test class where you
+can put existing dependencies for your test cases.
+Those dependencies are behaving like you have installed in your local repository via <code>mvn install:install-file</code>.</p>
+</div>
+<div class="paragraph">
+<p>In your test code the setup looks like the following. The important part is the definition
+of the <code>@MavenPredefinedRepository</code> which indicated that the predefined repository in the appropriate
+location needs to exist. This means that those dependencies from this directory are available for
+each test case (<code>project_001</code> and <code>proeject_002</code>) in this test class.</p>
+</div>
+<div class="listingblock">
+<div class="title">ProjectIT.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenIT</span>
+<span class="annotation">@MavenPredefinedRepository</span>
+<span class="type">class</span> <span class="class">ProjectIT</span> {
+
+  <span class="annotation">@MavenTest</span>(options = {MavenOptions.DEBUG})
+  <span class="type">void</span> project_001(MavenExecutionResult result) {
+    assertThat(result).isSuccessful();
+  }
+
+  <span class="annotation">@MavenTest</span>(options = {MavenOptions.DEBUG})
+  <span class="type">void</span> project_002(MavenExecutionResult result) {
+    assertThat(result).isSuccessful();
+  }
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In your test project definition you need to create the appropriate directory structure
+including the needed content which looks like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="text">.
+└── src/
+    └── test/
+        └── resources-its/
+            └── org/
+                └── it/
+                    └── ProjectIT/
+                        ├── .predefined-repo
+                        │     ├── ...
+                        │     └── ...
+                        └── project_001/
+                        │   ├── src/
+                        │   └── pom.xml
+                        └── project_002/
+                            ├── src/
+                            └── pom.xml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the <code>.predefined-repo</code> you have to follow a usual maven repository structure. You can of course
+define the <code>@MavenPredefinedRepository</code> also on the test method level which would look like this:</p>
+</div>
+<div class="listingblock">
+<div class="title">ProjectLevelIT.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenIT</span>
+<span class="type">class</span> <span class="class">ProjectIT</span> {
+
+  <span class="annotation">@MavenTest</span>(options = {MavenOptions.DEBUG})
+  <span class="annotation">@MavenPredefinedRepository</span>
+  <span class="type">void</span> project_001(MavenExecutionResult result) {
+    assertThat(result).isSuccessful();
+  }
+
+  <span class="annotation">@MavenTest</span>(options = {MavenOptions.DEBUG})
+  <span class="annotation">@MavenPredefinedRepository</span>
+  <span class="type">void</span> project_002(MavenExecutionResult result) {
+    assertThat(result).isSuccessful();
+  }
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The setup directories look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="text">.
+└── src/
+    └── test/
+        └── resources-its/
+            └── org/
+                └── it/
+                    └── ProjectIT/
+                        └── project_001/
+                        │   ├── .predefined-repo
+                        │   ├── src/
+                        │   └── pom.xml
+                        └── project_002/
+                            ├── .predefined-repo
+                            ├── src/
+                            └── pom.xml</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_single_project_with_several_executions">6.4. Single Project With Several Executions</h3>
 <div class="paragraph">
 <p>Sometimes you need to execute a consecutive number of commands (usually maven executions) on the same
 single project. This means in the end having a single project and executing several maven execution
@@ -1855,7 +1963,7 @@ there are parts which where missing.
 <div id="footer">
 <div id="footer-text">
 Version 0.3.1-SNAPSHOT<br>
-Last updated 2020-04-18 12:18:06 +0200
+Last updated 2020-04-18 21:11:43 +0200
 </div>
 </div>
 <style>
