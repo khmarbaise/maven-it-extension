@@ -599,7 +599,7 @@ class MavenIntegrationGroupingIT {
 }
 ----
 That would result in having a common cache for the methods `basic` and `packaging_includes` within
-the nested class `NestedExample`. The test method `packaging_includes` will have a cache of it's own.
+the nested class `NestedExample`. The test method `packaging_includes` will have a cache on it's own.
 The directory tree looks like this:
 
 [source,text]
@@ -637,6 +637,104 @@ The directory tree looks like this:
                            ├── mvn-stdout.log
                            ├── mvn-stderr.log
                            └── other logs
+----
+
+
+=== Predefined Repository Content for Tests
+
+There are existing test cases in which you need predefined dependencies cause you can't rely
+on existing dependencies in the central repository or anywhere else.
+You have the option to define a repository either per testcase or per test class where you
+can put existing dependencies for your test cases.
+Those dependencies are behaving like you have installed in your local repository via `mvn install:install-file`.
+
+In your test code the setup looks like the following. The important part is the definition
+of the `@MavenPredefinedRepository` which indicated that the predefined repository in the appropriate
+location needs to exist. This means that those dependencies from this directory are available for
+each test case (`project_001` and `proeject_002`) in this test class.
+
+[source,java]
+.ProjectIT.java
+----
+@MavenIT
+@MavenPredefinedRepository
+class ProjectIT {
+
+  @MavenTest(options = {MavenOptions.DEBUG})
+  void project_001(MavenExecutionResult result) {
+    assertThat(result).isSuccessful();
+  }
+
+  @MavenTest(options = {MavenOptions.DEBUG})
+  void project_002(MavenExecutionResult result) {
+    assertThat(result).isSuccessful();
+  }
+
+}
+----
+In your test project definition you need to create the appropriate directory structure
+including the needed content which looks like this:
+
+[source,text]
+----
+.
+└── src/
+    └── test/
+        └── resources-its/
+            └── org/
+                └── it/
+                    └── ProjectIT/
+                        ├── .predefined-repo
+                        │     ├── ...
+                        │     └── ...
+                        └── project_001/
+                        │   ├── src/
+                        │   └── pom.xml
+                        └── project_002/
+                            ├── src/
+                            └── pom.xml
+----
+In the `.predefined-repo` you have to follow a usual maven repository structure. You can of course
+define the `@MavenPredefinedRepository` also on the test method level which would look like this:
+
+[source,java]
+.ProjectLevelIT.java
+----
+@MavenIT
+class ProjectIT {
+
+  @MavenTest(options = {MavenOptions.DEBUG})
+  @MavenPredefinedRepository
+  void project_001(MavenExecutionResult result) {
+    assertThat(result).isSuccessful();
+  }
+
+  @MavenTest(options = {MavenOptions.DEBUG})
+  @MavenPredefinedRepository
+  void project_002(MavenExecutionResult result) {
+    assertThat(result).isSuccessful();
+  }
+
+}
+----
+The setup directories look like this:
+[source,text]
+----
+.
+└── src/
+    └── test/
+        └── resources-its/
+            └── org/
+                └── it/
+                    └── ProjectIT/
+                        └── project_001/
+                        │   ├── .predefined-repo
+                        │   ├── src/
+                        │   └── pom.xml
+                        └── project_002/
+                            ├── .predefined-repo
+                            ├── src/
+                            └── pom.xml
 ----
 
 === Single Project With Several Executions

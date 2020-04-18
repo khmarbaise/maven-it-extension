@@ -114,6 +114,7 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     invocation.proceed();
   }
 
+
   @Override
   public void beforeTestExecution(ExtensionContext context)
       throws IOException, InterruptedException, XmlPullParserException {
@@ -125,11 +126,30 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     directoryResolverResult.getProjectDirectory().mkdirs();
     directoryResolverResult.getCacheDirectory().mkdirs();
 
-    //FIXME: Copy artifacts from maven-invoker-plugin:install location into each cache; Currently HARD CODED!!
+    //FIXME: Copy artifacts from itf-maven-plugin (itf-repo) location into each cache; Currently HARD CODED!!
     FileUtils.copyDirectory(directoryResolverResult.getComponentUnderTestDirectory(),
         directoryResolverResult.getCacheDirectory());
+
     FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),
         directoryResolverResult.getProjectDirectory());
+
+    Method methodName = context.getTestMethod().orElseThrow(() -> new IllegalStateException("No method given"));
+
+
+    //Copy ".predefined-repo" into ".m2/repository"
+    Optional<File> predefinedRepository = directoryResolverResult.getPredefinedRepository();
+    if (predefinedRepository.isPresent()) {
+      FileUtils.copyDirectory(predefinedRepository.get(),
+          directoryResolverResult.getCacheDirectory());
+    } else {
+      boolean annotationPresent = methodName.isAnnotationPresent(MavenPredefinedRepository.class);
+      if (annotationPresent) {
+        MavenPredefinedRepository annotation = methodName.getAnnotation(MavenPredefinedRepository.class);
+           File predefinedRepoFile = new File(directoryResolverResult.getSourceMavenProject(), annotation.value());
+        FileUtils.copyDirectory(predefinedRepoFile,
+            directoryResolverResult.getCacheDirectory());
+      }
+    }
 
     String mavenHome = System.getProperty("maven.home");
     if (mavenHome == null || mavenHome.isEmpty()) {
@@ -143,7 +163,6 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
 
 
     String prefix = "mvn";
-    Method methodName = context.getTestMethod().orElseThrow(() -> new IllegalStateException("No method given"));
     Optional<Class<?>> mavenProject = AnnotationHelper.findMavenProjectAnnotation(context);
     if (mavenProject.isPresent()) {
       prefix = methodName.getName() + "-mvn";

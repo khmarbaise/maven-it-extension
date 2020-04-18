@@ -48,6 +48,8 @@ class DirectoryResolverResult {
 
   private final File componentUnderTestDirectory;
 
+  private final Optional<File> predefinedRepository;
+
   DirectoryResolverResult(ExtensionContext context) {
     StorageHelper sh = new StorageHelper(context);
 
@@ -90,10 +92,25 @@ class DirectoryResolverResult {
       this.cacheDirectory = new File(this.integrationTestCaseDirectory, ".m2/repository");
     }
 
+    Optional<Class<?>> optionalMavenPredefinedRepository = AnnotationHelper.findMavenPredefinedRepositoryAnnotation(context);
+    if (optionalMavenPredefinedRepository.isPresent()) {
+      MavenPredefinedRepository mavenRepository = optionalMavenPredefinedRepository.get().getAnnotation(MavenPredefinedRepository.class);
+      String repositoryPath = DirectoryHelper.toFullyQualifiedPath(optionalMavenPredefinedRepository.get());
+      File cacheDirectoryBase = new File(this.mavenItsBaseDirectory, repositoryPath);
+      this.predefinedRepository = Optional.of(new File(cacheDirectoryBase, mavenRepository.value()));
+    } else {
+      //FIXME: Hard coded default. Should we get the default from the Annotation?
+      this.predefinedRepository = Optional.empty();
+    }
+
   }
 
-  File getComponentUnderTestDirectory() {
+  final File getComponentUnderTestDirectory() {
     return componentUnderTestDirectory;
+  }
+
+  final Optional<File> getPredefinedRepository() {
+    return predefinedRepository;
   }
 
   final File getCacheDirectory() {

@@ -96,6 +96,10 @@ class AnnotationHelper {
     return findAnnotation(context, MavenProject.class);
   }
 
+  static Optional<Class<?>> findMavenPredefinedRepositoryAnnotation(ExtensionContext context) {
+    return findAnnotation(context, MavenPredefinedRepository.class);
+  }
+
   static Optional<Class<?>> findMavenITAnnotation(ExtensionContext context) {
     return findAnnotation(context, MavenIT.class);
   }

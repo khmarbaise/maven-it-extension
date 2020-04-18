@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @MavenIT
 class BasicIT {
 
-  @MavenTest(options = {MavenOptions.NO_TRANSFER_PROGRESS})
+  @MavenTest(options = {MavenOptions.NO_TRANSFER_PROGRESS, MavenOptions.DEBUG})
   @DisplayName("Running a basic test which makes sure the groupId/artifact of the plugin are ok.")
   void groupid_artifactid_should_be_ok(MavenExecutionResult result) {
     MavenITAssertions.assertThat(result).isSuccessful();
