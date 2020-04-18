@@ -237,51 +237,32 @@
           <artifactId>maven-plugin-plugin</artifactId>
           <version>3.6.0</version>
         </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.0.0-M3</version>
-          <executions>
-            <execution>
-              <id>enforce-maven-version</id>
-              <goals>
-                <goal>enforce</goal>
-              </goals>
-              <configuration combine.children="override">
-                <rules>
-                  <requireMavenVersion>
-                    <version>3.3.9</version>
-                  </requireMavenVersion>
-                </rules>
-              </configuration>
-            </execution>
-<!--            <execution>-->
-<!--              <id>enforce-bytecode-version</id>-->
-<!--              <goals>-->
-<!--                <goal>enforce</goal>-->
-<!--              </goals>-->
-<!--              <configuration combine.children="override">-->
-<!--                <rules>-->
-<!--                  <enforceBytecodeVersion>-->
-<!--                    <maxJdkVersion>${maven.compiler.target}</maxJdkVersion>-->
-<!--                    <excludes>-->
-<!--                      <exclude>org.junit.jupiter:junit-jupiter-api</exclude>-->
-<!--                      <exclude>org.junit.jupiter:junit-jupiter-engine</exclude>-->
-<!--                      <exclude>org.junit.platform:junit-platform-commons</exclude>-->
-<!--                      <exclude>org.junit.jupiter:junit-jupiter-params</exclude>-->
-<!--                      <execlude>org.junit.platform:junit-platform-engine</execlude>-->
-<!--                      <exclude>org.opentest4j:opentest4j</exclude>-->
-<!--                      <exclude>org.apiguardian:apiguardian-api</exclude>-->
-<!--                      <exclude>javax.xml.bind:jaxb-api</exclude>-->
-<!--                    </excludes>-->
-<!--                  </enforceBytecodeVersion>-->
-<!--                </rules>-->
-<!--              </configuration>-->
-<!--            </execution>-->
-          </executions>
-        </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.rat</groupId>
+        <artifactId>apache-rat-plugin</artifactId>
+        <configuration>
+          <excludes combine.children="append">
+            <exclude>IDEASetup.xml</exclude>
+            <exclude>.repository/**</exclude><!-- Jenkins job with local Maven repository -->
+            <exclude>.maven/spy.log</exclude><!-- Hudson Maven3 integration log -->
+            <exclude>dependency-reduced-pom.xml</exclude><!-- Maven shade plugin -->
+            <exclude>.asf.yaml</exclude><!-- GitHub Support -->
+            <exclude>.java-version</exclude>
+          </excludes>
+        </configuration>
+        <executions>
+          <execution>
+            <id>rat-check</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 
   <modules>
