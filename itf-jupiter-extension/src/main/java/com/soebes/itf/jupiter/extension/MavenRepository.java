@@ -20,7 +20,6 @@ package com.soebes.itf.jupiter.extension;
  */
 
 import org.apiguardian.api.API;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
@@ -38,7 +37,6 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@ExtendWith(MavenITExtension.class)
 @Documented
 @Inherited
 // Prevent running with multiple threads

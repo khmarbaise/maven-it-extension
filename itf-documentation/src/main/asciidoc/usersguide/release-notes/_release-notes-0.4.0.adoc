@@ -20,6 +20,7 @@
 
 :issue-40: https://github.com/khmarbaise/maven-it-extension/issues/40[Fixed #40]
 :issue-41: https://github.com/khmarbaise/maven-it-extension/issues/41[Fixed #41]
+:issue-42: https://github.com/khmarbaise/maven-it-extension/issues/42[Fixed #42]
 
 :release-0_4_0: https://github.com/khmarbaise/maven-it-extension/milestone/4?closed=1
 
@@ -33,6 +34,7 @@
 
  * {issue-40} - Changed from `invoker-repo` to `itf-repo`.
  * {issue-41} - Activate apache-rat plugin to check all files for license
+ * {issue-42} - MavenRepository contains @ExtendWith
 
 *Breaking Changes*
 
