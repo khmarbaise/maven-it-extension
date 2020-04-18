@@ -19,16 +19,6 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.parallel.ResourceAccessMode.READ_WRITE;
-import static org.junit.jupiter.api.parallel.Resources.SYSTEM_PROPERTIES;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.lang.reflect.AnnotatedElement;
-import java.util.Optional;
-import java.util.Properties;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -36,6 +26,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ConditionEvaluationResult;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.parallel.ResourceLock;
+
+import java.lang.reflect.AnnotatedElement;
+import java.util.Optional;
+import java.util.Properties;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.parallel.ResourceAccessMode.READ_WRITE;
+import static org.junit.jupiter.api.parallel.Resources.SYSTEM_PROPERTIES;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class DisabledForMavenVersionConditionTest {
 
@@ -67,6 +68,7 @@ class DisabledForMavenVersionConditionTest {
     assertThat(conditionEvaluationResult.isDisabled()).isTrue();
 
   }
+
   @Test
   @ResourceLock(value = SYSTEM_PROPERTIES, mode = READ_WRITE)
   @Disabled("Not working yet.")

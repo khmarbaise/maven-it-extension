@@ -19,10 +19,11 @@ package com.soebes.itf.jupiter.maven;
  * under the License.
  */
 
-import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+import org.apiguardian.api.API;
 
 import java.util.StringJoiner;
-import org.apiguardian.api.API;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 @API(status = EXPERIMENTAL, since = "0.1.0")
 public class MavenExecutor {
@@ -36,6 +37,7 @@ public class MavenExecutor {
   public MavenExecutionResult execute() {
     return null;
   }
+
   @Override
   public String toString() {
     return new StringJoiner(", ", MavenExecutor.class.getSimpleName() + "[", "]").add(

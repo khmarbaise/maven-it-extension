@@ -19,13 +19,6 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.lang.reflect.Method;
 import net.bytebuddy.description.annotation.AnnotationDescription;
 import net.bytebuddy.description.annotation.AnnotationDescription.Builder;
 import org.junit.jupiter.api.DisplayName;
@@ -33,6 +26,14 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.PreconditionViolationException;
 import org.mockito.ArgumentMatchers;
+
+import java.lang.reflect.Method;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 /**
@@ -48,16 +49,16 @@ class AnnotationHelperTest {
 
   private Method createMavenTestAnnotation(String... profiles) {
     AnnotationDescription mavenTestAnnotationDescription = Builder.ofType(MavenTest.class)
-      .defineArray("activeProfiles", profiles)
-      .build();
+        .defineArray("activeProfiles", profiles)
+        .build();
 
     return createAnnotationPrepare(mavenTestAnnotationDescription);
   }
 
   private Method createMavenTestAnnotationGoals(String... profiles) {
     AnnotationDescription mavenTestAnnotationDescription = Builder.ofType(MavenTest.class)
-      .defineArray("goals", profiles)
-      .build();
+        .defineArray("goals", profiles)
+        .build();
 
     return createAnnotationPrepare(mavenTestAnnotationDescription);
   }
@@ -79,7 +80,7 @@ class AnnotationHelperTest {
     @DisplayName("fail with PreconditionViolationException for null parameter.")
     void should_fail_with_exeception_for_parameter_null() {
       assertThatExceptionOfType(PreconditionViolationException.class).isThrownBy(() -> AnnotationHelper.isDebug(null))
-        .withMessage("method is not allowed to be null.");
+          .withMessage("method is not allowed to be null.");
     }
 
     @Test
@@ -90,7 +91,7 @@ class AnnotationHelperTest {
       when(method.getName()).thenReturn("The unknown method.");
 
       assertThatIllegalStateException().isThrownBy(() -> AnnotationHelper.isDebug(method))
-        .withMessage("MavenTest Annotation is not given on method: 'The unknown method.'");
+          .withMessage("MavenTest Annotation is not given on method: 'The unknown method.'");
     }
 
     @Test
@@ -118,8 +119,8 @@ class AnnotationHelperTest {
 
     private Method createMavenTestAnnotation(Boolean debugState) {
       AnnotationDescription mavenTestAnnotationDescription = Builder.ofType(MavenTest.class)
-        .define("debug", debugState)
-        .build();
+          .define("debug", debugState)
+          .build();
 
       return createAnnotationPrepare(mavenTestAnnotationDescription);
     }
@@ -133,7 +134,7 @@ class AnnotationHelperTest {
     @DisplayName("fail with PreconditionViolationException for null parameter.")
     void should_fail_with_exeception_for_parameter_null() {
       assertThatExceptionOfType(PreconditionViolationException.class).isThrownBy(() -> AnnotationHelper.hasActiveProfiles(null))
-        .withMessage("method is not allowed to be null.");
+          .withMessage("method is not allowed to be null.");
     }
 
     @Test
@@ -160,7 +161,7 @@ class AnnotationHelperTest {
     @DisplayName("fail with PreconditionViolationException for null parameter.")
     void should_fail_with_exeception_for_parameter_null() {
       assertThatExceptionOfType(PreconditionViolationException.class).isThrownBy(() -> AnnotationHelper.getActiveProfiles(null))
-        .withMessage("method is not allowed to be null.");
+          .withMessage("method is not allowed to be null.");
     }
 
     @Test
@@ -171,7 +172,7 @@ class AnnotationHelperTest {
       when(method.getName()).thenReturn("The unknown method.");
 
       assertThatIllegalStateException().isThrownBy(() -> AnnotationHelper.getActiveProfiles(method))
-        .withMessage("MavenTest Annotation is not given on method: 'The unknown method.'");
+          .withMessage("MavenTest Annotation is not given on method: 'The unknown method.'");
     }
 
     @Test
@@ -198,7 +199,7 @@ class AnnotationHelperTest {
     @DisplayName("fail with PreconditionViolationException for null parameter.")
     void should_fail_with_exeception_for_parameter_null() {
       assertThatExceptionOfType(PreconditionViolationException.class).isThrownBy(() -> AnnotationHelper.getGoals(null))
-        .withMessage("method is not allowed to be null.");
+          .withMessage("method is not allowed to be null.");
     }
 
     @Test
@@ -209,7 +210,7 @@ class AnnotationHelperTest {
       when(method.getName()).thenReturn("The unknown method.");
 
       assertThatIllegalStateException().isThrownBy(() -> AnnotationHelper.getGoals(method))
-        .withMessage("MavenTest Annotation is not given on method: 'The unknown method.'");
+          .withMessage("MavenTest Annotation is not given on method: 'The unknown method.'");
     }
 
     @Test
@@ -229,7 +230,7 @@ class AnnotationHelperTest {
     @DisplayName("fail with PreconditionViolationException for null parameter.")
     void should_fail_with_exeception_for_parameter_null() {
       assertThatExceptionOfType(PreconditionViolationException.class).isThrownBy(() -> AnnotationHelper.hasActiveProfiles(null))
-        .withMessage("method is not allowed to be null.");
+          .withMessage("method is not allowed to be null.");
     }
 
     @Test
@@ -240,7 +241,7 @@ class AnnotationHelperTest {
       when(method.getName()).thenReturn("The unknown method.");
 
       assertThatIllegalStateException().isThrownBy(() -> AnnotationHelper.hasGoals(method))
-        .withMessage("MavenTest Annotation is not given on method: 'The unknown method.'");
+          .withMessage("MavenTest Annotation is not given on method: 'The unknown method.'");
     }
 
     @Test

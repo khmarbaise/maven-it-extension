@@ -19,15 +19,16 @@ package com.soebes.itf.extension.assertj;
  * under the License.
  */
 
+import org.apache.maven.model.Model;
+import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.Assertions;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.jar.JarFile;
-import org.apache.maven.model.Model;
-import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.api.Assertions;
 
 public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
 
@@ -54,7 +55,6 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
    *   <li>META-INF/maven/&lt;groupId&gt;/&lt;artifactId&gt;/pom.properties</li>
    * </ul>
    *
-   *
    * @return {@link ArchiveAssert}
    */
   public ArchiveAssert ignoreMavenFiles() {
@@ -75,7 +75,7 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
       Assertions.assertThat(jarFile.stream())
           .describedAs("Checking ear file names.")
           .extracting(jarEntry -> jarEntry.getName())
-          .doesNotContain(includes.toArray(new String[] {}));
+          .doesNotContain(includes.toArray(new String[]{}));
     } catch (IOException e) {
       failWithMessage("IOException happened. <%s> file:<%s>", e.getMessage());
     }
@@ -83,7 +83,7 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
   }
 
   public ArchiveAssert containsOnlyOnce(List<String> files) {
-    return containsOnlyOnce(files.toArray(new String[] {}));
+    return containsOnlyOnce(files.toArray(new String[]{}));
   }
 
   public ArchiveAssert containsOnlyOnce(String... files) {
@@ -97,6 +97,7 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
     }
     return myself;
   }
+
   public ArchiveAssert containsOnly(String... files) {
     try (JarFile jarFile = new JarFile(this.actual)) {
       Assertions.assertThat(jarFile.stream())

@@ -19,7 +19,10 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+import org.apiguardian.api.API;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -27,10 +30,8 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import org.apiguardian.api.API;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
  * @author Karl Heinz Marbaise

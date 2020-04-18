@@ -19,13 +19,14 @@ package com.soebes.itf.jupiter.maven;
  * under the License.
  */
 
-import static org.apiguardian.api.API.Status.EXPERIMENTAL;
-
-import java.util.stream.Stream;
 import org.apiguardian.api.API;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
 import org.junit.platform.commons.util.StringUtils;
+
+import java.util.stream.Stream;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
  * @author Karl Heinz Marbaise

@@ -19,16 +19,15 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import java.io.File;
-
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
-import org.junit.jupiter.api.extension.ExtensionContext.Store;
-
 import com.soebes.itf.jupiter.maven.MavenCacheResult;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.soebes.itf.jupiter.maven.MavenLog;
 import com.soebes.itf.jupiter.maven.MavenProjectResult;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
+import org.junit.jupiter.api.extension.ExtensionContext.Store;
+
+import java.io.File;
 
 /**
  * @author Karl Heinz Marbaise
@@ -66,7 +65,7 @@ final class StorageHelper {
   }
 
   void save(MavenExecutionResult result, MavenLog log, MavenCacheResult mavenCacheResult,
-      MavenProjectResult mavenProjectResult) {
+            MavenProjectResult mavenProjectResult) {
     put(ParameterType.ExecutionResult + context.getUniqueId(), result);
     put(ParameterType.LogResult + context.getUniqueId(), log);
     put(ParameterType.CacheResult + context.getUniqueId(), mavenCacheResult);

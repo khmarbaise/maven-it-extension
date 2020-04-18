@@ -53,7 +53,7 @@ public class ApplicationExecutor {
   private final String javaHome;
 
   public ApplicationExecutor(String javaHome, File loggingDirectory, File workingDirectory, File applicationExecutable,
-      List<String> jvmArguments, String prefix) {
+                             List<String> jvmArguments, String prefix) {
     this.javaHome = javaHome;
     this.loggingDirectory = loggingDirectory;
     this.workingDirectory = workingDirectory;
@@ -63,7 +63,7 @@ public class ApplicationExecutor {
   }
 
   public ApplicationExecutor(File workingDirectory, File loggingDirectory, File applicationExecutable,
-      List<String> jvmArguments, String prefix) {
+                             List<String> jvmArguments, String prefix) {
     //TODO: This should be made configurable
     this(System.getProperty("java.home"), loggingDirectory, workingDirectory, applicationExecutable, jvmArguments,
         prefix);

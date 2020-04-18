@@ -19,14 +19,13 @@ package com.soebes.itf.extension.assertj;
  * under the License.
  */
 
+import com.soebes.itf.jupiter.maven.MavenLog;
+import org.assertj.core.api.AbstractAssert;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.assertj.core.api.AbstractAssert;
-
-import com.soebes.itf.jupiter.maven.MavenLog;
 
 /**
  * @author Karl Heinz Marbaise

@@ -19,19 +19,18 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import static org.junit.jupiter.api.extension.ConditionEvaluationResult.disabled;
-import static org.junit.jupiter.api.extension.ConditionEvaluationResult.enabled;
-import static org.junit.platform.commons.util.AnnotationUtils.findAnnotation;
-
-import java.util.Optional;
-import java.util.stream.Stream;
-
+import com.soebes.itf.jupiter.maven.MavenVersion;
 import org.junit.jupiter.api.extension.ConditionEvaluationResult;
 import org.junit.jupiter.api.extension.ExecutionCondition;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.platform.commons.util.Preconditions;
 
-import com.soebes.itf.jupiter.maven.MavenVersion;
+import java.util.Optional;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.extension.ConditionEvaluationResult.disabled;
+import static org.junit.jupiter.api.extension.ConditionEvaluationResult.enabled;
+import static org.junit.platform.commons.util.AnnotationUtils.findAnnotation;
 
 /**
  * {@link ExecutionCondition} for {@link EnabledForMavenVersion @EnabledForMaven}.

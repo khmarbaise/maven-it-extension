@@ -1,11 +1,10 @@
 package com.soebes.itf.examples;
 
-import org.junit.jupiter.api.BeforeEach;
-
 import com.soebes.itf.jupiter.extension.MavenIT;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.soebes.itf.jupiter.maven.MavenExecutor;
+import org.junit.jupiter.api.BeforeEach;
 
 @MavenIT
 class ITWithBeforeEachIT {

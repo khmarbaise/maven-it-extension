@@ -19,9 +19,9 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import static org.apiguardian.api.API.Status.EXPERIMENTAL;
-
 import org.apiguardian.api.API;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
  * The different command line options which are supported by Apache Maven.
@@ -183,7 +183,7 @@ public final class MavenOptions {
 
   /**
    * You have to add the {@code <arg>} in your {@code options} definition.
-   *
+   * <p>
    * {@code --log-file <arg>}
    */
   public static final String LOG_FILE = "--log-file";

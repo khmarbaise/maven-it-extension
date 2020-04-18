@@ -1,16 +1,16 @@
 package com.soebes.itf.examples;
 
-import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
-
 import com.soebes.itf.jupiter.extension.MavenIT;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.soebes.itf.jupiter.maven.MavenLog;
 import com.soebes.itf.jupiter.maven.MavenProjectResult;
 
+import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
+
 /**
  * Examples taken from Maven EAR Plugin
- *
+ * <p>
  * Invoker Integration Test:
  * <ul>
  *   <li>test_project_root</li>

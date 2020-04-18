@@ -19,11 +19,12 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.platform.commons.util.Preconditions;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Optional;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.platform.commons.util.Preconditions;
 
 /**
  * @author Karl Heinz Marbaise
@@ -50,6 +51,7 @@ class AnnotationHelper {
     checkParameterAndRequirements(method);
     return method.getAnnotation(MavenTest.class).options();
   }
+
   //TODO: We might consider to return a Stream instead of String[]
   static String[] getCommandLineSystemProperties(Method method) {
     checkParameterAndRequirements(method);
@@ -72,7 +74,7 @@ class AnnotationHelper {
   }
 
   private static Optional<Class<?>> findAnnotation(ExtensionContext context,
-      Class<? extends Annotation> annotationClass) {
+                                                   Class<? extends Annotation> annotationClass) {
     Optional<ExtensionContext> current = Optional.of(context);
     while (current.isPresent()) {
       if (current.get().getTestClass().isPresent()) {
@@ -89,6 +91,7 @@ class AnnotationHelper {
   static Optional<Class<?>> findMavenRepositoryAnnotation(ExtensionContext context) {
     return findAnnotation(context, MavenRepository.class);
   }
+
   static Optional<Class<?>> findMavenProjectAnnotation(ExtensionContext context) {
     return findAnnotation(context, MavenProject.class);
   }

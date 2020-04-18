@@ -34,31 +34,24 @@ import java.io.Reader;
  *
  * @author Benjamin Bentmann
  */
-class PomUtils
-{
+class PomUtils {
 
-    /**
-     * Loads the (raw) model from the specified POM file.
-     *
-     * @param pomFile The path to the POM file to load, must not be <code>null</code>.
-     * @return The raw model, never <code>null</code>.
-     * @throws MojoExecutionException If the POM file could not be loaded.
-     */
-    public static Model loadPom( File pomFile )
-            throws MojoExecutionException
-    {
-        try ( Reader reader = ReaderFactory.newXmlReader( pomFile ) )
-        {
-            return new MavenXpp3Reader().read( reader, false );
-        }
-        catch ( XmlPullParserException e )
-        {
-            throw new MojoExecutionException( "Failed to parse POM: " + pomFile, e );
-        }
-        catch ( IOException e )
-        {
-            throw new MojoExecutionException( "Failed to read POM: " + pomFile, e );
-        }
+  /**
+   * Loads the (raw) model from the specified POM file.
+   *
+   * @param pomFile The path to the POM file to load, must not be <code>null</code>.
+   * @return The raw model, never <code>null</code>.
+   * @throws MojoExecutionException If the POM file could not be loaded.
+   */
+  public static Model loadPom(File pomFile)
+      throws MojoExecutionException {
+    try (Reader reader = ReaderFactory.newXmlReader(pomFile)) {
+      return new MavenXpp3Reader().read(reader, false);
+    } catch (XmlPullParserException e) {
+      throw new MojoExecutionException("Failed to parse POM: " + pomFile, e);
+    } catch (IOException e) {
+      throw new MojoExecutionException("Failed to read POM: " + pomFile, e);
     }
+  }
 
 }

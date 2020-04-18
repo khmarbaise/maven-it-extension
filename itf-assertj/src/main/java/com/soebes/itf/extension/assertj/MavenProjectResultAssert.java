@@ -19,19 +19,18 @@ package com.soebes.itf.extension.assertj;
  * under the License.
  */
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-import java.util.jar.JarFile;
-
+import com.soebes.itf.jupiter.maven.MavenProjectResult;
+import com.soebes.itf.jupiter.maven.ProjectHelper;
 import org.apache.maven.model.Model;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractFileAssert;
 import org.assertj.core.api.Assertions;
 
-import com.soebes.itf.jupiter.maven.MavenProjectResult;
-import com.soebes.itf.jupiter.maven.ProjectHelper;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+import java.util.jar.JarFile;
 
 /**
  * @author Karl Heinz Marbaise

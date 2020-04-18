@@ -1,8 +1,7 @@
 package com.soebes.itf.extension.assertj;
 
-import org.assertj.core.api.AbstractAssert;
-
 import com.soebes.itf.jupiter.maven.MavenCacheResult;
+import org.assertj.core.api.AbstractAssert;
 
 /**
  * @author Karl Heinz Marbaise

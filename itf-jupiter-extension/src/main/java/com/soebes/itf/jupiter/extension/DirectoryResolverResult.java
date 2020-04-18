@@ -19,11 +19,11 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
+import org.junit.jupiter.api.extension.ExtensionContext;
+
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Optional;
-
-import org.junit.jupiter.api.extension.ExtensionContext;
 
 /**
  * @author Karl Heinz Marbaise

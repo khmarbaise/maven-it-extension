@@ -19,11 +19,12 @@ package com.soebes.itf.jupiter.maven;
  * under the License.
  */
 
-import static org.apiguardian.api.API.Status.EXPERIMENTAL;
-
-import java.io.File;
 import org.apache.maven.model.Model;
 import org.apiguardian.api.API;
+
+import java.io.File;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
  * @author Karl Heinz Marbaise

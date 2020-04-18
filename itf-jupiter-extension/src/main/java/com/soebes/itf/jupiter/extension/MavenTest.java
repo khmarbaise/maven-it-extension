@@ -19,7 +19,8 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+import org.apiguardian.api.API;
+import org.junit.jupiter.api.Test;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -27,8 +28,8 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import org.apiguardian.api.API;
-import org.junit.jupiter.api.Test;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
  * @author Karl Heinz Marbaise
@@ -70,22 +71,21 @@ public @interface MavenTest {
    *    &#x40;MavenTest(options = {"-o"})
    * </pre>
    * This is the equivalent to the command line like: {@code -o}.
-   *
+   * <p>
    * You can of course combine several options like the following:
    * <pre>
    *    &#x40;MavenTest(options = {"-X", "-o"})
    * </pre>
    * This is the equivalent to the command line like: {@code -X -o}
-   *
+   * <p>
    * You can make your options a little bit more readable by using
    * {@link MavenOptions} like the following:
    * <pre>
    *    &#x40;MavenTest(options = {MavenOptions.DEBUG, "-o"})
    * </pre>
    *
-   * @see MavenOptions
    * @return The defined options.
-   *
+   * @see MavenOptions
    */
   String[] options() default {};
 

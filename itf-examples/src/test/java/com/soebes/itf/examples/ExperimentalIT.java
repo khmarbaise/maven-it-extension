@@ -1,12 +1,11 @@
 package com.soebes.itf.examples;
 
-import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
-
-import org.junit.jupiter.api.Disabled;
-
 import com.soebes.itf.jupiter.extension.MavenIT;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
+import org.junit.jupiter.api.Disabled;
+
+import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
 @MavenIT
 @Disabled

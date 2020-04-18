@@ -19,10 +19,11 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import java.lang.annotation.Annotation;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.description.annotation.AnnotationDescription;
 import net.bytebuddy.description.annotation.AnnotationDescription.Builder;
+
+import java.lang.annotation.Annotation;
 
 /**
  * Helper Class to prevent code duplication in {@link MavenITTest} and {@link MavenRepositoryTest}.
@@ -32,7 +33,7 @@ import net.bytebuddy.description.annotation.AnnotationDescription.Builder;
 class Helper {
 
   static <ANNOTATION extends Annotation> ANNOTATION createAnnotation(Class<?> theClass,
-      Class<ANNOTATION> annotationType) {
+                                                                     Class<ANNOTATION> annotationType) {
     AnnotationDescription annotationDescription = Builder.ofType(annotationType).build();
 
     Class<?> objectBuilder = new ByteBuddy().subclass(Object.class)

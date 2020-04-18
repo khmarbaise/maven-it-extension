@@ -19,10 +19,11 @@ package com.soebes.itf.jupiter.maven;
  * under the License.
  */
 
-import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+import org.apiguardian.api.API;
 
 import java.util.StringJoiner;
-import org.apiguardian.api.API;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
  * @author Karl Heinz Marbaise
@@ -41,7 +42,7 @@ public class MavenExecutionResult {
   private final MavenCacheResult mavenCacheResult;
 
   public MavenExecutionResult(ExecutionResult result, int returnCode, MavenLog mavenLog,
-      MavenProjectResult mavenProjectResult, MavenCacheResult mavenCacheResult) {
+                              MavenProjectResult mavenProjectResult, MavenCacheResult mavenCacheResult) {
     this.result = result;
     this.returnCode = returnCode;
     this.mavenLog = mavenLog;
@@ -81,12 +82,6 @@ public class MavenExecutionResult {
     return mavenProjectResult;
   }
 
-  public enum ExecutionResult {
-    Successful,
-    Failure,
-    Error
-  }
-
   @Override
   public String toString() {
     return new StringJoiner(", ", MavenExecutionResult.class.getSimpleName() + "[", "]").add("result=" + result)
@@ -95,5 +90,11 @@ public class MavenExecutionResult {
         .add("mavenProjectResult=" + mavenProjectResult)
         .add("mavenCacheResult=" + mavenCacheResult)
         .toString();
+  }
+
+  public enum ExecutionResult {
+    Successful,
+    Failure,
+    Error
   }
 }

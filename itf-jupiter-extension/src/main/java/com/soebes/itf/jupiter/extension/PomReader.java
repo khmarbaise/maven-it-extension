@@ -19,11 +19,12 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import java.io.IOException;
-import java.io.InputStream;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @author Karl Heinz Marbaise

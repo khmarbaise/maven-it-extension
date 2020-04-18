@@ -1,8 +1,7 @@
 package com.soebes.itf.extension.assertj;
 
-import org.assertj.core.api.AbstractAssert;
-
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
+import org.assertj.core.api.AbstractAssert;
 
 /**
  * @author Karl Heinz Marbaise
@@ -38,6 +37,7 @@ public class MavenExecutionResultAssert extends AbstractAssert<MavenExecutionRes
     isNotNull();
     return new MavenCacheResultAssert(this.actual.getMavenCacheResult());
   }
+
   /**
    * @return {@link MavenExecutionResultAssert} for method chaining.
    * @throws AssertionError if the actual value is {@code null}.
@@ -51,6 +51,7 @@ public class MavenExecutionResultAssert extends AbstractAssert<MavenExecutionRes
     }
     return myself;
   }
+
   /**
    * @return {@link MavenExecutionResultAssert} for method chaining.
    * @throws AssertionError if the actual value is {@code null}.

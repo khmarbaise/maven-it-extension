@@ -19,10 +19,11 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
+import org.junit.platform.commons.util.Preconditions;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.junit.platform.commons.util.Preconditions;
 
 /**
  * This will replace the placeholders which can be defined in {@link MavenTest#goals()}.
@@ -51,7 +52,7 @@ class PropertiesFilter {
 
   /**
    * This is list of currently supported properties.
-   *
+   * <p>
    * TODO: Need to reconsider this.
    */
   public enum MavenPropertyNames {

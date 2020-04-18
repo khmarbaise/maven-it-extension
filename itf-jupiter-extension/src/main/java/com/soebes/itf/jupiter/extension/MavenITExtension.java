@@ -66,7 +66,7 @@ import static java.util.stream.Collectors.toList;
  * @author Karl Heinz Marbaise
  */
 public class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeTestExecutionCallback,
-    InvocationInterceptor{
+    InvocationInterceptor {
 
   private static final Logger LOGGER = Logger.getLogger(MavenITExtension.class.getName());
 
@@ -110,7 +110,7 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
 
   @Override
   public void interceptBeforeEachMethod(Invocation<Void> invocation,
-      ReflectiveInvocationContext<Method> invocationContext, ExtensionContext extensionContext) throws Throwable {
+                                        ReflectiveInvocationContext<Method> invocationContext, ExtensionContext extensionContext) throws Throwable {
     invocation.proceed();
   }
 

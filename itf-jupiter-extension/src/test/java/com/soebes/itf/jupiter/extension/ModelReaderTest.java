@@ -19,15 +19,16 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class ModelReaderTest {
 
@@ -63,6 +64,7 @@ class ModelReaderTest {
     }
 
   }
+
   @Nested
   @DisplayName("A pom file which contains groupId,artifactId and version")
   class PomWithGAV {
