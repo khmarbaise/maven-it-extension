@@ -19,11 +19,12 @@
  * under the License.
  */
 
-import static org.apiguardian.api.API.Status.EXPERIMENTAL;
-
-import java.io.File;
 import org.apache.maven.model.Model;
 import org.apiguardian.api.API;
+
+import java.io.File;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
  * @author Karl Heinz Marbaise
@@ -34,17 +35,17 @@ public class MavenProjectResult {
   private final File baseDir;
   private final Model model;
 
-<span class="nc" id="L37">  public MavenProjectResult(File baseDir, Model model) {</span>
-<span class="nc" id="L38">    this.baseDir = baseDir;</span>
-<span class="nc" id="L39">    this.model = model;</span>
-<span class="nc" id="L40">  }</span>
+<span class="nc" id="L38">  public MavenProjectResult(File baseDir, Model model) {</span>
+<span class="nc" id="L39">    this.baseDir = baseDir;</span>
+<span class="nc" id="L40">    this.model = model;</span>
+<span class="nc" id="L41">  }</span>
 
   public File getBaseDir() {
-<span class="nc" id="L43">    return baseDir;</span>
+<span class="nc" id="L44">    return baseDir;</span>
   }
 
   public Model getModel() {
-<span class="nc" id="L47">    return model;</span>
+<span class="nc" id="L48">    return model;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

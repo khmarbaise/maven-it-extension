@@ -19,55 +19,56 @@
  * under the License.
  */
 
-import static org.apiguardian.api.API.Status.EXPERIMENTAL;
-
-import java.util.stream.Stream;
 import org.apiguardian.api.API;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
 import org.junit.platform.commons.util.StringUtils;
 
+import java.util.stream.Stream;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+
 /**
  * @author Karl Heinz Marbaise
  */
-<span class="nc" id="L33">@API(status = EXPERIMENTAL, since = &quot;0.1.0&quot;)</span>
+<span class="nc" id="L34">@API(status = EXPERIMENTAL, since = &quot;0.1.0&quot;)</span>
 public enum MavenVersion {
-<span class="nc" id="L35">  UNKNOWN(&quot;UNKOWN&quot;), //TODO: Need to reconsider?</span>
-<span class="nc" id="L36">  M3_0_5(&quot;3.0.5&quot;),</span>
-<span class="nc" id="L37">  M3_1_1(&quot;3.1.1&quot;),</span>
-<span class="nc" id="L38">  M3_2_5(&quot;3.2.5&quot;),</span>
-<span class="nc" id="L39">  M3_3_1(&quot;3.3.1&quot;),</span>
-<span class="nc" id="L40">  M3_3_9(&quot;3.3.9&quot;),</span>
-<span class="nc" id="L41">  M3_5_0(&quot;3.5.0&quot;),</span>
-<span class="nc" id="L42">  M3_5_2(&quot;3.5.2&quot;),</span>
-<span class="nc" id="L43">  M3_5_3(&quot;3.5.3&quot;),</span>
-<span class="nc" id="L44">  M3_5_4(&quot;3.5.4&quot;),</span>
-<span class="nc" id="L45">  M3_6_0(&quot;3.6.0&quot;),</span>
-<span class="nc" id="L46">  M3_6_1(&quot;3.6.1&quot;),</span>
-<span class="nc" id="L47">  M3_6_2(&quot;3.6.2&quot;),</span>
-<span class="nc" id="L48">  M3_6_3(&quot;3.6.3&quot;);</span>
+<span class="nc" id="L36">  UNKNOWN(&quot;UNKOWN&quot;), //TODO: Need to reconsider?</span>
+<span class="nc" id="L37">  M3_0_5(&quot;3.0.5&quot;),</span>
+<span class="nc" id="L38">  M3_1_1(&quot;3.1.1&quot;),</span>
+<span class="nc" id="L39">  M3_2_5(&quot;3.2.5&quot;),</span>
+<span class="nc" id="L40">  M3_3_1(&quot;3.3.1&quot;),</span>
+<span class="nc" id="L41">  M3_3_9(&quot;3.3.9&quot;),</span>
+<span class="nc" id="L42">  M3_5_0(&quot;3.5.0&quot;),</span>
+<span class="nc" id="L43">  M3_5_2(&quot;3.5.2&quot;),</span>
+<span class="nc" id="L44">  M3_5_3(&quot;3.5.3&quot;),</span>
+<span class="nc" id="L45">  M3_5_4(&quot;3.5.4&quot;),</span>
+<span class="nc" id="L46">  M3_6_0(&quot;3.6.0&quot;),</span>
+<span class="nc" id="L47">  M3_6_1(&quot;3.6.1&quot;),</span>
+<span class="nc" id="L48">  M3_6_2(&quot;3.6.2&quot;),</span>
+<span class="nc" id="L49">  M3_6_3(&quot;3.6.3&quot;);</span>
 
-<span class="nc" id="L50">  private static final Logger logger = LoggerFactory.getLogger(MavenVersion.class);</span>
+<span class="nc" id="L51">  private static final Logger logger = LoggerFactory.getLogger(MavenVersion.class);</span>
 
-<span class="nc" id="L52">  private static final MavenVersion CURRENT_MAVEN_VERSION = determineCurrentVersion();</span>
+<span class="nc" id="L53">  private static final MavenVersion CURRENT_MAVEN_VERSION = determineCurrentVersion();</span>
 
   private final String versionString;
 
-<span class="nc" id="L56">  MavenVersion(String versionString) {</span>
-<span class="nc" id="L57">    this.versionString = versionString;</span>
-<span class="nc" id="L58">  }</span>
+<span class="nc" id="L57">  MavenVersion(String versionString) {</span>
+<span class="nc" id="L58">    this.versionString = versionString;</span>
+<span class="nc" id="L59">  }</span>
 
   private static MavenVersion determineCurrentVersion() {
-<span class="nc" id="L61">    String currentVersion = System.getProperty(&quot;maven.version&quot;);</span>
+<span class="nc" id="L62">    String currentVersion = System.getProperty(&quot;maven.version&quot;);</span>
     //FIXME: Think about usage of interal API?
-<span class="nc bnc" id="L63" title="All 2 branches missed.">    if (StringUtils.isBlank(currentVersion)) {</span>
-<span class="nc" id="L64">      logger.error(</span>
-<span class="nc" id="L65">          () -&gt; &quot;JVM system property 'maven.version' is undefined. It is therefore not possible to detect Maven version.&quot;);</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">    if (StringUtils.isBlank(currentVersion)) {</span>
+<span class="nc" id="L65">      logger.error(</span>
+<span class="nc" id="L66">          () -&gt; &quot;JVM system property 'maven.version' is undefined. It is therefore not possible to detect Maven version.&quot;);</span>
     }
-<span class="nc" id="L67">    return Stream.of(values())</span>
-<span class="nc" id="L68">        .filter(mavenVersion -&gt; mavenVersion.getVersionString().equals(currentVersion))</span>
-<span class="nc" id="L69">        .findFirst()</span>
-<span class="nc" id="L70">        .orElseGet(() -&gt; MavenVersion.UNKNOWN);</span>
+<span class="nc" id="L68">    return Stream.of(values())</span>
+<span class="nc" id="L69">        .filter(mavenVersion -&gt; mavenVersion.getVersionString().equals(currentVersion))</span>
+<span class="nc" id="L70">        .findFirst()</span>
+<span class="nc" id="L71">        .orElseGet(() -&gt; MavenVersion.UNKNOWN);</span>
   }
 
   /**
@@ -75,11 +76,11 @@ public enum MavenVersion {
    * executed Maven version.
    */
   public boolean isCurrentVersion() {
-<span class="nc bnc" id="L78" title="All 2 branches missed.">    return this == CURRENT_MAVEN_VERSION;</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">    return this == CURRENT_MAVEN_VERSION;</span>
   }
 
   public String getVersionString() {
-<span class="nc" id="L82">    return versionString;</span>
+<span class="nc" id="L83">    return versionString;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

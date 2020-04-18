@@ -19,10 +19,11 @@
  * under the License.
  */
 
-import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+import org.apiguardian.api.API;
 
 import java.util.List;
-import org.apiguardian.api.API;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
  * @author Karl Heinz Marbaise
@@ -34,12 +35,12 @@ public class Projects {
   // to support real project reactors with different levels etc.
   private List&lt;MavenProjectResult&gt; projects;
 
-<span class="nc" id="L37">  public Projects(List&lt;MavenProjectResult&gt; projects) {</span>
-<span class="nc" id="L38">    this.projects = projects;</span>
-<span class="nc" id="L39">  }</span>
+<span class="nc" id="L38">  public Projects(List&lt;MavenProjectResult&gt; projects) {</span>
+<span class="nc" id="L39">    this.projects = projects;</span>
+<span class="nc" id="L40">  }</span>
 
   public List&lt;MavenProjectResult&gt; getProjects() {
-<span class="nc" id="L42">    return projects;</span>
+<span class="nc" id="L43">    return projects;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

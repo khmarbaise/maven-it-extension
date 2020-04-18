@@ -446,6 +446,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
+<li><a href="#release-notes-0.4.0">Pre-release 0.4.0</a></li>
 <li><a href="#release-notes-0.3.0">Pre-release 0.3.0</a></li>
 <li><a href="#release-notes-0.2.0">Pre-release 0.2.0</a></li>
 <li><a href="#release-notes-0.1.0">Pre-release 0.1.0</a></li>
@@ -462,6 +463,49 @@ releases since 0.1.0.</p>
 <div class="paragraph">
 <p>Please refer to the <a href="../user-guide/index.html#user-guide">User Guide</a> for comprehensive
 overview and detailed instructions how to use the Integration Testing Framework.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="release-notes-0.4.0">Pre-release 0.4.0</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Date of Release:</strong> ??, 2020</p>
+</div>
+<div class="paragraph">
+<p><strong>Scope:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Renamed <code>invoker-repo</code> into <code>itf-repo</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Details</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/40">Fixed #40</a> - Changed from <code>invoker-repo</code> to <code>itf-repo</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Breaking Changes</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>itf-maven-plugin uses now the location <code>itf-repo</code> instead
+<code>invoker-repo</code>. This can break tests which have been written
+ with version 0.3.0 and before.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The full release notes can be found here <a href="https://github.com/khmarbaise/maven-it-extension/milestone/4?closed=1">Release 0.4.0</a>.</p>
 </div>
 </div>
 </div>
@@ -628,7 +672,7 @@ publish in <a href="https://central.sonatype.org/">Central Repository</a>.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.3.1-SNAPSHOT<br>
-Last updated 2020-04-18 00:25:30 +0200
+Last updated 2020-04-18 12:18:06 +0200
 </div>
 </div>
 </body>

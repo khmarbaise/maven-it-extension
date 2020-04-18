@@ -19,27 +19,29 @@
  * under the License.
  */
 
-import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+import org.apiguardian.api.API;
 
 import java.util.StringJoiner;
-import org.apiguardian.api.API;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 @API(status = EXPERIMENTAL, since = &quot;0.1.0&quot;)
 public class MavenExecutor {
 
   private String executorName;
 
-<span class="nc" id="L32">  public MavenExecutor(String executorName) {</span>
-<span class="nc" id="L33">    this.executorName = executorName;</span>
-<span class="nc" id="L34">  }</span>
+<span class="nc" id="L33">  public MavenExecutor(String executorName) {</span>
+<span class="nc" id="L34">    this.executorName = executorName;</span>
+<span class="nc" id="L35">  }</span>
 
   public MavenExecutionResult execute() {
-<span class="nc" id="L37">    return null;</span>
+<span class="nc" id="L38">    return null;</span>
   }
+
   @Override
   public String toString() {
-<span class="nc" id="L41">    return new StringJoiner(&quot;, &quot;, MavenExecutor.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;).add(</span>
-<span class="nc" id="L42">        &quot;executorName='&quot; + executorName + &quot;'&quot;).toString();</span>
+<span class="nc" id="L43">    return new StringJoiner(&quot;, &quot;, MavenExecutor.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;).add(</span>
+<span class="nc" id="L44">        &quot;executorName='&quot; + executorName + &quot;'&quot;).toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

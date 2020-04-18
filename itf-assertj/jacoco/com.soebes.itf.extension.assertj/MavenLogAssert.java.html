@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MavenLogAssert.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">itf-assertj</a> &gt; <a href="index.source.html" class="el_package">com.soebes.itf.extension.assertj</a> &gt; <span class="el_source">MavenLogAssert.java</span></div><h1>MavenLogAssert.java</h1><pre class="source lang-java linenums">package com.soebes.itf.extension.assertj;
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import com.soebes.itf.jupiter.maven.MavenLog;
+import org.assertj.core.api.AbstractAssert;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * @author Karl Heinz Marbaise
+ */
+public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&gt; {
+
+  protected MavenLogAssert(MavenLog actual) {
+<span class="nc" id="L36">    super(actual, MavenLogAssert.class);</span>
+<span class="nc" id="L37">  }</span>
+
+  /**
+   * An entry point for MavenExecutionResultAssert to follow AssertJ standard &lt;code&gt;assertThat()&lt;/code&gt; statements.&lt;br&gt;
+   * With a static import, one's can write directly : &lt;code&gt;assertThat(result).isSuccessful();&lt;/code&gt;
+   *
+   * @param actual the MavenLog we want to make assertions on.
+   * @return a new &lt;/code&gt;{@link MavenLogAssert}&lt;/code&gt;
+   */
+  public static MavenLogAssert assertThat(MavenLog actual) {
+<span class="nc" id="L47">    return new MavenLogAssert(actual);</span>
+  }
+
+  /**
+   * @return {@link MavenLogAssert} for method chaining.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not {@code true}.
+   */
+  public MavenLogAssert isSuccessful() {
+<span class="nc" id="L56">    isNotNull();</span>
+    //this.actual.getStderr();
+    //    if (!this.actual.isSuccesful()) {
+    //      failWithMessage(&quot;The build was not successful but was &lt;%s&gt; with returnCode:&lt;%s&gt;&quot;, actual.getResult(),
+    //          actual.getReturnCode());
+    //    }
+<span class="nc" id="L62">    return myself;</span>
+  }
+
+  List&lt;String&gt; createLogStream() {
+    try {
+      //TODO: Need to reconsider if there isn't a better way to return the stream?
+      // lines() gives a stream which might be a better solution?
+      //    InputStream resourceAsStream = this.getClass().getResourceAsStream(&quot;/mvn-stdout.out&quot;);
+      //    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
+<span class="nc" id="L71">      return Files.readAllLines(this.actual.getStdout());</span>
+<span class="nc" id="L72">    } catch (IOException e) {</span>
+      //FIXME: Logging exception.
+    }
+    //FIXME: Need to reconsider the following?
+<span class="nc" id="L76">    return null;</span>
+  }
+
+  /**
+   * The logging output on stdout is given back in a list of strings. The prefix {@code [INFO]} (including the following
+   * space) has been filtered out of this already.
+   *
+   * @return list of Strings which contains the log output
+   */
+  public List&lt;String&gt; info() {
+<span class="nc" id="L86">    return createLogStream().stream()</span>
+<span class="nc" id="L87">        .filter(p -&gt; p.startsWith(&quot;[INFO]&quot;))</span>
+<span class="nc" id="L88">        .map(s -&gt; s.substring(7))</span>
+<span class="nc" id="L89">        .collect(Collectors.toList());</span>
+  }
+
+  public void buildSuccess() {
+<span class="nc" id="L93">    this.info()</span>
+<span class="nc" id="L94">        .stream()</span>
+<span class="nc" id="L95">        .filter(s -&gt; s.equals(&quot;BUILD SUCESS&quot;))</span>
+<span class="nc" id="L96">        .findAny()</span>
+<span class="nc" id="L97">        .orElseThrow(() -&gt; new IllegalStateException(&quot;CCC&quot;));</span>
+<span class="nc" id="L98">  }</span>
+
+  public void buildFailure() {
+<span class="nc" id="L101">    this.info()</span>
+<span class="nc" id="L102">        .stream()</span>
+<span class="nc" id="L103">        .filter(s -&gt; s.equals(&quot;BUILD FAILURE&quot;))</span>
+<span class="nc" id="L104">        .findAny()</span>
+<span class="nc" id="L105">        .orElseThrow(() -&gt; new IllegalStateException(&quot;Not ..&quot;));</span>
+<span class="nc" id="L106">  }</span>
+
+  public List&lt;String&gt; debug() {
+<span class="nc" id="L109">    return createLogStream().stream()</span>
+<span class="nc" id="L110">        .filter(p -&gt; p.startsWith(&quot;[DEBUG]&quot;))</span>
+<span class="nc" id="L111">        .map(s -&gt; s.substring(9))</span>
+<span class="nc" id="L112">        .collect(Collectors.toList());</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
