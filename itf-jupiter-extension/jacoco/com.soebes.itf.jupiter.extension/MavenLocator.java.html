@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MavenLocator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">itf-jupiter-extension</a> &gt; <a href="index.source.html" class="el_package">com.soebes.itf.jupiter.extension</a> &gt; <span class="el_source">MavenLocator.java</span></div><h1>MavenLocator.java</h1><pre class="source lang-java linenums">package com.soebes.itf.jupiter.extension;
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import org.junit.jupiter.api.condition.OS;
+import org.junit.platform.commons.logging.Logger;
+import org.junit.platform.commons.logging.LoggerFactory;
+
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
+import java.util.regex.Pattern;
+
+/**
+ * It's the intention to find the {@code mvn} executable.
+ * &lt;p&gt;
+ * The {@code maven.home} is set during the execution of the
+ * test by the user.
+ * The {@code maven.home} has precedence over searching
+ * of Maven via {@code PATH}. This gives the opportunity
+ * to overload the given Maven version in cases where needed.
+ *
+ * @author Karl Heinz Marbaise
+ * @implNote Currently {@code maven.home} is given to the maven-failsafe-plugin
+ * configuration as a system property.
+ * @implSpec Unfortunately there is currently no option to write tests which
+ * contains toFile() of Path. I've tried with https://github.com/google/jimfs
+ * but they also lack the support of toFile().
+ */
+class MavenLocator {
+<span class="nc" id="L49">  private static final Logger LOGGER = LoggerFactory.getLogger(MavenLocator.class);</span>
+
+  private static final String MAVEN_HOME = &quot;maven.home&quot;;
+
+<span class="nc" id="L53">  MavenLocator() {</span>
+<span class="nc" id="L54">  }</span>
+
+  Optional&lt;String&gt; mavenHomeFromSystemProperty() {
+<span class="nc bnc" id="L57" title="All 2 branches missed.">    if (System.getProperties().containsKey(MAVEN_HOME)) {</span>
+<span class="nc" id="L58">      return Optional.of(System.getProperty(MAVEN_HOME));</span>
+    } else {
+<span class="nc" id="L60">      return Optional.empty();</span>
+    }
+  }
+
+  private File toBatFile(Path path) {
+<span class="nc" id="L65">    return Paths.get(path.toAbsolutePath() + &quot;.bat&quot;).toFile();</span>
+  }
+
+  private File toCmdFile(Path path) {
+<span class="nc" id="L69">    return Paths.get(path.toAbsolutePath() + &quot;.cmd&quot;).toFile();</span>
+  }
+
+  private File toFile(Path path) {
+<span class="nc" id="L73">    return Paths.get(path.toString()).toFile();</span>
+  }
+
+  Optional&lt;File&gt; checkOnNoneWindows(Path mavenHomeLocation) {
+<span class="nc" id="L77">    Path mvnBinPath = Paths.get(mavenHomeLocation.toString(), &quot;mvn&quot;);</span>
+<span class="nc" id="L78">    File executable = toFile(mvnBinPath);</span>
+<span class="nc bnc" id="L79" title="All 6 branches missed.">    if (executable.exists() &amp;&amp; executable.isFile() &amp;&amp; executable.canRead()) {</span>
+<span class="nc" id="L80">      return Optional.of(executable);</span>
+    }
+<span class="nc" id="L82">    return Optional.empty();</span>
+  }
+
+  Optional&lt;File&gt; checkOnWindows(Path mavenHomeLocation) {
+<span class="nc" id="L86">    Path mvnBinPath = Paths.get(mavenHomeLocation.toString(), &quot;mvn&quot;);</span>
+
+    // add &quot;.bat&quot; for Maven 3.0.5..3.2.5 if exists
+<span class="nc" id="L89">    File batFile = toBatFile(mvnBinPath);</span>
+<span class="nc bnc" id="L90" title="All 6 branches missed.">    if (batFile.exists() &amp;&amp; batFile.isFile() &amp;&amp; batFile.canRead()) {</span>
+<span class="nc" id="L91">      return Optional.of(batFile);</span>
+    }
+
+    // add &quot;.cmd&quot; for Maven 3.3.1... if exists
+<span class="nc" id="L95">    File cmdFile = toCmdFile(mvnBinPath);</span>
+<span class="nc bnc" id="L96" title="All 6 branches missed.">    if (cmdFile.exists() &amp;&amp; cmdFile.isFile() &amp;&amp; cmdFile.canRead()) {</span>
+<span class="nc" id="L97">      return Optional.of(cmdFile);</span>
+    }
+
+<span class="nc" id="L100">    return Optional.empty();</span>
+  }
+
+  Optional&lt;File&gt; checkExecutable(Path mavenHomeLocation) {
+<span class="nc" id="L104">    Path path = Paths.get(mavenHomeLocation.toString());</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">    if (OS.WINDOWS.isCurrentOs()) {</span>
+<span class="nc" id="L106">      return checkOnWindows(path);</span>
+    } else {
+<span class="nc" id="L108">      return checkOnNoneWindows(path);</span>
+    }
+  }
+
+  Optional&lt;File&gt; checkExecutableViaPathEnvironment() {
+<span class="nc" id="L113">    Pattern pathSeparatorPattern = Pattern.compile(File.pathSeparator);</span>
+<span class="nc" id="L114">    String path = System.getenv(&quot;PATH&quot;);</span>
+<span class="nc" id="L115">    String[] split = path.split(pathSeparatorPattern.toString());</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">    for (String item : split) {</span>
+<span class="nc" id="L117">      Optional&lt;File&gt; mvnLocation = checkExecutable(Paths.get(item));</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">      if (mvnLocation.isPresent()) {</span>
+<span class="nc" id="L119">        LOGGER.debug(() -&gt; String.format(&quot;mvnLocation: '%s'&quot;, mvnLocation));</span>
+<span class="nc" id="L120">        return mvnLocation;</span>
+      }
+    }
+<span class="nc" id="L123">    return Optional.empty();</span>
+  }
+
+  Optional&lt;File&gt; findMvn() {
+<span class="nc" id="L127">    Optional&lt;String&gt; s = mavenHomeFromSystemProperty();</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">    if (s.isPresent()) {</span>
+<span class="nc" id="L129">      Optional&lt;File&gt; file = checkExecutable(Paths.get(s.get(), &quot;bin&quot;));</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">      if (!file.isPresent()) {</span>
+<span class="nc" id="L131">        LOGGER.error(() -&gt; String.format(</span>
+            &quot;We couldn't find an mvn executable via maven.home system property: '%s'&quot;,
+<span class="nc" id="L133">            System.getProperty(MAVEN_HOME)));</span>
+<span class="nc" id="L134">        return Optional.empty();</span>
+      }
+<span class="nc" id="L136">      return checkExecutableViaPathEnvironment();</span>
+    }
+<span class="nc" id="L138">    return checkExecutableViaPathEnvironment();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

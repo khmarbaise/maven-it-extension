@@ -4,9 +4,10 @@ itf-jupiter-extension,com.soebes.itf.jupiter.extension,PomReader,0,15,0,0,0,5,0,
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,ModelReader,0,27,0,2,0,8,0,5,0,4
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,StorageHelper,110,0,0,0,19,0,7,0,7,0
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,DirectoryHelper,24,0,0,0,4,0,4,0,4,0
-itf-jupiter-extension,com.soebes.itf.jupiter.extension,MavenITExtension,475,0,22,0,91,0,24,0,13,0
+itf-jupiter-extension,com.soebes.itf.jupiter.extension,MavenITExtension,463,0,18,0,89,0,23,0,14,0
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,Storage,34,0,0,0,4,0,1,0,1,0
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,GoalPriority,3,15,0,2,1,5,1,2,1,1
+itf-jupiter-extension,com.soebes.itf.jupiter.extension,MavenLocator,238,0,30,0,44,0,28,0,13,0
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,StringInterpolator,0,69,0,4,0,16,0,5,0,3
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,ApplicationExecutor,214,0,2,0,33,0,9,0,8,0
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,DirectoryResolverResult.DirectoryExtensionContextResolver,46,0,0,0,9,0,5,0,5,0

@@ -488,7 +488,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_expressing_assertions">8.2. Expressing Assertions</a></li>
 </ul>
 </li>
-<li><a href="#_configuration_in_maven">9. Configuration in Maven</a></li>
+<li><a href="#_configuration_required">9. Configuration Required</a></li>
+<li><a href="#_configuration_in_maven">10. Configuration in Maven</a></li>
 </ul>
 </div>
 </div>
@@ -1670,7 +1671,25 @@ as you like.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_configuration_in_maven">9. Configuration in Maven</h2>
+<h2 id="_configuration_required">9. Configuration Required</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you like to use the integration test framework you would like to use it to write tests and run
+those tests from command line (via Maven). This requires that the configuration is done as described
+in <a href="_configuration_in_maven">Configuration in Maven</a></p>
+</div>
+<div class="paragraph">
+<p>If you like to run your integration tests from you IDE you have to have configured that the
+maven binary can be found via the <code>PATH</code>.</p>
+</div>
+<div class="paragraph">
+<p>You can overwrite the <code>maven.home</code> property to control which Maven version will be used during
+the tests. Take care with overriting properties in Maven.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuration_in_maven">10. Configuration in Maven</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>You have decided to use this tool to test your plugin/extension etc. this means you have to build
@@ -1963,7 +1982,7 @@ there are parts which where missing.
 <div id="footer">
 <div id="footer-text">
 Version 0.3.1-SNAPSHOT<br>
-Last updated 2020-04-18 21:11:43 +0200
+Last updated 2020-04-19 19:01:42 +0200
 </div>
 </div>
 <style>
