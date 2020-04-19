@@ -44,11 +44,15 @@ class ModelReader {
   }
 
   public String getVersion() {
-<span class="fc" id="L47">    return this.model.getVersion();</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">    if (this.model.getVersion() != null) {</span>
+<span class="fc" id="L48">      return this.model.getVersion();</span>
+    }
+    //FIXME: this.model.getParent() == null what should be the consequence?
+<span class="fc" id="L51">    return this.model.getParent().getVersion();</span>
   }
 
   public String getArtifactId() {
-<span class="fc" id="L51">    return this.model.getArtifactId();</span>
+<span class="fc" id="L55">    return this.model.getArtifactId();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

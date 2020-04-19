@@ -159,7 +159,7 @@
                   <li id="publishDate">Last Published: 2020-04-19
                       <span class="divider">|</span>
                    </li>
-                  <li id="projectVersion">Version: 0.3.1-SNAPSHOT
+                  <li id="projectVersion">Version: 0.4.0
                       </li>
                       
               
@@ -324,7 +324,7 @@
 <th>Tag strings used by tag class</th></tr>
 <tr class="b">
 <td><a href="#tag_class_2">FIXME WORK</a></td>
-<td>14</td>
+<td>15</td>
 <td>FIXME</td></tr>
 <tr class="a">
 <td><a href="#tag_class_1">Todo Work</a></td>
@@ -332,7 +332,7 @@
 <td>todo</td></tr></table>
 <p>Each tag is detailed below:</p><section>
 <h3><a name="FIXME_WORK"></a><a name="tag_class_2">FIXME WORK</a></h3>
-<p><b>Number of occurrences found in the code: 14</b></p>
+<p><b>Number of occurrences found in the code: 15</b></p>
 <table border="0" class="table table-striped">
 <tr class="b">
 <th>com.soebes.itf.extension.assertj.MavenLogAssert</th>
@@ -369,13 +369,13 @@
 <td>130</td></tr>
 <tr class="a">
 <td>Removed hard coded parts.</td>
-<td>170</td></tr>
+<td>172</td></tr>
 <tr class="b">
 <td>We need to filter placeholder here?</td>
-<td>198</td></tr>
+<td>200</td></tr>
 <tr class="a">
 <td>Need to introduce better directory names Refactor out the following lines</td>
-<td>200</td></tr>
+<td>202</td></tr>
 <tr class="b">
 <th>com.soebes.itf.jupiter.extension.ModelReader</th>
 <th>Line</th></tr>
@@ -383,87 +383,90 @@
 <td>this.model.getParent() == null what should be the consequence?</td>
 <td>42</td></tr>
 <tr class="b">
+<td>this.model.getParent() == null what should be the consequence?</td>
+<td>50</td></tr>
+<tr class="a">
 <th>com.soebes.itf.jupiter.maven.MavenVersion</th>
 <th>Line</th></tr>
-<tr class="a">
+<tr class="b">
 <td>Think about usage of interal API?</td>
 <td>63</td></tr>
-<tr class="b">
+<tr class="a">
 <th>com.soebes.itf.jupiter.maven.Projects</th>
 <th>Line</th></tr>
-<tr class="a">
+<tr class="b">
 <td>Need to use a real tree structure to support real project reactors with different levels etc.</td>
 <td>34</td></tr>
-<tr class="b">
+<tr class="a">
 <th>com.soebes.itf.maven.plugin.BasicIT</th>
 <th>Line</th></tr>
-<tr class="a">
+<tr class="b">
 <td>The following should be made easier See https://github.com/khmarbaise/maven-it-extension/issues/39</td>
 <td>58</td></tr></table></section><section>
 <h3><a name="Todo_Work"></a><a name="tag_class_1">Todo Work</a></h3>
 <p><b>Number of occurrences found in the code: 13</b></p>
 <table border="0" class="table table-striped">
-<tr class="b">
+<tr class="a">
 <th>com.soebes.itf.extension.assertj.ArchiveAssert</th>
 <th>Line</th></tr>
-<tr class="a">
+<tr class="b">
 <td>currently ignore maven files and MANIFEST.MF</td>
 <td>46</td></tr>
-<tr class="b">
+<tr class="a">
 <th>com.soebes.itf.extension.assertj.MavenLogAssert</th>
 <th>Line</th></tr>
-<tr class="a">
+<tr class="b">
 <td>Need to reconsider if there isn't a better way to return the stream? lines() gives a stream which might be a better solution? InputStream resourceAsStream = this.getClass().getResourceAsStream(&quot;/mvn-stdout.out&quot;); return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();</td>
 <td>67</td></tr>
-<tr class="b">
+<tr class="a">
 <th>com.soebes.itf.jupiter.extension.AnnotationHelper</th>
 <th>Line</th></tr>
-<tr class="a">
+<tr class="b">
 <td>We might consider to return a Stream instead of String[]</td>
 <td>49</td></tr>
-<tr class="b">
+<tr class="a">
 <td>We might consider to return a Stream instead of String[]</td>
 <td>55</td></tr>
-<tr class="a">
+<tr class="b">
 <th>com.soebes.itf.jupiter.extension.ApplicationExecutor</th>
 <th>Line</th></tr>
-<tr class="b">
+<tr class="a">
 <td>This should be made configurable</td>
 <td>67</td></tr>
-<tr class="a">
+<tr class="b">
 <td>Can make that better?</td>
 <td>75</td></tr>
-<tr class="b">
+<tr class="a">
 <td>Can make that better?</td>
 <td>79</td></tr>
-<tr class="a">
+<tr class="b">
 <th>com.soebes.itf.jupiter.extension.MavenITExtension</th>
 <th>Line</th></tr>
-<tr class="b">
+<tr class="a">
 <td>What happends if the directory has been created by a previous run? should we delete that structure here? Maybe we should make this configurable.</td>
 <td>84</td></tr>
-<tr class="a">
-<td>In cases where we have MavenProject it might be better to have different directories (which would be more concise with the other assumptions) with directory idea instead of prefixed files.</td>
-<td>163</td></tr>
 <tr class="b">
-<td>We should consider to make replacements also in systemProperties annotation possible.</td>
-<td>215</td></tr>
+<td>In cases where we have MavenProject it might be better to have different directories (which would be more concise with the other assumptions) with directory idea instead of prefixed files.</td>
+<td>165</td></tr>
 <tr class="a">
+<td>We should consider to make replacements also in systemProperties annotation possible.</td>
+<td>217</td></tr>
+<tr class="b">
 <th>com.soebes.itf.jupiter.extension.PropertiesFilter</th>
 <th>Line</th></tr>
-<tr class="b">
+<tr class="a">
 <td>Need to reconsider this.</td>
 <td>56</td></tr>
-<tr class="a">
+<tr class="b">
 <th>com.soebes.itf.jupiter.maven.MavenVersion</th>
 <th>Line</th></tr>
-<tr class="b">
+<tr class="a">
 <td>Need to reconsider?</td>
 <td>36</td></tr>
-<tr class="a">
+<tr class="b">
 <th>com.soebes.itf.maven.plugin.InstallMojo</th>
 <th>Line</th></tr>
-<tr class="b">
+<tr class="a">
 <td>We should consider to implement this? installExtraArtifacts( extraArtifacts );</td>
 <td>119</td></tr></table></section></section>
                   </div>
