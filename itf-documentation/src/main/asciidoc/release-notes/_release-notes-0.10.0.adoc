@@ -18,6 +18,7 @@
 [[release-notes-0.10.0]]
 == Pre-release 0.10.0
 
+:issue-47: https://github.com/khmarbaise/maven-it-extension/issues/47[Fixed #47]
 :issue-140: https://github.com/khmarbaise/maven-it-extension/issues/140[Fixed #140]
 :issue-141: https://github.com/khmarbaise/maven-it-extension/issues/141[Fixed #141]
 :issue-142: https://github.com/khmarbaise/maven-it-extension/issues/142[Fixed #142]
@@ -74,6 +75,7 @@
 
 *Dependency Upgrades*
 
+ * {issue-47} - Upgrade to JUnit Jupiter 5.7.0
  * {issue-141} - Upgrade mockito to 3.5.0
  * {issue-144} - Upgrade assertj to 3.17.0
  * {issue-146} - Upgrade commons-io to 2.7
