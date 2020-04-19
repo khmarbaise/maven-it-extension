@@ -44,7 +44,11 @@ class ModelReader {
   }
 
   public String getVersion() {
-    return this.model.getVersion();
+    if (this.model.getVersion() != null) {
+      return this.model.getVersion();
+    }
+    //FIXME: this.model.getParent() == null what should be the consequence?
+    return this.model.getParent().getVersion();
   }
 
   public String getArtifactId() {

@@ -96,4 +96,35 @@ class ModelReaderTest {
 
   }
 
+  @Nested
+  @DisplayName("A pom file which contains no version but the parent does.")
+  class PomWithoutVersion {
+
+    @BeforeEach
+    void beforeEach() throws IOException, XmlPullParserException {
+      InputStream resourceAsStream = this.getClass().getResourceAsStream("/pom-version.xml");
+      PomReader pomReader = new PomReader(resourceAsStream);
+      modelReader = new ModelReader(pomReader.getModel());
+    }
+
+    @Test
+    @DisplayName("should get the version of the parent.")
+    void get_version_should_result_in_correct_version() {
+      assertThat(modelReader.getVersion()).isEqualTo("50");
+    }
+
+    @Test
+    @DisplayName("should get the correct artifactId.")
+    void get_artifactId_should_result_in_correct_artifactId() {
+      assertThat(modelReader.getArtifactId()).isEqualTo("versions-maven-plugin");
+    }
+
+    @Test
+    @DisplayName("should get the groupId from parent.")
+    void get_groupId_should_return_groupId() {
+      assertThat(modelReader.getGroupId()).isEqualTo("org.codehaus.dela");
+    }
+
+  }
+
 }
