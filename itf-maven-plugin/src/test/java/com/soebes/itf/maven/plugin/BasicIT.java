@@ -50,7 +50,7 @@ class BasicIT {
    *
    * @param result {@link MavenExecutionResult}
    */
-  @MavenTest(options = {MavenOptions.NO_TRANSFER_PROGRESS}, goals = {"pre-integration-test"})
+  @MavenTest(goals = {"pre-integration-test"})
   @DisplayName("Running within an execution block in pom file with given goal but no explicit life cycle binding.")
   void install_should_not_fail(MavenExecutionResult result) {
     MavenITAssertions.assertThat(result).isSuccessful().project();

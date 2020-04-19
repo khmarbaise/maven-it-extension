@@ -77,17 +77,23 @@ public class ApplicationExecutor {
     applicationArguments.addAll(startArguments);
 
     //TODO: Can make that better?
+    Path argumentsLog = Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + "-arguments.log");
+    Files.deleteIfExists(argumentsLog);
     try {
-      Files.write(Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + "-arguments.log"), applicationArguments,
+      Files.write(argumentsLog, applicationArguments,
           StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
     } catch (IOException e) {
       e.printStackTrace();
     }
 
+    Path stdErrOut = Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + "-stderr.out");
+    Path stdOutOut = Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + "-stdout.out");
+    Files.deleteIfExists(stdErrOut);
+    Files.deleteIfExists(stdOutOut);
     ProcessBuilder pb = new ProcessBuilder(applicationArguments);
     Map<String, String> environment = pb.environment();
-    pb.redirectError(new File(loggingDirectory, this.prefix + "-stderr.out"));
-    pb.redirectOutput(new File(loggingDirectory, this.prefix + "-stdout.out"));
+    pb.redirectError(stdErrOut.toFile());
+    pb.redirectOutput(stdOutOut.toFile());
     pb.directory(workingDirectory);
     return pb.start();
   }
