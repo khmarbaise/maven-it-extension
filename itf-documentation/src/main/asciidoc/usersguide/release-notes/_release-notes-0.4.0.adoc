@@ -22,6 +22,7 @@
 :issue-41: https://github.com/khmarbaise/maven-it-extension/issues/41[Fixed #41]
 :issue-42: https://github.com/khmarbaise/maven-it-extension/issues/42[Fixed #42]
 :issue-43: https://github.com/khmarbaise/maven-it-extension/issues/43[Fixed #43]
+:issue-45: https://github.com/khmarbaise/maven-it-extension/issues/45[Fixed #45]
 
 :release-0_4_0: https://github.com/khmarbaise/maven-it-extension/milestone/4?closed=1
 
@@ -31,6 +32,7 @@
 
  - Renamed `invoker-repo` into `itf-repo`
  - Added `.predefined-repo` for integration tests.
+ - Support for finding Maven executable in a portable way.
 
 *Details*
 
@@ -38,6 +40,7 @@
  * {issue-41} - Activate apache-rat plugin to check all files for license
  * {issue-42} - MavenRepository contains @ExtendWith
  * {issue-43} - Create MavenPredefinedRepository annotation
+ * {issue-45} - Searching for the Maven executable in a portable way.
 
 *Breaking Changes*
 

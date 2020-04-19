@@ -1045,6 +1045,18 @@ class CompareDependenciesIT
 }
 ----
 
+== Configuration Required
+
+If you like to use the integration test framework you would like to use it to write tests and run
+those tests from command line (via Maven). This requires that the configuration is done as described 
+in link:_configuration_in_maven[Configuration in Maven]
+
+If you like to run your integration tests from you IDE you have to have configured that the
+maven binary can be found via the `PATH`.
+
+You can overwrite the `maven.home` property to control which Maven version will be used during
+the tests. Take care with overriting properties in Maven.
+
 == Configuration in Maven
 
 You have decided to use this tool to test your plugin/extension etc. this means you have to build

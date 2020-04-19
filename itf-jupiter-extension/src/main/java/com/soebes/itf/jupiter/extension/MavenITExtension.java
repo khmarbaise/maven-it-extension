@@ -28,7 +28,6 @@ import com.soebes.itf.jupiter.maven.ProjectHelper;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.model.Model;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionConfigurationException;
@@ -38,6 +37,8 @@ import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
+import org.junit.platform.commons.logging.Logger;
+import org.junit.platform.commons.logging.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -50,7 +51,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.getActiveProfiles;
@@ -68,7 +68,8 @@ import static java.util.stream.Collectors.toList;
 public class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeTestExecutionCallback,
     InvocationInterceptor {
 
-  private static final Logger LOGGER = Logger.getLogger(MavenITExtension.class.getName());
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(MavenITExtension.class);
 
   @Override
   public void beforeEach(ExtensionContext context) {
@@ -151,26 +152,24 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
       }
     }
 
-    String mavenHome = System.getProperty("maven.home");
-    if (mavenHome == null || mavenHome.isEmpty()) {
-      //FIXME: currently not set; using hard coded path? Need to reconsider how to set it?
-      mavenHome = "/Users/khmarbaise/tools/maven";
+    Optional<File> mvnLocation = new MavenLocator().findMvn();
+    if (!mvnLocation.isPresent()) {
+      LOGGER.error(() -> String.format("We could not find the maven executable `mvn` somewhere"));
+      throw new IllegalStateException("We can't find maven executable anywhere.");
     }
-    String mvnLocation = mavenHome + "/bin/mvn";
-    if (OS.WINDOWS.isCurrentOs()) {
-      mvnLocation += ".cmd";
-    }
-
 
     String prefix = "mvn";
     Optional<Class<?>> mavenProject = AnnotationHelper.findMavenProjectAnnotation(context);
+    //TODO: In cases where we have MavenProject it might be better to have
+    // different directories (which would be more concise with the other assumptions) with directory idea instead
+    // of prefixed files.
     if (mavenProject.isPresent()) {
       prefix = methodName.getName() + "-mvn";
     }
 
     //FIXME: Removed hard coded parts.
     ApplicationExecutor mavenExecutor = new ApplicationExecutor(directoryResolverResult.getProjectDirectory(),
-        integrationTestCaseDirectory, new File(mvnLocation), Collections.emptyList(), prefix);
+        integrationTestCaseDirectory, mvnLocation.get(), Collections.emptyList(), prefix);
 
     List<String> executionArguments = new ArrayList<>();
 
