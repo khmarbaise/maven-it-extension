@@ -680,6 +680,86 @@ This would mean that the predefined repository is available for all integration 
 classes within the whole package inclusive all sub packages.
 
 
+=== General Setup Repositories incl. Snapshots
+
+[source,text]
+----
+.
+└── src/
+    └── test/
+        └── resources-its/
+            └── org/
+                └── it/
+                    └── FirstIT/
+                        └── the_first_test_case/
+                            ├── .pre-release-repo
+                            ├── .pre-snapshot-repo
+                            ├── src/
+                            └── pom.xml
+----
+This would mean that the `.pre-release-repo` contains already installed artifacts etc.
+The `.pre-snapshot-repo` contains snapshots of particular aritifacts.
+
+To get above usable in Maven you have to have a `settings.xml` which contains the appropriate
+configuration which looks like this:
+
+We have to define the `central` repo and the snapshot repo. This will limit
+the access of this build to outside repositories.
+
+[source,xml]
+.settings.xml
+----
+<settings>
+    <profiles>
+        <profile>
+            <id>it-repo</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>local.central</id>
+                    <url>file:///Users/xxx/.m2/repository</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>local.snapshot</id>
+                    <url>file:///Users/xxxx/project/m2snapshots</url>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>local.central</id>
+                    <url>file:///Users/khmarbaise/.m2/repository</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
+</settings>
+
+----
+
+
+
+
+
 == Real Life Examples
 
 Within this chapter we describe different integration test cases which are done in integration
