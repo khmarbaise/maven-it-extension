@@ -496,6 +496,66 @@ used.
 // to define a `settings.xml` file?
 
 
+=== Real Repository Managers
+It could make sense to make it possible to run an integration
+test against a real repository manager. This could
+make things possible and more or less simple to express.
+
+We could support it via using Testcontainers to start the repository manager
+from docker images.
+
+Also we can make directories and prefill those repositories with artifacts.
+
+The usage of Nexus2 or Archiva has the advantage that both of them store
+the artifacts on plain file system which gives us the option to check
+existing artifacts after doing a test case.
+
+
+[source,java]
+----
+..
+@MavenIT
+@RepositoryManager(product=ARCHIVA)
+class CustomContainerDescriptorHandlerIT {
+
+  @MavenTest(goals = "release:prepare", "release:perform")
+  void assembly(MavenExecutionResult result) {
+
+  }
+
+}
+----
+I need to check the https://archiva.apache.org/docs/2.2.4/adminguide/webservices/rest.html[REST API of Archiva]
+what could be possible. This means we could change things programmatically.
+
+[source,java]
+----
+..
+@MavenIT
+@RepositoryManager(product=NEXUS2)
+class CustomContainerDescriptorHandlerIT {
+
+  @MavenTest(goals = "release:prepare", "release:perform")
+  void assembly(MavenExecutionResult result) {
+
+  }
+
+}
+----
+
+
+Advantages:
+* More or less no limit for scenarios
+* Make real releases against a repository manager
+* Reporting
+* Signing of artifacts / checking
+* Checking of files (checksum etc.)
+* Upload etc.
+* Support for proxy repos (like central) (needed!)
+*
+
+Disadvantages:
+* Startup time of the repository managers (ca. 10-30 seconds plus)
 
 === Setup Projects
 We have in general three different scenarios.
