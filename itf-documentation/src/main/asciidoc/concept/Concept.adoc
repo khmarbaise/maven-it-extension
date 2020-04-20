@@ -545,6 +545,7 @@ class CustomContainerDescriptorHandlerIT {
 
 
 Advantages:
+
 * More or less no limit for scenarios
 * Make real releases against a repository manager
 * Reporting
@@ -555,6 +556,7 @@ Advantages:
 *
 
 Disadvantages:
+
 * Startup time of the repository managers (ca. 10-30 seconds plus)
 
 === Setup Projects
