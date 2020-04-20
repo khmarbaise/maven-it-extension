@@ -31,139 +31,162 @@
   * [![PDF](https://img.shields.io/badge/PDF-Releasenotes-green)][releasenotes-pdf]
   * [![HTML](https://img.shields.io/badge/HTML-Releasenotes-green)][releasenotes-html]
 
-* Concept Guide (My Ideas)
+* Concept Guide (My Ideas; unordered; just not to forget them.)
   * [![PDF](https://img.shields.io/badge/PDF-Conceptguide-green)][conceptguide-pdf]
   * [![HTML](https://img.shields.io/badge/HTML-Conceptguide-green)][conceptguide-html]
 
-* The Background Guide (More detailed why this framework exists.)
+* The Background Guide (More details why this framework exists.)
   * [![PDF](https://img.shields.io/badge/PDF-background-green)][background-pdf]
   * [![HTML](https://img.shields.io/badge/HTML-background-green)][background-html]
 
+# State
+The project is in an early state but already being useful and can be used for real testing. 
+The project is available via [Central repository](https://search.maven.org/search?q=g%3Acom.soebes.itf.jupiter.extension) 
+which makes it easy for you to use it out without the need to compile the code (You can of course do that if you like).
+
 # General Overview
-The basic thing about integration testing of Maven Plugins / Maven Extensions etc. 
-is currently that the existing solutions are not a very concise and comprehensive solutions which
-is based on the long development history of the Apache Maven project. Different
-approaches have been done over the time. 
+The basic thing about integration testing of Maven Plugins / Maven Extensions etc. is currently that the existing 
+solutions are not a very concise and comprehensive which is based on the long development history of the Apache Maven
+project. There are a lot of different approaches done over the time but from my perspective they all lack one thing: 
+Simplicity. More detailed reasons etc. can be read in the [Background Guide][background-html]. This is the reason why 
+I think it's time to come up with a more modern setup and started this project.
 
-## Overview of the Current Situation
+## The Basic Idea
+The basic idea rest upon the option to write custom [extension with JUnit Jupiter][junit-jupiter-extension]
+which makes it very easy to get things done.
 
-### Maven Invoker Plugin
+So in general the whole Integration Testing Framework in it's core (itf-jupiter-extension) is a JUnit Jupier extension.
+Of course there is a lot of convenience integrated into it to make integration testing easier.
 
-In [Maven Invoker Plugin][maven-invoker-plugin] the following issues exist:
+## The Involved Parties
+Writing an integration test for a Maven plugin means you have to have three parties:
 
-* Parallelizing does not work and is not easy to integrate based on
-  current concept and code base.
-  *  Apart from being implemented it would hard to express the prevention
-of parallel execution in some situations.
-* Separating caches for each build is hard to implement
-* Get a common cache for a set of integration tests is even harder.
-* A Concept like `BeforeEach` or `BeforeAll` is current not really possible.
-  * The concept with `setup` project is not correctly working at the moment.
-* Writing integration tests forces one to write in Groovy or Beanshell.
-  * This means to enhance the number of dependencies. In days of Java 5 until 7 it had been an
-advantage to use Groovy with it's supports for closures etc. which made it simpler and easier
-to write things for integration tests, but since JDK 8 it is not necessary anymore.
-* Integrationtest are not that expressive as they should be.
-* Violation of [separation of concern paradigm](https://en.wikipedia.org/wiki/Separation_of_concerns)
-  * Conditions
-    * Assertions are hard to express cause one implicit assertion is that a build has to be successful (can be changed if necessary)
-    * Conditions for the execution of a test for example are:
-      * should be executed only on JDK11
-      * should be executed only on Maven 3.3.9 and above
-      * Several other conditions
-    * are expressed within a single file [ìnvoker.properties](https://maven.apache.org/plugins/maven-invoker-plugin/integration-test-mojo.html#invokerPropertiesFile).
+ 1. The component you would like to test (typically a Maven plugin etc.).
+ 2. The testing code where you check the functionality.
+ 2. The Project you would like to test with (where your Maven plugin usually is configured in to be used.)
 
-### Maven Verifier Plugin
+### The Component code 
+The component you write is located in your project in the usual location. This is of course
+only an example of how it looks like in reality (usually more classes etc.):
 
-The [Maven Verifier Plugin](https://maven.apache.org/plugins/maven-verifier-plugin) is intended to
-write tests to check for the existence of files or the absence of files but in the end it is
-very limited.
+```
+.
+└── src/
+    └── main/
+        └── java/
+            └── org/
+                └── plugin/
+                    └── PluginMojo.java
+```
 
-The [maven-verifier] is intended to write integration tests for Maven ...
+### The Testing Code
+The structure for an integration tests follows of course the convention over configuration paradigm.
+Based on the conventions in Maven an integration test should be named like `*IT.java` and be located in the directory
+structure as follows:
+```
+.
+└── src/
+    └── test/
+        └── java/
+            └── org/
+                └── it/
+                    └── FirstMavenIT.java
+```
 
-### Maven Verifier Component
+So now the real a test code looks like this:
 
-The [maven-verifier] is intended to write a kind of tests:
+```java
+package org.it;
 
-* You can set the command line parameters for an executed instance of Maven like `-s`, `-X` etc.
-* Execute goals like `package` or alike.
-* It contains some methods like `assertFilePresent`, `assertFileMatches`,
-   `verifyArtifactPresence` etc. but not a comprehensive set of methods.
-* Some parts are like Maven Invoker Plugin for example starting an external
-process with Maven (something like starting Maven on command line.).
-* Is JUnit 3 based.
-* Manually [maintained TestSuite]([maintained])
-to execute all integration tests of Maven Core.
-* Each Testcase must be expressed by a separate [Test class](https://github.com/apache/maven-integration-testing/blob/master/core-it-suite/src/test/java/org/apache/maven/it/MavenIT0090EnvVarInterpolationTest.java).
-* Manually [implemented conditionally execution](https://github.com/apache/maven-integration-testing/blob/master/core-it-suite/src/test/java/org/apache/maven/it/MavenITmng6391PrintVersionTest.java).
-* Conditions for execution only based on a self implemented constructor part which defines the Maven version under which it should run or not.
+import static org.assertj.core.api.Assertions.assertThat;
 
-### Maven Plugin Testing Harness
+import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
-The [Maven Plugin Testing Harness]([maven-plugin-testing-harness]) is intended to write tests for using parameters correctly and
-several other setup situations but the test setup is separated into a unit test like part in code
-and a part which is pom like
+@MavenIT // <1>
+class FirstMavenIT {
 
-* It's bound to versions of Maven core which might caused issues during testing with other versions
-  of Maven.
-* https://maven.apache.org/plugin-testing/maven-plugin-testing-harness/getting-started/index.html
-* Also JUnit 4 based.
+  @MavenTest // <2>
+  void the_first_test_case(MavenExecutionResult result) { //<3>
+    assertThat(result).build().isSuccessful(); // <4>
+  }
 
-### Mock Repository Manager
+}
+```
+1. Maven Integration test annotation.
+2. Maven Test Annotation.
+3. Injected execution result
+4. Custom assertions to check the result of the build.
 
-Currently it's only possible to have a single instance of the mock repository manager running which
-is based on the limited concept cause we need to define it in the `pom.xml`. Of course
-we could start two or more instances but this would make the setup more or less unreadable.
+### The Project to Test With
+The project you would like to use as a foundation for your test of the plugin. This is located in a special location
+under `src/test/resources-its/..`. This is needed to prevent the confusion with the usual
+`src/test/resources` in particular related to filtering etc. (details about the setup etc. in the
+ [users guide][usersguide-html]).
 
-### Why not Spock?
+```text
+.
+└── src/
+    └── test/
+        └── resources-its/
+            └── org/
+                └── it/
+                    └── FirstMavenIT/
+                        └── the_first_test_case/
+                            ├── src/
+                            └── pom.xml
+```
 
-So you might ask why not using Spock or any other testing framework for such purposes?
-Let me summarize the different aspects I had in mind:
-
-* People often tend to write Java code (which is valid), cause
-they don't know Groovy or don't want to learn a new language
-just to write tests. This means in the end: Why Groovy? Just use Java.
-* It's much easier for new contributors/devs to get into the
-project if you only need to know Java to write plugins, unit
-tests and integration tests. So removing a supplemental
-barrier will help.
-* Support for most recent Java versions which is a complete
-blocker for the Apache Maven project, cause the Apache Maven Project is  running builds
-in a very early stage (Early access) which would block us (see our builds for example [Maven EAR Plugin Build]([maven-ear-plugin-build]).
-Currently spock is not yet tested/build against JDK11+ ?
-So having a Testing framework which might not work on most
-recent versions is a complete blocker.
-* In earlier days I would have argued to use Spock based
-on the language features but since JDK8 I don't see any advantage
-in using Groovy over Java anymore.
-* Spock does not support parallelizing of tests (full blocker for me)
-* Good IDE Support for Groovy is at the moment only given in
-IDEA IntelliJ as well as for DSL support for Spock.
-That would block many people. This blocker based on the usage
-of a particular IDE is not acceptable for an open source project
-like the Apache Maven Project and from my point of view as
-an Apache Maven PMC member this is simply a no go.
+## The Executed Test
+After execution of the integration test the result will look like this:
+ 
+```text
+.
+└──target/
+   └── maven-it/
+       └── org/
+           └── it/
+               └── FirstMavenIT/
+                   └── the_first_test_case/
+                       ├── .m2/
+                       ├── project/
+                       │   ├── src/
+                       │   ├── target/
+                       │   └── pom.xml
+                       ├── mvn-stdout.log
+                       ├── mvn-stderr.log
+                       ├── mvn-arguments.log
+                       └── orther logs.
+```
+This gives you a first impression how an integration test can look like. There are a lot 
+of example in [this project available](https://github.com/khmarbaise/maven-it-extension/blob/master/itf-examples/src/test/java/com/soebes/itf/examples/MavenProjectIT.java)
+and of course I strongly recommend reading the [documentation][usersguide-html] 
+(I know I don't like reading documentation either).
 
 ### Conclusion
 
-It is needed to have a combination of [Maven Invoker Plugin]([maven-invoker-plugin]), Maven Verifier etc. into
-a single Testing framework which should make it possible to make integration tests
-easier to write and make them more expressive about what the intention of what a test exactly is.
-
-It looks like a good solution to use existing frameworks like [JUnit Jupiter]([junit-jupiter]) and assertions like
-[AssertJ]([assertj]) library to express what it's needed. This in result will give automatically
-many advantages for example the integration into the IDE as well as writing the tests in
-Java code and furthermore opens easy ways to use existing Java libraries.
-
-Using [JUnit Jupiter]([junit-jupiter]) as base will solve lot of things which are already supported by [JUnit Jupiter]([junit-jupiter])
-like conditional execution of Tests based on JRE or possible deactivation based on
-properties etc.
-
-Based on [AssertJ]([assertj]) it could be easy to express the assertions for test results in many ways and can
-also being enhanced by writing custom assertions.
+If you like the framework don't hesitate to test and give feedback in particular if things don't work
+as described or as you expected them to work.
 
 
+### Building 
 
+If you like to build the project from source yourself you need the following:
+
+* JDK 8+
+* Apache Maven 3.6.3
+
+The whole project can be built via:
+```bash
+mvn clean verify
+```
+This will take some time cause there are already integration tests in the itf-examples project which 
+are executed and real integration tests for the `itf-maven-plugin` which is a bootstrap 
+([eat-your-own-dog-food][food]) to use already parts of the framework (JUnit Jupiter extension) to
+make the development of the plugin easier.
+
+[food]: https://en.wikipedia.org/wiki/Eating_your_own_dog_food
 [jdkbuilds]: https://github.com/khmarbaise/maven-it-extension/actions?query=workflow%3AJDKBuilds
 [mainbuilds]: https://github.com/khmarbaise/maven-it-extension/actions?query=workflow%3AMain
 [usersguide-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/usersguide.html
