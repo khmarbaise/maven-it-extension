@@ -128,8 +128,8 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     directoryResolverResult.getCacheDirectory().mkdirs();
 
     //FIXME: Copy artifacts from itf-maven-plugin (itf-repo) location into each cache; Currently HARD CODED!!
-    FileUtils.deleteQuietly(directoryResolverResult.getCacheDirectory());
     FileUtils.deleteQuietly(directoryResolverResult.getProjectDirectory());
+    //TODO: Need to reconsider copying into cache in relationship with @MavenRepository
     FileUtils.copyDirectory(directoryResolverResult.getComponentUnderTestDirectory(),
         directoryResolverResult.getCacheDirectory());
 
