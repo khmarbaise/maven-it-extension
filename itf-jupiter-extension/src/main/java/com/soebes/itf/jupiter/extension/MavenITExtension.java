@@ -127,7 +127,6 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     directoryResolverResult.getProjectDirectory().mkdirs();
     directoryResolverResult.getCacheDirectory().mkdirs();
 
-    //FIXME: Copy artifacts from itf-maven-plugin (itf-repo) location into each cache; Currently HARD CODED!!
     FileUtils.deleteQuietly(directoryResolverResult.getProjectDirectory());
     //TODO: Need to reconsider copying into cache in relationship with @MavenRepository
     FileUtils.copyDirectory(directoryResolverResult.getComponentUnderTestDirectory(),
@@ -169,7 +168,6 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
       prefix = methodName.getName() + "-mvn";
     }
 
-    //FIXME: Removed hard coded parts.
     ApplicationExecutor mavenExecutor = new ApplicationExecutor(directoryResolverResult.getProjectDirectory(),
         integrationTestCaseDirectory, mvnLocation.get(), Collections.emptyList(), prefix);
 
@@ -197,7 +195,6 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
 
     Class<?> mavenIT = AnnotationHelper.findMavenITAnnotation(context).orElseThrow(IllegalStateException::new);
     MavenIT mavenITAnnotation = mavenIT.getAnnotation(MavenIT.class);
-    //FIXME: We need to filter placeholder here?
 
     //FIXME: Need to introduce better directory names
     //Refactor out the following lines
