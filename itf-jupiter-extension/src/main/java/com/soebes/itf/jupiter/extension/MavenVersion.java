@@ -1,4 +1,4 @@
-package com.soebes.itf.jupiter.maven;
+package com.soebes.itf.jupiter.extension;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -22,10 +22,11 @@ package com.soebes.itf.jupiter.maven;
 import org.apiguardian.api.API;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
-import org.junit.platform.commons.util.StringUtils;
 
 import java.util.stream.Stream;
 
+import static com.soebes.itf.jupiter.extension.Preconditions.requireNotEmpty;
+import static com.soebes.itf.jupiter.extension.Preconditions.requireNotNull;
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
@@ -59,12 +60,8 @@ public enum MavenVersion {
   }
 
   private static MavenVersion determineCurrentVersion() {
-    String currentVersion = System.getProperty("maven.version");
-    //FIXME: Think about usage of interal API?
-    if (StringUtils.isBlank(currentVersion)) {
-      logger.error(
-          () -> "JVM system property 'maven.version' is undefined. It is therefore not possible to detect Maven version.");
-    }
+    String currentVersion = requireNotNull(System.getProperty("maven.version"), "JVM system property 'maven.version' is empty.");
+    requireNotEmpty(currentVersion, "JVM system property 'maven.version' is empty. The maven version can not being deteced.");
     return Stream.of(values())
         .filter(mavenVersion -> mavenVersion.getVersionString().equals(currentVersion))
         .findFirst()

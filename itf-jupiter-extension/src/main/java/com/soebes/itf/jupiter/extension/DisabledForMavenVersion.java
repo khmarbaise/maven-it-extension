@@ -19,7 +19,6 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import com.soebes.itf.jupiter.maven.MavenVersion;
 import org.apiguardian.api.API;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -47,7 +46,7 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
  * custom <em>composed annotation</em> that inherits the semantics of this annotation.
  *
  * @author Karl Heinz Marbaise
- * @see com.soebes.itf.jupiter.maven.MavenVersion
+ * @see MavenVersion
  * @see org.junit.jupiter.api.condition.EnabledOnOs
  * @see org.junit.jupiter.api.condition.EnabledOnJre
  * @see org.junit.jupiter.api.condition.DisabledOnJre

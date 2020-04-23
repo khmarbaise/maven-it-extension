@@ -37,8 +37,6 @@ import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
-import org.junit.platform.commons.logging.Logger;
-import org.junit.platform.commons.logging.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -68,8 +66,6 @@ import static java.util.stream.Collectors.toList;
 public class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeTestExecutionCallback,
     InvocationInterceptor {
 
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(MavenITExtension.class);
 
   @Override
   public void beforeEach(ExtensionContext context) {
@@ -155,7 +151,7 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
 
     Optional<File> mvnLocation = new MavenLocator().findMvn();
     if (!mvnLocation.isPresent()) {
-      LOGGER.error(() -> String.format("We could not find the maven executable `mvn` somewhere"));
+//      LOGGER.error(() -> String.format("We could not find the maven executable `mvn` somewhere"));
       throw new IllegalStateException("We can't find maven executable anywhere.");
     }
 

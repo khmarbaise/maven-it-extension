@@ -19,11 +19,11 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import org.junit.platform.commons.util.Preconditions;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.soebes.itf.jupiter.extension.Preconditions.requireNotNull;
 
 /**
  * This will replace the placeholders which can be defined in {@link MavenTest#goals()}.
@@ -37,8 +37,8 @@ class PropertiesFilter {
   private final List<String> listOfItems;
 
   public PropertiesFilter(Map<String, String> keyValues, List<String> listOfItems) {
-    this.keyValues = Preconditions.notNull(keyValues, "keyValues is not allowed to be null.");
-    this.listOfItems = Preconditions.notEmpty(listOfItems, "listOfItems not allowed to be empty nor null.");
+    this.keyValues = requireNotNull(keyValues, "keyValues is not allowed to be null.");
+    this.listOfItems = requireNotNull(listOfItems, "listOfItems not allowed to be empty nor null.");
   }
 
   List<String> filter() {

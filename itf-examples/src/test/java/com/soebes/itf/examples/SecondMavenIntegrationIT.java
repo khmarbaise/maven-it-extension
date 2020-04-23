@@ -31,8 +31,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
-import static com.soebes.itf.jupiter.maven.MavenVersion.M3_0_5;
-import static com.soebes.itf.jupiter.maven.MavenVersion.M3_3_1;
+import static com.soebes.itf.jupiter.extension.MavenVersion.M3_0_5;
+import static com.soebes.itf.jupiter.extension.MavenVersion.M3_3_1;
 
 @MavenIT
 @EnabledForMavenVersion({M3_0_5, M3_3_1})

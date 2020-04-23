@@ -19,18 +19,17 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import com.soebes.itf.jupiter.maven.MavenVersion;
 import org.junit.jupiter.api.extension.ConditionEvaluationResult;
 import org.junit.jupiter.api.extension.ExecutionCondition;
 import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.platform.commons.util.Preconditions;
 
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static com.soebes.itf.jupiter.extension.Preconditions.requireGreaterZero;
 import static org.junit.jupiter.api.extension.ConditionEvaluationResult.disabled;
 import static org.junit.jupiter.api.extension.ConditionEvaluationResult.enabled;
-import static org.junit.platform.commons.util.AnnotationUtils.findAnnotation;
+import static org.junit.platform.commons.support.AnnotationSupport.findAnnotation;
 
 /**
  * {@link ExecutionCondition} for {@link EnabledForMavenVersion @EnabledForMaven}.
@@ -54,7 +53,7 @@ class EnabledForMavenVersionCondition implements ExecutionCondition {
     Optional<EnabledForMavenVersion> optional = findAnnotation(context.getElement(), EnabledForMavenVersion.class);
     if (optional.isPresent()) {
       MavenVersion[] versions = optional.get().value();
-      Preconditions.condition(versions.length > 0, "You must declare at least one version in @EnabledForMavenVersion");
+      requireGreaterZero(versions, "You must declare at least one version in @EnabledForMavenVersion");
       return Stream.of(versions).anyMatch(MavenVersion::isCurrentVersion) ? ENABLED_ON_CURRENT_MAVEN_VERSION
           : DISABLED_ON_CURRENT_MAVEN_VERSION;
     }

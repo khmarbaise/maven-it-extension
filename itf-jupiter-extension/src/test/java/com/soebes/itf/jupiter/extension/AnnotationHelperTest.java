@@ -24,13 +24,12 @@ import net.bytebuddy.description.annotation.AnnotationDescription.Builder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.PreconditionViolationException;
 import org.mockito.ArgumentMatchers;
 
 import java.lang.reflect.Method;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -77,9 +76,9 @@ class AnnotationHelperTest {
   class IsDebug {
 
     @Test
-    @DisplayName("fail with PreconditionViolationException for null parameter.")
+    @DisplayName("fail with IllegalArgumentException for null parameter.")
     void should_fail_with_exeception_for_parameter_null() {
-      assertThatExceptionOfType(PreconditionViolationException.class).isThrownBy(() -> AnnotationHelper.isDebug(null))
+      assertThatIllegalArgumentException().isThrownBy(() -> AnnotationHelper.isDebug(null))
           .withMessage("method is not allowed to be null.");
     }
 
@@ -131,9 +130,9 @@ class AnnotationHelperTest {
   class HasActiveProfiles {
 
     @Test
-    @DisplayName("fail with PreconditionViolationException for null parameter.")
+    @DisplayName("fail with IllegalArgumentException for null parameter.")
     void should_fail_with_exeception_for_parameter_null() {
-      assertThatExceptionOfType(PreconditionViolationException.class).isThrownBy(() -> AnnotationHelper.hasActiveProfiles(null))
+      assertThatIllegalArgumentException().isThrownBy(() -> AnnotationHelper.hasActiveProfiles(null))
           .withMessage("method is not allowed to be null.");
     }
 
@@ -158,9 +157,9 @@ class AnnotationHelperTest {
   class GetActiveProfiles {
 
     @Test
-    @DisplayName("fail with PreconditionViolationException for null parameter.")
+    @DisplayName("fail with IllegalArgumentException for null parameter.")
     void should_fail_with_exeception_for_parameter_null() {
-      assertThatExceptionOfType(PreconditionViolationException.class).isThrownBy(() -> AnnotationHelper.getActiveProfiles(null))
+      assertThatIllegalArgumentException().isThrownBy(() -> AnnotationHelper.getActiveProfiles(null))
           .withMessage("method is not allowed to be null.");
     }
 
@@ -196,9 +195,9 @@ class AnnotationHelperTest {
   class GetGoals {
 
     @Test
-    @DisplayName("fail with PreconditionViolationException for null parameter.")
+    @DisplayName("fail with IllegalArbumentException for null parameter.")
     void should_fail_with_exeception_for_parameter_null() {
-      assertThatExceptionOfType(PreconditionViolationException.class).isThrownBy(() -> AnnotationHelper.getGoals(null))
+      assertThatIllegalArgumentException().isThrownBy(() -> AnnotationHelper.getGoals(null))
           .withMessage("method is not allowed to be null.");
     }
 
@@ -227,9 +226,9 @@ class AnnotationHelperTest {
   class HasGoals {
 
     @Test
-    @DisplayName("fail with PreconditionViolationException for null parameter.")
+    @DisplayName("fail with IllegalArgumentException for null parameter.")
     void should_fail_with_exeception_for_parameter_null() {
-      assertThatExceptionOfType(PreconditionViolationException.class).isThrownBy(() -> AnnotationHelper.hasActiveProfiles(null))
+      assertThatIllegalArgumentException().isThrownBy(() -> AnnotationHelper.hasActiveProfiles(null))
           .withMessage("method is not allowed to be null.");
     }
 

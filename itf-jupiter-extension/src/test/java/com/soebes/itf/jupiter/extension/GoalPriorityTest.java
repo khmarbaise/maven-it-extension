@@ -21,11 +21,10 @@ package com.soebes.itf.jupiter.extension;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.PreconditionViolationException;
 
 import static com.soebes.itf.jupiter.extension.GoalPriority.goals;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * @author Karl Heinz Marbaise
@@ -55,16 +54,16 @@ class GoalPriorityTest {
   }
 
   @Test
-  @DisplayName("fail with PreconditionViolationException based on null for mavenITGoals.")
+  @DisplayName("fail with IllegalArgumentException based on null for mavenITGoals.")
   void should_fail_with_null_for_first_parameter() {
-    assertThatExceptionOfType(PreconditionViolationException.class).isThrownBy(() -> goals(null, null))
+    assertThatIllegalArgumentException().isThrownBy(() -> goals(null, null))
         .withMessage("mavenITGoals is not allowed to be null.");
   }
 
   @Test
-  @DisplayName("fail with PreconditionViolationException based on null for mavenTestGoals.")
+  @DisplayName("fail with IllegalArgumentException based on null for mavenTestGoals.")
   void should_fail_with_null_for_second_parameter() {
-    assertThatExceptionOfType(PreconditionViolationException.class).isThrownBy(() -> goals(new String[]{}, null))
+    assertThatIllegalArgumentException().isThrownBy(() -> goals(new String[]{}, null))
         .withMessage("mavenTestGoals is not allowed to be null.");
   }
 

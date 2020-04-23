@@ -20,11 +20,12 @@ package com.soebes.itf.jupiter.extension;
  */
 
 import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.platform.commons.util.Preconditions;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Optional;
+
+import static com.soebes.itf.jupiter.extension.Preconditions.requireNotNull;
 
 /**
  * @author Karl Heinz Marbaise
@@ -67,7 +68,7 @@ class AnnotationHelper {
   }
 
   private static void checkParameterAndRequirements(Method method) {
-    Preconditions.notNull(method, "method is not allowed to be null.");
+    requireNotNull(method, "method is not allowed to be null.");
     if (!method.isAnnotationPresent(MavenTest.class)) {
       throw new IllegalStateException("MavenTest Annotation is not given on method: '" + method.getName() + "'");
     }

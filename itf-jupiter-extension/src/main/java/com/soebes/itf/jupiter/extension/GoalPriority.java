@@ -19,7 +19,7 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import org.junit.platform.commons.util.Preconditions;
+import static com.soebes.itf.jupiter.extension.Preconditions.requireNotNull;
 
 /**
  * @author Karl Heinz Marbaise
@@ -35,8 +35,8 @@ final class GoalPriority {
    * @return The goals which are defined by {@link MavenTest} if have been overwritten.
    */
   static String[] goals(String[] mavenITGoals, String[] mavenTestGoals) {
-    Preconditions.notNull(mavenITGoals, "mavenITGoals is not allowed to be null.");
-    Preconditions.notNull(mavenTestGoals, "mavenTestGoals is not allowed to be null.");
+    requireNotNull(mavenITGoals, "mavenITGoals is not allowed to be null.");
+    requireNotNull(mavenTestGoals, "mavenTestGoals is not allowed to be null.");
     if (mavenTestGoals.length == 0) {
       return mavenITGoals;
     } else {

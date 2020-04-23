@@ -19,7 +19,6 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import com.soebes.itf.jupiter.maven.MavenVersion;
 import org.apiguardian.api.API;
 import org.junit.jupiter.api.extension.ExtendWith;
 
