@@ -18,11 +18,11 @@
 
 [![Apache License, Version 2.0, January 2004](https://img.shields.io/github/license/apache/maven.svg?label=License)][license]
 [![Maven Central](https://img.shields.io/maven-central/v/com.soebes.itf.jupiter.extension/itf-jupiter-extension.svg?label=Maven%20Central)](https://search.maven.org/search?q=g%3Acom.soebes.itf.jupiter.extension)
+[![javadoc](https://javadoc.io/badge2/com.soebes.itf.jupiter.extension/itf-maven-plugin/javadoc.svg)](https://javadoc.io/doc/com.soebes.itf.jupiter.extension/itf-maven-plugin)
 [![JDKBuilds](https://github.com/khmarbaise/maven-it-extension/workflows/JDKBuilds/badge.svg)][jdkbuilds]
 [![Main](https://github.com/khmarbaise/maven-it-extension/workflows/Main/badge.svg)][mainbuilds]
 [![Issues](https://img.shields.io/github/issues/khmarbaise/maven-it-extension)](https://github.com/khmarbaise/maven-it-extension/issues)
 [![Issues Closed](https://img.shields.io/github/issues-closed/khmarbaise/maven-it-extension)](https://github.com/khmarbaise/maven-it-extension/issues?q=is%3Aissue+is%3Aclosed)
-[![javadoc](https://javadoc.io/badge2/com.soebes.itf.jupiter.extension/itf-maven-plugin/javadoc.svg)](https://javadoc.io/doc/com.soebes.itf.jupiter.extension/itf-maven-plugin)
  
 * Users Guide
   * [![PDF](https://img.shields.io/badge/PDF-Usersguide-green)][usersguide-pdf]
