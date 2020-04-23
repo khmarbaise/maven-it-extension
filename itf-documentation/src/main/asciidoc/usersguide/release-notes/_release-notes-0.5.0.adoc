@@ -18,7 +18,10 @@
 [[release-notes-0.5.0]]
 == Pre-release 0.5.0
 
+:issue-48: https://github.com/khmarbaise/maven-it-extension/issues/48[Fixed #48]
 :issue-49: https://github.com/khmarbaise/maven-it-extension/issues/49[Fixed #49]
+:issue-50: https://github.com/khmarbaise/maven-it-extension/issues/50[Fixed #50]
+:issue-51: https://github.com/khmarbaise/maven-it-extension/issues/51[Fixed #51]
 
 :release-0_5_0: https://github.com/khmarbaise/maven-it-extension/milestone/5?closed=1
 
@@ -27,15 +30,24 @@
 *Scope:*
 
  - Removed usage of internal API's.
+ - Fixing Bug while running several IT's while using the same cache.
 
 *Details*
 
+ * {issue-48} - Accidentally deleting the local cache.
+    - We should not delete the whole cache between executions cause
+      a given @MavenRepository is otherwise useless for several methods.
  * {issue-49} - Change to use only maintained API's of JUnit Jupiter
 
 *Breaking Changes*
 
  * The MavenVersion enum type has been moved from package `com.soebes.itf.jupiter.maven` to
    `com.soebes.itf.jupiter.extension` to take advantage of using internal classes.
+
+*Dependency Upgrades*
+
+ * {issue-50} - Upgrade Testcontainers to most recent version 1.14.1
+ * {issue-51} - Upgrade smpp parent to version 5.0.3
 
 
 The full release notes can be found here {release-0_5_0}[Release 0.5.0].
