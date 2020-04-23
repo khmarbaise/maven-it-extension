@@ -19,9 +19,9 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.condition.OS;
-import org.junit.platform.commons.logging.Logger;
-import org.junit.platform.commons.logging.LoggerFactory;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -46,7 +46,7 @@ import java.util.regex.Pattern;
  * but they also lack the support of toFile().
  */
 class MavenLocator {
-  private static final Logger LOGGER = LoggerFactory.getLogger(MavenLocator.class);
+  private static final Logger LOGGER = LogManager.getLogger();
 
   private static final String MAVEN_HOME = "maven.home";
 

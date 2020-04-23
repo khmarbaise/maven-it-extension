@@ -22,6 +22,7 @@
 :issue-49: https://github.com/khmarbaise/maven-it-extension/issues/49[Fixed #49]
 :issue-50: https://github.com/khmarbaise/maven-it-extension/issues/50[Fixed #50]
 :issue-51: https://github.com/khmarbaise/maven-it-extension/issues/51[Fixed #51]
+:issue-52: https://github.com/khmarbaise/maven-it-extension/issues/51[Fixed #52]
 
 :release-0_5_0: https://github.com/khmarbaise/maven-it-extension/milestone/5?closed=1
 
@@ -29,7 +30,7 @@
 
 *Scope:*
 
- - Removed usage of internal API's.
+ - Removed usage of internal API's. {issue-49}, {issue-52}.
  - Fixing Bug while running several IT's while using the same cache.
 
 *Details*
@@ -38,6 +39,7 @@
     - We should not delete the whole cache between executions cause
       a given @MavenRepository is otherwise useless for several methods.
  * {issue-49} - Change to use only maintained API's of JUnit Jupiter
+ * {issue-52} - Remove usage org.junit.platform.commons.logging
 
 *Breaking Changes*
 

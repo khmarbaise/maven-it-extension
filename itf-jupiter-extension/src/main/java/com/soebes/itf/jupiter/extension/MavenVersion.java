@@ -19,9 +19,9 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apiguardian.api.API;
-import org.junit.platform.commons.logging.Logger;
-import org.junit.platform.commons.logging.LoggerFactory;
 
 import java.util.stream.Stream;
 
@@ -49,7 +49,7 @@ public enum MavenVersion {
   M3_6_2("3.6.2"),
   M3_6_3("3.6.3");
 
-  private static final Logger logger = LoggerFactory.getLogger(MavenVersion.class);
+  private static final Logger LOGGER = LogManager.getLogger();
 
   private static final MavenVersion CURRENT_MAVEN_VERSION = determineCurrentVersion();
 
