@@ -44,26 +44,29 @@ import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 class EARIT {
 
   @MavenTest
-  void basic(MavenExecutionResult result, MavenProjectResult project) {
-    assertThat(result).isSuccessful();
-    assertThat(project).hasTarget()
+  void basic(MavenExecutionResult result) {
+    assertThat(result).isSuccessful()
+        .project()
+        .hasTarget()
         .withEarFile()
         .containsOnlyOnce("META-INF/application.xml", "META-INF/appserver-application.xml");
   }
 
   @MavenTest
-  void packaging_includes(MavenExecutionResult result, MavenProjectResult project) {
-    assertThat(result).isSuccessful();
-    assertThat(project).hasTarget()
+  void packaging_includes(MavenExecutionResult result) {
+    assertThat(result).isSuccessful()
+        .project()
+        .hasTarget()
         .withEarFile()
         .doesNotContain("commons-io-commons-io-1.4.jar")
         .containsOnlyOnce("commons-lang-commons-lang-2.5.jar", "META-INF/application.xml", "META-INF/MANIFEST.MF");
   }
 
   @MavenTest
-  void packaging_excludes(MavenExecutionResult result, MavenProjectResult project) {
-    assertThat(result).isSuccessful();
-    assertThat(project).hasTarget()
+  void packaging_excludes(MavenExecutionResult result) {
+    assertThat(result).isSuccessful()
+        .project()
+        .hasTarget()
         .withEarFile()
         .doesNotContain("commons-lang-commons-lang-2.5.jar")
         .containsOnlyOnce("META-INF/application.xml", "META-INF/MANIFEST.MF");
@@ -79,27 +82,28 @@ class EARIT {
   }
 
   @MavenTest
-  void transitive_excludes(MavenExecutionResult result, MavenProjectResult project, MavenLog log) {
-    assertThat(result).isSuccessful();
-    assertThat(log).isSuccessful();
-    assertThat(log).info().stream().filter(s -> s.startsWith("TESTING"));
-    assertThat(log).debug().stream().filter(s -> s.endsWith("FAILURE"));
-    //assertThat(log).buildFailure(); DOES NOT WORK YET
-
-    assertThat(project).hasTarget()
+  void transitive_excludes(MavenExecutionResult result) {
+    assertThat(result).isSuccessful()
+        .project()
+        .hasTarget()
         .withEarFile()
         .containsOnlyOnce("org.apache.maven-maven-core-3.0.jar", "META-INF/application.xml");
+
+//    assertThat(log).info().stream().filter(s -> s.startsWith("TESTING"));
+//    assertThat(log).debug().stream().filter(s -> s.endsWith("FAILURE"));
+    //assertThat(log).buildFailure(); DOES NOT WORK YET
+
   }
 
   @MavenTest
-  void skinny_wars_javaee5(MavenExecutionResult result, MavenProjectResult project, MavenLog log) {
-    assertThat(result).isSuccessful();
-    assertThat(project)
+  void skinny_wars_javaee5(MavenExecutionResult result, MavenProjectResult project) {
+    assertThat(result).isSuccessful()
+        .project()
         .hasModule("war-module")
         .hasModule("ear-module");
 
     /*
-    target (issue-4-maven-log-file-assertions *)$ unzip -t ear-module-1.0.ear
+    $ unzip -t ear-module-1.0.ear
 Archive:  ear-module-1.0.ear
     testing: META-INF/MANIFEST.MF     OK
     testing: META-INF/                OK
