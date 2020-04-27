@@ -119,22 +119,52 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
   public void beforeTestExecution(ExtensionContext context)
       throws IOException, InterruptedException, XmlPullParserException {
 
+    Method methodName = context.getTestMethod().orElseThrow(() -> new IllegalStateException("No method given"));
+
+    String prefix = "mvn";
+    Optional<Class<?>> mavenProject = AnnotationHelper.findMavenProjectAnnotation(context);
+    //TODO: In cases where we have MavenProject it might be better to have
+    // different directories (which would be more concise with the other assumptions) with directory idea instead
+    // of prefixed files.
+    if (mavenProject.isPresent()) {
+      prefix = methodName.getName() + "-mvn";
+    }
+
+
     DirectoryResolverResult directoryResolverResult = new DirectoryResolverResult(context);
+    System.out.println("directoryResolverResult.getProjectDirectory() = " + directoryResolverResult.getProjectDirectory().getAbsolutePath());
+    System.out.println("directoryResolverResult.getProjectDirectory().exists() = " + directoryResolverResult.getProjectDirectory().exists());
 
     File integrationTestCaseDirectory = directoryResolverResult.getIntegrationTestCaseDirectory();
     integrationTestCaseDirectory.mkdirs();
-    directoryResolverResult.getProjectDirectory().mkdirs();
-    directoryResolverResult.getCacheDirectory().mkdirs();
 
-    FileUtils.deleteQuietly(directoryResolverResult.getProjectDirectory());
+    if (mavenProject.isPresent()) {
+      if (!directoryResolverResult.getProjectDirectory().exists()) {
+        directoryResolverResult.getProjectDirectory().mkdirs();
+        directoryResolverResult.getCacheDirectory().mkdirs();
+
+        FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),
+            directoryResolverResult.getProjectDirectory());
+        FileUtils.copyDirectory(directoryResolverResult.getComponentUnderTestDirectory(),
+            directoryResolverResult.getCacheDirectory());
+      }
+    } else {
+      FileUtils.deleteQuietly(directoryResolverResult.getProjectDirectory());
+      directoryResolverResult.getProjectDirectory().mkdirs();
+      directoryResolverResult.getCacheDirectory().mkdirs();
+
+      FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),
+          directoryResolverResult.getProjectDirectory());
+      FileUtils.copyDirectory(directoryResolverResult.getComponentUnderTestDirectory(),
+          directoryResolverResult.getCacheDirectory());
+    }
+
     //TODO: Need to reconsider copying into cache in relationship with @MavenRepository
     FileUtils.copyDirectory(directoryResolverResult.getComponentUnderTestDirectory(),
         directoryResolverResult.getCacheDirectory());
 
     FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),
         directoryResolverResult.getProjectDirectory());
-
-    Method methodName = context.getTestMethod().orElseThrow(() -> new IllegalStateException("No method given"));
 
 
     //Copy ".predefined-repo" into ".m2/repository"
@@ -146,7 +176,7 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
       boolean annotationPresent = methodName.isAnnotationPresent(MavenPredefinedRepository.class);
       if (annotationPresent) {
         MavenPredefinedRepository annotation = methodName.getAnnotation(MavenPredefinedRepository.class);
-           File predefinedRepoFile = new File(directoryResolverResult.getSourceMavenProject(), annotation.value());
+        File predefinedRepoFile = new File(directoryResolverResult.getSourceMavenProject(), annotation.value());
         FileUtils.copyDirectory(predefinedRepoFile,
             directoryResolverResult.getCacheDirectory());
       }
@@ -156,15 +186,6 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     if (!mvnLocation.isPresent()) {
       LOGGER.error(() -> String.format("We could not find the maven executable `mvn` somewhere"));
       throw new IllegalStateException("We can't find maven executable anywhere.");
-    }
-
-    String prefix = "mvn";
-    Optional<Class<?>> mavenProject = AnnotationHelper.findMavenProjectAnnotation(context);
-    //TODO: In cases where we have MavenProject it might be better to have
-    // different directories (which would be more concise with the other assumptions) with directory idea instead
-    // of prefixed files.
-    if (mavenProject.isPresent()) {
-      prefix = methodName.getName() + "-mvn";
     }
 
     ApplicationExecutor mavenExecutor = new ApplicationExecutor(directoryResolverResult.getProjectDirectory(),
