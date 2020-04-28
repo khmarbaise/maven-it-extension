@@ -130,11 +130,7 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
       prefix = methodName.getName() + "-mvn";
     }
 
-
     DirectoryResolverResult directoryResolverResult = new DirectoryResolverResult(context);
-    System.out.println("directoryResolverResult.getProjectDirectory() = " + directoryResolverResult.getProjectDirectory().getAbsolutePath());
-    System.out.println("directoryResolverResult.getProjectDirectory().exists() = " + directoryResolverResult.getProjectDirectory().exists());
-
     File integrationTestCaseDirectory = directoryResolverResult.getIntegrationTestCaseDirectory();
     integrationTestCaseDirectory.mkdirs();
 
@@ -158,14 +154,6 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
       FileUtils.copyDirectory(directoryResolverResult.getComponentUnderTestDirectory(),
           directoryResolverResult.getCacheDirectory());
     }
-
-    //TODO: Need to reconsider copying into cache in relationship with @MavenRepository
-    FileUtils.copyDirectory(directoryResolverResult.getComponentUnderTestDirectory(),
-        directoryResolverResult.getCacheDirectory());
-
-    FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),
-        directoryResolverResult.getProjectDirectory());
-
 
     //Copy ".predefined-repo" into ".m2/repository"
     Optional<File> predefinedRepository = directoryResolverResult.getPredefinedRepository();
