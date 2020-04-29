@@ -54,7 +54,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
    * With a static import, one's can write directly : <code>assertThat(result).isSuccessful();</code>
    *
    * @param actual the MavenExecutionResult we want to make assertions on.
-   * @return a new </code>{@link MavenProjectResultAssert}</code>
+   * @return a new {@link MavenProjectResultAssert}
    */
   public static MavenProjectResultAssert assertThat(MavenProjectResult actual) {
     return new MavenProjectResultAssert(actual);

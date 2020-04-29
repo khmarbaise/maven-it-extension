@@ -41,7 +41,7 @@ public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
    * With a static import, one's can write directly : <code>assertThat(result).isSuccessful();</code>
    *
    * @param actual the MavenLog we want to make assertions on.
-   * @return a new </code>{@link MavenLogAssert}</code>
+   * @return a new {@link MavenLogAssert}
    */
   public static MavenLogAssert assertThat(MavenLog actual) {
     return new MavenLogAssert(actual);

@@ -36,7 +36,7 @@ public class MavenCacheResultAssert extends AbstractAssert<MavenCacheResultAsser
    * With a static import, one's can write directly : <code>assertThat(result).isSuccessful();</code>
    *
    * @param actual the MavenLog we want to make assertions on.
-   * @return a new </code>{@link MavenCacheResultAssert}</code>
+   * @return a new {@link MavenCacheResultAssert}
    */
   public static MavenCacheResultAssert assertThat(MavenCacheResult actual) {
     return new MavenCacheResultAssert(actual);
