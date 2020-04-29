@@ -50,7 +50,7 @@
   </distributionManagement>
 
   <properties>
-    <mockito.version>3.3.0</mockito.version>
+    <mockito.version>3.3.3</mockito.version>
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>
     <smpp.component>maven-it-extension</smpp.component>

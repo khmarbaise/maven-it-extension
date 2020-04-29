@@ -26,6 +26,7 @@
 :issue-53: https://github.com/khmarbaise/maven-it-extension/issues/53[Fixed #53]
 :issue-54: https://github.com/khmarbaise/maven-it-extension/issues/54[Fixed #54]
 :issue-55: https://github.com/khmarbaise/maven-it-extension/issues/55[Fixed #55]
+:issue-56: https://github.com/khmarbaise/maven-it-extension/issues/56[Fixed #56]
 
 :release-0_5_0: https://github.com/khmarbaise/maven-it-extension/milestone/5?closed=1
 
@@ -57,6 +58,7 @@
  * {issue-51} - Upgrade smpp parent to version 5.0.3
  * {issue-54} - Upgrade equalsverifier from 3.1.12 to 3.1.13
  * {issue-55} - Upgrade log4j from 2.13.1 to 2.13.2
+ * {issue-56} - Upgrade mockito from 3.3.0 to 3.3.3
 
 
 The full release notes can be found here {release-0_5_0}[Release 0.5.0].
