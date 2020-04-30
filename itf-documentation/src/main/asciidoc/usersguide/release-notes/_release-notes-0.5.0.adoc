@@ -63,7 +63,7 @@
  * {issue-56} - Upgrade mockito from 3.3.0 to 3.3.3
  * {issue-57} - Upgrade smpp-parent from 5.0.3 to 5.1.0
 
-* Build Improvements*
+*Build Improvements*
 
  * {issue-58} - WARNING JAR will be empty in itf-documentation module.
 
