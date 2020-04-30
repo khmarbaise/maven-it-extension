@@ -8,7 +8,7 @@
 '/Users/khmarbaise/ws-git-apache/maven-it-extension/itf-maven-plugin/src/test/java:/Users/khmarbaise/ws-git-apache/maven-it-extension/itf-maven-plugin/target/generated-test-sources/test-annotations'
 -author
 -bottom
-'Copyright &#169; 2011&#x2013;2020 <a href="http://www.soebes.com">SoftwareEntwicklung Beratung Schulung</a>. All rights reserved.'
+'Copyright &#169; 2011&#x2013;2020 <a href="https://www.soebes.com">SoftwareEntwicklung Beratung Schulung</a>. All rights reserved.'
 -charset
 'UTF-8'
 -d
@@ -17,6 +17,8 @@
 'UTF-8'
 -doctitle
 'itf-maven-plugin 0.5.0-SNAPSHOT Test API'
+-link
+'../apidocs'
 -linkoffline
 'https://docs.oracle.com/en/java/javase/11/docs/api' '/Users/khmarbaise/ws-git-apache/maven-it-extension/itf-maven-plugin/target/javadoc-bundle-options'
 -use
