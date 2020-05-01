@@ -35,6 +35,6 @@ jobs:
     runs-on: ubuntu-latest
     container: "maven:3.6.3-jdk-${{ matrix.jdk }}"
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
       - name: Test
         run: mvn -V --no-transfer-progress clean verify --fail-at-end
