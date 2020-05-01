@@ -31,6 +31,7 @@
 :issue-58: https://github.com/khmarbaise/maven-it-extension/issues/58[Fixed #58]
 :issue-59: https://github.com/khmarbaise/maven-it-extension/issues/59[Fixed #59]
 :issue-61: https://github.com/khmarbaise/maven-it-extension/issues/61[Fixed #61]
+:issue-62: https://github.com/khmarbaise/maven-it-extension/issues/62[Fixed #62]
 
 :release-0_5_0: https://github.com/khmarbaise/maven-it-extension/milestone/5?closed=1
 
@@ -70,5 +71,6 @@
  * {issue-58} - WARNING JAR will be empty in itf-documentation module.
  * {issue-59} - Removed option -Dcheckstyle.skip=true
  * {issue-61} - Bug in pipeline - Using wrong checkout
+ * {issue-62} - WARNING JAR will be empty in itf-examples
 
 The full release notes can be found here {release-0_5_0}[Release 0.5.0].

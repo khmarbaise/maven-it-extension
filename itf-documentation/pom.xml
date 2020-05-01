@@ -38,6 +38,8 @@
     <dependency>
       <groupId>com.soebes.itf.jupiter.extension</groupId>
       <artifactId>itf-examples</artifactId>
+      <classifier>tests</classifier>
+      <type>test-jar</type>
       <version>${project.version}</version>
     </dependency>
   </dependencies>
