@@ -55,10 +55,12 @@ I think it's time to come up with a more modern setup and started this project.
 
 ## The Basic Idea
 The basic idea rest upon the option to write custom [extension with JUnit Jupiter][junit-jupiter-extension]
-which makes it very easy to get things done.
+for [JUnit Jupiter][junit-jupiter-extension] testing framework which makes it very easy to get things done.
 
-So in general the whole Integration Testing Framework in it's core (itf-jupiter-extension) is a JUnit Jupier extension.
-Of course there is a lot of convenience integrated into it to make integration testing easier.
+So in general the whole Integration Testing Framework in it's core (itf-jupiter-extension) is a 
+[JUnit Jupiter extension][junit-jupiter-extension] which delivers supplemental support for a testing
+framework in general and in particular for using integration tests.
+Of course there is a lot of convenience integrated into it to make integration testing of Maven plugins easier.
 
 ## The Involved Parties
 Writing an integration test for a Maven plugin means you have to have three parties:
@@ -204,10 +206,3 @@ make the development of the plugin easier.
 [junit-jupiter]: https://junit.org/junit5/
 [junit-jupiter-extension]: https://junit.org/junit5/docs/current/user-guide/#extensions
 [assertj]: https://assertj.github.io/doc/
-[maven-plugins]: https://maven.apache.org/plugins/
-[maven-invoker-plugin]: https://maven.apache.org/plugins/maven-invoker-plugin/
-[maven-verifier]: https://maven.apache.org/shared/maven-verifier/
-[github-versions-maven-plugin]: https://github.com/mojohaus/versions-maven-plugin
-[maven-ear-plugin-build]: https://builds.apache.org/view/M-R/view/Maven/job/maven-box/job/maven-ear-plugin/job/master/
-[maven-plugin-testing-harness]: https://maven.apache.org/plugin-testing/maven-plugin-testing-harness/index.html
-[maintained]: https://github.com/apache/maven-integration-testing/blob/master/core-it-suite/src/test/java/org/apache/maven/it/IntegrationTestSuite.java
