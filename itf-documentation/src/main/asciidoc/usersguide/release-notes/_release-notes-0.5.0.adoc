@@ -33,6 +33,7 @@
 :issue-61: https://github.com/khmarbaise/maven-it-extension/issues/61[Fixed #61]
 :issue-62: https://github.com/khmarbaise/maven-it-extension/issues/62[Fixed #62]
 :issue-63: https://github.com/khmarbaise/maven-it-extension/issues/63[Fixed #63]
+:issue-64: https://github.com/khmarbaise/maven-it-extension/issues/64[Fixed #64]
 
 :release-0_5_0: https://github.com/khmarbaise/maven-it-extension/milestone/5?closed=1
 
@@ -74,5 +75,6 @@
  * {issue-61} - Bug in pipeline - Using wrong checkout
  * {issue-62} - WARNING JAR will be empty in itf-examples
  * {issue-63} - Cleanup pom and remove plugins which are inherited from smpp-parent
+ * {issue-64} - Automatic site publishing
 
 The full release notes can be found here {release-0_5_0}[Release 0.5.0].
