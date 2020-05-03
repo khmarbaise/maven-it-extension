@@ -15,29 +15,33 @@
 //   specific language governing permissions and limitations
 //   under the License.
 //
-[[release-notes]]
-= Integration Testing Framework Release Notes
-:author: Karl Heinz Marbaise
-:includedir: _includes
-:sourcedir: src/main/asciidoc/usersguide/release-notes
-:numbered!:
-:toc: left
+[[release-notes-0.6.0]]
+== Pre-release 0.6.0
 
-This document contains the _change log_ for all Integration Test Framework
-releases since 0.1.0.
+:issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
-Please refer to the <<../user-guide/index.adoc#user-guide,User Guide>> for comprehensive
-overview and detailed instructions how to use the Integration Testing Framework.
+:release-0_6_0: https://github.com/khmarbaise/maven-it-extension/milestone/6?closed=1
 
-include::{sourcedir}/_release-notes-0.6.0.adoc[]
+*Date of Release:* ??, 2020
 
-include::{sourcedir}/_release-notes-0.5.0.adoc[]
+*Scope:*
 
-include::{sourcedir}/_release-notes-0.4.0.adoc[]
+ - ??
 
-include::{sourcedir}/_release-notes-0.3.0.adoc[]
+*Details*
 
-include::{sourcedir}/_release-notes-0.2.0.adoc[]
+ * {issue-??} - xxx
 
-include::{sourcedir}/_release-notes-0.1.0.adoc[]
+*Breaking Changes*
 
+ * ??
+
+*Dependency Upgrades*
+
+ * {issue-??} - ??
+
+*Build Improvements*
+
+ * {issue-??} - ??
+
+The full release notes can be found here {release-0_6_0}[Release 0.6.0].
