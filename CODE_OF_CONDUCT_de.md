@@ -66,7 +66,7 @@ Der Begriff "Repräsentation des Projektes" kann durch die Projektverantwortlich
 ## Umsetzung
 
 Fälle von missbräuchlichem, belästigendem oder anderweitig nicht akzeptablem Verhalten können dem Projektteam unter 
-`cod@soebes.de` gemeldet werden. Alle Beschwerden werden geprüft und untersucht und werden zu einer Antwort 
+`coc@soebes.de` gemeldet werden. Alle Beschwerden werden geprüft und untersucht und werden zu einer Antwort 
 führen, die angesichts der Umstände für notwendig und angemessen gehalten wird. Das Projektteam ist verpflichtet, über 
 diejenigen, die Vorfälle gemeldet haben, Verschwiegenheit zu wahren. Weitere Einzelheiten zu speziellen 
 Umsetzungsgrundsätzen können gesondert mitgeteilt werden.
