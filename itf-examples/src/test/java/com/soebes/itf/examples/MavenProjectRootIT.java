@@ -19,7 +19,7 @@ package com.soebes.itf.examples;
  * under the License.
  */
 
-import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenProject;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
@@ -27,7 +27,7 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
 
-@MavenIT
+@MavenJupiterExtension
 @MavenProject("test_project_root")
 @TestMethodOrder(OrderAnnotation.class)
 class MavenProjectRootIT {

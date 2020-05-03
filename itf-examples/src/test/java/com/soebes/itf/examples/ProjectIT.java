@@ -19,7 +19,7 @@ package com.soebes.itf.examples;
  * under the License.
  */
 
-import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenOptions;
 import com.soebes.itf.jupiter.extension.MavenPredefinedRepository;
 import com.soebes.itf.jupiter.extension.MavenTest;
@@ -30,7 +30,7 @@ import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 /**
  * @author Karl Heinz Marbaise
  */
-@MavenIT
+@MavenJupiterExtension
 @MavenPredefinedRepository
 class ProjectIT {
 

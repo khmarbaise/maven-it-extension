@@ -19,7 +19,7 @@ package com.soebes.itf.examples;
  * under the License.
  */
 
-import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenRepository;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
@@ -36,7 +36,7 @@ import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
  *
  * @author Karl Heinz Marbaise
  */
-@MavenIT(goals = {"install"})
+@MavenJupiterExtension(goals = {"install"})
 @MavenRepository
 @TestMethodOrder(OrderAnnotation.class)
 @DisplayName("This is integration test Nr.1 with two setup projects.")

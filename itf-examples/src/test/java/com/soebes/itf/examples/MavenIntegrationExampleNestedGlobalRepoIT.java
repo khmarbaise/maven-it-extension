@@ -19,7 +19,7 @@ package com.soebes.itf.examples;
  * under the License.
  */
 
-import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenRepository;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Nested;
  * Based on convenience we have put the usage of {@code @Execution(ExecutionMode.SAME_THREAD} into the
  * {@link MavenRepository} annotation which makes it easier to use.
  */
-@MavenIT
+@MavenJupiterExtension
 @MavenRepository
 class MavenIntegrationExampleNestedGlobalRepoIT {
 

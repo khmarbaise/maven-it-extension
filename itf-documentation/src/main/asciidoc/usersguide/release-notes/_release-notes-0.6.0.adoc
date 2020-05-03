@@ -19,6 +19,7 @@
 == Pre-release 0.6.0
 
 :issue-67: https://github.com/khmarbaise/maven-it-extension/issues/67[Fixed #67]
+:issue-68: https://github.com/khmarbaise/maven-it-extension/issues/68[Fixed #68]
 :issue-69: https://github.com/khmarbaise/maven-it-extension/issues/69[Fixed #69]
 
 :release-0_6_0: https://github.com/khmarbaise/maven-it-extension/milestone/6?closed=1
@@ -28,14 +29,17 @@
 *Scope:*
 
  - Documentation cleanup
+ - Better naming for MavenIT.
 
 *Details*
 
  * {issue-67} - Cleanup userguide
+ * {issue-68} - Rename @MavenIT into @MavenJupiterExtension.
 
 *Breaking Changes*
 
- * ??
+ * With {issue-68} - we have renamed the `@MavenIT` annotation into `@MavenJupiterExtension` to make the
+   intention more clear.
 
 *Dependency Upgrades*
 

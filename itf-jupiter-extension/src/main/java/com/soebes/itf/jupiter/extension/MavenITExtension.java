@@ -202,7 +202,7 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     executionArguments.addAll(Stream.of(getCommandLineOptions(methodName)).collect(toList()));
 
     Class<?> mavenIT = AnnotationHelper.findMavenITAnnotation(context).orElseThrow(IllegalStateException::new);
-    MavenIT mavenITAnnotation = mavenIT.getAnnotation(MavenIT.class);
+    MavenJupiterExtension mavenJupiterExtensionAnnotation = mavenIT.getAnnotation(MavenJupiterExtension.class);
 
     //FIXME: Need to introduce better directory names
     //Refactor out the following lines
@@ -216,7 +216,7 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     keyValues.put("project.artifactId", modelReader.getArtifactId());
     keyValues.put("project.version", modelReader.getVersion());
 
-    List<String> resultingGoals = Stream.of(GoalPriority.goals(mavenITAnnotation.goals(), getGoals(methodName))).collect(toList());
+    List<String> resultingGoals = Stream.of(GoalPriority.goals(mavenJupiterExtensionAnnotation.goals(), getGoals(methodName))).collect(toList());
     PropertiesFilter propertiesFilter = new PropertiesFilter(keyValues, resultingGoals);
 
     //TODO: We should consider to make replacements also in systemProperties annotation possible.

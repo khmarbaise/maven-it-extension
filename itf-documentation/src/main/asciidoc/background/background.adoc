@@ -169,11 +169,11 @@ test for a {maven-plugins}/Maven Extensions/Maven-Core could look like:
 ----
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenJupiterExtension;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
 
-@MavenIT
+@MavenJupiterExtension
 class FirstMavenIT {
 
   @MavenTest
@@ -227,11 +227,11 @@ which will be describe within the following paragraphs.
 .FirstIT.java
 ----
 package org.it;
-import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenJupiterExtension;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 
-@MavenIT
+@MavenJupiterExtension
 class FirstIT {
 
   @MavenTest
@@ -341,14 +341,14 @@ it could happen you might get strange errors.
 ----
 package org.it;
 
-import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenJupiterExtension;
 import org.apache.maven.jupiter.extension.MavenRepository;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
-@MavenIT
+@MavenJupiterExtension
 @MavenRepository
 @Execution(ExecutionMode.SAME_THREAD)
 class FirstIT {
@@ -374,7 +374,7 @@ package org.it;
 
 import static org.apache.maven.jupiter.assertj.MavenITAssertions.assertThat;
 
-import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenJupiterExtension;
 import org.apache.maven.jupiter.extension.MavenRepository;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
@@ -382,7 +382,7 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
 
-@MavenIT
+@MavenJupiterExtension
 @MavenRepository
 @TestMethodOrder(OrderAnnotation.class)
 class MavenIntegrationIT {
@@ -509,7 +509,7 @@ Possible options:
 [source,java]
 .ThirdMavenIT.java
 ----
-@MavenIT
+@MavenJupiterExtension
 class FirstMavenIT {
 
   @MavenTest
@@ -538,11 +538,11 @@ import static org.apache.maven.jupiter.extension.maven.MavenVersion.M3_6_0;
 
 import org.apache.maven.jupiter.extension.DisabledForMavenVersion;
 import org.apache.maven.jupiter.extension.EnabledForMavenVersion;
-import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenJupiterExtension;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 
-@MavenIT
+@MavenJupiterExtension
 class FirstMavenIT {
 
   @MavenTest
@@ -571,13 +571,13 @@ import static org.apache.maven.jupiter.extension.maven.MavenVersion.M3_6_0;
 
 import org.apache.maven.jupiter.extension.DisabledForMavenVersion;
 import org.apache.maven.jupiter.extension.EnabledForMavenVersion;
-import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenJupiterExtension;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 import org.junit.jupiter.api.condition.DisabledOnJre;
 import org.junit.jupiter.api.condition.JRE;
 
-@MavenIT
+@MavenJupiterExtension
 @DisabledOnJre(JRE.JAVA_10)
 class FirstMavenIT {
 
@@ -623,11 +623,11 @@ What kind of assertions do we need to express:
 ----
 import static org.apache.maven.jupiter.assertj.MavenExecutionResultAssert.assertThat;
 
-import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenJupiterExtension;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenExecutionResult;
 
-@MavenIT
+@MavenJupiterExtension
 class FirstMavenIT {
 
   @MavenTest
@@ -656,11 +656,11 @@ class FirstMavenIT {
 ----
 import static org.apache.maven.jupiter.assertj.MavenProjectResultAssert.assertThat;
 
-import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenJupiterExtension;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
 
-@MavenIT
+@MavenJupiterExtension
 class FirstMavenIT {
 
   @MavenTest
@@ -700,11 +700,11 @@ The following are example how an integration test could look like:
 ----
 import static org.apache.maven.jupiter.assertj.MavenProjectResultAssert.assertThat;
 
-import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenJupiterExtension;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
 
-@MavenIT
+@MavenJupiterExtension
 class FirstMavenIT {
 
   @MavenTest
@@ -757,11 +757,11 @@ This is:
 ----
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenJupiterExtension;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
 
-@MavenIT
+@MavenJupiterExtension
 @MavenVersion({3_0_5, 3_3_9})
 class FirstMavenIT {
 
@@ -780,11 +780,11 @@ class FirstMavenIT {
 ----
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.apache.maven.jupiter.extension.MavenIT;
+import org.apache.maven.jupiter.extension.MavenJupiterExtension;
 import org.apache.maven.jupiter.extension.MavenTest;
 import org.apache.maven.jupiter.extension.maven.MavenProjectResult;
 
-@MavenIT
+@MavenJupiterExtension
 @MavenVersionRange(from = 3_0_5, upto=3_6_3)
 class FirstMavenIT {
 

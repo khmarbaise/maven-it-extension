@@ -20,7 +20,7 @@ package com.soebes.itf.maven.plugin;
  */
 
 import com.soebes.itf.extension.assertj.MavenITAssertions;
-import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenOptions;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
@@ -30,7 +30,7 @@ import java.io.File;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@MavenIT
+@MavenJupiterExtension
 class BasicIT {
 
   @MavenTest(options = {MavenOptions.NO_TRANSFER_PROGRESS, MavenOptions.DEBUG})

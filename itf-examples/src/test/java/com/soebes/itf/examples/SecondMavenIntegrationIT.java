@@ -20,7 +20,7 @@ package com.soebes.itf.examples;
  */
 
 import com.soebes.itf.jupiter.extension.EnabledForMavenVersion;
-import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenCacheResult;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
@@ -34,7 +34,7 @@ import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 import static com.soebes.itf.jupiter.extension.MavenVersion.M3_0_5;
 import static com.soebes.itf.jupiter.extension.MavenVersion.M3_3_1;
 
-@MavenIT
+@MavenJupiterExtension
 @EnabledForMavenVersion({M3_0_5, M3_3_1})
 @Disabled
 class SecondMavenIntegrationIT {

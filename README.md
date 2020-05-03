@@ -104,11 +104,11 @@ package org.it;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
-@MavenIT // <1>
+@MavenJupiterExtension // <1>
 class FirstMavenIT {
 
   @MavenTest // <2>

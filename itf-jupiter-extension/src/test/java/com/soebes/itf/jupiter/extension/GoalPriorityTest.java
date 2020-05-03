@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 class GoalPriorityTest {
 
   @Test
-  @DisplayName("result in goals of MavenIT")
+  @DisplayName("result in goals of MavenJupiterExtension")
   void should_return_goals_of_maven_it() {
     String[] goals = goals(new String[]{"a", "b"}, new String[]{});
     assertThat(goals).containsExactly("a", "b");
@@ -47,7 +47,7 @@ class GoalPriorityTest {
   }
 
   @Test
-  @DisplayName("result in goals of MavenTest while goals of MavenIT are empty.")
+  @DisplayName("result in goals of MavenTest while goals of MavenJupiterExtension are empty.")
   void should_return_goals_of_maven_test_while_it_goals_are_emtpy() {
     String[] goals = goals(new String[]{}, new String[]{"c"});
     assertThat(goals).containsExactly("c");

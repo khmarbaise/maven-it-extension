@@ -102,7 +102,7 @@ class AnnotationHelper {
   }
 
   static Optional<Class<?>> findMavenITAnnotation(ExtensionContext context) {
-    return findAnnotation(context, MavenIT.class);
+    return findAnnotation(context, MavenJupiterExtension.class);
   }
 
 }

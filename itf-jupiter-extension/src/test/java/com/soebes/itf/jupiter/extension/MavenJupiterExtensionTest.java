@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit test for the {@link MavenIT} annotation.
+ * Unit test for the {@link MavenJupiterExtension} annotation.
  *
  * <p>This test is intended to check the default values which have been defined
  * within the annotation that they won't be changed unintentionally.</p>
@@ -34,23 +34,23 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Karl Heinz Marbaise
  */
 @DisplayName("The annotation should keep")
-class MavenITTest {
+class MavenJupiterExtensionTest {
 
-  private MavenIT mavenITAnnotation;
+  private MavenJupiterExtension mavenJupiterExtensionAnnotation;
 
   @BeforeEach
   private void beforeEach() {
-    this.mavenITAnnotation = Helper.createAnnotation(this.getClass(), MavenIT.class);
+    this.mavenJupiterExtensionAnnotation = Helper.createAnnotation(this.getClass(), MavenJupiterExtension.class);
   }
 
   @Test
   void the_default_value_for_debug_as_false() {
-    assertThat(mavenITAnnotation.debug()).isFalse();
+    assertThat(mavenJupiterExtensionAnnotation.debug()).isFalse();
   }
 
   @Test
   void the_default_value_for_goals_is_package() {
-    assertThat(mavenITAnnotation.goals()).containsExactly("package");
+    assertThat(mavenJupiterExtensionAnnotation.goals()).containsExactly("package");
   }
 
 }

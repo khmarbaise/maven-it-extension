@@ -19,7 +19,7 @@ package com.soebes.itf.examples;
  * under the License.
  */
 
-import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.soebes.itf.jupiter.maven.MavenLog;
@@ -40,7 +40,7 @@ import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
  *
  * @author Karl Heinz Marbaise
  */
-@MavenIT
+@MavenJupiterExtension
 class EARIT {
 
   @MavenTest

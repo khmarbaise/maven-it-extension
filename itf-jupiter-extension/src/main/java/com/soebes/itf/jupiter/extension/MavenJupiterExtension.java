@@ -42,7 +42,7 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 @ExtendWith(MavenITExtension.class)
 @Documented
 @API(status = EXPERIMENTAL, since = "0.1.0")
-public @interface MavenIT {
+public @interface MavenJupiterExtension {
 
   /**
    * Defines the goals which are being executed by default for all test cases within the class.

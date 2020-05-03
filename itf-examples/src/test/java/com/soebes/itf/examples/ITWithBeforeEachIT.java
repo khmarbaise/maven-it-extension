@@ -19,13 +19,13 @@ package com.soebes.itf.examples;
  * under the License.
  */
 
-import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.soebes.itf.jupiter.maven.MavenExecutor;
 import org.junit.jupiter.api.BeforeEach;
 
-@MavenIT
+@MavenJupiterExtension
 class ITWithBeforeEachIT {
 
   @BeforeEach

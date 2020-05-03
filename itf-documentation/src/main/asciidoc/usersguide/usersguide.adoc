@@ -86,11 +86,11 @@ package org.it;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
-@MavenIT // <1>
+@MavenJupiterExtension // <1>
 class FirstMavenIT {
 
   @MavenTest // <2>
@@ -216,11 +216,11 @@ package org.it;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
-@MavenIT
+@MavenJupiterExtension
 class SeveralMavenIT {
 
   @MavenTest
@@ -314,7 +314,7 @@ default goals and parameters. A typical integration test looks like this:
 [source,java]
 .BasicIT.java
 ----
-@MavenIT
+@MavenJupiterExtension
 class BasicIT {
 
   @MavenTest
@@ -323,14 +323,14 @@ class BasicIT {
 }
 ----
 So now the question is: Which goals and parameters will be used to execute Maven for the `first`
-test case? In general the `@MavenIT` annotation defines a default set of goals which will be executed
-if not defined otherwise. The default for goals in `@MavenIT` is `package`. That means if we keep
+test case? In general the `MavenJupiterExtension` annotation defines a default set of goals which will be executed
+if not defined otherwise. The default for goals in `MavenJupiterExtension` is `package`. That means if we keep
 the test as in our example maven would be called like `mvn package`. From a technical perspective
 some other parameters have been added which is `mvn -Dmaven.repo.local=Path package`.
 The `-Dmaven.repo.local=..` is needed to make sure that each call uses the defined local cache
 (See link:_common_maven_cache[Common Maven Cache]).
 You can of course change the default for the goal if you like by simply changing the parameter for
-`@MavenIT(goals = {"install"})` that would mean to execute all subjacent tests like `mvn -D.. install`
+`@MavenJupiterExtension(goals = {"install"})` that would mean to execute all subjacent tests like `mvn -D.. install`
 instead of `mvn -D .. package`. A usual command parameter set includes
 `--batch-mode` and `-V` (This can't be changed currently.).
 
@@ -342,7 +342,7 @@ goal(s) with the `@MavenTest` annotation like this:
 @MavenTest( goals = {"${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies"})
 ----
 
-The used `goals` in the above `@MavenTest` will overwrite any goal which is defined by `@MavenIT`. The `goals`
+The used `goals` in the above `@MavenTest` will overwrite any goal which is defined by `MavenJupiterExtension`. The `goals`
 also supports replacement of placeholders where currently the following are supported:
 
 * ${project.groupId}
@@ -384,14 +384,14 @@ This can be achieved by enhancing the `@MavenTest` annotation with `systemProper
 ----
 package org.codehaus.mojo.versions.it;
 
-import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.soebes.itf.jupiter.maven.MavenProjectResult;
 
 import com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
-@MavenIT
+@MavenJupiterExtension
 class CompareDependenciesIT
 {
     @MavenTest( goals = {"${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies"},
@@ -444,7 +444,7 @@ a test class like this:
 [source,java]
 .MavenIntegrationGroupingIT.java
 ----
-@MavenIT
+@MavenJupiterExtension
 class MavenIntegrationGroupingIT {
 
   @MavenTest
@@ -520,12 +520,12 @@ The usage looks like the following:
 ----
 package org.it;
 
-import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenRepository;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
-@MavenIT
+@MavenJupiterExtension
 @MavenRepository
 class MavenITWithGlobalMavenCacheIT {
 
@@ -577,7 +577,7 @@ will look like this:
 [source,java]
 .MavenIntegrationGroupingIT.java
 ----
-@MavenIT
+@MavenJupiterExtension
 class MavenIntegrationGroupingIT {
 
   @MavenTest
@@ -657,7 +657,7 @@ each test case (`project_001` and `proeject_002`) in this test class.
 [source,java]
 .ProjectIT.java
 ----
-@MavenIT
+@MavenJupiterExtension
 @MavenPredefinedRepository
 class ProjectIT {
 
@@ -701,7 +701,7 @@ define the `@MavenPredefinedRepository` also on the test method level which woul
 [source,java]
 .ProjectLevelIT.java
 ----
-@MavenIT
+@MavenJupiterExtension
 class ProjectIT {
 
   @MavenTest(options = {MavenOptions.DEBUG})
@@ -747,7 +747,7 @@ on that project. Such a use case looks like this:
 [source,java]
 .SetIT.java
 ----
-@MavenIT
+@MavenJupiterExtension
 class SetIT
 {
     private static final String VERSIONS_PLUGIN =
@@ -835,7 +835,7 @@ project `maven_project`. Each execution has it's own sets of log files which can
 by the prefix based on the method name like `first-mvn-arguments.log` etc.
 
 The `@MavenProject` annotation can only be used on a nested class or on the test class itself
-(where `@MavenIT` is located.). If you like to change the name of the project `maven_project` into
+(where `MavenJupiterExtension` is located.). If you like to change the name of the project `maven_project` into
 something different this can be achieved by using `@MavenProject("another_project_name")`.
 
 == Test Case Execution
@@ -856,11 +856,11 @@ import static com.soebes.itf.jupiter.maven.MavenVersion.M3_6_0;
 
 import com.soebes.itf.jupiter.extension.DisabledForMavenVersion;
 import com.soebes.itf.jupiter.extension.EnabledForMavenVersion;
-import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
-@MavenIT
+@MavenJupiterExtension
 class FirstMavenIT {
 
   @MavenTest
@@ -890,13 +890,13 @@ import static com.soebes.itf.jupiter.maven.MavenVersion.M3_6_0;
 
 import com.soebes.itf.jupiter.extension.DisabledForMavenVersion;
 import com.soebes.itf.jupiter.extension.EnabledForMavenVersion;
-import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import org.junit.jupiter.api.condition.DisabledOnJre;
 import org.junit.jupiter.api.condition.JRE;
 
-@MavenIT
+@MavenJupiterExtension
 @DisabledOnJre(JRE.JAVA_10)
 class FirstMavenIT {
 
@@ -921,7 +921,7 @@ class FirstMavenIT {
 Let us take a look into a simple integration test. We would like to concentrate on the assertion part.
 [source,java]
 ----
-@MavenIT
+@MavenJupiterExtension
 class FirstIT {
   @MavenTest
   void the_first_test_case(MavenExecutionResult result) {
@@ -1011,14 +1011,14 @@ assertThat(project).hasTarget()
 ----
 package org.codehaus.mojo.versions.it;
 
-import com.soebes.itf.jupiter.extension.MavenIT;
+import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.soebes.itf.jupiter.maven.MavenProjectResult;
 
 import com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
-@MavenIT
+@MavenJupiterExtension
 class CompareDependenciesIT
 {
     @MavenTest(
