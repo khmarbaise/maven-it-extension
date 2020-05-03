@@ -102,7 +102,7 @@ import static com.soebes.itf.jupiter.extension.Preconditions.requireNotNull;
   }
 
   static Optional&lt;Class&lt;?&gt;&gt; findMavenITAnnotation(ExtensionContext context) {
-<span class="nc" id="L105">    return findAnnotation(context, MavenIT.class);</span>
+<span class="nc" id="L105">    return findAnnotation(context, MavenJupiterExtension.class);</span>
   }
 
 }

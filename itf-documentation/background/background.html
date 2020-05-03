@@ -754,11 +754,11 @@ test for a <a href="https://maven.apache.org/plugins/">Maven Plugins</a>/Maven E
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.assertj.core.api.Assertions.assertThat</span>;
 
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenIT</span>;
+<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenJupiterExtension</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenTest</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.maven.MavenProjectResult</span>;
 
-<span class="annotation">@MavenIT</span>
+<span class="annotation">@MavenJupiterExtension</span>
 <span class="type">class</span> <span class="class">FirstMavenIT</span> {
 
   <span class="annotation">@MavenTest</span>
@@ -822,11 +822,11 @@ which will be describe within the following paragraphs.</p>
 <div class="title">FirstIT.java</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">org.it</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenIT</span>;
+<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenJupiterExtension</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenTest</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.maven.MavenExecutionResult</span>;
 
-<span class="annotation">@MavenIT</span>
+<span class="annotation">@MavenJupiterExtension</span>
 <span class="type">class</span> <span class="class">FirstIT</span> {
 
   <span class="annotation">@MavenTest</span>
@@ -946,14 +946,14 @@ it could happen you might get strange errors.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">org.it</span>;
 
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenIT</span>;
+<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenJupiterExtension</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenRepository</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenTest</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.maven.MavenExecutionResult</span>;
 <span class="keyword">import</span> <span class="include">org.junit.jupiter.api.parallel.Execution</span>;
 <span class="keyword">import</span> <span class="include">org.junit.jupiter.api.parallel.ExecutionMode</span>;
 
-<span class="annotation">@MavenIT</span>
+<span class="annotation">@MavenJupiterExtension</span>
 <span class="annotation">@MavenRepository</span>
 <span class="annotation">@Execution</span>(ExecutionMode.SAME_THREAD)
 <span class="type">class</span> <span class="class">FirstIT</span> {
@@ -980,7 +980,7 @@ setup:</p>
 
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">org.apache.maven.jupiter.assertj.MavenITAssertions.assertThat</span>;
 
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenIT</span>;
+<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenJupiterExtension</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenRepository</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenTest</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.maven.MavenExecutionResult</span>;
@@ -988,7 +988,7 @@ setup:</p>
 <span class="keyword">import</span> <span class="include">org.junit.jupiter.api.Order</span>;
 <span class="keyword">import</span> <span class="include">org.junit.jupiter.api.TestMethodOrder</span>;
 
-<span class="annotation">@MavenIT</span>
+<span class="annotation">@MavenJupiterExtension</span>
 <span class="annotation">@MavenRepository</span>
 <span class="annotation">@TestMethodOrder</span>(OrderAnnotation.class)
 <span class="type">class</span> <span class="class">MavenIntegrationIT</span> {
@@ -1200,7 +1200,7 @@ or should we simply download it always to be sure?</p>
 <div class="listingblock">
 <div class="title">ThirdMavenIT.java</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenIT</span>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
 <span class="type">class</span> <span class="class">FirstMavenIT</span> {
 
   <span class="annotation">@MavenTest</span>
@@ -1231,11 +1231,11 @@ only for Maven 3.6.0?</p>
 
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.DisabledForMavenVersion</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.EnabledForMavenVersion</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenIT</span>;
+<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenJupiterExtension</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenTest</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.maven.MavenExecutionResult</span>;
 
-<span class="annotation">@MavenIT</span>
+<span class="annotation">@MavenJupiterExtension</span>
 <span class="type">class</span> <span class="class">FirstMavenIT</span> {
 
   <span class="annotation">@MavenTest</span>
@@ -1265,13 +1265,13 @@ only for Maven 3.6.0?</p>
 
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.DisabledForMavenVersion</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.EnabledForMavenVersion</span>;
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenIT</span>;
+<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenJupiterExtension</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenTest</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.maven.MavenExecutionResult</span>;
 <span class="keyword">import</span> <span class="include">org.junit.jupiter.api.condition.DisabledOnJre</span>;
 <span class="keyword">import</span> <span class="include">org.junit.jupiter.api.condition.JRE</span>;
 
-<span class="annotation">@MavenIT</span>
+<span class="annotation">@MavenJupiterExtension</span>
 <span class="annotation">@DisabledOnJre</span>(JRE.JAVA_10)
 <span class="type">class</span> <span class="class">FirstMavenIT</span> {
 
@@ -1367,11 +1367,11 @@ the file <code>MANIFEST.MF</code>.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.apache.maven.jupiter.assertj.MavenExecutionResultAssert.assertThat</span>;
 
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenIT</span>;
+<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenJupiterExtension</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenTest</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.maven.MavenExecutionResult</span>;
 
-<span class="annotation">@MavenIT</span>
+<span class="annotation">@MavenJupiterExtension</span>
 <span class="type">class</span> <span class="class">FirstMavenIT</span> {
 
   <span class="annotation">@MavenTest</span>
@@ -1399,11 +1399,11 @@ the file <code>MANIFEST.MF</code>.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.apache.maven.jupiter.assertj.MavenProjectResultAssert.assertThat</span>;
 
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenIT</span>;
+<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenJupiterExtension</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenTest</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.maven.MavenProjectResult</span>;
 
-<span class="annotation">@MavenIT</span>
+<span class="annotation">@MavenJupiterExtension</span>
 <span class="type">class</span> <span class="class">FirstMavenIT</span> {
 
   <span class="annotation">@MavenTest</span>
@@ -1445,11 +1445,11 @@ the file <code>MANIFEST.MF</code>.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.apache.maven.jupiter.assertj.MavenProjectResultAssert.assertThat</span>;
 
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenIT</span>;
+<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenJupiterExtension</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenTest</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.maven.MavenProjectResult</span>;
 
-<span class="annotation">@MavenIT</span>
+<span class="annotation">@MavenJupiterExtension</span>
 <span class="type">class</span> <span class="class">FirstMavenIT</span> {
 
   <span class="annotation">@MavenTest</span>
@@ -1525,11 +1525,11 @@ keep them independent.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.assertj.core.api.Assertions.assertThat</span>;
 
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenIT</span>;
+<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenJupiterExtension</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenTest</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.maven.MavenProjectResult</span>;
 
-<span class="annotation">@MavenIT</span>
+<span class="annotation">@MavenJupiterExtension</span>
 <span class="annotation">@MavenVersion</span>({<span class="integer">3</span>_0_5, <span class="integer">3</span>_3_9})
 <span class="type">class</span> <span class="class">FirstMavenIT</span> {
 
@@ -1553,11 +1553,11 @@ keep them independent.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.assertj.core.api.Assertions.assertThat</span>;
 
-<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenIT</span>;
+<span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenJupiterExtension</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.MavenTest</span>;
 <span class="keyword">import</span> <span class="include">org.apache.maven.jupiter.extension.maven.MavenProjectResult</span>;
 
-<span class="annotation">@MavenIT</span>
+<span class="annotation">@MavenJupiterExtension</span>
 <span class="annotation">@MavenVersionRange</span>(from = <span class="integer">3</span>_0_5, upto=<span class="integer">3</span>_6_3)
 <span class="type">class</span> <span class="class">FirstMavenIT</span> {
 
@@ -1701,7 +1701,7 @@ of the tests:</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.6.0-SNAPSHOT<br>
-Last updated 2020-05-03 17:28:49 UTC
+Last updated 2020-05-03 21:16:33 UTC
 </div>
 </div>
 <style>

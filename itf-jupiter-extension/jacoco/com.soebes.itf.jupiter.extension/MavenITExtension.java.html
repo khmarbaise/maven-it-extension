@@ -202,7 +202,7 @@ import static java.util.stream.Collectors.toList;
 <span class="nc" id="L202">    executionArguments.addAll(Stream.of(getCommandLineOptions(methodName)).collect(toList()));</span>
 
 <span class="nc" id="L204">    Class&lt;?&gt; mavenIT = AnnotationHelper.findMavenITAnnotation(context).orElseThrow(IllegalStateException::new);</span>
-<span class="nc" id="L205">    MavenIT mavenITAnnotation = mavenIT.getAnnotation(MavenIT.class);</span>
+<span class="nc" id="L205">    MavenJupiterExtension mavenJupiterExtensionAnnotation = mavenIT.getAnnotation(MavenJupiterExtension.class);</span>
 
     //FIXME: Need to introduce better directory names
     //Refactor out the following lines
@@ -216,7 +216,7 @@ import static java.util.stream.Collectors.toList;
 <span class="nc" id="L216">    keyValues.put(&quot;project.artifactId&quot;, modelReader.getArtifactId());</span>
 <span class="nc" id="L217">    keyValues.put(&quot;project.version&quot;, modelReader.getVersion());</span>
 
-<span class="nc" id="L219">    List&lt;String&gt; resultingGoals = Stream.of(GoalPriority.goals(mavenITAnnotation.goals(), getGoals(methodName))).collect(toList());</span>
+<span class="nc" id="L219">    List&lt;String&gt; resultingGoals = Stream.of(GoalPriority.goals(mavenJupiterExtensionAnnotation.goals(), getGoals(methodName))).collect(toList());</span>
 <span class="nc" id="L220">    PropertiesFilter propertiesFilter = new PropertiesFilter(keyValues, resultingGoals);</span>
 
     //TODO: We should consider to make replacements also in systemProperties annotation possible.
