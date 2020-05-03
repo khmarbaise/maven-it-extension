@@ -18,7 +18,7 @@
 [[release-notes-0.6.0]]
 == Pre-release 0.6.0
 
-:issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
+:issue-67: https://github.com/khmarbaise/maven-it-extension/issues/67[Fixed #67]
 
 :release-0_6_0: https://github.com/khmarbaise/maven-it-extension/milestone/6?closed=1
 
@@ -26,11 +26,11 @@
 
 *Scope:*
 
- - ??
+ - Documentation cleanup
 
 *Details*
 
- * {issue-??} - xxx
+ * {issue-67} - Cleanup userguide
 
 *Breaking Changes*
 
