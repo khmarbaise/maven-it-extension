@@ -488,8 +488,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_expressing_assertions">8.2. Expressing Assertions</a></li>
 </ul>
 </li>
-<li><a href="#_configuration_required">9. Configuration Required</a></li>
-<li><a href="#_configuration_in_maven">10. Configuration in Maven</a></li>
+<li><a href="#_configuration_in_maven">9. Configuration in Maven</a>
+<ul class="sectlevel2">
+<li><a href="#_users_point_of_view">9.1. Users Point of View</a></li>
+<li><a href="#_developers_point_of_view">9.2. Developers Point of View</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -1667,193 +1671,47 @@ as you like.</p>
 }</code></pre>
 </div>
 </div>
+<div style="page-break-after: always;"></div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_configuration_required">9. Configuration Required</h2>
+<h2 id="_configuration_in_maven">9. Configuration in Maven</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_users_point_of_view">9.1. Users Point of View</h3>
 <div class="paragraph">
-<p>If you like to use the integration test framework you would like to use it to write tests and run
-those tests from command line (via Maven). This requires that the configuration is done as described
-in <a href="_configuration_in_maven">Configuration in Maven</a></p>
-</div>
-<div class="paragraph">
-<p>If you like to run your integration tests from you IDE you have to have configured that the
-maven binary can be found via the <code>PATH</code>.</p>
+<p>You are a user who want to use the integration test framework to write integration tests for a plugin etc.
+This area shows how to configure the integration test framework in your Maven build and what kind of requirements
+exist.</p>
 </div>
 <div class="paragraph">
-<p>You can overwrite the <code>maven.home</code> property to control which Maven version will be used during
-the tests. Take care with overriting properties in Maven.</p>
+<p>The prerequisites to use this integration test framework is that you are running JDK8 at minimum for your tests.
+This is based on using <a href="https://junit.org/junit5/docs/current/user-guide/#extensions">JUnit Jupiter Extension</a> and of course on the implemented code
+of this extension.</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_configuration_in_maven">10. Configuration in Maven</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>You have decided to use this tool to test your plugin/extension etc. this means you have to build
-it on your own. I strongly recommend to start with most recent release version which makes it easier
-for you. If you like to use the most recent development version you can of course build it on your
-own.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-Starting with version 0.2.0 it will be published to central repository.
-</td>
-</tr>
-</table>
+<p>The requirements are:</p>
 </div>
 <div class="ulist">
-<div class="title">Prerequisites</div>
 <ul>
 <li>
-<p>JDK 8+ must be installed</p>
+<p>JDK8+</p>
 </li>
 <li>
-<p><a href="https://maven.apache.org/">Apache Maven 3.6.3</a></p>
+<p>Apache Maven 3.1.0 or above.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>You have to call the following command line to built it:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">mvn clean install</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>This will run the whole build including the execution of the integration
-test in the <code>itf-examples</code> modules. This can take a while and should produce an output similar like
-this:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>[INFO]
-[INFO] --- maven-jar-plugin:3.1.1:jar (default-jar) @ itf-examples ---
-[WARNING] JAR will be empty - no content was marked for inclusion!
-[INFO] Building jar: /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/itf-examples-0.2.0-SNAPSHOT.jar
-[INFO]
-[INFO] --- maven-site-plugin:3.7.1:attach-descriptor (attach-descriptor) @ itf-examples ---
-[INFO] Skipping because packaging 'jar' is not pom.
-[INFO]
-[INFO] --- maven-invoker-plugin:3.2.1:install (integration-test) @ itf-examples ---
-[INFO] Installing /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-jupiter-extension/pom.xml to /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/itf-repo/com/soebes/itf/jupiter/extension/itf-jupiter-extension/0.2.0-SNAPSHOT/itf-jupiter-extension-0.2.0-SNAPSHOT.pom
-[INFO] Installing /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-jupiter-extension/target/itf-jupiter-extension-0.2.0-SNAPSHOT.jar to /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/itf-repo/com/soebes/itf/jupiter/extension/itf-jupiter-extension/0.2.0-SNAPSHOT/itf-jupiter-extension-0.2.0-SNAPSHOT.jar
-[INFO] Installing /Users/khmarbaise/ws-git-apache/maven-it-extension/pom.xml to /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/itf-repo/com/soebes/itf/jupiter/extension/itf-extension/0.2.0-SNAPSHOT/itf-extension-0.2.0-SNAPSHOT.pom
-[INFO] Installing /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-extension-maven/pom.xml to /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/itf-repo/com/soebes/itf/jupiter/extension/itf-extension-maven/0.2.0-SNAPSHOT/itf-extension-maven-0.2.0-SNAPSHOT.pom
-[INFO] Installing /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-extension-maven/target/itf-extension-maven-0.2.0-SNAPSHOT.jar to /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/itf-repo/com/soebes/itf/jupiter/extension/itf-extension-maven/0.2.0-SNAPSHOT/itf-extension-maven-0.2.0-SNAPSHOT.jar
-[INFO] Installing /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-assertj/pom.xml to /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/itf-repo/com/soebes/itf/jupiter/extension/itf-assertj/0.2.0-SNAPSHOT/itf-assertj-0.2.0-SNAPSHOT.pom
-[INFO] Installing /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-assertj/target/itf-assertj-0.2.0-SNAPSHOT.jar to /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/itf-repo/com/soebes/itf/jupiter/extension/itf-assertj/0.2.0-SNAPSHOT/itf-assertj-0.2.0-SNAPSHOT.jar
-[INFO] Installing /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/pom.xml to /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/itf-repo/com/soebes/itf/jupiter/extension/itf-examples/0.2.0-SNAPSHOT/itf-examples-0.2.0-SNAPSHOT.pom
-[INFO] Installing /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/itf-examples-0.2.0-SNAPSHOT.jar to /Users/khmarbaise/ws-git-apache/maven-it-extension/itf-examples/target/itf-repo/com/soebes/itf/jupiter/extension/itf-examples/0.2.0-SNAPSHOT/itf-examples-0.2.0-SNAPSHOT.jar
-[INFO]
-[INFO] --- maven-failsafe-plugin:3.0.0-M4:integration-test (default) @ itf-examples ---
-[INFO]
-[INFO] -------------------------------------------------------
-[INFO]  T E S T S
-[INFO] -------------------------------------------------------
-[INFO] Running com.soebes.itf.examples.EARIT
-[INFO] Running com.soebes.itf.examples.MavenProjectIT
-[INFO] Running com.soebes.itf.examples.MavenIntegrationExampleNestedIT
-[INFO] Running com.soebes.itf.examples.ITWithBeforeEachIT
-[INFO] Running com.soebes.itf.examples.MavenIntegrationExampleNestedWithoutNoneNestedTestGlobalRepoIT
-[INFO] Running com.soebes.itf.examples.MavenIntegrationIT
-[INFO] Running com.soebes.itf.examples.MavenIntegrationExampleNestedIT$NestedExample
-[INFO] Running com.soebes.itf.examples.MavenIntegrationExampleNestedWithoutNoneNestedTestGlobalRepoIT$NestedExample
-[INFO] Running com.soebes.itf.examples.MavenProjectIT$NestedExample
-* beforeEach of ITWithBeforeEachIT
-(basic) result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=com.soebes.itf.jupiter.maven.MavenLog@18b0d71, mavenProjectResult=com.soebes.itf.jupiter.maven.MavenProjectResult@6ba7b73, mavenCacheResult=com.soebes.itf.jupiter.maven.MavenCacheResult@50d1e210]
-result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=com.soebes.itf.jupiter.maven.MavenLog@b045628, mavenProjectResult=com.soebes.itf.jupiter.maven.MavenProjectResult@49ecd06a, mavenCacheResult=com.soebes.itf.jupiter.maven.MavenCacheResult@1994110a]
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.325 s - in com.soebes.itf.examples.ITWithBeforeEachIT
-(packaging_includes) result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=com.soebes.itf.jupiter.maven.MavenLog@464cc2cb, mavenProjectResult=com.soebes.itf.jupiter.maven.MavenProjectResult@459feafd, mavenCacheResult=com.soebes.itf.jupiter.maven.MavenCacheResult@5484e35a]
-[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 17.442 s - in com.soebes.itf.examples.MavenProjectIT$NestedExample
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 18.279 s - in com.soebes.itf.examples.MavenIntegrationExampleNestedWithoutNoneNestedTestGlobalRepoIT$NestedExample
-[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 18.297 s - in com.soebes.itf.examples.MavenIntegrationExampleNestedWithoutNoneNestedTestGlobalRepoIT
-[INFO] Running com.soebes.itf.examples.ITWithBeforeEachMavenIT
-* beforeEach of ITWithBeforeEachIT
-[INFO] Running com.soebes.itf.examples.OptionsIT
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 21.473 s - in com.soebes.itf.examples.MavenIntegrationExampleNestedIT$NestedExample
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 27.352 s - in com.soebes.itf.examples.MavenProjectIT
-result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=com.soebes.itf.jupiter.maven.MavenLog@2cf8d855, mavenProjectResult=com.soebes.itf.jupiter.maven.MavenProjectResult@62d887cc, mavenCacheResult=com.soebes.itf.jupiter.maven.MavenCacheResult@6ee151ef]
-[WARNING] Tests run: 2, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 9.787 s - in com.soebes.itf.examples.ITWithBeforeEachMavenIT
-[WARNING] Tests run: 5, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 31.526 s - in com.soebes.itf.examples.MavenIntegrationExampleNestedIT
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.384 s - in com.soebes.itf.examples.OptionsIT
-MavenIntegrationIT.first_integration_test rc:0
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 38.953 s - in com.soebes.itf.examples.MavenIntegrationIT
-[INFO] Running com.soebes.itf.examples.MavenProjectRootIT
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 40.687 s - in com.soebes.itf.examples.EARIT
-(basic) result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=com.soebes.itf.jupiter.maven.MavenLog@64eeb421, mavenProjectResult=com.soebes.itf.jupiter.maven.MavenProjectResult@6e5f8454, mavenCacheResult=com.soebes.itf.jupiter.maven.MavenCacheResult@69c72cf9]
-(packaging_includes) result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=com.soebes.itf.jupiter.maven.MavenLog@7c6516ff, mavenProjectResult=com.soebes.itf.jupiter.maven.MavenProjectResult@6d3bfaee, mavenCacheResult=com.soebes.itf.jupiter.maven.MavenCacheResult@7f54be39]
-(basic) result = MavenExecutionResult[result=Successful, returnCode=0, mavenLog=com.soebes.itf.jupiter.maven.MavenLog@2f24e5ce, mavenProjectResult=com.soebes.itf.jupiter.maven.MavenProjectResult@7b22dc3b, mavenCacheResult=com.soebes.itf.jupiter.maven.MavenCacheResult@49fca53b]
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.494 s - in com.soebes.itf.examples.MavenProjectRootIT
-[INFO] Running com.soebes.itf.examples.MavenIntegrationExampleNestedGlobalRepoIT
-beforeEachOne: result = null
-beforeEachOne: MavenIntegrationExampleNestedGlobalRepoIT.beforeEach
-beforeEachTwo: result = null
-beforeEachTwo: MavenIntegrationExampleNestedGlobalRepoIT.beforeEach
-[INFO] Running com.soebes.itf.examples.MavenIntegrationExampleNestedGlobalRepoIT$NestedExample
-beforeEachOne: result = null
-beforeEachOne: MavenIntegrationExampleNestedGlobalRepoIT.beforeEach
-beforeEachTwo: result = null
-beforeEachTwo: MavenIntegrationExampleNestedGlobalRepoIT.beforeEach
-beforeEachOne: result = null
-beforeEachOne: MavenIntegrationExampleNestedGlobalRepoIT.beforeEach
-beforeEachTwo: result = null
-beforeEachTwo: MavenIntegrationExampleNestedGlobalRepoIT.beforeEach
-[WARNING] Tests run: 4, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 3.455 s - in com.soebes.itf.examples.MavenIntegrationExampleNestedGlobalRepoIT$NestedExample
-[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.401 s - in com.soebes.itf.examples.MavenIntegrationExampleNestedGlobalRepoIT
-[INFO]
-[INFO] Results:
-[INFO]
-[WARNING] Tests run: 31, Failures: 0, Errors: 0, Skipped: 4
-[INFO]
-[INFO]
-[INFO] --- jacoco-maven-plugin:0.8.4:report (default) @ itf-examples ---
-[INFO] Skipping JaCoCo execution due to missing classes directory.
-[INFO]
-[INFO] --- maven-failsafe-plugin:3.0.0-M4:verify (default) @ itf-examples ---
-[INFO] ------------------------------------------------------------------------
-[INFO] Reactor Summary for itf-extension 0.2.0-SNAPSHOT:
-[INFO]
-[INFO] itf-extension ...................................... SUCCESS [  1.215 s]
-[INFO] itf-executor ....................................... SUCCESS [  0.417 s]
-[INFO] itf-maven-plugin ................................... SUCCESS [  0.023 s]
-[INFO] itf-extension-maven ................................ SUCCESS [  0.448 s]
-[INFO] itf-jupiter-extension .............................. SUCCESS [  4.365 s]
-[INFO] itf-assertj ........................................ SUCCESS [  1.390 s]
-[INFO] itf-examples ....................................... SUCCESS [01:00 min]
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  01:09 min
-[INFO] Finished at: 2020-04-15T20:53:51+02:00
-[INFO] ------------------------------------------------------------------------</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If you like to know how a start point looks like you can take a look
-into the <a href="https://github.com/khmarbaise/maven-it-extension/tree/master/itf-examples"><code>itf-examples</code></a>
-project which shows the current configuration you need to have.</p>
-</div>
-<div class="paragraph">
-<p>The first part are the dependencies you need to add to your project.
-The <code>${project.version}</code> has to be replaced with the current version
-of the compiled project currently for example: <code>0.1.0-SNAPSHOT</code>.
-The <code>assertj-core</code> dependency is there cause I have used for development and currently nothing
-else is supported(see <code>itf-assertj</code>).</p>
+<p>The first step is to add the appropriate dependencies to your project. They are usually with <code>test</code> scope
+cause you only need them during the integration tests.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml">    <span class="tag">&lt;dependency&gt;</span>
-      <span class="tag">&lt;groupId&gt;</span>org.junit.jupiter<span class="tag">&lt;/groupId&gt;</span>
-      <span class="tag">&lt;artifactId&gt;</span>junit-jupiter-engine<span class="tag">&lt;/artifactId&gt;</span>
+      <span class="tag">&lt;groupId&gt;</span>org.assertj<span class="tag">&lt;/groupId&gt;</span>
+      <span class="tag">&lt;artifactId&gt;</span>assertj-core<span class="tag">&lt;/artifactId&gt;</span>
       <span class="tag">&lt;scope&gt;</span>test<span class="tag">&lt;/scope&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span>
     <span class="tag">&lt;dependency&gt;</span>
@@ -1863,26 +1721,37 @@ else is supported(see <code>itf-assertj</code>).</p>
       <span class="tag">&lt;scope&gt;</span>test<span class="tag">&lt;/scope&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span>
     <span class="tag">&lt;dependency&gt;</span>
+      <span class="tag">&lt;groupId&gt;</span>org.junit.jupiter<span class="tag">&lt;/groupId&gt;</span>
+      <span class="tag">&lt;artifactId&gt;</span>junit-jupiter-engine<span class="tag">&lt;/artifactId&gt;</span>
+      <span class="tag">&lt;scope&gt;</span>test<span class="tag">&lt;/scope&gt;</span>
+    <span class="tag">&lt;/dependency&gt;</span>
+    <span class="tag">&lt;dependency&gt;</span>
       <span class="tag">&lt;groupId&gt;</span>com.soebes.itf.jupiter.extension<span class="tag">&lt;/groupId&gt;</span>
       <span class="tag">&lt;artifactId&gt;</span>itf-jupiter-extension<span class="tag">&lt;/artifactId&gt;</span>
       <span class="tag">&lt;version&gt;</span>${project.version}<span class="tag">&lt;/version&gt;</span>
       <span class="tag">&lt;scope&gt;</span>test<span class="tag">&lt;/scope&gt;</span>
-    <span class="tag">&lt;/dependency&gt;</span>
-    <span class="tag">&lt;dependency&gt;</span>
-      <span class="tag">&lt;groupId&gt;</span>org.assertj<span class="tag">&lt;/groupId&gt;</span>
-      <span class="tag">&lt;artifactId&gt;</span>assertj-core<span class="tag">&lt;/artifactId&gt;</span>
-      <span class="tag">&lt;scope&gt;</span>test<span class="tag">&lt;/scope&gt;</span>
-    <span class="tag">&lt;/dependency&gt;</span>
-    <span class="tag">&lt;dependency&gt;</span>
-      <span class="tag">&lt;groupId&gt;</span>org.apache.logging.log4j<span class="tag">&lt;/groupId&gt;</span>
-      <span class="tag">&lt;artifactId&gt;</span>log4j-core<span class="tag">&lt;/artifactId&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Further more you have to copy the <code>src/test/resources-its</code> directory including
-filtering. You need to be careful which delimiter you have chosen. So you might
-need to tweak your configuration based on your choices.</p>
+<p>The dependency <code>com.soebes.itf.jupiter.extension:itf-assertj</code> contains custom assertions of <a href="https://assertj.github.io/doc/">AssertJ</a>
+in case you want to use <a href="https://assertj.github.io/doc/">AssertJ</a> as your assertion framework. This means you have to include
+<code>org.assertj:assertj-core</code> as well. If you don&#8217;t want to use AssertJ as assertion framework you can omit them both.</p>
+</div>
+<div class="paragraph">
+<p>Now you have to have the dependency <code>org.junit.jupiter:junit-jupiter-engine</code> to get tests running with
+<a href="https://junit.org/junit5/">JUnit Jupiter</a> and finally you have to add the <code>com.soebes.itf.jupiter.extension:itf-jupiter-extension</code> dependency to
+get the support for your Maven integration tests.</p>
+</div>
+<div class="paragraph">
+<p>The given <code>${project.version}</code> has to be replaced with the current version of the project which
+is currently: 0.6.0-SNAPSHOT.</p>
+</div>
+<div class="paragraph">
+<p>Based on the described structures you have to copy the content (with the projects which are used to test)
+of <code>src/test/resources-its</code> into <code>target/test-classes</code> which usually means including filtering. This is used to replace
+placeholders in files like <code>@project.version@</code> and replace with the real version of your extension/plugin etc. You have
+to be careful which delimiter you have chosen. So you might need to tweak your configuration based on your choices.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1903,7 +1772,7 @@ need to tweak your configuration based on your choices.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>The next thing is you have to configure <code>itf-maven-plugin</code> with the <code>install</code> goal
+<p>The next thing is to configure the <code>itf-maven-plugin</code> with the <code>install</code> goal
 like this:</p>
 </div>
 <div class="listingblock">
@@ -1923,6 +1792,10 @@ like this:</p>
         <span class="tag">&lt;/executions&gt;</span>
       <span class="tag">&lt;/plugin&gt;</span></code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>The <code>itf-maven-plugin</code> copies the code of your extension/plugin into appropriate directories which are used during the
+integration tests.</p>
 </div>
 <div class="paragraph">
 <p>Finally you have to add a configuration for <a href="https://maven.apache.org/surefire/maven-failsafe-plugin/">Maven Failsafe Plugin</a> like the following:</p>
@@ -1952,14 +1825,32 @@ like this:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>The two properties given <code>maven.version</code> transfers the version of Maven which is used
-within the itf-jupiter-extension and the <code>maven.home</code> transfers the information
+<p>The given properties like <code>maven.version</code> transfers the version of Maven which is used
+within the <code>itf-jupiter-extension</code> to run your integration tests and the <code>maven.home</code> transfers the information
 of where to find the current Maven installation. This is needed to start
 the Maven process from within the integration tests.</p>
 </div>
 <div class="paragraph">
 <p>The usage of <a href="https://maven.apache.org/surefire/maven-failsafe-plugin/">Maven Failsafe Plugin</a> implies the naming convention for the integration
-tests like <code>*IT.java</code> but of course you can change that by using the appropriate configuration.</p>
+tests like <code>*IT.java</code> but of course you can change that by using the appropriate configuration if you like or need to.</p>
+</div>
+<div class="paragraph">
+<p>The above describe configuration will make it possible to run all tests via command line by using <code>mvn clean verify</code>.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+It is also possible to run the integration tests from your IDE. This only works if you have done the
+<code>mvn clean verify</code> once before on command line. Then you can run the integration tests from your IDE as long as you
+don&#8217;t change the code of the plugin/extension etc. which is under test. You can change the tests without any limitation
+(If you find any please create an issue for that.)
+</td>
+</tr>
+</table>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1968,12 +1859,37 @@ tests like <code>*IT.java</code> but of course you can change that by using the 
 <div class="title">Note</div>
 </td>
 <td class="content">
-The whole given configuration should be replaced by separate maven plugin later.
-The first part meaning the installation of the artifacts is done but of course
-there are parts which where missing.
+The whole given configuration which comprises of <code>itf-maven-plugin</code> and the
+configuration for <code>maven-failsafe-plugin</code> should be replaced by separate maven plugin later to make the usage
+more convenient.
 </td>
 </tr>
 </table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_developers_point_of_view">9.2. Developers Point of View</h3>
+<div class="paragraph">
+<p>You are a potential contributor or just interested in how the code of this extension is working/looks like or you are a
+user who want to test with the bleeding edge of this extension.</p>
+</div>
+<div class="paragraph">
+<p>The requirements for building this extensions are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>JDK8+ (need to reconsider)</p>
+</li>
+<li>
+<p><a href="https://maven.apache.org/">Apache Maven 3.6.0+</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You have to clone the git repository and you can build the extension simply via: <code>mvn clean install</code>. The <code>install</code> is
+needed to install the created artifacts into your local repository for reuse.</p>
+</div>
 </div>
 </div>
 </div>
@@ -1987,7 +1903,7 @@ there are parts which where missing.
 <div id="footer">
 <div id="footer-text">
 Version 0.6.0-SNAPSHOT<br>
-Last updated 2020-05-03 13:26:10 UTC
+Last updated 2020-05-03 16:07:39 UTC
 </div>
 </div>
 <style>
