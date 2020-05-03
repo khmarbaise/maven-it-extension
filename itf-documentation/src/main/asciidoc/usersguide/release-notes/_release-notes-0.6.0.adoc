@@ -19,6 +19,7 @@
 == Pre-release 0.6.0
 
 :issue-67: https://github.com/khmarbaise/maven-it-extension/issues/67[Fixed #67]
+:issue-69: https://github.com/khmarbaise/maven-it-extension/issues/69[Fixed #69]
 
 :release-0_6_0: https://github.com/khmarbaise/maven-it-extension/milestone/6?closed=1
 
@@ -42,6 +43,10 @@
 
 *Build Improvements*
 
- * {issue-??} - ??
+* {issue-??} - ??
+
+*GitHub Improvments*
+
+ * {issue-69} - Add templates for issues/features requests
 
 The full release notes can be found here {release-0_6_0}[Release 0.6.0].
