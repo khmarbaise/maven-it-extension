@@ -1,7 +1,0 @@
-GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-itf-assertj,com.soebes.itf.extension.assertj,MavenITAssertions,23,0,0,0,5,0,5,0,5,0
-itf-assertj,com.soebes.itf.extension.assertj,MavenExecutionResultAssert,107,0,4,0,19,0,9,0,7,0
-itf-assertj,com.soebes.itf.extension.assertj,MavenLogAssert,102,0,0,0,28,0,16,0,16,0
-itf-assertj,com.soebes.itf.extension.assertj,ArchiveAssert,225,0,0,0,43,0,11,0,11,0
-itf-assertj,com.soebes.itf.extension.assertj,MavenCacheResultAssert,10,0,0,0,3,0,2,0,2,0
-itf-assertj,com.soebes.itf.extension.assertj,MavenProjectResultAssert,595,0,50,0,86,0,40,0,15,0

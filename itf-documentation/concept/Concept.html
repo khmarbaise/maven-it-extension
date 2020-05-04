@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
 <span id="email" class="email"><a href="mailto:khmarbaise@apache.org">khmarbaise@apache.org</a></span><br>
-<span id="revnumber">version 0.6.0-SNAPSHOT</span>
+<span id="revnumber">version 0.5.0</span>
 </div>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
@@ -533,11 +533,11 @@ test for a <a href="https://maven.apache.org/plugins/">Maven Plugins</a>/Maven E
 
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">org.assertj.core.api.Assertions.assertThat</span>;
 
-<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenJupiterExtension</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenIT</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenTest</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenExecutionResult</span>;
 
-<span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenIT</span>
 <span class="type">class</span> <span class="class">FirstMavenIT</span> {
 
   <span class="annotation">@MavenTest</span>
@@ -671,11 +671,11 @@ as well as the resulting output in <code>target</code> directory if you take a l
 
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">org.assertj.core.api.Assertions.assertThat</span>;
 
-<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenJupiterExtension</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenIT</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenTest</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenExecutionResult</span>;
 
-<span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenIT</span>
 <span class="type">class</span> <span class="class">FirstMavenIT</span> {
 
   <span class="annotation">@MavenTest</span>
@@ -777,29 +777,29 @@ the integration test cases in a simple way.</p>
 <p><code>@MavenRepository</code> should be implemented as separate Extension or separate annotation?</p>
 </div>
 <div class="paragraph">
-<p>Currently the definition for the cache would be defined in one go with the <code>MavenJupiterExtension</code>
+<p>Currently the definition for the cache would be defined in one go with the <code>@MavenIT</code>
 annotations which implies the following test cases would assume
 that the cache is defined for all tests which means globally to the given
 class which in the following is not correct as it is newly defined for the
 <code>NestedExample</code> class.
-If I redefined the <code>@MavenJupiterExtension(mavenCache=MavenCache.Global)</code> on the
+If I redefined the <code>@MavenIT(mavenCache=MavenCache.Global)</code> on the
 nested class <code>NestedExample</code> it would result into having an other
 cache for the nested class but not what I wanted to have.</p>
 </div>
 <div class="paragraph">
-<p>So the cache definition should <strong>not</strong> being made in relationship with the <code>MavenJupiterExtension</code>
+<p>So the cache definition should <strong>not</strong> being made in relationship with the <code>@MavenIT</code>
 annotation.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>(mavenCache = MavenCache.Global)
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenIT</span>(mavenCache = MavenCache.Global)
 <span class="type">class</span> <span class="class">MavenIntegrationExampleNestedGlobalRepoIT</span> {
 
   <span class="annotation">@MavenTest</span>
   <span class="type">void</span> packaging_includes(MavenExecutionResult result) {
   }
 
-  <span class="annotation">@MavenJupiterExtension</span>
+  <span class="annotation">@MavenIT</span>
   <span class="type">class</span> <span class="class">NestedExample</span> {
 
     <span class="annotation">@MavenTest</span>
@@ -827,7 +827,7 @@ can be added on the derived classes as well.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenIT</span>
 <span class="annotation">@MavenRepository</span>
 <span class="type">class</span> <span class="class">MavenIntegrationExampleNestedGlobalRepoIT</span> {
 
@@ -835,7 +835,7 @@ can be added on the derived classes as well.</p>
   <span class="type">void</span> packaging_includes(MavenExecutionResult result) {
   }
 
-  <span class="annotation">@MavenJupiterExtension</span>
+  <span class="annotation">@MavenIT</span>
   <span class="type">class</span> <span class="class">NestedExample</span> {
 
     <span class="annotation">@MavenTest</span>
@@ -857,7 +857,7 @@ directory. (This would overwrite the default.)</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenIT</span>
 <span class="annotation">@MavenRepository</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">.anton</span><span class="delimiter">&quot;</span></span>)
 <span class="type">class</span> <span class="class">MavenIntegrationExampleNestedGlobalRepoIT</span> {
 
@@ -865,7 +865,7 @@ directory. (This would overwrite the default.)</p>
   <span class="type">void</span> packaging_includes(MavenExecutionResult result) {
   }
 
-  <span class="annotation">@MavenJupiterExtension</span>
+  <span class="annotation">@MavenIT</span>
   <span class="type">class</span> <span class="class">NestedExample</span> {
 
     <span class="annotation">@MavenTest</span>
@@ -886,8 +886,8 @@ could easily enhanced with parameters like the following:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenJupiterExtension</span>;
-<span class="annotation">@MavenJupiterExtension</span>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenIT</span>;
+<span class="annotation">@MavenIT</span>
 <span class="annotation">@MavenRepository</span>(releases=<span class="string"><span class="delimiter">&quot;</span><span class="content">.releases</span><span class="delimiter">&quot;</span></span>, snapshots=<span class="string"><span class="delimiter">&quot;</span><span class="content">.snapshots</span><span class="delimiter">&quot;</span></span>)
 <span class="type">class</span> <span class="class">IntegrationIT</span> {
 
@@ -928,7 +928,7 @@ prevent copying of all artifacts?</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenIT</span>
 <span class="annotation">@MavenMockRepositoryManager</span>
 <span class="type">class</span> <span class="class">FirstMavenIT</span> {
 
@@ -990,7 +990,7 @@ used for the single test case <code>the_second_test_case</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenIT</span>
 <span class="type">class</span> <span class="class">FirstMavenIT</span> {
 
   <span class="annotation">@MavenTest</span>
@@ -1057,12 +1057,12 @@ setup.</p>
 
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">org.assertj.core.api.Assertions.assertThat</span>;
 
-<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenJupiterExtension</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenIT</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenTest</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenExecutionResult</span>;
 <span class="keyword">import</span> <span class="include">org.junit.jupiter.api.Nested</span>;
 
-<span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenIT</span>
 <span class="type">class</span> <span class="class">FirstMavenIT</span> {
   <span class="annotation">@Nested</span>
   <span class="type">class</span> <span class="class">TestCaseWithSetup</span> {
@@ -1121,12 +1121,12 @@ It could assumed having a global cache for test cases which are within the neste
 
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">org.assertj.core.api.Assertions.assertThat</span>;
 
-<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenJupiterExtension</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenIT</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenTest</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenExecutionResult</span>;
 <span class="keyword">import</span> <span class="include">org.junit.jupiter.api.BeforeEach</span>;
 
-<span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenIT</span>
 <span class="type">class</span> <span class="class">FirstMavenIT</span> {
 
   <span class="annotation">@BeforeEach</span>
@@ -1402,7 +1402,7 @@ The simple answer is like this:</p>
 
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">com.soebes.itf.extension.assertj.MavenITAssertions.assertThat</span>;
 
-<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenJupiterExtension</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenIT</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenRepository</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenTest</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenExecutionResult</span>;
@@ -1410,7 +1410,7 @@ The simple answer is like this:</p>
 <span class="keyword">import</span> <span class="include">org.junit.jupiter.api.Order</span>;
 <span class="keyword">import</span> <span class="include">org.junit.jupiter.api.TestMethodOrder</span>;
 
-<span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenIT</span>
 <span class="annotation">@MavenRepository</span>
 <span class="annotation">@TestMethodOrder</span>(OrderAnnotation.class)
 <span class="type">class</span> <span class="class">CustomContainerDescriptorHandlerIT</span> {
@@ -1456,7 +1456,7 @@ into a single file.</p>
 
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">com.soebes.itf.extension.assertj.MavenITAssertions.assertThat</span>;
 
-<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenJupiterExtension</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenIT</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenRepository</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenTest</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenExecutionResult</span>;
@@ -1466,7 +1466,7 @@ into a single file.</p>
 <span class="keyword">import</span> <span class="include">org.junit.jupiter.api.TestMethodOrder</span>;
 
 <span class="annotation">@TestMethodOrder</span>(OrderAnnotation.class)
-<span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenIT</span>
 <span class="type">class</span> <span class="class">ContainerDescriptorsIT</span> {
 
   <span class="annotation">@Nested</span>
@@ -1570,7 +1570,7 @@ which the tests should run on. <code>${project.artifactId}</code> will be replac
 <div class="listingblock">
 <div class="title">FirstIT.java</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenIT</span>
 <span class="type">class</span> <span class="class">CustomContainerDescriptorHandlerIT</span> {
 
   <span class="annotation">@MavenTest</span>(goals = {<span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies</span><span class="delimiter">&quot;</span></span>})
@@ -1658,7 +1658,7 @@ We should make the <code>@MavenRepository</code> part of <code>@MavenProject</co
 <div class="title">ITSETIT.java</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@TestMethodOrder</span>(OrderAnnotation.class)
-<span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenIT</span>
 <span class="type">class</span> <span class="class">setVersionIT</span> {
 
   <span class="annotation">@Nested</span>
@@ -1721,7 +1721,7 @@ invoker.buildResult.4=success</code></pre>
 <div class="title">UpdateChildModuleIT.java</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@TestMethodOrder</span>(OrderAnnotation.class)
-<span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenIT</span>
 <span class="type">class</span> <span class="class">UpdateChildModuleIT</span> {
 
   <span class="annotation">@Nested</span>
@@ -1843,8 +1843,8 @@ directories and then run the test as usual.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.6.0-SNAPSHOT<br>
-Last updated 2020-05-04 16:39:51 UTC
+Version 0.5.0<br>
+Last updated 2020-05-04 21:33:17 +0200
 </div>
 </div>
 <style>
