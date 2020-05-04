@@ -21,6 +21,7 @@
 :issue-67: https://github.com/khmarbaise/maven-it-extension/issues/67[Fixed #67]
 :issue-68: https://github.com/khmarbaise/maven-it-extension/issues/68[Fixed #68]
 :issue-69: https://github.com/khmarbaise/maven-it-extension/issues/69[Fixed #69]
+:issue-74: https://github.com/khmarbaise/maven-it-extension/issues/74[Fixed #74]
 
 :release-0_6_0: https://github.com/khmarbaise/maven-it-extension/milestone/6?closed=1
 
@@ -52,5 +53,6 @@
 *GitHub Improvments*
 
  * {issue-69} - Add templates for issues/features requests
+ * {issue-74} - Recreate issue templaes
 
 The full release notes can be found here {release-0_6_0}[Release 0.6.0].

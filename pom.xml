@@ -201,6 +201,9 @@
         <artifactId>apache-rat-plugin</artifactId>
         <configuration>
           <excludes combine.children="append">
+            <exclude>.github/ISSUE_TEMPLATE/feature_request.md</exclude>
+            <exclude>.github/ISSUE_TEMPLATE/bug_report.md</exclude>
+            <exclude>.github/ISSUE_TEMPLATE/config.yml</exclude>
             <exclude>IDEASetup.xml</exclude>
             <exclude>.repository/**</exclude><!-- Jenkins job with local Maven repository -->
             <exclude>.maven/spy.log</exclude><!-- Hudson Maven3 integration log -->
