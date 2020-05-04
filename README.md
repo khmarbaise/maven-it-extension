@@ -17,7 +17,6 @@
 # Integration Testing Framework Extension
 
 [![Apache License, Version 2.0, January 2004](https://img.shields.io/github/license/apache/maven.svg?label=License)][license]
-[![Maven Central](https://img.shields.io/maven-central/v/com.soebes.itf.jupiter.extension/itf-jupiter-extension.svg?label=Maven%20Central)](https://search.maven.org/search?q=g%3Acom.soebes.itf.jupiter.extension)
 [![javadoc](https://javadoc.io/badge2/com.soebes.itf.jupiter.extension/itf-maven-plugin/javadoc.svg)](https://javadoc.io/doc/com.soebes.itf.jupiter.extension/itf-maven-plugin)
 [![JDKBuilds](https://github.com/khmarbaise/maven-it-extension/workflows/JDKBuilds/badge.svg)][jdkbuilds]
 [![Main](https://github.com/khmarbaise/maven-it-extension/workflows/Main/badge.svg)][mainbuilds]
@@ -25,26 +24,23 @@
 [![Issues](https://img.shields.io/github/issues/khmarbaise/maven-it-extension)](https://github.com/khmarbaise/maven-it-extension/issues)
 [![Issues Closed](https://img.shields.io/github/issues-closed/khmarbaise/maven-it-extension)](https://github.com/khmarbaise/maven-it-extension/issues?q=is%3Aissue+is%3Aclosed)
  
-* Users Guide
-  * [![PDF](https://img.shields.io/badge/PDF-Usersguide-green)][usersguide-pdf]
-  * [![HTML](https://img.shields.io/badge/HTML-Usersguide-green)][usersguide-html]
+<!---
+ -green will be done for 1.0.0 the first time.
+ -orange used for SNAPSHOT
+-->
+| Release        | Maven Central                                       | Release Notes                                                     |                           Users Guide                          |
+| -------------- | --------------------------------------------------- | ----------------------------------------------------------------: | -------------------------------------------------------------: |
+| 0.5.0          | [![Maven Central][shield-central]][central-search]  | [![PDF][stable-pdf-releasenotes]][releasenotes-pdf]               | [![PDF][stable-pdf-usersguide]][usersguide-pdf]                |
+|                |                                                     | [![HTML][stable-html-release]][releasenotes-html]                 | [![HTML][stable-html-usersgude]][usersguide-html]              |
+| 0.6.0-SNAPSHOT | ![Maven Central][not-available-in-central]          | [![PDF][unstable-pdf-releasenotes]][unstable-releasenotes-pdf]    | [![PDF][unstable-pdf-usersguide]][unstable-usersguide-pdf]     |
+|                |                                                     | [![HTML][unstable-html-releasenotes]][unstable-releasenotes-html] | [![HTML][unstable-html-usersguide]][unstable-usersguide-html]  |
 
-* Release Notes
-  * [![PDF](https://img.shields.io/badge/PDF-Releasenotes-green)][releasenotes-pdf]
-  * [![HTML](https://img.shields.io/badge/HTML-Releasenotes-green)][releasenotes-html]
-
-* Concept Guide (My Ideas; unordered; just not to forget them.)
-  * [![PDF](https://img.shields.io/badge/PDF-Conceptguide-green)][conceptguide-pdf]
-  * [![HTML](https://img.shields.io/badge/HTML-Conceptguide-green)][conceptguide-html]
-
-* The Background Guide (More details why this framework exists.)
-  * [![PDF](https://img.shields.io/badge/PDF-background-green)][background-pdf]
-  * [![HTML](https://img.shields.io/badge/HTML-background-green)][background-html]
 
 # State
 The project is in an early state but already being useful and can be used for real testing. 
-The project is available via [Central repository](https://search.maven.org/search?q=g%3Acom.soebes.itf.jupiter.extension) 
-which makes it easy for you to use it out without the need to compile the code (You can of course do that if you like).
+The project release is available via [Central repository][central-search] (only the given version as show in above table) 
+which makes it easy for you to use it out without the need to compile the code (You can of course do that if you like) 
+yourself.
 
 # General Overview
 The basic thing about integration testing of Maven Plugins / Maven Extensions etc. is currently that the existing 
@@ -190,19 +186,53 @@ are executed and real integration tests for the `itf-maven-plugin` which is a bo
 ([eat-your-own-dog-food][food]) to use already parts of the framework (JUnit Jupiter extension) to
 make the development of the plugin easier.
 
+# Concept and Background Guide
+
+The concept guide decribe my ideas I have in mind (just not to forget them). It is
+neither a roadmap or about future releases etc. It's only intended to keep my ideas at a central location.
+
+  * [![PDF](https://img.shields.io/badge/PDF-Conceptguide-orange)][conceptguide-pdf]
+  * [![HTML](https://img.shields.io/badge/HTML-Conceptguide-orange)][conceptguide-html]
+
+The background guide is a conclusion about the reason I had to start this project.
+
+  * [![PDF](https://img.shields.io/badge/PDF-background-orange)][background-pdf]
+  * [![HTML](https://img.shields.io/badge/HTML-background-orange)][background-html]
+
 [food]: https://en.wikipedia.org/wiki/Eating_your_own_dog_food
 [jdkbuilds]: https://github.com/khmarbaise/maven-it-extension/actions?query=workflow%3AJDKBuilds
 [mainbuilds]: https://github.com/khmarbaise/maven-it-extension/actions?query=workflow%3AMain
 [published-site]: https://khmarbaise.github.io/maven-it-extension/
-[usersguide-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/usersguide.html
-[usersguide-pdf]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/usersguide.pdf
-[conceptguide-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/concept/Concept.html
-[conceptguide-pdf]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/concept/Concept.pdf
-[background-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/background/background.html
-[background-pdf]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/background/background.pdf
-[releasenotes-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/release-notes/release-notes.html
-[releasenotes-pdf]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/release-notes/release-notes.pdf
 [license]: https://www.apache.org/licenses/LICENSE-2.0
 [junit-jupiter]: https://junit.org/junit5/
 [junit-jupiter-extension]: https://junit.org/junit5/docs/current/user-guide/#extensions
 [assertj]: https://assertj.github.io/doc/
+
+[usersguide-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/usersguide.html
+[usersguide-pdf]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/usersguide.pdf
+[releasenotes-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/release-notes/release-notes.html
+[releasenotes-pdf]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/release-notes/release-notes.pdf
+
+[unstable-usersguide-html]: https://khmarbaise.github.io/maven-it-extension/snapshot/itf-documentation/usersguide/usersguide.html
+[unstable-usersguide-pdf]: https://khmarbaise.github.io/maven-it-extension/snapshot/itf-documentation/usersguide/usersguide.pdf
+[unstable-releasenotes-html]: https://khmarbaise.github.io/maven-it-extension/snapshot/itf-documentation/usersguide/release-notes/release-notes.html
+[unstable-releasenotes-pdf]: https://khmarbaise.github.io/maven-it-extension/snapshot/itf-documentation/usersguide/release-notes/release-notes.pdf
+
+[stable-html-release]: https://img.shields.io/badge/0.5.0-HTML--Releasenotes-green
+[stable-html-usersgude]: https://img.shields.io/badge/0.5.0-HTML--Usersguide-green
+[stable-pdf-releasenotes]: https://img.shields.io/badge/0.5.0-PDF--Releasenotes-green
+[stable-pdf-usersguide]: https://img.shields.io/badge/0.5.0-PDF--Usersguide-green
+
+[unstable-pdf-releasenotes]: https://img.shields.io/badge/0.6.0--SNAPSHOT-PDF--Releasenotes-orange
+[unstable-html-releasenotes]: https://img.shields.io/badge/0.6.0--SNAPSHOT-HTML--Releasenotes-orange
+[unstable-pdf-usersguide]: https://img.shields.io/badge/0.6.0--SNAPSHOT-PDF--Usersguide-orange
+[unstable-html-usersguide]: https://img.shields.io/badge/0.6.0--SNAPSHOT-HTML--Usersguide-orange
+
+[shield-central]: https://img.shields.io/maven-central/v/com.soebes.itf.jupiter.extension/itf-jupiter-extension.svg?label=Maven%20Central
+[central-search]: https://search.maven.org/search?q=g%3Acom.soebes.itf.jupiter.extension
+[not-available-in-central]: https://img.shields.io/badge/Maven%20Central-NOT_AVAILABLE-red
+
+[conceptguide-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/concept/Concept.html
+[conceptguide-pdf]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/concept/Concept.pdf
+[background-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/background/background.html
+[background-pdf]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/background/background.pdf

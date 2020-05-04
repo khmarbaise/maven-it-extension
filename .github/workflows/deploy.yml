@@ -41,3 +41,4 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
           FOLDER: target/staging
+          TARGET_FOLDER: snapshot
