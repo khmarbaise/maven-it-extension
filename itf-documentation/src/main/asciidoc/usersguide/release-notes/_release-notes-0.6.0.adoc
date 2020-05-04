@@ -23,6 +23,7 @@
 :issue-69: https://github.com/khmarbaise/maven-it-extension/issues/69[Fixed #69]
 :issue-74: https://github.com/khmarbaise/maven-it-extension/issues/74[Fixed #74]
 :issue-75: https://github.com/khmarbaise/maven-it-extension/issues/75[Fixed #75]
+:issue-78: https://github.com/khmarbaise/maven-it-extension/issues/78[Fixed #78]
 
 :release-0_6_0: https://github.com/khmarbaise/maven-it-extension/milestone/6?closed=1
 
@@ -42,6 +43,10 @@
 
  * With {issue-68} - we have renamed the `@MavenIT` annotation into `@MavenJupiterExtension` to make the
    intention more clear.
+
+*Contributors of this release*
+
+ * Sandra Parsick {issue-78} - put section "configuration in maven" before section "Structuring Integration Tests"
 
 *Dependency Upgrades*
 
