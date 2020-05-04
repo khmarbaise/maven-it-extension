@@ -49,7 +49,7 @@ project. There are a lot of different approaches done over the time but from my 
 Simplicity. More detailed reasons etc. can be read in the [Background Guide][background-html]. This is the reason why 
 I think it's time to come up with a more modern setup and started this project.
 
-## The Basic Idea
+# The Basic Idea
 The basic idea rest upon the option to write custom [extension with JUnit Jupiter][junit-jupiter-extension]
 for [JUnit Jupiter][junit-jupiter-extension] testing framework which makes it very easy to get things done.
 
@@ -58,12 +58,123 @@ So in general the whole Integration Testing Framework in it's core (itf-jupiter-
 framework in general and in particular for using integration tests.
 Of course there is a lot of convenience integrated into it to make integration testing of Maven plugins easier.
 
+# Quick Start
+
+## The General Requirements
+The requirements to write integration tests with the integration testing framework are the folloing:
+
+* JDK8+
+* Apache Maven 3.1.0 or above.
+
+## The Maven Configuration
+
+The first thing before you can run integration tests is to add the following dependencies
+(as minimum) to your `pom.xml`:
+```xml
+<project..>
+   ...
+  <dependencies>
+    ..
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.soebes.itf.jupiter.extension</groupId>
+      <artifactId>itf-jupiter-extension</artifactId>
+      <version>0.5.0</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  ..
+</project..>
+```
+The first dependency `org.junit.jupiter:junit-jupiter-engine` is needed for JUnit Jupiter (We recommend the
+most recent version) working and the second one `com.soebes.itf.jupiter.extension:itf-jupiter-extension` is the extension
+to get support for running in general integration tests as described later. 
+
+The next part is to add `itf-maven-plugin` in your `pom.xml` file like this which handles the first part which
+is involved:
+```xml
+<project...>
+  ..
+  <build>
+  ..
+    <plugin>
+      <groupId>com.soebes.itf.jupiter.extension</groupId>
+      <artifactId>itf-maven-plugin</artifactId>
+      <version>0.5.0</version>
+      <executions>
+        <execution>
+          <id>installing</id>
+          <phase>pre-integration-test</phase>
+          <goals>
+            <goal>install</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+  ..
+  </build>
+  ..
+</project...>
+```
+The given version of `itf-jupiter-extension` as well as `itf-maven-plugin` should always be the
+most recent version which is available via [Central repository][central-search].
+
+Based on the concept we would like to run integration identified by the naming convention we have
+to add the [maven-failsafe-plugin][maven-failsafe-plugin] to the `pom.xml` like this (This 
+will execute the integration tests which checks the functionality; The second part which is involved).
+```xml
+<project...>
+  ..
+  <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-failsafe-plugin</artifactId>
+    <configuration>
+      <!--
+       ! currently needed to run integration tests.
+      -->
+      <systemProperties>
+        <maven.version>${maven.version}</maven.version>
+        <maven.home>${maven.home}</maven.home>
+      </systemProperties>
+    </configuration>
+    <executions>
+      <execution>
+        <goals>
+          <goal>integration-test</goal>
+          <goal>verify</goal>
+        </goals>
+      </execution>
+    </executions>
+  </plugin>
+</project...>
+```
+Finally you have to add the configuration to copy the projects which are the test cases by adding the following
+(part 3 of the involved parties):
+```xml
+<project...>
+  <build>
+    ..
+    <testResource>
+      <directory>src/test/resources-its</directory>
+      <filtering>true</filtering>
+    </testResource>
+  ..
+  </build>
+ ..
+</project...>
+```
+Details about the given configuration can be read in the [users guide][usersguide-html].
+
 ## The Involved Parties
 Writing an integration test for a Maven plugin means you have to have three parties:
 
  1. The component you would like to test (typically a Maven plugin etc.).
  2. The testing code where you check the functionality.
- 2. The Project you would like to test with (where your Maven plugin usually is configured in to be used.)
+ 3. The Project you would like to test with (where your Maven plugin usually is configured in to be used.)
 
 ### The Component code 
 The component you write is located in your project in the usual location. This is of course
@@ -207,6 +318,7 @@ The background guide is a conclusion about the reason I had to start this projec
 [junit-jupiter]: https://junit.org/junit5/
 [junit-jupiter-extension]: https://junit.org/junit5/docs/current/user-guide/#extensions
 [assertj]: https://assertj.github.io/doc/
+[maven-failsafe-plugin]: https://maven.apache.org/surefire/maven-failsafe-plugin/ 
 
 [usersguide-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/usersguide.html
 [usersguide-pdf]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/usersguide.pdf
