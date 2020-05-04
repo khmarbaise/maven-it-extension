@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DirectoryResolverResult.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">itf-jupiter-extension</a> &gt; <a href="index.source.html" class="el_package">com.soebes.itf.jupiter.extension</a> &gt; <span class="el_source">DirectoryResolverResult.java</span></div><h1>DirectoryResolverResult.java</h1><pre class="source lang-java linenums">package com.soebes.itf.jupiter.extension;
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import org.junit.jupiter.api.extension.ExtensionContext;
+
+import java.io.File;
+import java.lang.reflect.Method;
+import java.util.Optional;
+
+/**
+ * @author Karl Heinz Marbaise
+ */
+class DirectoryResolverResult {
+
+  private final File mavenItTestCaseBaseDirectory;
+
+  private final File mavenBaseDirectory;
+
+  private final File targetDirectory;
+
+  private final File integrationTestCaseDirectory;
+
+  private final File projectDirectory;
+
+  private final File mavenItsBaseDirectory;
+
+  private final File sourceMavenProject;
+
+  private final File cacheDirectory;
+
+  private final File componentUnderTestDirectory;
+
+  private final Optional&lt;File&gt; predefinedRepository;
+
+<span class="nc" id="L53">  DirectoryResolverResult(ExtensionContext context) {</span>
+<span class="nc" id="L54">    StorageHelper sh = new StorageHelper(context);</span>
+
+<span class="nc" id="L56">    this.mavenItTestCaseBaseDirectory = sh.get(Storage.MAVEN_IT_TESTCASE_BASEDIRECTORY, File.class);</span>
+<span class="nc" id="L57">    this.mavenBaseDirectory = sh.get(Storage.MAVEN_IT_BASEDIRECTORY, File.class);</span>
+<span class="nc" id="L58">    this.targetDirectory = sh.get(Storage.TARGET_DIRECTORY, File.class);</span>
+
+<span class="nc" id="L60">    Method methodName = context.getTestMethod().orElseThrow(() -&gt; new IllegalStateException(&quot;No method given&quot;));</span>
+
+<span class="nc" id="L62">    Optional&lt;Class&lt;?&gt;&gt; mavenProject = AnnotationHelper.findMavenProjectAnnotation(context);</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">    if (mavenProject.isPresent()) {</span>
+<span class="nc" id="L64">      MavenProject mavenProjectAnnotation = mavenProject.get().getAnnotation(MavenProject.class);</span>
+<span class="nc" id="L65">      this.integrationTestCaseDirectory = new File(this.getMavenItTestCaseBaseDirectory(),</span>
+<span class="nc" id="L66">          mavenProjectAnnotation.value());</span>
+<span class="nc" id="L67">    } else {</span>
+<span class="nc" id="L68">      this.integrationTestCaseDirectory = new File(this.getMavenItTestCaseBaseDirectory(), methodName.getName());</span>
+    }
+
+<span class="nc" id="L71">    this.projectDirectory = new File(integrationTestCaseDirectory, &quot;project&quot;);</span>
+<span class="nc" id="L72">    this.mavenItsBaseDirectory = new File(DirectoryHelper.getTargetDir(), &quot;test-classes&quot;);</span>
+<span class="nc" id="L73">    this.componentUnderTestDirectory = new File(this.getTargetDirectory(), &quot;itf-repo&quot;); // Hard Coded!!</span>
+
+<span class="nc" id="L75">    Class&lt;?&gt; testClass = context.getTestClass().orElseThrow(() -&gt; new IllegalStateException(&quot;Test class not found.&quot;));</span>
+<span class="nc" id="L76">    String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">    if (mavenProject.isPresent()) {</span>
+<span class="nc" id="L78">      MavenProject mavenProjectAnnotation = mavenProject.get().getAnnotation(MavenProject.class);</span>
+<span class="nc" id="L79">      this.sourceMavenProject = new File(this.mavenItsBaseDirectory, toFullyQualifiedPath + &quot;/&quot; + mavenProjectAnnotation.value());</span>
+<span class="nc" id="L80">    } else {</span>
+<span class="nc" id="L81">      this.sourceMavenProject = new File(this.mavenItsBaseDirectory, toFullyQualifiedPath + &quot;/&quot; + methodName.getName());</span>
+    }
+
+<span class="nc" id="L84">    Optional&lt;Class&lt;?&gt;&gt; optionalMavenRepository = AnnotationHelper.findMavenRepositoryAnnotation(context);</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">    if (optionalMavenRepository.isPresent()) {</span>
+<span class="nc" id="L86">      MavenRepository mavenRepository = optionalMavenRepository.get().getAnnotation(MavenRepository.class);</span>
+<span class="nc" id="L87">      String repositoryPath = DirectoryHelper.toFullyQualifiedPath(optionalMavenRepository.get());</span>
+<span class="nc" id="L88">      File cacheDirectoryBase = new File(this.mavenBaseDirectory, repositoryPath);</span>
+<span class="nc" id="L89">      this.cacheDirectory = new File(cacheDirectoryBase, mavenRepository.value());</span>
+<span class="nc" id="L90">    } else {</span>
+      //FIXME: Hard coded default. Should we get the default from the Annotation?
+<span class="nc" id="L92">      this.cacheDirectory = new File(this.integrationTestCaseDirectory, &quot;.m2/repository&quot;);</span>
+    }
+
+<span class="nc" id="L95">    Optional&lt;Class&lt;?&gt;&gt; optionalMavenPredefinedRepository = AnnotationHelper.findMavenPredefinedRepositoryAnnotation(context);</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">    if (optionalMavenPredefinedRepository.isPresent()) {</span>
+<span class="nc" id="L97">      MavenPredefinedRepository mavenRepository = optionalMavenPredefinedRepository.get().getAnnotation(MavenPredefinedRepository.class);</span>
+<span class="nc" id="L98">      String repositoryPath = DirectoryHelper.toFullyQualifiedPath(optionalMavenPredefinedRepository.get());</span>
+<span class="nc" id="L99">      File cacheDirectoryBase = new File(this.mavenItsBaseDirectory, repositoryPath);</span>
+<span class="nc" id="L100">      this.predefinedRepository = Optional.of(new File(cacheDirectoryBase, mavenRepository.value()));</span>
+<span class="nc" id="L101">    } else {</span>
+      //FIXME: Hard coded default. Should we get the default from the Annotation?
+<span class="nc" id="L103">      this.predefinedRepository = Optional.empty();</span>
+    }
+
+<span class="nc" id="L106">  }</span>
+
+  final File getComponentUnderTestDirectory() {
+<span class="nc" id="L109">    return componentUnderTestDirectory;</span>
+  }
+
+  final Optional&lt;File&gt; getPredefinedRepository() {
+<span class="nc" id="L113">    return predefinedRepository;</span>
+  }
+
+  final File getCacheDirectory() {
+<span class="nc" id="L117">    return cacheDirectory;</span>
+  }
+
+  final File getSourceMavenProject() {
+<span class="nc" id="L121">    return sourceMavenProject;</span>
+  }
+
+  final File getMavenItsBaseDirectory() {
+<span class="nc" id="L125">    return mavenItsBaseDirectory;</span>
+  }
+
+  final File getProjectDirectory() {
+<span class="nc" id="L129">    return projectDirectory;</span>
+  }
+
+  final File getIntegrationTestCaseDirectory() {
+<span class="nc" id="L133">    return integrationTestCaseDirectory;</span>
+  }
+
+  final File getMavenItTestCaseBaseDirectory() {
+<span class="nc" id="L137">    return mavenItTestCaseBaseDirectory;</span>
+  }
+
+  final File getMavenBaseDirectory() {
+<span class="nc" id="L141">    return mavenBaseDirectory;</span>
+  }
+
+  final File getTargetDirectory() {
+<span class="nc" id="L145">    return targetDirectory;</span>
+  }
+
+<span class="nc" id="L148">  class DirectoryExtensionContextResolver {</span>
+
+    private File mavenItBaseDirectory;
+
+    private File mavenBaseDirectory;
+
+    private File targetDirectory;
+
+    DirectoryResolverResult resolve(ExtensionContext context) {
+<span class="nc" id="L157">      StorageHelper sh = new StorageHelper(context);</span>
+<span class="nc" id="L158">      this.mavenItBaseDirectory = sh.get(Storage.MAVEN_IT_TESTCASE_BASEDIRECTORY, File.class);</span>
+<span class="nc" id="L159">      this.mavenBaseDirectory = sh.get(Storage.MAVEN_IT_BASEDIRECTORY, File.class);</span>
+<span class="nc" id="L160">      this.targetDirectory = sh.get(Storage.TARGET_DIRECTORY, File.class);</span>
+
+<span class="nc" id="L162">      return new DirectoryResolverResult(context);</span>
+    }
+
+    public File getMavenItBaseDirectory() {
+<span class="nc" id="L166">      return mavenItBaseDirectory;</span>
+    }
+
+    public File getMavenBaseDirectory() {
+<span class="nc" id="L170">      return mavenBaseDirectory;</span>
+    }
+
+    public File getTargetDirectory() {
+<span class="nc" id="L174">      return targetDirectory;</span>
+    }
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

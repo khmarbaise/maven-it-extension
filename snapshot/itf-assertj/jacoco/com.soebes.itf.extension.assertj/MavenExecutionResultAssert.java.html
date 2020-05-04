@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MavenExecutionResultAssert.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">itf-assertj</a> &gt; <a href="index.source.html" class="el_package">com.soebes.itf.extension.assertj</a> &gt; <span class="el_source">MavenExecutionResultAssert.java</span></div><h1>MavenExecutionResultAssert.java</h1><pre class="source lang-java linenums">package com.soebes.itf.extension.assertj;
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import com.soebes.itf.jupiter.maven.MavenExecutionResult;
+import org.assertj.core.api.AbstractAssert;
+
+/**
+ * @author Karl Heinz Marbaise
+ */
+public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecutionResultAssert, MavenExecutionResult&gt; {
+
+  protected MavenExecutionResultAssert(MavenExecutionResult actual) {
+<span class="nc" id="L31">    super(actual, MavenExecutionResultAssert.class);</span>
+<span class="nc" id="L32">  }</span>
+
+  /**
+   * An entry point for MavenExecutionResultAssert to follow AssertJ standard &lt;code&gt;assertThat()&lt;/code&gt; statements.&lt;br&gt;
+   * With a static import, one's can write directly : &lt;code&gt;assertThat(result).isSuccessful();&lt;/code&gt;
+   *
+   * @param actual the MavenExecutionResult we want to make assertions on.
+   * @return a new {@link MavenExecutionResultAssert}
+   */
+  public static MavenExecutionResultAssert assertThat(MavenExecutionResult actual) {
+<span class="nc" id="L42">    return new MavenExecutionResultAssert(actual);</span>
+  }
+
+  public MavenLogAssert log() {
+<span class="nc" id="L46">    isNotNull();</span>
+<span class="nc" id="L47">    return new MavenLogAssert(this.actual.getMavenLog());</span>
+  }
+
+  public MavenProjectResultAssert project() {
+<span class="nc" id="L51">    isNotNull();</span>
+<span class="nc" id="L52">    return new MavenProjectResultAssert(this.actual.getMavenProjectResult());</span>
+  }
+
+  public MavenCacheResultAssert cache() {
+<span class="nc" id="L56">    isNotNull();</span>
+<span class="nc" id="L57">    return new MavenCacheResultAssert(this.actual.getMavenCacheResult());</span>
+  }
+
+  /**
+   * @return {@link MavenExecutionResultAssert} for method chaining.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not {@code true}.
+   */
+  public MavenExecutionResultAssert isSuccessful() {
+<span class="nc" id="L66">    isNotNull();</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">    if (!this.actual.isSuccesful()) {</span>
+<span class="nc" id="L68">      failWithMessage(&quot;The build was not successful but was &lt;%s&gt; with returnCode:&lt;%s&gt;&quot;, actual.getResult(),</span>
+<span class="nc" id="L69">          actual.getReturnCode());</span>
+    }
+<span class="nc" id="L71">    return myself;</span>
+  }
+
+  /**
+   * @return {@link MavenExecutionResultAssert} for method chaining.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not {@code true}.
+   */
+  public MavenExecutionResultAssert isFailure() {
+<span class="nc" id="L80">    isNotNull();</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">    if (!this.actual.isFailure()) {</span>
+<span class="nc" id="L82">      failWithMessage(&quot;The build should be not successful but was &lt;%s&gt; with returnCode:&lt;%s&gt;&quot;, actual.getResult(),</span>
+<span class="nc" id="L83">          actual.getReturnCode());</span>
+    }
+<span class="nc" id="L85">    return myself;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
