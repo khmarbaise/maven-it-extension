@@ -24,6 +24,7 @@
 :issue-74: https://github.com/khmarbaise/maven-it-extension/issues/74[Fixed #74]
 :issue-75: https://github.com/khmarbaise/maven-it-extension/issues/75[Fixed #75]
 :issue-76: https://github.com/khmarbaise/maven-it-extension/issues/76[Fixed #76]
+:issue-77: https://github.com/khmarbaise/maven-it-extension/issues/77[Fixed #77]
 :issue-78: https://github.com/khmarbaise/maven-it-extension/issues/78[Fixed #78]
 :issue-81: https://github.com/khmarbaise/maven-it-extension/issues/81[Fixed #81]
 
@@ -49,7 +50,9 @@
 
 *Reporters of this release*
 
- * Roland Weisleder {issue-76} - "Getting started" is hard to find.
+ * Roland Weisleder
+   ** {issue-76} - "Getting started" is hard to find.
+   ** {issue-77} - Code in section "Configuration in Maven" (user guide) should be copy-pastable
 
 *Contributors of this release*
 

@@ -141,14 +141,12 @@ Now you have to have the dependency `org.junit.jupiter:junit-jupiter-engine` to 
 {junit-jupiter} and finally you have to add the `com.soebes.itf.jupiter.extension:itf-jupiter-extension` dependency to
 get the support for your Maven integration tests.
 
-The given `${project.version}` has to be replaced with the current version of the project which
-is currently: {version-itf-framework}.
-
 //TODO: Need to reconsider? More details? Or a separate paragraph about that.
-Based on the described structures you have to copy the content (with the projects which are used to test)
-of `src/test/resources-its` into `target/test-classes` which usually means including filtering. This is used to replace
-placeholders in files like `@project.version@` and replace with the real version of your extension/plugin etc. You have
-to be careful which delimiter you have chosen. So you might need to tweak your configuration based on your choices.
+Based on the described structures the content (with the projects which is used as test) from
+`src/test/resources-its` has to be copied into `target/test-classes` which usually means including
+filtering. This is used to replace placeholders in files like `@project.version@` and replace with
+the real version of your extension/plugin etc. You have to be careful which delimiter you have
+chosen. So you might need to tweak your configuration based on your choices.
 
 [source,xml]
 ----
@@ -173,9 +171,9 @@ Finally you have to add a configuration for {maven-failsafe-plugin} like the fol
 include::{itfexample}/itf-examples/pom.xml[tag=failsafe]
 ----
 The given properties like `maven.version` transfers the version of Maven which is used
-within the `itf-jupiter-extension` to run your integration tests and the `maven.home` transfers the information
-of where to find the current Maven installation. This is needed to start
-the Maven process from within the integration tests.
+within the `itf-jupiter-extension` to run your integration tests and the `maven.home` transfers the
+information of where to find the current Maven installation. This is needed to startthe Maven process
+from within the integration tests.
 //TODO: Check if we can omit maven.home cause we are searching already via PATH?
 
 The usage of {maven-failsafe-plugin} implies the naming convention for the integration

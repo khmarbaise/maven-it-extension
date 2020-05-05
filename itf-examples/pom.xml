@@ -41,7 +41,7 @@
     <dependency>
       <groupId>com.soebes.itf.jupiter.extension</groupId>
       <artifactId>itf-assertj</artifactId>
-      <version>${project.version}</version>
+      <version>0.6.0-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -52,7 +52,7 @@
     <dependency>
       <groupId>com.soebes.itf.jupiter.extension</groupId>
       <artifactId>itf-jupiter-extension</artifactId>
-      <version>${project.version}</version>
+      <version>0.6.0-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <!-- end::dependencies[] -->
@@ -111,7 +111,7 @@
       <plugin>
         <groupId>com.soebes.itf.jupiter.extension</groupId>
         <artifactId>itf-maven-plugin</artifactId>
-        <version>${project.version}</version>
+        <version>0.6.0-SNAPSHOT</version>
         <executions>
           <execution>
             <id>installing</id>
