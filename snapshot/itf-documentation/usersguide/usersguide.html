@@ -655,7 +655,7 @@ cause you only need them during the integration tests.</p>
     <span class="tag">&lt;dependency&gt;</span>
       <span class="tag">&lt;groupId&gt;</span>com.soebes.itf.jupiter.extension<span class="tag">&lt;/groupId&gt;</span>
       <span class="tag">&lt;artifactId&gt;</span>itf-assertj<span class="tag">&lt;/artifactId&gt;</span>
-      <span class="tag">&lt;version&gt;</span>${project.version}<span class="tag">&lt;/version&gt;</span>
+      <span class="tag">&lt;version&gt;</span>0.6.0-SNAPSHOT<span class="tag">&lt;/version&gt;</span>
       <span class="tag">&lt;scope&gt;</span>test<span class="tag">&lt;/scope&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span>
     <span class="tag">&lt;dependency&gt;</span>
@@ -666,7 +666,7 @@ cause you only need them during the integration tests.</p>
     <span class="tag">&lt;dependency&gt;</span>
       <span class="tag">&lt;groupId&gt;</span>com.soebes.itf.jupiter.extension<span class="tag">&lt;/groupId&gt;</span>
       <span class="tag">&lt;artifactId&gt;</span>itf-jupiter-extension<span class="tag">&lt;/artifactId&gt;</span>
-      <span class="tag">&lt;version&gt;</span>${project.version}<span class="tag">&lt;/version&gt;</span>
+      <span class="tag">&lt;version&gt;</span>0.6.0-SNAPSHOT<span class="tag">&lt;/version&gt;</span>
       <span class="tag">&lt;scope&gt;</span>test<span class="tag">&lt;/scope&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span></code></pre>
 </div>
@@ -682,14 +682,11 @@ in case you want to use <a href="https://assertj.github.io/doc/">AssertJ</a> as 
 get the support for your Maven integration tests.</p>
 </div>
 <div class="paragraph">
-<p>The given <code>${project.version}</code> has to be replaced with the current version of the project which
-is currently: 0.6.0-SNAPSHOT.</p>
-</div>
-<div class="paragraph">
-<p>Based on the described structures you have to copy the content (with the projects which are used to test)
-of <code>src/test/resources-its</code> into <code>target/test-classes</code> which usually means including filtering. This is used to replace
-placeholders in files like <code>@project.version@</code> and replace with the real version of your extension/plugin etc. You have
-to be careful which delimiter you have chosen. So you might need to tweak your configuration based on your choices.</p>
+<p>Based on the described structures the content (with the projects which is used as test) from
+<code>src/test/resources-its</code> has to be copied into <code>target/test-classes</code> which usually means including
+filtering. This is used to replace placeholders in files like <code>@project.version@</code> and replace with
+the real version of your extension/plugin etc. You have to be careful which delimiter you have
+chosen. So you might need to tweak your configuration based on your choices.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -718,7 +715,7 @@ like this:</p>
 <pre class="CodeRay highlight"><code data-lang="xml">      <span class="tag">&lt;plugin&gt;</span>
         <span class="tag">&lt;groupId&gt;</span>com.soebes.itf.jupiter.extension<span class="tag">&lt;/groupId&gt;</span>
         <span class="tag">&lt;artifactId&gt;</span>itf-maven-plugin<span class="tag">&lt;/artifactId&gt;</span>
-        <span class="tag">&lt;version&gt;</span>${project.version}<span class="tag">&lt;/version&gt;</span>
+        <span class="tag">&lt;version&gt;</span>0.6.0-SNAPSHOT<span class="tag">&lt;/version&gt;</span>
         <span class="tag">&lt;executions&gt;</span>
           <span class="tag">&lt;execution&gt;</span>
             <span class="tag">&lt;id&gt;</span>installing<span class="tag">&lt;/id&gt;</span>
@@ -764,9 +761,9 @@ integration tests.</p>
 </div>
 <div class="paragraph">
 <p>The given properties like <code>maven.version</code> transfers the version of Maven which is used
-within the <code>itf-jupiter-extension</code> to run your integration tests and the <code>maven.home</code> transfers the information
-of where to find the current Maven installation. This is needed to start
-the Maven process from within the integration tests.</p>
+within the <code>itf-jupiter-extension</code> to run your integration tests and the <code>maven.home</code> transfers the
+information of where to find the current Maven installation. This is needed to startthe Maven process
+from within the integration tests.</p>
 </div>
 <div class="paragraph">
 <p>The usage of <a href="https://maven.apache.org/surefire/maven-failsafe-plugin/">Maven Failsafe Plugin</a> implies the naming convention for the integration
@@ -1903,7 +1900,7 @@ as you like.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.6.0-SNAPSHOT<br>
-Last updated 2020-05-05 18:35:21 UTC
+Last updated 2020-05-05 20:31:06 UTC
 </div>
 </div>
 <style>
