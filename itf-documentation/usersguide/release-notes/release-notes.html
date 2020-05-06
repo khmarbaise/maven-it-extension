@@ -441,7 +441,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Integration Testing Framework Release Notes</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="revnumber">version 0.5.0</span>
+<span id="revnumber">version 0.6.0</span>
 </div>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
@@ -472,7 +472,7 @@ overview and detailed instructions how to use the Integration Testing Framework.
 <h2 id="release-notes-0.6.0">Pre-release 0.6.0</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>Date of Release:</strong> ??, 2020</p>
+<p><strong>Date of Release:</strong> May 21, 2020</p>
 </div>
 <div class="paragraph">
 <p><strong>Scope:</strong></p>
@@ -480,7 +480,10 @@ overview and detailed instructions how to use the Integration Testing Framework.
 <div class="ulist">
 <ul>
 <li>
-<p>??</p>
+<p>Documentation cleanup</p>
+</li>
+<li>
+<p>Better naming for MavenIT.</p>
 </li>
 </ul>
 </div>
@@ -490,7 +493,13 @@ overview and detailed instructions how to use the Integration Testing Framework.
 <div class="ulist">
 <ul>
 <li>
-<p>{issue-??} - xxx</p>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/67">Fixed #67</a> - Cleanup userguide</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/68">Fixed #68</a> - Rename @MavenIT into @MavenJupiterExtension.</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/76">Fixed #76</a> - "Getting started" is hard to find.</p>
 </li>
 </ul>
 </div>
@@ -500,27 +509,67 @@ overview and detailed instructions how to use the Integration Testing Framework.
 <div class="ulist">
 <ul>
 <li>
-<p>??</p>
+<p>With <a href="https://github.com/khmarbaise/maven-it-extension/issues/68">Fixed #68</a> - we have renamed the <code>@MavenIT</code> annotation into <code>@MavenJupiterExtension</code> to make the
+intention more clear.</p>
+</li>
+<li>
+<p>With <a href="https://github.com/khmarbaise/maven-it-extension/issues/80">Fixed #80</a> - We have removed the previously needed log4j dependencies at all. In testing
+projects there is no need anymore in adding <code>log4j-core</code> dependency.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p><strong>Dependency Upgrades</strong></p>
+<p><strong>Reporters of this release</strong></p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>{issue-??} - ??</p>
+<p>Roland Weisleder</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/76">Fixed #76</a> - "Getting started" is hard to find.</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/77">Fixed #77</a> - Code in section "Configuration in Maven" (user guide) should be copy-pastable</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/80">Fixed #80</a> - Error message "Log4j2 could not find a logging implementation"</p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p><strong>Build Improvements</strong></p>
+<p><strong>Contributors of this release</strong></p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>{issue-??} - ??</p>
+<p>Sandra Parsick <a href="https://github.com/khmarbaise/maven-it-extension/issues/78">Fixed #78</a> - put section "configuration in maven" before section "Structuring Integration Tests"</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>GitHub Improvements</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/69">Fixed #69</a> - Add templates for issues/features requests</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/74">Fixed #74</a> - Recreate issue templaes</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/75">Fixed #75</a> - Separate documentation for master and release</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/81">Fixed #81</a> - Added CONTRIBUTION.md guide.</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/84">Fixed #84</a> - Rename CONTRIBUTION.md into CONTRIBUTING.md</p>
 </li>
 </ul>
 </div>
@@ -873,8 +922,8 @@ publish in <a href="https://central.sonatype.org/">Central Repository</a>.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.5.0<br>
-Last updated 2020-05-03 15:38:59 +0200
+Version 0.6.0<br>
+Last updated 2020-05-06 22:05:33 +0200
 </div>
 </div>
 </body>

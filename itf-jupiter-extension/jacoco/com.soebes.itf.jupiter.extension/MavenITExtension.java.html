@@ -26,8 +26,6 @@ import com.soebes.itf.jupiter.maven.MavenLog;
 import com.soebes.itf.jupiter.maven.MavenProjectResult;
 import com.soebes.itf.jupiter.maven.ProjectHelper;
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.maven.model.Model;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
@@ -65,186 +63,183 @@ import static java.util.stream.Collectors.toList;
 /**
  * @author Karl Heinz Marbaise
  */
-<span class="nc" id="L68">public class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeTestExecutionCallback,</span>
+<span class="nc" id="L66">public class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeTestExecutionCallback,</span>
     InvocationInterceptor {
-
-<span class="nc" id="L71">  private static final Logger LOGGER = LogManager.getLogger();</span>
 
   @Override
   public void beforeEach(ExtensionContext context) {
-<span class="nc" id="L75">    Class&lt;?&gt; testClass = context.getTestClass()</span>
-<span class="nc" id="L76">        .orElseThrow(() -&gt; new ExtensionConfigurationException(&quot;MavenITExtension is only supported for classes.&quot;));</span>
+<span class="nc" id="L71">    Class&lt;?&gt; testClass = context.getTestClass()</span>
+<span class="nc" id="L72">        .orElseThrow(() -&gt; new ExtensionConfigurationException(&quot;MavenITExtension is only supported for classes.&quot;));</span>
 
     //FIXME: Need to reconsider the maven-it directory?
-<span class="nc" id="L79">    File mavenItBaseDirectory = new File(DirectoryHelper.getTargetDir(), &quot;maven-it&quot;);</span>
-<span class="nc" id="L80">    String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);</span>
+<span class="nc" id="L75">    File mavenItBaseDirectory = new File(DirectoryHelper.getTargetDir(), &quot;maven-it&quot;);</span>
+<span class="nc" id="L76">    String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);</span>
 
-<span class="nc" id="L82">    File mavenItTestCaseBaseDirectory = new File(mavenItBaseDirectory, toFullyQualifiedPath);</span>
+<span class="nc" id="L78">    File mavenItTestCaseBaseDirectory = new File(mavenItBaseDirectory, toFullyQualifiedPath);</span>
     //TODO: What happends if the directory has been created by a previous run?
     // should we delete that structure here? Maybe we should make this configurable.
-<span class="nc" id="L85">    mavenItTestCaseBaseDirectory.mkdirs();</span>
+<span class="nc" id="L81">    mavenItTestCaseBaseDirectory.mkdirs();</span>
 
-<span class="nc" id="L87">    new StorageHelper(context).save(mavenItBaseDirectory, mavenItTestCaseBaseDirectory, DirectoryHelper.getTargetDir());</span>
-<span class="nc" id="L88">  }</span>
+<span class="nc" id="L83">    new StorageHelper(context).save(mavenItBaseDirectory, mavenItTestCaseBaseDirectory, DirectoryHelper.getTargetDir());</span>
+<span class="nc" id="L84">  }</span>
 
   @Override
   public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
-<span class="nc" id="L93">    return Stream.of(ParameterType.values())</span>
-<span class="nc bnc" id="L94" title="All 2 branches missed.">        .anyMatch(parameterType -&gt; parameterType.getKlass() == parameterContext.getParameter().getType());</span>
+<span class="nc" id="L89">    return Stream.of(ParameterType.values())</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        .anyMatch(parameterType -&gt; parameterType.getKlass() == parameterContext.getParameter().getType());</span>
   }
 
   @Override
   public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
 
-<span class="nc" id="L101">    StorageHelper sh = new StorageHelper(extensionContext);</span>
+<span class="nc" id="L97">    StorageHelper sh = new StorageHelper(extensionContext);</span>
 
-<span class="nc" id="L103">    ParameterType parameterType = Stream.of(ParameterType.values())</span>
-<span class="nc bnc" id="L104" title="All 2 branches missed.">        .filter(s -&gt; s.getKlass() == parameterContext.getParameter().getType())</span>
-<span class="nc" id="L105">        .findFirst()</span>
-<span class="nc" id="L106">        .orElseThrow(() -&gt; new IllegalStateException(&quot;Unknown parameter type&quot;));</span>
+<span class="nc" id="L99">    ParameterType parameterType = Stream.of(ParameterType.values())</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        .filter(s -&gt; s.getKlass() == parameterContext.getParameter().getType())</span>
+<span class="nc" id="L101">        .findFirst()</span>
+<span class="nc" id="L102">        .orElseThrow(() -&gt; new IllegalStateException(&quot;Unknown parameter type&quot;));</span>
 
-<span class="nc" id="L108">    return sh.get(parameterType + extensionContext.getUniqueId(), parameterType.getKlass());</span>
+<span class="nc" id="L104">    return sh.get(parameterType + extensionContext.getUniqueId(), parameterType.getKlass());</span>
   }
 
   @Override
   public void interceptBeforeEachMethod(Invocation&lt;Void&gt; invocation,
                                         ReflectiveInvocationContext&lt;Method&gt; invocationContext, ExtensionContext extensionContext) throws Throwable {
-<span class="nc" id="L114">    invocation.proceed();</span>
-<span class="nc" id="L115">  }</span>
+<span class="nc" id="L110">    invocation.proceed();</span>
+<span class="nc" id="L111">  }</span>
 
 
   @Override
   public void beforeTestExecution(ExtensionContext context)
       throws IOException, InterruptedException, XmlPullParserException {
 
-<span class="nc" id="L122">    Method methodName = context.getTestMethod().orElseThrow(() -&gt; new IllegalStateException(&quot;No method given&quot;));</span>
+<span class="nc" id="L118">    Method methodName = context.getTestMethod().orElseThrow(() -&gt; new IllegalStateException(&quot;No method given&quot;));</span>
 
-<span class="nc" id="L124">    String prefix = &quot;mvn&quot;;</span>
-<span class="nc" id="L125">    Optional&lt;Class&lt;?&gt;&gt; mavenProject = AnnotationHelper.findMavenProjectAnnotation(context);</span>
+<span class="nc" id="L120">    String prefix = &quot;mvn&quot;;</span>
+<span class="nc" id="L121">    Optional&lt;Class&lt;?&gt;&gt; mavenProject = AnnotationHelper.findMavenProjectAnnotation(context);</span>
     //TODO: In cases where we have MavenProject it might be better to have
     // different directories (which would be more concise with the other assumptions) with directory idea instead
     // of prefixed files.
-<span class="nc bnc" id="L129" title="All 2 branches missed.">    if (mavenProject.isPresent()) {</span>
-<span class="nc" id="L130">      prefix = methodName.getName() + &quot;-mvn&quot;;</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">    if (mavenProject.isPresent()) {</span>
+<span class="nc" id="L126">      prefix = methodName.getName() + &quot;-mvn&quot;;</span>
     }
 
-<span class="nc" id="L133">    DirectoryResolverResult directoryResolverResult = new DirectoryResolverResult(context);</span>
-<span class="nc" id="L134">    File integrationTestCaseDirectory = directoryResolverResult.getIntegrationTestCaseDirectory();</span>
-<span class="nc" id="L135">    integrationTestCaseDirectory.mkdirs();</span>
+<span class="nc" id="L129">    DirectoryResolverResult directoryResolverResult = new DirectoryResolverResult(context);</span>
+<span class="nc" id="L130">    File integrationTestCaseDirectory = directoryResolverResult.getIntegrationTestCaseDirectory();</span>
+<span class="nc" id="L131">    integrationTestCaseDirectory.mkdirs();</span>
 
-<span class="nc bnc" id="L137" title="All 2 branches missed.">    if (mavenProject.isPresent()) {</span>
-<span class="nc bnc" id="L138" title="All 2 branches missed.">      if (!directoryResolverResult.getProjectDirectory().exists()) {</span>
-<span class="nc" id="L139">        directoryResolverResult.getProjectDirectory().mkdirs();</span>
-<span class="nc" id="L140">        directoryResolverResult.getCacheDirectory().mkdirs();</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">    if (mavenProject.isPresent()) {</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">      if (!directoryResolverResult.getProjectDirectory().exists()) {</span>
+<span class="nc" id="L135">        directoryResolverResult.getProjectDirectory().mkdirs();</span>
+<span class="nc" id="L136">        directoryResolverResult.getCacheDirectory().mkdirs();</span>
 
-<span class="nc" id="L142">        FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),</span>
-<span class="nc" id="L143">            directoryResolverResult.getProjectDirectory());</span>
-<span class="nc" id="L144">        FileUtils.copyDirectory(directoryResolverResult.getComponentUnderTestDirectory(),</span>
-<span class="nc" id="L145">            directoryResolverResult.getCacheDirectory());</span>
+<span class="nc" id="L138">        FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),</span>
+<span class="nc" id="L139">            directoryResolverResult.getProjectDirectory());</span>
+<span class="nc" id="L140">        FileUtils.copyDirectory(directoryResolverResult.getComponentUnderTestDirectory(),</span>
+<span class="nc" id="L141">            directoryResolverResult.getCacheDirectory());</span>
       }
     } else {
-<span class="nc" id="L148">      FileUtils.deleteQuietly(directoryResolverResult.getProjectDirectory());</span>
-<span class="nc" id="L149">      directoryResolverResult.getProjectDirectory().mkdirs();</span>
-<span class="nc" id="L150">      directoryResolverResult.getCacheDirectory().mkdirs();</span>
+<span class="nc" id="L144">      FileUtils.deleteQuietly(directoryResolverResult.getProjectDirectory());</span>
+<span class="nc" id="L145">      directoryResolverResult.getProjectDirectory().mkdirs();</span>
+<span class="nc" id="L146">      directoryResolverResult.getCacheDirectory().mkdirs();</span>
 
-<span class="nc" id="L152">      FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),</span>
-<span class="nc" id="L153">          directoryResolverResult.getProjectDirectory());</span>
-<span class="nc" id="L154">      FileUtils.copyDirectory(directoryResolverResult.getComponentUnderTestDirectory(),</span>
-<span class="nc" id="L155">          directoryResolverResult.getCacheDirectory());</span>
+<span class="nc" id="L148">      FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),</span>
+<span class="nc" id="L149">          directoryResolverResult.getProjectDirectory());</span>
+<span class="nc" id="L150">      FileUtils.copyDirectory(directoryResolverResult.getComponentUnderTestDirectory(),</span>
+<span class="nc" id="L151">          directoryResolverResult.getCacheDirectory());</span>
     }
 
     //Copy &quot;.predefined-repo&quot; into &quot;.m2/repository&quot;
-<span class="nc" id="L159">    Optional&lt;File&gt; predefinedRepository = directoryResolverResult.getPredefinedRepository();</span>
-<span class="nc bnc" id="L160" title="All 2 branches missed.">    if (predefinedRepository.isPresent()) {</span>
-<span class="nc" id="L161">      FileUtils.copyDirectory(predefinedRepository.get(),</span>
-<span class="nc" id="L162">          directoryResolverResult.getCacheDirectory());</span>
+<span class="nc" id="L155">    Optional&lt;File&gt; predefinedRepository = directoryResolverResult.getPredefinedRepository();</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">    if (predefinedRepository.isPresent()) {</span>
+<span class="nc" id="L157">      FileUtils.copyDirectory(predefinedRepository.get(),</span>
+<span class="nc" id="L158">          directoryResolverResult.getCacheDirectory());</span>
     } else {
-<span class="nc" id="L164">      boolean annotationPresent = methodName.isAnnotationPresent(MavenPredefinedRepository.class);</span>
-<span class="nc bnc" id="L165" title="All 2 branches missed.">      if (annotationPresent) {</span>
-<span class="nc" id="L166">        MavenPredefinedRepository annotation = methodName.getAnnotation(MavenPredefinedRepository.class);</span>
-<span class="nc" id="L167">        File predefinedRepoFile = new File(directoryResolverResult.getSourceMavenProject(), annotation.value());</span>
-<span class="nc" id="L168">        FileUtils.copyDirectory(predefinedRepoFile,</span>
-<span class="nc" id="L169">            directoryResolverResult.getCacheDirectory());</span>
+<span class="nc" id="L160">      boolean annotationPresent = methodName.isAnnotationPresent(MavenPredefinedRepository.class);</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">      if (annotationPresent) {</span>
+<span class="nc" id="L162">        MavenPredefinedRepository annotation = methodName.getAnnotation(MavenPredefinedRepository.class);</span>
+<span class="nc" id="L163">        File predefinedRepoFile = new File(directoryResolverResult.getSourceMavenProject(), annotation.value());</span>
+<span class="nc" id="L164">        FileUtils.copyDirectory(predefinedRepoFile,</span>
+<span class="nc" id="L165">            directoryResolverResult.getCacheDirectory());</span>
       }
     }
 
-<span class="nc" id="L173">    Optional&lt;File&gt; mvnLocation = new MavenLocator().findMvn();</span>
-<span class="nc bnc" id="L174" title="All 2 branches missed.">    if (!mvnLocation.isPresent()) {</span>
-<span class="nc" id="L175">      LOGGER.error(() -&gt; String.format(&quot;We could not find the maven executable `mvn` somewhere&quot;));</span>
-<span class="nc" id="L176">      throw new IllegalStateException(&quot;We can't find maven executable anywhere.&quot;);</span>
+<span class="nc" id="L169">    Optional&lt;File&gt; mvnLocation = new MavenLocator().findMvn();</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">    if (!mvnLocation.isPresent()) {</span>
+<span class="nc" id="L171">      throw new IllegalStateException(String.format(&quot;We could not find the maven executable `mvn` somewhere&quot;));</span>
     }
 
-<span class="nc" id="L179">    ApplicationExecutor mavenExecutor = new ApplicationExecutor(directoryResolverResult.getProjectDirectory(),</span>
-<span class="nc" id="L180">        integrationTestCaseDirectory, mvnLocation.get(), Collections.emptyList(), prefix);</span>
+<span class="nc" id="L174">    ApplicationExecutor mavenExecutor = new ApplicationExecutor(directoryResolverResult.getProjectDirectory(),</span>
+<span class="nc" id="L175">        integrationTestCaseDirectory, mvnLocation.get(), Collections.emptyList(), prefix);</span>
 
-<span class="nc" id="L182">    List&lt;String&gt; executionArguments = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L177">    List&lt;String&gt; executionArguments = new ArrayList&lt;&gt;();</span>
 
 
-<span class="nc" id="L185">    List&lt;String&gt; defaultArguments = Arrays.asList(</span>
-<span class="nc" id="L186">        &quot;-Dmaven.repo.local=&quot; + directoryResolverResult.getCacheDirectory().toString(), MavenOptions.BATCH_MODE, MavenOptions.SHOW_VERSION);</span>
-<span class="nc" id="L187">    executionArguments.addAll(defaultArguments);</span>
+<span class="nc" id="L180">    List&lt;String&gt; defaultArguments = Arrays.asList(</span>
+<span class="nc" id="L181">        &quot;-Dmaven.repo.local=&quot; + directoryResolverResult.getCacheDirectory().toString(), MavenOptions.BATCH_MODE, MavenOptions.SHOW_VERSION);</span>
+<span class="nc" id="L182">    executionArguments.addAll(defaultArguments);</span>
 
-<span class="nc bnc" id="L189" title="All 2 branches missed.">    if (hasActiveProfiles(methodName)) {</span>
-<span class="nc" id="L190">      String collect = Stream.of(getActiveProfiles(methodName))</span>
-<span class="nc" id="L191">          .collect(joining(&quot;,&quot;, MavenOptions.ACTIVATE_PROFILES, &quot;&quot;));</span>
-<span class="nc" id="L192">      executionArguments.add(collect);</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">    if (hasActiveProfiles(methodName)) {</span>
+<span class="nc" id="L185">      String collect = Stream.of(getActiveProfiles(methodName))</span>
+<span class="nc" id="L186">          .collect(joining(&quot;,&quot;, MavenOptions.ACTIVATE_PROFILES, &quot;&quot;));</span>
+<span class="nc" id="L187">      executionArguments.add(collect);</span>
     }
 
 
-<span class="nc bnc" id="L196" title="All 2 branches missed.">    if (isDebug(methodName)) {</span>
-<span class="nc" id="L197">      executionArguments.add(MavenOptions.DEBUG);</span>
+<span class="nc bnc" id="L191" title="All 2 branches missed.">    if (isDebug(methodName)) {</span>
+<span class="nc" id="L192">      executionArguments.add(MavenOptions.DEBUG);</span>
     }
 
-<span class="nc" id="L200">    executionArguments.addAll(Stream.of(getCommandLineSystemProperties(methodName))</span>
-<span class="nc" id="L201">        .map(arg -&gt; &quot;-D&quot; + arg).collect(toList()));</span>
-<span class="nc" id="L202">    executionArguments.addAll(Stream.of(getCommandLineOptions(methodName)).collect(toList()));</span>
+<span class="nc" id="L195">    executionArguments.addAll(Stream.of(getCommandLineSystemProperties(methodName))</span>
+<span class="nc" id="L196">        .map(arg -&gt; &quot;-D&quot; + arg).collect(toList()));</span>
+<span class="nc" id="L197">    executionArguments.addAll(Stream.of(getCommandLineOptions(methodName)).collect(toList()));</span>
 
-<span class="nc" id="L204">    Class&lt;?&gt; mavenIT = AnnotationHelper.findMavenITAnnotation(context).orElseThrow(IllegalStateException::new);</span>
-<span class="nc" id="L205">    MavenIT mavenITAnnotation = mavenIT.getAnnotation(MavenIT.class);</span>
+<span class="nc" id="L199">    Class&lt;?&gt; mavenIT = AnnotationHelper.findMavenITAnnotation(context).orElseThrow(IllegalStateException::new);</span>
+<span class="nc" id="L200">    MavenJupiterExtension mavenJupiterExtensionAnnotation = mavenIT.getAnnotation(MavenJupiterExtension.class);</span>
 
     //FIXME: Need to introduce better directory names
     //Refactor out the following lines
-<span class="nc" id="L209">    File mavenBaseDirectory = new File(directoryResolverResult.getTargetDirectory(), &quot;..&quot;);</span>
-<span class="nc" id="L210">    File pomFile = new File(mavenBaseDirectory, &quot;pom.xml&quot;);</span>
-<span class="nc" id="L211">    PomReader pomReader = new PomReader(new FileInputStream(pomFile));</span>
-<span class="nc" id="L212">    ModelReader modelReader = new ModelReader(pomReader.getModel());</span>
-<span class="nc" id="L213">    Map&lt;String, String&gt; keyValues = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L204">    File mavenBaseDirectory = new File(directoryResolverResult.getTargetDirectory(), &quot;..&quot;);</span>
+<span class="nc" id="L205">    File pomFile = new File(mavenBaseDirectory, &quot;pom.xml&quot;);</span>
+<span class="nc" id="L206">    PomReader pomReader = new PomReader(new FileInputStream(pomFile));</span>
+<span class="nc" id="L207">    ModelReader modelReader = new ModelReader(pomReader.getModel());</span>
+<span class="nc" id="L208">    Map&lt;String, String&gt; keyValues = new HashMap&lt;&gt;();</span>
     //The following three elements we are reading from the original pom file.
-<span class="nc" id="L215">    keyValues.put(&quot;project.groupId&quot;, modelReader.getGroupId());</span>
-<span class="nc" id="L216">    keyValues.put(&quot;project.artifactId&quot;, modelReader.getArtifactId());</span>
-<span class="nc" id="L217">    keyValues.put(&quot;project.version&quot;, modelReader.getVersion());</span>
+<span class="nc" id="L210">    keyValues.put(&quot;project.groupId&quot;, modelReader.getGroupId());</span>
+<span class="nc" id="L211">    keyValues.put(&quot;project.artifactId&quot;, modelReader.getArtifactId());</span>
+<span class="nc" id="L212">    keyValues.put(&quot;project.version&quot;, modelReader.getVersion());</span>
 
-<span class="nc" id="L219">    List&lt;String&gt; resultingGoals = Stream.of(GoalPriority.goals(mavenITAnnotation.goals(), getGoals(methodName))).collect(toList());</span>
-<span class="nc" id="L220">    PropertiesFilter propertiesFilter = new PropertiesFilter(keyValues, resultingGoals);</span>
+<span class="nc" id="L214">    List&lt;String&gt; resultingGoals = Stream.of(GoalPriority.goals(mavenJupiterExtensionAnnotation.goals(), getGoals(methodName))).collect(toList());</span>
+<span class="nc" id="L215">    PropertiesFilter propertiesFilter = new PropertiesFilter(keyValues, resultingGoals);</span>
 
     //TODO: We should consider to make replacements also in systemProperties annotation possible.
 
-<span class="nc" id="L224">    List&lt;String&gt; filteredGoals = propertiesFilter.filter();</span>
-<span class="nc" id="L225">    executionArguments.addAll(filteredGoals);</span>
+<span class="nc" id="L219">    List&lt;String&gt; filteredGoals = propertiesFilter.filter();</span>
+<span class="nc" id="L220">    executionArguments.addAll(filteredGoals);</span>
 
-<span class="nc" id="L227">    Process start = mavenExecutor.start(executionArguments);</span>
+<span class="nc" id="L222">    Process start = mavenExecutor.start(executionArguments);</span>
 
-<span class="nc" id="L229">    int processCompletableFuture = start.waitFor();</span>
+<span class="nc" id="L224">    int processCompletableFuture = start.waitFor();</span>
 
-<span class="nc" id="L231">    ExecutionResult executionResult = ExecutionResult.Successful;</span>
-<span class="nc bnc" id="L232" title="All 2 branches missed.">    if (processCompletableFuture != 0) {</span>
-<span class="nc" id="L233">      executionResult = ExecutionResult.Failure;</span>
+<span class="nc" id="L226">    ExecutionResult executionResult = ExecutionResult.Successful;</span>
+<span class="nc bnc" id="L227" title="All 2 branches missed.">    if (processCompletableFuture != 0) {</span>
+<span class="nc" id="L228">      executionResult = ExecutionResult.Failure;</span>
     }
 
-<span class="nc" id="L236">    MavenLog log = new MavenLog(mavenExecutor.getStdout(), mavenExecutor.getStdErr());</span>
-<span class="nc" id="L237">    MavenCacheResult mavenCacheResult = new MavenCacheResult(directoryResolverResult.getCacheDirectory().toPath());</span>
+<span class="nc" id="L231">    MavenLog log = new MavenLog(mavenExecutor.getStdout(), mavenExecutor.getStdErr());</span>
+<span class="nc" id="L232">    MavenCacheResult mavenCacheResult = new MavenCacheResult(directoryResolverResult.getCacheDirectory().toPath());</span>
 
-<span class="nc" id="L239">    Model model = ProjectHelper.readProject(directoryResolverResult.getProjectDirectory());</span>
-<span class="nc" id="L240">    MavenProjectResult mavenProjectResult = new MavenProjectResult(directoryResolverResult.getProjectDirectory(),</span>
+<span class="nc" id="L234">    Model model = ProjectHelper.readProject(directoryResolverResult.getProjectDirectory());</span>
+<span class="nc" id="L235">    MavenProjectResult mavenProjectResult = new MavenProjectResult(directoryResolverResult.getProjectDirectory(),</span>
         model);
 
-<span class="nc" id="L243">    MavenExecutionResult result = new MavenExecutionResult(executionResult, processCompletableFuture, log,</span>
+<span class="nc" id="L238">    MavenExecutionResult result = new MavenExecutionResult(executionResult, processCompletableFuture, log,</span>
         mavenProjectResult, mavenCacheResult);
 
-<span class="nc" id="L246">    new StorageHelper(context).save(result, log, mavenCacheResult, mavenProjectResult);</span>
-<span class="nc" id="L247">  }</span>
+<span class="nc" id="L241">    new StorageHelper(context).save(result, log, mavenCacheResult, mavenProjectResult);</span>
+<span class="nc" id="L242">  }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -4,11 +4,11 @@ itf-jupiter-extension,com.soebes.itf.jupiter.extension,PomReader,0,15,0,0,0,5,0,
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,ModelReader,0,36,0,4,0,10,0,6,0,4
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,StorageHelper,110,0,0,0,19,0,7,0,7,0
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,DirectoryHelper,24,0,0,0,4,0,4,0,4,0
-itf-jupiter-extension,com.soebes.itf.jupiter.extension,MavenVersion,207,0,2,0,28,0,8,0,7,0
-itf-jupiter-extension,com.soebes.itf.jupiter.extension,MavenITExtension,492,0,22,0,98,0,25,0,14,0
+itf-jupiter-extension,com.soebes.itf.jupiter.extension,MavenVersion,205,0,2,0,27,0,8,0,7,0
+itf-jupiter-extension,com.soebes.itf.jupiter.extension,MavenITExtension,484,0,22,0,96,0,23,0,12,0
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,Storage,34,0,0,0,4,0,1,0,1,0
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,GoalPriority,3,15,0,2,1,5,1,2,1,1
-itf-jupiter-extension,com.soebes.itf.jupiter.extension,MavenLocator,237,0,30,0,44,0,28,0,13,0
+itf-jupiter-extension,com.soebes.itf.jupiter.extension,MavenLocator,208,0,30,0,40,0,25,0,10,0
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,StringInterpolator,0,69,0,4,0,16,0,5,0,3
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,ApplicationExecutor,239,0,2,0,39,0,9,0,8,0
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,Preconditions,7,26,2,4,3,7,3,4,1,3
