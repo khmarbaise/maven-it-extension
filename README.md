@@ -53,7 +53,7 @@ I think it's time to come up with a more modern setup and started this project.
 The basic idea rest upon the option to write custom [extension with JUnit Jupiter][junit-jupiter-extension]
 for [JUnit Jupiter][junit-jupiter-extension] testing framework which makes it very easy to get things done.
 
-So in general the whole Integration Testing Framework in it's core (itf-jupiter-extension) is a 
+So in general the whole Integration Testing Framework in its core (itf-jupiter-extension) is a 
 [JUnit Jupiter extension][junit-jupiter-extension] which delivers supplemental support for a testing
 framework in general and in particular for using integration tests.
 Of course there is a lot of convenience integrated into it to make integration testing of Maven plugins easier.
@@ -152,7 +152,7 @@ will execute the integration tests which checks the functionality; The second pa
   </plugin>
 </project...>
 ```
-Finally you have to add the configuration to copy the projects which are the test cases by adding the following
+Finally, you have to add the configuration to copy the projects which are the test cases by adding the following
 (part 3 of the involved parties):
 ```xml
 <project...>
@@ -300,7 +300,7 @@ make the development of the plugin easier.
 # Concept and Background Guide
 
 The concept guide decribe my ideas I have in mind (just not to forget them). It is
-neither a roadmap or about future releases etc. It's only intended to keep my ideas at a central location.
+neither a roadmap nor about future releases etc. It's only intended to keep my ideas at a central location.
 
   * [![PDF](https://img.shields.io/badge/PDF-Conceptguide-orange)][conceptguide-pdf]
   * [![HTML](https://img.shields.io/badge/HTML-Conceptguide-orange)][conceptguide-html]
