@@ -32,7 +32,7 @@
 
 :release-0_6_0: https://github.com/khmarbaise/maven-it-extension/milestone/6?closed=1
 
-*Date of Release:* ??, 2020
+*Date of Release:* May 21, 2020
 
 *Scope:*
 
@@ -63,15 +63,7 @@
 
  * Sandra Parsick {issue-78} - put section "configuration in maven" before section "Structuring Integration Tests"
 
-*Dependency Upgrades*
-
- * {issue-??} - ??
-
-*Build Improvements*
-
-* {issue-??} - ??
-
-*GitHub Improvments*
+*GitHub Improvements*
 
  * {issue-69} - Add templates for issues/features requests
  * {issue-74} - Recreate issue templaes
