@@ -26,6 +26,7 @@
 :issue-76: https://github.com/khmarbaise/maven-it-extension/issues/76[Fixed #76]
 :issue-77: https://github.com/khmarbaise/maven-it-extension/issues/77[Fixed #77]
 :issue-78: https://github.com/khmarbaise/maven-it-extension/issues/78[Fixed #78]
+:issue-80: https://github.com/khmarbaise/maven-it-extension/issues/80[Fixed #80]
 :issue-81: https://github.com/khmarbaise/maven-it-extension/issues/81[Fixed #81]
 :issue-84: https://github.com/khmarbaise/maven-it-extension/issues/84[Fixed #84]
 
@@ -48,12 +49,15 @@
 
  * With {issue-68} - we have renamed the `@MavenIT` annotation into `@MavenJupiterExtension` to make the
    intention more clear.
+ * With {issue-80} - We have removed the previously needed log4j dependencies at all. In testing
+   projects there is no need anymore in adding `log4j-core` dependency.
 
 *Reporters of this release*
 
  * Roland Weisleder
    ** {issue-76} - "Getting started" is hard to find.
    ** {issue-77} - Code in section "Configuration in Maven" (user guide) should be copy-pastable
+   ** {issue-80} - Error message "Log4j2 could not find a logging implementation"
 
 *Contributors of this release*
 

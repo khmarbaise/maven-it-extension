@@ -26,8 +26,6 @@ import com.soebes.itf.jupiter.maven.MavenLog;
 import com.soebes.itf.jupiter.maven.MavenProjectResult;
 import com.soebes.itf.jupiter.maven.ProjectHelper;
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.maven.model.Model;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
@@ -67,8 +65,6 @@ import static java.util.stream.Collectors.toList;
  */
 public class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeTestExecutionCallback,
     InvocationInterceptor {
-
-  private static final Logger LOGGER = LogManager.getLogger();
 
   @Override
   public void beforeEach(ExtensionContext context) {
@@ -172,8 +168,7 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
 
     Optional<File> mvnLocation = new MavenLocator().findMvn();
     if (!mvnLocation.isPresent()) {
-      LOGGER.error(() -> String.format("We could not find the maven executable `mvn` somewhere"));
-      throw new IllegalStateException("We can't find maven executable anywhere.");
+      throw new IllegalStateException(String.format("We could not find the maven executable `mvn` somewhere"));
     }
 
     ApplicationExecutor mavenExecutor = new ApplicationExecutor(directoryResolverResult.getProjectDirectory(),

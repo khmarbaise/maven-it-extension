@@ -19,8 +19,6 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.condition.OS;
 
 import java.io.File;
@@ -46,7 +44,6 @@ import java.util.regex.Pattern;
  * but they also lack the support of toFile().
  */
 class MavenLocator {
-  private static final Logger LOGGER = LogManager.getLogger();
 
   private static final String MAVEN_HOME = "maven.home";
 
@@ -116,7 +113,6 @@ class MavenLocator {
     for (String item : split) {
       Optional<File> mvnLocation = checkExecutable(Paths.get(item));
       if (mvnLocation.isPresent()) {
-        LOGGER.debug(() -> String.format("mvnLocation: '%s'", mvnLocation));
         return mvnLocation;
       }
     }
@@ -128,9 +124,6 @@ class MavenLocator {
     if (s.isPresent()) {
       Optional<File> file = checkExecutable(Paths.get(s.get(), "bin"));
       if (!file.isPresent()) {
-        LOGGER.error(() -> String.format(
-            "We couldn't find an mvn executable via maven.home system property: '%s'",
-            System.getProperty(MAVEN_HOME)));
         return Optional.empty();
       }
       return checkExecutableViaPathEnvironment();
