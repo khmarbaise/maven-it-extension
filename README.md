@@ -30,9 +30,9 @@
 -->
 | Release        | Maven Central                                       | Release Notes                                                     |                           Users Guide                          |
 | -------------- | --------------------------------------------------- | ----------------------------------------------------------------: | -------------------------------------------------------------: |
-| 0.5.0          | [![Maven Central][shield-central]][central-search]  | [![PDF][stable-pdf-releasenotes]][releasenotes-pdf]               | [![PDF][stable-pdf-usersguide]][usersguide-pdf]                |
+| 0.6.0          | [![Maven Central][shield-central]][central-search]  | [![PDF][stable-pdf-releasenotes]][releasenotes-pdf]               | [![PDF][stable-pdf-usersguide]][usersguide-pdf]                |
 |                |                                                     | [![HTML][stable-html-release]][releasenotes-html]                 | [![HTML][stable-html-usersgude]][usersguide-html]              |
-| 0.6.0-SNAPSHOT | ![Maven Central][not-available-in-central]          | [![PDF][unstable-pdf-releasenotes]][unstable-releasenotes-pdf]    | [![PDF][unstable-pdf-usersguide]][unstable-usersguide-pdf]     |
+| 0.7.0-SNAPSHOT | ![Maven Central][not-available-in-central]          | [![PDF][unstable-pdf-releasenotes]][unstable-releasenotes-pdf]    | [![PDF][unstable-pdf-usersguide]][unstable-usersguide-pdf]     |
 |                |                                                     | [![HTML][unstable-html-releasenotes]][unstable-releasenotes-html] | [![HTML][unstable-html-usersguide]][unstable-usersguide-html]  |
 
 
@@ -83,7 +83,7 @@ The first thing before you can run integration tests is to add the following dep
     <dependency>
       <groupId>com.soebes.itf.jupiter.extension</groupId>
       <artifactId>itf-jupiter-extension</artifactId>
-      <version>0.5.0</version>
+      <version>0.6.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -104,7 +104,7 @@ is involved:
     <plugin>
       <groupId>com.soebes.itf.jupiter.extension</groupId>
       <artifactId>itf-maven-plugin</artifactId>
-      <version>0.5.0</version>
+      <version>0.6.0</version>
       <executions>
         <execution>
           <id>installing</id>
@@ -330,15 +330,15 @@ The background guide is a conclusion about the reason I had to start this projec
 [unstable-releasenotes-html]: https://khmarbaise.github.io/maven-it-extension/snapshot/itf-documentation/usersguide/release-notes/release-notes.html
 [unstable-releasenotes-pdf]: https://khmarbaise.github.io/maven-it-extension/snapshot/itf-documentation/usersguide/release-notes/release-notes.pdf
 
-[stable-html-release]: https://img.shields.io/badge/0.5.0-HTML--Releasenotes-green
-[stable-html-usersgude]: https://img.shields.io/badge/0.5.0-HTML--Usersguide-green
-[stable-pdf-releasenotes]: https://img.shields.io/badge/0.5.0-PDF--Releasenotes-green
-[stable-pdf-usersguide]: https://img.shields.io/badge/0.5.0-PDF--Usersguide-green
+[stable-html-release]: https://img.shields.io/badge/0.6.0-HTML--Releasenotes-green
+[stable-html-usersgude]: https://img.shields.io/badge/0.6.0-HTML--Usersguide-green
+[stable-pdf-releasenotes]: https://img.shields.io/badge/0.6.0-PDF--Releasenotes-green
+[stable-pdf-usersguide]: https://img.shields.io/badge/0.6.0-PDF--Usersguide-green
 
-[unstable-pdf-releasenotes]: https://img.shields.io/badge/0.6.0--SNAPSHOT-PDF--Releasenotes-orange
-[unstable-html-releasenotes]: https://img.shields.io/badge/0.6.0--SNAPSHOT-HTML--Releasenotes-orange
-[unstable-pdf-usersguide]: https://img.shields.io/badge/0.6.0--SNAPSHOT-PDF--Usersguide-orange
-[unstable-html-usersguide]: https://img.shields.io/badge/0.6.0--SNAPSHOT-HTML--Usersguide-orange
+[unstable-pdf-releasenotes]: https://img.shields.io/badge/0.7.0--SNAPSHOT-PDF--Releasenotes-orange
+[unstable-html-releasenotes]: https://img.shields.io/badge/0.7.0--SNAPSHOT-HTML--Releasenotes-orange
+[unstable-pdf-usersguide]: https://img.shields.io/badge/0.7.0--SNAPSHOT-PDF--Usersguide-orange
+[unstable-html-usersguide]: https://img.shields.io/badge/0.7.0--SNAPSHOT-HTML--Usersguide-orange
 
 [shield-central]: https://img.shields.io/maven-central/v/com.soebes.itf.jupiter.extension/itf-jupiter-extension.svg?label=Maven%20Central
 [central-search]: https://search.maven.org/search?q=g%3Acom.soebes.itf.jupiter.extension

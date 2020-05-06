@@ -29,6 +29,8 @@ releases since 0.1.0.
 Please refer to the <<../user-guide/index.adoc#user-guide,User Guide>> for comprehensive
 overview and detailed instructions how to use the Integration Testing Framework.
 
+include::{sourcedir}/_release-notes-0.7.0.adoc[]
+
 include::{sourcedir}/_release-notes-0.6.0.adoc[]
 
 include::{sourcedir}/_release-notes-0.5.0.adoc[]
