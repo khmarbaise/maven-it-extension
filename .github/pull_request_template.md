@@ -1,5 +1,6 @@
 This checklist will help us to incorporate your contribution quickly and easily:
 
+ - [ ] Make sure you have read the [contributing guide](https://github.com/khmarbaise/maven-it-extension/blob/master/CONTRIBUTION.md).
  - [ ] Make sure there is a [issue](https://github.com/khmarbaise/maven-it-extension/issues) filed 
        for the change (usually before you start working on it). Trivial changes like typos do not 
        require a issue.  Your pull request should address just this issue, without 

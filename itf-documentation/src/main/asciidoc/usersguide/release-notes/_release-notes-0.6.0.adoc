@@ -27,6 +27,7 @@
 :issue-77: https://github.com/khmarbaise/maven-it-extension/issues/77[Fixed #77]
 :issue-78: https://github.com/khmarbaise/maven-it-extension/issues/78[Fixed #78]
 :issue-81: https://github.com/khmarbaise/maven-it-extension/issues/81[Fixed #81]
+:issue-84: https://github.com/khmarbaise/maven-it-extension/issues/84[Fixed #84]
 
 :release-0_6_0: https://github.com/khmarbaise/maven-it-extension/milestone/6?closed=1
 
@@ -72,5 +73,6 @@
  * {issue-74} - Recreate issue templaes
  * {issue-75} - Separate documentation for master and release
  * {issue-81} - Added CONTRIBUTION.md guide.
+ * {issue-84} - Rename CONTRIBUTION.md into CONTRIBUTING.md 
 
 The full release notes can be found here {release-0_6_0}[Release 0.6.0].
