@@ -18,6 +18,7 @@
 [[release-notes-0.7.0]]
 == Pre-release 0.7.0
 
+:issue-85: https://github.com/khmarbaise/maven-it-extension/issues/85[Fixed #85]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release-0.7.0: https://github.com/khmarbaise/maven-it-extension/milestone/7?closed=1
@@ -51,7 +52,7 @@
 
 *Dependency Upgrades*
 
-* {issue-??} - ??
+* {issue-85} - Upgrade AssertJ from 3.15.0 to 3.16.0
 
 *Build Improvements*
 
