@@ -41,7 +41,7 @@ class BasicIT {
 
   /**
    * The test will check that the jar of the test project will be installed into the
-   * {@code itf-repo} and the appropriate {@codoe pom.xml} file.
+   * {@code itf-repo} and the appropriate {@code pom.xml} file.
    * <p>
    * The given test project does not have any dependencies nor any code.
    * <p>
@@ -76,7 +76,7 @@ class BasicIT {
 
   /**
    * The test will check that the jar of the test project and the single dependency
-   * will be installed into the {@code itf-repo} and the appropriate {@codoe pom.xml} file.
+   * will be installed into the {@code itf-repo} and the appropriate {@code pom.xml} file.
    * <p>
    * The given test project has only a single dependency but no code at all.
    * The single dependency is <a href="https://search.maven.org/artifact/org.apiguardian/apiguardian-api/1.1.0/jar">apiguardian-api 1.1.0</a>
