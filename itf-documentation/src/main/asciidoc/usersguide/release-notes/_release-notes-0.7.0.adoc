@@ -20,6 +20,7 @@
 
 :issue-85: https://github.com/khmarbaise/maven-it-extension/issues/85[Fixed #85]
 :issue-86: https://github.com/khmarbaise/maven-it-extension/issues/86[Fixed #86]
+:issue-89: https://github.com/khmarbaise/maven-it-extension/issues/89[Fixed #89]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release-0.7.0: https://github.com/khmarbaise/maven-it-extension/milestone/7?closed=1
@@ -54,6 +55,7 @@
 *Dependency Upgrades*
 
 * {issue-85} - Upgrade AssertJ from 3.15.0 to 3.16.0
+* {issue-89} - Upgrade AssertJ from 3.16.0 to 3.16.1
 * {issue-86} - Upgrade xmlunit-assertj from 2.6.3 to 2.6.4
 
 *Build Improvements*
