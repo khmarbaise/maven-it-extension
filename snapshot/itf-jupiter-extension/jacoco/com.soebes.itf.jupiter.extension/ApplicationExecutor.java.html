@@ -44,7 +44,7 @@ public class ApplicationExecutor {
 
   private final File workingDirectory;
 
-  private final File applicationExecutable;
+  private final Path applicationExecutable;
 
   private final List&lt;String&gt; jvmArguments;
 
@@ -52,7 +52,7 @@ public class ApplicationExecutor {
 
   private final String javaHome;
 
-  public ApplicationExecutor(String javaHome, File loggingDirectory, File workingDirectory, File applicationExecutable,
+  public ApplicationExecutor(String javaHome, File loggingDirectory, File workingDirectory, Path applicationExecutable,
 <span class="nc" id="L56">                             List&lt;String&gt; jvmArguments, String prefix) {</span>
 <span class="nc" id="L57">    this.javaHome = javaHome;</span>
 <span class="nc" id="L58">    this.loggingDirectory = loggingDirectory;</span>
@@ -62,7 +62,7 @@ public class ApplicationExecutor {
 <span class="nc" id="L62">    this.prefix = prefix;</span>
 <span class="nc" id="L63">  }</span>
 
-  public ApplicationExecutor(File workingDirectory, File loggingDirectory, File applicationExecutable,
+  public ApplicationExecutor(File workingDirectory, File loggingDirectory, Path applicationExecutable,
                              List&lt;String&gt; jvmArguments, String prefix) {
     //TODO: This should be made configurable
 <span class="nc" id="L68">    this(System.getProperty(&quot;java.home&quot;), loggingDirectory, workingDirectory, applicationExecutable, jvmArguments,</span>
@@ -114,14 +114,6 @@ public class ApplicationExecutor {
 
   public Path getStdErr() {
 <span class="nc" id="L116">    return Paths.get(loggingDirectory.toString(), this.prefix + &quot;-stderr.out&quot;);</span>
-  }
-
-  private File doesApplicationExist() {
-<span class="nc" id="L120">    File application = this.applicationExecutable;</span>
-<span class="nc bnc" id="L121" title="All 2 branches missed.">    if (!application.exists()) {</span>
-<span class="nc" id="L122">      throw new IllegalStateException(&quot;The &quot; + applicationExecutable + &quot; does not exist.&quot;);</span>
-    }
-<span class="nc" id="L124">    return application;</span>
   }
 
 }
