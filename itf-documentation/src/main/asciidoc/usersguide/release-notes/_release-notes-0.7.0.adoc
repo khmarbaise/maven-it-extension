@@ -20,6 +20,7 @@
 
 :issue-85: https://github.com/khmarbaise/maven-it-extension/issues/85[Fixed #85]
 :issue-86: https://github.com/khmarbaise/maven-it-extension/issues/86[Fixed #86]
+:issue-88: https://github.com/khmarbaise/maven-it-extension/issues/88[Fixed #88]
 :issue-89: https://github.com/khmarbaise/maven-it-extension/issues/89[Fixed #89]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
@@ -41,8 +42,9 @@
 
 *Reporters of this release*
 
- * Name..
-   ** {issue-??} - ..
+ * Sandra Parsick
+   ** {issue-88} - System property maven.home is set but 'java.lang.IllegalStateException:
+                   We could not find the maven executable `mvn` somewhere' is thrown
 
 *Contributors of this release*
 

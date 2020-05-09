@@ -44,7 +44,7 @@ public class ApplicationExecutor {
 
   private final File workingDirectory;
 
-  private final File applicationExecutable;
+  private final Path applicationExecutable;
 
   private final List<String> jvmArguments;
 
@@ -52,7 +52,7 @@ public class ApplicationExecutor {
 
   private final String javaHome;
 
-  public ApplicationExecutor(String javaHome, File loggingDirectory, File workingDirectory, File applicationExecutable,
+  public ApplicationExecutor(String javaHome, File loggingDirectory, File workingDirectory, Path applicationExecutable,
                              List<String> jvmArguments, String prefix) {
     this.javaHome = javaHome;
     this.loggingDirectory = loggingDirectory;
@@ -62,7 +62,7 @@ public class ApplicationExecutor {
     this.prefix = prefix;
   }
 
-  public ApplicationExecutor(File workingDirectory, File loggingDirectory, File applicationExecutable,
+  public ApplicationExecutor(File workingDirectory, File loggingDirectory, Path applicationExecutable,
                              List<String> jvmArguments, String prefix) {
     //TODO: This should be made configurable
     this(System.getProperty("java.home"), loggingDirectory, workingDirectory, applicationExecutable, jvmArguments,
@@ -114,14 +114,6 @@ public class ApplicationExecutor {
 
   public Path getStdErr() {
     return Paths.get(loggingDirectory.toString(), this.prefix + "-stderr.out");
-  }
-
-  private File doesApplicationExist() {
-    File application = this.applicationExecutable;
-    if (!application.exists()) {
-      throw new IllegalStateException("The " + applicationExecutable + " does not exist.");
-    }
-    return application;
   }
 
 }

@@ -28,6 +28,7 @@ import com.soebes.itf.jupiter.maven.ProjectHelper;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.model.Model;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionConfigurationException;
@@ -42,6 +43,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -166,7 +169,7 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
       }
     }
 
-    Optional<File> mvnLocation = new MavenLocator().findMvn();
+    Optional<Path> mvnLocation = new MavenLocator(FileSystems.getDefault(), System.getenv(), OS.WINDOWS.isCurrentOs()).findMvn();
     if (!mvnLocation.isPresent()) {
       throw new IllegalStateException(String.format("We could not find the maven executable `mvn` somewhere"));
     }

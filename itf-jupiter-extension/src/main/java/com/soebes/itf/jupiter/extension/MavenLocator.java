@@ -19,11 +19,10 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import org.junit.jupiter.api.condition.OS;
-
-import java.io.File;
+import java.nio.file.FileSystem;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -39,94 +38,126 @@ import java.util.regex.Pattern;
  * @author Karl Heinz Marbaise
  * @implNote Currently {@code maven.home} is given to the maven-failsafe-plugin
  * configuration as a system property.
- * @implSpec Unfortunately there is currently no option to write tests which
- * contains toFile() of Path. I've tried with https://github.com/google/jimfs
- * but they also lack the support of toFile().
+ * The parameter {@code isRunningOnWindows} is used instead
+ * of using things like {@code org.junit.jupiter.api.condition.OS.WINDOWS.isCurrentOs()} cause
+ * they contain static initializers etc. which can't be tested.
  */
 class MavenLocator {
 
+  /**
+   * The name of the system property.
+   */
   private static final String MAVEN_HOME = "maven.home";
 
-  MavenLocator() {
+
+  private final FileSystem fileSystem;
+  private final Map<String, String> environment;
+  private final boolean isRunningOnWindows;
+
+  /**
+   * @param fileSystem The {@link FileSystem} which is used.
+   * @param environment The environment which is used. Needed to find {@code PATH}
+   * @param isRunningOnWindows {@code true} when running on Windows, false otherwise.
+   */
+  MavenLocator(FileSystem fileSystem, Map<String, String> environment, boolean isRunningOnWindows) {
+    this.fileSystem = fileSystem;
+    this.environment = environment;
+    this.isRunningOnWindows = isRunningOnWindows;
   }
 
-  Optional<String> mavenHomeFromSystemProperty() {
+  private Path intoPath(String s) {
+    return this.fileSystem.getPath(s);
+  }
+
+  private Path intoBin(Path p) {
+    return p.resolve("bin");
+  }
+  private Optional<String> mavenHomeFromSystemProperty() {
     if (System.getProperties().containsKey(MAVEN_HOME)) {
+      //TODO: Need to reconsider in cases where defined {@code maven.home} with empty value?
       return Optional.of(System.getProperty(MAVEN_HOME));
     } else {
       return Optional.empty();
     }
   }
 
-  private File toBatFile(Path path) {
-    return Paths.get(path.toAbsolutePath() + ".bat").toFile();
+  private Path toMvn(Path p) {
+    return p.resolve("mvn");
   }
 
-  private File toCmdFile(Path path) {
-    return Paths.get(path.toAbsolutePath() + ".cmd").toFile();
+  private Path toBat(Path p) {
+    return p.resolve("mvn.bat");
   }
 
-  private File toFile(Path path) {
-    return Paths.get(path.toString()).toFile();
+  private Path toCmd(Path p) {
+    return p.resolve("mvn.cmd");
   }
 
-  Optional<File> checkOnNoneWindows(Path mavenHomeLocation) {
-    Path mvnBinPath = Paths.get(mavenHomeLocation.toString(), "mvn");
-    File executable = toFile(mvnBinPath);
-    if (executable.exists() && executable.isFile() && executable.canRead()) {
-      return Optional.of(executable);
-    }
-    return Optional.empty();
+  private boolean isExecutable(Path s) {
+    return Files.isRegularFile(s)
+        && Files.isReadable(s)
+        && Files.isExecutable(s);
   }
 
-  Optional<File> checkOnWindows(Path mavenHomeLocation) {
-    Path mvnBinPath = Paths.get(mavenHomeLocation.toString(), "mvn");
 
-    // add ".bat" for Maven 3.0.5..3.2.5 if exists
-    File batFile = toBatFile(mvnBinPath);
-    if (batFile.exists() && batFile.isFile() && batFile.canRead()) {
-      return Optional.of(batFile);
-    }
-
-    // add ".cmd" for Maven 3.3.1... if exists
-    File cmdFile = toCmdFile(mvnBinPath);
-    if (cmdFile.exists() && cmdFile.isFile() && cmdFile.canRead()) {
-      return Optional.of(cmdFile);
+  Optional<Path> executableNonWindows(Path s) {
+    Path mvn = toMvn(s);
+    if (isExecutable(mvn)) {
+      return Optional.of(mvn);
     }
 
     return Optional.empty();
   }
 
-  Optional<File> checkExecutable(Path mavenHomeLocation) {
-    Path path = Paths.get(mavenHomeLocation.toString());
-    if (OS.WINDOWS.isCurrentOs()) {
-      return checkOnWindows(path);
+  private Optional<Path> executableWindows(Path s) {
+    Path mvnBat = toBat(s);
+    //Maven 3.0.5...3.2.5
+    if (isExecutable(mvnBat)) {
+      return Optional.of(mvnBat);
+    }
+
+    //Maven 3.3.1...
+    Path mvnCmd = toCmd(s);
+    if (isExecutable(mvnCmd)) {
+      return Optional.of(mvnCmd);
+    }
+    return Optional.empty();
+  }
+
+  private Optional<Path> executable(Path p) {
+    if (this.isRunningOnWindows) {
+      return executableWindows(p);
     } else {
-      return checkOnNoneWindows(path);
+      return executableNonWindows(p);
     }
   }
 
-  Optional<File> checkExecutableViaPathEnvironment() {
-    Pattern pathSeparatorPattern = Pattern.compile(File.pathSeparator);
-    String path = System.getenv("PATH");
-    String[] split = path.split(pathSeparatorPattern.toString());
-    for (String item : split) {
-      Optional<File> mvnLocation = checkExecutable(Paths.get(item));
-      if (mvnLocation.isPresent()) {
-        return mvnLocation;
+  private Optional<Path> checkExecutableViaPathEnvironment() {
+    String PATH_SEPARATOR = this.isRunningOnWindows ? ";" : ":";
+    //TODO: Check why FileSystem.getPathSeparator does not exist?
+    Pattern pathSeparatorPattern = Pattern.compile(Pattern.quote(PATH_SEPARATOR));
+    if (environment.containsKey("PATH")) {
+      String pathEnv = environment.get("PATH");
+      String[] splittedParts = pathEnv.split(pathSeparatorPattern.toString());
+      for (String item : splittedParts) {
+        Path path = intoPath(item);
+        Optional<Path> executable = executable(path);
+        if (executable.isPresent()) {
+          return executable;
+        }
       }
     }
     return Optional.empty();
   }
 
-  Optional<File> findMvn() {
+  Optional<Path> findMvn() {
     Optional<String> s = mavenHomeFromSystemProperty();
     if (s.isPresent()) {
-      Optional<File> file = checkExecutable(Paths.get(s.get(), "bin"));
-      if (!file.isPresent()) {
-        return Optional.empty();
+      Path path = intoBin(intoPath(s.get()));
+      Optional<Path> executable = executable(path);
+      if (executable.isPresent()) {
+        return executable;
       }
-      return checkExecutableViaPathEnvironment();
     }
     return checkExecutableViaPathEnvironment();
   }

@@ -108,7 +108,11 @@
         <artifactId>equalsverifier</artifactId>
         <version>3.1.13</version>
       </dependency>
-
+      <dependency>
+        <groupId>com.github.marschall</groupId>
+        <artifactId>memoryfilesystem</artifactId>
+        <version>2.1.0</version>
+      </dependency>
       <dependency>
         <groupId>org.xmlunit</groupId>
         <artifactId>xmlunit-assertj</artifactId>
