@@ -52,8 +52,8 @@ class MavenLocatorTest {
     Path mvnBaseDirectory = fileSystem.getPath(pathToCreate);
     Files.createDirectories(mvnBaseDirectory);
 
-    Path mvnBatBinary = fileSystem.getPath(pathToCreate, fileToCreate);
-    Files.createFile(mvnBatBinary);
+    Path mvnBinary = mvnBaseDirectory.resolve(fileToCreate);
+    Files.createFile(mvnBinary);
   }
 
   @Nested
@@ -77,18 +77,14 @@ class MavenLocatorTest {
       private Properties backup;
       private Map<String, String> environment;
 
-      private String LINUX_MAVEN_HOME_DIRECTORY = "/tools/maven";
-
-      void setMavenHome() {
-        System.setProperty("maven.home", LINUX_MAVEN_HOME_DIRECTORY);
-      }
+      static final String LINUX_MAVEN_HOME_DIRECTORY = "/tools/maven";
 
       @BeforeEach
       void beforeEach() {
         backup = new Properties();
         backup.putAll(System.getProperties());
         this.environment = new HashMap<>();
-        setMavenHome();
+        System.setProperty("maven.home", LINUX_MAVEN_HOME_DIRECTORY);
       }
 
       @AfterEach
@@ -211,18 +207,14 @@ class MavenLocatorTest {
       private Properties backup;
       private Map<String, String> environment;
 
-      private String WINDOWS_MAVEN_HOME_DIRECTORY = "C:\\apache-maven-3.6.3";
-
-      void setMavenHome() {
-        System.setProperty("maven.home", WINDOWS_MAVEN_HOME_DIRECTORY);
-      }
+      static final private String WINDOWS_MAVEN_HOME_DIRECTORY = "C:\\apache-maven-3.6.3";
 
       @BeforeEach
       void beforeEach() {
         backup = new Properties();
         backup.putAll(System.getProperties());
         this.environment = new HashMap<>();
-        setMavenHome();
+        System.setProperty("maven.home", WINDOWS_MAVEN_HOME_DIRECTORY);
       }
 
       @AfterEach

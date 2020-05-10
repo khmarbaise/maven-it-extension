@@ -23,6 +23,7 @@
 :issue-88: https://github.com/khmarbaise/maven-it-extension/issues/88[Fixed #88]
 :issue-89: https://github.com/khmarbaise/maven-it-extension/issues/89[Fixed #89]
 :issue-90: https://github.com/khmarbaise/maven-it-extension/issues/90[Fixed #90]
+:issue-91: https://github.com/khmarbaise/maven-it-extension/issues/91[Fixed #91]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release-0.7.0: https://github.com/khmarbaise/maven-it-extension/milestone/7?closed=1
@@ -42,6 +43,9 @@
  * ..
 
 *Reporters of this release*
+
+ * Philippe Marschall
+   ** {issue-91} - Small FileSystem usage Review
 
  * Sandra Parsick
    ** {issue-88} - System property maven.home is set but 'java.lang.IllegalStateException:

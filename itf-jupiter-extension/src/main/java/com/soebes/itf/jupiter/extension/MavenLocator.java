@@ -72,13 +72,9 @@ class MavenLocator {
   private Path intoBin(Path p) {
     return p.resolve("bin");
   }
+
   private Optional<String> mavenHomeFromSystemProperty() {
-    if (System.getProperties().containsKey(MAVEN_HOME)) {
-      //TODO: Need to reconsider in cases where defined {@code maven.home} with empty value?
-      return Optional.of(System.getProperty(MAVEN_HOME));
-    } else {
-      return Optional.empty();
-    }
+    return Optional.ofNullable(System.getProperty(MAVEN_HOME));
   }
 
   private Path toMvn(Path p) {
@@ -98,7 +94,6 @@ class MavenLocator {
         && Files.isReadable(s)
         && Files.isExecutable(s);
   }
-
 
   Optional<Path> executableNonWindows(Path s) {
     Path mvn = toMvn(s);
@@ -151,13 +146,12 @@ class MavenLocator {
   }
 
   Optional<Path> findMvn() {
-    Optional<String> s = mavenHomeFromSystemProperty();
-    if (s.isPresent()) {
-      Path path = intoBin(intoPath(s.get()));
-      Optional<Path> executable = executable(path);
-      if (executable.isPresent()) {
-        return executable;
-      }
+    Optional<Path> path = mavenHomeFromSystemProperty()
+        .map(this::intoPath)
+        .map(this::intoBin)
+        .flatMap(this::executable);
+    if (path.isPresent()) {
+      return path;
     }
     return checkExecutableViaPathEnvironment();
   }
