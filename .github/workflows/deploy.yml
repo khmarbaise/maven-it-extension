@@ -42,3 +42,9 @@ jobs:
           BRANCH: gh-pages
           FOLDER: target/staging
           TARGET_FOLDER: snapshot
+      - uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-ubuntu-latest-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-ubuntu-latest-

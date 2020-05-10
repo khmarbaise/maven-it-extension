@@ -34,6 +34,12 @@ jobs:
       - uses: actions/checkout@v2
       - name: 'Test'
         run: mvn -V --no-transfer-progress clean verify --fail-at-end
+      - uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-ubuntu-latest-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-ubuntu-latest-
   windows:
     name: 'Windows'
     runs-on: windows-latest
@@ -46,6 +52,12 @@ jobs:
       - name: 'Test'
         shell: bash
         run: mvn -V --no-transfer-progress clean verify --fail-at-end
+      - uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-windows-latest-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-windows-latest-
   mac:
     name: 'Mac OS'
     runs-on: macos-latest
@@ -57,3 +69,9 @@ jobs:
           java-version: 8
       - name: 'Test'
         run: mvn -V --no-transfer-progress clean verify --fail-at-end
+      - uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-macos-latest-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-macos-latest-
