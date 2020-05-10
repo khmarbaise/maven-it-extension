@@ -36,11 +36,11 @@ jobs:
     container: "maven:3.6.3-jdk-${{ matrix.jdk }}"
     steps:
       - uses: actions/checkout@v2
-      - name: Test
-        run: mvn -V --no-transfer-progress clean verify --fail-at-end
       - uses: actions/cache@v1
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ matrix.jdk }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-${{ matrix.jdk }}-
+      - name: 'Build'
+        run: mvn -V --no-transfer-progress clean verify --fail-at-end
