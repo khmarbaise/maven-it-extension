@@ -72,94 +72,88 @@ class MavenLocator {
   private Path intoBin(Path p) {
 <span class="fc" id="L73">    return p.resolve(&quot;bin&quot;);</span>
   }
+
   private Optional&lt;String&gt; mavenHomeFromSystemProperty() {
-<span class="fc bfc" id="L76" title="All 2 branches covered.">    if (System.getProperties().containsKey(MAVEN_HOME)) {</span>
-      //TODO: Need to reconsider in cases where defined {@code maven.home} with empty value?
-<span class="fc" id="L78">      return Optional.of(System.getProperty(MAVEN_HOME));</span>
-    } else {
-<span class="fc" id="L80">      return Optional.empty();</span>
-    }
+<span class="fc" id="L77">    return Optional.ofNullable(System.getProperty(MAVEN_HOME));</span>
   }
 
   private Path toMvn(Path p) {
-<span class="fc" id="L85">    return p.resolve(&quot;mvn&quot;);</span>
+<span class="fc" id="L81">    return p.resolve(&quot;mvn&quot;);</span>
   }
 
   private Path toBat(Path p) {
-<span class="fc" id="L89">    return p.resolve(&quot;mvn.bat&quot;);</span>
+<span class="fc" id="L85">    return p.resolve(&quot;mvn.bat&quot;);</span>
   }
 
   private Path toCmd(Path p) {
-<span class="fc" id="L93">    return p.resolve(&quot;mvn.cmd&quot;);</span>
+<span class="fc" id="L89">    return p.resolve(&quot;mvn.cmd&quot;);</span>
   }
 
   private boolean isExecutable(Path s) {
-<span class="fc bfc" id="L97" title="All 2 branches covered.">    return Files.isRegularFile(s)</span>
-<span class="pc bpc" id="L98" title="1 of 2 branches missed.">        &amp;&amp; Files.isReadable(s)</span>
-<span class="pc bpc" id="L99" title="1 of 2 branches missed.">        &amp;&amp; Files.isExecutable(s);</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">    return Files.isRegularFile(s)</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        &amp;&amp; Files.isReadable(s)</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">        &amp;&amp; Files.isExecutable(s);</span>
   }
 
-
   Optional&lt;Path&gt; executableNonWindows(Path s) {
-<span class="fc" id="L104">    Path mvn = toMvn(s);</span>
-<span class="fc bfc" id="L105" title="All 2 branches covered.">    if (isExecutable(mvn)) {</span>
-<span class="fc" id="L106">      return Optional.of(mvn);</span>
+<span class="fc" id="L99">    Path mvn = toMvn(s);</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">    if (isExecutable(mvn)) {</span>
+<span class="fc" id="L101">      return Optional.of(mvn);</span>
     }
 
-<span class="fc" id="L109">    return Optional.empty();</span>
+<span class="fc" id="L104">    return Optional.empty();</span>
   }
 
   private Optional&lt;Path&gt; executableWindows(Path s) {
-<span class="fc" id="L113">    Path mvnBat = toBat(s);</span>
+<span class="fc" id="L108">    Path mvnBat = toBat(s);</span>
     //Maven 3.0.5...3.2.5
-<span class="fc bfc" id="L115" title="All 2 branches covered.">    if (isExecutable(mvnBat)) {</span>
-<span class="fc" id="L116">      return Optional.of(mvnBat);</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">    if (isExecutable(mvnBat)) {</span>
+<span class="fc" id="L111">      return Optional.of(mvnBat);</span>
     }
 
     //Maven 3.3.1...
-<span class="fc" id="L120">    Path mvnCmd = toCmd(s);</span>
-<span class="fc bfc" id="L121" title="All 2 branches covered.">    if (isExecutable(mvnCmd)) {</span>
-<span class="fc" id="L122">      return Optional.of(mvnCmd);</span>
+<span class="fc" id="L115">    Path mvnCmd = toCmd(s);</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">    if (isExecutable(mvnCmd)) {</span>
+<span class="fc" id="L117">      return Optional.of(mvnCmd);</span>
     }
-<span class="fc" id="L124">    return Optional.empty();</span>
+<span class="fc" id="L119">    return Optional.empty();</span>
   }
 
   private Optional&lt;Path&gt; executable(Path p) {
-<span class="fc bfc" id="L128" title="All 2 branches covered.">    if (this.isRunningOnWindows) {</span>
-<span class="fc" id="L129">      return executableWindows(p);</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">    if (this.isRunningOnWindows) {</span>
+<span class="fc" id="L124">      return executableWindows(p);</span>
     } else {
-<span class="fc" id="L131">      return executableNonWindows(p);</span>
+<span class="fc" id="L126">      return executableNonWindows(p);</span>
     }
   }
 
   private Optional&lt;Path&gt; checkExecutableViaPathEnvironment() {
-<span class="fc bfc" id="L136" title="All 2 branches covered.">    String PATH_SEPARATOR = this.isRunningOnWindows ? &quot;;&quot; : &quot;:&quot;;</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">    String PATH_SEPARATOR = this.isRunningOnWindows ? &quot;;&quot; : &quot;:&quot;;</span>
     //TODO: Check why FileSystem.getPathSeparator does not exist?
-<span class="fc" id="L138">    Pattern pathSeparatorPattern = Pattern.compile(Pattern.quote(PATH_SEPARATOR));</span>
-<span class="pc bpc" id="L139" title="1 of 2 branches missed.">    if (environment.containsKey(&quot;PATH&quot;)) {</span>
-<span class="fc" id="L140">      String pathEnv = environment.get(&quot;PATH&quot;);</span>
-<span class="fc" id="L141">      String[] splittedParts = pathEnv.split(pathSeparatorPattern.toString());</span>
-<span class="pc bpc" id="L142" title="1 of 2 branches missed.">      for (String item : splittedParts) {</span>
-<span class="fc" id="L143">        Path path = intoPath(item);</span>
-<span class="fc" id="L144">        Optional&lt;Path&gt; executable = executable(path);</span>
-<span class="fc bfc" id="L145" title="All 2 branches covered.">        if (executable.isPresent()) {</span>
-<span class="fc" id="L146">          return executable;</span>
+<span class="fc" id="L133">    Pattern pathSeparatorPattern = Pattern.compile(Pattern.quote(PATH_SEPARATOR));</span>
+<span class="pc bpc" id="L134" title="1 of 2 branches missed.">    if (environment.containsKey(&quot;PATH&quot;)) {</span>
+<span class="fc" id="L135">      String pathEnv = environment.get(&quot;PATH&quot;);</span>
+<span class="fc" id="L136">      String[] splittedParts = pathEnv.split(pathSeparatorPattern.toString());</span>
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">      for (String item : splittedParts) {</span>
+<span class="fc" id="L138">        Path path = intoPath(item);</span>
+<span class="fc" id="L139">        Optional&lt;Path&gt; executable = executable(path);</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">        if (executable.isPresent()) {</span>
+<span class="fc" id="L141">          return executable;</span>
         }
       }
     }
-<span class="nc" id="L150">    return Optional.empty();</span>
+<span class="nc" id="L145">    return Optional.empty();</span>
   }
 
   Optional&lt;Path&gt; findMvn() {
-<span class="fc" id="L154">    Optional&lt;String&gt; s = mavenHomeFromSystemProperty();</span>
-<span class="fc bfc" id="L155" title="All 2 branches covered.">    if (s.isPresent()) {</span>
-<span class="fc" id="L156">      Path path = intoBin(intoPath(s.get()));</span>
-<span class="fc" id="L157">      Optional&lt;Path&gt; executable = executable(path);</span>
-<span class="pc bpc" id="L158" title="1 of 2 branches missed.">      if (executable.isPresent()) {</span>
-<span class="fc" id="L159">        return executable;</span>
-      }
+<span class="fc" id="L149">    Optional&lt;Path&gt; path = mavenHomeFromSystemProperty()</span>
+<span class="fc" id="L150">        .map(this::intoPath)</span>
+<span class="fc" id="L151">        .map(this::intoBin)</span>
+<span class="fc" id="L152">        .flatMap(this::executable);</span>
+<span class="fc bfc" id="L153" title="All 2 branches covered.">    if (path.isPresent()) {</span>
+<span class="fc" id="L154">      return path;</span>
     }
-<span class="fc" id="L162">    return checkExecutableViaPathEnvironment();</span>
+<span class="fc" id="L156">    return checkExecutableViaPathEnvironment();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
