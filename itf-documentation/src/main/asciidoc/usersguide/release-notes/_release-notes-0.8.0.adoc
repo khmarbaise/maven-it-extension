@@ -19,6 +19,7 @@
 == Pre-release 0.8.0
 
 :issue-60: https://github.com/khmarbaise/maven-it-extension/issues/60[Fixed #60]
+:issue-93: https://github.com/khmarbaise/maven-it-extension/issues/93[Fixed #93]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_8_0: https://github.com/khmarbaise/maven-it-extension/milestone/8?closed=1
@@ -44,7 +45,8 @@
 
 *Contributors of this release*
 
- * none.
+ * Sandra Parsick
+   ** {issue-93} - Add support for editorconfig
 
 *Dependency Upgrades*
 
