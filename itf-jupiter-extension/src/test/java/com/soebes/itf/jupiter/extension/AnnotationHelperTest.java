@@ -195,7 +195,7 @@ class AnnotationHelperTest {
   class GetGoals {
 
     @Test
-    @DisplayName("fail with IllegalArbumentException for null parameter.")
+    @DisplayName("fail with IllegalArgumentException for null parameter.")
     void should_fail_with_exeception_for_parameter_null() {
       assertThatIllegalArgumentException().isThrownBy(() -> AnnotationHelper.getGoals(null))
           .withMessage("method is not allowed to be null.");
