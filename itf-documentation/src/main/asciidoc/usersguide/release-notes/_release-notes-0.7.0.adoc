@@ -25,6 +25,7 @@
 :issue-90: https://github.com/khmarbaise/maven-it-extension/issues/90[Fixed #90]
 :issue-91: https://github.com/khmarbaise/maven-it-extension/issues/91[Fixed #91]
 :issue-95: https://github.com/khmarbaise/maven-it-extension/issues/95[Fixed #95]
+:issue-96: https://github.com/khmarbaise/maven-it-extension/issues/96[Fixed #96]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release-0.7.0: https://github.com/khmarbaise/maven-it-extension/milestone/7?closed=1
@@ -66,6 +67,7 @@
 * {issue-89} - Upgrade AssertJ from 3.16.0 to 3.16.1
 * {issue-86} - Upgrade xmlunit-assertj from 2.6.3 to 2.6.4
 * {issue-95} - Upgrade Testcontainers from 1.14.1 to 1.14.2
+* {issue-96} - Upgrade commons-compress from 1.19 to 1.20
 
 *Build Improvements*
 
