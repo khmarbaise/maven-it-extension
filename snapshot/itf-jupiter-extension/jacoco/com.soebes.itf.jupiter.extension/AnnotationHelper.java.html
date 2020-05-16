@@ -82,31 +82,32 @@ class AnnotationHelper {
                                                    Class&lt;? extends Annotation&gt; annotationClass) {
 <span class="nc" id="L83">    Optional&lt;ExtensionContext&gt; current = Optional.of(context);</span>
 <span class="nc bnc" id="L84" title="All 2 branches missed.">    while (current.isPresent()) {</span>
-<span class="nc bnc" id="L85" title="All 2 branches missed.">      if (current.get().getTestClass().isPresent()) {</span>
-<span class="nc" id="L86">        Class&lt;?&gt; testClass = current.get().getTestClass().get();</span>
-<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (testClass.isAnnotationPresent(annotationClass)) {</span>
-<span class="nc" id="L88">          return Optional.of(testClass);</span>
+<span class="nc" id="L85">      Optional&lt;Class&lt;?&gt;&gt; testClassNumber1 = current.get().getTestClass();</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">      if (testClassNumber1.isPresent()) {</span>
+<span class="nc" id="L87">        Class&lt;?&gt; testClass = testClassNumber1.get();</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if (testClass.isAnnotationPresent(annotationClass)) {</span>
+<span class="nc" id="L89">          return Optional.of(testClass);</span>
         }
       }
-<span class="nc" id="L91">      current = current.get().getParent();</span>
-    }
-<span class="nc" id="L93">    return Optional.empty();</span>
+<span class="nc" id="L92">      current = current.get().getParent();</span>
+<span class="nc" id="L93">    }</span>
+<span class="nc" id="L94">    return Optional.empty();</span>
   }
 
   static Optional&lt;Class&lt;?&gt;&gt; findMavenRepositoryAnnotation(ExtensionContext context) {
-<span class="nc" id="L97">    return findAnnotation(context, MavenRepository.class);</span>
+<span class="nc" id="L98">    return findAnnotation(context, MavenRepository.class);</span>
   }
 
   static Optional&lt;Class&lt;?&gt;&gt; findMavenProjectAnnotation(ExtensionContext context) {
-<span class="nc" id="L101">    return findAnnotation(context, MavenProject.class);</span>
+<span class="nc" id="L102">    return findAnnotation(context, MavenProject.class);</span>
   }
 
   static Optional&lt;Class&lt;?&gt;&gt; findMavenPredefinedRepositoryAnnotation(ExtensionContext context) {
-<span class="nc" id="L105">    return findAnnotation(context, MavenPredefinedRepository.class);</span>
+<span class="nc" id="L106">    return findAnnotation(context, MavenPredefinedRepository.class);</span>
   }
 
   static Optional&lt;Class&lt;?&gt;&gt; findMavenITAnnotation(ExtensionContext context) {
-<span class="nc" id="L109">    return findAnnotation(context, MavenJupiterExtension.class);</span>
+<span class="nc" id="L110">    return findAnnotation(context, MavenJupiterExtension.class);</span>
   }
 
 }

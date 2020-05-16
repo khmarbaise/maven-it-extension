@@ -27,22 +27,26 @@ import com.soebes.itf.jupiter.maven.MavenProjectResult;
 
 /**
  * @author Karl Heinz Marbaise
+ *
+ * @implNote Currently suppressing {@code java:S115} cause we prefer better readable
+ * names which is given by camel case instead of uppercase only.
  */
-<span class="nc" id="L31">enum ParameterType {</span>
-<span class="nc" id="L32">  ExecutionResult(MavenExecutionResult.class),</span>
-<span class="nc" id="L33">  LogResult(MavenLog.class),</span>
-<span class="nc" id="L34">  CacheResult(MavenCacheResult.class),</span>
-<span class="nc" id="L35">  ProjectResult(MavenProjectResult.class),</span>
-<span class="nc" id="L36">  Executor(MavenExecutor.class);</span>
+<span class="nc" id="L34">@SuppressWarnings(&quot;java:S115&quot;)</span>
+enum ParameterType {
+<span class="nc" id="L36">  ExecutionResult(MavenExecutionResult.class),</span>
+<span class="nc" id="L37">  LogResult(MavenLog.class),</span>
+<span class="nc" id="L38">  CacheResult(MavenCacheResult.class),</span>
+<span class="nc" id="L39">  ProjectResult(MavenProjectResult.class),</span>
+<span class="nc" id="L40">  Executor(MavenExecutor.class);</span>
 
   private Class&lt;?&gt; klass;
 
-<span class="nc" id="L40">  ParameterType(Class&lt;?&gt; klass) {</span>
-<span class="nc" id="L41">    this.klass = klass;</span>
-<span class="nc" id="L42">  }</span>
+<span class="nc" id="L44">  ParameterType(Class&lt;?&gt; klass) {</span>
+<span class="nc" id="L45">    this.klass = klass;</span>
+<span class="nc" id="L46">  }</span>
 
   Class&lt;?&gt; getKlass() {
-<span class="nc" id="L45">    return klass;</span>
+<span class="nc" id="L49">    return klass;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

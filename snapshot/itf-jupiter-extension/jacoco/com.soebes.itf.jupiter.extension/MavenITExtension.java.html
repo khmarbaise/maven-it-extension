@@ -169,7 +169,7 @@ import static java.util.stream.Collectors.toList;
       }
     }
 
-<span class="nc" id="L172">    Optional&lt;Path&gt; mvnLocation = new MavenLocator(FileSystems.getDefault(), System.getenv(), OS.WINDOWS.isCurrentOs()).findMvn();</span>
+<span class="nc" id="L172">    Optional&lt;Path&gt; mvnLocation = new MavenLocator(FileSystems.getDefault(), Optional.ofNullable(System.getenv(&quot;PATH&quot;)), OS.WINDOWS.isCurrentOs()).findMvn();</span>
 <span class="nc bnc" id="L173" title="All 2 branches missed.">    if (!mvnLocation.isPresent()) {</span>
 <span class="nc" id="L174">      throw new IllegalStateException(String.format(&quot;We could not find the maven executable `mvn` somewhere&quot;));</span>
     }

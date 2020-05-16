@@ -44,7 +44,7 @@ class PropertiesFilter {
   List&lt;String&gt; filter() {
 <span class="fc" id="L45">    StringInterpolator si = new StringInterpolator(this.keyValues);</span>
 <span class="fc" id="L46">    return this.items.stream()</span>
-<span class="fc" id="L47">        .map(item -&gt; si.interpolate(item))</span>
+<span class="fc" id="L47">        .map(si::interpolate)</span>
 <span class="fc" id="L48">        .collect(Collectors.toList());</span>
   }
 

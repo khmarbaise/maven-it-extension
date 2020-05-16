@@ -32,7 +32,6 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -53,67 +52,66 @@ public class ApplicationExecutor {
   private final String javaHome;
 
   public ApplicationExecutor(String javaHome, File loggingDirectory, File workingDirectory, Path applicationExecutable,
-<span class="nc" id="L56">                             List&lt;String&gt; jvmArguments, String prefix) {</span>
-<span class="nc" id="L57">    this.javaHome = javaHome;</span>
-<span class="nc" id="L58">    this.loggingDirectory = loggingDirectory;</span>
-<span class="nc" id="L59">    this.workingDirectory = workingDirectory;</span>
-<span class="nc" id="L60">    this.applicationExecutable = applicationExecutable;</span>
-<span class="nc" id="L61">    this.jvmArguments = jvmArguments;</span>
-<span class="nc" id="L62">    this.prefix = prefix;</span>
-<span class="nc" id="L63">  }</span>
+<span class="nc" id="L55">                             List&lt;String&gt; jvmArguments, String prefix) {</span>
+<span class="nc" id="L56">    this.javaHome = javaHome;</span>
+<span class="nc" id="L57">    this.loggingDirectory = loggingDirectory;</span>
+<span class="nc" id="L58">    this.workingDirectory = workingDirectory;</span>
+<span class="nc" id="L59">    this.applicationExecutable = applicationExecutable;</span>
+<span class="nc" id="L60">    this.jvmArguments = jvmArguments;</span>
+<span class="nc" id="L61">    this.prefix = prefix;</span>
+<span class="nc" id="L62">  }</span>
 
   public ApplicationExecutor(File workingDirectory, File loggingDirectory, Path applicationExecutable,
                              List&lt;String&gt; jvmArguments, String prefix) {
     //TODO: This should be made configurable
-<span class="nc" id="L68">    this(System.getProperty(&quot;java.home&quot;), loggingDirectory, workingDirectory, applicationExecutable, jvmArguments,</span>
+<span class="nc" id="L67">    this(System.getProperty(&quot;java.home&quot;), loggingDirectory, workingDirectory, applicationExecutable, jvmArguments,</span>
         prefix);
-<span class="nc" id="L70">  }</span>
+<span class="nc" id="L69">  }</span>
 
   public Process start(List&lt;String&gt; startArguments) throws IOException {
 
-<span class="nc" id="L74">    List&lt;String&gt; applicationArguments = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L73">    List&lt;String&gt; applicationArguments = new ArrayList&lt;&gt;();</span>
     //TODO: Can make that better?
-<span class="nc" id="L76">    applicationArguments.addAll(Collections.singletonList(applicationExecutable.toString()));</span>
-<span class="nc" id="L77">    applicationArguments.addAll(startArguments);</span>
+<span class="nc" id="L75">    applicationArguments.addAll(Collections.singletonList(applicationExecutable.toString()));</span>
+<span class="nc" id="L76">    applicationArguments.addAll(startArguments);</span>
 
     //TODO: Can make that better?
-<span class="nc" id="L80">    Path argumentsLog = Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + &quot;-arguments.log&quot;);</span>
-<span class="nc" id="L81">    Files.deleteIfExists(argumentsLog);</span>
+<span class="nc" id="L79">    Path argumentsLog = Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + &quot;-arguments.log&quot;);</span>
+<span class="nc" id="L80">    Files.deleteIfExists(argumentsLog);</span>
     try {
-<span class="nc" id="L83">      Files.write(argumentsLog, applicationArguments,</span>
+<span class="nc" id="L82">      Files.write(argumentsLog, applicationArguments,</span>
           StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-<span class="nc" id="L85">    } catch (IOException e) {</span>
-<span class="nc" id="L86">      e.printStackTrace();</span>
-<span class="nc" id="L87">    }</span>
+<span class="nc" id="L84">    } catch (IOException e) {</span>
+<span class="nc" id="L85">      throw new IllegalStateException(&quot;Failed to write argument log file&quot;, e);</span>
+<span class="nc" id="L86">    }</span>
 
-<span class="nc" id="L89">    Path stdErrOut = Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + &quot;-stderr.out&quot;);</span>
-<span class="nc" id="L90">    Path stdOutOut = Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + &quot;-stdout.out&quot;);</span>
-<span class="nc" id="L91">    Files.deleteIfExists(stdErrOut);</span>
-<span class="nc" id="L92">    Files.deleteIfExists(stdOutOut);</span>
-<span class="nc" id="L93">    ProcessBuilder pb = new ProcessBuilder(applicationArguments);</span>
-<span class="nc" id="L94">    Map&lt;String, String&gt; environment = pb.environment();</span>
-<span class="nc" id="L95">    pb.redirectError(stdErrOut.toFile());</span>
-<span class="nc" id="L96">    pb.redirectOutput(stdOutOut.toFile());</span>
-<span class="nc" id="L97">    pb.directory(workingDirectory);</span>
-<span class="nc" id="L98">    return pb.start();</span>
+<span class="nc" id="L88">    Path stdErrOut = Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + &quot;-stderr.out&quot;);</span>
+<span class="nc" id="L89">    Path stdOutOut = Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + &quot;-stdout.out&quot;);</span>
+<span class="nc" id="L90">    Files.deleteIfExists(stdErrOut);</span>
+<span class="nc" id="L91">    Files.deleteIfExists(stdOutOut);</span>
+<span class="nc" id="L92">    ProcessBuilder pb = new ProcessBuilder(applicationArguments);</span>
+<span class="nc" id="L93">    pb.redirectError(stdErrOut.toFile());</span>
+<span class="nc" id="L94">    pb.redirectOutput(stdOutOut.toFile());</span>
+<span class="nc" id="L95">    pb.directory(workingDirectory);</span>
+<span class="nc" id="L96">    return pb.start();</span>
   }
 
   public int startAndWaitUntilEnded(List&lt;String&gt; args) throws IOException, InterruptedException {
-<span class="nc" id="L102">    Process start = start(args);</span>
-<span class="nc" id="L103">    return start.waitFor();</span>
+<span class="nc" id="L100">    Process start = start(args);</span>
+<span class="nc" id="L101">    return start.waitFor();</span>
   }
 
   public Path getStdout() {
-<span class="nc" id="L107">    return Paths.get(loggingDirectory.toString(), this.prefix + &quot;-stdout.out&quot;);</span>
+<span class="nc" id="L105">    return Paths.get(loggingDirectory.toString(), this.prefix + &quot;-stdout.out&quot;);</span>
   }
 
   Stream&lt;String&gt; createLogStream() {
-<span class="nc" id="L111">    InputStream resourceAsStream = this.getClass().getResourceAsStream(&quot;/mvn-stdout.out&quot;);</span>
-<span class="nc" id="L112">    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();</span>
+<span class="nc" id="L109">    InputStream resourceAsStream = this.getClass().getResourceAsStream(&quot;/mvn-stdout.out&quot;);</span>
+<span class="nc" id="L110">    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();</span>
   }
 
   public Path getStdErr() {
-<span class="nc" id="L116">    return Paths.get(loggingDirectory.toString(), this.prefix + &quot;-stderr.out&quot;);</span>
+<span class="nc" id="L114">    return Paths.get(loggingDirectory.toString(), this.prefix + &quot;-stderr.out&quot;);</span>
   }
 
 }

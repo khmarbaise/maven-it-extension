@@ -26,7 +26,6 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -43,20 +42,15 @@ public final class ProjectHelper {
   }
 
   public static Model readProject(File directory) {
-<span class="nc" id="L46">    MavenXpp3Reader mavenXpp3Reader = new MavenXpp3Reader();</span>
+<span class="nc" id="L45">    MavenXpp3Reader mavenXpp3Reader = new MavenXpp3Reader();</span>
     try {
-<span class="nc" id="L48">      InputStream is = new FileInputStream(new File(directory, &quot;pom.xml&quot;));</span>
-<span class="nc" id="L49">      Model read = mavenXpp3Reader.read(is);</span>
-<span class="nc" id="L50">      is.close();</span>
-<span class="nc" id="L51">      return read;</span>
-<span class="nc" id="L52">    } catch (FileNotFoundException e) {</span>
-<span class="nc" id="L53">      e.printStackTrace();</span>
-<span class="nc" id="L54">    } catch (XmlPullParserException e) {</span>
-<span class="nc" id="L55">      e.printStackTrace();</span>
-<span class="nc" id="L56">    } catch (IOException e) {</span>
-<span class="nc" id="L57">      e.printStackTrace();</span>
-<span class="nc" id="L58">    }</span>
-<span class="nc" id="L59">    return null;</span>
+<span class="nc" id="L47">      InputStream is = new FileInputStream(new File(directory, &quot;pom.xml&quot;));</span>
+<span class="nc" id="L48">      Model read = mavenXpp3Reader.read(is);</span>
+<span class="nc" id="L49">      is.close();</span>
+<span class="nc" id="L50">      return read;</span>
+<span class="nc" id="L51">    } catch (XmlPullParserException | IOException e) {</span>
+<span class="nc" id="L52">      throw new IllegalStateException(&quot;Failed to read pom.xml&quot;, e);</span>
+    }
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
