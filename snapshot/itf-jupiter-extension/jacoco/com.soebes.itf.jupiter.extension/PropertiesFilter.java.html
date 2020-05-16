@@ -19,9 +19,9 @@
  * under the License.
  */
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.soebes.itf.jupiter.extension.Preconditions.requireNotNull;
 
@@ -34,20 +34,18 @@ class PropertiesFilter {
 
   private final Map&lt;String, String&gt; keyValues;
 
-  private final List&lt;String&gt; listOfItems;
+  private final List&lt;String&gt; items;
 
-<span class="fc" id="L39">  public PropertiesFilter(Map&lt;String, String&gt; keyValues, List&lt;String&gt; listOfItems) {</span>
+<span class="fc" id="L39">  public PropertiesFilter(Map&lt;String, String&gt; keyValues, List&lt;String&gt; items) {</span>
 <span class="fc" id="L40">    this.keyValues = requireNotNull(keyValues, &quot;keyValues is not allowed to be null.&quot;);</span>
-<span class="fc" id="L41">    this.listOfItems = requireNotNull(listOfItems, &quot;listOfItems not allowed to be empty nor null.&quot;);</span>
+<span class="fc" id="L41">    this.items = requireNotNull(items, &quot;items not allowed to be null.&quot;);</span>
 <span class="fc" id="L42">  }</span>
 
   List&lt;String&gt; filter() {
 <span class="fc" id="L45">    StringInterpolator si = new StringInterpolator(this.keyValues);</span>
-<span class="fc" id="L46">    List&lt;String&gt; result = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L47" title="All 2 branches covered.">    for (String item : this.listOfItems) {</span>
-<span class="fc" id="L48">      result.add(si.interpolate(item));</span>
-<span class="fc" id="L49">    }</span>
-<span class="fc" id="L50">    return result;</span>
+<span class="fc" id="L46">    return this.items.stream()</span>
+<span class="fc" id="L47">        .map(item -&gt; si.interpolate(item))</span>
+<span class="fc" id="L48">        .collect(Collectors.toList());</span>
   }
 
   /**
@@ -55,19 +53,19 @@ class PropertiesFilter {
    * &lt;p&gt;
    * TODO: Need to reconsider this.
    */
-<span class="nc" id="L58">  public enum MavenPropertyNames {</span>
-<span class="nc" id="L59">    groupId(&quot;project.groupId&quot;),</span>
-<span class="nc" id="L60">    artifactId(&quot;project.artifactId&quot;),</span>
-<span class="nc" id="L61">    version(&quot;project.version&quot;);</span>
+<span class="nc" id="L56">  public enum MavenPropertyNames {</span>
+<span class="nc" id="L57">    groupId(&quot;project.groupId&quot;),</span>
+<span class="nc" id="L58">    artifactId(&quot;project.artifactId&quot;),</span>
+<span class="nc" id="L59">    version(&quot;project.version&quot;);</span>
 
     private final String name;
 
-<span class="nc" id="L65">    MavenPropertyNames(String name) {</span>
-<span class="nc" id="L66">      this.name = name;</span>
-<span class="nc" id="L67">    }</span>
+<span class="nc" id="L63">    MavenPropertyNames(String name) {</span>
+<span class="nc" id="L64">      this.name = name;</span>
+<span class="nc" id="L65">    }</span>
 
     public final String getName() {
-<span class="nc" id="L70">      return name;</span>
+<span class="nc" id="L68">      return name;</span>
     }
 
   }
