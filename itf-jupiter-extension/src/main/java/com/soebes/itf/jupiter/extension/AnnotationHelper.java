@@ -82,8 +82,9 @@ class AnnotationHelper {
                                                    Class<? extends Annotation> annotationClass) {
     Optional<ExtensionContext> current = Optional.of(context);
     while (current.isPresent()) {
-      if (current.get().getTestClass().isPresent()) {
-        Class<?> testClass = current.get().getTestClass().get();
+      Optional<Class<?>> testClassNumber1 = current.get().getTestClass();
+      if (testClassNumber1.isPresent()) {
+        Class<?> testClass = testClassNumber1.get();
         if (testClass.isAnnotationPresent(annotationClass)) {
           return Optional.of(testClass);
         }

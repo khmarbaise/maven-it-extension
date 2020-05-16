@@ -32,7 +32,6 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -83,7 +82,7 @@ public class ApplicationExecutor {
       Files.write(argumentsLog, applicationArguments,
           StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
     } catch (IOException e) {
-      e.printStackTrace();
+      throw new IllegalStateException("Failed to write argument log file", e);
     }
 
     Path stdErrOut = Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + "-stderr.out");
@@ -91,7 +90,6 @@ public class ApplicationExecutor {
     Files.deleteIfExists(stdErrOut);
     Files.deleteIfExists(stdOutOut);
     ProcessBuilder pb = new ProcessBuilder(applicationArguments);
-    Map<String, String> environment = pb.environment();
     pb.redirectError(stdErrOut.toFile());
     pb.redirectOutput(stdOutOut.toFile());
     pb.directory(workingDirectory);

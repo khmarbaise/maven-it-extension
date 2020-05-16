@@ -44,7 +44,7 @@ class PropertiesFilter {
   List<String> filter() {
     StringInterpolator si = new StringInterpolator(this.keyValues);
     return this.items.stream()
-        .map(item -> si.interpolate(item))
+        .map(si::interpolate)
         .collect(Collectors.toList());
   }
 

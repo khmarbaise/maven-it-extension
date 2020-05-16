@@ -26,7 +26,6 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -49,13 +48,8 @@ public final class ProjectHelper {
       Model read = mavenXpp3Reader.read(is);
       is.close();
       return read;
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    } catch (XmlPullParserException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (XmlPullParserException | IOException e) {
+      throw new IllegalStateException("Failed to read pom.xml", e);
     }
-    return null;
   }
 }
