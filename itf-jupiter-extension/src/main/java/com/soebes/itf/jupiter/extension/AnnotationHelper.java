@@ -32,6 +32,10 @@ import static com.soebes.itf.jupiter.extension.Preconditions.requireNotNull;
  */
 class AnnotationHelper {
 
+  private AnnotationHelper() {
+    // prevent instantiation.
+  }
+
   static boolean isDebug(Method method) {
     checkParameterAndRequirements(method);
     return method.getAnnotation(MavenTest.class).debug();

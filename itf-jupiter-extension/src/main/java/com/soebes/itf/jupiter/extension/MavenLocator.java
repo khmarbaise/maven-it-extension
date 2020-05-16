@@ -25,6 +25,7 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * It's the intention to find the {@code mvn} executable.
@@ -95,13 +96,9 @@ class MavenLocator {
         && Files.isExecutable(s);
   }
 
-  Optional<Path> executableNonWindows(Path s) {
-    Path mvn = toMvn(s);
-    if (isExecutable(mvn)) {
-      return Optional.of(mvn);
-    }
-
-    return Optional.empty();
+  private Optional<Path> executableNonWindows(Path s) {
+    return Optional.of(toMvn(s))
+        .filter(this::isExecutable);
   }
 
   private Optional<Path> executableWindows(Path s) {
@@ -128,21 +125,19 @@ class MavenLocator {
   }
 
   private Optional<Path> checkExecutableViaPathEnvironment() {
-    String PATH_SEPARATOR = this.isRunningOnWindows ? ";" : ":";
-    //TODO: Check why FileSystem.getPathSeparator does not exist?
-    Pattern pathSeparatorPattern = Pattern.compile(Pattern.quote(PATH_SEPARATOR));
-    if (environment.containsKey("PATH")) {
-      String pathEnv = environment.get("PATH");
-      String[] splittedParts = pathEnv.split(pathSeparatorPattern.toString());
-      for (String item : splittedParts) {
-        Path path = intoPath(item);
-        Optional<Path> executable = executable(path);
-        if (executable.isPresent()) {
-          return executable;
-        }
-      }
+    if (!environment.containsKey("PATH")) {
+      return Optional.empty();
     }
-    return Optional.empty();
+
+    String pathSeparator = this.isRunningOnWindows ? ";" : ":";
+    Pattern pathSeparatorPattern = Pattern.compile(Pattern.quote(pathSeparator));
+    String pathEnv = environment.get("PATH");
+    return Stream.of(pathSeparatorPattern.split(pathEnv))
+        .map(this::intoPath)
+        .map(this::executable)
+        .filter(Optional::isPresent)
+        .findFirst()
+        .orElse(Optional.empty());
   }
 
   Optional<Path> findMvn() {

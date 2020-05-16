@@ -19,9 +19,9 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.soebes.itf.jupiter.extension.Preconditions.requireNotNull;
 
@@ -34,20 +34,18 @@ class PropertiesFilter {
 
   private final Map<String, String> keyValues;
 
-  private final List<String> listOfItems;
+  private final List<String> items;
 
-  public PropertiesFilter(Map<String, String> keyValues, List<String> listOfItems) {
+  public PropertiesFilter(Map<String, String> keyValues, List<String> items) {
     this.keyValues = requireNotNull(keyValues, "keyValues is not allowed to be null.");
-    this.listOfItems = requireNotNull(listOfItems, "listOfItems not allowed to be empty nor null.");
+    this.items = requireNotNull(items, "items not allowed to be null.");
   }
 
   List<String> filter() {
     StringInterpolator si = new StringInterpolator(this.keyValues);
-    List<String> result = new ArrayList<>();
-    for (String item : this.listOfItems) {
-      result.add(si.interpolate(item));
-    }
-    return result;
+    return this.items.stream()
+        .map(item -> si.interpolate(item))
+        .collect(Collectors.toList());
   }
 
   /**

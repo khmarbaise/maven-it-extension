@@ -24,6 +24,10 @@ package com.soebes.itf.jupiter.extension;
  */
 class Preconditions {
 
+  private Preconditions() {
+    // prevent instantiation.
+  }
+
   /**
    * Check that the given parameter is not {@code null}.
    *

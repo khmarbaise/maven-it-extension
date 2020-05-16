@@ -65,7 +65,7 @@ class PreconditionsTest {
 
     @Test
     void should_not_raise_a_failure_while_giving_one_size_array() {
-      assertThatCode(() -> requireNotNull(new String[]{"1"}, "Failuremessage"))
+      assertThatCode(() -> requireGreaterZero(new String[]{"1"}, "Failuremessage"))
           .doesNotThrowAnyException();
     }
   }
@@ -82,7 +82,7 @@ class PreconditionsTest {
 
     @Test
     void should_not_raise_a_failure_while_giving_a_non_empty_string() {
-      assertThatCode(() -> requireNotNull("1", "Failuremessage"))
+      assertThatCode(() -> requireNotEmpty("1", "Failuremessage"))
           .doesNotThrowAnyException();
     }
   }

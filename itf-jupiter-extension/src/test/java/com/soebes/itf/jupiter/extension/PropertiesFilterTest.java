@@ -19,6 +19,7 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -27,7 +28,13 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
+/**
+ * Unit test for {@link PropertiesFilter}
+ *
+ * @author Karl Heinz Marbaise
+ */
 class PropertiesFilterTest {
 
   @Test
@@ -60,6 +67,33 @@ class PropertiesFilterTest {
 
     List<String> filter = propertiesFilter.filter();
     assertThat(filter).hasSize(1).containsExactly("org.codehaus.mojo:versions-maven-plugin:1.0.0:compare-dependencies");
+  }
+  @Test
+  void given_empty_lists() {
+    Map<String, String> keyValues = new HashMap<>();
+    keyValues.put("project.version", "1.0.0");
+    PropertiesFilter propertiesFilter = new PropertiesFilter(keyValues, Collections.emptyList());
+
+    List<String> filter = propertiesFilter.filter();
+    assertThat(filter).isEmpty();
+  }
+
+  @Nested
+  class Constructor {
+
+    @Test
+    void constructor_should_fail_with_illegal_argument_exception_for_giving_null_keyvalues() {
+      assertThatIllegalArgumentException().isThrownBy(() -> new PropertiesFilter(null, null))
+          .withMessage("keyValues is not allowed to be null.");
+    }
+
+    @Test
+    void constructor_should_fail_with_illegal_argument_exception_for_giving_null_item() {
+      assertThatIllegalArgumentException()
+          .isThrownBy(() -> new PropertiesFilter(Collections.emptyMap(), null))
+          .withMessage("items not allowed to be null.");
+    }
+
   }
 
 }
