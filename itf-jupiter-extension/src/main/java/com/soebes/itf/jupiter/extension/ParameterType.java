@@ -27,7 +27,11 @@ import com.soebes.itf.jupiter.maven.MavenProjectResult;
 
 /**
  * @author Karl Heinz Marbaise
+ *
+ * @implNote Currently suppressing {@code java:S115} cause we prefer better readable
+ * names which is given by camel case instead of uppercase only.
  */
+@SuppressWarnings("java:S115")
 enum ParameterType {
   ExecutionResult(MavenExecutionResult.class),
   LogResult(MavenLog.class),

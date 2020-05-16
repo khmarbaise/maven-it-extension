@@ -32,8 +32,6 @@ import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -61,10 +59,8 @@ class MavenLocatorTest {
   class Linux {
     static final String LINUX_MAVEN_BIN_DIRECTORY = "/tools/maven/bin";
 
-    Map<String, String> createLinuxEnvironmentPath() {
-      Map<String, String> environment = new HashMap<>();
-      environment.put("PATH", "/test:/tools/maven/bin");
-      return environment;
+    Optional<String> createLinuxEnvironmentPath() {
+      return Optional.of("/test:/tools/maven/bin");
     }
 
     void createMvn(FileSystem wfs) throws IOException {
@@ -75,7 +71,7 @@ class MavenLocatorTest {
     @DisplayName("Find Maven executable on Linux via 'maven.home' for")
     class SystemPropertyMavenHome {
       private Properties backup;
-      private Map<String, String> environment;
+      private Optional<String> pathEnvironment;
 
       static final String LINUX_MAVEN_HOME_DIRECTORY = "/tools/maven";
 
@@ -83,7 +79,7 @@ class MavenLocatorTest {
       void beforeEach() {
         backup = new Properties();
         backup.putAll(System.getProperties());
-        this.environment = new HashMap<>();
+        this.pathEnvironment = Optional.empty();
         System.setProperty("maven.home", LINUX_MAVEN_HOME_DIRECTORY);
       }
 
@@ -98,7 +94,7 @@ class MavenLocatorTest {
         try (FileSystem wfs = MemoryFileSystemBuilder.newLinux().build("LinuxSystem")) {
           createMvn(wfs);
 
-          MavenLocator mavenLocator = new MavenLocator(wfs, environment, false);
+          MavenLocator mavenLocator = new MavenLocator(wfs, pathEnvironment, false);
           Optional<Path> mvn = mavenLocator.findMvn();
           assertThat(mvn).contains(wfs.getPath(LINUX_MAVEN_BIN_DIRECTORY, "mvn"));
         }
@@ -111,13 +107,13 @@ class MavenLocatorTest {
     class PathVariable {
 
       private Properties backup;
-      private Map<String, String> environment;
+      private Optional<String> pathEnvironment;
 
       @BeforeEach
       void beforeEach() {
         backup = new Properties();
         backup.putAll(System.getProperties());
-        this.environment = createLinuxEnvironmentPath();
+        this.pathEnvironment = createLinuxEnvironmentPath();
       }
 
       @AfterEach
@@ -131,7 +127,7 @@ class MavenLocatorTest {
         try (FileSystem wfs = MemoryFileSystemBuilder.newLinux().build("LinuxSystem")) {
           createMvn(wfs);
 
-          MavenLocator mavenLocator = new MavenLocator(wfs, environment, false);
+          MavenLocator mavenLocator = new MavenLocator(wfs, pathEnvironment, false);
           Optional<Path> mvn = mavenLocator.findMvn();
           assertThat(mvn).contains(wfs.getPath(LINUX_MAVEN_BIN_DIRECTORY, "mvn"));
         }
@@ -148,7 +144,7 @@ class MavenLocatorTest {
       private final String LINUX_TOOLS_MAVEN_BIN_DIRECTORY = "/tools/apache-maven-3.6.3/bin";
 
       private Properties backup;
-      private Map<String, String> environment;
+      private Optional<String> pathEnvironment;
 
       void createMvn(FileSystem wfs) throws IOException {
         create(wfs, LINUX_TOOLS_MAVEN_BIN_DIRECTORY, "mvn");
@@ -158,7 +154,7 @@ class MavenLocatorTest {
       void beforeEach() {
         backup = new Properties();
         backup.putAll(System.getProperties());
-        this.environment = createLinuxEnvironmentPath();
+        this.pathEnvironment = createLinuxEnvironmentPath();
         System.setProperty("maven.home", LINUX_TOOLS_MAVEN_HOME_DIRECTORY);
       }
 
@@ -172,7 +168,7 @@ class MavenLocatorTest {
       void priority_works() throws IOException {
         try (FileSystem wfs = MemoryFileSystemBuilder.newLinux().build("LinuxSystem")) {
           createMvn(wfs);
-          MavenLocator mavenLocator = new MavenLocator(wfs, environment, false);
+          MavenLocator mavenLocator = new MavenLocator(wfs, pathEnvironment, false);
           Optional<Path> mvn = mavenLocator.findMvn();
           assertThat(mvn).contains(wfs.getPath(LINUX_TOOLS_MAVEN_BIN_DIRECTORY, "mvn"));
         }
@@ -187,10 +183,8 @@ class MavenLocatorTest {
   class Windows {
     static final String WINDOWS_MAVEN_BIN_DIRECTORY = "C:\\apache-maven-3.6.3\\bin";
 
-    Map<String, String> createWindowsEnvironmentPath() {
-      Map<String, String> environment = new HashMap<>();
-      environment.put("PATH", "C:\\test;C:\\apache-maven-3.6.3\\bin");
-      return environment;
+    Optional<String> createWindowsEnvironmentPath() {
+      return Optional.of("C:\\test;C:\\apache-maven-3.6.3\\bin");
     }
 
     void createMvnBat(FileSystem fileSystem) throws IOException {
@@ -205,7 +199,7 @@ class MavenLocatorTest {
     @DisplayName("and find Maven executable via 'maven.home' for")
     class SystemPropertyMavenHome {
       private Properties backup;
-      private Map<String, String> environment;
+      private Optional<String> pathEnvironment;
 
       static final private String WINDOWS_MAVEN_HOME_DIRECTORY = "C:\\apache-maven-3.6.3";
 
@@ -213,7 +207,7 @@ class MavenLocatorTest {
       void beforeEach() {
         backup = new Properties();
         backup.putAll(System.getProperties());
-        this.environment = new HashMap<>();
+        this.pathEnvironment = Optional.empty();
         System.setProperty("maven.home", WINDOWS_MAVEN_HOME_DIRECTORY);
       }
 
@@ -228,7 +222,7 @@ class MavenLocatorTest {
         try (FileSystem wfs = MemoryFileSystemBuilder.newWindows().build("WindowsSystem")) {
           createMvnBat(wfs);
 
-          MavenLocator mavenLocator = new MavenLocator(wfs, environment, true);
+          MavenLocator mavenLocator = new MavenLocator(wfs, pathEnvironment, true);
           Optional<Path> mvn = mavenLocator.findMvn();
           assertThat(mvn).contains(wfs.getPath(WINDOWS_MAVEN_BIN_DIRECTORY, "mvn.bat"));
         }
@@ -240,7 +234,7 @@ class MavenLocatorTest {
         try (FileSystem wfs = MemoryFileSystemBuilder.newWindows().build("WindowsSystem")) {
           createMvnCmd(wfs);
 
-          MavenLocator mavenLocator = new MavenLocator(wfs, environment, true);
+          MavenLocator mavenLocator = new MavenLocator(wfs, pathEnvironment, true);
           Optional<Path> mvn = mavenLocator.findMvn();
           assertThat(mvn).contains(wfs.getPath(WINDOWS_MAVEN_BIN_DIRECTORY, "mvn.cmd"));
         }
@@ -253,13 +247,13 @@ class MavenLocatorTest {
     class PathVariable {
 
       private Properties backup;
-      private Map<String, String> environment;
+      private Optional<String> pathEnvironment;
 
       @BeforeEach
       void beforeEach() {
         backup = new Properties();
         backup.putAll(System.getProperties());
-        this.environment = createWindowsEnvironmentPath();
+        this.pathEnvironment = createWindowsEnvironmentPath();
       }
 
       @AfterEach
@@ -273,7 +267,7 @@ class MavenLocatorTest {
         try (FileSystem wfs = MemoryFileSystemBuilder.newWindows().build("WindowsSystem")) {
           createMvnBat(wfs);
 
-          MavenLocator mavenLocator = new MavenLocator(wfs, environment, true);
+          MavenLocator mavenLocator = new MavenLocator(wfs, pathEnvironment, true);
           Optional<Path> mvn = mavenLocator.findMvn();
           assertThat(mvn).contains(wfs.getPath(WINDOWS_MAVEN_BIN_DIRECTORY, "mvn.bat"));
         }
@@ -285,7 +279,7 @@ class MavenLocatorTest {
         try (FileSystem wfs = MemoryFileSystemBuilder.newWindows().build("WindowsSystem")) {
           createMvnCmd(wfs);
 
-          MavenLocator mavenLocator = new MavenLocator(wfs, environment, true);
+          MavenLocator mavenLocator = new MavenLocator(wfs, pathEnvironment, true);
           Optional<Path> mvn = mavenLocator.findMvn();
           assertThat(mvn).contains(wfs.getPath(WINDOWS_MAVEN_BIN_DIRECTORY, "mvn.cmd"));
         }
@@ -301,7 +295,7 @@ class MavenLocatorTest {
       private final String WINDOWS_TOOLS_MAVEN_BIN_DIRECTORY = "C:\\tools\\maven\\bin";
 
       private Properties backup;
-      private Map<String, String> environment;
+      private Optional<String> pathEnvironment;
 
       void createToolsBat(FileSystem wfs) throws IOException {
         create(wfs, WINDOWS_TOOLS_MAVEN_BIN_DIRECTORY, "mvn.bat");
@@ -315,7 +309,7 @@ class MavenLocatorTest {
       void beforeEach() {
         backup = new Properties();
         backup.putAll(System.getProperties());
-        this.environment = createWindowsEnvironmentPath();
+        this.pathEnvironment = createWindowsEnvironmentPath();
         System.setProperty("maven.home", WINDOWS_TOOLS_MAVEN_HOME_DIRECTORY);
       }
 
@@ -330,7 +324,7 @@ class MavenLocatorTest {
         try (FileSystem wfs = MemoryFileSystemBuilder.newWindows().build("WindowsSystem")) {
           createMvnBat(wfs);
           createToolsBat(wfs);
-          MavenLocator mavenLocator = new MavenLocator(wfs, environment, true);
+          MavenLocator mavenLocator = new MavenLocator(wfs, pathEnvironment, true);
           Optional<Path> mvn = mavenLocator.findMvn();
           assertThat(mvn).contains(wfs.getPath(WINDOWS_TOOLS_MAVEN_BIN_DIRECTORY, "mvn.bat"));
         }
@@ -343,7 +337,7 @@ class MavenLocatorTest {
           createMvnCmd(wfs);
           createToolsCmd(wfs);
 
-          MavenLocator mavenLocator = new MavenLocator(wfs, environment, true);
+          MavenLocator mavenLocator = new MavenLocator(wfs, pathEnvironment, true);
           Optional<Path> mvn = mavenLocator.findMvn();
           assertThat(mvn).contains(wfs.getPath(WINDOWS_TOOLS_MAVEN_BIN_DIRECTORY, "mvn.cmd"));
         }

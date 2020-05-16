@@ -169,7 +169,7 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
       }
     }
 
-    Optional<Path> mvnLocation = new MavenLocator(FileSystems.getDefault(), System.getenv(), OS.WINDOWS.isCurrentOs()).findMvn();
+    Optional<Path> mvnLocation = new MavenLocator(FileSystems.getDefault(), Optional.ofNullable(System.getenv("PATH")), OS.WINDOWS.isCurrentOs()).findMvn();
     if (!mvnLocation.isPresent()) {
       throw new IllegalStateException(String.format("We could not find the maven executable `mvn` somewhere"));
     }

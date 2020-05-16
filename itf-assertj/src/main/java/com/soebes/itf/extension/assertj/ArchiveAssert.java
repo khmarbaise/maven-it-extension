@@ -29,9 +29,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
 
 public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
 
+  private static final String CHECKING_EAR_FILE_NAMES = "Checking ear file names.";
+  private static final String IOEXCEPTION_HAPPENED = "IOException happened. <%s> file:<%s>";
   private final Model model;
 
   private final List<String> includes;
@@ -73,11 +76,11 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
     try (JarFile jarFile = new JarFile(this.actual)) {
       List<String> includes = Arrays.asList(files);
       Assertions.assertThat(jarFile.stream())
-          .describedAs("Checking ear file names.")
-          .extracting(jarEntry -> jarEntry.getName())
+          .describedAs(CHECKING_EAR_FILE_NAMES)
+          .extracting(ZipEntry::getName)
           .doesNotContain(includes.toArray(new String[]{}));
     } catch (IOException e) {
-      failWithMessage("IOException happened. <%s> file:<%s>", e.getMessage());
+      failWithMessage(IOEXCEPTION_HAPPENED, e.getMessage());
     }
     return myself;
   }
@@ -89,11 +92,11 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
   public ArchiveAssert containsOnlyOnce(String... files) {
     try (JarFile jarFile = new JarFile(this.actual)) {
       Assertions.assertThat(jarFile.stream())
-          .describedAs("Checking ear file names.")
-          .extracting(jarEntry -> jarEntry.getName())
+          .describedAs(CHECKING_EAR_FILE_NAMES)
+          .extracting(ZipEntry::getName)
           .containsOnlyOnce(files);
     } catch (IOException e) {
-      failWithMessage("IOException happened. <%s> file:<%s>", e.getMessage());
+      failWithMessage(IOEXCEPTION_HAPPENED, e.getMessage());
     }
     return myself;
   }
@@ -101,11 +104,11 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
   public ArchiveAssert containsOnly(String... files) {
     try (JarFile jarFile = new JarFile(this.actual)) {
       Assertions.assertThat(jarFile.stream())
-          .describedAs("Checking ear file names.")
-          .extracting(jarEntry -> jarEntry.getName())
+          .describedAs(CHECKING_EAR_FILE_NAMES)
+          .extracting(ZipEntry::getName)
           .containsOnly(files);
     } catch (IOException e) {
-      failWithMessage("IOException happened. <%s> file:<%s>", e.getMessage());
+      failWithMessage(IOEXCEPTION_HAPPENED, e.getMessage());
     }
     return myself;
   }
@@ -113,4 +116,5 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
   public MavenProjectResultAssert and() {
     return this.parent;
   }
+
 }

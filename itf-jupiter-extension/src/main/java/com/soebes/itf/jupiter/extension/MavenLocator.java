@@ -22,7 +22,6 @@ package com.soebes.itf.jupiter.extension;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -52,17 +51,17 @@ class MavenLocator {
 
 
   private final FileSystem fileSystem;
-  private final Map<String, String> environment;
+  private final Optional<String> pathEnvironment;
   private final boolean isRunningOnWindows;
 
   /**
    * @param fileSystem The {@link FileSystem} which is used.
-   * @param environment The environment which is used. Needed to find {@code PATH}
+   * @param pathEnvironment The value of {@code PATH} if it exists otherwise {@link Optional#empty()}.
    * @param isRunningOnWindows {@code true} when running on Windows, false otherwise.
    */
-  MavenLocator(FileSystem fileSystem, Map<String, String> environment, boolean isRunningOnWindows) {
+  MavenLocator(FileSystem fileSystem, Optional<String> pathEnvironment, boolean isRunningOnWindows) {
     this.fileSystem = fileSystem;
-    this.environment = environment;
+    this.pathEnvironment = pathEnvironment;
     this.isRunningOnWindows = isRunningOnWindows;
   }
 
@@ -125,14 +124,13 @@ class MavenLocator {
   }
 
   private Optional<Path> checkExecutableViaPathEnvironment() {
-    if (!environment.containsKey("PATH")) {
+    if (!this.pathEnvironment.isPresent()) {
       return Optional.empty();
     }
 
     String pathSeparator = this.isRunningOnWindows ? ";" : ":";
     Pattern pathSeparatorPattern = Pattern.compile(Pattern.quote(pathSeparator));
-    String pathEnv = environment.get("PATH");
-    return Stream.of(pathSeparatorPattern.split(pathEnv))
+    return Stream.of(pathSeparatorPattern.split(pathEnvironment.get()))
         .map(this::intoPath)
         .map(this::executable)
         .filter(Optional::isPresent)
