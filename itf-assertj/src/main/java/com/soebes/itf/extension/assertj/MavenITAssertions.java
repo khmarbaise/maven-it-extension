@@ -31,6 +31,10 @@ import com.soebes.itf.jupiter.maven.MavenProjectResult;
  */
 public class MavenITAssertions {
 
+  private MavenITAssertions() {
+    // prevent instantiation.
+  }
+
   public static MavenExecutionResultAssert assertThat(MavenExecutionResult actual) {
     return new MavenExecutionResultAssert(actual);
   }

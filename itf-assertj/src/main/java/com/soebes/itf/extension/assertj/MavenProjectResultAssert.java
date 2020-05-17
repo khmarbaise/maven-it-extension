@@ -29,7 +29,6 @@ import org.assertj.core.api.Assertions;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.jar.JarFile;
 
 /**
@@ -40,16 +39,14 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
   private static final String THE_TARGET_DIRECTORY_DOES_NOT_EXIST = "The target directory of <%s> does not exist.";
   private static final String THE_EAR_FILE_DOES_NOT_EXIST = "The ear file <%s> does not exist or can not be read.";
   private static final String EXPECT_HAVING_A_MODULE = "expected having a module <%s> which does not exist";
-  private Optional<MavenProjectResultAssert> parent;
+  private static final String TARGET = "target";
 
   protected MavenProjectResultAssert(MavenProjectResult actual) {
     super(actual, MavenProjectResultAssert.class);
-    this.parent = Optional.empty();
   }
 
   protected MavenProjectResultAssert(MavenProjectResult actual, MavenProjectResultAssert parent) {
     super(actual, MavenProjectResultAssert.class);
-    this.parent = Optional.of(parent);
   }
 
   /**
@@ -65,7 +62,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
 
   public MavenProjectResultAssert hasTarget() {
     isNotNull();
-    File target = new File(this.actual.getBaseDir(), "target");
+    File target = new File(this.actual.getBaseDir(), TARGET);
     if (!target.isDirectory() || !target.exists() || target.isHidden()) {
       failWithMessage(THE_TARGET_DIRECTORY_DOES_NOT_EXIST, actual.getBaseDir().getAbsolutePath());
     }
@@ -85,7 +82,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
   public AbstractFileAssert<?> withFile(String fileName) {
     isNotNull();
     //FIXME: wrong way...need to reconsider.
-    File target = new File(this.actual.getBaseDir(), "target");
+    File target = new File(this.actual.getBaseDir(), TARGET);
     if (!target.isDirectory() || !target.exists() || target.isHidden()) {
       failWithMessage(THE_TARGET_DIRECTORY_DOES_NOT_EXIST, actual.getBaseDir().getAbsolutePath());
     }
@@ -98,7 +95,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     hasTarget();
 
     Model model = this.actual.getModel();
-    File target = new File(this.actual.getBaseDir(), "target");
+    File target = new File(this.actual.getBaseDir(), TARGET);
     String artifact = model.getArtifactId() + "-" + model.getVersion() + ".ear";
     File earFile = new File(target, artifact);
     if (!earFile.isFile() || !earFile.canRead() || earFile.isHidden()) {
@@ -113,7 +110,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     hasTarget();
 
     Model model = this.actual.getModel();
-    File target = new File(this.actual.getBaseDir(), "target");
+    File target = new File(this.actual.getBaseDir(), TARGET);
     String artifact = model.getArtifactId() + "-" + model.getVersion() + ".jar";
     File jarFile = new File(target, artifact);
     if (!jarFile.isFile() && !jarFile.canRead()) {
@@ -127,7 +124,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     hasTarget();
 
     Model model = this.actual.getModel();
-    File target = new File(this.actual.getBaseDir(), "target");
+    File target = new File(this.actual.getBaseDir(), TARGET);
     String artifact = model.getArtifactId() + "-" + model.getVersion() + ".war";
     File warFile = new File(target, artifact);
     if (!warFile.isFile() && !warFile.canRead()) {
@@ -141,7 +138,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     hasTarget();
 
     Model model = this.actual.getModel();
-    File target = new File(this.actual.getBaseDir(), "target");
+    File target = new File(this.actual.getBaseDir(), TARGET);
     String artifact = model.getArtifactId() + "-" + model.getVersion() + ".rar";
     File rarFile = new File(target, artifact);
     if (!rarFile.isFile() && !rarFile.canRead()) {
@@ -155,7 +152,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     hasTarget();
 
     Model model = this.actual.getModel();
-    File target = new File(this.actual.getBaseDir(), "target");
+    File target = new File(this.actual.getBaseDir(), TARGET);
     String artifact = model.getArtifactId() + "-" + model.getVersion() + ".ear";
     File earFile = new File(target, artifact);
 

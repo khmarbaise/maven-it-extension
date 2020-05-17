@@ -291,11 +291,12 @@ public class InstallMojo extends AbstractMojo {
     }
   }
 
-  private static final Function<Artifact, String> ArtifactIntoGAV = artifact -> artifact.getGroupId() + ':' + artifact.getArtifactId() + ':' + artifact.getBaseVersion();
-  private static final Function<MavenProject, String> ProjectIntoGAV = project -> project.getGroupId() + ':' + project.getArtifactId() + ':' + project.getVersion();
+  private static final Function<Artifact, String> ArtifactToGAV = artifact -> artifact.getGroupId() + ':' + artifact.getArtifactId() + ':' + artifact.getBaseVersion();
+  private static final Function<MavenProject, String> ProjectToGAV = project -> project.getGroupId() + ':' + project.getArtifactId() + ':' + project.getVersion();
 
-  private static final Predicate<Artifact> isInProjects(Map<String, MavenProject> projects) {
-    return s -> projects.containsKey(ArtifactIntoGAV);
+
+  private static final Predicate<Artifact> isNotInProjects(Map<String, MavenProject> projects) {
+    return s -> !projects.containsKey(ArtifactToGAV.apply(s));
   }
   /**
    * Installs the dependent projects from the reactor to the local repository. The dependencies on other modules from
@@ -307,19 +308,16 @@ public class InstallMojo extends AbstractMojo {
    */
   private void installProjectDependencies(MavenProject mvnProject, Collection<MavenProject> reactorProjects)
       throws MojoExecutionException {
-
     // ... into dependencies that were resolved from reactor projects ...
     Collection<String> dependencyProjects = new LinkedHashSet<>();
     collectAllProjectReferences(mvnProject, dependencyProjects);
 
     // index available reactor projects
-    Map<String, MavenProject> projects = reactorProjects.stream()
-        .collect(Collectors.toMap(ProjectIntoGAV, identity()));
-
+    Map<String, MavenProject> projects = reactorProjects.stream().collect(Collectors.toMap(ProjectToGAV, identity()));
     // group transitive dependencies (even those that don't contribute to the class path like POMs) ...
     // ... and those that were resolved from the (local) repo
     Collection<Artifact> dependencyArtifacts = mvnProject.getArtifacts().stream()
-        .filter(isInProjects(projects).negate())
+        .filter(isNotInProjects(projects))
         .collect(Collectors.collectingAndThen(Collectors.toList(), LinkedHashSet::new));
 
     // install dependencies
