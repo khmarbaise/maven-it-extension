@@ -30,79 +30,84 @@ import static com.soebes.itf.jupiter.extension.Preconditions.requireNotNull;
 /**
  * @author Karl Heinz Marbaise
  */
-<span class="nc" id="L33">class AnnotationHelper {</span>
+class AnnotationHelper {
+
+  private AnnotationHelper() {
+    // prevent instantiation.
+  }
 
   static boolean isDebug(Method method) {
-<span class="fc" id="L36">    checkParameterAndRequirements(method);</span>
-<span class="fc" id="L37">    return method.getAnnotation(MavenTest.class).debug();</span>
+<span class="fc" id="L40">    checkParameterAndRequirements(method);</span>
+<span class="fc" id="L41">    return method.getAnnotation(MavenTest.class).debug();</span>
   }
 
   static String[] getActiveProfiles(Method method) {
-<span class="fc" id="L41">    checkParameterAndRequirements(method);</span>
-<span class="fc" id="L42">    return method.getAnnotation(MavenTest.class).activeProfiles();</span>
+<span class="fc" id="L45">    checkParameterAndRequirements(method);</span>
+<span class="fc" id="L46">    return method.getAnnotation(MavenTest.class).activeProfiles();</span>
   }
 
   static String[] getGoals(Method method) {
-<span class="fc" id="L46">    checkParameterAndRequirements(method);</span>
-<span class="fc" id="L47">    return method.getAnnotation(MavenTest.class).goals();</span>
+<span class="fc" id="L50">    checkParameterAndRequirements(method);</span>
+<span class="fc" id="L51">    return method.getAnnotation(MavenTest.class).goals();</span>
   }
 
   //TODO: We might consider to return a Stream instead of String[]
   static String[] getCommandLineOptions(Method method) {
-<span class="nc" id="L52">    checkParameterAndRequirements(method);</span>
-<span class="nc" id="L53">    return method.getAnnotation(MavenTest.class).options();</span>
+<span class="nc" id="L56">    checkParameterAndRequirements(method);</span>
+<span class="nc" id="L57">    return method.getAnnotation(MavenTest.class).options();</span>
   }
 
   //TODO: We might consider to return a Stream instead of String[]
   static String[] getCommandLineSystemProperties(Method method) {
-<span class="nc" id="L58">    checkParameterAndRequirements(method);</span>
-<span class="nc" id="L59">    return method.getAnnotation(MavenTest.class).systemProperties();</span>
+<span class="nc" id="L62">    checkParameterAndRequirements(method);</span>
+<span class="nc" id="L63">    return method.getAnnotation(MavenTest.class).systemProperties();</span>
   }
 
   static boolean hasActiveProfiles(Method method) {
-<span class="fc bfc" id="L63" title="All 2 branches covered.">    return getActiveProfiles(method).length &gt; 0;</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">    return getActiveProfiles(method).length &gt; 0;</span>
   }
 
   static boolean hasGoals(Method method) {
-<span class="pc bpc" id="L67" title="1 of 2 branches missed.">    return getGoals(method).length &gt; 0;</span>
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">    return getGoals(method).length &gt; 0;</span>
   }
 
   private static void checkParameterAndRequirements(Method method) {
-<span class="fc" id="L71">    requireNotNull(method, &quot;method is not allowed to be null.&quot;);</span>
-<span class="fc bfc" id="L72" title="All 2 branches covered.">    if (!method.isAnnotationPresent(MavenTest.class)) {</span>
-<span class="fc" id="L73">      throw new IllegalStateException(&quot;MavenTest Annotation is not given on method: '&quot; + method.getName() + &quot;'&quot;);</span>
+<span class="fc" id="L75">    requireNotNull(method, &quot;method is not allowed to be null.&quot;);</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">    if (!method.isAnnotationPresent(MavenTest.class)) {</span>
+<span class="fc" id="L77">      throw new IllegalStateException(&quot;MavenTest Annotation is not given on method: '&quot; + method.getName() + &quot;'&quot;);</span>
     }
-<span class="fc" id="L75">  }</span>
+<span class="fc" id="L79">  }</span>
 
   private static Optional&lt;Class&lt;?&gt;&gt; findAnnotation(ExtensionContext context,
                                                    Class&lt;? extends Annotation&gt; annotationClass) {
-<span class="nc" id="L79">    Optional&lt;ExtensionContext&gt; current = Optional.of(context);</span>
-<span class="nc bnc" id="L80" title="All 2 branches missed.">    while (current.isPresent()) {</span>
-<span class="nc bnc" id="L81" title="All 2 branches missed.">      if (current.get().getTestClass().isPresent()) {</span>
-<span class="nc" id="L82">        Class&lt;?&gt; testClass = current.get().getTestClass().get();</span>
-<span class="nc bnc" id="L83" title="All 2 branches missed.">        if (testClass.isAnnotationPresent(annotationClass)) {</span>
-<span class="nc" id="L84">          return Optional.of(testClass);</span>
+<span class="nc" id="L83">    Optional&lt;ExtensionContext&gt; current = Optional.of(context);</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">    while (current.isPresent()) {</span>
+<span class="nc" id="L85">      Optional&lt;Class&lt;?&gt;&gt; testClassNumber1 = current.get().getTestClass();</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">      if (testClassNumber1.isPresent()) {</span>
+<span class="nc" id="L87">        Class&lt;?&gt; testClass = testClassNumber1.get();</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if (testClass.isAnnotationPresent(annotationClass)) {</span>
+<span class="nc" id="L89">          return Optional.of(testClass);</span>
         }
       }
-<span class="nc" id="L87">      current = current.get().getParent();</span>
-    }
-<span class="nc" id="L89">    return Optional.empty();</span>
+<span class="nc" id="L92">      current = current.get().getParent();</span>
+<span class="nc" id="L93">    }</span>
+<span class="nc" id="L94">    return Optional.empty();</span>
   }
 
   static Optional&lt;Class&lt;?&gt;&gt; findMavenRepositoryAnnotation(ExtensionContext context) {
-<span class="nc" id="L93">    return findAnnotation(context, MavenRepository.class);</span>
+<span class="nc" id="L98">    return findAnnotation(context, MavenRepository.class);</span>
   }
 
   static Optional&lt;Class&lt;?&gt;&gt; findMavenProjectAnnotation(ExtensionContext context) {
-<span class="nc" id="L97">    return findAnnotation(context, MavenProject.class);</span>
+<span class="nc" id="L102">    return findAnnotation(context, MavenProject.class);</span>
   }
 
   static Optional&lt;Class&lt;?&gt;&gt; findMavenPredefinedRepositoryAnnotation(ExtensionContext context) {
-<span class="nc" id="L101">    return findAnnotation(context, MavenPredefinedRepository.class);</span>
+<span class="nc" id="L106">    return findAnnotation(context, MavenPredefinedRepository.class);</span>
   }
 
   static Optional&lt;Class&lt;?&gt;&gt; findMavenITAnnotation(ExtensionContext context) {
-<span class="nc" id="L105">    return findAnnotation(context, MavenJupiterExtension.class);</span>
+<span class="nc" id="L110">    return findAnnotation(context, MavenJupiterExtension.class);</span>
   }
 
 }

@@ -22,7 +22,11 @@
 /**
  * @author Karl Heinz Marbaise
  */
-<span class="nc" id="L25">class Preconditions {</span>
+class Preconditions {
+
+  private Preconditions() {
+    // prevent instantiation.
+  }
 
   /**
    * Check that the given parameter is not {@code null}.
@@ -33,10 +37,10 @@
    * @throws IllegalArgumentException in case of parameter is {@code null}.
    */
   static &lt;T&gt; T requireNotNull(T parameter, String message) {
-<span class="fc bfc" id="L36" title="All 2 branches covered.">    if (parameter == null) {</span>
-<span class="fc" id="L37">      throw new IllegalArgumentException(message);</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">    if (parameter == null) {</span>
+<span class="fc" id="L41">      throw new IllegalArgumentException(message);</span>
     }
-<span class="fc" id="L39">    return parameter;</span>
+<span class="fc" id="L43">    return parameter;</span>
   }
 
   /**
@@ -48,10 +52,10 @@
    * @throws IllegalArgumentException in case the condition has not been fulfilled.
    */
   static &lt;T&gt; T[] requireGreaterZero(T[] parameter, String message) {
-<span class="pc bpc" id="L51" title="1 of 2 branches missed.">    if (parameter.length &lt; 1) {</span>
-<span class="fc" id="L52">      throw new IllegalArgumentException(message);</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">    if (parameter.length &lt; 1) {</span>
+<span class="fc" id="L56">      throw new IllegalArgumentException(message);</span>
     }
-<span class="nc" id="L54">    return parameter;</span>
+<span class="fc" id="L58">    return parameter;</span>
   }
 
   /**
@@ -63,10 +67,10 @@
    * @throws IllegalArgumentException in case the condition has not been fulfilled.
    */
   static String requireNotEmpty(String parameter, String message) {
-<span class="pc bpc" id="L66" title="1 of 2 branches missed.">    if (parameter.isEmpty()) {</span>
-<span class="fc" id="L67">      throw new IllegalArgumentException(message);</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">    if (parameter.isEmpty()) {</span>
+<span class="fc" id="L71">      throw new IllegalArgumentException(message);</span>
     }
-<span class="nc" id="L69">    return parameter;</span>
+<span class="fc" id="L73">    return parameter;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

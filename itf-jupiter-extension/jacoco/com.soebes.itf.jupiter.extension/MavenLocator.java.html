@@ -19,13 +19,12 @@
  * under the License.
  */
 
-import org.junit.jupiter.api.condition.OS;
-
-import java.io.File;
+import java.nio.file.FileSystem;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * It's the intention to find the {@code mvn} executable.
@@ -39,96 +38,115 @@ import java.util.regex.Pattern;
  * @author Karl Heinz Marbaise
  * @implNote Currently {@code maven.home} is given to the maven-failsafe-plugin
  * configuration as a system property.
- * @implSpec Unfortunately there is currently no option to write tests which
- * contains toFile() of Path. I've tried with https://github.com/google/jimfs
- * but they also lack the support of toFile().
+ * The parameter {@code isRunningOnWindows} is used instead
+ * of using things like {@code org.junit.jupiter.api.condition.OS.WINDOWS.isCurrentOs()} cause
+ * they contain static initializers etc. which can't be tested.
  */
 class MavenLocator {
 
+  /**
+   * The name of the system property.
+   */
   private static final String MAVEN_HOME = &quot;maven.home&quot;;
 
-<span class="nc" id="L50">  MavenLocator() {</span>
-<span class="nc" id="L51">  }</span>
 
-  Optional&lt;String&gt; mavenHomeFromSystemProperty() {
-<span class="nc bnc" id="L54" title="All 2 branches missed.">    if (System.getProperties().containsKey(MAVEN_HOME)) {</span>
-<span class="nc" id="L55">      return Optional.of(System.getProperty(MAVEN_HOME));</span>
+  private final FileSystem fileSystem;
+  private final Optional&lt;String&gt; pathEnvironment;
+  private final boolean isRunningOnWindows;
+
+  /**
+   * @param fileSystem The {@link FileSystem} which is used.
+   * @param pathEnvironment The value of {@code PATH} if it exists otherwise {@link Optional#empty()}.
+   * @param isRunningOnWindows {@code true} when running on Windows, false otherwise.
+   */
+<span class="fc" id="L62">  MavenLocator(FileSystem fileSystem, Optional&lt;String&gt; pathEnvironment, boolean isRunningOnWindows) {</span>
+<span class="fc" id="L63">    this.fileSystem = fileSystem;</span>
+<span class="fc" id="L64">    this.pathEnvironment = pathEnvironment;</span>
+<span class="fc" id="L65">    this.isRunningOnWindows = isRunningOnWindows;</span>
+<span class="fc" id="L66">  }</span>
+
+  private Path intoPath(String s) {
+<span class="fc" id="L69">    return this.fileSystem.getPath(s);</span>
+  }
+
+  private Path intoBin(Path p) {
+<span class="fc" id="L73">    return p.resolve(&quot;bin&quot;);</span>
+  }
+
+  private Optional&lt;String&gt; mavenHomeFromSystemProperty() {
+<span class="fc" id="L77">    return Optional.ofNullable(System.getProperty(MAVEN_HOME));</span>
+  }
+
+  private Path toMvn(Path p) {
+<span class="fc" id="L81">    return p.resolve(&quot;mvn&quot;);</span>
+  }
+
+  private Path toBat(Path p) {
+<span class="fc" id="L85">    return p.resolve(&quot;mvn.bat&quot;);</span>
+  }
+
+  private Path toCmd(Path p) {
+<span class="fc" id="L89">    return p.resolve(&quot;mvn.cmd&quot;);</span>
+  }
+
+  private boolean isExecutable(Path s) {
+<span class="fc bfc" id="L93" title="All 2 branches covered.">    return Files.isRegularFile(s)</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        &amp;&amp; Files.isReadable(s)</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">        &amp;&amp; Files.isExecutable(s);</span>
+  }
+
+  private Optional&lt;Path&gt; executableNonWindows(Path s) {
+<span class="fc" id="L99">    return Optional.of(toMvn(s))</span>
+<span class="fc" id="L100">        .filter(this::isExecutable);</span>
+  }
+
+  private Optional&lt;Path&gt; executableWindows(Path s) {
+<span class="fc" id="L104">    Path mvnBat = toBat(s);</span>
+    //Maven 3.0.5...3.2.5
+<span class="fc bfc" id="L106" title="All 2 branches covered.">    if (isExecutable(mvnBat)) {</span>
+<span class="fc" id="L107">      return Optional.of(mvnBat);</span>
+    }
+
+    //Maven 3.3.1...
+<span class="fc" id="L111">    Path mvnCmd = toCmd(s);</span>
+<span class="fc bfc" id="L112" title="All 2 branches covered.">    if (isExecutable(mvnCmd)) {</span>
+<span class="fc" id="L113">      return Optional.of(mvnCmd);</span>
+    }
+<span class="fc" id="L115">    return Optional.empty();</span>
+  }
+
+  private Optional&lt;Path&gt; executable(Path p) {
+<span class="fc bfc" id="L119" title="All 2 branches covered.">    if (this.isRunningOnWindows) {</span>
+<span class="fc" id="L120">      return executableWindows(p);</span>
     } else {
-<span class="nc" id="L57">      return Optional.empty();</span>
+<span class="fc" id="L122">      return executableNonWindows(p);</span>
     }
   }
 
-  private File toBatFile(Path path) {
-<span class="nc" id="L62">    return Paths.get(path.toAbsolutePath() + &quot;.bat&quot;).toFile();</span>
-  }
-
-  private File toCmdFile(Path path) {
-<span class="nc" id="L66">    return Paths.get(path.toAbsolutePath() + &quot;.cmd&quot;).toFile();</span>
-  }
-
-  private File toFile(Path path) {
-<span class="nc" id="L70">    return Paths.get(path.toString()).toFile();</span>
-  }
-
-  Optional&lt;File&gt; checkOnNoneWindows(Path mavenHomeLocation) {
-<span class="nc" id="L74">    Path mvnBinPath = Paths.get(mavenHomeLocation.toString(), &quot;mvn&quot;);</span>
-<span class="nc" id="L75">    File executable = toFile(mvnBinPath);</span>
-<span class="nc bnc" id="L76" title="All 6 branches missed.">    if (executable.exists() &amp;&amp; executable.isFile() &amp;&amp; executable.canRead()) {</span>
-<span class="nc" id="L77">      return Optional.of(executable);</span>
-    }
-<span class="nc" id="L79">    return Optional.empty();</span>
-  }
-
-  Optional&lt;File&gt; checkOnWindows(Path mavenHomeLocation) {
-<span class="nc" id="L83">    Path mvnBinPath = Paths.get(mavenHomeLocation.toString(), &quot;mvn&quot;);</span>
-
-    // add &quot;.bat&quot; for Maven 3.0.5..3.2.5 if exists
-<span class="nc" id="L86">    File batFile = toBatFile(mvnBinPath);</span>
-<span class="nc bnc" id="L87" title="All 6 branches missed.">    if (batFile.exists() &amp;&amp; batFile.isFile() &amp;&amp; batFile.canRead()) {</span>
-<span class="nc" id="L88">      return Optional.of(batFile);</span>
+  private Optional&lt;Path&gt; checkExecutableViaPathEnvironment() {
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">    if (!this.pathEnvironment.isPresent()) {</span>
+<span class="nc" id="L128">      return Optional.empty();</span>
     }
 
-    // add &quot;.cmd&quot; for Maven 3.3.1... if exists
-<span class="nc" id="L92">    File cmdFile = toCmdFile(mvnBinPath);</span>
-<span class="nc bnc" id="L93" title="All 6 branches missed.">    if (cmdFile.exists() &amp;&amp; cmdFile.isFile() &amp;&amp; cmdFile.canRead()) {</span>
-<span class="nc" id="L94">      return Optional.of(cmdFile);</span>
-    }
-
-<span class="nc" id="L97">    return Optional.empty();</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">    String pathSeparator = this.isRunningOnWindows ? &quot;;&quot; : &quot;:&quot;;</span>
+<span class="fc" id="L132">    Pattern pathSeparatorPattern = Pattern.compile(Pattern.quote(pathSeparator));</span>
+<span class="fc" id="L133">    return Stream.of(pathSeparatorPattern.split(pathEnvironment.get()))</span>
+<span class="fc" id="L134">        .map(this::intoPath)</span>
+<span class="fc" id="L135">        .map(this::executable)</span>
+<span class="fc" id="L136">        .filter(Optional::isPresent)</span>
+<span class="fc" id="L137">        .findFirst()</span>
+<span class="fc" id="L138">        .orElse(Optional.empty());</span>
   }
 
-  Optional&lt;File&gt; checkExecutable(Path mavenHomeLocation) {
-<span class="nc" id="L101">    Path path = Paths.get(mavenHomeLocation.toString());</span>
-<span class="nc bnc" id="L102" title="All 2 branches missed.">    if (OS.WINDOWS.isCurrentOs()) {</span>
-<span class="nc" id="L103">      return checkOnWindows(path);</span>
-    } else {
-<span class="nc" id="L105">      return checkOnNoneWindows(path);</span>
+  Optional&lt;Path&gt; findMvn() {
+<span class="fc" id="L142">    Optional&lt;Path&gt; path = mavenHomeFromSystemProperty()</span>
+<span class="fc" id="L143">        .map(this::intoPath)</span>
+<span class="fc" id="L144">        .map(this::intoBin)</span>
+<span class="fc" id="L145">        .flatMap(this::executable);</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">    if (path.isPresent()) {</span>
+<span class="fc" id="L147">      return path;</span>
     }
-  }
-
-  Optional&lt;File&gt; checkExecutableViaPathEnvironment() {
-<span class="nc" id="L110">    Pattern pathSeparatorPattern = Pattern.compile(File.pathSeparator);</span>
-<span class="nc" id="L111">    String path = System.getenv(&quot;PATH&quot;);</span>
-<span class="nc" id="L112">    String[] split = path.split(pathSeparatorPattern.toString());</span>
-<span class="nc bnc" id="L113" title="All 2 branches missed.">    for (String item : split) {</span>
-<span class="nc" id="L114">      Optional&lt;File&gt; mvnLocation = checkExecutable(Paths.get(item));</span>
-<span class="nc bnc" id="L115" title="All 2 branches missed.">      if (mvnLocation.isPresent()) {</span>
-<span class="nc" id="L116">        return mvnLocation;</span>
-      }
-    }
-<span class="nc" id="L119">    return Optional.empty();</span>
-  }
-
-  Optional&lt;File&gt; findMvn() {
-<span class="nc" id="L123">    Optional&lt;String&gt; s = mavenHomeFromSystemProperty();</span>
-<span class="nc bnc" id="L124" title="All 2 branches missed.">    if (s.isPresent()) {</span>
-<span class="nc" id="L125">      Optional&lt;File&gt; file = checkExecutable(Paths.get(s.get(), &quot;bin&quot;));</span>
-<span class="nc bnc" id="L126" title="All 2 branches missed.">      if (!file.isPresent()) {</span>
-<span class="nc" id="L127">        return Optional.empty();</span>
-      }
-<span class="nc" id="L129">      return checkExecutableViaPathEnvironment();</span>
-    }
-<span class="nc" id="L131">    return checkExecutableViaPathEnvironment();</span>
+<span class="fc" id="L149">    return checkExecutableViaPathEnvironment();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
