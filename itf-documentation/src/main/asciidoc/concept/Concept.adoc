@@ -382,7 +382,12 @@ class IntegrationIT {
 ----
 
 
+
 === Mock Repository Manager
+
+https://github.com/dzikoysk/nanomaven
+
+
 The Mock Repository Manager is as the name implies a mock for a repository.
 This is sometimes useful to test things like creating releases
 {maven-release-plugin} or define particular content for remote repositories within
@@ -696,8 +701,8 @@ classes within the whole package inclusive all sub packages.
                             ├── src/
                             └── pom.xml
 ----
-This would mean that the `.pre-release-repo` contains already installed artifacts etc.
-The `.pre-snapshot-repo` contains snapshots of particular aritifacts.
+This would meant that the `.pre-release-repo` contains already installed artifacts etc.
+The `.pre-snapshot-repo` contains snapshots of particular artifacts.
 
 To get above usable in Maven you have to have a `settings.xml` which contains the appropriate
 configuration which looks like this:
