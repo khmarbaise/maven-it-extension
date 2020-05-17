@@ -58,10 +58,6 @@
 
  * Name {issue-??} - ..
 
-*GitHub Improvements*
-
- * {issue-90} - Improving build with cache usage on GitHub actions.
-
 *Dependency Upgrades*
 
 * {issue-85} - Upgrade AssertJ from 3.15.0 to 3.16.0
@@ -73,6 +69,8 @@
 
 *Build Improvements*
 
+* {issue-90} - Improving build with cache usage on GitHub actions.
 * {issue-91} - Cache is not correctly configured
+
 
 The full release notes can be found here {release-0.7.0}[Release 0.7.0].
