@@ -449,7 +449,7 @@ the directory structure looks like the following:
 
 
 There are several things to be defined like the source repository which contains
-artifacts https://www.mojohaus.org/mrm/mrm-maven-plugin/examples/invoker-tests.html[already installed an repository]
+artifacts https://www.mojohaus.org/mrm/mrm-maven-plugin/examples/invoker-tests.html[already installed in a repository]
 
 The default directory where to find artifacts which are already within the repository can be
 found in a directory called `.mrm` at the same level as the `@MavenMockRepositoryManager` annotation.

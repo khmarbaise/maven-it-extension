@@ -130,6 +130,7 @@
           <systemProperties>
             <maven.version>${maven.version}</maven.version>
             <maven.home>${maven.home}</maven.home>
+            <localRepository>${settings.localRepository}</localRepository>
           </systemProperties>
         </configuration>
         <executions>

@@ -34,7 +34,8 @@ import java.io.File;
  */
 final class StorageHelper {
 
-  private static final Namespace NAMESPACE_MAVEN_IT = Namespace.create(MavenITExtension.class);
+  //FIXME: Currently made public for HACK!
+  public static final Namespace NAMESPACE_MAVEN_IT = Namespace.create(MavenITExtension.class);
 
   private final Store nameSpace;
 

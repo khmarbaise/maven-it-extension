@@ -33,7 +33,7 @@ class Preconditions {
    *
    * @param parameter The parameter which is checked not to be {@code null}.
    * @param message The message which is thrown in the exception.
-   * @return the given paremter in case not being {@code null}.
+   * @return the given parameter in case not being {@code null}.
    * @throws IllegalArgumentException in case of parameter is {@code null}.
    */
   static <T> T requireNotNull(T parameter, String message) {

@@ -50,6 +50,8 @@ class DirectoryResolverResult {
 
   private final Optional<File> predefinedRepository;
 
+  private final Optional<File> mrmRepository;
+
   DirectoryResolverResult(ExtensionContext context) {
     StorageHelper sh = new StorageHelper(context);
 
@@ -102,6 +104,15 @@ class DirectoryResolverResult {
       //FIXME: Hard coded default. Should we get the default from the Annotation?
       this.predefinedRepository = Optional.empty();
     }
+    Optional<Class<?>> optionalMavenMockRepositoryRepository = AnnotationHelper.findMavenMockRepositoryManager(context);
+    if (optionalMavenMockRepositoryRepository.isPresent()) {
+      MavenMockRepositoryManager mockRepositoryManager = optionalMavenMockRepositoryRepository.get().getAnnotation(MavenMockRepositoryManager.class);
+      String repositoryPath = DirectoryHelper.toFullyQualifiedPath(optionalMavenMockRepositoryRepository.get());
+      File cacheDirectoryBase = new File(this.mavenItsBaseDirectory, repositoryPath);
+      this.mrmRepository = Optional.of(new File(cacheDirectoryBase, mockRepositoryManager.value()));
+    } else {
+      this.mrmRepository = Optional.empty();
+    }
 
   }
 
@@ -143,6 +154,10 @@ class DirectoryResolverResult {
 
   final File getTargetDirectory() {
     return targetDirectory;
+  }
+
+  final Optional<File> getMrmRepository() {
+    return mrmRepository;
   }
 
   class DirectoryExtensionContextResolver {

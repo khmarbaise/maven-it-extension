@@ -27,11 +27,11 @@ import org.apache.maven.model.Model;
  *
  * @author Karl Heinz Marbaise
  */
-class ModelReader {
+class PomModelReader {
 
   private final Model model;
 
-  ModelReader(Model model) {
+  PomModelReader(Model model) {
     this.model = model;
   }
 

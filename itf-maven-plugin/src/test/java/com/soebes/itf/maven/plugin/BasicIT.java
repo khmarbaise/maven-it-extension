@@ -44,7 +44,7 @@ class BasicIT {
    * {@code itf-repo} and the appropriate {@code pom.xml} file.
    * <p>
    * The given test project does not have any dependencies nor any code.
-   * <p>
+   * </p>
    * We are using {@code pre-integration-test} cause we want to test only the
    * plugin itself.
    *
@@ -81,7 +81,7 @@ class BasicIT {
    * The given test project has only a single dependency but no code at all.
    * The single dependency is <a href="https://search.maven.org/artifact/org.apiguardian/apiguardian-api/1.1.0/jar">apiguardian-api 1.1.0</a>
    * which does not has a dependency on it own.
-   * <p>
+   * </p>
    * We are using {@code pre-integration-test} cause we want to test only the
    * plugin itself.
    *
@@ -130,7 +130,7 @@ class BasicIT {
    * (scope:compile). Furthermore the hamcrest-core has a
    * <a href="https://search.maven.org/artifact/org.hamcrest/hamcrest-parent/1.3/pom">hamcrest-parent</a>
    * which needs to be installed as well.
-   * <p>
+   * </p>
    * We are using {@code pre-integration-test} cause we want to test only the
    * plugin itself.
    *

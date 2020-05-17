@@ -105,6 +105,9 @@ class AnnotationHelper {
   static Optional<Class<?>> findMavenPredefinedRepositoryAnnotation(ExtensionContext context) {
     return findAnnotation(context, MavenPredefinedRepository.class);
   }
+  static Optional<Class<?>> findMavenMockRepositoryManager(ExtensionContext context) {
+    return findAnnotation(context, MavenMockRepositoryManager.class);
+  }
 
   static Optional<Class<?>> findMavenITAnnotation(ExtensionContext context) {
     return findAnnotation(context, MavenJupiterExtension.class);

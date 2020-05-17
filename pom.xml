@@ -117,6 +117,11 @@
         <artifactId>xmlunit-assertj</artifactId>
         <version>2.7.0</version>
       </dependency>
+      <dependency>
+        <groupId>org.xmlunit</groupId>
+        <artifactId>xmlunit-core</artifactId>
+        <version>2.6.4</version>
+      </dependency>
 
       <dependency>
         <groupId>org.apiguardian</groupId>
@@ -139,12 +144,33 @@
       <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-model</artifactId>
-        <version>3.3.9</version>
+        <version>3.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-settings</artifactId>
+        <version>3.1.0</version>
       </dependency>
       <dependency>
         <groupId>net.bytebuddy</groupId>
         <artifactId>byte-buddy</artifactId>
         <version>1.10.9</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>mrm-api</artifactId>
+        <version>1.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>mrm-servlet</artifactId>
+        <version>1.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>me.alexpanov</groupId>
+        <artifactId>free-port-finder</artifactId>
+        <version>1.1.1</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -218,6 +244,7 @@
     <module>itf-extension-maven</module>
     <module>itf-examples</module>
     <module>itf-documentation</module>
+    <module>itf-mrm</module>
   </modules>
 
 
