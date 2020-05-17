@@ -16,11 +16,11 @@
 //   under the License.
 //
 = Integration Testing Framework Users Guide
+Karl Heinz Marbaise; {docdate}
 :author: Karl Heinz Marbaise
-:email: khmarbaise@apache.org
 :sectnums:
 :toc: left
-
+//
 :junit-jupiter: https://junit.org/junit5/[JUnit Jupiter]
 :junit-jupiter-extension: https://junit.org/junit5/docs/current/user-guide/#extensions
 :junit-jupiter-user-guide: https://junit.org/junit5/docs/current/user-guide/[JUnit Jupiter User Guide]
@@ -32,7 +32,7 @@
 :backgorund-guide: https://khmarbaise.github.io/maven-it-extension/itf-documentation/background/background.html
 :itf-issues: https://github.com/khmarbaise/maven-it-extension/issues
 :assertj: https://assertj.github.io/doc/
-
+//
 :itfexample: _basedir/../..
 
 == Overview

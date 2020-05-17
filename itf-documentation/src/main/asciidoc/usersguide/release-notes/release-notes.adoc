@@ -17,7 +17,7 @@
 //
 [[release-notes]]
 = Integration Testing Framework Release Notes
-:author: Karl Heinz Marbaise
+Karl Heinz Marbaise; {docdate}
 :includedir: _includes
 :sourcedir: src/main/asciidoc/usersguide/release-notes
 :numbered!:
@@ -26,7 +26,7 @@
 This document contains the _change log_ for all Integration Test Framework
 releases since 0.1.0.
 
-Please refer to the <<../user-guide/index.adoc#user-guide,User Guide>> for comprehensive
+Please refer to the <<../user-guide/index.adoc#user-guide,User Guide>> for a comprehensive
 overview and detailed instructions how to use the Integration Testing Framework.
 
 include::{sourcedir}/_release-notes-0.7.0.adoc[]

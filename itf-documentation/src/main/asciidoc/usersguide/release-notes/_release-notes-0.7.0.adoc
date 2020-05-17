@@ -27,25 +27,26 @@
 :issue-95: https://github.com/khmarbaise/maven-it-extension/issues/95[Fixed #95]
 :issue-96: https://github.com/khmarbaise/maven-it-extension/issues/96[Fixed #96]
 :issue-97: https://github.com/khmarbaise/maven-it-extension/issues/97[Fixed #97]
-:issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
+:issue-98: https://github.com/khmarbaise/maven-it-extension/issues/98[Fixed #98]
 
 :release-0.7.0: https://github.com/khmarbaise/maven-it-extension/milestone/7?closed=1
 
-*Date of Release:* ??, 2020
+*Date of Release:* Mai 17, 2020
 
 *Scope:*
 
- - ??
+ - Bug Fixing {issue-88}.
+ - Version in rendered documents {issue-98}.
 
 *Details*
 
- * {issue-??} - ..
+ * {issue-98} - Version/dates in HTML documents.
 
 *Breaking Changes*
 
- * ..
+ * None in this release.
 
-*Reporters of this release*
+*Reporter of this release*
 
  * Philippe Marschall
    ** {issue-91} - Small FileSystem usage Review
@@ -56,7 +57,7 @@
 
 *Contributors of this release*
 
- * Name {issue-??} - ..
+ * none.
 
 *Dependency Upgrades*
 

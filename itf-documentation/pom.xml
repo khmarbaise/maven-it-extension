@@ -72,18 +72,17 @@
         </executions>
         <configuration>
           <logHandler>
+            <outputToConsole>true</outputToConsole>
             <failIf>
               <severity>ERROR</severity>
             </failIf>
           </logHandler>
           <attributes>
-            <version-itf-framework>${project.version}</version-itf-framework>
             <revnumber>${project.version}</revnumber>
-            <toc />
             <linkcss>false</linkcss>
+            <toc>left</toc>
           </attributes>
           <sourceHighlighter>coderay</sourceHighlighter>
-          <sourceDirectory>src/main/asciidoc</sourceDirectory>
           <headerFooter>true</headerFooter>
           <imagesDir>../resources/images</imagesDir>
           <preserveDirectories>true</preserveDirectories>
