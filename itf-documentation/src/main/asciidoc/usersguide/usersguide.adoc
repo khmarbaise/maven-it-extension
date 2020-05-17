@@ -49,11 +49,14 @@ that makes writing integration tests for Maven Plugins at the
 === Status
 
 The current status of this extension is experimental while some people call it Proof of Concept (PoC).
+This framework has not yet reached version `1.0.0` which means that anything can change, but I try
+to keep compatibility as much as possible. I will only break it if really needed. In such cases it will
+be documented in the release notes. I strongly recommend reading the release notes.
 
 == About this Guide
 
 This guide represents the current state of development and things which work (or more accurate: **should work**).
-If you find things which do not work as described here or even don't work please don't hesitate
+If you find things which do not work as described here or even don't work at all please don't hesitate
 to {itf-issues}[create an appropriate issue] and describe what does not work or does not work at
 all as described or maybe does not work as you might expect it to work.
 
@@ -102,7 +105,7 @@ class FirstMavenIT {
 ----
 <1> The Maven Integration test annotation
 <2> The Maven Test annotation.
-<3> The result of the execution is injected into the test method (details in Chapter link:[Needs to be written])
+<3> The result of the execution injected into the test method (details in Chapter link:[Needs to be written])
 <4> The above used assertions like `assertThat(..)` are custom assertions which will be
 explained in link:#_assertions[Assertions chapter].
 
@@ -211,7 +214,7 @@ needed to install the created artifacts into your local repository for reuse.
 === A Single Test Case
 The location of an integration test defaults to `src/test/java/<package>/FirstMavenIT.java`.
 The selected naming schema like `<any>IT.java` implies that it will be executed by the
-{maven-failsafe-plugin} by convention. This will lead us in a directory structure as follows:
+{maven-failsafe-plugin} by convention. This will lead us to a directory structure as follows:
 [source]
 ----
 .
