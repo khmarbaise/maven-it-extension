@@ -18,6 +18,7 @@
 [[release-notes-0.8.0]]
 == Pre-release 0.8.0
 
+:issue-60: https://github.com/khmarbaise/maven-it-extension/issues/60[Fixed #60]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_8_0: https://github.com/khmarbaise/maven-it-extension/milestone/8?closed=1
@@ -51,7 +52,7 @@
 
 *Build Improvements*
 
-* {issue-??} - ??
+* {issue-60} - Building on JDK15
 
 
 The full release notes can be found here {release_0_8_0}[Release 0.8.0].
