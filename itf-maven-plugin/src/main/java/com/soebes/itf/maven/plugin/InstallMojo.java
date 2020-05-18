@@ -43,10 +43,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+import static java.util.function.Function.identity;
 
 /**
  * itf-maven-plugin.
@@ -287,6 +291,12 @@ public class InstallMojo extends AbstractMojo {
     }
   }
 
+  private static final Function<Artifact, String> ArtifactIntoGAV = artifact -> artifact.getGroupId() + ':' + artifact.getArtifactId() + ':' + artifact.getBaseVersion();
+  private static final Function<MavenProject, String> ProjectIntoGAV = project -> project.getGroupId() + ':' + project.getArtifactId() + ':' + project.getVersion();
+
+  private static final Predicate<Artifact> isInProjects(Map<String, MavenProject> projects) {
+    return s -> projects.containsKey(ArtifactIntoGAV);
+  }
   /**
    * Installs the dependent projects from the reactor to the local repository. The dependencies on other modules from
    * the reactor must be installed or the forked IT builds will fail when using a clean repository.
@@ -297,34 +307,20 @@ public class InstallMojo extends AbstractMojo {
    */
   private void installProjectDependencies(MavenProject mvnProject, Collection<MavenProject> reactorProjects)
       throws MojoExecutionException {
+
     // ... into dependencies that were resolved from reactor projects ...
     Collection<String> dependencyProjects = new LinkedHashSet<>();
     collectAllProjectReferences(mvnProject, dependencyProjects);
 
     // index available reactor projects
-    Map<String, MavenProject> projects = new HashMap<>(reactorProjects.size());
-    for (MavenProject reactorProject : reactorProjects) {
-      String projectId =
-          reactorProject.getGroupId() + ':' + reactorProject.getArtifactId() + ':' + reactorProject.getVersion();
-
-      projects.put(projectId, reactorProject);
-    }
+    Map<String, MavenProject> projects = reactorProjects.stream()
+        .collect(Collectors.toMap(ProjectIntoGAV, identity()));
 
     // group transitive dependencies (even those that don't contribute to the class path like POMs) ...
-    Collection<Artifact> artifacts = mvnProject.getArtifacts();
     // ... and those that were resolved from the (local) repo
-    Collection<Artifact> dependencyArtifacts = new LinkedHashSet<>();
-
-    for (Artifact artifact : artifacts) {
-      // workaround for MNG-2961 to ensure the base version does not contain a timestamp
-      artifact.isSnapshot();
-
-      String projectId = artifact.getGroupId() + ':' + artifact.getArtifactId() + ':' + artifact.getBaseVersion();
-
-      if (!projects.containsKey(projectId)) {
-        dependencyArtifacts.add(artifact);
-      }
-    }
+    Collection<Artifact> dependencyArtifacts = mvnProject.getArtifacts().stream()
+        .filter(isInProjects(projects).negate())
+        .collect(Collectors.collectingAndThen(Collectors.toList(), LinkedHashSet::new));
 
     // install dependencies
     try {
