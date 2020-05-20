@@ -20,6 +20,7 @@
 
 :issue-60: https://github.com/khmarbaise/maven-it-extension/issues/60[Fixed #60]
 :issue-93: https://github.com/khmarbaise/maven-it-extension/issues/93[Fixed #93]
+:issue-99: https://github.com/khmarbaise/maven-it-extension/issues/99[Fixed #99]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_8_0: https://github.com/khmarbaise/maven-it-extension/milestone/8?closed=1
@@ -50,7 +51,7 @@
 
 *Dependency Upgrades*
 
-* {issue-??} - ??
+* {issue-99} - Upgrade equalsverifier from 3.1.13 to 3.3
 
 *Build Improvements*
 
