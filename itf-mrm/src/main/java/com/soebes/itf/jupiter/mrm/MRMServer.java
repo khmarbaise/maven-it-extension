@@ -20,7 +20,6 @@ package com.soebes.itf.jupiter.mrm;
  */
 
 import org.codehaus.mojo.mrm.api.FileSystem;
-import org.codehaus.mojo.mrm.impl.CompositeFileSystem;
 
 import java.net.URI;
 import java.util.UUID;
@@ -57,8 +56,7 @@ public class MRMServer {
   public FileSystemServer create() {
     Storage storage = new Storage(this.repoContainer);
 
-    CompositeFileSystem into = storage.into();
-    this.mrm = createFileSystemServer(into);
+    this.mrm = createFileSystemServer(storage.into());
     return mrm;
   }
 
