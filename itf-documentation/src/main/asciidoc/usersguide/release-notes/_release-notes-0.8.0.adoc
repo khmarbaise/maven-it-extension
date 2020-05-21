@@ -21,6 +21,7 @@
 :issue-60: https://github.com/khmarbaise/maven-it-extension/issues/60[Fixed #60]
 :issue-93: https://github.com/khmarbaise/maven-it-extension/issues/93[Fixed #93]
 :issue-99: https://github.com/khmarbaise/maven-it-extension/issues/99[Fixed #99]
+:pr-100: https://github.com/khmarbaise/maven-it-extension/pull/100[Pull request #100]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_8_0: https://github.com/khmarbaise/maven-it-extension/milestone/8?closed=1
@@ -41,13 +42,15 @@
 
 *Reporter of this release*
 
- * Name.
-   ** {issue-??} - XXX
+ * Roland Weisleder
+   ** {pr-100} - Remove duplicated line from code block in README.md
 
 *Contributors of this release*
 
  * Sandra Parsick
    ** {issue-93} - Add support for editorconfig
+ * Roland Weisleder
+   ** {pr-100} - Remove duplicated line from code block in README.md
 
 *Dependency Upgrades*
 
