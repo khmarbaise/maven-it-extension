@@ -109,7 +109,6 @@ is involved:
         <execution>
           <id>installing</id>
           <phase>pre-integration-test</phase>
-          <phase>pre-integration-test</phase>
           <goals>
             <goal>install</goal>
           </goals>
