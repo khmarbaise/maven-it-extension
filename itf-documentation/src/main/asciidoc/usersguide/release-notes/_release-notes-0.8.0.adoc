@@ -21,6 +21,7 @@
 :issue-60: https://github.com/khmarbaise/maven-it-extension/issues/60[Fixed #60]
 :issue-93: https://github.com/khmarbaise/maven-it-extension/issues/93[Fixed #93]
 :issue-99: https://github.com/khmarbaise/maven-it-extension/issues/99[Fixed #99]
+:issue-101: https://github.com/khmarbaise/maven-it-extension/issues/101[Fixed #101]
 :pr-100: https://github.com/khmarbaise/maven-it-extension/pull/100[Pull request #100]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
@@ -54,7 +55,8 @@
 
 *Dependency Upgrades*
 
-* {issue-99} - Upgrade equalsverifier from 3.1.13 to 3.3
+ * {issue-99} - Upgrade equalsverifier from 3.1.13 to 3.3
+ * {issue-101} - Upgrade smpp from 5.1.0 to 5.2.0
 
 *Build Improvements*
 
