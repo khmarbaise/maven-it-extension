@@ -22,6 +22,7 @@
 :issue-93: https://github.com/khmarbaise/maven-it-extension/issues/93[Fixed #93]
 :issue-99: https://github.com/khmarbaise/maven-it-extension/issues/99[Fixed #99]
 :issue-101: https://github.com/khmarbaise/maven-it-extension/issues/101[Fixed #101]
+:issue-102: https://github.com/khmarbaise/maven-it-extension/issues/102[Fixed #102]
 :pr-100: https://github.com/khmarbaise/maven-it-extension/pull/100[Pull request #100]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
@@ -61,6 +62,8 @@
 *Build Improvements*
 
 * {issue-60} - Building on JDK15
+* {issue-102} - JDK15 Build fails based on jacoco; Need to wait for
+                a new release of JaCoCo.
 
 
 The full release notes can be found here {release_0_8_0}[Release 0.8.0].
