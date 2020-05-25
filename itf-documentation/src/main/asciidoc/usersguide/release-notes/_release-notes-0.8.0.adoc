@@ -25,6 +25,7 @@
 :issue-101: https://github.com/khmarbaise/maven-it-extension/issues/101[Fixed #101]
 :issue-102: https://github.com/khmarbaise/maven-it-extension/issues/102[Fixed #102]
 :issue-103: https://github.com/khmarbaise/maven-it-extension/issues/103[Fixed #103]
+:issue-104: https://github.com/khmarbaise/maven-it-extension/issues/104[Fixed #104]
 :issue-105: https://github.com/khmarbaise/maven-it-extension/issues/105[Fixed #105]
 :issue-106: https://github.com/khmarbaise/maven-it-extension/issues/106[Fixed #106]
 :issue-107: https://github.com/khmarbaise/maven-it-extension/issues/107[Fixed #107]
@@ -43,6 +44,7 @@
 
  * {issue-87} - Remove duplicate implementations for PomReader/PomUtils
  * {issue-106} - Wrong usage of a function InstallMojo
+ * {issue-104} - Improve code based on SonarQube
 
 *Breaking Changes*
 

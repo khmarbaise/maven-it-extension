@@ -26,6 +26,10 @@ import static com.soebes.itf.jupiter.extension.Preconditions.requireNotNull;
  */
 final class GoalPriority {
 
+  private GoalPriority() {
+    // intentionally empty.
+  }
+
   /**
    * The goals which are defined by {@link MavenTest} can overwrite the goals defined by {@link MavenJupiterExtension}. In {@link
    * MavenJupiterExtension} there will be defined a set of default goals.

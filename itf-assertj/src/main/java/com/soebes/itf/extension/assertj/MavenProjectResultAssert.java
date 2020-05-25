@@ -202,4 +202,11 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     return new MavenProjectResultAssert(mavenProjectResult);
   }
 
+
+  @Override
+  public MavenProjectResultAssert isEqualTo(Object expected) {
+    objects.assertEqual(info, actual, expected);
+    return myself;
+  }
+
 }

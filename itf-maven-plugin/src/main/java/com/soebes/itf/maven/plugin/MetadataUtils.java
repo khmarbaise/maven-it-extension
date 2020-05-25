@@ -46,6 +46,14 @@ import java.util.TimeZone;
  */
 class MetadataUtils {
 
+  private static final String VERSION = "version";
+  private static final String VERSIONING = "versioning";
+  private static final String ARTIFACT_ID = "artifactId";
+  private static final String GROUP_ID = "groupId";
+  private static final String METADATA = "metadata";
+  private static final String LAST_UPDATED = "lastUpdated";
+  private static final String VERSIONS = "versions";
+
   /**
    * Creates local metadata files for the specified artifact. The goal is to simulate the installation of the artifact
    * by a local build, thereby decoupling the forked builds from the inderministic collection of remote repositories
@@ -65,13 +73,13 @@ class MetadataUtils {
     if (artifact.isSnapshot()) {
       File metadataFile = new File(file.getParentFile(), "maven-metadata-local.xml");
 
-      Xpp3Dom metadata = new Xpp3Dom("metadata");
-      addChild(metadata, "groupId", artifact.getGroupId());
-      addChild(metadata, "artifactId", artifact.getArtifactId());
-      addChild(metadata, "version", artifact.getBaseVersion());
-      Xpp3Dom versioning = new Xpp3Dom("versioning");
+      Xpp3Dom metadata = new Xpp3Dom(METADATA);
+      addChild(metadata, GROUP_ID, artifact.getGroupId());
+      addChild(metadata, ARTIFACT_ID, artifact.getArtifactId());
+      addChild(metadata, VERSION, artifact.getBaseVersion());
+      Xpp3Dom versioning = new Xpp3Dom(VERSIONING);
       versioning.addChild(addChild(new Xpp3Dom("snapshot"), "localCopy", "true"));
-      addChild(versioning, "lastUpdated", timestamp);
+      addChild(versioning, LAST_UPDATED, timestamp);
       metadata.addChild(versioning);
 
       writeMetadata(metadataFile, metadata);
@@ -84,12 +92,12 @@ class MetadataUtils {
     Xpp3Dom metadata = readMetadata(metadataFile);
 
     if (metadata != null) {
-      Xpp3Dom versioning = metadata.getChild("versioning");
+      Xpp3Dom versioning = metadata.getChild(VERSIONING);
       if (versioning != null) {
-        Xpp3Dom versions = versioning.getChild("versions");
+        Xpp3Dom versions = versioning.getChild(VERSIONS);
         if (versions != null) {
 
-          Xpp3Dom[] children = versions.getChildren("version");
+          Xpp3Dom[] children = versions.getChildren(VERSION);
           for (Xpp3Dom aChildren : children) {
             allVersions.add(aChildren.getValue());
           }
@@ -99,12 +107,12 @@ class MetadataUtils {
 
     allVersions.add(artifact.getBaseVersion());
 
-    metadata = new Xpp3Dom("metadata");
-    addChild(metadata, "groupId", artifact.getGroupId());
-    addChild(metadata, "artifactId", artifact.getArtifactId());
-    Xpp3Dom versioning = new Xpp3Dom("versioning");
-    versioning.addChild(addChildren(new Xpp3Dom("versions"), "version", allVersions));
-    addChild(versioning, "lastUpdated", timestamp);
+    metadata = new Xpp3Dom(METADATA);
+    addChild(metadata, GROUP_ID, artifact.getGroupId());
+    addChild(metadata, ARTIFACT_ID, artifact.getArtifactId());
+    Xpp3Dom versioning = new Xpp3Dom(VERSIONING);
+    versioning.addChild(addChildren(new Xpp3Dom(VERSIONS), VERSION, allVersions));
+    addChild(versioning, LAST_UPDATED, timestamp);
     metadata.addChild(versioning);
 
     metadata = Xpp3DomUtils.mergeXpp3Dom(metadata, readMetadata(metadataFile));

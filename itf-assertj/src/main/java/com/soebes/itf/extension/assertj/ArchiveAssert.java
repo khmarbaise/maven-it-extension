@@ -74,11 +74,11 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
 
   public ArchiveAssert doesNotContain(String... files) {
     try (JarFile jarFile = new JarFile(this.actual)) {
-      List<String> includes = Arrays.asList(files);
+      List<String> localIncludes = Arrays.asList(files);
       Assertions.assertThat(jarFile.stream())
           .describedAs(CHECKING_EAR_FILE_NAMES)
           .extracting(ZipEntry::getName)
-          .doesNotContain(includes.toArray(new String[]{}));
+          .doesNotContain(localIncludes.toArray(new String[]{}));
     } catch (IOException e) {
       failWithMessage(IOEXCEPTION_HAPPENED, e.getMessage());
     }
@@ -115,6 +115,12 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
 
   public MavenProjectResultAssert and() {
     return this.parent;
+  }
+
+  @Override
+  public ArchiveAssert isEqualTo(Object expected) {
+    objects.assertEqual(info, actual, expected);
+    return myself;
   }
 
 }

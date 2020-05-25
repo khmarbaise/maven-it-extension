@@ -35,7 +35,6 @@ import org.junit.jupiter.api.extension.ExtensionConfigurationException;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.InvocationInterceptor;
 import org.junit.jupiter.api.extension.ParameterContext;
-import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
 
@@ -86,15 +85,13 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
   }
 
   @Override
-  public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
-      throws ParameterResolutionException {
+  public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
     return Stream.of(ParameterType.values())
         .anyMatch(parameterType -> parameterType.getKlass() == parameterContext.getParameter().getType());
   }
 
   @Override
-  public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
-      throws ParameterResolutionException {
+  public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
 
     StorageHelper sh = new StorageHelper(extensionContext);
 
@@ -112,6 +109,16 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     invocation.proceed();
   }
 
+
+  /**
+   * @return The content of the {@code PATH} environment variable.
+   * @implNote The usage of System.getenv("PATH") triggers the java:S5304. In this case we don't transfer sensitive information.
+   * In this case we suppress that SonarQube warning.
+   */
+  @SuppressWarnings("java:S5304")
+  private Optional<String> getSystemPATH() {
+    return Optional.ofNullable(System.getenv("PATH"));
+  }
 
   @Override
   public void beforeTestExecution(ExtensionContext context)
@@ -168,9 +175,9 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
       }
     }
 
-    Optional<Path> mvnLocation = new MavenLocator(FileSystems.getDefault(), Optional.ofNullable(System.getenv("PATH")), OS.WINDOWS.isCurrentOs()).findMvn();
+    Optional<Path> mvnLocation = new MavenLocator(FileSystems.getDefault(), getSystemPATH(), OS.WINDOWS.isCurrentOs()).findMvn();
     if (!mvnLocation.isPresent()) {
-      throw new IllegalStateException(String.format("We could not find the maven executable `mvn` somewhere"));
+      throw new IllegalStateException("We could not find the maven executable `mvn` somewhere");
     }
 
     ApplicationExecutor mavenExecutor = new ApplicationExecutor(directoryResolverResult.getProjectDirectory(),

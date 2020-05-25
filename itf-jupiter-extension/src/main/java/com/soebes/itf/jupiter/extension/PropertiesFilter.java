@@ -48,26 +48,4 @@ class PropertiesFilter {
         .collect(Collectors.toList());
   }
 
-  /**
-   * This is list of currently supported properties.
-   * <p>
-   * TODO: Need to reconsider this.
-   */
-  public enum MavenPropertyNames {
-    groupId("project.groupId"),
-    artifactId("project.artifactId"),
-    version("project.version");
-
-    private final String name;
-
-    MavenPropertyNames(String name) {
-      this.name = name;
-    }
-
-    public final String getName() {
-      return name;
-    }
-
-  }
-
 }
