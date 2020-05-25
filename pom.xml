@@ -50,6 +50,9 @@
   </distributionManagement>
 
   <properties>
+    <sonar.organization>khmarbaise</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
     <mockito.version>3.3.3</mockito.version>
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -153,6 +156,11 @@
   <build>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>3.7.0.1746</version>
+        </plugin>
         <plugin>
           <groupId>org.asciidoctor</groupId>
           <artifactId>asciidoctor-maven-plugin</artifactId>
