@@ -24,6 +24,7 @@
 :issue-101: https://github.com/khmarbaise/maven-it-extension/issues/101[Fixed #101]
 :issue-102: https://github.com/khmarbaise/maven-it-extension/issues/102[Fixed #102]
 :issue-103: https://github.com/khmarbaise/maven-it-extension/issues/103[Fixed #103]
+:issue-105: https://github.com/khmarbaise/maven-it-extension/issues/105[Fixed #105]
 :issue-106: https://github.com/khmarbaise/maven-it-extension/issues/106[Fixed #106]
 :pr-100: https://github.com/khmarbaise/maven-it-extension/pull/100[Pull request #100]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
@@ -67,6 +68,7 @@
 * {issue-102} - JDK15 Build fails based on jacoco; Need to wait for
                 a new release of JaCoCo.
 * {issue-103} - Add SonarQube analysis
+* {issue-105} - Change the used JDK for running SonarQube analysis
 
 
 The full release notes can be found here {release_0_8_0}[Release 0.8.0].

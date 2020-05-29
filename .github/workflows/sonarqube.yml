@@ -29,7 +29,7 @@ jobs:
   linux:
     name: Linux-Sonar
     runs-on: ubuntu-latest
-    container: "maven:3.6.3-jdk-8-slim"
+    container: "maven:3.6.3-jdk-11-slim"
     steps:
       - uses: actions/checkout@v1
       - uses: actions/cache@v1
