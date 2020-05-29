@@ -41,15 +41,28 @@ public final class ProjectHelper {
     // intentionally private.
   }
 
-  public static Model readProject(File directory) {
-<span class="nc" id="L45">    MavenXpp3Reader mavenXpp3Reader = new MavenXpp3Reader();</span>
+  /**
+   * @param inputStream The stream where to read the {@code pom.xml} from.
+   * @return The {@link Model}
+   */
+  public static Model readProject(InputStream inputStream) {
+<span class="fc" id="L49">    MavenXpp3Reader mavenXpp3Reader = new MavenXpp3Reader();</span>
     try {
-<span class="nc" id="L47">      InputStream is = new FileInputStream(new File(directory, &quot;pom.xml&quot;));</span>
-<span class="nc" id="L48">      Model read = mavenXpp3Reader.read(is);</span>
-<span class="nc" id="L49">      is.close();</span>
-<span class="nc" id="L50">      return read;</span>
-<span class="nc" id="L51">    } catch (XmlPullParserException | IOException e) {</span>
-<span class="nc" id="L52">      throw new IllegalStateException(&quot;Failed to read pom.xml&quot;, e);</span>
+<span class="fc" id="L51">      return mavenXpp3Reader.read(inputStream);</span>
+<span class="nc" id="L52">    } catch (XmlPullParserException | IOException e) {</span>
+<span class="nc" id="L53">      throw new IllegalStateException(&quot;Failed to read pom.xml&quot;, e);</span>
+    }
+  }
+
+  /**
+   * @param pomFile The directory where to read the {@code pom.xml} from.
+   * @return The {@link Model}
+   */
+  public static Model readProject(File pomFile) {
+<span class="nc" id="L62">    try (InputStream is = new FileInputStream(pomFile)) {</span>
+<span class="nc" id="L63">      return readProject(is);</span>
+<span class="nc" id="L64">    } catch (IOException e) {</span>
+<span class="nc" id="L65">      throw new IllegalStateException(&quot;Failed to read pom.xml&quot;, e);</span>
     }
   }
 }

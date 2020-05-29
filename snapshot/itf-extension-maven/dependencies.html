@@ -60,12 +60,14 @@
                   <li><a href="spotbugs.html" title="SpotBugs">SpotBugs</a></li>
                   <li><a href="surefire-report.html" title="Surefire Report">Surefire Report</a></li>
                   <li><a href="apidocs/index.html" title="Javadoc">Javadoc</a></li>
+                  <li><a href="testapidocs/index.html" title="Test Javadoc">Test Javadoc</a></li>
                   <li><a href="cpd.html" title="CPD">CPD</a></li>
                   <li><a href="pmd.html" title="PMD">PMD</a></li>
                   <li><a href="jdepend-report.html" title="JDepend">JDepend</a></li>
                   <li><a href="dependency-updates-report.html" title="Dependency Updates Report">Dependency Updates Report</a></li>
                   <li><a href="plugin-updates-report.html" title="Plugin Updates Report">Plugin Updates Report</a></li>
                   <li><a href="property-updates-report.html" title="Property Updates Report">Property Updates Report</a></li>
+                  <li><a href="jacoco/index.html" title="JaCoCo">JaCoCo</a></li>
                   <li><a href="jacoco-aggregate/index.html" title="JaCoCo Aggregate">JaCoCo Aggregate</a></li>
               </ul>
             </li>
@@ -161,6 +163,27 @@
 <td><a class="externalLink" href="https://junit.org/junit5/">junit-platform-commons</a></td>
 <td>1.6.2</td>
 <td>jar</td>
+<td><a class="externalLink" href="https://www.eclipse.org/legal/epl-v20.html">Eclipse Public License v2.0</a></td></tr></table></section><a name="Project_Dependencies_test"></a><section>
+<h3><a name="test"></a>test</h3>
+<p>The following is a list of test dependencies for this project. These dependencies are only required to compile and run unit tests for the application:</p>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>GroupId</th>
+<th>ArtifactId</th>
+<th>Version</th>
+<th>Type</th>
+<th>Licenses</th></tr>
+<tr class="b">
+<td>org.assertj</td>
+<td><a class="externalLink" href="http://assertj.org/assertj-core">assertj-core</a></td>
+<td>3.16.1</td>
+<td>jar</td>
+<td><a class="externalLink" href="http://www.apache.org/licenses/LICENSE-2.0.txt">Apache License, Version 2.0</a></td></tr>
+<tr class="a">
+<td>org.junit.jupiter</td>
+<td><a class="externalLink" href="https://junit.org/junit5/">junit-jupiter-api</a></td>
+<td>5.6.2</td>
+<td>jar</td>
 <td><a class="externalLink" href="https://www.eclipse.org/legal/epl-v20.html">Eclipse Public License v2.0</a></td></tr></table></section></section><a name="Project_Transitive_Dependencies"></a><section>
 <h2><a name="Project_Transitive_Dependencies"></a>Project Transitive Dependencies</h2>
 <p>The following is a list of transitive dependencies for this project. Transitive dependencies are the dependencies of the project dependencies.</p><a name="Project_Transitive_Dependencies_compile"></a><section>
@@ -184,7 +207,22 @@
 <td><a class="externalLink" href="http://plexus.codehaus.org/plexus-utils">plexus-utils</a></td>
 <td>3.0.22</td>
 <td>jar</td>
-<td><a class="externalLink" href="http://www.apache.org/licenses/LICENSE-2.0.txt">The Apache Software License, Version 2.0</a></td></tr></table></section></section><a name="Project_Dependency_Graph"></a><section>
+<td><a class="externalLink" href="http://www.apache.org/licenses/LICENSE-2.0.txt">The Apache Software License, Version 2.0</a></td></tr></table></section><a name="Project_Transitive_Dependencies_test"></a><section>
+<h3><a name="test"></a>test</h3>
+<p>The following is a list of test dependencies for this project. These dependencies are only required to compile and run unit tests for the application:</p>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>GroupId</th>
+<th>ArtifactId</th>
+<th>Version</th>
+<th>Type</th>
+<th>Licenses</th></tr>
+<tr class="b">
+<td>org.opentest4j</td>
+<td><a class="externalLink" href="https://github.com/ota4j-team/opentest4j">opentest4j</a></td>
+<td>1.2.0</td>
+<td>jar</td>
+<td><a class="externalLink" href="http://www.apache.org/licenses/LICENSE-2.0.txt">The Apache License, Version 2.0</a></td></tr></table></section></section><a name="Project_Dependency_Graph"></a><section>
 <h2><a name="Project_Dependency_Graph"></a>Project Dependency Graph</h2>
 <script language="javascript" type="text/javascript">
       function toggleDependencyDetails( divId, imgId )
@@ -267,12 +305,40 @@
 <td>
 <p><b>Description: </b>Module &quot;junit-platform-commons&quot; of JUnit 5.</p>
 <p><b>URL: </b><a class="externalLink" href="https://junit.org/junit5/">https://junit.org/junit5/</a></p>
-<p><b>Project Licenses: </b><a class="externalLink" href="https://www.eclipse.org/legal/epl-v20.html">Eclipse Public License v2.0</a></p></td></tr></table></div></li></ul></li></ul></section></section><a name="Licenses"></a><section>
+<p><b>Project Licenses: </b><a class="externalLink" href="https://www.eclipse.org/legal/epl-v20.html">Eclipse Public License v2.0</a></p></td></tr></table></div></li>
+<li>org.assertj:assertj-core:jar:3.16.1 (test) <img id="_img13" src="./images/icon_info_sml.gif" alt="[Information]" onclick="toggleDependencyDetails( '_dep12', '_img13' );" style="cursor: pointer; vertical-align: text-bottom;"></img><div id="_dep12" style="display:none">
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>AssertJ fluent assertions</th></tr>
+<tr class="b">
+<td>
+<p><b>Description: </b>Rich and fluent assertions for testing for Java</p>
+<p><b>URL: </b><a class="externalLink" href="http://assertj.org/assertj-core">http://assertj.org/assertj-core</a></p>
+<p><b>Project Licenses: </b><a class="externalLink" href="http://www.apache.org/licenses/LICENSE-2.0.txt">Apache License, Version 2.0</a></p></td></tr></table></div></li>
+<li>org.junit.jupiter:junit-jupiter-api:jar:5.6.2 (test) <img id="_img15" src="./images/icon_info_sml.gif" alt="[Information]" onclick="toggleDependencyDetails( '_dep14', '_img15' );" style="cursor: pointer; vertical-align: text-bottom;"></img><div id="_dep14" style="display:none">
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>JUnit Jupiter API</th></tr>
+<tr class="b">
+<td>
+<p><b>Description: </b>Module &quot;junit-jupiter-api&quot; of JUnit 5.</p>
+<p><b>URL: </b><a class="externalLink" href="https://junit.org/junit5/">https://junit.org/junit5/</a></p>
+<p><b>Project Licenses: </b><a class="externalLink" href="https://www.eclipse.org/legal/epl-v20.html">Eclipse Public License v2.0</a></p></td></tr></table></div>
+<ul>
+<li>org.opentest4j:opentest4j:jar:1.2.0 (test) <img id="_img17" src="./images/icon_info_sml.gif" alt="[Information]" onclick="toggleDependencyDetails( '_dep16', '_img17' );" style="cursor: pointer; vertical-align: text-bottom;"></img><div id="_dep16" style="display:none">
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>org.opentest4j:opentest4j</th></tr>
+<tr class="b">
+<td>
+<p><b>Description: </b>Open Test Alliance for the JVM</p>
+<p><b>URL: </b><a class="externalLink" href="https://github.com/ota4j-team/opentest4j">https://github.com/ota4j-team/opentest4j</a></p>
+<p><b>Project Licenses: </b><a class="externalLink" href="http://www.apache.org/licenses/LICENSE-2.0.txt">The Apache License, Version 2.0</a></p></td></tr></table></div></li></ul></li></ul></li></ul></section></section><a name="Licenses"></a><section>
 <h2><a name="Licenses"></a>Licenses</h2>
 <p><b>Apache License 2.0: </b>itf-extension-maven</p>
-<p><b>The Apache License, Version 2.0: </b>org.apiguardian:apiguardian-api</p>
-<p><b>Apache License, Version 2.0: </b>Apache Commons Lang, Maven Model</p>
-<p><b>Eclipse Public License v2.0: </b>JUnit Platform Commons</p>
+<p><b>The Apache License, Version 2.0: </b>org.apiguardian:apiguardian-api, org.opentest4j:opentest4j</p>
+<p><b>Apache License, Version 2.0: </b>Apache Commons Lang, AssertJ fluent assertions, Maven Model</p>
+<p><b>Eclipse Public License v2.0: </b>JUnit Jupiter API, JUnit Platform Commons</p>
 <p><b>The Apache Software License, Version 2.0: </b>Plexus Common Utilities</p></section><a name="Dependency_File_Details"></a><section>
 <h2><a name="Dependency_File_Details"></a>Dependency File Details</h2>
 <table border="0" class="table table-striped">
@@ -309,12 +375,28 @@
 <td>-</td>
 <td>Yes</td></tr>
 <tr class="a">
+<td>assertj-core-3.16.1.jar</td>
+<td>4.7 MB</td>
+<td>3215</td>
+<td>3128</td>
+<td>61</td>
+<td>-</td>
+<td>Yes</td></tr>
+<tr class="b">
 <td>plexus-utils-3.0.22.jar</td>
 <td>244.9 kB</td>
 <td>129</td>
 <td>104</td>
 <td>9</td>
 <td>1.5</td>
+<td>Yes</td></tr>
+<tr class="a">
+<td>junit-jupiter-api-5.6.2.jar</td>
+<td>154 kB</td>
+<td>150</td>
+<td>135</td>
+<td>8</td>
+<td>-</td>
 <td>Yes</td></tr>
 <tr class="b">
 <td>junit-platform-commons-1.6.2.jar</td>
@@ -325,6 +407,14 @@
 <td>-</td>
 <td>Yes</td></tr>
 <tr class="a">
+<td>opentest4j-1.2.0.jar</td>
+<td>7.7 kB</td>
+<td>11</td>
+<td>7</td>
+<td>2</td>
+<td>-</td>
+<td>Yes</td></tr>
+<tr class="b">
 <th>Total</th>
 <th>Size</th>
 <th>Entries</th>
@@ -332,22 +422,30 @@
 <th>Packages</th>
 <th>Java Version</th>
 <th>Debug Information</th></tr>
-<tr class="b">
-<td>5</td>
-<td>942.6 kB</td>
-<td>517</td>
-<td>426</td>
-<td>33</td>
-<td>1.7</td>
-<td>5</td></tr>
 <tr class="a">
+<td>8</td>
+<td>5.8 MB</td>
+<td>3893</td>
+<td>3696</td>
+<td>104</td>
+<td>1.7</td>
+<td>8</td></tr>
+<tr class="b">
 <td>compile: 5</td>
 <td>compile: 942.6 kB</td>
 <td>compile: 517</td>
 <td>compile: 426</td>
 <td>compile: 33</td>
 <td>-</td>
-<td>compile: 5</td></tr></table></section>
+<td>compile: 5</td></tr>
+<tr class="a">
+<td>test: 3</td>
+<td>test: 4.8 MB</td>
+<td>test: 3376</td>
+<td>test: 3270</td>
+<td>test: 71</td>
+<td>-</td>
+<td>test: 3</td></tr></table></section>
         </main>
       </div>
     </div>

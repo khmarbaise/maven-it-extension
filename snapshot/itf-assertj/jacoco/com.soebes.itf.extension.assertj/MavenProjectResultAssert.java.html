@@ -196,9 +196,10 @@ public class MavenProjectResultAssert extends AbstractAssert&lt;MavenProjectResu
 <span class="nc bnc" id="L196" title="All 6 branches missed.">    if (!moduleNameFile.exists() || !moduleNameFile.isHidden() &amp;&amp; !moduleNameFile.isDirectory()) {</span>
 <span class="nc" id="L197">      failWithMessage(EXPECT_HAVING_A_MODULE, moduleName);</span>
     }
-<span class="nc" id="L199">    Model model = ProjectHelper.readProject(moduleNameFile);</span>
-<span class="nc" id="L200">    MavenProjectResult mavenProjectResult = new MavenProjectResult(moduleNameFile, model);</span>
-<span class="nc" id="L201">    return new MavenProjectResultAssert(mavenProjectResult);</span>
+
+<span class="nc" id="L200">    Model model = ProjectHelper.readProject(new File(moduleNameFile, &quot;pom.xml&quot;));</span>
+<span class="nc" id="L201">    MavenProjectResult mavenProjectResult = new MavenProjectResult(moduleNameFile, model);</span>
+<span class="nc" id="L202">    return new MavenProjectResultAssert(mavenProjectResult);</span>
   }
 
 }
