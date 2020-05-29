@@ -1,4 +1,4 @@
-package com.soebes.itf.jupiter.extension;
+package com.soebes.itf.jupiter.maven;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -20,25 +20,23 @@ package com.soebes.itf.jupiter.extension;
  */
 
 import org.apache.maven.model.Model;
-import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.io.InputStream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Karl Heinz Marbaise
  */
-class PomReader {
+class ProjectHelperTest {
 
-  private final Model model;
+  @Test
+  void should_read_the_pom_file_without_any_isseu() {
+    InputStream resourceAsStream = this.getClass().getResourceAsStream("/pom.xml");
+    Model model = ProjectHelper.readProject(resourceAsStream);
 
-  PomReader(InputStream inputStream) throws IOException, XmlPullParserException {
-    MavenXpp3Reader mavenXpp3Reader = new MavenXpp3Reader();
-    this.model = mavenXpp3Reader.read(inputStream);
-  }
-
-  public Model getModel() {
-    return model;
+    assertThat(model.getArtifactId()).isEqualTo("versions-maven-plugin");
+    assertThat(model.getVersion()).isEqualTo("2.8-SNAPSHOT");
   }
 }

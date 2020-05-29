@@ -196,7 +196,8 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     if (!moduleNameFile.exists() || !moduleNameFile.isHidden() && !moduleNameFile.isDirectory()) {
       failWithMessage(EXPECT_HAVING_A_MODULE, moduleName);
     }
-    Model model = ProjectHelper.readProject(moduleNameFile);
+
+    Model model = ProjectHelper.readProject(new File(moduleNameFile, "pom.xml"));
     MavenProjectResult mavenProjectResult = new MavenProjectResult(moduleNameFile, model);
     return new MavenProjectResultAssert(mavenProjectResult);
   }

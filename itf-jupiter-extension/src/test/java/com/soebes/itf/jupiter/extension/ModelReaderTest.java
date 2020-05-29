@@ -19,13 +19,13 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import com.soebes.itf.jupiter.maven.ProjectHelper;
+import org.apache.maven.model.Model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,10 +39,10 @@ class ModelReaderTest {
   class PomWithoutGroupId {
 
     @BeforeEach
-    void beforeEach() throws IOException, XmlPullParserException {
+    void beforeEach() {
       InputStream resourceAsStream = this.getClass().getResourceAsStream("/pom.xml");
-      PomReader pomReader = new PomReader(resourceAsStream);
-      modelReader = new ModelReader(pomReader.getModel());
+      Model model = ProjectHelper.readProject(resourceAsStream);
+      modelReader = new ModelReader(model);
     }
 
     @Test
@@ -70,10 +70,10 @@ class ModelReaderTest {
   class PomWithGAV {
 
     @BeforeEach
-    void beforeEach() throws IOException, XmlPullParserException {
+    void beforeEach() {
       InputStream resourceAsStream = this.getClass().getResourceAsStream("/pom-correct.xml");
-      PomReader pomReader = new PomReader(resourceAsStream);
-      modelReader = new ModelReader(pomReader.getModel());
+      Model model = ProjectHelper.readProject(resourceAsStream);
+      modelReader = new ModelReader(model);
     }
 
     @Test
@@ -101,10 +101,10 @@ class ModelReaderTest {
   class PomWithoutVersion {
 
     @BeforeEach
-    void beforeEach() throws IOException, XmlPullParserException {
+    void beforeEach() {
       InputStream resourceAsStream = this.getClass().getResourceAsStream("/pom-version.xml");
-      PomReader pomReader = new PomReader(resourceAsStream);
-      modelReader = new ModelReader(pomReader.getModel());
+      Model model = ProjectHelper.readProject(resourceAsStream);
+      modelReader = new ModelReader(model);
     }
 
     @Test

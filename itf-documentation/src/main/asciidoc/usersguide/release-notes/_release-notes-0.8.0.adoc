@@ -19,6 +19,7 @@
 == Pre-release 0.8.0
 
 :issue-60: https://github.com/khmarbaise/maven-it-extension/issues/60[Fixed #60]
+:issue-87: https://github.com/khmarbaise/maven-it-extension/issues/87[Fixed #87]
 :issue-93: https://github.com/khmarbaise/maven-it-extension/issues/93[Fixed #93]
 :issue-99: https://github.com/khmarbaise/maven-it-extension/issues/99[Fixed #99]
 :issue-101: https://github.com/khmarbaise/maven-it-extension/issues/101[Fixed #101]
@@ -39,6 +40,7 @@
 
 *Details*
 
+ * {issue-87} - Remove duplicate implementations for PomReader/PomUtils
  * {issue-106} - Wrong usage of a function InstallMojo
 
 *Breaking Changes*

@@ -41,14 +41,27 @@ public final class ProjectHelper {
     // intentionally private.
   }
 
-  public static Model readProject(File directory) {
+  /**
+   * @param inputStream The stream where to read the {@code pom.xml} from.
+   * @return The {@link Model}
+   */
+  public static Model readProject(InputStream inputStream) {
     MavenXpp3Reader mavenXpp3Reader = new MavenXpp3Reader();
     try {
-      InputStream is = new FileInputStream(new File(directory, "pom.xml"));
-      Model read = mavenXpp3Reader.read(is);
-      is.close();
-      return read;
+      return mavenXpp3Reader.read(inputStream);
     } catch (XmlPullParserException | IOException e) {
+      throw new IllegalStateException("Failed to read pom.xml", e);
+    }
+  }
+
+  /**
+   * @param pomFile The directory where to read the {@code pom.xml} from.
+   * @return The {@link Model}
+   */
+  public static Model readProject(File pomFile) {
+    try (InputStream is = new FileInputStream(pomFile)) {
+      return readProject(is);
+    } catch (IOException e) {
       throw new IllegalStateException("Failed to read pom.xml", e);
     }
   }

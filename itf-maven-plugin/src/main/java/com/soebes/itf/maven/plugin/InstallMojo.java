@@ -19,6 +19,7 @@ package com.soebes.itf.maven.plugin;
  * under the License.
  */
 
+import com.soebes.itf.jupiter.maven.ProjectHelper;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.repository.ArtifactRepository;
@@ -392,7 +393,7 @@ public class InstallMojo extends AbstractMojo {
    */
   private void copyParentPoms(File pomFile)
       throws MojoExecutionException {
-    Model model = PomUtils.loadPom(pomFile);
+    Model model = ProjectHelper.readProject(pomFile);
     Parent parent = model.getParent();
     if (parent != null) {
       copyParentPoms(parent.getGroupId(), parent.getArtifactId(), parent.getVersion());

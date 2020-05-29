@@ -40,7 +40,6 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.nio.file.FileSystems;
@@ -206,8 +205,8 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     //Refactor out the following lines
     File mavenBaseDirectory = new File(directoryResolverResult.getTargetDirectory(), "..");
     File pomFile = new File(mavenBaseDirectory, "pom.xml");
-    PomReader pomReader = new PomReader(new FileInputStream(pomFile));
-    ModelReader modelReader = new ModelReader(pomReader.getModel());
+
+    ModelReader modelReader = new ModelReader(ProjectHelper.readProject(pomFile));
     Map<String, String> keyValues = new HashMap<>();
     //The following three elements we are reading from the original pom file.
     keyValues.put("project.groupId", modelReader.getGroupId());
@@ -234,7 +233,7 @@ public class MavenITExtension implements BeforeEachCallback, ParameterResolver, 
     MavenLog log = new MavenLog(mavenExecutor.getStdout(), mavenExecutor.getStdErr());
     MavenCacheResult mavenCacheResult = new MavenCacheResult(directoryResolverResult.getCacheDirectory().toPath());
 
-    Model model = ProjectHelper.readProject(directoryResolverResult.getProjectDirectory());
+    Model model = ProjectHelper.readProject(new File(directoryResolverResult.getProjectDirectory(), "pom.xml"));
     MavenProjectResult mavenProjectResult = new MavenProjectResult(directoryResolverResult.getProjectDirectory(),
         model);
 
