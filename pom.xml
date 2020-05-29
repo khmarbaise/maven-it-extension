@@ -242,7 +242,6 @@
   </build>
 
   <modules>
-    <module>itf-executor</module>
     <module>itf-maven-plugin</module>
     <module>itf-jupiter-extension</module>
     <module>itf-assertj</module>
