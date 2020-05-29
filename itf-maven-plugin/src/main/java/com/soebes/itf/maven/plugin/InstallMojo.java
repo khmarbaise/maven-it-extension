@@ -295,8 +295,9 @@ public class InstallMojo extends AbstractMojo {
   private static final Function<MavenProject, String> ProjectIntoGAV = project -> project.getGroupId() + ':' + project.getArtifactId() + ':' + project.getVersion();
 
   private static final Predicate<Artifact> isInProjects(Map<String, MavenProject> projects) {
-    return s -> projects.containsKey(ArtifactIntoGAV);
+    return s -> projects.containsKey(ArtifactIntoGAV.apply(s));
   }
+
   /**
    * Installs the dependent projects from the reactor to the local repository. The dependencies on other modules from
    * the reactor must be installed or the forked IT builds will fail when using a clean repository.
