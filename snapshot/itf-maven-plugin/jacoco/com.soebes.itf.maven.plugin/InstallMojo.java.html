@@ -295,8 +295,9 @@ import static java.util.function.Function.identity;
 <span class="nc" id="L295">  private static final Function&lt;MavenProject, String&gt; ProjectIntoGAV = project -&gt; project.getGroupId() + ':' + project.getArtifactId() + ':' + project.getVersion();</span>
 
   private static final Predicate&lt;Artifact&gt; isInProjects(Map&lt;String, MavenProject&gt; projects) {
-<span class="nc" id="L298">    return s -&gt; projects.containsKey(ArtifactIntoGAV);</span>
+<span class="nc" id="L298">    return s -&gt; projects.containsKey(ArtifactIntoGAV.apply(s));</span>
   }
+
   /**
    * Installs the dependent projects from the reactor to the local repository. The dependencies on other modules from
    * the reactor must be installed or the forked IT builds will fail when using a clean repository.
@@ -309,79 +310,79 @@ import static java.util.function.Function.identity;
       throws MojoExecutionException {
 
     // ... into dependencies that were resolved from reactor projects ...
-<span class="nc" id="L312">    Collection&lt;String&gt; dependencyProjects = new LinkedHashSet&lt;&gt;();</span>
-<span class="nc" id="L313">    collectAllProjectReferences(mvnProject, dependencyProjects);</span>
+<span class="nc" id="L313">    Collection&lt;String&gt; dependencyProjects = new LinkedHashSet&lt;&gt;();</span>
+<span class="nc" id="L314">    collectAllProjectReferences(mvnProject, dependencyProjects);</span>
 
     // index available reactor projects
-<span class="nc" id="L316">    Map&lt;String, MavenProject&gt; projects = reactorProjects.stream()</span>
-<span class="nc" id="L317">        .collect(Collectors.toMap(ProjectIntoGAV, identity()));</span>
+<span class="nc" id="L317">    Map&lt;String, MavenProject&gt; projects = reactorProjects.stream()</span>
+<span class="nc" id="L318">        .collect(Collectors.toMap(ProjectIntoGAV, identity()));</span>
 
     // group transitive dependencies (even those that don't contribute to the class path like POMs) ...
     // ... and those that were resolved from the (local) repo
-<span class="nc" id="L321">    Collection&lt;Artifact&gt; dependencyArtifacts = mvnProject.getArtifacts().stream()</span>
-<span class="nc" id="L322">        .filter(isInProjects(projects).negate())</span>
-<span class="nc" id="L323">        .collect(Collectors.collectingAndThen(Collectors.toList(), LinkedHashSet::new));</span>
+<span class="nc" id="L322">    Collection&lt;Artifact&gt; dependencyArtifacts = mvnProject.getArtifacts().stream()</span>
+<span class="nc" id="L323">        .filter(isInProjects(projects).negate())</span>
+<span class="nc" id="L324">        .collect(Collectors.collectingAndThen(Collectors.toList(), LinkedHashSet::new));</span>
 
     // install dependencies
     try {
       // copy dependencies that where resolved from the local repo
-<span class="nc bnc" id="L328" title="All 2 branches missed.">      for (Artifact artifact : dependencyArtifacts) {</span>
-<span class="nc" id="L329">        copyArtifact(artifact);</span>
-<span class="nc" id="L330">      }</span>
+<span class="nc bnc" id="L329" title="All 2 branches missed.">      for (Artifact artifact : dependencyArtifacts) {</span>
+<span class="nc" id="L330">        copyArtifact(artifact);</span>
+<span class="nc" id="L331">      }</span>
 
       // install dependencies that were resolved from the reactor
-<span class="nc bnc" id="L333" title="All 2 branches missed.">      for (String projectId : dependencyProjects) {</span>
-<span class="nc" id="L334">        MavenProject dependencyProject = projects.get(projectId);</span>
-<span class="nc bnc" id="L335" title="All 2 branches missed.">        if (dependencyProject == null) {</span>
-<span class="nc" id="L336">          getLog().warn(&quot;skip dependencyProject null for projectId=&quot; + projectId);</span>
-<span class="nc" id="L337">          continue;</span>
+<span class="nc bnc" id="L334" title="All 2 branches missed.">      for (String projectId : dependencyProjects) {</span>
+<span class="nc" id="L335">        MavenProject dependencyProject = projects.get(projectId);</span>
+<span class="nc bnc" id="L336" title="All 2 branches missed.">        if (dependencyProject == null) {</span>
+<span class="nc" id="L337">          getLog().warn(&quot;skip dependencyProject null for projectId=&quot; + projectId);</span>
+<span class="nc" id="L338">          continue;</span>
         }
-<span class="nc" id="L339">        getLog().info(&quot; *-&gt; &quot; + project.getId());</span>
-<span class="nc" id="L340">        installProjectArtifacts(dependencyProject);</span>
-<span class="nc" id="L341">        installProjectParents(dependencyProject);</span>
-<span class="nc" id="L342">      }</span>
-<span class="nc" id="L343">    } catch (Exception e) {</span>
-<span class="nc" id="L344">      throw new MojoExecutionException(&quot;Failed to install project dependencies: &quot; + mvnProject, e);</span>
-<span class="nc" id="L345">    }</span>
-<span class="nc" id="L346">  }</span>
+<span class="nc" id="L340">        getLog().info(&quot; *-&gt; &quot; + project.getId());</span>
+<span class="nc" id="L341">        installProjectArtifacts(dependencyProject);</span>
+<span class="nc" id="L342">        installProjectParents(dependencyProject);</span>
+<span class="nc" id="L343">      }</span>
+<span class="nc" id="L344">    } catch (Exception e) {</span>
+<span class="nc" id="L345">      throw new MojoExecutionException(&quot;Failed to install project dependencies: &quot; + mvnProject, e);</span>
+<span class="nc" id="L346">    }</span>
+<span class="nc" id="L347">  }</span>
 
   protected void collectAllProjectReferences(MavenProject project, Collection&lt;String&gt; dependencyProjects) {
-<span class="nc bnc" id="L349" title="All 2 branches missed.">    for (MavenProject reactorProject : project.getProjectReferences().values()) {</span>
-<span class="nc" id="L350">      String projectId =</span>
-<span class="nc" id="L351">          reactorProject.getGroupId() + ':' + reactorProject.getArtifactId() + ':' + reactorProject.getVersion();</span>
-<span class="nc bnc" id="L352" title="All 2 branches missed.">      if (dependencyProjects.add(projectId)) {</span>
-<span class="nc" id="L353">        collectAllProjectReferences(reactorProject, dependencyProjects);</span>
+<span class="nc bnc" id="L350" title="All 2 branches missed.">    for (MavenProject reactorProject : project.getProjectReferences().values()) {</span>
+<span class="nc" id="L351">      String projectId =</span>
+<span class="nc" id="L352">          reactorProject.getGroupId() + ':' + reactorProject.getArtifactId() + ':' + reactorProject.getVersion();</span>
+<span class="nc bnc" id="L353" title="All 2 branches missed.">      if (dependencyProjects.add(projectId)) {</span>
+<span class="nc" id="L354">        collectAllProjectReferences(reactorProject, dependencyProjects);</span>
       }
-<span class="nc" id="L355">    }</span>
-<span class="nc" id="L356">  }</span>
+<span class="nc" id="L356">    }</span>
+<span class="nc" id="L357">  }</span>
 
   private void copyArtifact(Artifact artifact)
       throws MojoExecutionException {
-<span class="nc" id="L360">    copyPoms(artifact);</span>
+<span class="nc" id="L361">    copyPoms(artifact);</span>
 
-<span class="nc" id="L362">    Artifact depArtifact =</span>
-<span class="nc" id="L363">        artifactFactory.createArtifactWithClassifier(artifact.getGroupId(), artifact.getArtifactId(),</span>
-<span class="nc" id="L364">            artifact.getBaseVersion(), artifact.getType(),</span>
-<span class="nc" id="L365">            artifact.getClassifier());</span>
+<span class="nc" id="L363">    Artifact depArtifact =</span>
+<span class="nc" id="L364">        artifactFactory.createArtifactWithClassifier(artifact.getGroupId(), artifact.getArtifactId(),</span>
+<span class="nc" id="L365">            artifact.getBaseVersion(), artifact.getType(),</span>
+<span class="nc" id="L366">            artifact.getClassifier());</span>
 
-<span class="nc" id="L367">    File artifactFile = artifact.getFile();</span>
+<span class="nc" id="L368">    File artifactFile = artifact.getFile();</span>
 
-<span class="nc" id="L369">    copyArtifact(artifactFile, depArtifact);</span>
-<span class="nc" id="L370">  }</span>
+<span class="nc" id="L370">    copyArtifact(artifactFile, depArtifact);</span>
+<span class="nc" id="L371">  }</span>
 
   private void copyPoms(Artifact artifact)
       throws MojoExecutionException {
-<span class="nc" id="L374">    Artifact pomArtifact =</span>
-<span class="nc" id="L375">        artifactFactory.createProjectArtifact(artifact.getGroupId(), artifact.getArtifactId(),</span>
-<span class="nc" id="L376">            artifact.getBaseVersion());</span>
+<span class="nc" id="L375">    Artifact pomArtifact =</span>
+<span class="nc" id="L376">        artifactFactory.createProjectArtifact(artifact.getGroupId(), artifact.getArtifactId(),</span>
+<span class="nc" id="L377">            artifact.getBaseVersion());</span>
 
-<span class="nc" id="L378">    File pomFile = new File(localRepository.getBasedir(), localRepository.pathOf(pomArtifact));</span>
+<span class="nc" id="L379">    File pomFile = new File(localRepository.getBasedir(), localRepository.pathOf(pomArtifact));</span>
 
-<span class="nc bnc" id="L380" title="All 2 branches missed.">    if (pomFile.isFile()) {</span>
-<span class="nc" id="L381">      copyArtifact(pomFile, pomArtifact);</span>
-<span class="nc" id="L382">      copyParentPoms(pomFile);</span>
+<span class="nc bnc" id="L381" title="All 2 branches missed.">    if (pomFile.isFile()) {</span>
+<span class="nc" id="L382">      copyArtifact(pomFile, pomArtifact);</span>
+<span class="nc" id="L383">      copyParentPoms(pomFile);</span>
     }
-<span class="nc" id="L384">  }</span>
+<span class="nc" id="L385">  }</span>
 
   /**
    * Installs all parent POMs of the specified POM file that are available in the local repository.
@@ -391,12 +392,12 @@ import static java.util.function.Function.identity;
    */
   private void copyParentPoms(File pomFile)
       throws MojoExecutionException {
-<span class="nc" id="L394">    Model model = PomUtils.loadPom(pomFile);</span>
-<span class="nc" id="L395">    Parent parent = model.getParent();</span>
-<span class="nc bnc" id="L396" title="All 2 branches missed.">    if (parent != null) {</span>
-<span class="nc" id="L397">      copyParentPoms(parent.getGroupId(), parent.getArtifactId(), parent.getVersion());</span>
+<span class="nc" id="L395">    Model model = PomUtils.loadPom(pomFile);</span>
+<span class="nc" id="L396">    Parent parent = model.getParent();</span>
+<span class="nc bnc" id="L397" title="All 2 branches missed.">    if (parent != null) {</span>
+<span class="nc" id="L398">      copyParentPoms(parent.getGroupId(), parent.getArtifactId(), parent.getVersion());</span>
     }
-<span class="nc" id="L399">  }</span>
+<span class="nc" id="L400">  }</span>
 
   /**
    * Installs the specified POM and all its parent POMs to the local repository.
@@ -408,19 +409,19 @@ import static java.util.function.Function.identity;
    */
   private void copyParentPoms(String groupId, String artifactId, String version)
       throws MojoExecutionException {
-<span class="nc" id="L411">    Artifact pomArtifact = artifactFactory.createProjectArtifact(groupId, artifactId, version);</span>
+<span class="nc" id="L412">    Artifact pomArtifact = artifactFactory.createProjectArtifact(groupId, artifactId, version);</span>
 
-<span class="nc bnc" id="L413" title="All 4 branches missed.">    if (installedArtifacts.contains(pomArtifact.getId()) || copiedArtifacts.contains(pomArtifact.getId())) {</span>
-<span class="nc" id="L414">      getLog().debug(&quot;Not re-installing &quot; + pomArtifact);</span>
-<span class="nc" id="L415">      return;</span>
+<span class="nc bnc" id="L414" title="All 4 branches missed.">    if (installedArtifacts.contains(pomArtifact.getId()) || copiedArtifacts.contains(pomArtifact.getId())) {</span>
+<span class="nc" id="L415">      getLog().debug(&quot;Not re-installing &quot; + pomArtifact);</span>
+<span class="nc" id="L416">      return;</span>
     }
 
-<span class="nc" id="L418">    File pomFile = new File(localRepository.getBasedir(), localRepository.pathOf(pomArtifact));</span>
-<span class="nc bnc" id="L419" title="All 2 branches missed.">    if (pomFile.isFile()) {</span>
-<span class="nc" id="L420">      copyArtifact(pomFile, pomArtifact);</span>
-<span class="nc" id="L421">      copyParentPoms(pomFile);</span>
+<span class="nc" id="L419">    File pomFile = new File(localRepository.getBasedir(), localRepository.pathOf(pomArtifact));</span>
+<span class="nc bnc" id="L420" title="All 2 branches missed.">    if (pomFile.isFile()) {</span>
+<span class="nc" id="L421">      copyArtifact(pomFile, pomArtifact);</span>
+<span class="nc" id="L422">      copyParentPoms(pomFile);</span>
     }
-<span class="nc" id="L423">  }</span>
+<span class="nc" id="L424">  }</span>
 
 
 }
