@@ -48,27 +48,5 @@ class PropertiesFilter {
 <span class="fc" id="L48">        .collect(Collectors.toList());</span>
   }
 
-  /**
-   * This is list of currently supported properties.
-   * &lt;p&gt;
-   * TODO: Need to reconsider this.
-   */
-<span class="nc" id="L56">  public enum MavenPropertyNames {</span>
-<span class="nc" id="L57">    groupId(&quot;project.groupId&quot;),</span>
-<span class="nc" id="L58">    artifactId(&quot;project.artifactId&quot;),</span>
-<span class="nc" id="L59">    version(&quot;project.version&quot;);</span>
-
-    private final String name;
-
-<span class="nc" id="L63">    MavenPropertyNames(String name) {</span>
-<span class="nc" id="L64">      this.name = name;</span>
-<span class="nc" id="L65">    }</span>
-
-    public final String getName() {
-<span class="nc" id="L68">      return name;</span>
-    }
-
-  }
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

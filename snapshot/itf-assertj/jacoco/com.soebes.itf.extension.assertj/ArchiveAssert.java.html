@@ -74,11 +74,11 @@ public class ArchiveAssert extends AbstractAssert&lt;ArchiveAssert, File&gt; {
 
   public ArchiveAssert doesNotContain(String... files) {
 <span class="nc" id="L76">    try (JarFile jarFile = new JarFile(this.actual)) {</span>
-<span class="nc" id="L77">      List&lt;String&gt; includes = Arrays.asList(files);</span>
+<span class="nc" id="L77">      List&lt;String&gt; localIncludes = Arrays.asList(files);</span>
 <span class="nc" id="L78">      Assertions.assertThat(jarFile.stream())</span>
 <span class="nc" id="L79">          .describedAs(CHECKING_EAR_FILE_NAMES)</span>
 <span class="nc" id="L80">          .extracting(ZipEntry::getName)</span>
-<span class="nc" id="L81">          .doesNotContain(includes.toArray(new String[]{}));</span>
+<span class="nc" id="L81">          .doesNotContain(localIncludes.toArray(new String[]{}));</span>
 <span class="nc" id="L82">    } catch (IOException e) {</span>
 <span class="nc" id="L83">      failWithMessage(IOEXCEPTION_HAPPENED, e.getMessage());</span>
 <span class="nc" id="L84">    }</span>
@@ -115,6 +115,12 @@ public class ArchiveAssert extends AbstractAssert&lt;ArchiveAssert, File&gt; {
 
   public MavenProjectResultAssert and() {
 <span class="nc" id="L117">    return this.parent;</span>
+  }
+
+  @Override
+  public ArchiveAssert isEqualTo(Object expected) {
+<span class="nc" id="L122">    objects.assertEqual(info, actual, expected);</span>
+<span class="nc" id="L123">    return myself;</span>
   }
 
 }
