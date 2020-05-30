@@ -40,7 +40,6 @@ jobs:
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ matrix.jdk }}-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-${{ matrix.jdk }}-
+          restore-keys: ${{ runner.os }}-maven-${{ matrix.jdk }}
       - name: 'Build'
         run: mvn -V --no-transfer-progress clean verify --fail-at-end

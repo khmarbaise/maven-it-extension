@@ -36,8 +36,7 @@ jobs:
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-sonar-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-sonar-
+          restore-keys: ${{ runner.os }}-maven-sonar
       - name: 'Analyze'
         run: mvn -V --no-transfer-progress clean install sonar:sonar --fail-never
         env:

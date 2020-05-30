@@ -33,8 +33,7 @@ jobs:
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-ubuntu-latest-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-ubuntu-latest-
+          restore-keys: ${{ runner.os }}-maven-ubuntu-latest
       - name: 'Setup Java Version'
         uses: actions/setup-java@v1
         with:
