@@ -325,13 +325,13 @@ The background guide is a conclusion about the reason why I have started this pr
 
 [usersguide-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/usersguide.html
 [usersguide-pdf]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/usersguide.pdf
-[releasenotes-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/release-notes/release-notes.html
-[releasenotes-pdf]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/release-notes/release-notes.pdf
+[releasenotes-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/release-notes/release-notes.html
+[releasenotes-pdf]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/release-notes/release-notes.pdf
 
 [unstable-usersguide-html]: https://khmarbaise.github.io/maven-it-extension/snapshot/itf-documentation/usersguide/usersguide.html
 [unstable-usersguide-pdf]: https://khmarbaise.github.io/maven-it-extension/snapshot/itf-documentation/usersguide/usersguide.pdf
-[unstable-releasenotes-html]: https://khmarbaise.github.io/maven-it-extension/snapshot/itf-documentation/usersguide/release-notes/release-notes.html
-[unstable-releasenotes-pdf]: https://khmarbaise.github.io/maven-it-extension/snapshot/itf-documentation/usersguide/release-notes/release-notes.pdf
+[unstable-releasenotes-html]: https://khmarbaise.github.io/maven-it-extension/snapshot/itf-documentation/release-notes/release-notes.html
+[unstable-releasenotes-pdf]: https://khmarbaise.github.io/maven-it-extension/snapshot/itf-documentation/release-notes/release-notes.pdf
 
 [stable-html-release]: https://img.shields.io/badge/0.7.0-HTML--Releasenotes-green
 [stable-html-usersgude]: https://img.shields.io/badge/0.7.0-HTML--Usersguide-green
