@@ -33,6 +33,7 @@
 :issue-109: https://github.com/khmarbaise/maven-it-extension/issues/109[Fixed #109]
 :issue-110: https://github.com/khmarbaise/maven-it-extension/issues/110[Fixed #110]
 :issue-111: https://github.com/khmarbaise/maven-it-extension/issues/111[Fixed #111]
+:issue-112: https://github.com/khmarbaise/maven-it-extension/issues/112[Fixed #112]
 :pr-100: https://github.com/khmarbaise/maven-it-extension/pull/100[Pull request #100]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
@@ -50,6 +51,7 @@
  * {issue-106} - Wrong usage of a function InstallMojo
  * {issue-104} - Improve code based on SonarQube
  * {issue-110} - Separate usersguide / release notes.
+ * {issue-112} - Fix Links to ReleaseNotes 0.7.0
 
 *Breaking Changes*
 
