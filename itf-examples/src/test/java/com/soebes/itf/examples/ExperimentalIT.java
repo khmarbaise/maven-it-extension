@@ -32,14 +32,14 @@ class ExperimentalIT {
 
   @MavenTest
   void first(MavenExecutionResult result) {
-    assertThat(result).isSuccessful().log();
+    assertThat(result).isSuccessful().out();
     assertThat(result).isSuccessful().project().hasTarget();
     assertThat(result).isSuccessful().cache();
   }
 
   @MavenTest
   void second(MavenExecutionResult result) {
-    assertThat(result).log();
+    assertThat(result).out();
     assertThat(result).project().hasTarget().withEarFile();
     assertThat(result).project().hasTarget().withJarFile();
     assertThat(result).project().hasTarget().withWarFile();

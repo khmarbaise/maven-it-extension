@@ -20,6 +20,7 @@ package com.soebes.itf.extension.assertj;
  */
 
 import org.apache.maven.model.Model;
+import org.apiguardian.api.API;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 
@@ -30,6 +31,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
 

@@ -20,11 +20,15 @@ package com.soebes.itf.extension.assertj;
  */
 
 import com.soebes.itf.jupiter.maven.MavenCacheResult;
+import org.apiguardian.api.API;
 import org.assertj.core.api.AbstractAssert;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
  * @author Karl Heinz Marbaise
  */
+@API(status = EXPERIMENTAL, since = "0.8.0")
 public class MavenCacheResultAssert extends AbstractAssert<MavenCacheResultAssert, MavenCacheResult> {
 
   protected MavenCacheResultAssert(MavenCacheResult actual) {

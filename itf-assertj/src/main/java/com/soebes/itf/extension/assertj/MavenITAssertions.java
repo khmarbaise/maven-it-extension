@@ -23,13 +23,20 @@ import com.soebes.itf.jupiter.maven.MavenCacheResult;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.soebes.itf.jupiter.maven.MavenLog;
 import com.soebes.itf.jupiter.maven.MavenProjectResult;
+import org.apiguardian.api.API;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.util.CheckReturnValue;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
  * Entry point to all Maven specific assertions needed in integration testing.
  *
  * @author Karl Heinz Marbaise
  */
-public class MavenITAssertions {
+@CheckReturnValue
+@API(status = EXPERIMENTAL, since = "0.1.0")
+public class MavenITAssertions extends Assertions {
 
   private MavenITAssertions() {
     // intentionally empty.

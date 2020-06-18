@@ -19,7 +19,6 @@ package com.soebes.itf.extension.assertj;
  * under the License.
  */
 
-import com.soebes.itf.jupiter.maven.MavenLog;
 import org.apiguardian.api.API;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ListAssert;
@@ -33,10 +32,16 @@ import java.util.stream.Collectors;
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
+ * Assertions related to logging output of Maven.
+ *
  * @author Karl Heinz Marbaise
+ * @see #info()
+ * @see #warn()
+ * @see #debug()
+ * @see #plain()
  */
-@API(status = EXPERIMENTAL, since = "0.1.0")
-public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
+@API(status = EXPERIMENTAL, since = "0.8.0")
+public class LogAssert extends AbstractAssert<LogAssert, LogClass> {
 
   /**
    * Prefix for each line which is logged in {@code DEBUG} state.
@@ -52,60 +57,32 @@ public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
   private static final Predicate<String> IS_WARNING = s -> s.startsWith("[WARNING] ");
 
   /**
-   * Create instance of MavenLogAssert.
+   * Create an instance of LogAssert.
    *
-   * @param actual The given Log.
+   * @param actual {@link LogClass}
    */
-  MavenLogAssert(MavenLog actual) {
-    super(actual, MavenLogAssert.class);
-  }
-
-  private List<String> createStdoutLogStream() {
-    try {
-      //TODO: Need to reconsider if there isn't a better way to return the stream?
-      // lines() gives a stream which might be a better solution?
-      //    InputStream resourceAsStream = this.getClass().getResourceAsStream("/mvn-stdout.log");
-      //    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
-      return Files.readAllLines(this.actual.getStdout());
-    } catch (IOException e) {
-      //FIXME: Logging exception.
-    }
-    //FIXME: Need to reconsider the following?
-    return null;
-  }
-
-  private List<String> createErrorLogStream() {
-    try {
-      //TODO: Need to reconsider if there isn't a better way to return the stream?
-      // lines() gives a stream which might be a better solution?
-      //    InputStream resourceAsStream = this.getClass().getResourceAsStream("/mvn-stdout.log");
-      //    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
-      return Files.readAllLines(this.actual.getStderr());
-    } catch (IOException e) {
-      //FIXME: Logging exception.
-    }
-    //FIXME: Need to reconsider the following?
-    return null;
+  LogAssert(LogClass actual) {
+    super(actual, LogAssert.class);
   }
 
   /**
-   * Will give you back the stdout and removes the prefix "[INFO] " from all lines.
+   * Will give you back the stdout and removes the prefix {@code "[INFO] "} (including the single space) from all lines.
    * <p>
    * It can be used to check for a sequence in the log output like this:
-   * <pre>
+   * <pre><code class="java">
    *   assertThat(result)
-   *    .log()
+   *    .out()
    *    .info()
    *    .containsSequence("The first line matching.", "The second line matching");
-   * </pre>
+   * </code></pre>
    * </p>
+   *
    * @return {@link ListAssert}
-   * @since 0.8.0
    * @see ListAssert#containsSequence(Object[])
+   * @since 0.8.0
    */
-  @API(status = API.Status.EXPERIMENTAL, since = "0.8.0")
   public ListAssert<String> info() {
-    return new ListAssert<>(createStdoutLogStream().stream()
+    return new ListAssert<>(createLog().stream()
         .filter(IS_INFO)
         .map(s -> s.substring(7)) // Need to reconsider?
         .collect(Collectors.toList()));
@@ -114,22 +91,22 @@ public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
   /**
    * Will give you back the stdout and removes the prefix "[DEBUG] " from all lines.
    * This could be used like the following:
-   * <pre>
+   * <pre><code class="java">
    *   assertThat(result)
-   *    .log()
+   *    .out()
    *    .debug()
    *    .contains("Text to be checked for.");
-   * </pre>
+   * </code></pre>
    * The {@code debug()} will give you back all entries which have the prefix
    * {@code [DEBUG] }.
    * The {@code debug()} can be combined with other parts of AssertJ like:
-   * <pre>
+   * <pre><code class="java">
    *   assertThat(result)
-   *    .log()
+   *    .out()
    *    .debug()
    *    .hasSize(1) // Only a single DEBUG line is allowed.
    *    .contains("This is something.");
-   * </pre>
+   * </code></pre>
    * The above example will obviously fail cause there always more than one line
    * of debug output being produced during a Maven build.
    *
@@ -137,45 +114,41 @@ public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
    * @see #warn()
    * @see #info()
    * @see ListAssert#contains(Object[])
-   *
    */
-  @API(status = API.Status.EXPERIMENTAL, since = "0.8.0")
   public ListAssert<String> debug() {
-    return new ListAssert<>(createStdoutLogStream().stream()
+    return new ListAssert<>(createLog().stream()
         .filter(IS_DEBUG)
         .map(s -> s.substring(8)) // Need to reconsider?
         .collect(Collectors.toList()));
   }
 
   /**
-   * Will read the stdout and removes the prefix "[WARNING] ".
+   * Will read the stdout and removes the prefix {@code "[WARNING] "}.
    * This could be used like the following:
-   * <pre>
+   * <pre><code class="java">
    *   assertThat(result)
-   *    .log()
+   *    .out()
    *    .warn()
-   *    .contains("Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!");
-   * </pre>
+   *    .containsExactly("Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!");
+   * </code></pre>
    * The {@code warn()} will give you back all entries which have the prefix
    * {@code [WARNING] }.
    * The {@code warn()} can be combined with other parts of AssertJ like:
-   * <pre>
+   * <pre><code class="java">
    *   assertThat(result)
    *    .log()
    *    .warn()
    *    .hasSize(1) // Only a single WARNING is allowed.
    *    .contains("Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!");
-   * </pre>
+   * </code></pre>
    *
    * @return {@link ListAssert}
    * @see #debug()
    * @see #info()
    * @see ListAssert#contains(Object[])
-   *
    */
-  @API(status = API.Status.EXPERIMENTAL, since = "0.8.0")
   public ListAssert<String> warn() {
-    return new ListAssert<>(createStdoutLogStream().stream()
+    return new ListAssert<>(createLog().stream()
         .filter(IS_WARNING)
         .map(s -> s.substring(10)) // Need to reconsider?
         .collect(Collectors.toList()));
@@ -197,13 +170,21 @@ public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
    * @see ListAssert#contains(Object[])
    */
   public ListAssert<String> plain() {
-    return new ListAssert<>(createStdoutLogStream());
+    return new ListAssert<>(createLog());
   }
 
-  @API(status = API.Status.EXPERIMENTAL, since = "0.8.0")
-  public ListAssert<String> err() {
-    return new ListAssert<>(createStdoutLogStream().stream()
-        .collect(Collectors.toList()));
+  private List<String> createLog() {
+    try {
+      //TODO: Need to reconsider if there isn't a better way to return the stream?
+      // lines() gives a stream which might be a better solution?
+      //    InputStream resourceAsStream = this.getClass().getResourceAsStream("/mvn-stdout.log");
+      //    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
+      return Files.readAllLines(this.actual.getLog());
+    } catch (IOException e) {
+      //FIXME: Logging exception.
+    }
+    //FIXME: Need to reconsider the following?
+    return null;
   }
 
 }

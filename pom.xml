@@ -196,6 +196,7 @@
             <exclude>dependency-reduced-pom.xml</exclude><!-- Maven shade plugin -->
             <exclude>.asf.yaml</exclude><!-- GitHub Support -->
             <exclude>.java-version</exclude>
+            <exclude>src/test/resources/**</exclude>
           </excludes>
         </configuration>
         <executions>

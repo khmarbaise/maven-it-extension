@@ -1155,6 +1155,8 @@ extension and somehow configure that for the test cases?
 
 == Ideas
 
+=== IDE Integration
+
 * If we change the code of a plugin within the IDE the Integration test will not test
 against the changed code only against the latest built jar files.
 The IDE compiles the changes code into `target/classes`... something about the classpath?
@@ -1186,4 +1188,19 @@ directories and then run the test as usual.
             .contains("xxx");
 ----
 
+=== Log Assertion
+
+We have at the moment at least three different outputs:
+
+. The stdout as `mvn-stdout.log`
+. The stderr as `mvn-stderr.log`
+. The list of used command line parameters `mvn-arguments.log`
+
+
+[source,java]
+.filename.java
+----
+assertThat(result).isSuccessful().out()...
+assertThat(result).out().warn()
+----
 

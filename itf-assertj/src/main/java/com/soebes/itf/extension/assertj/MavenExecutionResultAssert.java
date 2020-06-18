@@ -20,11 +20,15 @@ package com.soebes.itf.extension.assertj;
  */
 
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
+import org.apiguardian.api.API;
 import org.assertj.core.api.AbstractAssert;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
  * @author Karl Heinz Marbaise
  */
+@API(status = EXPERIMENTAL, since = "0.8.0")
 public class MavenExecutionResultAssert extends AbstractAssert<MavenExecutionResultAssert, MavenExecutionResult> {
 
   protected MavenExecutionResultAssert(MavenExecutionResult actual) {
@@ -42,9 +46,23 @@ public class MavenExecutionResultAssert extends AbstractAssert<MavenExecutionRes
     return new MavenExecutionResultAssert(actual);
   }
 
-  public MavenLogAssert log() {
+  /**
+   * This will give you access to the {@code stdout} of the Maven build.
+   *
+   * @return Stdout
+   */
+  public LogAssert out() {
     isNotNull();
-    return new MavenLogAssert(this.actual.getMavenLog());
+    return new LogAssert(new LogClass(this.actual.getMavenLog().getStdout()));
+  }
+
+  /**
+   * This will give you access to the {@code stderr} of the Maven build.
+   * @return Std Err
+   */
+  public LogAssert err() {
+    isNotNull();
+    return new LogAssert(new LogClass(this.actual.getMavenLog().getStderr()));
   }
 
   public MavenProjectResultAssert project() {

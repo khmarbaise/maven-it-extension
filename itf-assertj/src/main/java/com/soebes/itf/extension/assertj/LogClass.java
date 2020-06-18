@@ -1,4 +1,4 @@
-package com.soebes.itf.jupiter.maven;
+package com.soebes.itf.extension.assertj;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -23,27 +23,18 @@ import org.apiguardian.api.API;
 
 import java.nio.file.Path;
 
-import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+import static org.apiguardian.api.API.Status.INTERNAL;
 
-/**
- * @author Karl Heinz Marbaise
- */
-@API(status = EXPERIMENTAL, since = "0.1.0")
-public class MavenLog {
+@API(status = INTERNAL, since = "0.8.0")
+class LogClass {
 
-  private final Path stdout;
-  private final Path stderr;
+  private Path log;
 
-  public MavenLog(Path stdout, Path stderr) {
-    this.stdout = stdout;
-    this.stderr = stderr;
+  LogClass(Path log) {
+    this.log = log;
   }
 
-  public Path getStdout() {
-    return stdout;
-  }
-
-  public Path getStderr() {
-    return stderr;
+  Path getLog() {
+    return this.log;
   }
 }

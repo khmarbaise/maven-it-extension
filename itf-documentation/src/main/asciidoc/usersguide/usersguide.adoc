@@ -1,4 +1,5 @@
 // Licensed to the Apache Software Foundation (ASF) under one
+// Licensed to the Apache Software Foundation (ASF) under one
 // or more contributor license agreements. See the NOTICE file
 // distributed with this work for additional information
 // regarding copyright ownership. The ASF licenses this file
@@ -1069,7 +1070,6 @@ names which can be used in your assertions like the following:
 //Check issue-25
 * `assertThat(result).project()....` which will go into the `project` directory
 * `assertThat(result).cache()...` will go into the `.m2/repository` directory.
-* `assertThat(result).log()..' will result into the access of the `mvn-stdout.log` file.
 // FIXME: https://github.com/khmarbaise/maven-it-extension/issues/26
 // FIXME: * Reconsider how it should look like: result).log().stdout() or alike?
 // FIXME: * `assertThat(result).stdout()..' will result into the access of the `mvn-stdout.log` file.
@@ -1106,6 +1106,111 @@ assertThat(project).hasTarget()
 
 ----
 
+
+=== Assertion for Maven Log
+
+In integration tests is necessary to check the log output of a build. This is sometimes needed because
+you want to check for particular output etc. which has been done by a plugin/extension etc.
+
+In general there are currently two different outputs which can be reviewed:
+
+* Console output (stdout)
+* Error output (stderr)
+
+These two parts are redirected into appropriate files within the integration result directory (see
+`the_first_test_case`). In the following example you see two output files `mvn-stdout.log` and `mvn-stderr.log`.
+
+[source,text]
+----
+.
+└──target/
+   └── maven-its/
+       └── org/
+           └── it/
+               └── FirstIT/
+                   └── the_first_test_case/
+                       ├── .m2/
+                       ├── project/
+                       │   ├── src/
+                       │   ├── target/
+                       │   └── pom.xml
+                       ├── mvn-stdout.log
+                       ├── mvn-stderr.log
+                       └── other logs
+----
+
+Let us take a look into an example test case like this:
+
+[source,java]
+.LogoutputIT.java
+----
+package com.its;
+
+import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
+import com.soebes.itf.jupiter.extension.MavenOptions;
+
+@MavenJupiterExtension
+class LogoutputIT {
+
+  @MavenTest
+  void basic(MavenExecutionResult result) {
+    assertThat(result)
+      .out()
+      .warn()
+      .containsExactly("Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!");
+  }
+}
+----
+
+Usually you will be using the injection of the `MavenExecutionResult` in your test case. This
+gives you the option to enhance the assertions like the following:
+
+* `assertThat(result).out()....`
+* `assertThat(result).err()....`
+
+The first one `assertThat(result).out()....` will give you access to the `stdout` of the build (which means `mvn-stdout.log`)
+whereas the second one give you access to the `stderr` of the build (means `mvn-stderr.log`).
+
+In using the `..out()` it can be combined with things like:
+
+* `.info()`
+* `.warn()`
+* `.debug()`
+
+Those parts will remove the appropriate prefix from each output line `[INFO]`, `[WARNING]` or `[DEBUG]`
+(This includes the single space which is followed by them).
+From that point on you can use the usual AssertJ assertions as in the given example above `containsExactly`
+which implies that only a single would be allowed to have that single warning.
+
+Furthermore if you like to get the plain log output that can be achieved by using:
+
+* `.plain()`
+
+That will not filter anything.
+
+Another example of using the assertions could look like this:
+
+include::{itfexample}/itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=stdout]
+
+This will extract all messages with the prefix `[INFO] ` of the log and check if there is
+at least one line which contains the given content.
+
+We can check for warnings like the following:
+
+include::{itfexample}/itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=warning]
+
+You can access directly the `stdout` and/or the `stderr` of the Maven build and do things yourself
+if you prefer to go that way. In this case you have to add another injection to the test case
+(`MavenLog mavenLog` or like this `result.getMavenLog().getStdout()`).
+
+include::{itfexample}/itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=selfmade]
+
+The `stderr` output can be accessed as well like this:
+
+include::{itfexample}/itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=error]
+
+A full fledged example can be found `itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java`
+within the itf project.
 
 === Expressing Assertions
 

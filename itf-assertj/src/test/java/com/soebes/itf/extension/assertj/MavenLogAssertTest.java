@@ -19,50 +19,65 @@ package com.soebes.itf.extension.assertj;
  * under the License.
  */
 
-import org.junit.jupiter.api.Disabled;
+import com.soebes.itf.jupiter.maven.MavenLog;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 
-@Disabled("Currently not working.")
+/**
+ * @author Karl Heinz Marbaise
+ */
 class MavenLogAssertTest {
 
-  Stream<String> createLogStream() {
-    InputStream resourceAsStream = this.getClass().getResourceAsStream("/mvn-stdout.log");
-    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
+  private MavenLogAssert mavenLogAssert;
+
+  @BeforeEach
+   void beforeEach() throws URISyntaxException {
+    URI stdoutURI = this.getClass().getResource("/mvn-stdout.log").toURI();
+    URI stderrURI = this.getClass().getResource("/mvn-stderr.log").toURI();
+    MavenLog mavenLog = new MavenLog(Paths.get(stdoutURI), Paths.get(stderrURI));
+    this.mavenLogAssert = new MavenLogAssert(mavenLog);
   }
 
   @Test
-  void first_test() {
-//    return Paths.get(loggingDirectory.toString(), this.prefix + "-stdout.log");
-
-    //MavenLogAssert mavenLogAssert = new MavenLogAssert();
-
-    List<String> infoList = createLogStream().filter(p -> p.startsWith("[INFO]"))
-        .map(s -> s.substring(7))
-        .collect(Collectors.toList());
-
-    List<String> debugList = createLogStream().filter(p -> p.startsWith("[DEBUG]"))
-        .map(s -> s.substring(7))
-        .collect(Collectors.toList());
-    List<String> errorList = createLogStream().filter(p -> p.startsWith("[ERROR]"))
-        .map(s -> s.substring(7))
-        .collect(Collectors.toList());
-    List<String> warningList = createLogStream().filter(p -> p.startsWith("[WARNING]"))
-        .map(s -> s.substring(9))
-        .collect(Collectors.toList());
-
-    List<String> collect = infoList.stream()
-        .filter(s -> !s.startsWith("Downloading from "))
-        .filter(s -> !s.startsWith("Downloaded from "))
-        .filter(s -> !s.isEmpty())
-        .collect(Collectors.toList());
-    //infoList.forEach(s -> System.out.println(s));
+  void warn_should_give_only_warning_lines_without_prefix_back() {
+    mavenLogAssert.warn().containsExactly("Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!");
   }
+
+  @Test
+  void info_should_give_only_warning_lines_without_prefix_back() {
+    mavenLogAssert.info().containsSequence("", "--- maven-ear-plugin:3.0.1:ear (default-ear) @ test ---");
+  }
+
+  @Test
+  void debug_should_give_only_warning_lines_without_prefix_back() {
+    mavenLogAssert.debug().containsSequence(
+        "Configuring mojo org.apache.maven.plugins:maven-ear-plugin:3.0.1:ear from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-ear-plugin:3.0.1, parent: sun.misc.Launcher$AppClassLoader@70dea4e]",
+        "Configuring mojo 'org.apache.maven.plugins:maven-ear-plugin:3.0.1:ear' with basic configurator -->",
+        "  (f) earSourceDirectory = /Users/khmarbaise/ws-git-soebes/maven-it-extension/itf-examples/target/maven-it/com/soebes/itf/examples/LogoutputIT/basic/project/src/main/application"
+    );
+  }
+
+  @Test
+  void plain_should_give_back_all_lines() {
+    mavenLogAssert.plain().containsSequence(
+        "[INFO] ",
+        "[INFO] --- maven-ear-plugin:3.0.1:ear (default-ear) @ test ---",
+        "[DEBUG] Configuring mojo org.apache.maven.plugins:maven-ear-plugin:3.0.1:ear from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-ear-plugin:3.0.1, parent: sun.misc.Launcher$AppClassLoader@70dea4e]"
+    );
+  }
+
+  @Test
+  void plain_should_give_back_all_lines_second() {
+    mavenLogAssert.plain().containsSequence(
+        "[DEBUG] adding entry META-INF/maven/org.apache.maven.its.ear.basic/test/pom.properties",
+        "[INFO] ------------------------------------------------------------------------",
+        "[INFO] BUILD SUCCESS",
+        "[INFO] ------------------------------------------------------------------------"
+    );
+  }
+
 }

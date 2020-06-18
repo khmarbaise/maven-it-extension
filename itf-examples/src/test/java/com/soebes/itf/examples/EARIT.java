@@ -75,7 +75,7 @@ class EARIT {
   @MavenTest
   void resource_custom_directory(MavenExecutionResult result, MavenProjectResult project, MavenLog log) {
     assertThat(result).isSuccessful();
-    assertThat(log).isSuccessful();
+    assertThat(log).info().contains("BUILD SUCCESS");
     assertThat(project).hasTarget()
         .withEarFile()
         .containsOnlyOnce("META-INF/application.xml", "APP-INF/classes/foo.properties");
