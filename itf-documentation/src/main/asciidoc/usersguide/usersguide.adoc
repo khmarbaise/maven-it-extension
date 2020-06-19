@@ -1101,6 +1101,41 @@ assertThat(project).hasTarget()
 
 ----
 
+=== Assertion for Maven Log
+If you want to check Maven log output, then you have following possibilities:
+
+* `assertThat(result).log().info()` for info log output.
+* `assertThat(result).log().debug()` for debug log output.
+* `assertThat(result).log().warn()` for warn log output
+
+All three assertions read the stdout of the Maven build and remove the prefix `[INFO]`, `[DEBUG]` or `[WARNING]`.
+
+For example:
+
+[source,java]
+----
+assertThat(result).log().info()
+    .contains("Building Maven Integration Test :: it0033 1.0");
+
+assertThat(result).log().debug()
+    .contains("Populating class realm maven.api");
+
+assertThat(result).log().warn()
+    .hasSize(1)
+    .contains("Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!");
+----
+
+You can also access directly the stdout of the Maven build and do things yourself.
+
+[source,java]
+----
+    String not_found_warning = Files.readAllLines(mavenLog.getStdout())
+        .stream()
+        .filter(s -> s.startsWith("[WARNING]"))
+        .findFirst()
+        .orElseThrow(() -> new IllegalStateException("Not found WARNING"));
+    Assertions.assertThat(not_found_warning).isEqualTo("[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!");
+----
 
 === Expressing Assertions
 
