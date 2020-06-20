@@ -24,7 +24,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 /**
  * It's the intention to find the {@code mvn} executable.
@@ -130,7 +129,7 @@ class MavenLocator {
 
     String pathSeparator = this.isRunningOnWindows ? ";" : ":";
     Pattern pathSeparatorPattern = Pattern.compile(Pattern.quote(pathSeparator));
-    return Stream.of(pathSeparatorPattern.split(pathEnvironment.get()))
+    return pathSeparatorPattern.splitAsStream(pathEnvironment.get())
         .map(this::intoPath)
         .map(this::executable)
         .filter(Optional::isPresent)
