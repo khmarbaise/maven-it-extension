@@ -37,14 +37,14 @@ Karl Heinz Marbaise; {docdate}
 
 == Overview
 
-This document intends to give a comprehensive reference for programmers writing
+The documentation intends to give a comprehensive reference for programmers writing
 integration tests for Maven Plugins / Maven Core Extensions / Maven Core.
 
 === What is Integration Testing Framework?
-The Integration Testing Framework (ITF for short) is in its foundation a {junit-jupiter-extension}[JUnit Jupiter Extension]
-which supports you in writing integration tests for Maven Plugins etc. There are several aspects
+The Integration Testing Framework (ITF for short) is in its foundation a {junit-jupiter-extension}[JUnit Jupiter Extension],
+which supports you in writing integration tests for Maven Plugins etc. There are several aspects,
 that makes writing integration tests for Maven Plugins at the
-{backgorund-guide}[moment harder than it should be]. This is the reason why this framework exists.
+{backgorund-guide}[moment harder than it should be]. This is the reason, why this framework exists.
 
 === Status
 
@@ -55,12 +55,12 @@ be documented in the release notes. I strongly recommend reading the release not
 
 == About this Guide
 
-This guide represents the current state of development and things which work (or more accurate: **should work**).
-If you find things which do not work as described here or even don't work at all please don't hesitate
+This guide represents the current state of development and things, which work (or more accurate: **should work**).
+If you find things which do not work as described here or even don't work at all, please don't hesitate
 to {itf-issues}[create an appropriate issue] and describe what does not work or does not work at
 all as described or maybe does not work as you might expect it to work.
 
-WARNING: This guide is of course not a guarantee that it works cause the project is in a very
+WARNING: This guide is of course not a guarantee that it works, cause the project is in a very
 early stage.
 
 == Overview
@@ -70,17 +70,17 @@ functionality the way it has been defined independent of refactoring code or imp
 functionality.
 
 This maven integration test framework is an extension for {junit-jupiter}. The usage of JUnit Jupiter
-already gives a lot of support for things which are very useful while writing unit- and integration
+already gives a lot of support for things, which are very useful while writing unit- and integration
 tests. The idea of testing is to express the requirements in code. Those are in other words
-the tests which should be written.
+the tests, which should be written.
 
-If you are not familiar with JUnit Jupiter I strongly recommend reading the
+If you are not familiar with JUnit Jupiter, I strongly recommend reading the
 {junit-jupiter-user-guide} first.
 
-The expressiveness of tests is a very important part of writing integration tests or
-test in general. If a test is not easy to understand it is very likely not being written.
+The significance of tests is a very important part of writing integration tests or
+test in general. If a test is not easy to understand, it is very likely not being written.
 
-Let us take a look into the following test code example which gives you an impression how an integration
+Let us take a look into the following test code example which gives you an impression, how an integration
 test for a {maven-plugins}/Maven Extensions/Maven-Core should look like:
 
 [source,java]
@@ -114,13 +114,13 @@ explained in link:#_assertions[Assertions chapter].
 <<<
 == Configuration in Maven
 
-=== Users Point of View
+=== User's Point of View
 
 You are a user who want to use the integration test framework to write integration tests for a plugin etc.
 This area shows how to configure the integration test framework in your Maven build and what kind of requirements
 exist.
 
-The prerequisites to use this integration test framework is that you are running JDK8 at minimum for your tests.
+The prerequisites to use this integration test framework is, that you are running JDK8 at minimum for your tests.
 This is based on using {junit-jupiter-extension}[JUnit Jupiter Extension] and of course on the implemented code
 of this extension.
 
@@ -129,7 +129,7 @@ The requirements are:
 * JDK8+
 * Apache Maven 3.1.0 or above.
 
-The first step is to add the appropriate dependencies to your project. They are usually with `test` scope
+The first step is to add the appropriate dependencies to your project. They are usually with `test` scope,
 cause you only need them during the integration tests.
 
 [source,xml]
@@ -148,7 +148,7 @@ get the support for your Maven integration tests.
 Based on the described structures the content (with the projects which is used as test) from
 `src/test/resources-its` has to be copied into `target/test-classes` which usually means including
 filtering. This is used to replace placeholders in files like `@project.version@` and replace with
-the real version of your extension/plugin etc. You have to be careful which delimiter you have
+the real version of your extension/plugin etc. You have to be careful, which delimiter you have
 chosen. So you might need to tweak your configuration based on your choices.
 
 [source,xml]
@@ -182,7 +182,7 @@ from within the integration tests.
 The usage of {maven-failsafe-plugin} implies the naming convention for the integration
 tests like `*IT.java` but of course you can change that by using the appropriate configuration if you like or need to.
 
-The above describe configuration will make it possible to run all tests via command line by using `mvn clean verify`.
+The above described configuration will make it possible to run all tests via command line by using `mvn clean verify`.
 
 
 IMPORTANT: It is also possible to run the integration tests from your IDE. This only works if you have done the
@@ -194,10 +194,10 @@ NOTE: The whole given configuration which comprises of `itf-maven-plugin` and th
 configuration for `maven-failsafe-plugin` should be replaced by separate maven plugin later to make the usage
 more convenient.
 
-=== Developers Point of View
+=== Developer's Point of View
 
 You are a potential contributor or just interested in how the code of this extension is working/looks like or you are a
-user who want to test with the bleeding edge of this extension.
+user who wants to test with the bleeding edge of this extension.
 
 The requirements for building this extensions are:
 
@@ -226,13 +226,13 @@ The selected naming schema like `<any>IT.java` implies that it will be executed 
                     └── FirstMavenIT.java
 
 ----
-In case of an integration test for a Maven plugin/extension or others we need to be able to
+In case of an integration test for a Maven plugin/extension or others, we need to be able to
 define also the projects which are the *real test cases* (Maven projects).
 This needs to be put somewhere in the directory tree to be easily associated with the given
 test `FirstMavenIT`.
 
-The project to be used as an test case is implied to be located into
-`src/test/resources-its/<package>/FirstMavenIT` this looks like this:
+The project to be used as a test case implies to be located into
+`src/test/resources-its/<package>/FirstMavenIT`, this looks like this:
 //TODO: should we keep the location `resources-its` ?
 [source,text]
 ----
@@ -244,8 +244,8 @@ The project to be used as an test case is implied to be located into
                 └── it/
                     └── FirstMavenIT/
 ----
-Currently this location is separated from all other resources directories to make filtering easier
-which has to be configured within your `pom.xml` file and preventing interfering with other
+Currently this location is separated from all other resources directories to make filtering easier,
+what has to be configured within your `pom.xml` file and preventing interfering with other
 configurations.
 
 We have an integration test class for example `FirstMavenIT` but what if we like to write several
@@ -296,18 +296,18 @@ within the `target` directory:
                        └── orther logs.
 ----
 Based on the above you can see that each *test case* (method within the test class `FirstMavenIT`)
-has it's own local repository (aka local cache) `.m2/repository`. Furthermore you see that the
-project is built within the `project` directory. This gives you a view of the built project as you
-did on plain command line and take a look into it. The output of the build is written into
-`mvn-stdout.log` (stdout) and the output to stderr is written to `mvn-stderr.log`. The used
-command line parameters to call Maven are put into `mvn-arguments.log`.
+has its own local repository (aka local cache) `.m2/repository`. Furthermore you see that the
+project is being built within the `project` directory. This gives you a view of the built project as you
+did on plain command line and take a look into it. The output of the build has been written into
+`mvn-stdout.log`(stdout) and the output to stderr is written to `mvn-stderr.log`. The used
+ line parameters command to call Maven are wrote into `mvn-arguments.log`.
 
 //TODO: Define `other logs` ? environment output, command line parameters ?
 //FIXME: Needs to be implemented
 
 === Several Test Cases
 If we like to define several integration test cases within a single test class `SeveralMavenIT`
-we have to define different methods which are the test cases. This results in the following
+we have to define different methods, which are the test cases. This results in the following
 class layout:
 [source,java]
 ----
@@ -336,7 +336,7 @@ class SeveralMavenIT {
   }
 }
 ----
-The structure for the Maven projects which are used by each of the test cases (*method names*)
+The structure for the Maven projects, which is used by each of the test cases (*method names*)
 looks like the following:
 [source,text]
 ----
@@ -397,7 +397,7 @@ directory will look like this:
 ----
 Based on the structure you can exactly dive into each test case separately and take
 a look at the console output of the test case via `mvn-stdout.log` or maybe in case of errors
-in the `mvn-stderr.log`. In the `project` directory you will find the usual `target` directory
+in the `mvn-stderr.log`. In the `project` directory you will find the usual `target` directory,
 which contains the Maven output which might be interesting as well. Furthermore the
 local cache (aka maven repository) is available separately for each test case and can be found
 in the `.m2/repository` directory.
@@ -425,10 +425,10 @@ So now the question is: Which goals and parameters will be used to execute Maven
 test case? In general the `MavenJupiterExtension` annotation defines a default set of goals which will be executed
 if not defined otherwise. The default for goals in `MavenJupiterExtension` is `package`. That means if we keep
 the test as in our example maven would be called like `mvn package`. From a technical perspective
-some other parameters have been added which is `mvn -Dmaven.repo.local=Path package`.
+some other parameters have been added which are `mvn -Dmaven.repo.local=Path package`.
 The `-Dmaven.repo.local=..` is needed to make sure that each call uses the defined local cache
 (See link:_common_maven_cache[Common Maven Cache]).
-You can of course change the default for the goal if you like by simply changing the parameter for
+You can of course change the default for the goal, if you like by simply changing the parameter for
 `@MavenJupiterExtension(goals = {"install"})` that would mean to execute all subjacent tests like `mvn -D.. install`
 instead of `mvn -D .. package`. A usual command parameter set includes
 `--batch-mode` and `-V` (This can't be changed currently.).
@@ -442,7 +442,7 @@ goal(s) with the `@MavenTest` annotation like this:
 ----
 
 The used `goals` in the above `@MavenTest` will overwrite any goal which is defined by `MavenJupiterExtension`. The `goals`
-also supports replacement of placeholders where currently the following are supported:
+also support replacement of placeholders where currently the following are supported:
 
 * ${project.groupId}
 * ${project.artifactId}
@@ -469,7 +469,7 @@ The equivalent on command line would be:
 mvn ${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies site:stage install
 ----
 
-=== SystemProperties
+=== System Properties
 
 There are situations where you need to use system properties which are usually defined on command like this:
 [source,bash]
@@ -508,7 +508,7 @@ class CompareDependenciesIT
 === Command Line Options
 In different scenarios it is needed to define command line options for example `--non-recursive` etc.
 This can be done by using the `options` part of `@MavenTest`. There is a convenience class
-`MavenOptions` available which contains all existing command line options. You are not forced to
+`MavenOptions` available, which contains all existing command line options. You are not forced to
 use the `MavenOptions` class.
 
 [source,java]
@@ -607,10 +607,10 @@ After test execution the resulting directory tree looks like this:
 === Common Maven Cache
 
 In all previous test case examples the maven cache (aka maven repository)
-is created separately for each of the test cases (*test methods*). There are times
+is created separately for each of the test cases (*test methods*). There are times,
 where you need to have a common cache (aka maven repository) for two or more test
-cases together. This can be achieved easily via the `@MavenRepository`
-annotation.footnote:[Base on the usage of this annotation the parallelizing is automatically deactivated
+cases. This can be achieved easily via the `@MavenRepository`
+annotation.footnote:[Based on the usage of this annotation the parallelizing is automatically deactivated,
 cause Maven has never been designed to make a parallel access to the maven cache possible.]
 The usage looks like the following:
 
@@ -670,7 +670,7 @@ There you see that the `.m2/` directory (maven local cache) is directly located
 under the `MavenITWithGlobalMavenCacheIT` directory which is the equivalent of the
 `MavenITWithGlobalMavenCacheIT` class.
 
-The usage of `@MavenRepository` is also possible in combination with `@Nested` annotation which
+The usage of `@MavenRepository` is also possible in combination with `@Nested` annotation which,
 will look like this:
 
 [source,java]
@@ -699,7 +699,7 @@ class MavenIntegrationGroupingIT {
 }
 ----
 That would result in having a common cache for the methods `basic` and `packaging_includes` within
-the nested class `NestedExample`. The test method `packaging_includes` will have a cache on it's own.
+the nested class `NestedExample`. The test method `packaging_includes` will have a cache on its own.
 The directory tree looks like this:
 
 [source,text]
@@ -742,14 +742,15 @@ The directory tree looks like this:
 
 === Predefined Repository Content for Tests
 
-There are existing test cases in which you need predefined dependencies cause you can't rely
+There are existing test cases in which you need predefined dependencies, cause you can't rely
 on existing dependencies in the central repository or anywhere else.
 You have the option to define a repository either per testcase or per test class where you
 can put existing dependencies for your test cases.
-Those dependencies are behaving like you have installed in your local repository via `mvn install:install-file`.
+Those dependencies are behaving like you have installed them in your local repository via
+`mvn install:install-file`.
 
 In your test code the setup looks like the following. The important part is the definition
-of the `@MavenPredefinedRepository` which indicated that the predefined repository in the appropriate
+of the `@MavenPredefinedRepository` which indicates that the predefined repository in the appropriate
 location needs to exist. This means that those dependencies from this directory are available for
 each test case (`project_001` and `proeject_002`) in this test class.
 
@@ -773,7 +774,7 @@ class ProjectIT {
 }
 ----
 In your test project definition you need to create the appropriate directory structure
-including the needed content which looks like this:
+including the needed contents, which looks like this:
 
 [source,text]
 ----
@@ -795,7 +796,7 @@ including the needed content which looks like this:
                             └── pom.xml
 ----
 In the `.predefined-repo` you have to follow a usual maven repository structure. You can of course
-define the `@MavenPredefinedRepository` also on the test method level which would look like this:
+define the `@MavenPredefinedRepository` also on the test method level, which would look like this:
 
 [source,java]
 .ProjectLevelIT.java
@@ -840,8 +841,8 @@ The setup directories look like this:
 === Single Project With Several Executions
 
 Sometimes you need to execute a consecutive number of commands (usually maven executions) on the same
-single project. This means in the end having a single project and executing several maven execution
-on that project. Such a use case looks like this:
+single project. This means having a single project and executing several maven execution
+on that project in the end. Such a use case looks like this:
 
 [source,java]
 .SetIT.java
@@ -889,7 +890,7 @@ class SetIT
 The important part here is the `@MavenProject` annotation which marks the nested class as a container
 which contains executions (`first` and `second`) with conditions on the same single project.
 The `@MavenProject` defines that project name which is by default `maven_project`.
-This means you have to define the project you would like to test on like this:
+This means, you have to define the project you would like to test on like this:
 [source,text]
 ----
 .
@@ -930,12 +931,14 @@ After test execution it looks like this:
                            └── second-mvn-stderr.log
 ----
 Each test case defined by the method name `first` and `second` has been executed on the same
-project `maven_project`. Each execution has it's own sets of log files which can be identified
+project `maven_project`. Each execution has its own sets of log files which can be identified
 by the prefix based on the method name like `first-mvn-arguments.log` etc.
 
 The `@MavenProject` annotation can only be used on a nested class or on the test class itself
 (where `MavenJupiterExtension` is located.). If you like to change the name of the project `maven_project` into
 something different this can be achieved by using `@MavenProject("another_project_name")`.
+
+<<<
 
 == Test Case Execution
 
@@ -977,7 +980,7 @@ class FirstMavenIT {
 }
 ----
 
-If you like to disable some tests on a particular Java version this can be handled via
+If you like to disable some tests on a particular Java version, this can be handled via
 {junit-jupiter-user-guide-conditional-jre}[conditions like this].
 
 //TODO: Make reference to JUnit Jupiter Manual
@@ -1012,6 +1015,8 @@ class FirstMavenIT {
   }
 }
 ----
+
+<<<
 
 [#_assertions]
 == Assertions
@@ -1048,15 +1053,15 @@ After the test has run the resulting directory structure looks like this:
                        └── other logs
 ----
 In each integration test you should let inject `MavenExecutionResult result` as a parameter of your
-test case method cause that gives you the opportunity to write assertion on the result of the maven
-execution or what has written into the resulting structure.
+test case method, cause that gives you the opportunity to write assertion on the result of the maven
+execution or what has been written into the resulting structure.
 
 Let us start with two general assertions:
 
 * `assertThat(result).isSuccessful();` The build was successful (return code of Maven run 0).
 * `assertThat(result).isFailure();` The build has failed (return code of Maven run != 0).
 
-Sometimes this is sufficient but more often you have more complex scenarios to be checked.
+Sometimes this is sufficient, but more often you have more complex scenarios to be checked.
 
 Based on the directory structure in the result you can make assumptions about the
 names which can be used in your assertions like the following:
@@ -1071,7 +1076,7 @@ names which can be used in your assertions like the following:
 // FIXME: * `assertThat(result).stderr()..' will result into the access of the `mvn-stderr.log` file.
 
 So next will be to check that a file in the `target` directory has been created during a test and
-should contain the required content. How should that be expressed? The following gives you an example
+should contain the required contents. How should that be expressed? The following gives you an example
 how you can achieve that:
 [source,java]
 ----
@@ -1087,10 +1092,10 @@ assertThat( result ).isSuccessful()
           "",
           "  none" ) );
 ----
-The first part `.isSuccessful()` checks that the build has gone fine than we go into `project`
+The first part `.isSuccessful()` checks that the build has gone fine then we go into `project`
 directory and via `withTarget()` we check the existence of the `target` directory as well as going
-into that directory. Finally we append `withFile(...)` which selects which file and redirects to
-the `AbstractFileAssert<?>` of AssertJ which gives you the choice to check the content of the file
+into that directory. Finally we append `withFile(...)`, which selects which file and redirects to
+the `AbstractFileAssert<?>` of AssertJ which gives you the choice to check the contents of the file
 as you like.
 
 [source,java]
