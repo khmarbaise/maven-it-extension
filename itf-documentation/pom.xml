@@ -81,10 +81,11 @@
             <revnumber>${project.version}</revnumber>
             <linkcss>false</linkcss>
             <toc>left</toc>
+            <imagesdir>../resources/images</imagesdir>
+            <source-highlighter>coderay</source-highlighter>
           </attributes>
-          <sourceHighlighter>coderay</sourceHighlighter>
+          <sourceDirectory>src/main/asciidoc</sourceDirectory>
           <headerFooter>true</headerFooter>
-          <imagesDir>../resources/images</imagesDir>
           <preserveDirectories>true</preserveDirectories>
           <baseDir>${project.basedir}</baseDir>
           <outputDirectory>${project.reporting.outputDirectory}</outputDirectory>

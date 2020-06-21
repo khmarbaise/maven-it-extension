@@ -34,6 +34,7 @@
 :issue-110: https://github.com/khmarbaise/maven-it-extension/issues/110[Fixed #110]
 :issue-111: https://github.com/khmarbaise/maven-it-extension/issues/111[Fixed #111]
 :issue-112: https://github.com/khmarbaise/maven-it-extension/issues/112[Fixed #112]
+:issue-116: https://github.com/khmarbaise/maven-it-extension/issues/116[Fixed #116]
 :pr-100: https://github.com/khmarbaise/maven-it-extension/pull/100[Pull request #100]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
@@ -74,6 +75,7 @@
  * {issue-99} - Upgrade equalsverifier from 3.1.13 to 3.3
  * {issue-101} - Upgrade smpp from 5.1.0 to 5.2.0
  * {issue-108} - Upgrade smpp from 5.2.0 to 5.3.0
+ * {issue-116} - Upgrade asciidoctor-maven-plugin to 2.0.0
 
 *Build Improvements*
 
