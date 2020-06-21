@@ -34,6 +34,7 @@
 :issue-110: https://github.com/khmarbaise/maven-it-extension/issues/110[Fixed #110]
 :issue-111: https://github.com/khmarbaise/maven-it-extension/issues/111[Fixed #111]
 :issue-112: https://github.com/khmarbaise/maven-it-extension/issues/112[Fixed #112]
+:issue-113: https://github.com/khmarbaise/maven-it-extension/issues/113[Fixed #113]
 :issue-114: https://github.com/khmarbaise/maven-it-extension/issues/114[Fixed #114]
 :issue-116: https://github.com/khmarbaise/maven-it-extension/issues/116[Fixed #116]
 :issue-117: https://github.com/khmarbaise/maven-it-extension/issues/117[Fixed #117]
@@ -50,6 +51,7 @@
 *Scope:*
 
  - Bug Fixing and improvements.
+ - Failure Plugin {issue-113}.
 
 *Details*
 
@@ -62,6 +64,7 @@
  * {issue-117} - Output of builds should be consistently named `*.log`
  * {issue-118} - Add error() for LogAssert.
  * {issue-119} - Code Cleanups
+ * {issue-113} - Create a plugin which fails the build.
 
 *Breaking Changes*
 

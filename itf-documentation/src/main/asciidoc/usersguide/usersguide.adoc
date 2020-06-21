@@ -1255,3 +1255,46 @@ class CompareDependenciesIT
     }
 }
 ----
+
+
+<<<
+
+== Special Cases
+
+=== Overview
+
+In some situations it is needed to fail a build of a plugin/extension for testing purposes or other things
+which not that usual. This chapter describes such situations and shows solutions for those.
+
+=== Failing the build
+
+The integration testing framework contains a plugin `itf-failure-plugin` which (implied by the name) it's only
+purpose is to fail a build. The following shows a configuration which will produce a `[WARNING]` during
+the build cause the plugin needs to be configured.
+
+[source,xml]
+----
+include::{itfexample}/itf-failure-plugin/src/test/resources-its/com/soebes/itf/maven/plugin/failure/FailureIT/basic_configuration/pom.xml[tag=configuration]
+----
+
+The plugin does not bind to any life cycle phase by default which is intentionally to require a binding
+to a phase you like. This means also you can bind that plugin to any phase you would like to. In the previous
+example it is bound to `initialize`.
+
+The following example shows a real example how the plugin has been configured correctly (only the `configuration` area).
+The configuration will fail the build with a `MojoExecutionException` (exeuctionException=true) and a text of the
+exception can given via `exception` configuration part.
+
+[source,xml]
+----
+include::{itfexample}/itf-failure-plugin/src/test/resources-its/com/soebes/itf/maven/plugin/failure/FailureIT/fail_with_mojo_execution_exception/pom.xml[tag=configuration]
+----
+
+The final example will fail the build with a `MojoFailureException` (failureException=true) and the text of the exception
+can given via `exception` configuration part as before.
+
+[source,xml]
+----
+include::{itfexample}/itf-failure-plugin/src/test/resources-its/com/soebes/itf/maven/plugin/failure/FailureIT/fail_with_mojo_failure_exception/pom.xml[tag=configuration]
+----
+

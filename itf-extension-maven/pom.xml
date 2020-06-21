@@ -31,7 +31,6 @@
 
   <artifactId>itf-extension-maven</artifactId>
 
-
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>
