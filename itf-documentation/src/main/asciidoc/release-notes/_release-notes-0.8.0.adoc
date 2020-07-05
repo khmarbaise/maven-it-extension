@@ -37,6 +37,7 @@
 :issue-114: https://github.com/khmarbaise/maven-it-extension/issues/114[Fixed #114]
 :issue-116: https://github.com/khmarbaise/maven-it-extension/issues/116[Fixed #116]
 :issue-117: https://github.com/khmarbaise/maven-it-extension/issues/117[Fixed #117]
+:issue-118: https://github.com/khmarbaise/maven-it-extension/issues/118[Fixed #118]
 :pr-100: https://github.com/khmarbaise/maven-it-extension/pull/100[Pull request #100]
 :pr-115: https://github.com/khmarbaise/maven-it-extension/pull/115[Pull request #115]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
@@ -58,6 +59,7 @@
  * {issue-112} - Fix Links to ReleaseNotes 0.7.0
  * {issue-114} - Assertion on logoutput either debug/info does not work.
  * {issue-117} - Output of builds should be consistently named `*.log`
+ * {issue-118} - Add error() for LogAssert.
 
 *Breaking Changes*
 

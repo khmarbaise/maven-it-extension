@@ -50,6 +50,10 @@ public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
    * Prefix for each line which is logged in {@code WARNING} state.
    */
   private static final Predicate<String> IS_WARNING = s -> s.startsWith("[WARNING] ");
+  /**
+   * Prefix for each line which is logged in {@code ERROR} state.
+   */
+  private static final Predicate<String> IS_ERROR = s -> s.startsWith("[ERROR] ");
 
   /**
    * Create instance of MavenLogAssert.
@@ -182,6 +186,41 @@ public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
   }
 
   /**
+   * Will read the stdout and removes the prefix "[ERROR] ".
+   * This could be used like the following:
+   * <pre>
+   *   assertThat(result)
+   *    .log()
+   *    .error()
+   *    .contains("Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!");
+   * </pre>
+   * The {@code warn()} will give you back all entries which have the prefix
+   * {@code [ERROR] }.
+   * The {@code error()} can be combined with other parts of AssertJ like:
+   * <pre>
+   *   assertThat(result)
+   *    .log()
+   *    .error()
+   *    .hasSize(1) // Only a single ERROR is allowed.
+   *    .contains("Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!");
+   * </pre>
+   *
+   * @return {@link ListAssert}
+   * @see #debug()
+   * @see #warn()
+   * @see #info()
+   * @see ListAssert#contains(Object[])
+   *
+   */
+  @API(status = API.Status.EXPERIMENTAL, since = "0.8.0")
+  public ListAssert<String> error() {
+    return new ListAssert<>(createStdoutLogStream().stream()
+        .filter(IS_ERROR)
+        .map(s -> s.substring(8)) // Need to reconsider?
+        .collect(Collectors.toList()));
+  }
+
+  /**
    * Will read the stdout without any filtering etc.
    * <pre><code class="java">
    *   assertThat(result)
@@ -198,12 +237,6 @@ public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
    */
   public ListAssert<String> plain() {
     return new ListAssert<>(createStdoutLogStream());
-  }
-
-  @API(status = API.Status.EXPERIMENTAL, since = "0.8.0")
-  public ListAssert<String> err() {
-    return new ListAssert<>(createStdoutLogStream().stream()
-        .collect(Collectors.toList()));
   }
 
 }

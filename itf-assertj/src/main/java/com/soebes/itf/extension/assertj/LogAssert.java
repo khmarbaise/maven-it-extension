@@ -38,6 +38,7 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
  * @see #info()
  * @see #warn()
  * @see #debug()
+ * @see #error()
  * @see #plain()
  */
 @API(status = EXPERIMENTAL, since = "0.8.0")
@@ -55,6 +56,10 @@ public class LogAssert extends AbstractAssert<LogAssert, LogClass> {
    * Prefix for each line which is logged in {@code WARNING} state.
    */
   private static final Predicate<String> IS_WARNING = s -> s.startsWith("[WARNING] ");
+  /**
+   * Prefix for each line which is logged in {@code ERROR} state.
+   */
+  private static final Predicate<String> IS_ERROR = s -> s.startsWith("[ERROR] ");
 
   /**
    * Create an instance of LogAssert.
@@ -151,6 +156,31 @@ public class LogAssert extends AbstractAssert<LogAssert, LogClass> {
     return new ListAssert<>(createLog().stream()
         .filter(IS_WARNING)
         .map(s -> s.substring(10)) // Need to reconsider?
+        .collect(Collectors.toList()));
+  }
+
+  /**
+   * Will read the stdout and removes the prefix {@code "[ERROR] "}.
+   * This could be used like the following:
+   * <pre><code class="java">
+   *   assertThat(result)
+   *    .out()
+   *    .error()
+   *    .containsExactly("exception.");
+   * </code></pre>
+   * The {@code error()} will give you back all entries which have the prefix
+   * {@code [ERROR] }.
+   *
+   * @return {@link ListAssert}
+   * @see #debug()
+   * @see #warn()
+   * @see #info()
+   * @see ListAssert#contains(Object[])
+   */
+  public ListAssert<String> error() {
+    return new ListAssert<>(createLog().stream()
+        .filter(IS_ERROR)
+        .map(s -> s.substring(8)) // Need to reconsider?
         .collect(Collectors.toList()));
   }
 

@@ -1486,6 +1486,7 @@ includes []
 [DEBUG] adding directory META-INF/maven/org.apache.maven.its.ear.basic/
 [DEBUG] adding directory META-INF/maven/org.apache.maven.its.ear.basic/test/
 [DEBUG] adding entry META-INF/maven/org.apache.maven.its.ear.basic/test/pom.xml
+[ERROR] Failure during execution.
 [DEBUG] adding entry META-INF/maven/org.apache.maven.its.ear.basic/test/pom.properties
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS

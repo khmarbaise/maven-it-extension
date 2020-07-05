@@ -1176,8 +1176,9 @@ In using the `..out()` it can be combined with things like:
 * `.info()`
 * `.warn()`
 * `.debug()`
+* `.error()'
 
-Those parts will remove the appropriate prefix from each output line `[INFO]`, `[WARNING]` or `[DEBUG]`
+Those parts will remove the appropriate prefix from each output line `[INFO]`, `[WARNING]`, `[DEBUG]` or `[ERROR]`
 (This includes the single space which is followed by them).
 From that point on you can use the usual AssertJ assertions as in the given example above `containsExactly`
 which implies that only a single would be allowed to have that single warning.

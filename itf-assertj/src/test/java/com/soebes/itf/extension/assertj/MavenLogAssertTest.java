@@ -73,10 +73,18 @@ class MavenLogAssertTest {
   @Test
   void plain_should_give_back_all_lines_second() {
     mavenLogAssert.plain().containsSequence(
+        "[ERROR] Failure during execution.",
         "[DEBUG] adding entry META-INF/maven/org.apache.maven.its.ear.basic/test/pom.properties",
         "[INFO] ------------------------------------------------------------------------",
         "[INFO] BUILD SUCCESS",
         "[INFO] ------------------------------------------------------------------------"
+    );
+  }
+
+  @Test
+  void error_should_give_only_error_lines_without_prefix_back() {
+    mavenLogAssert.error().containsExactly(
+        "Failure during execution."
     );
   }
 
