@@ -35,6 +35,7 @@
 :issue-111: https://github.com/khmarbaise/maven-it-extension/issues/111[Fixed #111]
 :issue-112: https://github.com/khmarbaise/maven-it-extension/issues/112[Fixed #112]
 :issue-116: https://github.com/khmarbaise/maven-it-extension/issues/116[Fixed #116]
+:issue-117: https://github.com/khmarbaise/maven-it-extension/issues/117[Fixed #117]
 :pr-100: https://github.com/khmarbaise/maven-it-extension/pull/100[Pull request #100]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
@@ -53,10 +54,14 @@
  * {issue-104} - Improve code based on SonarQube
  * {issue-110} - Separate usersguide / release notes.
  * {issue-112} - Fix Links to ReleaseNotes 0.7.0
+ * {issue-117} - Output of builds should be consistently named `*.log`
 
 *Breaking Changes*
 
- * ??
+ * If you have used the names of the build output like `mvn-stdout.out` or
+   `mvn-stderr.out` those names have been changed related
+   to {issue-117}. This means you have to change your file names to
+   `mvn-stdout.log` or `mvn-stderr.log` accordingly.
 
 *Reporter of this release*
 

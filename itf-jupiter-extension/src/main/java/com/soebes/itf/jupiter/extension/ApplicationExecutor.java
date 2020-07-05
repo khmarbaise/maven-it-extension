@@ -85,8 +85,8 @@ public class ApplicationExecutor {
       throw new IllegalStateException("Failed to write argument log file", e);
     }
 
-    Path stdErrOut = Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + "-stderr.out");
-    Path stdOutOut = Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + "-stdout.out");
+    Path stdErrOut = Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + "-stderr.log");
+    Path stdOutOut = Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + "-stdout.log");
     Files.deleteIfExists(stdErrOut);
     Files.deleteIfExists(stdOutOut);
     ProcessBuilder pb = new ProcessBuilder(applicationArguments);
@@ -102,16 +102,16 @@ public class ApplicationExecutor {
   }
 
   public Path getStdout() {
-    return Paths.get(loggingDirectory.toString(), this.prefix + "-stdout.out");
+    return Paths.get(loggingDirectory.toString(), this.prefix + "-stdout.log");
   }
 
   Stream<String> createLogStream() {
-    InputStream resourceAsStream = this.getClass().getResourceAsStream("/mvn-stdout.out");
+    InputStream resourceAsStream = this.getClass().getResourceAsStream("/mvn-stdout.log");
     return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
   }
 
   public Path getStdErr() {
-    return Paths.get(loggingDirectory.toString(), this.prefix + "-stderr.out");
+    return Paths.get(loggingDirectory.toString(), this.prefix + "-stderr.log");
   }
 
 }

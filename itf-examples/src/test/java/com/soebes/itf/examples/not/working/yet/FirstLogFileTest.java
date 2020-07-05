@@ -33,7 +33,7 @@ class FirstLogFileTest {
 
   @Test
   void first() {
-    InputStream resourceAsStream = this.getClass().getResourceAsStream("/mvn-stdout.out");
+    InputStream resourceAsStream = this.getClass().getResourceAsStream("/mvn-stdout.log");
     Stream<String> lines = new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
     lines.filter(s -> s.startsWith("[INFO]")).findFirst();
 

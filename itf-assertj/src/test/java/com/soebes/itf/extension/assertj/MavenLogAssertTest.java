@@ -34,13 +34,13 @@ import java.util.stream.Stream;
 class MavenLogAssertTest {
 
   Stream<String> createLogStream() {
-    InputStream resourceAsStream = this.getClass().getResourceAsStream("/mvn-stdout.out");
+    InputStream resourceAsStream = this.getClass().getResourceAsStream("/mvn-stdout.log");
     return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
   }
 
   @Test
   void first_test() {
-//    return Paths.get(loggingDirectory.toString(), this.prefix + "-stdout.out");
+//    return Paths.get(loggingDirectory.toString(), this.prefix + "-stdout.log");
 
     //MavenLogAssert mavenLogAssert = new MavenLogAssert();
 
