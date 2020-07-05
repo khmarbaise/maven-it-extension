@@ -151,85 +151,109 @@
 <th>Tag strings used by tag class</th></tr>
 <tr class="b">
 <td><a href="#tag_class_2">FIXME WORK</a></td>
-<td>11</td>
+<td>15</td>
 <td>FIXME</td></tr>
 <tr class="a">
 <td><a href="#tag_class_1">Todo Work</a></td>
-<td>12</td>
+<td>14</td>
 <td>todo</td></tr></table>
 <p>Each tag is detailed below:</p><section>
 <h3><a name="FIXME_WORK"></a><a name="tag_class_2">FIXME WORK</a></h3>
-<p><b>Number of occurrences found in the code: 11</b></p>
+<p><b>Number of occurrences found in the code: 15</b></p>
 <table border="0" class="table table-striped">
 <tr class="b">
-<th>com.soebes.itf.extension.assertj.MavenLogAssert</th>
+<th>com.soebes.itf.extension.assertj.LogAssert</th>
 <th>Line</th></tr>
 <tr class="a">
 <td>Logging exception.</td>
-<td>73</td></tr>
+<td>184</td></tr>
 <tr class="b">
 <td>Need to reconsider the following?</td>
-<td>75</td></tr>
+<td>186</td></tr>
 <tr class="a">
+<th>com.soebes.itf.extension.assertj.MavenLogAssert</th>
+<th>Line</th></tr>
+<tr class="b">
+<td>Logging exception.</td>
+<td>71</td></tr>
+<tr class="a">
+<td>Need to reconsider the following?</td>
+<td>73</td></tr>
+<tr class="b">
+<td>Logging exception.</td>
+<td>85</td></tr>
+<tr class="a">
+<td>Need to reconsider the following?</td>
+<td>87</td></tr>
+<tr class="b">
 <th>com.soebes.itf.extension.assertj.MavenProjectResultAssert</th>
 <th>Line</th></tr>
-<tr class="b">
+<tr class="a">
 <td>wrong way...need to reconsider.</td>
 <td>87</td></tr>
-<tr class="a">
+<tr class="b">
 <th>com.soebes.itf.jupiter.extension.DirectoryResolverResult</th>
 <th>Line</th></tr>
-<tr class="b">
+<tr class="a">
 <td>Hard coded default. Should we get the default from the Annotation?</td>
 <td>91</td></tr>
-<tr class="a">
+<tr class="b">
 <td>Hard coded default. Should we get the default from the Annotation?</td>
 <td>102</td></tr>
-<tr class="b">
+<tr class="a">
 <th>com.soebes.itf.jupiter.extension.MavenITExtension</th>
 <th>Line</th></tr>
-<tr class="a">
+<tr class="b">
 <td>Need to reconsider the maven-it directory?</td>
 <td>75</td></tr>
-<tr class="b">
+<tr class="a">
 <td>Need to introduce better directory names Refactor out the following lines</td>
 <td>211</td></tr>
-<tr class="a">
+<tr class="b">
 <th>com.soebes.itf.jupiter.extension.ModelReader</th>
 <th>Line</th></tr>
-<tr class="b">
+<tr class="a">
 <td>this.model.getParent() == null what should be the consequence?</td>
 <td>42</td></tr>
-<tr class="a">
+<tr class="b">
 <td>this.model.getParent() == null what should be the consequence?</td>
 <td>50</td></tr>
-<tr class="b">
+<tr class="a">
 <th>com.soebes.itf.jupiter.maven.Projects</th>
 <th>Line</th></tr>
-<tr class="a">
+<tr class="b">
 <td>Need to use a real tree structure to support real project reactors with different levels etc.</td>
 <td>34</td></tr>
-<tr class="b">
+<tr class="a">
 <th>com.soebes.itf.maven.plugin.BasicIT</th>
 <th>Line</th></tr>
-<tr class="a">
+<tr class="b">
 <td>The following should be made easier See https://github.com/khmarbaise/maven-it-extension/issues/39</td>
 <td>58</td></tr></table></section><section>
 <h3><a name="Todo_Work"></a><a name="tag_class_1">Todo Work</a></h3>
-<p><b>Number of occurrences found in the code: 12</b></p>
+<p><b>Number of occurrences found in the code: 14</b></p>
 <table border="0" class="table table-striped">
-<tr class="b">
+<tr class="a">
 <th>com.soebes.itf.extension.assertj.ArchiveAssert</th>
 <th>Line</th></tr>
-<tr class="a">
-<td>currently ignore maven files and MANIFEST.MF</td>
-<td>49</td></tr>
 <tr class="b">
+<td>currently ignore maven files and MANIFEST.MF</td>
+<td>52</td></tr>
+<tr class="a">
+<th>com.soebes.itf.extension.assertj.LogAssert</th>
+<th>Line</th></tr>
+<tr class="b">
+<td>Need to reconsider if there isn't a better way to return the stream? lines() gives a stream which might be a better solution? InputStream resourceAsStream = this.getClass().getResourceAsStream(&quot;/mvn-stdout.log&quot;); return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();</td>
+<td>178</td></tr>
+<tr class="a">
 <th>com.soebes.itf.extension.assertj.MavenLogAssert</th>
 <th>Line</th></tr>
+<tr class="b">
+<td>Need to reconsider if there isn't a better way to return the stream? lines() gives a stream which might be a better solution? InputStream resourceAsStream = this.getClass().getResourceAsStream(&quot;/mvn-stdout.log&quot;); return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();</td>
+<td>65</td></tr>
 <tr class="a">
 <td>Need to reconsider if there isn't a better way to return the stream? lines() gives a stream which might be a better solution? InputStream resourceAsStream = this.getClass().getResourceAsStream(&quot;/mvn-stdout.log&quot;); return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();</td>
-<td>67</td></tr>
+<td>79</td></tr>
 <tr class="b">
 <th>com.soebes.itf.jupiter.extension.AnnotationHelper</th>
 <th>Line</th></tr>

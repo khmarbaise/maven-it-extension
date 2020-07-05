@@ -492,7 +492,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_assertions">9. Assertions</a>
 <ul class="sectlevel2">
 <li><a href="#_overview_3">9.1. Overview</a></li>
-<li><a href="#_expressing_assertions">9.2. Expressing Assertions</a></li>
+<li><a href="#_assertion_for_maven_log">9.2. Assertion for Maven Log</a></li>
+<li><a href="#_expressing_assertions">9.3. Expressing Assertions</a></li>
 </ul>
 </li>
 </ul>
@@ -1812,9 +1813,6 @@ names which can be used in your assertions like the following:</p>
 <li>
 <p><code>assertThat(result).cache()&#8230;&#8203;</code> will go into the <code>.m2/repository</code> directory.</p>
 </li>
-<li>
-<p><code>assertThat(result).log()..' will result into the access of the `mvn-stdout.log</code> file.</p>
-</li>
 </ul>
 </div>
 <div class="paragraph">
@@ -1853,7 +1851,185 @@ as you like.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_expressing_assertions">9.2. Expressing Assertions</h3>
+<h3 id="_assertion_for_maven_log">9.2. Assertion for Maven Log</h3>
+<div class="paragraph">
+<p>In integration tests is necessary to check the log output of a build. This is sometimes needed because
+you want to check for particular output etc. which has been done by a plugin/extension etc.</p>
+</div>
+<div class="paragraph">
+<p>In general there are currently two different outputs which can be reviewed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Console output (stdout)</p>
+</li>
+<li>
+<p>Error output (stderr)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>These two parts are redirected into appropriate files within the integration result directory (see
+<code>the_first_test_case</code>). In the following example you see two output files <code>mvn-stdout.log</code> and <code>mvn-stderr.log</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="text">.
+└──target/
+   └── maven-its/
+       └── org/
+           └── it/
+               └── FirstIT/
+                   └── the_first_test_case/
+                       ├── .m2/
+                       ├── project/
+                       │   ├── src/
+                       │   ├── target/
+                       │   └── pom.xml
+                       ├── mvn-stdout.log
+                       ├── mvn-stderr.log
+                       └── other logs</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Let us take a look into an example test case like this:</p>
+</div>
+<div class="listingblock">
+<div class="title">LogoutputIT.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.its</span>;
+
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenJupiterExtension</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenOptions</span>;
+
+<span class="annotation">@MavenJupiterExtension</span>
+<span class="type">class</span> <span class="class">LogoutputIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic(MavenExecutionResult result) {
+    assertThat(result)
+      .out()
+      .warn()
+      .containsExactly(<span class="string"><span class="delimiter">&quot;</span><span class="content">Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!</span><span class="delimiter">&quot;</span></span>);
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Usually you will be using the injection of the <code>MavenExecutionResult</code> in your test case. This
+gives you the option to enhance the assertions like the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>assertThat(result).out()&#8230;&#8203;.</code></p>
+</li>
+<li>
+<p><code>assertThat(result).err()&#8230;&#8203;.</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The first one <code>assertThat(result).out()&#8230;&#8203;.</code> will give you access to the <code>stdout</code> of the build (which means <code>mvn-stdout.log</code>)
+whereas the second one give you access to the <code>stderr</code> of the build (means <code>mvn-stderr.log</code>).</p>
+</div>
+<div class="paragraph">
+<p>In using the <code>..out()</code> it can be combined with things like:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>.info()</code></p>
+</li>
+<li>
+<p><code>.warn()</code></p>
+</li>
+<li>
+<p><code>.debug()</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Those parts will remove the appropriate prefix from each output line <code>[INFO]</code>, <code>[WARNING]</code> or <code>[DEBUG]</code>
+(This includes the single space which is followed by them).
+From that point on you can use the usual AssertJ assertions as in the given example above <code>containsExactly</code>
+which implies that only a single would be allowed to have that single warning.</p>
+</div>
+<div class="paragraph">
+<p>Furthermore if you like to get the plain log output that can be achieved by using:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>.plain()</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>That will not filter anything.</p>
+</div>
+<div class="paragraph">
+<p>Another example of using the assertions could look like this:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>assertThat(result)
+    .out()
+    .info()
+    .contains("Building Maven Integration Test :: it0033 1.0");</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will extract all messages with the prefix `[INFO] ` of the log and check if there is
+at least one line which contains the given content.</p>
+</div>
+<div class="paragraph">
+<p>We can check for warnings like the following:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>assertThat(result)
+    .out()
+    .warn()
+    .containsExactly("Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!");</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can access directly the <code>stdout</code> and/or the <code>stderr</code> of the Maven build and do things yourself
+if you prefer to go that way. In this case you have to add another injection to the test case
+(<code>MavenLog mavenLog</code> or like this <code>result.getMavenLog().getStdout()</code>).</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>assertThat(Files.readAllLines(mavenLog.getStdout()))
+    .filteredOn(s1 -&gt; s1.startsWith("[WARNING]"))
+    .first()
+    .isEqualTo("[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!");</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>// You can access the output (stderr) of the maven build directly and do things yourself.
+assertThat(Files.readAllLines(mavenLog.getStderr()))
+    .isEmpty();</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>stderr</code> output can be accessed as well like this:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>assertThat(result).err().plain().isEmpty();</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A full fledged example can be found <code>itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java</code>
+within the itf project.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_expressing_assertions">9.3. Expressing Assertions</h3>
 <div class="listingblock">
 <div class="title">CompareDependenciesIT.java</div>
 <div class="content">
@@ -1907,7 +2083,7 @@ as you like.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.8.0-SNAPSHOT<br>
-Last updated 2020-07-05 14:03:27 UTC
+Last updated 2020-07-05 19:13:44 UTC
 </div>
 </div>
 <style>

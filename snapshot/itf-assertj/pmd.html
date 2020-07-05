@@ -141,6 +141,16 @@
 <p>The following document contains the results of <a class="externalLink" href="https://pmd.github.io">PMD</a> 6.21.0.</p></section><section>
 <h2><a name="Violations_By_Priority"></a>Violations By Priority</h2><section>
 <h3><a name="Priority_3"></a>Priority 3</h3><section>
+<h4><a name="com.2Fsoebes.2Fitf.2Fextension.2Fassertj.2FLogAssert.java"></a>com/soebes/itf/extension/assertj/LogAssert.java</h4>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Rule</th>
+<th>Violation</th>
+<th>Line</th></tr>
+<tr class="b">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_errorprone.html#emptycatchblock">EmptyCatchBlock</a></td>
+<td>Avoid empty catch blocks</td>
+<td>183&#x2013;185</td></tr></table></section><section>
 <h4><a name="com.2Fsoebes.2Fitf.2Fextension.2Fassertj.2FMavenLogAssert.java"></a>com/soebes/itf/extension/assertj/MavenLogAssert.java</h4>
 <table border="0" class="table table-striped">
 <tr class="a">
@@ -150,7 +160,15 @@
 <tr class="b">
 <td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_errorprone.html#emptycatchblock">EmptyCatchBlock</a></td>
 <td>Avoid empty catch blocks</td>
-<td>72&#x2013;74</td></tr></table></section><section>
+<td>70&#x2013;72</td></tr>
+<tr class="a">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_bestpractices.html#unusedprivatemethod">UnusedPrivateMethod</a></td>
+<td>Avoid unused private methods such as 'createErrorLogStream()'.</td>
+<td>77</td></tr>
+<tr class="b">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_errorprone.html#emptycatchblock">EmptyCatchBlock</a></td>
+<td>Avoid empty catch blocks</td>
+<td>84&#x2013;86</td></tr></table></section><section>
 <h4><a name="com.2Fsoebes.2Fitf.2Fextension.2Fassertj.2FMavenProjectResultAssert.java"></a>com/soebes/itf/extension/assertj/MavenProjectResultAssert.java</h4>
 <table border="0" class="table table-striped">
 <tr class="a">
@@ -160,9 +178,46 @@
 <tr class="b">
 <td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_bestpractices.html#unusedprivatefield">UnusedPrivateField</a></td>
 <td>Avoid unused private fields such as 'parent'.</td>
-<td>43</td></tr></table></section></section></section><section>
+<td>43</td></tr></table></section></section><section>
+<h3><a name="Priority_4"></a>Priority 4</h3><section>
+<h4><a name="com.2Fsoebes.2Fitf.2Fextension.2Fassertj.2FArchiveAssert.java"></a>com/soebes/itf/extension/assertj/ArchiveAssert.java</h4>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Rule</th>
+<th>Violation</th>
+<th>Line</th></tr>
+<tr class="b">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_bestpractices.html#unusedimports">UnusedImports</a></td>
+<td>Avoid unused imports such as 'org.apiguardian.api.API'</td>
+<td>23</td></tr>
+<tr class="a">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_bestpractices.html#unusedimports">UnusedImports</a></td>
+<td>Avoid unused imports such as 'org.apiguardian.api.API.Status.EXPERIMENTAL'</td>
+<td>35</td></tr></table></section><section>
+<h4><a name="com.2Fsoebes.2Fitf.2Fextension.2Fassertj.2FMavenLogAssert.java"></a>com/soebes/itf/extension/assertj/MavenLogAssert.java</h4>
+<table border="0" class="table table-striped">
+<tr class="b">
+<th>Rule</th>
+<th>Violation</th>
+<th>Line</th></tr>
+<tr class="a">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname">UnnecessaryFullyQualifiedName</a></td>
+<td>Unnecessary use of fully qualified name 'API.Status.EXPERIMENTAL' due to existing static import 'org.apiguardian.api.API.Status.EXPERIMENTAL'</td>
+<td>106</td></tr>
+<tr class="b">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname">UnnecessaryFullyQualifiedName</a></td>
+<td>Unnecessary use of fully qualified name 'API.Status.EXPERIMENTAL' due to existing static import 'org.apiguardian.api.API.Status.EXPERIMENTAL'</td>
+<td>142</td></tr>
+<tr class="a">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname">UnnecessaryFullyQualifiedName</a></td>
+<td>Unnecessary use of fully qualified name 'API.Status.EXPERIMENTAL' due to existing static import 'org.apiguardian.api.API.Status.EXPERIMENTAL'</td>
+<td>176</td></tr>
+<tr class="b">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname">UnnecessaryFullyQualifiedName</a></td>
+<td>Unnecessary use of fully qualified name 'API.Status.EXPERIMENTAL' due to existing static import 'org.apiguardian.api.API.Status.EXPERIMENTAL'</td>
+<td>203</td></tr></table></section></section></section><section>
 <h2><a name="Files"></a>Files</h2><section>
-<h3><a name="com.2Fsoebes.2Fitf.2Fextension.2Fassertj.2FMavenLogAssert.java"></a>com/soebes/itf/extension/assertj/MavenLogAssert.java</h3>
+<h3><a name="com.2Fsoebes.2Fitf.2Fextension.2Fassertj.2FArchiveAssert.java"></a>com/soebes/itf/extension/assertj/ArchiveAssert.java</h3>
 <table border="0" class="table table-striped">
 <tr class="a">
 <th>Rule</th>
@@ -170,18 +225,77 @@
 <th>Priority</th>
 <th>Line</th></tr>
 <tr class="b">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_bestpractices.html#unusedimports">UnusedImports</a></td>
+<td>Avoid unused imports such as 'org.apiguardian.api.API'</td>
+<td>4</td>
+<td>23</td></tr>
+<tr class="a">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_bestpractices.html#unusedimports">UnusedImports</a></td>
+<td>Avoid unused imports such as 'org.apiguardian.api.API.Status.EXPERIMENTAL'</td>
+<td>4</td>
+<td>35</td></tr></table></section><section>
+<h3><a name="com.2Fsoebes.2Fitf.2Fextension.2Fassertj.2FLogAssert.java"></a>com/soebes/itf/extension/assertj/LogAssert.java</h3>
+<table border="0" class="table table-striped">
+<tr class="b">
+<th>Rule</th>
+<th>Violation</th>
+<th>Priority</th>
+<th>Line</th></tr>
+<tr class="a">
 <td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_errorprone.html#emptycatchblock">EmptyCatchBlock</a></td>
 <td>Avoid empty catch blocks</td>
 <td>3</td>
-<td>72&#x2013;74</td></tr></table></section><section>
-<h3><a name="com.2Fsoebes.2Fitf.2Fextension.2Fassertj.2FMavenProjectResultAssert.java"></a>com/soebes/itf/extension/assertj/MavenProjectResultAssert.java</h3>
+<td>183&#x2013;185</td></tr></table></section><section>
+<h3><a name="com.2Fsoebes.2Fitf.2Fextension.2Fassertj.2FMavenLogAssert.java"></a>com/soebes/itf/extension/assertj/MavenLogAssert.java</h3>
 <table border="0" class="table table-striped">
-<tr class="a">
+<tr class="b">
 <th>Rule</th>
 <th>Violation</th>
 <th>Priority</th>
 <th>Line</th></tr>
+<tr class="a">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_errorprone.html#emptycatchblock">EmptyCatchBlock</a></td>
+<td>Avoid empty catch blocks</td>
+<td>3</td>
+<td>70&#x2013;72</td></tr>
 <tr class="b">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_bestpractices.html#unusedprivatemethod">UnusedPrivateMethod</a></td>
+<td>Avoid unused private methods such as 'createErrorLogStream()'.</td>
+<td>3</td>
+<td>77</td></tr>
+<tr class="a">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_errorprone.html#emptycatchblock">EmptyCatchBlock</a></td>
+<td>Avoid empty catch blocks</td>
+<td>3</td>
+<td>84&#x2013;86</td></tr>
+<tr class="b">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname">UnnecessaryFullyQualifiedName</a></td>
+<td>Unnecessary use of fully qualified name 'API.Status.EXPERIMENTAL' due to existing static import 'org.apiguardian.api.API.Status.EXPERIMENTAL'</td>
+<td>4</td>
+<td>106</td></tr>
+<tr class="a">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname">UnnecessaryFullyQualifiedName</a></td>
+<td>Unnecessary use of fully qualified name 'API.Status.EXPERIMENTAL' due to existing static import 'org.apiguardian.api.API.Status.EXPERIMENTAL'</td>
+<td>4</td>
+<td>142</td></tr>
+<tr class="b">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname">UnnecessaryFullyQualifiedName</a></td>
+<td>Unnecessary use of fully qualified name 'API.Status.EXPERIMENTAL' due to existing static import 'org.apiguardian.api.API.Status.EXPERIMENTAL'</td>
+<td>4</td>
+<td>176</td></tr>
+<tr class="a">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname">UnnecessaryFullyQualifiedName</a></td>
+<td>Unnecessary use of fully qualified name 'API.Status.EXPERIMENTAL' due to existing static import 'org.apiguardian.api.API.Status.EXPERIMENTAL'</td>
+<td>4</td>
+<td>203</td></tr></table></section><section>
+<h3><a name="com.2Fsoebes.2Fitf.2Fextension.2Fassertj.2FMavenProjectResultAssert.java"></a>com/soebes/itf/extension/assertj/MavenProjectResultAssert.java</h3>
+<table border="0" class="table table-striped">
+<tr class="b">
+<th>Rule</th>
+<th>Violation</th>
+<th>Priority</th>
+<th>Line</th></tr>
+<tr class="a">
 <td><a class="externalLink" href="https://pmd.github.io/pmd-6.21.0/pmd_rules_java_bestpractices.html#unusedprivatefield">UnusedPrivateField</a></td>
 <td>Avoid unused private fields such as 'parent'.</td>
 <td>3</td>

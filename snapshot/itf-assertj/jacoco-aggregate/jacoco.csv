@@ -2,7 +2,7 @@ GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_
 itf-assertj/itf-extension-maven,com.soebes.itf.jupiter.maven,ProjectHelper,24,8,0,0,6,2,1,1,1,1
 itf-assertj/itf-extension-maven,com.soebes.itf.jupiter.maven,MavenProjectResult,15,0,0,0,6,0,3,0,3,0
 itf-assertj/itf-extension-maven,com.soebes.itf.jupiter.maven,MavenExecutionResult.ExecutionResult,34,0,0,0,4,0,1,0,1,0
-itf-assertj/itf-extension-maven,com.soebes.itf.jupiter.maven,MavenLog,15,0,0,0,6,0,3,0,3,0
+itf-assertj/itf-extension-maven,com.soebes.itf.jupiter.maven,MavenLog,3,12,0,0,1,5,1,2,1,2
 itf-assertj/itf-extension-maven,com.soebes.itf.jupiter.maven,Projects,9,0,0,0,4,0,2,0,2,0
 itf-assertj/itf-extension-maven,com.soebes.itf.jupiter.maven,MavenExecutor,36,0,0,0,6,0,3,0,3,0
 itf-assertj/itf-extension-maven,com.soebes.itf.jupiter.maven,MavenCacheResult,9,0,0,0,4,0,2,0,2,0

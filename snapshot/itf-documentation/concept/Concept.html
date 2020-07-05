@@ -473,7 +473,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#_open_things">6. Open Things</a></li>
-<li><a href="#_ideas_2">7. Ideas</a></li>
+<li><a href="#_ideas_2">7. Ideas</a>
+<ul class="sectlevel2">
+<li><a href="#_ide_integration">7.1. IDE Integration</a></li>
+<li><a href="#_log_assertion">7.2. Log Assertion</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -1800,6 +1805,8 @@ extension and somehow configure that for the test cases?</p>
 <div class="sect1">
 <h2 id="_ideas_2">7. Ideas</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_ide_integration">7.1. IDE Integration</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1840,12 +1847,39 @@ directories and then run the test as usual.</p>
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_log_assertion">7.2. Log Assertion</h3>
+<div class="paragraph">
+<p>We have at the moment at least three different outputs:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The stdout as <code>mvn-stdout.log</code></p>
+</li>
+<li>
+<p>The stderr as <code>mvn-stderr.log</code></p>
+</li>
+<li>
+<p>The list of used command line parameters <code>mvn-arguments.log</code></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="title">filename.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">assertThat(result).isSuccessful().out()...
+assertThat(result).out().warn()</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.8.0-SNAPSHOT<br>
-Last updated 2020-07-05 14:03:27 UTC
+Last updated 2020-07-05 19:13:44 UTC
 </div>
 </div>
 <style>

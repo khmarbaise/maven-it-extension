@@ -20,96 +20,190 @@
  */
 
 import com.soebes.itf.jupiter.maven.MavenLog;
+import org.apiguardian.api.API;
 import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.ListAssert;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
  * @author Karl Heinz Marbaise
  */
+@API(status = EXPERIMENTAL, since = &quot;0.1.0&quot;)
 public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&gt; {
 
-  protected MavenLogAssert(MavenLog actual) {
-<span class="nc" id="L36">    super(actual, MavenLogAssert.class);</span>
-<span class="nc" id="L37">  }</span>
+  /**
+   * Prefix for each line which is logged in {@code DEBUG} state.
+   */
+<span class="fc" id="L44">  private static final Predicate&lt;String&gt; IS_DEBUG = p -&gt; p.startsWith(&quot;[DEBUG] &quot;);</span>
+  /**
+   * Prefix for each line which is logged in {@code INFO} state.
+   */
+<span class="fc" id="L48">  private static final Predicate&lt;String&gt; IS_INFO = p -&gt; p.startsWith(&quot;[INFO] &quot;);</span>
+  /**
+   * Prefix for each line which is logged in {@code WARNING} state.
+   */
+<span class="fc" id="L52">  private static final Predicate&lt;String&gt; IS_WARNING = s -&gt; s.startsWith(&quot;[WARNING] &quot;);</span>
 
   /**
-   * An entry point for MavenExecutionResultAssert to follow AssertJ standard &lt;code&gt;assertThat()&lt;/code&gt; statements.&lt;br&gt;
-   * With a static import, one's can write directly : &lt;code&gt;assertThat(result).isSuccessful();&lt;/code&gt;
+   * Create instance of MavenLogAssert.
    *
-   * @param actual the MavenLog we want to make assertions on.
-   * @return a new {@link MavenLogAssert}
+   * @param actual The given Log.
    */
-  public static MavenLogAssert assertThat(MavenLog actual) {
-<span class="nc" id="L47">    return new MavenLogAssert(actual);</span>
-  }
+  MavenLogAssert(MavenLog actual) {
+<span class="fc" id="L60">    super(actual, MavenLogAssert.class);</span>
+<span class="fc" id="L61">  }</span>
 
-  /**
-   * @return {@link MavenLogAssert} for method chaining.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not {@code true}.
-   */
-  public MavenLogAssert isSuccessful() {
-<span class="nc" id="L56">    isNotNull();</span>
-    //this.actual.getStderr();
-    //    if (!this.actual.isSuccesful()) {
-    //      failWithMessage(&quot;The build was not successful but was &lt;%s&gt; with returnCode:&lt;%s&gt;&quot;, actual.getResult(),
-    //          actual.getReturnCode());
-    //    }
-<span class="nc" id="L62">    return myself;</span>
-  }
-
-  List&lt;String&gt; createLogStream() {
+  private List&lt;String&gt; createStdoutLogStream() {
     try {
       //TODO: Need to reconsider if there isn't a better way to return the stream?
       // lines() gives a stream which might be a better solution?
       //    InputStream resourceAsStream = this.getClass().getResourceAsStream(&quot;/mvn-stdout.log&quot;);
       //    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
-<span class="nc" id="L71">      return Files.readAllLines(this.actual.getStdout());</span>
-<span class="nc" id="L72">    } catch (IOException e) {</span>
+<span class="fc" id="L69">      return Files.readAllLines(this.actual.getStdout());</span>
+<span class="nc" id="L70">    } catch (IOException e) {</span>
       //FIXME: Logging exception.
     }
     //FIXME: Need to reconsider the following?
-<span class="nc" id="L76">    return null;</span>
+<span class="nc" id="L74">    return null;</span>
+  }
+
+  private List&lt;String&gt; createErrorLogStream() {
+    try {
+      //TODO: Need to reconsider if there isn't a better way to return the stream?
+      // lines() gives a stream which might be a better solution?
+      //    InputStream resourceAsStream = this.getClass().getResourceAsStream(&quot;/mvn-stdout.log&quot;);
+      //    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
+<span class="nc" id="L83">      return Files.readAllLines(this.actual.getStderr());</span>
+<span class="nc" id="L84">    } catch (IOException e) {</span>
+      //FIXME: Logging exception.
+    }
+    //FIXME: Need to reconsider the following?
+<span class="nc" id="L88">    return null;</span>
   }
 
   /**
-   * The logging output on stdout is given back in a list of strings. The prefix {@code [INFO]} (including the following
-   * space) has been filtered out of this already.
-   *
-   * @return list of Strings which contains the log output
+   * Will give you back the stdout and removes the prefix &quot;[INFO] &quot; from all lines.
+   * &lt;p&gt;
+   * It can be used to check for a sequence in the log output like this:
+   * &lt;pre&gt;
+   *   assertThat(result)
+   *    .log()
+   *    .info()
+   *    .containsSequence(&quot;The first line matching.&quot;, &quot;The second line matching&quot;);
+   * &lt;/pre&gt;
+   * &lt;/p&gt;
+   * @return {@link ListAssert}
+   * @since 0.8.0
+   * @see ListAssert#containsSequence(Object[])
    */
-  public List&lt;String&gt; info() {
-<span class="nc" id="L86">    return createLogStream().stream()</span>
-<span class="nc" id="L87">        .filter(p -&gt; p.startsWith(&quot;[INFO]&quot;))</span>
-<span class="nc" id="L88">        .map(s -&gt; s.substring(7))</span>
-<span class="nc" id="L89">        .collect(Collectors.toList());</span>
+  @API(status = API.Status.EXPERIMENTAL, since = &quot;0.8.0&quot;)
+  public ListAssert&lt;String&gt; info() {
+<span class="fc" id="L108">    return new ListAssert&lt;&gt;(createStdoutLogStream().stream()</span>
+<span class="fc" id="L109">        .filter(IS_INFO)</span>
+<span class="fc" id="L110">        .map(s -&gt; s.substring(7)) // Need to reconsider?</span>
+<span class="fc" id="L111">        .collect(Collectors.toList()));</span>
   }
 
-  public void buildSuccess() {
-<span class="nc" id="L93">    this.info()</span>
-<span class="nc" id="L94">        .stream()</span>
-<span class="nc" id="L95">        .filter(s -&gt; s.equals(&quot;BUILD SUCESS&quot;))</span>
-<span class="nc" id="L96">        .findAny()</span>
-<span class="nc" id="L97">        .orElseThrow(() -&gt; new IllegalStateException(&quot;CCC&quot;));</span>
-<span class="nc" id="L98">  }</span>
+  /**
+   * Will give you back the stdout and removes the prefix &quot;[DEBUG] &quot; from all lines.
+   * This could be used like the following:
+   * &lt;pre&gt;
+   *   assertThat(result)
+   *    .log()
+   *    .debug()
+   *    .contains(&quot;Text to be checked for.&quot;);
+   * &lt;/pre&gt;
+   * The {@code debug()} will give you back all entries which have the prefix
+   * {@code [DEBUG] }.
+   * The {@code debug()} can be combined with other parts of AssertJ like:
+   * &lt;pre&gt;
+   *   assertThat(result)
+   *    .log()
+   *    .debug()
+   *    .hasSize(1) // Only a single DEBUG line is allowed.
+   *    .contains(&quot;This is something.&quot;);
+   * &lt;/pre&gt;
+   * The above example will obviously fail cause there always more than one line
+   * of debug output being produced during a Maven build.
+   *
+   * @return {@link ListAssert}
+   * @see #warn()
+   * @see #info()
+   * @see ListAssert#contains(Object[])
+   *
+   */
+  @API(status = API.Status.EXPERIMENTAL, since = &quot;0.8.0&quot;)
+  public ListAssert&lt;String&gt; debug() {
+<span class="fc" id="L144">    return new ListAssert&lt;&gt;(createStdoutLogStream().stream()</span>
+<span class="fc" id="L145">        .filter(IS_DEBUG)</span>
+<span class="fc" id="L146">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
+<span class="fc" id="L147">        .collect(Collectors.toList()));</span>
+  }
 
-  public void buildFailure() {
-<span class="nc" id="L101">    this.info()</span>
-<span class="nc" id="L102">        .stream()</span>
-<span class="nc" id="L103">        .filter(s -&gt; s.equals(&quot;BUILD FAILURE&quot;))</span>
-<span class="nc" id="L104">        .findAny()</span>
-<span class="nc" id="L105">        .orElseThrow(() -&gt; new IllegalStateException(&quot;Not ..&quot;));</span>
-<span class="nc" id="L106">  }</span>
+  /**
+   * Will read the stdout and removes the prefix &quot;[WARNING] &quot;.
+   * This could be used like the following:
+   * &lt;pre&gt;
+   *   assertThat(result)
+   *    .log()
+   *    .warn()
+   *    .contains(&quot;Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!&quot;);
+   * &lt;/pre&gt;
+   * The {@code warn()} will give you back all entries which have the prefix
+   * {@code [WARNING] }.
+   * The {@code warn()} can be combined with other parts of AssertJ like:
+   * &lt;pre&gt;
+   *   assertThat(result)
+   *    .log()
+   *    .warn()
+   *    .hasSize(1) // Only a single WARNING is allowed.
+   *    .contains(&quot;Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!&quot;);
+   * &lt;/pre&gt;
+   *
+   * @return {@link ListAssert}
+   * @see #debug()
+   * @see #info()
+   * @see ListAssert#contains(Object[])
+   *
+   */
+  @API(status = API.Status.EXPERIMENTAL, since = &quot;0.8.0&quot;)
+  public ListAssert&lt;String&gt; warn() {
+<span class="fc" id="L178">    return new ListAssert&lt;&gt;(createStdoutLogStream().stream()</span>
+<span class="fc" id="L179">        .filter(IS_WARNING)</span>
+<span class="fc" id="L180">        .map(s -&gt; s.substring(10)) // Need to reconsider?</span>
+<span class="fc" id="L181">        .collect(Collectors.toList()));</span>
+  }
 
-  public List&lt;String&gt; debug() {
-<span class="nc" id="L109">    return createLogStream().stream()</span>
-<span class="nc" id="L110">        .filter(p -&gt; p.startsWith(&quot;[DEBUG]&quot;))</span>
-<span class="nc" id="L111">        .map(s -&gt; s.substring(9))</span>
-<span class="nc" id="L112">        .collect(Collectors.toList());</span>
+  /**
+   * Will read the stdout without any filtering etc.
+   * &lt;pre&gt;&lt;code class=&quot;java&quot;&gt;
+   *   assertThat(result)
+   *    .out()
+   *    .plain()
+   *    .contains(&quot;[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!&quot;);
+   * &lt;/code&gt;&lt;/pre&gt;
+   *
+   * @return {@link ListAssert}
+   * @see #info()
+   * @see #debug()
+   * @see #warn()
+   * @see ListAssert#contains(Object[])
+   */
+  public ListAssert&lt;String&gt; plain() {
+<span class="fc" id="L200">    return new ListAssert&lt;&gt;(createStdoutLogStream());</span>
+  }
+
+  @API(status = API.Status.EXPERIMENTAL, since = &quot;0.8.0&quot;)
+  public ListAssert&lt;String&gt; err() {
+<span class="nc" id="L205">    return new ListAssert&lt;&gt;(createStdoutLogStream().stream()</span>
+<span class="nc" id="L206">        .collect(Collectors.toList()));</span>
   }
 
 }
