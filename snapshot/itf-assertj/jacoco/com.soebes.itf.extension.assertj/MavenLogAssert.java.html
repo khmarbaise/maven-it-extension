@@ -66,7 +66,7 @@ public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&g
     try {
       //TODO: Need to reconsider if there isn't a better way to return the stream?
       // lines() gives a stream which might be a better solution?
-      //    InputStream resourceAsStream = this.getClass().getResourceAsStream(&quot;/mvn-stdout.out&quot;);
+      //    InputStream resourceAsStream = this.getClass().getResourceAsStream(&quot;/mvn-stdout.log&quot;);
       //    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
 <span class="nc" id="L71">      return Files.readAllLines(this.actual.getStdout());</span>
 <span class="nc" id="L72">    } catch (IOException e) {</span>

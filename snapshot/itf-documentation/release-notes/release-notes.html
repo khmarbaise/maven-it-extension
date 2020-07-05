@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="Karl Heinz Marbaise, 2020-06-22">
+<meta name="author" content="Karl Heinz Marbaise, 2020-07-05">
 <title>Integration Testing Framework Release Notes</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Integration Testing Framework Release Notes</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2020-06-22</span><br>
+<span id="author2" class="author">2020-07-05</span><br>
 <span id="revnumber">version 0.8.0-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
@@ -508,6 +508,9 @@ overview and detailed instructions how to use the Integration Testing Framework.
 <li>
 <p><a href="https://github.com/khmarbaise/maven-it-extension/issues/112">Fixed #112</a> - Fix Links to ReleaseNotes 0.7.0</p>
 </li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/117">Fixed #117</a> - Output of builds should be consistently named <code>*.log</code></p>
+</li>
 </ul>
 </div>
 <div class="paragraph">
@@ -516,7 +519,10 @@ overview and detailed instructions how to use the Integration Testing Framework.
 <div class="ulist">
 <ul>
 <li>
-<p>??</p>
+<p>If you have used the names of the build output like <code>mvn-stdout.out</code> or
+<code>mvn-stderr.out</code> those names have been changed related
+to <a href="https://github.com/khmarbaise/maven-it-extension/issues/117">Fixed #117</a>. This means you have to change your file names to
+<code>mvn-stdout.log</code> or <code>mvn-stderr.log</code> accordingly.</p>
 </li>
 </ul>
 </div>
@@ -1192,7 +1198,7 @@ publish in <a href="https://central.sonatype.org/">Central Repository</a>.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.8.0-SNAPSHOT<br>
-Last updated 2020-06-22 18:03:41 UTC
+Last updated 2020-07-05 14:03:27 UTC
 </div>
 </div>
 </body>
