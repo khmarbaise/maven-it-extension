@@ -19,16 +19,11 @@ package com.soebes.itf.extension.assertj;
  * under the License.
  */
 
-import org.apiguardian.api.API;
-
 import java.nio.file.Path;
 
-import static org.apiguardian.api.API.Status.INTERNAL;
-
-@API(status = INTERNAL, since = "0.8.0")
 class LogClass {
 
-  private Path log;
+  private final Path log;
 
   LogClass(Path log) {
     this.log = log;

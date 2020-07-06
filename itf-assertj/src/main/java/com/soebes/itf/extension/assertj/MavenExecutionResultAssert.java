@@ -58,6 +58,7 @@ public class MavenExecutionResultAssert extends AbstractAssert<MavenExecutionRes
 
   /**
    * This will give you access to the {@code stderr} of the Maven build.
+   *
    * @return Std Err
    */
   public LogAssert err() {
@@ -65,11 +66,23 @@ public class MavenExecutionResultAssert extends AbstractAssert<MavenExecutionRes
     return new LogAssert(new LogClass(this.actual.getMavenLog().getStderr()));
   }
 
+  /**
+   * This will give you access to the {@code project} directory of the project
+   * which is under test.
+   *
+   * @return The project result.
+   */
   public MavenProjectResultAssert project() {
     isNotNull();
     return new MavenProjectResultAssert(this.actual.getMavenProjectResult());
   }
 
+  /**
+   * This will give you access to the {@code maven cache} directory of the
+   * project.
+   *
+   * @return The cache result
+   */
   public MavenCacheResultAssert cache() {
     isNotNull();
     return new MavenCacheResultAssert(this.actual.getMavenCacheResult());

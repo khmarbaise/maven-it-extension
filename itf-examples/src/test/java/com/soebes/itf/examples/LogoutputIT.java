@@ -72,13 +72,13 @@ class LogoutputIT {
 
     // You can access the output (stdout) of the maven build directly and do things yourself.
     // tag::selfmade[]
-    assertThat(Files.readAllLines(mavenLog.getStdout()))
+    assertThat(Files.lines(mavenLog.getStdout()))
         .filteredOn(s1 -> s1.startsWith("[WARNING]"))
         .first()
         .isEqualTo("[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!");
 
     // You can access the output (stderr) of the maven build directly and do things yourself.
-    assertThat(Files.readAllLines(mavenLog.getStderr()))
+    assertThat(Files.lines(mavenLog.getStderr()))
         .isEmpty();
     // end::selfmade[]
 
@@ -105,7 +105,7 @@ class LogoutputIT {
     assertThat(result).out().debug().contains("Populating class realm maven.api");
 
     // You can access the output (stdout) of the maven build directly and do things yourself.
-    assertThat(Files.readAllLines(mavenLog.getStdout()))
+    assertThat(Files.lines(mavenLog.getStdout()))
         .filteredOn(s -> s.startsWith("[WARNING]")).containsExactly("[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!");
 
     // Will read the stderr log file and check the given things.

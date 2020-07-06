@@ -40,6 +40,7 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
   private static final String THE_TARGET_DIRECTORY_DOES_NOT_EXIST = "The target directory of <%s> does not exist.";
   private static final String THE_EAR_FILE_DOES_NOT_EXIST = "The ear file <%s> does not exist or can not be read.";
   private static final String EXPECT_HAVING_A_MODULE = "expected having a module <%s> which does not exist";
+
   private Optional<MavenProjectResultAssert> parent;
 
   protected MavenProjectResultAssert(MavenProjectResult actual) {

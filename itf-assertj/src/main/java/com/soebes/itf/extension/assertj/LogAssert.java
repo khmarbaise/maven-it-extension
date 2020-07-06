@@ -23,12 +23,12 @@ import org.apiguardian.api.API;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ListAssert;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static com.soebes.itf.extension.assertj.Helper.IS_DEBUG;
+import static com.soebes.itf.extension.assertj.Helper.IS_ERROR;
+import static com.soebes.itf.extension.assertj.Helper.IS_INFO;
+import static com.soebes.itf.extension.assertj.Helper.IS_WARNING;
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
@@ -43,23 +43,6 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
  */
 @API(status = EXPERIMENTAL, since = "0.8.0")
 public class LogAssert extends AbstractAssert<LogAssert, LogClass> {
-
-  /**
-   * Prefix for each line which is logged in {@code DEBUG} state.
-   */
-  private static final Predicate<String> IS_DEBUG = p -> p.startsWith("[DEBUG] ");
-  /**
-   * Prefix for each line which is logged in {@code INFO} state.
-   */
-  private static final Predicate<String> IS_INFO = p -> p.startsWith("[INFO] ");
-  /**
-   * Prefix for each line which is logged in {@code WARNING} state.
-   */
-  private static final Predicate<String> IS_WARNING = s -> s.startsWith("[WARNING] ");
-  /**
-   * Prefix for each line which is logged in {@code ERROR} state.
-   */
-  private static final Predicate<String> IS_ERROR = s -> s.startsWith("[ERROR] ");
 
   /**
    * Create an instance of LogAssert.
@@ -87,7 +70,7 @@ public class LogAssert extends AbstractAssert<LogAssert, LogClass> {
    * @since 0.8.0
    */
   public ListAssert<String> info() {
-    return new ListAssert<>(createLog().stream()
+    return new ListAssert<>(Helper.createLog(this.actual.getLog())
         .filter(IS_INFO)
         .map(s -> s.substring(7)) // Need to reconsider?
         .collect(Collectors.toList()));
@@ -121,7 +104,7 @@ public class LogAssert extends AbstractAssert<LogAssert, LogClass> {
    * @see ListAssert#contains(Object[])
    */
   public ListAssert<String> debug() {
-    return new ListAssert<>(createLog().stream()
+    return new ListAssert<>(Helper.createLog(this.actual.getLog())
         .filter(IS_DEBUG)
         .map(s -> s.substring(8)) // Need to reconsider?
         .collect(Collectors.toList()));
@@ -153,7 +136,7 @@ public class LogAssert extends AbstractAssert<LogAssert, LogClass> {
    * @see ListAssert#contains(Object[])
    */
   public ListAssert<String> warn() {
-    return new ListAssert<>(createLog().stream()
+    return new ListAssert<>(Helper.createLog(this.actual.getLog())
         .filter(IS_WARNING)
         .map(s -> s.substring(10)) // Need to reconsider?
         .collect(Collectors.toList()));
@@ -178,7 +161,7 @@ public class LogAssert extends AbstractAssert<LogAssert, LogClass> {
    * @see ListAssert#contains(Object[])
    */
   public ListAssert<String> error() {
-    return new ListAssert<>(createLog().stream()
+    return new ListAssert<>(Helper.createLog(this.actual.getLog())
         .filter(IS_ERROR)
         .map(s -> s.substring(8)) // Need to reconsider?
         .collect(Collectors.toList()));
@@ -200,21 +183,7 @@ public class LogAssert extends AbstractAssert<LogAssert, LogClass> {
    * @see ListAssert#contains(Object[])
    */
   public ListAssert<String> plain() {
-    return new ListAssert<>(createLog());
-  }
-
-  private List<String> createLog() {
-    try {
-      //TODO: Need to reconsider if there isn't a better way to return the stream?
-      // lines() gives a stream which might be a better solution?
-      //    InputStream resourceAsStream = this.getClass().getResourceAsStream("/mvn-stdout.log");
-      //    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
-      return Files.readAllLines(this.actual.getLog());
-    } catch (IOException e) {
-      //FIXME: Logging exception.
-    }
-    //FIXME: Need to reconsider the following?
-    return null;
+    return new ListAssert<>(Helper.createLog(this.actual.getLog()));
   }
 
 }

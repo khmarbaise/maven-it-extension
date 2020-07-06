@@ -24,10 +24,6 @@ import org.apiguardian.api.API;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ListAssert;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
@@ -39,57 +35,12 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
 
   /**
-   * Prefix for each line which is logged in {@code DEBUG} state.
-   */
-  private static final Predicate<String> IS_DEBUG = p -> p.startsWith("[DEBUG] ");
-  /**
-   * Prefix for each line which is logged in {@code INFO} state.
-   */
-  private static final Predicate<String> IS_INFO = p -> p.startsWith("[INFO] ");
-  /**
-   * Prefix for each line which is logged in {@code WARNING} state.
-   */
-  private static final Predicate<String> IS_WARNING = s -> s.startsWith("[WARNING] ");
-  /**
-   * Prefix for each line which is logged in {@code ERROR} state.
-   */
-  private static final Predicate<String> IS_ERROR = s -> s.startsWith("[ERROR] ");
-
-  /**
    * Create instance of MavenLogAssert.
    *
    * @param actual The given Log.
    */
   MavenLogAssert(MavenLog actual) {
     super(actual, MavenLogAssert.class);
-  }
-
-  private List<String> createStdoutLogStream() {
-    try {
-      //TODO: Need to reconsider if there isn't a better way to return the stream?
-      // lines() gives a stream which might be a better solution?
-      //    InputStream resourceAsStream = this.getClass().getResourceAsStream("/mvn-stdout.log");
-      //    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
-      return Files.readAllLines(this.actual.getStdout());
-    } catch (IOException e) {
-      //FIXME: Logging exception.
-    }
-    //FIXME: Need to reconsider the following?
-    return null;
-  }
-
-  private List<String> createErrorLogStream() {
-    try {
-      //TODO: Need to reconsider if there isn't a better way to return the stream?
-      // lines() gives a stream which might be a better solution?
-      //    InputStream resourceAsStream = this.getClass().getResourceAsStream("/mvn-stdout.log");
-      //    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
-      return Files.readAllLines(this.actual.getStderr());
-    } catch (IOException e) {
-      //FIXME: Logging exception.
-    }
-    //FIXME: Need to reconsider the following?
-    return null;
   }
 
   /**
@@ -103,14 +54,15 @@ public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
    *    .containsSequence("The first line matching.", "The second line matching");
    * </pre>
    * </p>
+   *
    * @return {@link ListAssert}
-   * @since 0.8.0
    * @see ListAssert#containsSequence(Object[])
+   * @since 0.8.0
    */
-  @API(status = API.Status.EXPERIMENTAL, since = "0.8.0")
+  @API(status = EXPERIMENTAL, since = "0.8.0")
   public ListAssert<String> info() {
-    return new ListAssert<>(createStdoutLogStream().stream()
-        .filter(IS_INFO)
+    return new ListAssert<>(Helper.createLog(this.actual.getStdout())
+        .filter(Helper.IS_INFO)
         .map(s -> s.substring(7)) // Need to reconsider?
         .collect(Collectors.toList()));
   }
@@ -141,12 +93,11 @@ public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
    * @see #warn()
    * @see #info()
    * @see ListAssert#contains(Object[])
-   *
    */
-  @API(status = API.Status.EXPERIMENTAL, since = "0.8.0")
+  @API(status = EXPERIMENTAL, since = "0.8.0")
   public ListAssert<String> debug() {
-    return new ListAssert<>(createStdoutLogStream().stream()
-        .filter(IS_DEBUG)
+    return new ListAssert<>(Helper.createLog(this.actual.getStdout())
+        .filter(Helper.IS_DEBUG)
         .map(s -> s.substring(8)) // Need to reconsider?
         .collect(Collectors.toList()));
   }
@@ -175,12 +126,11 @@ public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
    * @see #debug()
    * @see #info()
    * @see ListAssert#contains(Object[])
-   *
    */
-  @API(status = API.Status.EXPERIMENTAL, since = "0.8.0")
+  @API(status = EXPERIMENTAL, since = "0.8.0")
   public ListAssert<String> warn() {
-    return new ListAssert<>(createStdoutLogStream().stream()
-        .filter(IS_WARNING)
+    return new ListAssert<>(Helper.createLog(this.actual.getStdout())
+        .filter(Helper.IS_WARNING)
         .map(s -> s.substring(10)) // Need to reconsider?
         .collect(Collectors.toList()));
   }
@@ -210,12 +160,11 @@ public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
    * @see #warn()
    * @see #info()
    * @see ListAssert#contains(Object[])
-   *
    */
-  @API(status = API.Status.EXPERIMENTAL, since = "0.8.0")
+  @API(status = EXPERIMENTAL, since = "0.8.0")
   public ListAssert<String> error() {
-    return new ListAssert<>(createStdoutLogStream().stream()
-        .filter(IS_ERROR)
+    return new ListAssert<>(Helper.createLog(this.actual.getStdout())
+        .filter(Helper.IS_ERROR)
         .map(s -> s.substring(8)) // Need to reconsider?
         .collect(Collectors.toList()));
   }
@@ -236,7 +185,7 @@ public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
    * @see ListAssert#contains(Object[])
    */
   public ListAssert<String> plain() {
-    return new ListAssert<>(createStdoutLogStream());
+    return new ListAssert<>(Helper.createLog(this.actual.getStdout()));
   }
 
 }

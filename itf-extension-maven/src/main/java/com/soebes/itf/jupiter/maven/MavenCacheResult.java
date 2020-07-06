@@ -31,7 +31,7 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 @API(status = EXPERIMENTAL, since = "0.1.0")
 public class MavenCacheResult {
 
-  private Path stdout;
+  private final Path stdout;
 
   public MavenCacheResult(Path stdout) {
     this.stdout = stdout;
