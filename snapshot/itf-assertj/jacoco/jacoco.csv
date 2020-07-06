@@ -1,9 +1,9 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
 itf-assertj,com.soebes.itf.extension.assertj,MavenITAssertions,20,0,0,0,4,0,4,0,4,0
-itf-assertj,com.soebes.itf.extension.assertj,LogAssert,93,0,0,0,21,0,13,0,13,0
+itf-assertj,com.soebes.itf.extension.assertj,LogAssert,117,0,0,0,26,0,16,0,16,0
 itf-assertj,com.soebes.itf.extension.assertj,MavenExecutionResultAssert,126,0,4,0,21,0,10,0,8,0
 itf-assertj,com.soebes.itf.extension.assertj,LogClass,9,0,0,0,4,0,2,0,2,0
-itf-assertj,com.soebes.itf.extension.assertj,MavenLogAssert,22,90,0,0,7,19,2,13,2,13
+itf-assertj,com.soebes.itf.extension.assertj,MavenLogAssert,12,114,0,0,5,24,1,16,1,16
 itf-assertj,com.soebes.itf.extension.assertj,ArchiveAssert,228,0,0,0,45,0,9,0,9,0
 itf-assertj,com.soebes.itf.extension.assertj,MavenCacheResultAssert,10,0,0,0,3,0,2,0,2,0
 itf-assertj,com.soebes.itf.extension.assertj,MavenProjectResultAssert,611,0,50,0,88,0,41,0,16,0

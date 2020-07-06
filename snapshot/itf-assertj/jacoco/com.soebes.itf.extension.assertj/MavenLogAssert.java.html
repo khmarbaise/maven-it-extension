@@ -50,6 +50,10 @@ public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&g
    * Prefix for each line which is logged in {@code WARNING} state.
    */
 <span class="fc" id="L52">  private static final Predicate&lt;String&gt; IS_WARNING = s -&gt; s.startsWith(&quot;[WARNING] &quot;);</span>
+  /**
+   * Prefix for each line which is logged in {@code ERROR} state.
+   */
+<span class="fc" id="L56">  private static final Predicate&lt;String&gt; IS_ERROR = s -&gt; s.startsWith(&quot;[ERROR] &quot;);</span>
 
   /**
    * Create instance of MavenLogAssert.
@@ -57,8 +61,8 @@ public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&g
    * @param actual The given Log.
    */
   MavenLogAssert(MavenLog actual) {
-<span class="fc" id="L60">    super(actual, MavenLogAssert.class);</span>
-<span class="fc" id="L61">  }</span>
+<span class="fc" id="L64">    super(actual, MavenLogAssert.class);</span>
+<span class="fc" id="L65">  }</span>
 
   private List&lt;String&gt; createStdoutLogStream() {
     try {
@@ -66,12 +70,12 @@ public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&g
       // lines() gives a stream which might be a better solution?
       //    InputStream resourceAsStream = this.getClass().getResourceAsStream(&quot;/mvn-stdout.log&quot;);
       //    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
-<span class="fc" id="L69">      return Files.readAllLines(this.actual.getStdout());</span>
-<span class="nc" id="L70">    } catch (IOException e) {</span>
+<span class="fc" id="L73">      return Files.readAllLines(this.actual.getStdout());</span>
+<span class="nc" id="L74">    } catch (IOException e) {</span>
       //FIXME: Logging exception.
     }
     //FIXME: Need to reconsider the following?
-<span class="nc" id="L74">    return null;</span>
+<span class="nc" id="L78">    return null;</span>
   }
 
   private List&lt;String&gt; createErrorLogStream() {
@@ -80,12 +84,12 @@ public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&g
       // lines() gives a stream which might be a better solution?
       //    InputStream resourceAsStream = this.getClass().getResourceAsStream(&quot;/mvn-stdout.log&quot;);
       //    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
-<span class="nc" id="L83">      return Files.readAllLines(this.actual.getStderr());</span>
-<span class="nc" id="L84">    } catch (IOException e) {</span>
+<span class="nc" id="L87">      return Files.readAllLines(this.actual.getStderr());</span>
+<span class="nc" id="L88">    } catch (IOException e) {</span>
       //FIXME: Logging exception.
     }
     //FIXME: Need to reconsider the following?
-<span class="nc" id="L88">    return null;</span>
+<span class="nc" id="L92">    return null;</span>
   }
 
   /**
@@ -105,10 +109,10 @@ public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&g
    */
   @API(status = API.Status.EXPERIMENTAL, since = &quot;0.8.0&quot;)
   public ListAssert&lt;String&gt; info() {
-<span class="fc" id="L108">    return new ListAssert&lt;&gt;(createStdoutLogStream().stream()</span>
-<span class="fc" id="L109">        .filter(IS_INFO)</span>
-<span class="fc" id="L110">        .map(s -&gt; s.substring(7)) // Need to reconsider?</span>
-<span class="fc" id="L111">        .collect(Collectors.toList()));</span>
+<span class="fc" id="L112">    return new ListAssert&lt;&gt;(createStdoutLogStream().stream()</span>
+<span class="fc" id="L113">        .filter(IS_INFO)</span>
+<span class="fc" id="L114">        .map(s -&gt; s.substring(7)) // Need to reconsider?</span>
+<span class="fc" id="L115">        .collect(Collectors.toList()));</span>
   }
 
   /**
@@ -141,10 +145,10 @@ public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&g
    */
   @API(status = API.Status.EXPERIMENTAL, since = &quot;0.8.0&quot;)
   public ListAssert&lt;String&gt; debug() {
-<span class="fc" id="L144">    return new ListAssert&lt;&gt;(createStdoutLogStream().stream()</span>
-<span class="fc" id="L145">        .filter(IS_DEBUG)</span>
-<span class="fc" id="L146">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
-<span class="fc" id="L147">        .collect(Collectors.toList()));</span>
+<span class="fc" id="L148">    return new ListAssert&lt;&gt;(createStdoutLogStream().stream()</span>
+<span class="fc" id="L149">        .filter(IS_DEBUG)</span>
+<span class="fc" id="L150">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
+<span class="fc" id="L151">        .collect(Collectors.toList()));</span>
   }
 
   /**
@@ -175,10 +179,45 @@ public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&g
    */
   @API(status = API.Status.EXPERIMENTAL, since = &quot;0.8.0&quot;)
   public ListAssert&lt;String&gt; warn() {
-<span class="fc" id="L178">    return new ListAssert&lt;&gt;(createStdoutLogStream().stream()</span>
-<span class="fc" id="L179">        .filter(IS_WARNING)</span>
-<span class="fc" id="L180">        .map(s -&gt; s.substring(10)) // Need to reconsider?</span>
-<span class="fc" id="L181">        .collect(Collectors.toList()));</span>
+<span class="fc" id="L182">    return new ListAssert&lt;&gt;(createStdoutLogStream().stream()</span>
+<span class="fc" id="L183">        .filter(IS_WARNING)</span>
+<span class="fc" id="L184">        .map(s -&gt; s.substring(10)) // Need to reconsider?</span>
+<span class="fc" id="L185">        .collect(Collectors.toList()));</span>
+  }
+
+  /**
+   * Will read the stdout and removes the prefix &quot;[ERROR] &quot;.
+   * This could be used like the following:
+   * &lt;pre&gt;
+   *   assertThat(result)
+   *    .log()
+   *    .error()
+   *    .contains(&quot;Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!&quot;);
+   * &lt;/pre&gt;
+   * The {@code warn()} will give you back all entries which have the prefix
+   * {@code [ERROR] }.
+   * The {@code error()} can be combined with other parts of AssertJ like:
+   * &lt;pre&gt;
+   *   assertThat(result)
+   *    .log()
+   *    .error()
+   *    .hasSize(1) // Only a single ERROR is allowed.
+   *    .contains(&quot;Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!&quot;);
+   * &lt;/pre&gt;
+   *
+   * @return {@link ListAssert}
+   * @see #debug()
+   * @see #warn()
+   * @see #info()
+   * @see ListAssert#contains(Object[])
+   *
+   */
+  @API(status = API.Status.EXPERIMENTAL, since = &quot;0.8.0&quot;)
+  public ListAssert&lt;String&gt; error() {
+<span class="fc" id="L217">    return new ListAssert&lt;&gt;(createStdoutLogStream().stream()</span>
+<span class="fc" id="L218">        .filter(IS_ERROR)</span>
+<span class="fc" id="L219">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
+<span class="fc" id="L220">        .collect(Collectors.toList()));</span>
   }
 
   /**
@@ -197,13 +236,7 @@ public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&g
    * @see ListAssert#contains(Object[])
    */
   public ListAssert&lt;String&gt; plain() {
-<span class="fc" id="L200">    return new ListAssert&lt;&gt;(createStdoutLogStream());</span>
-  }
-
-  @API(status = API.Status.EXPERIMENTAL, since = &quot;0.8.0&quot;)
-  public ListAssert&lt;String&gt; err() {
-<span class="nc" id="L205">    return new ListAssert&lt;&gt;(createStdoutLogStream().stream()</span>
-<span class="nc" id="L206">        .collect(Collectors.toList()));</span>
+<span class="fc" id="L239">    return new ListAssert&lt;&gt;(createStdoutLogStream());</span>
   }
 
 }
