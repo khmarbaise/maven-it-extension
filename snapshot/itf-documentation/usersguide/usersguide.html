@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="Karl Heinz Marbaise, 2020-07-06">
+<meta name="author" content="Karl Heinz Marbaise, 2020-07-08">
 <title>Integration Testing Framework Users Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Integration Testing Framework Users Guide</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2020-07-06</span><br>
+<span id="author2" class="author">2020-07-08</span><br>
 <span id="revnumber">version 0.8.0-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
@@ -2005,7 +2005,7 @@ if you prefer to go that way. In this case you have to add another injection to 
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>assertThat(Files.readAllLines(mavenLog.getStdout()))
+<pre>assertThat(Files.lines(mavenLog.getStdout()))
     .filteredOn(s1 -&gt; s1.startsWith("[WARNING]"))
     .first()
     .isEqualTo("[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!");</pre>
@@ -2014,7 +2014,7 @@ if you prefer to go that way. In this case you have to add another injection to 
 <div class="literalblock">
 <div class="content">
 <pre>// You can access the output (stderr) of the maven build directly and do things yourself.
-assertThat(Files.readAllLines(mavenLog.getStderr()))
+assertThat(Files.lines(mavenLog.getStderr()))
     .isEmpty();</pre>
 </div>
 </div>
@@ -2086,7 +2086,7 @@ within the itf project.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.8.0-SNAPSHOT<br>
-Last updated 2020-07-06 21:01:51 UTC
+Last updated 2020-07-08 17:02:02 UTC
 </div>
 </div>
 <style>

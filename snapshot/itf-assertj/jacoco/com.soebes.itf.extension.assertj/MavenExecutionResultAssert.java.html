@@ -58,21 +58,34 @@ public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecution
 
   /**
    * This will give you access to the {@code stderr} of the Maven build.
+   *
    * @return Std Err
    */
   public LogAssert err() {
-<span class="nc" id="L64">    isNotNull();</span>
-<span class="nc" id="L65">    return new LogAssert(new LogClass(this.actual.getMavenLog().getStderr()));</span>
+<span class="nc" id="L65">    isNotNull();</span>
+<span class="nc" id="L66">    return new LogAssert(new LogClass(this.actual.getMavenLog().getStderr()));</span>
   }
 
+  /**
+   * This will give you access to the {@code project} directory of the project
+   * which is under test.
+   *
+   * @return The project result.
+   */
   public MavenProjectResultAssert project() {
-<span class="nc" id="L69">    isNotNull();</span>
-<span class="nc" id="L70">    return new MavenProjectResultAssert(this.actual.getMavenProjectResult());</span>
+<span class="nc" id="L76">    isNotNull();</span>
+<span class="nc" id="L77">    return new MavenProjectResultAssert(this.actual.getMavenProjectResult());</span>
   }
 
+  /**
+   * This will give you access to the {@code maven cache} directory of the
+   * project.
+   *
+   * @return The cache result
+   */
   public MavenCacheResultAssert cache() {
-<span class="nc" id="L74">    isNotNull();</span>
-<span class="nc" id="L75">    return new MavenCacheResultAssert(this.actual.getMavenCacheResult());</span>
+<span class="nc" id="L87">    isNotNull();</span>
+<span class="nc" id="L88">    return new MavenCacheResultAssert(this.actual.getMavenCacheResult());</span>
   }
 
   /**
@@ -81,12 +94,12 @@ public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecution
    * @throws AssertionError if the actual value is not {@code true}.
    */
   public MavenExecutionResultAssert isSuccessful() {
-<span class="nc" id="L84">    isNotNull();</span>
-<span class="nc bnc" id="L85" title="All 2 branches missed.">    if (!this.actual.isSuccesful()) {</span>
-<span class="nc" id="L86">      failWithMessage(&quot;The build was not successful but was &lt;%s&gt; with returnCode:&lt;%s&gt;&quot;, actual.getResult(),</span>
-<span class="nc" id="L87">          actual.getReturnCode());</span>
+<span class="nc" id="L97">    isNotNull();</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">    if (!this.actual.isSuccesful()) {</span>
+<span class="nc" id="L99">      failWithMessage(&quot;The build was not successful but was &lt;%s&gt; with returnCode:&lt;%s&gt;&quot;, actual.getResult(),</span>
+<span class="nc" id="L100">          actual.getReturnCode());</span>
     }
-<span class="nc" id="L89">    return myself;</span>
+<span class="nc" id="L102">    return myself;</span>
   }
 
   /**
@@ -95,12 +108,12 @@ public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecution
    * @throws AssertionError if the actual value is not {@code true}.
    */
   public MavenExecutionResultAssert isFailure() {
-<span class="nc" id="L98">    isNotNull();</span>
-<span class="nc bnc" id="L99" title="All 2 branches missed.">    if (!this.actual.isFailure()) {</span>
-<span class="nc" id="L100">      failWithMessage(&quot;The build should be not successful but was &lt;%s&gt; with returnCode:&lt;%s&gt;&quot;, actual.getResult(),</span>
-<span class="nc" id="L101">          actual.getReturnCode());</span>
+<span class="nc" id="L111">    isNotNull();</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">    if (!this.actual.isFailure()) {</span>
+<span class="nc" id="L113">      failWithMessage(&quot;The build should be not successful but was &lt;%s&gt; with returnCode:&lt;%s&gt;&quot;, actual.getResult(),</span>
+<span class="nc" id="L114">          actual.getReturnCode());</span>
     }
-<span class="nc" id="L103">    return myself;</span>
+<span class="nc" id="L116">    return myself;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

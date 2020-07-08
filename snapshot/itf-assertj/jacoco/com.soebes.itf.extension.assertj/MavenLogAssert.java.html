@@ -24,10 +24,6 @@ import org.apiguardian.api.API;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ListAssert;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
@@ -39,58 +35,13 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&gt; {
 
   /**
-   * Prefix for each line which is logged in {@code DEBUG} state.
-   */
-<span class="fc" id="L44">  private static final Predicate&lt;String&gt; IS_DEBUG = p -&gt; p.startsWith(&quot;[DEBUG] &quot;);</span>
-  /**
-   * Prefix for each line which is logged in {@code INFO} state.
-   */
-<span class="fc" id="L48">  private static final Predicate&lt;String&gt; IS_INFO = p -&gt; p.startsWith(&quot;[INFO] &quot;);</span>
-  /**
-   * Prefix for each line which is logged in {@code WARNING} state.
-   */
-<span class="fc" id="L52">  private static final Predicate&lt;String&gt; IS_WARNING = s -&gt; s.startsWith(&quot;[WARNING] &quot;);</span>
-  /**
-   * Prefix for each line which is logged in {@code ERROR} state.
-   */
-<span class="fc" id="L56">  private static final Predicate&lt;String&gt; IS_ERROR = s -&gt; s.startsWith(&quot;[ERROR] &quot;);</span>
-
-  /**
    * Create instance of MavenLogAssert.
    *
    * @param actual The given Log.
    */
   MavenLogAssert(MavenLog actual) {
-<span class="fc" id="L64">    super(actual, MavenLogAssert.class);</span>
-<span class="fc" id="L65">  }</span>
-
-  private List&lt;String&gt; createStdoutLogStream() {
-    try {
-      //TODO: Need to reconsider if there isn't a better way to return the stream?
-      // lines() gives a stream which might be a better solution?
-      //    InputStream resourceAsStream = this.getClass().getResourceAsStream(&quot;/mvn-stdout.log&quot;);
-      //    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
-<span class="fc" id="L73">      return Files.readAllLines(this.actual.getStdout());</span>
-<span class="nc" id="L74">    } catch (IOException e) {</span>
-      //FIXME: Logging exception.
-    }
-    //FIXME: Need to reconsider the following?
-<span class="nc" id="L78">    return null;</span>
-  }
-
-  private List&lt;String&gt; createErrorLogStream() {
-    try {
-      //TODO: Need to reconsider if there isn't a better way to return the stream?
-      // lines() gives a stream which might be a better solution?
-      //    InputStream resourceAsStream = this.getClass().getResourceAsStream(&quot;/mvn-stdout.log&quot;);
-      //    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
-<span class="nc" id="L87">      return Files.readAllLines(this.actual.getStderr());</span>
-<span class="nc" id="L88">    } catch (IOException e) {</span>
-      //FIXME: Logging exception.
-    }
-    //FIXME: Need to reconsider the following?
-<span class="nc" id="L92">    return null;</span>
-  }
+<span class="fc" id="L43">    super(actual, MavenLogAssert.class);</span>
+<span class="fc" id="L44">  }</span>
 
   /**
    * Will give you back the stdout and removes the prefix &quot;[INFO] &quot; from all lines.
@@ -103,16 +54,17 @@ public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&g
    *    .containsSequence(&quot;The first line matching.&quot;, &quot;The second line matching&quot;);
    * &lt;/pre&gt;
    * &lt;/p&gt;
+   *
    * @return {@link ListAssert}
-   * @since 0.8.0
    * @see ListAssert#containsSequence(Object[])
+   * @since 0.8.0
    */
-  @API(status = API.Status.EXPERIMENTAL, since = &quot;0.8.0&quot;)
+  @API(status = EXPERIMENTAL, since = &quot;0.8.0&quot;)
   public ListAssert&lt;String&gt; info() {
-<span class="fc" id="L112">    return new ListAssert&lt;&gt;(createStdoutLogStream().stream()</span>
-<span class="fc" id="L113">        .filter(IS_INFO)</span>
-<span class="fc" id="L114">        .map(s -&gt; s.substring(7)) // Need to reconsider?</span>
-<span class="fc" id="L115">        .collect(Collectors.toList()));</span>
+<span class="fc" id="L64">    return new ListAssert&lt;&gt;(Helper.createLog(this.actual.getStdout())</span>
+<span class="fc" id="L65">        .filter(Helper.IS_INFO)</span>
+<span class="fc" id="L66">        .map(s -&gt; s.substring(7)) // Need to reconsider?</span>
+<span class="fc" id="L67">        .collect(Collectors.toList()));</span>
   }
 
   /**
@@ -141,14 +93,13 @@ public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&g
    * @see #warn()
    * @see #info()
    * @see ListAssert#contains(Object[])
-   *
    */
-  @API(status = API.Status.EXPERIMENTAL, since = &quot;0.8.0&quot;)
+  @API(status = EXPERIMENTAL, since = &quot;0.8.0&quot;)
   public ListAssert&lt;String&gt; debug() {
-<span class="fc" id="L148">    return new ListAssert&lt;&gt;(createStdoutLogStream().stream()</span>
-<span class="fc" id="L149">        .filter(IS_DEBUG)</span>
-<span class="fc" id="L150">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
-<span class="fc" id="L151">        .collect(Collectors.toList()));</span>
+<span class="fc" id="L99">    return new ListAssert&lt;&gt;(Helper.createLog(this.actual.getStdout())</span>
+<span class="fc" id="L100">        .filter(Helper.IS_DEBUG)</span>
+<span class="fc" id="L101">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
+<span class="fc" id="L102">        .collect(Collectors.toList()));</span>
   }
 
   /**
@@ -175,14 +126,13 @@ public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&g
    * @see #debug()
    * @see #info()
    * @see ListAssert#contains(Object[])
-   *
    */
-  @API(status = API.Status.EXPERIMENTAL, since = &quot;0.8.0&quot;)
+  @API(status = EXPERIMENTAL, since = &quot;0.8.0&quot;)
   public ListAssert&lt;String&gt; warn() {
-<span class="fc" id="L182">    return new ListAssert&lt;&gt;(createStdoutLogStream().stream()</span>
-<span class="fc" id="L183">        .filter(IS_WARNING)</span>
-<span class="fc" id="L184">        .map(s -&gt; s.substring(10)) // Need to reconsider?</span>
-<span class="fc" id="L185">        .collect(Collectors.toList()));</span>
+<span class="fc" id="L132">    return new ListAssert&lt;&gt;(Helper.createLog(this.actual.getStdout())</span>
+<span class="fc" id="L133">        .filter(Helper.IS_WARNING)</span>
+<span class="fc" id="L134">        .map(s -&gt; s.substring(10)) // Need to reconsider?</span>
+<span class="fc" id="L135">        .collect(Collectors.toList()));</span>
   }
 
   /**
@@ -210,14 +160,13 @@ public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&g
    * @see #warn()
    * @see #info()
    * @see ListAssert#contains(Object[])
-   *
    */
-  @API(status = API.Status.EXPERIMENTAL, since = &quot;0.8.0&quot;)
+  @API(status = EXPERIMENTAL, since = &quot;0.8.0&quot;)
   public ListAssert&lt;String&gt; error() {
-<span class="fc" id="L217">    return new ListAssert&lt;&gt;(createStdoutLogStream().stream()</span>
-<span class="fc" id="L218">        .filter(IS_ERROR)</span>
-<span class="fc" id="L219">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
-<span class="fc" id="L220">        .collect(Collectors.toList()));</span>
+<span class="fc" id="L166">    return new ListAssert&lt;&gt;(Helper.createLog(this.actual.getStdout())</span>
+<span class="fc" id="L167">        .filter(Helper.IS_ERROR)</span>
+<span class="fc" id="L168">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
+<span class="fc" id="L169">        .collect(Collectors.toList()));</span>
   }
 
   /**
@@ -236,7 +185,7 @@ public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&g
    * @see ListAssert#contains(Object[])
    */
   public ListAssert&lt;String&gt; plain() {
-<span class="fc" id="L239">    return new ListAssert&lt;&gt;(createStdoutLogStream());</span>
+<span class="fc" id="L188">    return new ListAssert&lt;&gt;(Helper.createLog(this.actual.getStdout()));</span>
   }
 
 }

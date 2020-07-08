@@ -19,23 +19,18 @@
  * under the License.
  */
 
-import org.apiguardian.api.API;
-
 import java.nio.file.Path;
 
-import static org.apiguardian.api.API.Status.INTERNAL;
-
-@API(status = INTERNAL, since = &quot;0.8.0&quot;)
 class LogClass {
 
-  private Path log;
+  private final Path log;
 
-<span class="nc" id="L33">  LogClass(Path log) {</span>
-<span class="nc" id="L34">    this.log = log;</span>
-<span class="nc" id="L35">  }</span>
+<span class="nc" id="L28">  LogClass(Path log) {</span>
+<span class="nc" id="L29">    this.log = log;</span>
+<span class="nc" id="L30">  }</span>
 
   Path getLog() {
-<span class="nc" id="L38">    return this.log;</span>
+<span class="nc" id="L33">    return this.log;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

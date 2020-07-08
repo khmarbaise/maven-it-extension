@@ -23,12 +23,12 @@ import org.apiguardian.api.API;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ListAssert;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static com.soebes.itf.extension.assertj.Helper.IS_DEBUG;
+import static com.soebes.itf.extension.assertj.Helper.IS_ERROR;
+import static com.soebes.itf.extension.assertj.Helper.IS_INFO;
+import static com.soebes.itf.extension.assertj.Helper.IS_WARNING;
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
@@ -45,30 +45,13 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 public class LogAssert extends AbstractAssert&lt;LogAssert, LogClass&gt; {
 
   /**
-   * Prefix for each line which is logged in {@code DEBUG} state.
-   */
-<span class="nc" id="L50">  private static final Predicate&lt;String&gt; IS_DEBUG = p -&gt; p.startsWith(&quot;[DEBUG] &quot;);</span>
-  /**
-   * Prefix for each line which is logged in {@code INFO} state.
-   */
-<span class="nc" id="L54">  private static final Predicate&lt;String&gt; IS_INFO = p -&gt; p.startsWith(&quot;[INFO] &quot;);</span>
-  /**
-   * Prefix for each line which is logged in {@code WARNING} state.
-   */
-<span class="nc" id="L58">  private static final Predicate&lt;String&gt; IS_WARNING = s -&gt; s.startsWith(&quot;[WARNING] &quot;);</span>
-  /**
-   * Prefix for each line which is logged in {@code ERROR} state.
-   */
-<span class="nc" id="L62">  private static final Predicate&lt;String&gt; IS_ERROR = s -&gt; s.startsWith(&quot;[ERROR] &quot;);</span>
-
-  /**
    * Create an instance of LogAssert.
    *
    * @param actual {@link LogClass}
    */
   LogAssert(LogClass actual) {
-<span class="nc" id="L70">    super(actual, LogAssert.class);</span>
-<span class="nc" id="L71">  }</span>
+<span class="nc" id="L53">    super(actual, LogAssert.class);</span>
+<span class="nc" id="L54">  }</span>
 
   /**
    * Will give you back the stdout and removes the prefix {@code &quot;[INFO] &quot;} (including the single space) from all lines.
@@ -87,10 +70,10 @@ public class LogAssert extends AbstractAssert&lt;LogAssert, LogClass&gt; {
    * @since 0.8.0
    */
   public ListAssert&lt;String&gt; info() {
-<span class="nc" id="L90">    return new ListAssert&lt;&gt;(createLog().stream()</span>
-<span class="nc" id="L91">        .filter(IS_INFO)</span>
-<span class="nc" id="L92">        .map(s -&gt; s.substring(7)) // Need to reconsider?</span>
-<span class="nc" id="L93">        .collect(Collectors.toList()));</span>
+<span class="nc" id="L73">    return new ListAssert&lt;&gt;(Helper.createLog(this.actual.getLog())</span>
+<span class="nc" id="L74">        .filter(IS_INFO)</span>
+<span class="nc" id="L75">        .map(s -&gt; s.substring(7)) // Need to reconsider?</span>
+<span class="nc" id="L76">        .collect(Collectors.toList()));</span>
   }
 
   /**
@@ -121,10 +104,10 @@ public class LogAssert extends AbstractAssert&lt;LogAssert, LogClass&gt; {
    * @see ListAssert#contains(Object[])
    */
   public ListAssert&lt;String&gt; debug() {
-<span class="nc" id="L124">    return new ListAssert&lt;&gt;(createLog().stream()</span>
-<span class="nc" id="L125">        .filter(IS_DEBUG)</span>
-<span class="nc" id="L126">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
-<span class="nc" id="L127">        .collect(Collectors.toList()));</span>
+<span class="nc" id="L107">    return new ListAssert&lt;&gt;(Helper.createLog(this.actual.getLog())</span>
+<span class="nc" id="L108">        .filter(IS_DEBUG)</span>
+<span class="nc" id="L109">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
+<span class="nc" id="L110">        .collect(Collectors.toList()));</span>
   }
 
   /**
@@ -153,10 +136,10 @@ public class LogAssert extends AbstractAssert&lt;LogAssert, LogClass&gt; {
    * @see ListAssert#contains(Object[])
    */
   public ListAssert&lt;String&gt; warn() {
-<span class="nc" id="L156">    return new ListAssert&lt;&gt;(createLog().stream()</span>
-<span class="nc" id="L157">        .filter(IS_WARNING)</span>
-<span class="nc" id="L158">        .map(s -&gt; s.substring(10)) // Need to reconsider?</span>
-<span class="nc" id="L159">        .collect(Collectors.toList()));</span>
+<span class="nc" id="L139">    return new ListAssert&lt;&gt;(Helper.createLog(this.actual.getLog())</span>
+<span class="nc" id="L140">        .filter(IS_WARNING)</span>
+<span class="nc" id="L141">        .map(s -&gt; s.substring(10)) // Need to reconsider?</span>
+<span class="nc" id="L142">        .collect(Collectors.toList()));</span>
   }
 
   /**
@@ -178,10 +161,10 @@ public class LogAssert extends AbstractAssert&lt;LogAssert, LogClass&gt; {
    * @see ListAssert#contains(Object[])
    */
   public ListAssert&lt;String&gt; error() {
-<span class="nc" id="L181">    return new ListAssert&lt;&gt;(createLog().stream()</span>
-<span class="nc" id="L182">        .filter(IS_ERROR)</span>
-<span class="nc" id="L183">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
-<span class="nc" id="L184">        .collect(Collectors.toList()));</span>
+<span class="nc" id="L164">    return new ListAssert&lt;&gt;(Helper.createLog(this.actual.getLog())</span>
+<span class="nc" id="L165">        .filter(IS_ERROR)</span>
+<span class="nc" id="L166">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
+<span class="nc" id="L167">        .collect(Collectors.toList()));</span>
   }
 
   /**
@@ -200,21 +183,7 @@ public class LogAssert extends AbstractAssert&lt;LogAssert, LogClass&gt; {
    * @see ListAssert#contains(Object[])
    */
   public ListAssert&lt;String&gt; plain() {
-<span class="nc" id="L203">    return new ListAssert&lt;&gt;(createLog());</span>
-  }
-
-  private List&lt;String&gt; createLog() {
-    try {
-      //TODO: Need to reconsider if there isn't a better way to return the stream?
-      // lines() gives a stream which might be a better solution?
-      //    InputStream resourceAsStream = this.getClass().getResourceAsStream(&quot;/mvn-stdout.log&quot;);
-      //    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
-<span class="nc" id="L212">      return Files.readAllLines(this.actual.getLog());</span>
-<span class="nc" id="L213">    } catch (IOException e) {</span>
-      //FIXME: Logging exception.
-    }
-    //FIXME: Need to reconsider the following?
-<span class="nc" id="L217">    return null;</span>
+<span class="nc" id="L186">    return new ListAssert&lt;&gt;(Helper.createLog(this.actual.getLog()));</span>
   }
 
 }

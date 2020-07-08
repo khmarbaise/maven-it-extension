@@ -40,17 +40,18 @@ public class MavenProjectResultAssert extends AbstractAssert&lt;MavenProjectResu
   private static final String THE_TARGET_DIRECTORY_DOES_NOT_EXIST = &quot;The target directory of &lt;%s&gt; does not exist.&quot;;
   private static final String THE_EAR_FILE_DOES_NOT_EXIST = &quot;The ear file &lt;%s&gt; does not exist or can not be read.&quot;;
   private static final String EXPECT_HAVING_A_MODULE = &quot;expected having a module &lt;%s&gt; which does not exist&quot;;
+
   private Optional&lt;MavenProjectResultAssert&gt; parent;
 
   protected MavenProjectResultAssert(MavenProjectResult actual) {
-<span class="nc" id="L46">    super(actual, MavenProjectResultAssert.class);</span>
-<span class="nc" id="L47">    this.parent = Optional.empty();</span>
-<span class="nc" id="L48">  }</span>
+<span class="nc" id="L47">    super(actual, MavenProjectResultAssert.class);</span>
+<span class="nc" id="L48">    this.parent = Optional.empty();</span>
+<span class="nc" id="L49">  }</span>
 
   protected MavenProjectResultAssert(MavenProjectResult actual, MavenProjectResultAssert parent) {
-<span class="nc" id="L51">    super(actual, MavenProjectResultAssert.class);</span>
-<span class="nc" id="L52">    this.parent = Optional.of(parent);</span>
-<span class="nc" id="L53">  }</span>
+<span class="nc" id="L52">    super(actual, MavenProjectResultAssert.class);</span>
+<span class="nc" id="L53">    this.parent = Optional.of(parent);</span>
+<span class="nc" id="L54">  }</span>
 
   /**
    * An entry point for MavenExecutionResultAssert to follow AssertJ standard &lt;code&gt;assertThat()&lt;/code&gt; statements.&lt;br&gt;
@@ -60,114 +61,114 @@ public class MavenProjectResultAssert extends AbstractAssert&lt;MavenProjectResu
    * @return a new {@link MavenProjectResultAssert}
    */
   public static MavenProjectResultAssert assertThat(MavenProjectResult actual) {
-<span class="nc" id="L63">    return new MavenProjectResultAssert(actual);</span>
+<span class="nc" id="L64">    return new MavenProjectResultAssert(actual);</span>
   }
 
   public MavenProjectResultAssert hasTarget() {
-<span class="nc" id="L67">    isNotNull();</span>
-<span class="nc" id="L68">    File target = new File(this.actual.getBaseDir(), &quot;target&quot;);</span>
-<span class="nc bnc" id="L69" title="All 6 branches missed.">    if (!target.isDirectory() || !target.exists() || target.isHidden()) {</span>
-<span class="nc" id="L70">      failWithMessage(THE_TARGET_DIRECTORY_DOES_NOT_EXIST, actual.getBaseDir().getAbsolutePath());</span>
+<span class="nc" id="L68">    isNotNull();</span>
+<span class="nc" id="L69">    File target = new File(this.actual.getBaseDir(), &quot;target&quot;);</span>
+<span class="nc bnc" id="L70" title="All 6 branches missed.">    if (!target.isDirectory() || !target.exists() || target.isHidden()) {</span>
+<span class="nc" id="L71">      failWithMessage(THE_TARGET_DIRECTORY_DOES_NOT_EXIST, actual.getBaseDir().getAbsolutePath());</span>
     }
-<span class="nc" id="L72">    return myself;</span>
+<span class="nc" id="L73">    return myself;</span>
   }
 
   public MavenProjectResultAssert has(String directory) {
-<span class="nc" id="L76">    isNotNull();</span>
-<span class="nc" id="L77">    File target = new File(this.actual.getBaseDir(), directory);</span>
-<span class="nc bnc" id="L78" title="All 6 branches missed.">    if (!target.isDirectory() || !target.exists() || target.isHidden()) {</span>
-<span class="nc" id="L79">      failWithMessage(THE_TARGET_DIRECTORY_DOES_NOT_EXIST, directory,</span>
-<span class="nc" id="L80">          actual.getBaseDir().getAbsolutePath());</span>
+<span class="nc" id="L77">    isNotNull();</span>
+<span class="nc" id="L78">    File target = new File(this.actual.getBaseDir(), directory);</span>
+<span class="nc bnc" id="L79" title="All 6 branches missed.">    if (!target.isDirectory() || !target.exists() || target.isHidden()) {</span>
+<span class="nc" id="L80">      failWithMessage(THE_TARGET_DIRECTORY_DOES_NOT_EXIST, directory,</span>
+<span class="nc" id="L81">          actual.getBaseDir().getAbsolutePath());</span>
     }
-<span class="nc" id="L82">    return myself;</span>
+<span class="nc" id="L83">    return myself;</span>
   }
 
   public AbstractFileAssert&lt;?&gt; withFile(String fileName) {
-<span class="nc" id="L86">    isNotNull();</span>
+<span class="nc" id="L87">    isNotNull();</span>
     //FIXME: wrong way...need to reconsider.
-<span class="nc" id="L88">    File target = new File(this.actual.getBaseDir(), &quot;target&quot;);</span>
-<span class="nc bnc" id="L89" title="All 6 branches missed.">    if (!target.isDirectory() || !target.exists() || target.isHidden()) {</span>
-<span class="nc" id="L90">      failWithMessage(THE_TARGET_DIRECTORY_DOES_NOT_EXIST, actual.getBaseDir().getAbsolutePath());</span>
+<span class="nc" id="L89">    File target = new File(this.actual.getBaseDir(), &quot;target&quot;);</span>
+<span class="nc bnc" id="L90" title="All 6 branches missed.">    if (!target.isDirectory() || !target.exists() || target.isHidden()) {</span>
+<span class="nc" id="L91">      failWithMessage(THE_TARGET_DIRECTORY_DOES_NOT_EXIST, actual.getBaseDir().getAbsolutePath());</span>
     }
-<span class="nc" id="L92">    File fileNameFile = new File(target, fileName);</span>
-<span class="nc" id="L93">    return Assertions.assertThat(fileNameFile);</span>
+<span class="nc" id="L93">    File fileNameFile = new File(target, fileName);</span>
+<span class="nc" id="L94">    return Assertions.assertThat(fileNameFile);</span>
   }
 
   public ArchiveAssert withEarFile() {
-<span class="nc" id="L97">    isNotNull();</span>
-<span class="nc" id="L98">    hasTarget();</span>
+<span class="nc" id="L98">    isNotNull();</span>
+<span class="nc" id="L99">    hasTarget();</span>
 
-<span class="nc" id="L100">    Model model = this.actual.getModel();</span>
-<span class="nc" id="L101">    File target = new File(this.actual.getBaseDir(), &quot;target&quot;);</span>
-<span class="nc" id="L102">    String artifact = model.getArtifactId() + &quot;-&quot; + model.getVersion() + &quot;.ear&quot;;</span>
-<span class="nc" id="L103">    File earFile = new File(target, artifact);</span>
-<span class="nc bnc" id="L104" title="All 6 branches missed.">    if (!earFile.isFile() || !earFile.canRead() || earFile.isHidden()) {</span>
-<span class="nc" id="L105">      failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, earFile.getAbsolutePath());</span>
+<span class="nc" id="L101">    Model model = this.actual.getModel();</span>
+<span class="nc" id="L102">    File target = new File(this.actual.getBaseDir(), &quot;target&quot;);</span>
+<span class="nc" id="L103">    String artifact = model.getArtifactId() + &quot;-&quot; + model.getVersion() + &quot;.ear&quot;;</span>
+<span class="nc" id="L104">    File earFile = new File(target, artifact);</span>
+<span class="nc bnc" id="L105" title="All 6 branches missed.">    if (!earFile.isFile() || !earFile.canRead() || earFile.isHidden()) {</span>
+<span class="nc" id="L106">      failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, earFile.getAbsolutePath());</span>
     }
 
-<span class="nc" id="L108">    return new ArchiveAssert(earFile, this.actual.getModel(), this.myself);</span>
+<span class="nc" id="L109">    return new ArchiveAssert(earFile, this.actual.getModel(), this.myself);</span>
   }
 
   public ArchiveAssert withJarFile() {
-<span class="nc" id="L112">    isNotNull();</span>
-<span class="nc" id="L113">    hasTarget();</span>
+<span class="nc" id="L113">    isNotNull();</span>
+<span class="nc" id="L114">    hasTarget();</span>
 
-<span class="nc" id="L115">    Model model = this.actual.getModel();</span>
-<span class="nc" id="L116">    File target = new File(this.actual.getBaseDir(), &quot;target&quot;);</span>
-<span class="nc" id="L117">    String artifact = model.getArtifactId() + &quot;-&quot; + model.getVersion() + &quot;.jar&quot;;</span>
-<span class="nc" id="L118">    File jarFile = new File(target, artifact);</span>
-<span class="nc bnc" id="L119" title="All 4 branches missed.">    if (!jarFile.isFile() &amp;&amp; !jarFile.canRead()) {</span>
-<span class="nc" id="L120">      failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, jarFile.getAbsolutePath());</span>
+<span class="nc" id="L116">    Model model = this.actual.getModel();</span>
+<span class="nc" id="L117">    File target = new File(this.actual.getBaseDir(), &quot;target&quot;);</span>
+<span class="nc" id="L118">    String artifact = model.getArtifactId() + &quot;-&quot; + model.getVersion() + &quot;.jar&quot;;</span>
+<span class="nc" id="L119">    File jarFile = new File(target, artifact);</span>
+<span class="nc bnc" id="L120" title="All 4 branches missed.">    if (!jarFile.isFile() &amp;&amp; !jarFile.canRead()) {</span>
+<span class="nc" id="L121">      failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, jarFile.getAbsolutePath());</span>
     }
-<span class="nc" id="L122">    return new ArchiveAssert(jarFile, this.actual.getModel(), this.myself);</span>
+<span class="nc" id="L123">    return new ArchiveAssert(jarFile, this.actual.getModel(), this.myself);</span>
   }
 
   public ArchiveAssert withWarFile() {
-<span class="nc" id="L126">    isNotNull();</span>
-<span class="nc" id="L127">    hasTarget();</span>
+<span class="nc" id="L127">    isNotNull();</span>
+<span class="nc" id="L128">    hasTarget();</span>
 
-<span class="nc" id="L129">    Model model = this.actual.getModel();</span>
-<span class="nc" id="L130">    File target = new File(this.actual.getBaseDir(), &quot;target&quot;);</span>
-<span class="nc" id="L131">    String artifact = model.getArtifactId() + &quot;-&quot; + model.getVersion() + &quot;.war&quot;;</span>
-<span class="nc" id="L132">    File warFile = new File(target, artifact);</span>
-<span class="nc bnc" id="L133" title="All 4 branches missed.">    if (!warFile.isFile() &amp;&amp; !warFile.canRead()) {</span>
-<span class="nc" id="L134">      failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, warFile.getAbsolutePath());</span>
+<span class="nc" id="L130">    Model model = this.actual.getModel();</span>
+<span class="nc" id="L131">    File target = new File(this.actual.getBaseDir(), &quot;target&quot;);</span>
+<span class="nc" id="L132">    String artifact = model.getArtifactId() + &quot;-&quot; + model.getVersion() + &quot;.war&quot;;</span>
+<span class="nc" id="L133">    File warFile = new File(target, artifact);</span>
+<span class="nc bnc" id="L134" title="All 4 branches missed.">    if (!warFile.isFile() &amp;&amp; !warFile.canRead()) {</span>
+<span class="nc" id="L135">      failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, warFile.getAbsolutePath());</span>
     }
-<span class="nc" id="L136">    return new ArchiveAssert(warFile, this.actual.getModel(), this.myself);</span>
+<span class="nc" id="L137">    return new ArchiveAssert(warFile, this.actual.getModel(), this.myself);</span>
   }
 
   public ArchiveAssert withRarFile() {
-<span class="nc" id="L140">    isNotNull();</span>
-<span class="nc" id="L141">    hasTarget();</span>
+<span class="nc" id="L141">    isNotNull();</span>
+<span class="nc" id="L142">    hasTarget();</span>
 
-<span class="nc" id="L143">    Model model = this.actual.getModel();</span>
-<span class="nc" id="L144">    File target = new File(this.actual.getBaseDir(), &quot;target&quot;);</span>
-<span class="nc" id="L145">    String artifact = model.getArtifactId() + &quot;-&quot; + model.getVersion() + &quot;.rar&quot;;</span>
-<span class="nc" id="L146">    File rarFile = new File(target, artifact);</span>
-<span class="nc bnc" id="L147" title="All 4 branches missed.">    if (!rarFile.isFile() &amp;&amp; !rarFile.canRead()) {</span>
-<span class="nc" id="L148">      failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, rarFile.getAbsolutePath());</span>
+<span class="nc" id="L144">    Model model = this.actual.getModel();</span>
+<span class="nc" id="L145">    File target = new File(this.actual.getBaseDir(), &quot;target&quot;);</span>
+<span class="nc" id="L146">    String artifact = model.getArtifactId() + &quot;-&quot; + model.getVersion() + &quot;.rar&quot;;</span>
+<span class="nc" id="L147">    File rarFile = new File(target, artifact);</span>
+<span class="nc bnc" id="L148" title="All 4 branches missed.">    if (!rarFile.isFile() &amp;&amp; !rarFile.canRead()) {</span>
+<span class="nc" id="L149">      failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, rarFile.getAbsolutePath());</span>
     }
-<span class="nc" id="L150">    return new ArchiveAssert(rarFile, this.actual.getModel(), this.myself);</span>
+<span class="nc" id="L151">    return new ArchiveAssert(rarFile, this.actual.getModel(), this.myself);</span>
   }
 
   public MavenProjectResultAssert contains(List&lt;String&gt; files) {
-<span class="nc" id="L154">    isNotNull();</span>
-<span class="nc" id="L155">    hasTarget();</span>
+<span class="nc" id="L155">    isNotNull();</span>
+<span class="nc" id="L156">    hasTarget();</span>
 
-<span class="nc" id="L157">    Model model = this.actual.getModel();</span>
-<span class="nc" id="L158">    File target = new File(this.actual.getBaseDir(), &quot;target&quot;);</span>
-<span class="nc" id="L159">    String artifact = model.getArtifactId() + &quot;-&quot; + model.getVersion() + &quot;.ear&quot;;</span>
-<span class="nc" id="L160">    File earFile = new File(target, artifact);</span>
+<span class="nc" id="L158">    Model model = this.actual.getModel();</span>
+<span class="nc" id="L159">    File target = new File(this.actual.getBaseDir(), &quot;target&quot;);</span>
+<span class="nc" id="L160">    String artifact = model.getArtifactId() + &quot;-&quot; + model.getVersion() + &quot;.ear&quot;;</span>
+<span class="nc" id="L161">    File earFile = new File(target, artifact);</span>
 
-<span class="nc" id="L162">    try (JarFile jarFile = new JarFile(earFile)) {</span>
-<span class="nc" id="L163">      if (!files.stream()</span>
-<span class="nc bnc" id="L164" title="All 2 branches missed.">          .allMatch(fileEntry -&gt; jarFile.stream().anyMatch(jarEntry -&gt; fileEntry.equals(jarEntry.getName())))) {</span>
-<span class="nc" id="L165">        failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, files);</span>
+<span class="nc" id="L163">    try (JarFile jarFile = new JarFile(earFile)) {</span>
+<span class="nc" id="L164">      if (!files.stream()</span>
+<span class="nc bnc" id="L165" title="All 2 branches missed.">          .allMatch(fileEntry -&gt; jarFile.stream().anyMatch(jarEntry -&gt; fileEntry.equals(jarEntry.getName())))) {</span>
+<span class="nc" id="L166">        failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, files);</span>
       }
-<span class="nc" id="L167">    } catch (IOException e) {</span>
-<span class="nc" id="L168">      failWithMessage(&quot;IOException happened. &lt;%s&gt; file:&lt;%s&gt;&quot;, e.getMessage(), earFile.getAbsolutePath());</span>
-<span class="nc" id="L169">    }</span>
-<span class="nc" id="L170">    return myself;</span>
+<span class="nc" id="L168">    } catch (IOException e) {</span>
+<span class="nc" id="L169">      failWithMessage(&quot;IOException happened. &lt;%s&gt; file:&lt;%s&gt;&quot;, e.getMessage(), earFile.getAbsolutePath());</span>
+<span class="nc" id="L170">    }</span>
+<span class="nc" id="L171">    return myself;</span>
   }
 
   /**
@@ -178,35 +179,35 @@ public class MavenProjectResultAssert extends AbstractAssert&lt;MavenProjectResu
    * @return ..
    */
   public MavenProjectResultAssert hasModule(String moduleName) {
-<span class="nc" id="L181">    isNotNull();</span>
+<span class="nc" id="L182">    isNotNull();</span>
 
-<span class="nc" id="L183">    File moduleNameFile = new File(this.actual.getBaseDir(), moduleName);</span>
+<span class="nc" id="L184">    File moduleNameFile = new File(this.actual.getBaseDir(), moduleName);</span>
 
-<span class="nc bnc" id="L185" title="All 6 branches missed.">    if (!moduleNameFile.exists() || !moduleNameFile.isHidden() &amp;&amp; !moduleNameFile.isDirectory()) {</span>
-<span class="nc" id="L186">      failWithMessage(EXPECT_HAVING_A_MODULE, moduleName);</span>
+<span class="nc bnc" id="L186" title="All 6 branches missed.">    if (!moduleNameFile.exists() || !moduleNameFile.isHidden() &amp;&amp; !moduleNameFile.isDirectory()) {</span>
+<span class="nc" id="L187">      failWithMessage(EXPECT_HAVING_A_MODULE, moduleName);</span>
     }
-<span class="nc" id="L188">    return myself;</span>
+<span class="nc" id="L189">    return myself;</span>
   }
 
   public MavenProjectResultAssert withModule(String moduleName) {
-<span class="nc" id="L192">    isNotNull();</span>
+<span class="nc" id="L193">    isNotNull();</span>
 
-<span class="nc" id="L194">    File moduleNameFile = new File(this.actual.getBaseDir(), moduleName);</span>
+<span class="nc" id="L195">    File moduleNameFile = new File(this.actual.getBaseDir(), moduleName);</span>
 
-<span class="nc bnc" id="L196" title="All 6 branches missed.">    if (!moduleNameFile.exists() || !moduleNameFile.isHidden() &amp;&amp; !moduleNameFile.isDirectory()) {</span>
-<span class="nc" id="L197">      failWithMessage(EXPECT_HAVING_A_MODULE, moduleName);</span>
+<span class="nc bnc" id="L197" title="All 6 branches missed.">    if (!moduleNameFile.exists() || !moduleNameFile.isHidden() &amp;&amp; !moduleNameFile.isDirectory()) {</span>
+<span class="nc" id="L198">      failWithMessage(EXPECT_HAVING_A_MODULE, moduleName);</span>
     }
 
-<span class="nc" id="L200">    Model model = ProjectHelper.readProject(new File(moduleNameFile, &quot;pom.xml&quot;));</span>
-<span class="nc" id="L201">    MavenProjectResult mavenProjectResult = new MavenProjectResult(moduleNameFile, model);</span>
-<span class="nc" id="L202">    return new MavenProjectResultAssert(mavenProjectResult);</span>
+<span class="nc" id="L201">    Model model = ProjectHelper.readProject(new File(moduleNameFile, &quot;pom.xml&quot;));</span>
+<span class="nc" id="L202">    MavenProjectResult mavenProjectResult = new MavenProjectResult(moduleNameFile, model);</span>
+<span class="nc" id="L203">    return new MavenProjectResultAssert(mavenProjectResult);</span>
   }
 
 
   @Override
   public MavenProjectResultAssert isEqualTo(Object expected) {
-<span class="nc" id="L208">    objects.assertEqual(info, actual, expected);</span>
-<span class="nc" id="L209">    return myself;</span>
+<span class="nc" id="L209">    objects.assertEqual(info, actual, expected);</span>
+<span class="nc" id="L210">    return myself;</span>
   }
 
 }
