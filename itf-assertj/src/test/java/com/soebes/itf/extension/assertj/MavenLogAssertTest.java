@@ -48,12 +48,12 @@ class MavenLogAssertTest {
   }
 
   @Test
-  void info_should_give_only_warning_lines_without_prefix_back() {
+  void info_should_give_only_info_lines_without_prefix_back() {
     mavenLogAssert.info().containsSequence("", "--- maven-ear-plugin:3.0.1:ear (default-ear) @ test ---");
   }
 
   @Test
-  void debug_should_give_only_warning_lines_without_prefix_back() {
+  void debug_should_give_only_debug_lines_without_prefix_back() {
     mavenLogAssert.debug().containsSequence(
         "Configuring mojo org.apache.maven.plugins:maven-ear-plugin:3.0.1:ear from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-ear-plugin:3.0.1, parent: sun.misc.Launcher$AppClassLoader@70dea4e]",
         "Configuring mojo 'org.apache.maven.plugins:maven-ear-plugin:3.0.1:ear' with basic configurator -->",
@@ -62,7 +62,7 @@ class MavenLogAssertTest {
   }
 
   @Test
-  void plain_should_give_back_all_lines() {
+  void plain_should_give_back_all_lines_including_prefix() {
     mavenLogAssert.plain().containsSequence(
         "[INFO] ",
         "[INFO] --- maven-ear-plugin:3.0.1:ear (default-ear) @ test ---",
@@ -71,7 +71,7 @@ class MavenLogAssertTest {
   }
 
   @Test
-  void plain_should_give_back_all_lines_second() {
+  void plain_should_give_back_all_lines_including_prefix_second() {
     mavenLogAssert.plain().containsSequence(
         "[ERROR] Failure during execution.",
         "[DEBUG] adding entry META-INF/maven/org.apache.maven.its.ear.basic/test/pom.properties",

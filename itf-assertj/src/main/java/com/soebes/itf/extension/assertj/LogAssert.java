@@ -70,7 +70,7 @@ public class LogAssert extends AbstractAssert<LogAssert, LogClass> {
    * @since 0.8.0
    */
   public ListAssert<String> info() {
-    return new ListAssert<>(Helper.createLog(this.actual.getLog())
+    return new ListAssert<>(Helper.logs(this.actual.getLog())
         .filter(IS_INFO)
         .map(s -> s.substring(7)) // Need to reconsider?
         .collect(Collectors.toList()));
@@ -104,7 +104,7 @@ public class LogAssert extends AbstractAssert<LogAssert, LogClass> {
    * @see ListAssert#contains(Object[])
    */
   public ListAssert<String> debug() {
-    return new ListAssert<>(Helper.createLog(this.actual.getLog())
+    return new ListAssert<>(Helper.logs(this.actual.getLog())
         .filter(IS_DEBUG)
         .map(s -> s.substring(8)) // Need to reconsider?
         .collect(Collectors.toList()));
@@ -136,7 +136,7 @@ public class LogAssert extends AbstractAssert<LogAssert, LogClass> {
    * @see ListAssert#contains(Object[])
    */
   public ListAssert<String> warn() {
-    return new ListAssert<>(Helper.createLog(this.actual.getLog())
+    return new ListAssert<>(Helper.logs(this.actual.getLog())
         .filter(IS_WARNING)
         .map(s -> s.substring(10)) // Need to reconsider?
         .collect(Collectors.toList()));
@@ -161,7 +161,7 @@ public class LogAssert extends AbstractAssert<LogAssert, LogClass> {
    * @see ListAssert#contains(Object[])
    */
   public ListAssert<String> error() {
-    return new ListAssert<>(Helper.createLog(this.actual.getLog())
+    return new ListAssert<>(Helper.logs(this.actual.getLog())
         .filter(IS_ERROR)
         .map(s -> s.substring(8)) // Need to reconsider?
         .collect(Collectors.toList()));
@@ -183,7 +183,7 @@ public class LogAssert extends AbstractAssert<LogAssert, LogClass> {
    * @see ListAssert#contains(Object[])
    */
   public ListAssert<String> plain() {
-    return new ListAssert<>(Helper.createLog(this.actual.getLog()));
+    return new ListAssert<>(Helper.logs(this.actual.getLog()));
   }
 
 }

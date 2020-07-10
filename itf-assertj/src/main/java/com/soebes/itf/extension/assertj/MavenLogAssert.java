@@ -61,7 +61,7 @@ public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
    */
   @API(status = EXPERIMENTAL, since = "0.8.0")
   public ListAssert<String> info() {
-    return new ListAssert<>(Helper.createLog(this.actual.getStdout())
+    return new ListAssert<>(Helper.logs(this.actual.getStdout())
         .filter(Helper.IS_INFO)
         .map(s -> s.substring(7)) // Need to reconsider?
         .collect(Collectors.toList()));
@@ -96,7 +96,7 @@ public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
    */
   @API(status = EXPERIMENTAL, since = "0.8.0")
   public ListAssert<String> debug() {
-    return new ListAssert<>(Helper.createLog(this.actual.getStdout())
+    return new ListAssert<>(Helper.logs(this.actual.getStdout())
         .filter(Helper.IS_DEBUG)
         .map(s -> s.substring(8)) // Need to reconsider?
         .collect(Collectors.toList()));
@@ -129,7 +129,7 @@ public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
    */
   @API(status = EXPERIMENTAL, since = "0.8.0")
   public ListAssert<String> warn() {
-    return new ListAssert<>(Helper.createLog(this.actual.getStdout())
+    return new ListAssert<>(Helper.logs(this.actual.getStdout())
         .filter(Helper.IS_WARNING)
         .map(s -> s.substring(10)) // Need to reconsider?
         .collect(Collectors.toList()));
@@ -163,7 +163,7 @@ public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
    */
   @API(status = EXPERIMENTAL, since = "0.8.0")
   public ListAssert<String> error() {
-    return new ListAssert<>(Helper.createLog(this.actual.getStdout())
+    return new ListAssert<>(Helper.logs(this.actual.getStdout())
         .filter(Helper.IS_ERROR)
         .map(s -> s.substring(8)) // Need to reconsider?
         .collect(Collectors.toList()));
@@ -185,7 +185,7 @@ public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
    * @see ListAssert#contains(Object[])
    */
   public ListAssert<String> plain() {
-    return new ListAssert<>(Helper.createLog(this.actual.getStdout()));
+    return new ListAssert<>(Helper.logs(this.actual.getStdout()));
   }
 
 }

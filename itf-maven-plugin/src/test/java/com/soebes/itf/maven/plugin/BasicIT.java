@@ -19,7 +19,6 @@ package com.soebes.itf.maven.plugin;
  * under the License.
  */
 
-import com.soebes.itf.extension.assertj.MavenITAssertions;
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenOptions;
 import com.soebes.itf.jupiter.extension.MavenTest;
@@ -28,7 +27,7 @@ import org.junit.jupiter.api.DisplayName;
 
 import java.io.File;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
 @MavenJupiterExtension
 class BasicIT {
@@ -36,7 +35,7 @@ class BasicIT {
   @MavenTest(options = {MavenOptions.NO_TRANSFER_PROGRESS, MavenOptions.DEBUG})
   @DisplayName("Running a basic test which makes sure the groupId/artifact of the plugin are ok.")
   void groupid_artifactid_should_be_ok(MavenExecutionResult result) {
-    MavenITAssertions.assertThat(result).isSuccessful();
+    assertThat(result).isSuccessful();
   }
 
   /**
@@ -53,7 +52,7 @@ class BasicIT {
   @MavenTest(goals = {"pre-integration-test"})
   @DisplayName("Running within an execution block in pom file with given goal but no explicit life cycle binding.")
   void install_should_not_fail(MavenExecutionResult result) {
-    MavenITAssertions.assertThat(result).isSuccessful().project();
+    assertThat(result).isSuccessful().project();
 
     //FIXME: The following should be made easier See https://github.com/khmarbaise/maven-it-extension/issues/39
     File target = new File(result.getMavenProjectResult().getBaseDir(), "target");
@@ -90,7 +89,7 @@ class BasicIT {
   @MavenTest(options = {MavenOptions.NO_TRANSFER_PROGRESS}, goals = {"pre-integration-test"})
   @DisplayName("Install with a single dependency.")
   void install_with_a_single_dependency(MavenExecutionResult result) {
-    MavenITAssertions.assertThat(result).isSuccessful().project();
+    assertThat(result).isSuccessful().project();
 
     File target = new File(result.getMavenProjectResult().getBaseDir(), "target");
     File itfRepo = new File(target, "itf-repo");
@@ -139,7 +138,7 @@ class BasicIT {
   @MavenTest(options = {MavenOptions.NO_TRANSFER_PROGRESS}, goals = {"pre-integration-test"})
   @DisplayName("Install with a single dependency and one transitive dependency")
   void install_with_dep_and_transitive_dep(MavenExecutionResult result) {
-    MavenITAssertions.assertThat(result).isSuccessful().project();
+    assertThat(result).isSuccessful().project();
 
     File target = new File(result.getMavenProjectResult().getBaseDir(), "target");
     File itfRepo = new File(target, "itf-repo");

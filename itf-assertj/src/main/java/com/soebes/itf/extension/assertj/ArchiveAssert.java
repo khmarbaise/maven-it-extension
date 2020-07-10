@@ -34,6 +34,12 @@ import java.util.zip.ZipEntry;
 
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
+/**
+ * Assertions related to Archives like {@code jar}, {@code war}
+ *
+ * @author Karl Heinz Marbaise
+ */
+@API(status = EXPERIMENTAL, since = "0.8.0")
 public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
 
   private static final String CHECKING_EAR_FILE_NAMES = "Checking ear file names.";

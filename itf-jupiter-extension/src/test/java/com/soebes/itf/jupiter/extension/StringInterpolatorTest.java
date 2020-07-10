@@ -80,7 +80,7 @@ class StringInterpolatorTest {
     Map<String, String> mapping = Collections.singletonMap("key", "TheValue");
 
     String interpolated = new StringInterpolator(mapping).interpolate("");
-    assertThat(interpolated).isEqualTo("");
+    assertThat(interpolated).isEmpty();
   }
 
   @Nested

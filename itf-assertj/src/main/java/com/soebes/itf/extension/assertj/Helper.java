@@ -31,6 +31,11 @@ import java.util.stream.Stream;
  * @author Karl Heinz Marbaise
  */
 class Helper {
+
+  private Helper() {
+    // intentionally empty.
+  }
+
   /**
    * Prefix for each line which is logged in {@code DEBUG} state.
    */
@@ -49,10 +54,10 @@ class Helper {
   static final Predicate<String> IS_ERROR = s -> s.startsWith("[ERROR] ");
 
   /**
-   * @param path The location of the file which should read as a {@code Stream}.
+   * @param path The location of the file which will be read as a {@code Stream}.
    * @return stream of {@code String}.
    */
-  static Stream<String> createLog(Path path) {
+  static Stream<String> logs(Path path) {
     try {
       return Files.lines(path);
     } catch (IOException e) {
