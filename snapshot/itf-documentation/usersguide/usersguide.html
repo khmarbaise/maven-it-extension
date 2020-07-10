@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="Karl Heinz Marbaise, 2020-07-08">
+<meta name="author" content="Karl Heinz Marbaise, 2020-07-10">
 <title>Integration Testing Framework Users Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Integration Testing Framework Users Guide</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2020-07-08</span><br>
+<span id="author2" class="author">2020-07-10</span><br>
 <span id="revnumber">version 0.8.0-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
@@ -494,6 +494,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_overview_3">9.1. Overview</a></li>
 <li><a href="#_assertion_for_maven_log">9.2. Assertion for Maven Log</a></li>
 <li><a href="#_expressing_assertions">9.3. Expressing Assertions</a></li>
+</ul>
+</li>
+<li><a href="#_special_cases">10. Special Cases</a>
+<ul class="sectlevel2">
+<li><a href="#_overview_4">10.1. Overview</a></li>
+<li><a href="#_failing_the_build">10.2. Failing the build</a></li>
 </ul>
 </li>
 </ul>
@@ -2073,6 +2079,79 @@ within the itf project.</p>
 }</code></pre>
 </div>
 </div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_special_cases">10. Special Cases</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_overview_4">10.1. Overview</h3>
+<div class="paragraph">
+<p>In some situations it is needed to fail a build of a plugin/extension for testing purposes or other things
+which not that usual. This chapter describes such situations and shows solutions for those.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_failing_the_build">10.2. Failing the build</h3>
+<div class="paragraph">
+<p>The integration testing framework contains a plugin <code>itf-failure-plugin</code> which (implied by the name) it&#8217;s only
+purpose is to fail a build. The following shows a configuration which will produce a <code>[WARNING]</code> during
+the build cause the plugin needs to be configured.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">  <span class="tag">&lt;build&gt;</span>
+    <span class="tag">&lt;plugins&gt;</span>
+      <span class="tag">&lt;plugin&gt;</span>
+        <span class="tag">&lt;groupId&gt;</span>com.soebes.itf.jupiter.extension<span class="tag">&lt;/groupId&gt;</span>
+        <span class="tag">&lt;artifactId&gt;</span>itf-failure-plugin<span class="tag">&lt;/artifactId&gt;</span>
+        <span class="tag">&lt;version&gt;</span>@project.version@<span class="tag">&lt;/version&gt;</span>
+        <span class="tag">&lt;executions&gt;</span>
+          <span class="tag">&lt;execution&gt;</span>
+            <span class="tag">&lt;id&gt;</span>basic_configration<span class="tag">&lt;/id&gt;</span>
+            <span class="tag">&lt;phase&gt;</span>initialize<span class="tag">&lt;/phase&gt;</span>
+            <span class="tag">&lt;goals&gt;</span>
+              <span class="tag">&lt;goal&gt;</span>failure<span class="tag">&lt;/goal&gt;</span>
+            <span class="tag">&lt;/goals&gt;</span>
+          <span class="tag">&lt;/execution&gt;</span>
+        <span class="tag">&lt;/executions&gt;</span>
+      <span class="tag">&lt;/plugin&gt;</span>
+    <span class="tag">&lt;/plugins&gt;</span>
+  <span class="tag">&lt;/build&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The plugin does not bind to any life cycle phase by default which is intentionally to require a binding
+to a phase you like. This means also you can bind that plugin to any phase you would like to. In the previous
+example it is bound to <code>initialize</code>.</p>
+</div>
+<div class="paragraph">
+<p>The following example shows a real example how the plugin has been configured correctly (only the <code>configuration</code> area).
+The configuration will fail the build with a <code>MojoExecutionException</code> (exeuctionException=true) and a text of the
+exception can given via <code>exception</code> configuration part.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">            <span class="tag">&lt;configuration&gt;</span>
+              <span class="tag">&lt;executionException&gt;</span>true<span class="tag">&lt;/executionException&gt;</span>
+              <span class="tag">&lt;exception&gt;</span>This is the ExecutionException.<span class="tag">&lt;/exception&gt;</span>
+            <span class="tag">&lt;/configuration&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The final example will fail the build with a <code>MojoFailureException</code> (failureException=true) and the text of the exception
+can given via <code>exception</code> configuration part as before.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">            <span class="tag">&lt;configuration&gt;</span>
+              <span class="tag">&lt;failureException&gt;</span>true<span class="tag">&lt;/failureException&gt;</span>
+              <span class="tag">&lt;exception&gt;</span>This is the FailureException.<span class="tag">&lt;/exception&gt;</span>
+            <span class="tag">&lt;/configuration&gt;</span></code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -2086,7 +2165,7 @@ within the itf project.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.8.0-SNAPSHOT<br>
-Last updated 2020-07-08 17:02:02 UTC
+Last updated 2020-07-10 17:52:30 UTC
 </div>
 </div>
 <style>
