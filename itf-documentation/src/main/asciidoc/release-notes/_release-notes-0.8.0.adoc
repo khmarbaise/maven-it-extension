@@ -43,6 +43,7 @@
 :issue-121: https://github.com/khmarbaise/maven-it-extension/issues/121[Fixed #121]
 :issue-122: https://github.com/khmarbaise/maven-it-extension/issues/122[Fixed #122]
 :issue-123: https://github.com/khmarbaise/maven-it-extension/issues/123[Fixed #123]
+:issue-124: https://github.com/khmarbaise/maven-it-extension/issues/124[Fixed #124]
 :pr-100: https://github.com/khmarbaise/maven-it-extension/pull/100[Pull request #100]
 :pr-115: https://github.com/khmarbaise/maven-it-extension/pull/115[Pull request #115]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
@@ -110,6 +111,7 @@
  * {issue-108} - Reconfiguring cache handling in GitHub Actions.
  * {issue-111} - Add .sdkmanrc.
  * {issue-123} - Cache usage does not work.
+ * {issue-124} - Duplicate executions of builds on merge onto master.
 
 
 The full release notes can be found here {release_0_8_0}[Release 0.8.0].
