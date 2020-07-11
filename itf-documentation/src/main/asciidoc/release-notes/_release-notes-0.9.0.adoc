@@ -19,6 +19,7 @@
 == Pre-release 0.9.0
 
 :issue-125: https://github.com/khmarbaise/maven-it-extension/issues/125[Fixed #125]
+:issue-129: https://github.com/khmarbaise/maven-it-extension/issues/126[Fixed #126]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -51,6 +52,7 @@
 *Dependency Upgrades*
 
  * {issue-125} - Upgrade mockito to 3.4.0.
+ * {issue-126} - Upgrade testcontainers to 1.14.3.
 
 *Build Improvements*
 
