@@ -30,33 +30,38 @@ import java.util.stream.Stream;
  *
  * @author Karl Heinz Marbaise
  */
-<span class="nc" id="L33">class Helper {</span>
+class Helper {
+
+  private Helper() {
+    // intentionally empty.
+  }
+
   /**
    * Prefix for each line which is logged in {@code DEBUG} state.
    */
-<span class="fc" id="L37">  static final Predicate&lt;String&gt; IS_DEBUG = p -&gt; p.startsWith(&quot;[DEBUG] &quot;);</span>
+<span class="fc" id="L42">  static final Predicate&lt;String&gt; IS_DEBUG = p -&gt; p.startsWith(&quot;[DEBUG] &quot;);</span>
   /**
    * Prefix for each line which is logged in {@code INFO} state.
    */
-<span class="fc" id="L41">  static final Predicate&lt;String&gt; IS_INFO = p -&gt; p.startsWith(&quot;[INFO] &quot;);</span>
+<span class="fc" id="L46">  static final Predicate&lt;String&gt; IS_INFO = p -&gt; p.startsWith(&quot;[INFO] &quot;);</span>
   /**
    * Prefix for each line which is logged in {@code WARNING} state.
    */
-<span class="fc" id="L45">  static final Predicate&lt;String&gt; IS_WARNING = s -&gt; s.startsWith(&quot;[WARNING] &quot;);</span>
+<span class="fc" id="L50">  static final Predicate&lt;String&gt; IS_WARNING = s -&gt; s.startsWith(&quot;[WARNING] &quot;);</span>
   /**
    * Prefix for each line which is logged in {@code ERROR} state.
    */
-<span class="fc" id="L49">  static final Predicate&lt;String&gt; IS_ERROR = s -&gt; s.startsWith(&quot;[ERROR] &quot;);</span>
+<span class="fc" id="L54">  static final Predicate&lt;String&gt; IS_ERROR = s -&gt; s.startsWith(&quot;[ERROR] &quot;);</span>
 
   /**
-   * @param path The location of the file which should read as a {@code Stream}.
+   * @param path The location of the file which will be read as a {@code Stream}.
    * @return stream of {@code String}.
    */
-  static Stream&lt;String&gt; createLog(Path path) {
+  static Stream&lt;String&gt; logs(Path path) {
     try {
-<span class="fc" id="L57">      return Files.lines(path);</span>
-<span class="nc" id="L58">    } catch (IOException e) {</span>
-<span class="nc" id="L59">      throw new IllegalStateException(&quot;Exception occured.&quot;, e);</span>
+<span class="fc" id="L62">      return Files.lines(path);</span>
+<span class="nc" id="L63">    } catch (IOException e) {</span>
+<span class="nc" id="L64">      throw new IllegalStateException(&quot;Exception occured.&quot;, e);</span>
     }
   }
 
