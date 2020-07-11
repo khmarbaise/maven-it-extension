@@ -20,6 +20,7 @@
  */
 
 import org.apache.maven.model.Model;
+import org.apiguardian.api.API;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 
@@ -30,6 +31,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 public class ArchiveAssert extends AbstractAssert&lt;ArchiveAssert, File&gt; {
 
@@ -42,14 +45,14 @@ public class ArchiveAssert extends AbstractAssert&lt;ArchiveAssert, File&gt; {
   private final MavenProjectResultAssert parent;
 
   ArchiveAssert(File earFile, Model model, MavenProjectResultAssert parent) {
-<span class="nc" id="L45">    super(earFile, ArchiveAssert.class);</span>
-<span class="nc" id="L46">    this.model = model;</span>
-<span class="nc" id="L47">    this.includes = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L48">    this.parent = parent;</span>
+<span class="nc" id="L48">    super(earFile, ArchiveAssert.class);</span>
+<span class="nc" id="L49">    this.model = model;</span>
+<span class="nc" id="L50">    this.includes = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L51">    this.parent = parent;</span>
     //TODO: currently ignore maven files and MANIFEST.MF
-<span class="nc" id="L50">    ignoreMavenFiles();</span>
-<span class="nc" id="L51">    ignoreManifest();</span>
-<span class="nc" id="L52">  }</span>
+<span class="nc" id="L53">    ignoreMavenFiles();</span>
+<span class="nc" id="L54">    ignoreManifest();</span>
+<span class="nc" id="L55">  }</span>
 
   /**
    * This will ignore the files within an archive
@@ -61,60 +64,66 @@ public class ArchiveAssert extends AbstractAssert&lt;ArchiveAssert, File&gt; {
    * @return {@link ArchiveAssert}
    */
   public ArchiveAssert ignoreMavenFiles() {
-<span class="nc" id="L64">    this.includes.addAll(</span>
-<span class="nc" id="L65">        Arrays.asList(&quot;META-INF/maven/&quot; + this.model.getGroupId() + &quot;/&quot; + this.model.getArtifactId() + &quot;pom.xml&quot;,</span>
-<span class="nc" id="L66">            &quot;META-INF/maven/&quot; + this.model.getGroupId() + &quot;/&quot; + this.model.getArtifactId() + &quot;pom.properties&quot;));</span>
-<span class="nc" id="L67">    return myself;</span>
+<span class="nc" id="L67">    this.includes.addAll(</span>
+<span class="nc" id="L68">        Arrays.asList(&quot;META-INF/maven/&quot; + this.model.getGroupId() + &quot;/&quot; + this.model.getArtifactId() + &quot;pom.xml&quot;,</span>
+<span class="nc" id="L69">            &quot;META-INF/maven/&quot; + this.model.getGroupId() + &quot;/&quot; + this.model.getArtifactId() + &quot;pom.properties&quot;));</span>
+<span class="nc" id="L70">    return myself;</span>
   }
 
   public ArchiveAssert ignoreManifest() {
-<span class="nc" id="L71">    this.includes.addAll(Arrays.asList(&quot;META-INF/MANIFEST.MF&quot;));</span>
-<span class="nc" id="L72">    return myself;</span>
+<span class="nc" id="L74">    this.includes.addAll(Arrays.asList(&quot;META-INF/MANIFEST.MF&quot;));</span>
+<span class="nc" id="L75">    return myself;</span>
   }
 
   public ArchiveAssert doesNotContain(String... files) {
-<span class="nc" id="L76">    try (JarFile jarFile = new JarFile(this.actual)) {</span>
-<span class="nc" id="L77">      List&lt;String&gt; includes = Arrays.asList(files);</span>
-<span class="nc" id="L78">      Assertions.assertThat(jarFile.stream())</span>
-<span class="nc" id="L79">          .describedAs(CHECKING_EAR_FILE_NAMES)</span>
-<span class="nc" id="L80">          .extracting(ZipEntry::getName)</span>
-<span class="nc" id="L81">          .doesNotContain(includes.toArray(new String[]{}));</span>
-<span class="nc" id="L82">    } catch (IOException e) {</span>
-<span class="nc" id="L83">      failWithMessage(IOEXCEPTION_HAPPENED, e.getMessage());</span>
-<span class="nc" id="L84">    }</span>
-<span class="nc" id="L85">    return myself;</span>
+<span class="nc" id="L79">    try (JarFile jarFile = new JarFile(this.actual)) {</span>
+<span class="nc" id="L80">      List&lt;String&gt; localIncludes = Arrays.asList(files);</span>
+<span class="nc" id="L81">      Assertions.assertThat(jarFile.stream())</span>
+<span class="nc" id="L82">          .describedAs(CHECKING_EAR_FILE_NAMES)</span>
+<span class="nc" id="L83">          .extracting(ZipEntry::getName)</span>
+<span class="nc" id="L84">          .doesNotContain(localIncludes.toArray(new String[]{}));</span>
+<span class="nc" id="L85">    } catch (IOException e) {</span>
+<span class="nc" id="L86">      failWithMessage(IOEXCEPTION_HAPPENED, e.getMessage());</span>
+<span class="nc" id="L87">    }</span>
+<span class="nc" id="L88">    return myself;</span>
   }
 
   public ArchiveAssert containsOnlyOnce(List&lt;String&gt; files) {
-<span class="nc" id="L89">    return containsOnlyOnce(files.toArray(new String[]{}));</span>
+<span class="nc" id="L92">    return containsOnlyOnce(files.toArray(new String[]{}));</span>
   }
 
   public ArchiveAssert containsOnlyOnce(String... files) {
-<span class="nc" id="L93">    try (JarFile jarFile = new JarFile(this.actual)) {</span>
-<span class="nc" id="L94">      Assertions.assertThat(jarFile.stream())</span>
-<span class="nc" id="L95">          .describedAs(CHECKING_EAR_FILE_NAMES)</span>
-<span class="nc" id="L96">          .extracting(ZipEntry::getName)</span>
-<span class="nc" id="L97">          .containsOnlyOnce(files);</span>
-<span class="nc" id="L98">    } catch (IOException e) {</span>
-<span class="nc" id="L99">      failWithMessage(IOEXCEPTION_HAPPENED, e.getMessage());</span>
-<span class="nc" id="L100">    }</span>
-<span class="nc" id="L101">    return myself;</span>
+<span class="nc" id="L96">    try (JarFile jarFile = new JarFile(this.actual)) {</span>
+<span class="nc" id="L97">      Assertions.assertThat(jarFile.stream())</span>
+<span class="nc" id="L98">          .describedAs(CHECKING_EAR_FILE_NAMES)</span>
+<span class="nc" id="L99">          .extracting(ZipEntry::getName)</span>
+<span class="nc" id="L100">          .containsOnlyOnce(files);</span>
+<span class="nc" id="L101">    } catch (IOException e) {</span>
+<span class="nc" id="L102">      failWithMessage(IOEXCEPTION_HAPPENED, e.getMessage());</span>
+<span class="nc" id="L103">    }</span>
+<span class="nc" id="L104">    return myself;</span>
   }
 
   public ArchiveAssert containsOnly(String... files) {
-<span class="nc" id="L105">    try (JarFile jarFile = new JarFile(this.actual)) {</span>
-<span class="nc" id="L106">      Assertions.assertThat(jarFile.stream())</span>
-<span class="nc" id="L107">          .describedAs(CHECKING_EAR_FILE_NAMES)</span>
-<span class="nc" id="L108">          .extracting(ZipEntry::getName)</span>
-<span class="nc" id="L109">          .containsOnly(files);</span>
-<span class="nc" id="L110">    } catch (IOException e) {</span>
-<span class="nc" id="L111">      failWithMessage(IOEXCEPTION_HAPPENED, e.getMessage());</span>
-<span class="nc" id="L112">    }</span>
-<span class="nc" id="L113">    return myself;</span>
+<span class="nc" id="L108">    try (JarFile jarFile = new JarFile(this.actual)) {</span>
+<span class="nc" id="L109">      Assertions.assertThat(jarFile.stream())</span>
+<span class="nc" id="L110">          .describedAs(CHECKING_EAR_FILE_NAMES)</span>
+<span class="nc" id="L111">          .extracting(ZipEntry::getName)</span>
+<span class="nc" id="L112">          .containsOnly(files);</span>
+<span class="nc" id="L113">    } catch (IOException e) {</span>
+<span class="nc" id="L114">      failWithMessage(IOEXCEPTION_HAPPENED, e.getMessage());</span>
+<span class="nc" id="L115">    }</span>
+<span class="nc" id="L116">    return myself;</span>
   }
 
   public MavenProjectResultAssert and() {
-<span class="nc" id="L117">    return this.parent;</span>
+<span class="nc" id="L120">    return this.parent;</span>
+  }
+
+  @Override
+  public ArchiveAssert isEqualTo(Object expected) {
+<span class="nc" id="L125">    objects.assertEqual(info, actual, expected);</span>
+<span class="nc" id="L126">    return myself;</span>
   }
 
 }

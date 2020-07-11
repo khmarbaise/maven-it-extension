@@ -85,8 +85,8 @@ public class ApplicationExecutor {
 <span class="nc" id="L85">      throw new IllegalStateException(&quot;Failed to write argument log file&quot;, e);</span>
 <span class="nc" id="L86">    }</span>
 
-<span class="nc" id="L88">    Path stdErrOut = Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + &quot;-stderr.out&quot;);</span>
-<span class="nc" id="L89">    Path stdOutOut = Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + &quot;-stdout.out&quot;);</span>
+<span class="nc" id="L88">    Path stdErrOut = Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + &quot;-stderr.log&quot;);</span>
+<span class="nc" id="L89">    Path stdOutOut = Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + &quot;-stdout.log&quot;);</span>
 <span class="nc" id="L90">    Files.deleteIfExists(stdErrOut);</span>
 <span class="nc" id="L91">    Files.deleteIfExists(stdOutOut);</span>
 <span class="nc" id="L92">    ProcessBuilder pb = new ProcessBuilder(applicationArguments);</span>
@@ -102,16 +102,16 @@ public class ApplicationExecutor {
   }
 
   public Path getStdout() {
-<span class="nc" id="L105">    return Paths.get(loggingDirectory.toString(), this.prefix + &quot;-stdout.out&quot;);</span>
+<span class="nc" id="L105">    return Paths.get(loggingDirectory.toString(), this.prefix + &quot;-stdout.log&quot;);</span>
   }
 
   Stream&lt;String&gt; createLogStream() {
-<span class="nc" id="L109">    InputStream resourceAsStream = this.getClass().getResourceAsStream(&quot;/mvn-stdout.out&quot;);</span>
+<span class="nc" id="L109">    InputStream resourceAsStream = this.getClass().getResourceAsStream(&quot;/mvn-stdout.log&quot;);</span>
 <span class="nc" id="L110">    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();</span>
   }
 
   public Path getStdErr() {
-<span class="nc" id="L114">    return Paths.get(loggingDirectory.toString(), this.prefix + &quot;-stderr.out&quot;);</span>
+<span class="nc" id="L114">    return Paths.get(loggingDirectory.toString(), this.prefix + &quot;-stderr.log&quot;);</span>
   }
 
 }

@@ -24,7 +24,11 @@ import static com.soebes.itf.jupiter.extension.Preconditions.requireNotNull;
 /**
  * @author Karl Heinz Marbaise
  */
-<span class="nc" id="L27">final class GoalPriority {</span>
+final class GoalPriority {
+
+  private GoalPriority() {
+    // intentionally empty.
+  }
 
   /**
    * The goals which are defined by {@link MavenTest} can overwrite the goals defined by {@link MavenJupiterExtension}. In {@link
@@ -35,12 +39,12 @@ import static com.soebes.itf.jupiter.extension.Preconditions.requireNotNull;
    * @return The goals which are defined by {@link MavenTest} if have been overwritten.
    */
   static String[] goals(String[] mavenITGoals, String[] mavenTestGoals) {
-<span class="fc" id="L38">    requireNotNull(mavenITGoals, &quot;mavenITGoals is not allowed to be null.&quot;);</span>
-<span class="fc" id="L39">    requireNotNull(mavenTestGoals, &quot;mavenTestGoals is not allowed to be null.&quot;);</span>
-<span class="fc bfc" id="L40" title="All 2 branches covered.">    if (mavenTestGoals.length == 0) {</span>
-<span class="fc" id="L41">      return mavenITGoals;</span>
+<span class="fc" id="L42">    requireNotNull(mavenITGoals, &quot;mavenITGoals is not allowed to be null.&quot;);</span>
+<span class="fc" id="L43">    requireNotNull(mavenTestGoals, &quot;mavenTestGoals is not allowed to be null.&quot;);</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">    if (mavenTestGoals.length == 0) {</span>
+<span class="fc" id="L45">      return mavenITGoals;</span>
     } else {
-<span class="fc" id="L43">      return mavenTestGoals;</span>
+<span class="fc" id="L47">      return mavenTestGoals;</span>
     }
   }
 }

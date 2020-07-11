@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"com.soebes.itf.maven.plugin","l":"HelpMojo"},{"p":"com.soebes.itf.maven.plugin","l":"InstallMojo"}]

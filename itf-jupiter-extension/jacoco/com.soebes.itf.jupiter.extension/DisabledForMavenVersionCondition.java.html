@@ -56,7 +56,7 @@ import static org.junit.platform.commons.support.AnnotationSupport.findAnnotatio
 <span class="nc" id="L56">      MavenVersion[] versions = optional.get().value();</span>
 <span class="nc" id="L57">      requireGreaterZero(versions, &quot;You must declare at least one version in @DisabledForMavenVersion&quot;);</span>
 <span class="nc bnc" id="L58" title="All 2 branches missed.">      return Stream.of(versions).anyMatch(MavenVersion::isCurrentVersion) ? DISABLED_ON_CURRENT_MAVEN_VERSION</span>
-<span class="nc" id="L59">          : ENABLED_ON_CURRENT_MAVEN_VERSION;</span>
+          : ENABLED_ON_CURRENT_MAVEN_VERSION;
     }
 <span class="nc" id="L61">    return ENABLED_BY_DEFAULT;</span>
   }

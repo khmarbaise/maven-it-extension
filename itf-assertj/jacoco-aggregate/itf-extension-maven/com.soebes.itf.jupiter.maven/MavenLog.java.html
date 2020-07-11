@@ -31,16 +31,16 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 @API(status = EXPERIMENTAL, since = &quot;0.1.0&quot;)
 public class MavenLog {
 
-  private Path stdout;
-  private Path stderr;
+  private final Path stdout;
+  private final Path stderr;
 
-<span class="nc" id="L37">  public MavenLog(Path stdout, Path stderr) {</span>
-<span class="nc" id="L38">    this.stdout = stdout;</span>
-<span class="nc" id="L39">    this.stderr = stderr;</span>
-<span class="nc" id="L40">  }</span>
+<span class="fc" id="L37">  public MavenLog(Path stdout, Path stderr) {</span>
+<span class="fc" id="L38">    this.stdout = stdout;</span>
+<span class="fc" id="L39">    this.stderr = stderr;</span>
+<span class="fc" id="L40">  }</span>
 
   public Path getStdout() {
-<span class="nc" id="L43">    return stdout;</span>
+<span class="fc" id="L43">    return stdout;</span>
   }
 
   public Path getStderr() {

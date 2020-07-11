@@ -1,1 +1,1 @@
-/Users/khmarbaise/tools/jdk-11.0.7+10/Contents/Home/bin/javadoc @options @packages
+/Users/khmarbaise/.sdkman/candidates/java/8.0.252.hs-adpt/jre/../bin/javadoc @options @packages
