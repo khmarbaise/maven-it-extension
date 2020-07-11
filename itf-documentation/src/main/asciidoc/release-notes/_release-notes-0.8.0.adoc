@@ -41,6 +41,7 @@
 :issue-118: https://github.com/khmarbaise/maven-it-extension/issues/118[Fixed #118]
 :issue-119: https://github.com/khmarbaise/maven-it-extension/issues/119[Fixed #119]
 :issue-121: https://github.com/khmarbaise/maven-it-extension/issues/121[Fixed #121]
+:issue-122: https://github.com/khmarbaise/maven-it-extension/issues/122[Fixed #122]
 :pr-100: https://github.com/khmarbaise/maven-it-extension/pull/100[Pull request #100]
 :pr-115: https://github.com/khmarbaise/maven-it-extension/pull/115[Pull request #115]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
@@ -67,6 +68,7 @@
  * {issue-119} - Code Cleanups
  * {issue-113} - Create a plugin which fails the build.
  * {issue-121} - Change itf-extension-maven dependency scope from compile to test.
+ * {issue-122} - We should use itf-maven-plugin instead of maven-invoker-plugin for itf-failure-plugin
 
 *Breaking Changes*
 

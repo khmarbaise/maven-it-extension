@@ -96,6 +96,21 @@
         <filtering>true</filtering>
       </testResource>
     </testResources>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <configuration>
+            <!--
+             ! We need to skip any check cause we use a plugin which
+             ! is not a release only at the time of the release.
+            -->
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -120,21 +135,16 @@
         <version>2.1.0</version>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-invoker-plugin</artifactId>
+        <groupId>com.soebes.itf.jupiter.extension</groupId>
+        <artifactId>itf-maven-plugin</artifactId>
+        <version>${project.version}</version>
         <executions>
           <execution>
-            <id>install-artifacts</id>
+            <id>installing</id>
+            <phase>pre-integration-test</phase>
             <goals>
               <goal>install</goal>
             </goals>
-            <configuration>
-              <!--
-               ! !!Hack!!
-               ! This location is currently hard coded within the maven-it-extension
-               -->
-              <localRepositoryPath>${project.build.directory}/itf-repo</localRepositoryPath>
-            </configuration>
           </execution>
         </executions>
       </plugin>
