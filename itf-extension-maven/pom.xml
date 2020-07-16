@@ -31,6 +31,10 @@
 
   <artifactId>itf-extension-maven</artifactId>
 
+  <properties>
+    <automatic-module-name>com.soebes.itf.extension.maven</automatic-module-name>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>

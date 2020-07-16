@@ -33,6 +33,9 @@
 
   <description>AssertJ Assertions for Maven Integration tests.</description>
 
+  <properties>
+    <automatic-module-name>com.soebes.itf.jupiter.extension.assertj</automatic-module-name>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>com.soebes.itf.jupiter.extension</groupId>

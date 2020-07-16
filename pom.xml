@@ -65,6 +65,7 @@
      ! full stack trace output in tests. 
     -->
     <trimStackTrace>false</trimStackTrace>
+    <automatic-module-name>com.soebes.itf.extension</automatic-module-name>
   </properties>
 
   <dependencyManagement>
@@ -144,6 +145,17 @@
   <build>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <configuration>
+            <archive>
+              <manifestEntries>
+                <Automatic-Module-Name>${automatic-module-name}</Automatic-Module-Name>
+              </manifestEntries>
+            </archive>
+          </configuration>
+        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>

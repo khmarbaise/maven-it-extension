@@ -31,6 +31,10 @@
 
   <artifactId>itf-jupiter-extension</artifactId>
 
+  <properties>
+    <automatic-module-name>com.soebes.itf.jupiter.extension</automatic-module-name>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>com.soebes.itf.jupiter.extension</groupId>
