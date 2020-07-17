@@ -1,4 +1,6 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+itf-jupiter-extension,com.soebes.itf.jupiter.extension.condition,EnabledForMavenVersionCondition,57,0,4,0,13,0,5,0,3,0
+itf-jupiter-extension,com.soebes.itf.jupiter.extension.condition,DisabledForMavenVersionCondition,57,0,4,0,13,0,5,0,3,0
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,AnnotationHelper,67,62,7,5,18,12,11,8,7,6
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,ModelReader,0,36,0,4,0,10,0,6,0,4
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,StorageHelper,110,0,0,0,19,0,7,0,7,0
@@ -15,5 +17,3 @@ itf-jupiter-extension,com.soebes.itf.jupiter.extension,DirectoryResolverResult.D
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,PropertiesFilter,0,34,0,0,0,8,0,2,0,2
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,ParameterType,70,0,0,0,10,0,3,0,3,0
 itf-jupiter-extension,com.soebes.itf.jupiter.extension,DirectoryResolverResult,266,0,8,0,50,0,17,0,13,0
-itf-jupiter-extension,com.soebes.itf.jupiter.extension,DisabledForMavenVersionCondition,57,0,4,0,13,0,5,0,3,0
-itf-jupiter-extension,com.soebes.itf.jupiter.extension,EnabledForMavenVersionCondition,57,0,4,0,13,0,5,0,3,0

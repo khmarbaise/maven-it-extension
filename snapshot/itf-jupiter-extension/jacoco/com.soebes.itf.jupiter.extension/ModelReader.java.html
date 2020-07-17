@@ -26,33 +26,34 @@ import org.apache.maven.model.Model;
  * by other parts of the integration tests.
  *
  * @author Karl Heinz Marbaise
+ * @todo Reconsider moving Maven specific helpers into separate package/module.
  */
 class ModelReader {
 
   private final Model model;
 
-<span class="fc" id="L34">  ModelReader(Model model) {</span>
-<span class="fc" id="L35">    this.model = model;</span>
-<span class="fc" id="L36">  }</span>
+<span class="fc" id="L35">  ModelReader(Model model) {</span>
+<span class="fc" id="L36">    this.model = model;</span>
+<span class="fc" id="L37">  }</span>
 
   public String getGroupId() {
-<span class="fc bfc" id="L39" title="All 2 branches covered.">    if (this.model.getGroupId() != null) {</span>
-<span class="fc" id="L40">      return this.model.getGroupId();</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">    if (this.model.getGroupId() != null) {</span>
+<span class="fc" id="L41">      return this.model.getGroupId();</span>
     }
     //FIXME: this.model.getParent() == null what should be the consequence?
-<span class="fc" id="L43">    return this.model.getParent().getGroupId();</span>
+<span class="fc" id="L44">    return this.model.getParent().getGroupId();</span>
   }
 
   public String getVersion() {
-<span class="fc bfc" id="L47" title="All 2 branches covered.">    if (this.model.getVersion() != null) {</span>
-<span class="fc" id="L48">      return this.model.getVersion();</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">    if (this.model.getVersion() != null) {</span>
+<span class="fc" id="L49">      return this.model.getVersion();</span>
     }
     //FIXME: this.model.getParent() == null what should be the consequence?
-<span class="fc" id="L51">    return this.model.getParent().getVersion();</span>
+<span class="fc" id="L52">    return this.model.getParent().getVersion();</span>
   }
 
   public String getArtifactId() {
-<span class="fc" id="L55">    return this.model.getArtifactId();</span>
+<span class="fc" id="L56">    return this.model.getArtifactId();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
