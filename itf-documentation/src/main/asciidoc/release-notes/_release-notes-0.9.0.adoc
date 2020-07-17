@@ -22,6 +22,7 @@
 :issue-126: https://github.com/khmarbaise/maven-it-extension/issues/126[Fixed #126]
 :issue-127: https://github.com/khmarbaise/maven-it-extension/issues/127]Fixed #127]
 :issue-129: https://github.com/khmarbaise/maven-it-extension/issues/129]Fixed #129]
+:issue-131: https://github.com/khmarbaise/maven-it-extension/issues/131]Fixed #131]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -31,11 +32,12 @@
 
 *Scope:*
 
- - ??
+ - Refactoring/Code cleanups
+   * {issue-131} - Reduce visibility of MavenITExtension.
 
 *Details*
 
- * {issue-??} - ??
+ * {issue-131} - ??
 
 *Breaking Changes*
 

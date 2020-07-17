@@ -64,7 +64,7 @@ import static java.util.stream.Collectors.toList;
 /**
  * @author Karl Heinz Marbaise
  */
-public class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeTestExecutionCallback,
+class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeTestExecutionCallback,
     InvocationInterceptor {
 
   @Override
