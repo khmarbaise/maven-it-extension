@@ -26,6 +26,7 @@ import org.apache.maven.model.Model;
  * by other parts of the integration tests.
  *
  * @author Karl Heinz Marbaise
+ * @todo Reconsider moving Maven specific helpers into separate package/module.
  */
 class ModelReader {
 

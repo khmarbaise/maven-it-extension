@@ -1,4 +1,4 @@
-package com.soebes.itf.jupiter.extension;
+package com.soebes.itf.jupiter.extension.condition;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,6 +19,7 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
+import com.soebes.itf.jupiter.extension.MavenVersion;
 import org.junit.jupiter.api.extension.ConditionEvaluationResult;
 import org.junit.jupiter.api.extension.ExecutionCondition;
 import org.junit.jupiter.api.extension.ExtensionContext;

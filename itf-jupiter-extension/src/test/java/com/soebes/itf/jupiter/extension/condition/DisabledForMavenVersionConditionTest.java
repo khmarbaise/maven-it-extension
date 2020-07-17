@@ -1,4 +1,4 @@
-package com.soebes.itf.jupiter.extension;
+package com.soebes.itf.jupiter.extension.condition;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -38,6 +38,9 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * @author Karl Heinz Marbaise
+ */
 class DisabledForMavenVersionConditionTest {
 
   private Properties backup;

@@ -19,14 +19,19 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
+import org.apiguardian.api.API;
+
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+
 /**
  * @author Karl Heinz Marbaise
  */
+@API(status = EXPERIMENTAL, since = "0.9.0")
 public class StringInterpolator {
 
   /**

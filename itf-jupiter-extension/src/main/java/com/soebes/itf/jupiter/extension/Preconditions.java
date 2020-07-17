@@ -19,10 +19,15 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
+import org.apiguardian.api.API;
+
+import static org.apiguardian.api.API.Status.INTERNAL;
+
 /**
  * @author Karl Heinz Marbaise
  */
-class Preconditions {
+@API(status = INTERNAL, since = "0.9.0")
+public class Preconditions {
 
   private Preconditions() {
     // prevent instantiation.
@@ -36,7 +41,7 @@ class Preconditions {
    * @return the given paremter in case not being {@code null}.
    * @throws IllegalArgumentException in case of parameter is {@code null}.
    */
-  static <T> T requireNotNull(T parameter, String message) {
+  public static <T> T requireNotNull(T parameter, String message) {
     if (parameter == null) {
       throw new IllegalArgumentException(message);
     }
@@ -51,7 +56,7 @@ class Preconditions {
    * @return Return the original {@code paramter} if not raised the execption.
    * @throws IllegalArgumentException in case the condition has not been fulfilled.
    */
-  static <T> T[] requireGreaterZero(T[] parameter, String message) {
+  public static <T> T[] requireGreaterZero(T[] parameter, String message) {
     if (parameter.length < 1) {
       throw new IllegalArgumentException(message);
     }
@@ -66,7 +71,7 @@ class Preconditions {
    * @return Return the original {@code parameter} if not raised the execption.
    * @throws IllegalArgumentException in case the condition has not been fulfilled.
    */
-  static String requireNotEmpty(String parameter, String message) {
+  public static String requireNotEmpty(String parameter, String message) {
     if (parameter.isEmpty()) {
       throw new IllegalArgumentException(message);
     }
