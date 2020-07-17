@@ -21,6 +21,7 @@
 :issue-125: https://github.com/khmarbaise/maven-it-extension/issues/125[Fixed #125]
 :issue-126: https://github.com/khmarbaise/maven-it-extension/issues/126[Fixed #126]
 :issue-127: https://github.com/khmarbaise/maven-it-extension/issues/127]Fixed #127]
+:issue-129: https://github.com/khmarbaise/maven-it-extension/issues/129]Fixed #129]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -55,6 +56,7 @@
  * {issue-125} - Upgrade mockito to 3.4.0.
  * {issue-126} - Upgrade testcontainers to 1.14.3.
  * {issue-127} - Upgrade equalsverifier to 3.4.1
+ * {issue-129} - Upgrade mockito to 3.4.3.
 
 *Build Improvements*
 
