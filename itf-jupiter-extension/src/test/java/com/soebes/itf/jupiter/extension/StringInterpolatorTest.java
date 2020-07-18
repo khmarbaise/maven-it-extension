@@ -22,10 +22,13 @@ package com.soebes.itf.jupiter.extension;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import static com.soebes.itf.jupiter.extension.StringInterpolator.interpolate;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
@@ -40,12 +43,9 @@ class StringInterpolatorTest {
   void interpolate_should_replace_a_single_placeholder() {
     Map<String, String> mapping = Collections.singletonMap("key", "life");
 
-    StringInterpolator interpolator = new StringInterpolator(mapping);
+    List<String> of = Arrays.asList("the answer to ${key}, universe and everything.");
 
-    String givenString = "the answer to ${key}, universe and everything.";
-
-    String interpolated = interpolator.interpolate(givenString);
-    assertThat(interpolated).isEqualTo("the answer to life, universe and everything.");
+    assertThat(of.stream().map(interpolate(mapping))).containsExactly("the answer to life, universe and everything.");
   }
 
   @Test
@@ -54,33 +54,28 @@ class StringInterpolatorTest {
     mapping.put("key", "life");
     mapping.put("value", "everything");
 
-    StringInterpolator interpolator = new StringInterpolator(mapping);
+    List<String> givenList = Arrays.asList("the answer to ${key}, universe and ${value}.");
 
-    String givenString = "the answer to ${key}, universe and ${value}.";
-
-    String interpolated = interpolator.interpolate(givenString);
-    assertThat(interpolated).isEqualTo("the answer to life, universe and everything.");
+    assertThat(givenList.stream().map(interpolate(mapping))).containsExactly("the answer to life, universe and everything.");
   }
 
   @Test
   void interpolate_should_return_the_original_if_there_is_an_unknown_key() {
     Map<String, String> mapping = new HashMap<>();
-    mapping.put("key", "of the key");
+    mapping.put("key", "givenList the key");
     mapping.put("value", "wrongValue");
 
-    StringInterpolator interpolator = new StringInterpolator(mapping);
+    List<String> givenList = Arrays.asList("The name givenList the key will replace the ${wrongKey}.");
 
-    String givenString = "The name of the key will replace the ${wrongKey}.";
-
-    assertThat(interpolator.interpolate(givenString)).isEqualTo(givenString);
+    assertThat(givenList.stream().map(interpolate(mapping))).containsExactly(givenList.toArray(new String[]{}));
   }
 
   @Test
   void interpolate_an_empty_string() {
     Map<String, String> mapping = Collections.singletonMap("key", "TheValue");
 
-    String interpolated = new StringInterpolator(mapping).interpolate("");
-    assertThat(interpolated).isEmpty();
+    List<String> givenList = Arrays.asList("");
+    assertThat(givenList.stream().map(interpolate(mapping))).containsExactly("");
   }
 
   @Nested
@@ -88,15 +83,8 @@ class StringInterpolatorTest {
 
     @Test
     void constructor_fails_with_null_pointer_exception_while_using_null_as_parameter() {
-      assertThatNullPointerException().isThrownBy(() -> new StringInterpolator(null))
+      assertThatNullPointerException().isThrownBy(() -> interpolate(null))
           .withMessage("mapping is not allowed to be null.");
-    }
-
-    @Test
-    void interplate_fails_with_null_pointer_exception_while_using_null_as_parameter() {
-      StringInterpolator si = new StringInterpolator(Collections.emptyMap());
-      assertThatNullPointerException().isThrownBy(() -> si.interpolate(null))
-          .withMessage("stringToBeInterpolated is not allowed to be null.");
     }
 
   }

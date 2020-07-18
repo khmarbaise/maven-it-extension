@@ -19,58 +19,44 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import org.apiguardian.api.API;
-
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
  * @author Karl Heinz Marbaise
  */
-@API(status = EXPERIMENTAL, since = "0.9.0")
-public class StringInterpolator {
+interface StringInterpolator {
 
   /**
    * This pattern {@code ${..}} with the given group {@code (.*?)} is defined to extract the {@code ${key}} as
-   * {@code key} which is needed to access the {@link #mapping}.
+   * {@code key}.
    */
-  private static final Pattern PLACEHOLDER_PATTERN = Pattern.compile(
+  Pattern PLACEHOLDER_PATTERN = Pattern.compile(
       Pattern.quote("${") + "(.*?)" + Pattern.quote("}"));
 
-  private Map<String, String> mapping;
-
   /**
-   * @param mapping the map which contains the mapping between key and value. {@code null is not allowed}
-   * @throws IllegalArgumentException in case of giving {@code null} for {@code mapping}.
-   */
-  public StringInterpolator(Map<String, String> mapping) {
-    this.mapping = Objects.requireNonNull(mapping, "mapping is not allowed to be null.");
-  }
-
-  /**
-   * @param stringToBeInterpolated The string which will interpolated.
+   * @param mapping The map which contains the mapping between {@code key} and {@code value}. {@code null is not allowed}
    * @return The interpolated string.
-   * @throws IllegalArgumentException in case of giving {@code null} for {@code givenString}.
-   * @throws IllegalArgumentException in case of missing a key in the mapping.
    */
-  public String interpolate(String stringToBeInterpolated) {
-    Objects.requireNonNull(stringToBeInterpolated, "stringToBeInterpolated is not allowed to be null.");
-    Matcher matcher = PLACEHOLDER_PATTERN.matcher(stringToBeInterpolated);
-    StringBuffer sb = new StringBuffer();
-    while (matcher.find()) {
-      if (!mapping.containsKey(matcher.group(1))) {
-        continue;
-      }
+  static Function<String, String> interpolate(Map<String, String> mapping) {
+    Objects.requireNonNull(mapping, "mapping is not allowed to be null.");
+    return s -> {
+      Matcher matcher = PLACEHOLDER_PATTERN.matcher(s);
+      StringBuffer sb = new StringBuffer();
+      while (matcher.find()) {
+        if (!mapping.containsKey(matcher.group(1))) {
+          continue;
+        }
 
-      String escaped = Matcher.quoteReplacement(mapping.get(matcher.group(1)));
-      matcher.appendReplacement(sb, escaped);
-    }
-    matcher.appendTail(sb);
-    return sb.toString();
+        String escaped = Matcher.quoteReplacement(mapping.get(matcher.group(1)));
+        matcher.appendReplacement(sb, escaped);
+      }
+      matcher.appendTail(sb);
+      return sb.toString();
+    };
   }
 
 }

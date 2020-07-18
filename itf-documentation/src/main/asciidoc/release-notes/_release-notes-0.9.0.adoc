@@ -24,6 +24,7 @@
 :issue-129: https://github.com/khmarbaise/maven-it-extension/issues/129[Fixed #129]
 :issue-131: https://github.com/khmarbaise/maven-it-extension/issues/131[Fixed #131]
 :issue-130: https://github.com/khmarbaise/maven-it-extension/issues/130[Fixed #130]
+:issue-132: https://github.com/khmarbaise/maven-it-extension/issues/132[Fixed #132]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -36,6 +37,7 @@
  - Refactoring/Code cleanups
    * {issue-131} - Reduce visibility of MavenITExtension.
    * {issue-130} - Moving Conditions into separate package
+   * {issue-132} - Remove StringInterpolator from public API
 
 *Details*
 
@@ -49,6 +51,9 @@
     `com.soebes.itf.jupiter.extension.condition` package.
     The consequence is that you have to change your imports if you use
     them.
+ * {issue-132} - Remove `StringInterpolator` from public API
+    If you have used it you have to remove the usage. No replacement
+    available.
 
 
 *Reporter of this release*

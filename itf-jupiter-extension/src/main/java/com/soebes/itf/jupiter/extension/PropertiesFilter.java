@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.soebes.itf.jupiter.extension.Preconditions.requireNotNull;
+import static com.soebes.itf.jupiter.extension.StringInterpolator.interpolate;
 
 /**
  * This will replace the placeholders which can be defined in {@link MavenTest#goals()}.
@@ -42,9 +43,8 @@ class PropertiesFilter {
   }
 
   List<String> filter() {
-    StringInterpolator si = new StringInterpolator(this.keyValues);
     return this.items.stream()
-        .map(si::interpolate)
+        .map(interpolate(this.keyValues))
         .collect(Collectors.toList());
   }
 
