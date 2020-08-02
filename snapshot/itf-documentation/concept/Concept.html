@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="Karl Heinz Marbaise, 2020-07-25">
+<meta name="author" content="Karl Heinz Marbaise, 2020-08-02">
 <title>Integration Testing Framework Concept Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Integration Testing Framework Concept Guide</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2020-07-25</span><br>
+<span id="author2" class="author">2020-08-02</span><br>
 <span id="revnumber">version 0.9.0-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
@@ -477,6 +477,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_ide_integration">7.1. IDE Integration</a></li>
 <li><a href="#_log_assertion">7.2. Log Assertion</a></li>
+<li><a href="#_test_execution">7.3. Test Execution</a></li>
 </ul>
 </li>
 </ul>
@@ -1873,13 +1874,42 @@ assertThat(result).out().warn()</code></pre>
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_test_execution">7.3. Test Execution</h3>
+<div class="paragraph">
+<p>When should tests being executed?</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If the test has been changed? Yes</p>
+</li>
+<li>
+<p>If the SUT (Plugin/Extension) has been changed? Yes</p>
+</li>
+<li>
+<p>How can we identify if something has been changed?</p>
+<div class="ulist">
+<ul>
+<li>
+<p>What should be taken into consideration?</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Can we calculate a checksum or alike? over a larger number of files?</p>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.9.0-SNAPSHOT<br>
-Last updated 2020-07-25 20:44:48 UTC
+Last updated 2020-08-02 19:34:36 UTC
 </div>
 </div>
 <style>
