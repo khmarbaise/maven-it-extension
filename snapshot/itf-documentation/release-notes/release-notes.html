@@ -497,6 +497,9 @@ overview and detailed instructions how to use the Integration Testing Framework.
 <li>
 <p><a href="https://github.com/khmarbaise/maven-it-extension/issues/132">Fixed #132</a> - Remove StringInterpolator from public API</p>
 </li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/136">Fixed #136</a> - Remove <code>debug</code> from MavenJupiterExtension annotation</p>
+</li>
 </ul>
 </div>
 </li>
@@ -535,6 +538,12 @@ them.</p>
 <p><a href="https://github.com/khmarbaise/maven-it-extension/issues/132">Fixed #132</a> - Remove <code>StringInterpolator</code> from public API
 If you have used it you have to remove the usage. No replacement
 available.</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/136">Fixed #136</a> - Remove <code>debug</code> from MavenJupiterExtension annotation
+If you have used to turn on debugging via the annotation <code>@MavenJupiterExtension</code>
+this means you need to change your tests and use the <code>@MavenTest(options=MavenOptions.DEBUG)</code>
+to get the same behaviour.</p>
 </li>
 </ul>
 </div>
@@ -1362,7 +1371,7 @@ publish in <a href="https://central.sonatype.org/">Central Repository</a>.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.9.0-SNAPSHOT<br>
-Last updated 2020-08-02 19:34:36 UTC
+Last updated 2020-08-02 19:52:10 UTC
 </div>
 </div>
 </body>
