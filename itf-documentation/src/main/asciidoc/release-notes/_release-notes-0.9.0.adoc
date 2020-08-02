@@ -25,6 +25,7 @@
 :issue-131: https://github.com/khmarbaise/maven-it-extension/issues/131[Fixed #131]
 :issue-130: https://github.com/khmarbaise/maven-it-extension/issues/130[Fixed #130]
 :issue-132: https://github.com/khmarbaise/maven-it-extension/issues/132[Fixed #132]
+:issue-136: https://github.com/khmarbaise/maven-it-extension/issues/136[Fixed #136]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -38,6 +39,7 @@
    * {issue-131} - Reduce visibility of MavenITExtension.
    * {issue-130} - Moving Conditions into separate package
    * {issue-132} - Remove StringInterpolator from public API
+   * {issue-136} - Remove `debug` from MavenJupiterExtension annotation
 
 *Details*
 
@@ -54,6 +56,10 @@
  * {issue-132} - Remove `StringInterpolator` from public API
     If you have used it you have to remove the usage. No replacement
     available.
+ * {issue-136} - Remove `debug` from MavenJupiterExtension annotation
+    If you have used to turn on debugging via the annotation `@MavenJupiterExtension`
+    this means you need to change your tests and use the `@MavenTest(options=MavenOptions.DEBUG)`
+    to get the same behaviour.
 
 
 *Reporter of this release*

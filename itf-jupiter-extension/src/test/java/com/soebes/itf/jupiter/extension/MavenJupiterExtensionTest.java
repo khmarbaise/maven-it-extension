@@ -39,13 +39,8 @@ class MavenJupiterExtensionTest {
   private MavenJupiterExtension mavenJupiterExtensionAnnotation;
 
   @BeforeEach
-  private void beforeEach() {
+  void beforeEach() {
     this.mavenJupiterExtensionAnnotation = Helper.createAnnotation(this.getClass(), MavenJupiterExtension.class);
-  }
-
-  @Test
-  void the_default_value_for_debug_as_false() {
-    assertThat(mavenJupiterExtensionAnnotation.debug()).isFalse();
   }
 
   @Test

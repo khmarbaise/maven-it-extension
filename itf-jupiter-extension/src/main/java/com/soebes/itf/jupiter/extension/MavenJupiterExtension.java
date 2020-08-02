@@ -51,11 +51,4 @@ public @interface MavenJupiterExtension {
    */
   String[] goals() default {"package"};
 
-  /**
-   * This can be used to activate debugging output within the maven build {@code -X} option.
-   *
-   * @return {@code true} or {@code false}
-   */
-  boolean debug() default false;
-
 }
