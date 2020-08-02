@@ -19,8 +19,9 @@ package com.soebes.itf.maven.plugin;
  * under the License.
  */
 
-import com.soebes.itf.jupiter.extension.MavenCLIOptions;
+import com.soebes.itf.jupiter.extension.MavenGoal;
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
+import com.soebes.itf.jupiter.extension.MavenOption;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import org.junit.jupiter.api.DisplayName;
@@ -28,11 +29,15 @@ import org.junit.jupiter.api.DisplayName;
 import java.io.File;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
+import static com.soebes.itf.jupiter.extension.MavenCLIOptions.DEBUG;
+import static com.soebes.itf.jupiter.extension.MavenCLIOptions.NO_TRANSFER_PROGRESS;
 
 @MavenJupiterExtension
 class BasicIT {
 
-  @MavenTest(options = {MavenCLIOptions.NO_TRANSFER_PROGRESS, MavenCLIOptions.DEBUG})
+  @MavenTest
+  @MavenOption(NO_TRANSFER_PROGRESS)
+  @MavenOption(DEBUG)
   @DisplayName("Running a basic test which makes sure the groupId/artifact of the plugin are ok.")
   void groupid_artifactid_should_be_ok(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
@@ -49,7 +54,8 @@ class BasicIT {
    *
    * @param result {@link MavenExecutionResult}
    */
-  @MavenTest(goals = {"pre-integration-test"})
+  @MavenTest
+  @MavenGoal("pre-integration-test")
   @DisplayName("Running within an execution block in pom file with given goal but no explicit life cycle binding.")
   void install_should_not_fail(MavenExecutionResult result) {
     assertThat(result).isSuccessful().project();
@@ -86,7 +92,9 @@ class BasicIT {
    *
    * @param result {@link MavenExecutionResult}
    */
-  @MavenTest(options = {MavenCLIOptions.NO_TRANSFER_PROGRESS}, goals = {"pre-integration-test"})
+  @MavenTest
+  @MavenOption(NO_TRANSFER_PROGRESS)
+  @MavenGoal("pre-integration-test")
   @DisplayName("Install with a single dependency.")
   void install_with_a_single_dependency(MavenExecutionResult result) {
     assertThat(result).isSuccessful().project();
@@ -135,8 +143,10 @@ class BasicIT {
    *
    * @param result {@link MavenExecutionResult}
    */
-  @MavenTest(options = {MavenCLIOptions.NO_TRANSFER_PROGRESS}, goals = {"pre-integration-test"})
+  @MavenTest
   @DisplayName("Install with a single dependency and one transitive dependency")
+  @MavenOption(NO_TRANSFER_PROGRESS)
+  @MavenGoal("pre-integration-test")
   void install_with_dep_and_transitive_dep(MavenExecutionResult result) {
     assertThat(result).isSuccessful().project();
 

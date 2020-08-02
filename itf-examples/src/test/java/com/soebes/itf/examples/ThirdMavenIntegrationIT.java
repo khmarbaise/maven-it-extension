@@ -20,6 +20,7 @@ package com.soebes.itf.examples;
  */
 
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
+import com.soebes.itf.jupiter.extension.MavenProfile;
 import com.soebes.itf.jupiter.extension.MavenRepository;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
@@ -35,7 +36,8 @@ import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 @Disabled
 class ThirdMavenIntegrationIT {
 
-  @MavenTest(activeProfiles = {"run-its"})
+  @MavenTest
+  @MavenProfile("run-its")
   void first_integration_test(MavenExecutionResult result) {
     System.out.println("MavenIntegrationIT.first_integration_test");
     assertThat(result).isFailure();

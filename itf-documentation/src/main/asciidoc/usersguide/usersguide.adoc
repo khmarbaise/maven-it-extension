@@ -405,7 +405,7 @@ in the `.m2/repository` directory.
 
 <<<
 
-== Goals, Properties and Command Line Options
+== Goals, Profiles, Properties and Command Line Options
 
 === Goals
 
@@ -423,27 +423,28 @@ class BasicIT {
 }
 ----
 So now the question is: Which goals and parameters will be used to execute Maven for the `first`
-test case? In general the `MavenJupiterExtension` annotation defines a default set of goals which will be executed
-if not defined otherwise. The default for goals in `MavenJupiterExtension` is `package`. That means if we keep
+test case? In general the a default set of goals which will be executed if not defined otherwise.
+The default for goals is `package`. That means if we keep
 the test as in our example maven would be called like `mvn package`. From a technical perspective
 some other parameters have been added which are `mvn -Dmaven.repo.local=Path package`.
 The `-Dmaven.repo.local=..` is needed to make sure that each call uses the defined local cache
 (See link:_common_maven_cache[Common Maven Cache]).
-You can of course change the default for the goal, if you like by simply changing the parameter for
-`@MavenJupiterExtension(goals = {"install"})` that would mean to execute all subjacent tests like `mvn -D.. install`
+You can of course change the default for the goal, if you like by simply add the `@MavenGoal` annotation
+`@MavenGoal("install")` that would mean to execute all subjacent tests like `mvn -D.. install`
 instead of `mvn -D .. package`. A usual command parameter set includes
 `--batch-mode` and `-V` (This can't be changed currently.).
 
 How could you write a test which uses a plugin goal instead? You can simply define the
-goal(s) with the `@MavenTest` annotation like this:
+goal(s) via the `@MavenGoal` annotation like this:
 
 [source,java]
 ----
-@MavenTest( goals = {"${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies"})
+@MavenGoal("${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies")
+@MavenTest
 ----
 
-The used `goals` in the above `@MavenTest` will overwrite any goal which is defined by `MavenJupiterExtension`. The `goals`
-also support replacement of placeholders where currently the following are supported:
+The used `@MavenGoal` will overwrite any goal which is predefined. The given goals in `@MavenGoal`
+support replacement of placeholders which currently supports the following:
 
 * ${project.groupId}
 * ${project.artifactId}
@@ -454,11 +455,10 @@ call several goals and/or lifecycle parts in one go you can simply define it lik
 
 [source,java]
 ----
-@MavenTest( goals = {
-    "${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies",
-    "site:stage",
-    "install"
-})
+@MavenGoal("${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies")
+@MavenGoal("site:stage")
+@MavenGoal("install")
+@MavenTest
 void test_case(MavenExecutionResult result) {
 ..
 }
@@ -470,6 +470,70 @@ The equivalent on command line would be:
 mvn ${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies site:stage install
 ----
 
+=== Profiles
+
+In some cases you need to activate one or https://maven.apache.org/guides/introduction/introduction-to-profiles.html[more Maven profiles]
+for test purposes etc. This can be achieved by using `@MavenProfile` which looks like this:
+
+[source,java]
+----
+@MavenJupiterExtension
+class BasicIT {
+
+  @MavenTest
+  @MavenProfile("run-its")
+  void first(MavenExecutionResult result) {
+  }
+----
+If you like to activate multiple Maven profiles you can simply repeat the annotation like this:
+[source,java]
+----
+@MavenJupiterExtension
+class BasicIT {
+
+  @MavenTest
+  @MavenProfile("run-its")
+  @MavenProfile("run-e2e")
+  void first(MavenExecutionResult result) {
+  }
+----
+An alternative is to use the array like definition like this:
+[source,java]
+----
+@MavenJupiterExtension
+class BasicIT {
+
+  @MavenTest
+  @MavenProfile({"run-its","run-e2e"})
+  void first(MavenExecutionResult result) {
+  }
+----
+The profiles can also be activated for a bunch of test cases that you don't need to add the
+annotation on each test case. So you can define the Maven profile on the class level instead.
+[source,java]
+----
+@MavenJupiterExtension
+@MavenProfile({"run-its","run-e2e"})
+class BasicIT {
+
+  @MavenTest
+  void first(MavenExecutionResult result) {
+  }
+----
+If you want to explicitly deactivate a profile this can be achieved like this:
+[source,java]
+----
+@MavenJupiterExtension
+class BasicIT {
+
+  @MavenTest
+  @MavenProfile("+run-its")
+  void first(MavenExecutionResult result) {
+  }
+----
+The `+` prefix is responsible for deactivating a given profile during the build. We strongly recommend to use `+`
+sign (instead of `!`) to prevent issues on different operating systems.
+
 === System Properties
 
 There are situations where you need to use system properties which are usually defined on command like this:
@@ -477,7 +541,7 @@ There are situations where you need to use system properties which are usually d
 ----
 mvn versions:set -DgenerateBackups=false -DnewVersion=2.0
 ----
-This can be achieved by enhancing the `@MavenTest` annotation with `systemProperties` which could look like this:
+This can be achieved by using the `@SystemProperty` annotation which could look like this:
 
 [source,java]
 .CompareDependenciesIT.java
@@ -494,12 +558,43 @@ import com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 @MavenJupiterExtension
 class CompareDependenciesIT
 {
-    @MavenTest( goals = {"${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies"},
-                systemProperties = {
-                    "remotePom=localhost:dummy-bom-pom:1.0",
-                    "reportOutputFile=target/depDiffs.txt"}
-               )
+    @MavenGoal("versions:set")
+    @SystemProperty(value = "generateBackups", content = "false")
+    @SystemProperty(value = "newVersion", content = "2.0")
+    @MavenTest
     void it_compare_dependencies_001( MavenExecutionResult result )
+    {
+       ...
+    }
+}
+----
+
+Other options are to set only the value for example if you like to do this:
+[source,bash]
+----
+mvn clean verify -DskipTests
+----
+You can do it the like the following:
+[source,java]
+.CompareDependenciesIT.java
+----
+package org.codehaus.mojo.versions.it;
+
+import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
+import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.maven.MavenExecutionResult;
+import com.soebes.itf.jupiter.maven.MavenProjectResult;
+
+import com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
+
+@MavenJupiterExtension
+class RunningIT
+{
+    @MavenGoal("clean")
+    @MavenGoal("verify")
+    @SystemProperty("skipTests")
+    @MavenTest
+    void running( MavenExecutionResult result )
     {
        ...
     }
@@ -508,15 +603,17 @@ class CompareDependenciesIT
 
 === Command Line Options
 In different scenarios it is needed to define command line options for example `--non-recursive` etc.
-This can be done by using the `options` part of `@MavenTest`. There is a convenience class
+This can be done by using the `@MavenOption` annotation. There is a convenience class
 `MavenCLIOptions` available, which contains all existing command line options. You are not forced to
 use the `MavenCLIOptions` class.
 
 [source,java]
 ----
-@MavenTest( options = {MavenCLIOptions.NON_RECURSIVE, "--offline"},
-            goals = {"${project.groupId}:${project.artifactId}:${project.version}:set"},
-            systemProperties = {"newVersion=2.0"} )
+@MavenGoal("versions:set")
+@SystemProperty(value = "newVersion", content = "2.0")
+@MavenOption(MavenCLIOptions.NON_RECURSIVE)
+@MavenOption("--offline")
+@MavenTest
 void first( MavenExecutionResult result )
 {
     assertThat( result ).isSuccessful();
@@ -525,9 +622,10 @@ void first( MavenExecutionResult result )
 This gives you the choice to decide to use `MavenCLIOptions` or not:
 [source,java]
 ----
-@MavenTest( options = {"-N", "--offline"},
-            goals = {"${project.groupId}:${project.artifactId}:${project.version}:set"},
-            systemProperties = {"newVersion=2.0"} )
+@MavenGoal("versions:set")
+@SystemProperty(value = "newVersion", content = "2.0")
+@MavenOption({"-N","--offline"})
+@MavenTest
 void first( MavenExecutionResult result )
 {
     assertThat( result ).isSuccessful();
@@ -762,12 +860,14 @@ each test case (`project_001` and `proeject_002`) in this test class.
 @MavenPredefinedRepository
 class ProjectIT {
 
-  @MavenTest(options = {MavenCLIOptions.DEBUG})
+  @MavenOption(MavenCLIOptions.DEBUG)
+  @MavenTest
   void project_001(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
 
-  @MavenTest(options = {MavenCLIOptions.DEBUG})
+  @MavenOption(MavenCLIOptions.DEBUG)
+  @MavenTest
   void project_002(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
@@ -805,13 +905,15 @@ define the `@MavenPredefinedRepository` also on the test method level, which wou
 @MavenJupiterExtension
 class ProjectIT {
 
-  @MavenTest(options = {MavenCLIOptions.DEBUG})
+  @MavenOption(MavenCLIOptions.DEBUG)
+  @MavenTest
   @MavenPredefinedRepository
   void project_001(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
 
-  @MavenTest(options = {MavenCLIOptions.DEBUG})
+  @MavenOption(MavenCLIOptions.DEBUG)
+  @MavenTest
   @MavenPredefinedRepository
   void project_002(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
@@ -851,33 +953,30 @@ on that project in the end. Such a use case looks like this:
 @MavenJupiterExtension
 class SetIT
 {
-    private static final String VERSIONS_PLUGIN =
-      "${project.groupId}:${project.artifactId}:${project.version}";
+    private static final String VERSIONS_PLUGIN_SET =
+      "${project.groupId}:${project.artifactId}:${project.version}:set";
 
     @Nested
     @MavenProject
     @TestMethodOrder( OrderAnnotation.class )
+    @MavenOption(MavenCLIOptions.NON_RECURSIVE)
+    @MavenGoal(VERSIONS_PLUGIN_SET)
     class set_001
     {
 
-        @MavenTest(
-            options = MavenCLIOptions.NON_RECURSIVE,
-            goals = {VERSIONS_PLUGIN + ":set"},
-            systemProperties = {"newVersion=2.0"} )
+        @SystemProperty(value = "newVersion", content="2.0")
+        @MavenTest
         @Order(10)
         void first( MavenExecutionResult result )
         {
             assertThat( result ).isSuccessful();
         }
 
-        @MavenTest(
-            options = MavenCLIOptions.NON_RECURSIVE,
-            goals = {VERSIONS_PLUGIN + ":set"},
-            systemProperties = {
-                "newVersion=2.0",
-                "groupId=*",
-                "artifactId=*",
-                "oldVersion=*"} )
+        @SystemProperty(value = "newVersion", content="2.0")
+        @SystemProperty(value = "groupId", content="*")
+        @SystemProperty(value = "artifactId", content="*")
+        @SystemProperty(value = "oldVersion", content="*")
+        @MavenTest
         @Order(20)
         void second( MavenExecutionResult result)
         {
@@ -1231,13 +1330,10 @@ import com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 @MavenJupiterExtension
 class CompareDependenciesIT
 {
-    @MavenTest(
-      goals =
-        {"${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies"},
-      systemProperties = {
-          "remotePom=localhost:dummy-bom-pom:1.0",
-          "reportOutputFile=target/depDiffs.txt"
-      } )
+    @MavenGoal("${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies")
+    @SystemProperty(value = "remotePom", content="localhost:dummy-bom-pom:1.0")
+    @SystemProperty(value = "reportOutputFile", content="target/depDiffs.txt")
+    @MavenTest
     void it_compare_dependencies_001( MavenExecutionResult result )
     {
         assertThat( result ).isSuccessful()

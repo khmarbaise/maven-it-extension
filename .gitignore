@@ -11,4 +11,6 @@ test-output
 .*~
 .springBeans
 .factorypath
-
+*.log
+*.pdf
+*.html

@@ -24,7 +24,7 @@ import org.apiguardian.api.API;
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
- * The different command line options which are supported by Apache Maven.
+ * The different command line value which are supported by Apache Maven.
  *
  * @author Karl Heinz Marbaise
  */
@@ -182,7 +182,7 @@ public final class MavenCLIOptions {
   public static final String BATCH_MODE = "--batch-mode";
 
   /**
-   * You have to add the {@code <arg>} in your {@code options} definition.
+   * You have to add the {@code <arg>} in your {@code value} definition.
    * <p>
    * {@code --log-file <arg>}
    */
@@ -196,5 +196,4 @@ public final class MavenCLIOptions {
   private MavenCLIOptions() {
     // prevent instantiation.
   }
-
 }

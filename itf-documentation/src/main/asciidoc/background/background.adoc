@@ -386,13 +386,15 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(OrderAnnotation.class)
 class MavenIntegrationIT {
 
-  @MavenTest(goals = {"install"})
+  @MavenTest
+  @MavenGoal("install")
   @Order(10)
   void setup(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
 
-  @MavenTest(goals = {"install"})
+  @MavenTest
+  @MavenGoal("install")
   @Order(20)
   void setup_2(MavenExecutionResult result) {
     assertThat(result).isSuccessful();

@@ -19,6 +19,8 @@ package com.soebes.itf.examples;
  * under the License.
  */
 
+import com.soebes.itf.jupiter.extension.MavenDebug;
+import com.soebes.itf.jupiter.extension.MavenGoal;
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenRepository;
 import com.soebes.itf.jupiter.extension.MavenTest;
@@ -36,7 +38,7 @@ import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
  *
  * @author Karl Heinz Marbaise
  */
-@MavenJupiterExtension(goals = {"install"})
+@MavenJupiterExtension
 @MavenRepository
 @TestMethodOrder(OrderAnnotation.class)
 @DisplayName("This is integration test Nr.1 with two setup projects.")
@@ -56,7 +58,9 @@ class MavenIntegrationIT {
     assertThat(result).isSuccessful();
   }
 
-  @MavenTest(debug = true, goals = {"clean", "verify"})
+  @MavenTest
+  @MavenDebug
+  @MavenGoal({"clean", "verify"})
   @DisplayName("and the test case tries to check for resultion issue.")
   void first_integration_test(MavenExecutionResult result) {
     System.out.println("MavenIntegrationIT.first_integration_test rc:" + result.getReturnCode());

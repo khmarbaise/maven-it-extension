@@ -24,13 +24,14 @@ import net.bytebuddy.description.annotation.AnnotationDescription.Builder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 
 import java.lang.reflect.Method;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -66,8 +67,8 @@ class AnnotationHelperTest {
     MavenTest mavenTestAnnotation = mavenTestAnnotationDescription.prepare(MavenTest.class).load();
 
     Method method = mock(Method.class);
-    when(method.isAnnotationPresent(ArgumentMatchers.any())).thenReturn(true);
-    when(method.getAnnotation(ArgumentMatchers.any())).thenReturn(mavenTestAnnotation);
+    when(method.isAnnotationPresent(any())).thenReturn(true);
+    when(method.getAnnotation(any())).thenReturn(mavenTestAnnotation);
     return method;
   }
 
@@ -86,7 +87,7 @@ class AnnotationHelperTest {
     @DisplayName("fail when MavenTest annotation is not present.")
     void should_fail_with_illegal_state_exception() {
       Method method = mock(Method.class);
-      when(method.isAnnotationPresent(ArgumentMatchers.any())).thenReturn(false);
+      when(method.isAnnotationPresent(any())).thenReturn(false);
       when(method.getName()).thenReturn("The unknown method.");
 
       assertThatIllegalStateException().isThrownBy(() -> AnnotationHelper.isDebug(method))
@@ -167,7 +168,7 @@ class AnnotationHelperTest {
     @DisplayName("fail when MavenTest annotation is not present.")
     void should_fail_with_illegal_state_exception() {
       Method method = mock(Method.class);
-      when(method.isAnnotationPresent(ArgumentMatchers.any())).thenReturn(false);
+      when(method.isAnnotationPresent(any())).thenReturn(false);
       when(method.getName()).thenReturn("The unknown method.");
 
       assertThatIllegalStateException().isThrownBy(() -> AnnotationHelper.getActiveProfiles(method))
@@ -205,7 +206,7 @@ class AnnotationHelperTest {
     @DisplayName("fail when MavenTest annotation is not present.")
     void should_fail_with_illegal_state_exception() {
       Method method = mock(Method.class);
-      when(method.isAnnotationPresent(ArgumentMatchers.any())).thenReturn(false);
+      when(method.isAnnotationPresent(any())).thenReturn(false);
       when(method.getName()).thenReturn("The unknown method.");
 
       assertThatIllegalStateException().isThrownBy(() -> AnnotationHelper.getGoals(method))
@@ -236,7 +237,7 @@ class AnnotationHelperTest {
     @DisplayName("fail when MavenTest annotation is not present.")
     void should_fail_with_illegal_state_exception() {
       Method method = mock(Method.class);
-      when(method.isAnnotationPresent(ArgumentMatchers.any())).thenReturn(false);
+      when(method.isAnnotationPresent(any())).thenReturn(false);
       when(method.getName()).thenReturn("The unknown method.");
 
       assertThatIllegalStateException().isThrownBy(() -> AnnotationHelper.hasGoals(method))
@@ -255,6 +256,53 @@ class AnnotationHelperTest {
     void should_return_false_if_no_goals_are_defines() {
       Method mavenTestAnnotation = createMavenTestAnnotationGoals();
       assertThat(AnnotationHelper.hasGoals(mavenTestAnnotation)).isFalse();
+    }
+
+  }
+
+  @Nested
+  @DisplayName("MavenGoal annotation")
+  class Release090 {
+
+    @Test
+    void no_goal_given() {
+      Method mavenTestAnnotationForDefaults = createMavenGoalTestAnnotation(new String[]{});
+      assertThat(AnnotationHelper.goals(mavenTestAnnotationForDefaults)).isEmpty();
+    }
+
+    @Test
+    void single_goal_given() {
+      Method mavenTestAnnotationForDefaults = createMavenGoalTestAnnotation(new String[]{"goal"});
+      assertThat(AnnotationHelper.goals(mavenTestAnnotationForDefaults)).containsExactly("goal");
+    }
+
+    @Test
+    void multiple_goals_given() {
+      Method mavenTestAnnotationForDefaults = createMavenGoalTestAnnotation(new String[]{"a", "b", "c"});
+      assertThat(AnnotationHelper.goals(mavenTestAnnotationForDefaults)).containsExactly("a", "b", "c");
+    }
+
+    @Test
+    void multiple_annotations_given() {
+      Method mavenTestAnnotationForDefaults = createMavenGoalTestAnnotation(new String[]{"a"});
+      assertThat(AnnotationHelper.goals(mavenTestAnnotationForDefaults)).containsExactly("a");
+    }
+
+    private Method createMavenGoalTestAnnotation(String[] goals) {
+      AnnotationDescription mavenTestAnnotationDescription = Builder.ofType(MavenGoal.class)
+          .defineArray("value", goals)
+          .build();
+
+      return createAnnotationPrepare(mavenTestAnnotationDescription);
+    }
+
+    private Method createAnnotationPrepare(AnnotationDescription mavenTestAnnotationDescription) {
+      MavenGoal mavenTestAnnotation = mavenTestAnnotationDescription.prepare(MavenGoal.class).load();
+
+      Method method = mock(Method.class);
+
+      when(method.getAnnotationsByType(eq(MavenGoal.class))).thenReturn(new MavenGoal[]{mavenTestAnnotation});
+      return method;
     }
 
   }

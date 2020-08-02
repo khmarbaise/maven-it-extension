@@ -50,14 +50,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.getActiveProfiles;
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.getCommandLineOptions;
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.getCommandLineSystemProperties;
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.getGoals;
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.goals;
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.hasActiveProfiles;
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.hasGoals;
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.hasOptions;
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.hasProfiles;
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.hasSystemProperties;
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.isDebug;
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.options;
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.profiles;
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.systemProperties;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
@@ -66,6 +75,8 @@ import static java.util.stream.Collectors.toList;
  */
 class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeTestExecutionCallback,
     InvocationInterceptor {
+
+  private Logger LOGGER = Logger.getLogger(MavenITExtension.class.getSimpleName());
 
   @Override
   public void beforeEach(ExtensionContext context) {
@@ -186,27 +197,51 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     List<String> executionArguments = new ArrayList<>();
 
 
+    //TODO: Reconsider about the default options which are being defined here? Documented? users guide?
     List<String> defaultArguments = Arrays.asList(
         "-Dmaven.repo.local=" + directoryResolverResult.getCacheDirectory().toString(), MavenCLIOptions.BATCH_MODE, MavenCLIOptions.SHOW_VERSION);
     executionArguments.addAll(defaultArguments);
 
     if (hasActiveProfiles(methodName)) {
+      LOGGER.warning("You are using @MavenTest(activeProfiles = ..) which has been deprecated. Please use @MavenProfile instead. See users guide.");
       String collect = Stream.of(getActiveProfiles(methodName))
           .collect(joining(",", MavenCLIOptions.ACTIVATE_PROFILES, ""));
       executionArguments.add(collect);
+    } else {
+      if (hasProfiles(context)) {
+        String collect = profiles(context).collect(joining(",", "-P", ""));
+        executionArguments.add(collect);
+      }
     }
 
-
     if (isDebug(methodName)) {
+      LOGGER.warning("You are using @MavenTest(debug = ..) which has been deprecated. Please use @MavenOptions instead. See users guide.");
       executionArguments.add(MavenCLIOptions.DEBUG);
     }
 
-    executionArguments.addAll(Stream.of(getCommandLineSystemProperties(methodName))
-        .map(arg -> "-D" + arg).collect(toList()));
-    executionArguments.addAll(Stream.of(getCommandLineOptions(methodName)).collect(toList()));
+    if (hasSystemProperties(methodName)) {
+      LOGGER.warning("You are using @MavenTest(systemProperties = ..) which has been deprecated. Please use @SystemProperty instead. See users guide.");
+      executionArguments.addAll(Stream.of(getCommandLineSystemProperties(methodName))
+          .map(arg -> "-D" + arg).collect(toList()));
+    } else {
+      if (hasSystemProperties(context)) {
+        List<String> collect = systemProperties(context)
+            .stream()
+            .map(s -> s.content().isEmpty() ? "-D" + s.value() : "-D" + s.value() + "=" + s.content())
+            .collect(toList());
+        executionArguments.addAll(collect);
+      }
+    }
 
-    Class<?> mavenIT = AnnotationHelper.findMavenITAnnotation(context).orElseThrow(IllegalStateException::new);
-    MavenJupiterExtension mavenJupiterExtensionAnnotation = mavenIT.getAnnotation(MavenJupiterExtension.class);
+    if (hasOptions(methodName)) {
+      LOGGER.warning("You are using @MavenTest(options = ..) which has been deprecated. Please use @MavenOptions instead. See users guide.");
+      executionArguments.addAll(Stream.of(getCommandLineOptions(methodName)).collect(toList()));
+    } else {
+      if (hasOptions(context)) {
+        executionArguments.addAll(options(context).collect(toList()));
+      }
+    }
+
 
     //FIXME: Need to introduce better directory names
     //Refactor out the following lines
@@ -220,13 +255,31 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     keyValues.put("project.artifactId", modelReader.getArtifactId());
     keyValues.put("project.version", modelReader.getVersion());
 
-    List<String> resultingGoals = Stream.of(GoalPriority.goals(mavenJupiterExtensionAnnotation.goals(), getGoals(methodName))).collect(toList());
-    PropertiesFilter propertiesFilter = new PropertiesFilter(keyValues, resultingGoals);
+    if (AnnotationHelper.hasGoals(methodName)) {
+      LOGGER.warning("You are using @MavenJupiterExtension(goals =) and/or @MavenTest(goals = ..) on method "
+          + methodName.getName() + " which has been deprecated. Use @MavenGoal instead. See users guide.");
 
-    //TODO: We should consider to make replacements also in systemProperties annotation possible.
+      Class<?> mavenIT = AnnotationHelper.findMavenITAnnotation(context).orElseThrow(IllegalStateException::new);
+      MavenJupiterExtension mavenJupiterExtensionAnnotation = mavenIT.getAnnotation(MavenJupiterExtension.class);
 
-    List<String> filteredGoals = propertiesFilter.filter();
-    executionArguments.addAll(filteredGoals);
+      List<String> resultingGoals = Stream.of(GoalPriority.goals(mavenJupiterExtensionAnnotation.goals(), getGoals(methodName))).collect(toList());
+      PropertiesFilter propertiesFilter = new PropertiesFilter(keyValues, resultingGoals);
+
+      List<String> filteredGoals = propertiesFilter.filter();
+      executionArguments.addAll(filteredGoals);
+    } else {
+      if (hasGoals(context)) {
+        List<String> resultingGoals = goals(context).collect(toList());
+        PropertiesFilter propertiesFilter = new PropertiesFilter(keyValues, resultingGoals);
+
+        List<String> filteredGoals = propertiesFilter.filter();
+        executionArguments.addAll(filteredGoals);
+      } else {
+        //TODO: This is the default goal which will be executed if no `@MavenGoal` annotation is defined.
+        executionArguments.add("package");
+      }
+    }
+
 
     Process start = mavenExecutor.start(executionArguments);
 

@@ -19,11 +19,16 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
+import org.apiguardian.api.API;
+
 import static com.soebes.itf.jupiter.extension.Preconditions.requireNotNull;
+import static org.apiguardian.api.API.Status.DEPRECATED;
 
 /**
  * @author Karl Heinz Marbaise
  */
+@Deprecated
+@API(status = DEPRECATED, since = "0.9.0")
 final class GoalPriority {
 
   private GoalPriority() {

@@ -1,12 +1,5 @@
 package com.soebes.maven.plugins.configuration;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.List;
-
 import org.apache.maven.archiver.MavenArchiver;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.model.Resource;
@@ -30,6 +23,13 @@ import org.codehaus.plexus.archiver.manager.NoSuchArchiverException;
 import org.codehaus.plexus.archiver.util.DefaultFileSet;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 /**
  * This mojo will get the main artifact of the current project unpack it and use it to create configured artifacts
@@ -74,7 +74,7 @@ public class ConfigurationMojo
      * properties files specified in the POM build/filters section, which should be used for the filtering during the
      * current mojo execution. <br/>
      * Normally, these will be configured from a plugin's execution section, to provide a different set of filters for a
-     * particular execution. For instance, starting in Maven 2.2.0, you have the option of configuring executions with
+     * particular execution. For instance, starting in Maven 2.2.0, you have the value of configuring executions with
      * the id's <code>default-resources</code> and <code>default-testResources</code> to supply different configurations
      * for the two different types of resources. By supplying <code>extraFilters</code> configurations, you can separate
      * which filters are used for which type of resource.

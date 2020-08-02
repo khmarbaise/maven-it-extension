@@ -19,6 +19,7 @@ package com.soebes.itf.examples;
  * under the License.
  */
 
+import com.soebes.itf.jupiter.extension.MavenGoal;
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenProject;
 import com.soebes.itf.jupiter.extension.MavenTest;
@@ -40,13 +41,15 @@ class MavenProjectIT {
   @MavenProject("test_project")
   class NestedExample {
 
-    @MavenTest(goals = "clean")
+    @MavenTest
+    @MavenGoal("clean")
     @Order(10)
     void basic(MavenExecutionResult result) {
       System.out.println("(basic) result = " + result);
     }
 
-    @MavenTest(goals = "install")
+    @MavenTest
+    @MavenGoal("install")
     @Order(20)
     void packaging_includes(MavenExecutionResult result) {
       System.out.println("(packaging_includes) result = " + result);

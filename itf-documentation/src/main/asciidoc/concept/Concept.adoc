@@ -839,7 +839,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(OrderAnnotation.class)
 class CustomContainerDescriptorHandlerIT {
 
-  @MavenTest(goals = {"install"})
+  @MavenGoal("install")
+  @MavenTest
   @Order(10)
   void handler_ref(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
@@ -894,7 +895,8 @@ class ContainerDescriptorsIT {
   @MavenRepository
   class CustomContainerDescriptorHandler {
 
-    @MavenTest(goals = {"install"})
+    @MavenGoal("install")
+    @MavenTest
     @Order(10)
     void handler_ref(MavenExecutionResult result) {
       assertThat(result).isSuccessful();
@@ -912,7 +914,8 @@ class ContainerDescriptorsIT {
   @MavenRepository
   class ConfiguredHandler {
 
-    @MavenTest(goals = {"install"})
+    @MavenGoal("install")
+    @MavenTest
     @Order(10)
     void handler_ref(MavenExecutionResult result) {
       assertThat(result).isSuccessful();
@@ -984,16 +987,16 @@ Now let us assume we could translate that very easy:
 @MavenJupiterExtension
 class CustomContainerDescriptorHandlerIT {
 
-  @MavenTest(goals = {"${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies"})
+  @MavenGoal("${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies")
+  @MavenTest
   void calling_a_goal(...) {
     ...
   }
 
-  @MavenTest(goals = {"${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies"},
-    systemProperties = {
-      "remotePom=localhost:dummy-bom-pom:1.0",
-      "reportOutputFile=target/depDiffs.txt"
-  })
+  @MavenGoal("${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies")
+  @SystemProperty(value = "remotePom", content="localhost:dummy-bom-pom:1.0")
+  @SystemProperty(value = "reportOutputFile", content="target/depDiffs.txt")
+  @MavenTest
   void calling_a_goal_with_sytem_properties(...) {
     ...
   }
@@ -1049,15 +1052,23 @@ class setVersionIT {
   @MavenProject("set_001") //Define the project to be used. Only valid on Nested class or root class.
   @DisplayName("Test the set mojo when the new version is the same as the old version, using wildcards. This kind of build used to fail accourding the issue 83 from github.")
   class Set001 {
-    @MavenTest(options = {"-N"}, goals = { "${project.groupId}:${project.artifactId}:${project.version}:set"}
-      systemProperties = {"newVersion=2.0"})
+
+    @MavenOption("-N")
+    @MavenGoal("${project.groupId}:${project.artifactId}:${project.version}:set")
+    @SystemProperty(value = "newVersion", content = "2.0")
+    @MavenTest
     @Order(10)
     void first_test(MavenExecutionResult result) {
       assertThat(result).isSuccessful();
     }
 
-    @MavenTest(options = {"-N"}, goals = { "${project.groupId}:${project.artifactId}:${project.version}:set"}
-      systemProperties = {"newVersion=2.0", "groupId=*", "artifactId=*", "DoldVersion=*"})
+    @MavenOption("-N")
+    @MavenGoal("${project.groupId}:${project.artifactId}:${project.version}:set")
+    @SystemProperty(value = "newVersion", content = "2.0")
+    @SystemProperty(value = "groupId", content = "*")
+    @SystemProperty(value = "artifactId", content = "*")
+    @SystemProperty(value = "oldVersion", content = "*")
+    @MavenTest
     @Order(20)
     @DisplayName("where setup two is needed.")
     void second_test(MavenExecutionResult result) {
@@ -1152,6 +1163,22 @@ etc. possible. A thought might be to integrate the functionality of mrm into thi
 extension and somehow configure that for the test cases?
 * [ ] Support for {mock-repository-manager}
 
+== Log Assertion
+
+We have at the moment at least three different outputs:
+
+. The stdout as `mvn-stdout.log`
+. The stderr as `mvn-stderr.log`
+. The list of used command line parameters `mvn-arguments.log`
+
+
+[source,java]
+.filename.java
+----
+assertThat(result).isSuccessful().out()...
+assertThat(result).out().warn()
+----
+
 
 == Ideas
 
@@ -1188,23 +1215,6 @@ directories and then run the test as usual.
             .contains("xxx");
 ----
 
-=== Log Assertion
-
-We have at the moment at least three different outputs:
-
-. The stdout as `mvn-stdout.log`
-. The stderr as `mvn-stderr.log`
-. The list of used command line parameters `mvn-arguments.log`
-
-
-[source,java]
-.filename.java
-----
-assertThat(result).isSuccessful().out()...
-assertThat(result).out().warn()
-----
-
-
 === Test Execution
 
 When should tests being executed?
@@ -1215,3 +1225,651 @@ When should tests being executed?
 ** What should be taken into consideration?
 
 Can we calculate a checksum or alike? over a larger number of files?
+
+
+== Annotations / Repeatable Annotations
+
+Based on the ideas in https://github.com/khmarbaise/maven-it-extension/issues/135 we have to
+reconsider annotation based setup for goals, profiles, options and system properties etc.
+
+Create separate annotations like the following:
+
+* `@MavenGoal` (make it repeatable `@MavenGoals`)
+* `@MavenProfile` (make it repeatable `@MavenProfiles`)
+* `@MavenOption` (make it repeatable `@MavenOptions`)
+* `@SystemProperty` (make it repeatable `@SystemProperties`)
+
+=== Example Test case
+An example test (based on release 0.8.0):
+
+The following IT means to execute each integration test
+case with the goal `package`.
+
+The following assumptions (based on release 0.8.0) where made:
+
+* `--error` option will be added by default https://github.com/khmarbaise/maven-it-extension/issues/134[issue-134].
+* `package` The life cycle phase is default (currently define by `@MavenJupiterExtension`)
+
+[source,java]
+----
+@MavenJupiterExtension
+class AnIT {
+
+  @MavenTest
+  void basic_one(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  void basic_two(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  void basic_three(MavenExecutionResult result)
+      throws IOException {
+
+  }
+}
+----
+
+
+==== Changing Default Goal
+In this case the given `@MavenGoal` will automatically replace the default goal `package` as defined
+in `@MavenJupiterExtension` with the given goal `verify` in the given case.
+Based on the position of the `@MavenGoal` annotation this means all consecutive test methods will
+inherit the given goal.
+
+We have not defined a profile by default nor a system property.
+
+[source,java]
+----
+@MavenJupiterExtension
+@MavenGoal("verify")
+class AnIT {
+
+  @MavenTest
+  void basic_one(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  void basic_two(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  void basic_three(MavenExecutionResult result)
+      throws IOException {
+
+  }
+
+}
+----
+
+We can change the globally defined goal on a test case base:
+The following setup will result in executing:
+
+* `basic_one` with goal `package`
+* `basic_three` with goal `package`
+
+as defined by the `@MavenGoal` defined on the class level.
+
+* `basic_two` with goal `install` instead of `package`
+
+[source,java]
+----
+@MavenJupiterExtension
+@MavenGoal("verify")
+class AnIT {
+
+  @MavenTest
+  void basic_one(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  @MavenGoal("install")
+  void basic_two(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  void basic_three(MavenExecutionResult result)
+      throws IOException {
+
+  }
+
+}
+----
+
+We can now combine several `MavenGoal` definitions. The result will
+be having executed the goal `clean` and `verify` for each test case
+`basic_one`, `basic_two` and `basic_three`.
+
+[source,java]
+----
+@MavenJupiterExtension
+@MavenGoal("clean")
+@MavenGoal("verify")
+class AnIT {
+
+  @MavenTest
+  void basic_one(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  void basic_two(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  void basic_three(MavenExecutionResult result)
+      throws IOException {
+
+  }
+
+}
+----
+
+Based on the opportunity to create meta annotations we can now change the example like this:
+
+The `@MavenCleanVerify` is a meta annotation defined like this:
+[source,java]
+----
+@Target({ ElementType.TYPE })
+@Retention(RetentionPolicy.RUNTIME)
+@MavenGoal("clean")
+@MavenGoal("verify")
+public @interface MavenCleanVerify {
+
+}
+----
+Based on the possibility to define JUnit Jupiter annotations on an interface you can define an interface
+like `CleanVerify` and implement the interface in all your integration tests which makes
+it very easy to define a global definition of the goals you like to execute.
+
+
+[source,java]
+----
+@MavenJupiterExtension
+@MavenCleanVerify
+class AnIT {
+
+  @MavenTest
+  void basic_one(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  void basic_two(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  void basic_three(MavenExecutionResult result)
+      throws IOException {
+
+  }
+}
+----
+
+
+==== Changing Default Options
+
+By defining the `MavenOption` annotation you can replace the default option `--error` very easily (Defined in `@MavenJupiterExtension`).
+Here we have the same mechanism as already shown for the `@MavenGoal` including meta annotations etc.
+It is important that the `MavenOption` could have parameters for particular options like `--projects` or
+`--settings xyz.xml` for example.
+
+[source,java]
+----
+@MavenJupiterExtension
+@MavenOption(option = MavenOptions.DEBUG)
+@MavenOption(option = MavenOptions.FAIL_AT_END)
+class AnIT {
+
+  @MavenTest
+  void basic_one(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  void basic_two(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  void basic_three(MavenExecutionResult result)
+      throws IOException {
+
+  }
+
+}
+----
+
+You can overwrite options for particular test cases like this:
+The `basic_three` will be executed by using the only options defined
+via `MavenOption`.
+
+[source,java]
+----
+@MavenJupiterExtension
+@MavenOption(DEBUG)
+@MavenOption(FAIL_AT_END)
+class AnIT {
+
+  @MavenTest
+  void basic_one(MavenExecutionResult result)
+      throws IOException {
+
+  }
+
+  @MavenTest
+  void basic_two(MavenExecutionResult result)
+      throws IOException {
+
+  }
+
+  @MavenTest
+  @MavenOption(DEBUG)
+  @MavenOption(FAIL_AT_END)
+  @MavenOption(value = PROJECTS, parameters="m1,m2")
+  void basic_three(MavenExecutionResult result)
+      throws IOException {
+
+  }
+
+}
+----
+
+==== Defining Profiles
+
+By defining the `@MavenProfile` annotation like the following you can
+define a single profile:
+
+[source,java]
+----
+@MavenJupiterExtension
+@MavenProfile("run-its")
+class AnIT {
+
+  @MavenTest
+  void basic_one(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  void basic_two(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  void basic_three(MavenExecutionResult result)
+      throws IOException {
+
+  }
+
+}
+----
+
+You can combine a number of annotations like this to activate more than one profile:
+
+[source,java]
+----
+@MavenJupiterExtension
+@MavenProfile("run-its")
+@MavenProfile("run-e2e")
+class AnIT {
+
+  @MavenTest
+  void basic_one(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  void basic_two(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  void basic_three(MavenExecutionResult result)
+      throws IOException {
+
+  }
+
+}
+----
+
+==== Defining System Properties
+
+By defining the `SystemProperty` annotation like the following you can
+define a single property:
+
+[source,java]
+----
+@MavenJupiterExtension
+@SystemProperty("skipTests")
+class AnIT {
+
+  @MavenTest
+  void basic_one(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  void basic_two(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  void basic_three(MavenExecutionResult result)
+      throws IOException {
+
+  }
+
+}
+----
+The above means to put the system property on each execution in this case on `basic_one`, `basic_two`
+and `basic_three`.
+
+
+You can define a system property like the following which includes the
+definition of the value:
+[source,java]
+----
+@SystemProperty(name = "rat.ignoreErrors", value="true")
+----
+
+
+[source,java]
+----
+@SystemProperty(name = "newVersion", value="2.0")
+@SystemProperty(name = "groupId", value="*")
+@SystemProperty(name = "artifactId", value="*")
+@SystemProperty(name = "oldVersion", value="*")
+----
+
+The following test case defines on the root of the test class a single system property.
+The methods `basic_one` defines a supplemental system property. This
+means that `basic_one` will be executed with two system properties being set and
+`basic_two` as well (different ones) and finally `basic_three` will have
+three system properties set.
+
+[source,java]
+----
+@MavenJupiterExtension
+@SystemProperty(name = "newVersion", value="2.0")
+class AnIT {
+
+  @MavenTest
+  @SystemProperty(name = "groupId", value = "*")
+  void basic_one(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  @SystemProperty(name = "artifactId", value = "*")
+  void basic_two(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  @SystemProperty(name = "groupId", value = "*")
+  @SystemProperty(name = "artifactId", value = "*")
+  void basic_three(MavenExecutionResult result)
+      throws IOException {
+
+  }
+
+}
+----
+
+
+==== Real Test Case
+
+The following is a real test which works (realized with ITF Release 0.8.0):
+[source,java]
+----
+@MavenJupiterExtension
+class CompareDependenciesIT
+{
+
+    private static final String VERSIONS_PLUGIN = "${project.groupId}:${project.artifactId}:${project.version}";
+
+
+    @MavenTest(options = {MavenOptions.SETTINGS, "settings.xml"}, goals={VERSIONS_PLUGIN + ":compare-dependencies"},
+               systemProperties = {"remotePom=localhost:dummy-bom-pom:1.0", "reportOutputFile=target/depDiffs.txt"} )
+    void it_compare_dependencies_001( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+    {
+        assertThat( result ).isSuccessful()
+                .project()
+                .hasTarget()
+                .withFile( "depDiffs.txt" )
+                .hasContent( String.join( "\n",
+                        "The following differences were found:",
+                    "",
+                    "  org.apache.maven:maven-artifact ..................... 2.0.10 -> 2.0.9",
+                    "",
+                    "The following property differences were found:",
+                    "",
+                    "  none" ) );
+    }
+
+    @MavenTest( goals = {VERSIONS_PLUGIN + ":compare-dependencies"},
+                systemProperties = {"remotePom=localhost:dummy-bom-pom:1.0", "reportMode=false", "updatePropertyVersions=true"} )
+    void it_compare_dependencies_002( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+    {
+        assertThat( result ).isSuccessful()
+                .project()
+                .hasTarget()
+                .withFile( "depDiffs.txt" )
+                .hasContent( String.join( "\n",
+                        "The following differences were found:",
+                    "",
+                    "  org.apache.maven:maven-artifact ..................... 2.0.10 -> 2.0.9",
+                    "",
+                    "The following property differences were found:",
+                    "",
+                    "  none" ) );
+    }
+    @MavenTest( goals = {VERSIONS_PLUGIN + ":compare-dependencies"},
+                systemProperties = {"remotePom=localhost:dummy-bom-maven-mismatch:1.0", "reportMode=false", "updatePropertyVersions=true"} )
+    void it_compare_dependencies_003( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+    {
+        assertThat( result ).isSuccessful()
+                .project()
+                .hasTarget()
+                .withFile( "depDiffs.txt" )
+                .hasContent( String.join( "\n",
+                        "The following differences were found:",
+                    "",
+                    "  org.apache.maven:maven-artifact ..................... 2.0.10 -> 2.0.9",
+                    "",
+                    "The following property differences were found:",
+                    "",
+                    "  none" ) );
+    }
+
+    @MavenTest( goals = {VERSIONS_PLUGIN + ":compare-dependencies"},
+                systemProperties = {
+            "remotePom=localhost:dummy-bom-pom:1.0",
+            "reportMode=true",
+            "reportOutputFile=target/depDiffs.txt",
+            "updatePropertyVersions=true"} )
+    void it_compare_dependencies_004( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+    {
+        assertThat( result ).isSuccessful()
+                .project()
+                .hasTarget()
+                .withFile( "depDiffs.txt" )
+                .hasContent( String.join( "\n",
+                        "The following differences were found:",
+                        "",
+                        "  org.apache.maven:maven-artifact ..................... 2.0.10 -> 2.0.9",
+                        "  junit:junit .............................................. 4.8 -> 4.1",
+                        "",
+                        "The following property differences were found:",
+                        "",
+                        "  junit.version ............................................ 4.8 -> 4.1" ) );
+    }
+
+    @MavenTest( goals = {VERSIONS_PLUGIN + ":compare-dependencies"},
+                systemProperties = {
+            "remotePom=localhost:dummy-bom-pom:1.0",
+            "reportMode=true",
+            "reportOutputFile=target/depDiffs.txt",
+            "updatePropertyVersions=true"} )
+    void it_compare_dependencies_005( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+    {
+        assertThat( result ).isSuccessful()
+                .project()
+                .hasTarget()
+                .withFile( "depDiffs.txt" )
+                .hasContent( String.join( "\n",
+        "The following differences were found:",
+                    "",
+                    "  org.apache.maven:maven-artifact ..................... 2.0.10 -> 2.0.9",
+                    "",
+                    "The following property differences were found:",
+                    "",
+                    "  none" ));
+    }
+
+
+}
+----
+
+
+Based on the presented ideas before it could look like that:
+
+[source,java]
+----
+@MavenJupiterExtension
+@MavenGoal("${project.groupId}:${project.artifactId}:${project.version}:comopare-dependencies")
+@SystemProperty(name="remotePom", value="localhost:dummy-bom-pom:1.0")
+class CompareDependenciesIT
+{
+
+    @MavenTest
+    @SystemProperty(name = "reportOutputFile", value="target/depDiffs.txt")
+    @MavenOption(name = MavenOptions.SETTINGS, value = "settings.xml")
+    void it_compare_dependencies_001( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+    {
+        assertThat( result ).isSuccessful()
+                .project()
+                .hasTarget()
+                .withFile( "depDiffs.txt" )
+                .hasContent( String.join( "\n",
+                        "The following differences were found:",
+                    "",
+                    "  org.apache.maven:maven-artifact ..................... 2.0.10 -> 2.0.9",
+                    "",
+                    "The following property differences were found:",
+                    "",
+                    "  none" ) );
+    }
+
+    @MavenTest
+    @SystemProperty(name = "reportMode", value="false")
+    @SystemProperty(name = "updatePropertyVersions", value="true")
+    void it_compare_dependencies_002( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+    {
+        assertThat( result ).isSuccessful()
+                .project()
+                .hasTarget()
+                .withFile( "depDiffs.txt" )
+                .hasContent( String.join( "\n",
+                        "The following differences were found:",
+                    "",
+                    "  org.apache.maven:maven-artifact ..................... 2.0.10 -> 2.0.9",
+                    "",
+                    "The following property differences were found:",
+                    "",
+                    "  none" ) );
+    }
+
+    @MavenTest
+    @SystemProperty(name = "remotePom", value="localhost:dummy-bom-maven-mismatch:1.0") //OVERWRITE ??? Replace?
+    @SystemProperty(name = "reportMode", value="false")
+    @SystemProperty(name = "updatePropertyVersions", value="true")
+    void it_compare_dependencies_003( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+    {
+        assertThat( result ).isSuccessful()
+                .project()
+                .hasTarget()
+                .withFile( "depDiffs.txt" )
+                .hasContent( String.join( "\n",
+                        "The following differences were found:",
+                    "",
+                    "  org.apache.maven:maven-artifact ..................... 2.0.10 -> 2.0.9",
+                    "",
+                    "The following property differences were found:",
+                    "",
+                    "  none" ) );
+    }
+
+    @MavenTest
+    @SystemProperty(name = "reportMode", value="true")
+    @SystemProperty(name = "reportOutputFile", value="target/depDiffs.txt")
+    @SystemProperty(name = "updatePropertyVersions", value="true")
+    void it_compare_dependencies_004( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+    {
+        assertThat( result ).isSuccessful()
+                .project()
+                .hasTarget()
+                .withFile( "depDiffs.txt" )
+                .hasContent( String.join( "\n",
+                        "The following differences were found:",
+                        "",
+                        "  org.apache.maven:maven-artifact ..................... 2.0.10 -> 2.0.9",
+                        "  junit:junit .............................................. 4.8 -> 4.1",
+                        "",
+                        "The following property differences were found:",
+                        "",
+                        "  junit.version ............................................ 4.8 -> 4.1" ) );
+    }
+
+    @MavenTest
+    @SystemProperty(name = "reportMode", value="true")
+    @SystemProperty(name = "reportOutputFile", value="target/depDiffs.txt")
+    @SystemProperty(name = "updatePropertyVersions", value="true")
+    void it_compare_dependencies_005( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+    {
+        assertThat( result ).isSuccessful()
+                .project()
+                .hasTarget()
+                .withFile( "depDiffs.txt" )
+                .hasContent( String.join( "\n",
+        "The following differences were found:",
+                    "",
+                    "  org.apache.maven:maven-artifact ..................... 2.0.10 -> 2.0.9",
+                    "",
+                    "The following property differences were found:",
+                    "",
+                    "  none" ));
+    }
+
+
+}
+----
+
+
+=== Rule for Nested Classes
+What should be the rules for nested classes in IT's? Inheriting ? Replace system
+properties based on the name with the new value?
+
+
+=== Ideas
+We could try to define `@MavenGoal` on a package level (within `package-info.java`?)
+
+=== Implementation Steps
+Steps to move forward:
+
+* Mark `goal` in `MavenJupiterExtension` deprecated with release 0.9.0 and remove it with release 0.10.0
+* Mark `goals`, `activeProfiles`, `options`, `systemProperties` and `debug` in `MavenTest` deprecated (release 0.9.0)
+  and remove with release 0.10.0.
+* Starting with Release 0.10.0
+** The `package` will only used if no `@MavenGoal` is defined at all.
+** The `--error` option will only used if no `MavenOption` is defined at all.

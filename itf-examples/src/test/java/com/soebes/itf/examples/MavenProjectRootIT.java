@@ -19,6 +19,7 @@ package com.soebes.itf.examples;
  * under the License.
  */
 
+import com.soebes.itf.jupiter.extension.MavenGoal;
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenProject;
 import com.soebes.itf.jupiter.extension.MavenTest;
@@ -32,19 +33,22 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(OrderAnnotation.class)
 class MavenProjectRootIT {
 
-  @MavenTest(goals = "clean")
+  @MavenTest
+  @MavenGoal("clean")
   @Order(10)
   void basic(MavenExecutionResult result) {
     System.out.println("(basic) result = " + result);
   }
 
-  @MavenTest(goals = "install")
+  @MavenTest
+  @MavenGoal("install")
   @Order(20)
   void packaging_includes(MavenExecutionResult result) {
     System.out.println("(packaging_includes) result = " + result);
   }
 
-  @MavenTest(goals = "verify")
+  @MavenTest
+  @MavenGoal("verify")
   @Order(30)
   void a_third_part(MavenExecutionResult result) {
     System.out.println("(basic) result = " + result);

@@ -1,4 +1,4 @@
-package com.soebes.itf.examples;
+ package com.soebes.itf.examples;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,9 +19,10 @@ package com.soebes.itf.examples;
  * under the License.
  */
 
-import com.soebes.itf.jupiter.extension.condition.EnabledForMavenVersion;
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
+import com.soebes.itf.jupiter.extension.MavenProfile;
 import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.extension.condition.EnabledForMavenVersion;
 import com.soebes.itf.jupiter.maven.MavenCacheResult;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.soebes.itf.jupiter.maven.MavenLog;
@@ -39,7 +40,8 @@ import static com.soebes.itf.jupiter.extension.MavenVersion.M3_3_1;
 @Disabled
 class SecondMavenIntegrationIT {
 
-  @MavenTest(activeProfiles = {"run-its"})
+  @MavenTest
+  @MavenProfile("run-its")
   void first_integration_test(MavenExecutionResult result, MavenLog mavenLog, MavenCacheResult mavenCacheResult)
       throws IOException {
     System.out.println("MavenIntegrationIT.first_integration_test");
