@@ -1204,3 +1204,14 @@ assertThat(result).isSuccessful().out()...
 assertThat(result).out().warn()
 ----
 
+
+=== Test Execution
+
+When should tests being executed?
+
+* If the test has been changed? Yes
+* If the SUT (Plugin/Extension) has been changed? Yes
+* How can we identify if something has been changed?
+** What should be taken into consideration?
+
+Can we calculate a checksum or alike? over a larger number of files?
