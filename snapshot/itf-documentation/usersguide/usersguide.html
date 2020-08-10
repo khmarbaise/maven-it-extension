@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="Karl Heinz Marbaise, 2020-08-07">
+<meta name="author" content="Karl Heinz Marbaise, 2020-08-10">
 <title>Integration Testing Framework Users Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Integration Testing Framework Users Guide</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2020-08-07</span><br>
+<span id="author2" class="author">2020-08-10</span><br>
 <span id="revnumber">version 0.9.0-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
@@ -1193,12 +1193,12 @@ call several goals and/or lifecycle parts in one go you can simply define it lik
 <div class="paragraph">
 <p>In different scenarios it is needed to define command line options for example <code>--non-recursive</code> etc.
 This can be done by using the <code>options</code> part of <code>@MavenTest</code>. There is a convenience class
-<code>MavenOptions</code> available, which contains all existing command line options. You are not forced to
-use the <code>MavenOptions</code> class.</p>
+<code>MavenCLIOptions</code> available, which contains all existing command line options. You are not forced to
+use the <code>MavenCLIOptions</code> class.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenTest</span>( options = {MavenOptions.NON_RECURSIVE, <span class="string"><span class="delimiter">&quot;</span><span class="content">--offline</span><span class="delimiter">&quot;</span></span>},
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenTest</span>( options = {MavenCLIOptions.NON_RECURSIVE, <span class="string"><span class="delimiter">&quot;</span><span class="content">--offline</span><span class="delimiter">&quot;</span></span>},
             goals = {<span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}:set</span><span class="delimiter">&quot;</span></span>},
             systemProperties = {<span class="string"><span class="delimiter">&quot;</span><span class="content">newVersion=2.0</span><span class="delimiter">&quot;</span></span>} )
 <span class="type">void</span> first( MavenExecutionResult result )
@@ -1208,7 +1208,7 @@ use the <code>MavenOptions</code> class.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>This gives you the choice to decide to use <code>MavenOptions</code> or not:</p>
+<p>This gives you the choice to decide to use <code>MavenCLIOptions</code> or not:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1468,12 +1468,12 @@ each test case (<code>project_001</code> and <code>proeject_002</code>) in this 
 <span class="annotation">@MavenPredefinedRepository</span>
 <span class="type">class</span> <span class="class">ProjectIT</span> {
 
-  <span class="annotation">@MavenTest</span>(options = {MavenOptions.DEBUG})
+  <span class="annotation">@MavenTest</span>(options = {MavenCLIOptions.DEBUG})
   <span class="type">void</span> project_001(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
 
-  <span class="annotation">@MavenTest</span>(options = {MavenOptions.DEBUG})
+  <span class="annotation">@MavenTest</span>(options = {MavenCLIOptions.DEBUG})
   <span class="type">void</span> project_002(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
@@ -1515,13 +1515,13 @@ define the <code>@MavenPredefinedRepository</code> also on the test method level
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
 <span class="type">class</span> <span class="class">ProjectIT</span> {
 
-  <span class="annotation">@MavenTest</span>(options = {MavenOptions.DEBUG})
+  <span class="annotation">@MavenTest</span>(options = {MavenCLIOptions.DEBUG})
   <span class="annotation">@MavenPredefinedRepository</span>
   <span class="type">void</span> project_001(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
 
-  <span class="annotation">@MavenTest</span>(options = {MavenOptions.DEBUG})
+  <span class="annotation">@MavenTest</span>(options = {MavenCLIOptions.DEBUG})
   <span class="annotation">@MavenPredefinedRepository</span>
   <span class="type">void</span> project_002(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
@@ -1576,7 +1576,7 @@ on that project in the end. Such a use case looks like this:</p>
     {
 
         <span class="annotation">@MavenTest</span>(
-            options = MavenOptions.NON_RECURSIVE,
+            options = MavenCLIOptions.NON_RECURSIVE,
             goals = {VERSIONS_PLUGIN + <span class="string"><span class="delimiter">&quot;</span><span class="content">:set</span><span class="delimiter">&quot;</span></span>},
             systemProperties = {<span class="string"><span class="delimiter">&quot;</span><span class="content">newVersion=2.0</span><span class="delimiter">&quot;</span></span>} )
         <span class="annotation">@Order</span>(<span class="integer">10</span>)
@@ -1586,7 +1586,7 @@ on that project in the end. Such a use case looks like this:</p>
         }
 
         <span class="annotation">@MavenTest</span>(
-            options = MavenOptions.NON_RECURSIVE,
+            options = MavenCLIOptions.NON_RECURSIVE,
             goals = {VERSIONS_PLUGIN + <span class="string"><span class="delimiter">&quot;</span><span class="content">:set</span><span class="delimiter">&quot;</span></span>},
             systemProperties = {
                 <span class="string"><span class="delimiter">&quot;</span><span class="content">newVersion=2.0</span><span class="delimiter">&quot;</span></span>,
@@ -1907,7 +1907,7 @@ you want to check for particular output etc. which has been done by a plugin/ext
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.its</span>;
 
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenJupiterExtension</span>;
-<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenOptions</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenCLIOptions</span>;
 
 <span class="annotation">@MavenJupiterExtension</span>
 <span class="type">class</span> <span class="class">LogoutputIT</span> {
@@ -2165,7 +2165,7 @@ can given via <code>exception</code> configuration part as before.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.9.0-SNAPSHOT<br>
-Last updated 2020-08-07 16:40:39 UTC
+Last updated 2020-08-10 08:34:41 UTC
 </div>
 </div>
 <style>

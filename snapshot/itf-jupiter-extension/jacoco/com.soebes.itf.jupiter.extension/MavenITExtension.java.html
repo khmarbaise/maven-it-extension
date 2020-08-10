@@ -187,18 +187,18 @@ import static java.util.stream.Collectors.toList;
 
 
 <span class="nc" id="L189">    List&lt;String&gt; defaultArguments = Arrays.asList(</span>
-<span class="nc" id="L190">        &quot;-Dmaven.repo.local=&quot; + directoryResolverResult.getCacheDirectory().toString(), MavenOptions.BATCH_MODE, MavenOptions.SHOW_VERSION);</span>
+<span class="nc" id="L190">        &quot;-Dmaven.repo.local=&quot; + directoryResolverResult.getCacheDirectory().toString(), MavenCLIOptions.BATCH_MODE, MavenCLIOptions.SHOW_VERSION);</span>
 <span class="nc" id="L191">    executionArguments.addAll(defaultArguments);</span>
 
 <span class="nc bnc" id="L193" title="All 2 branches missed.">    if (hasActiveProfiles(methodName)) {</span>
 <span class="nc" id="L194">      String collect = Stream.of(getActiveProfiles(methodName))</span>
-<span class="nc" id="L195">          .collect(joining(&quot;,&quot;, MavenOptions.ACTIVATE_PROFILES, &quot;&quot;));</span>
+<span class="nc" id="L195">          .collect(joining(&quot;,&quot;, MavenCLIOptions.ACTIVATE_PROFILES, &quot;&quot;));</span>
 <span class="nc" id="L196">      executionArguments.add(collect);</span>
     }
 
 
 <span class="nc bnc" id="L200" title="All 2 branches missed.">    if (isDebug(methodName)) {</span>
-<span class="nc" id="L201">      executionArguments.add(MavenOptions.DEBUG);</span>
+<span class="nc" id="L201">      executionArguments.add(MavenCLIOptions.DEBUG);</span>
     }
 
 <span class="nc" id="L204">    executionArguments.addAll(Stream.of(getCommandLineSystemProperties(methodName))</span>
