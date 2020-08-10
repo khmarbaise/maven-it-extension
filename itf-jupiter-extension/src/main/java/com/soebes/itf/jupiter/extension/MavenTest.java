@@ -79,13 +79,13 @@ public @interface MavenTest {
    * This is the equivalent to the command line like: {@code -X -o}
    * <p>
    * You can make your options a little bit more readable by using
-   * {@link MavenOptions} like the following:
+   * {@link MavenCLIOptions} like the following:
    * <pre>
    *    &#x40;MavenTest(options = {MavenOptions.DEBUG, "-o"})
    * </pre>
    *
    * @return The defined options.
-   * @see MavenOptions
+   * @see MavenCLIOptions
    */
   String[] options() default {};
 

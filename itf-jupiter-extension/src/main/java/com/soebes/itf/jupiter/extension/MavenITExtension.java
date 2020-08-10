@@ -187,18 +187,18 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
 
 
     List<String> defaultArguments = Arrays.asList(
-        "-Dmaven.repo.local=" + directoryResolverResult.getCacheDirectory().toString(), MavenOptions.BATCH_MODE, MavenOptions.SHOW_VERSION);
+        "-Dmaven.repo.local=" + directoryResolverResult.getCacheDirectory().toString(), MavenCLIOptions.BATCH_MODE, MavenCLIOptions.SHOW_VERSION);
     executionArguments.addAll(defaultArguments);
 
     if (hasActiveProfiles(methodName)) {
       String collect = Stream.of(getActiveProfiles(methodName))
-          .collect(joining(",", MavenOptions.ACTIVATE_PROFILES, ""));
+          .collect(joining(",", MavenCLIOptions.ACTIVATE_PROFILES, ""));
       executionArguments.add(collect);
     }
 
 
     if (isDebug(methodName)) {
-      executionArguments.add(MavenOptions.DEBUG);
+      executionArguments.add(MavenCLIOptions.DEBUG);
     }
 
     executionArguments.addAll(Stream.of(getCommandLineSystemProperties(methodName))

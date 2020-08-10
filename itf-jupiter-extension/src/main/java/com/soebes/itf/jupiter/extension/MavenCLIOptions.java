@@ -28,8 +28,8 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
  *
  * @author Karl Heinz Marbaise
  */
-@API(status = EXPERIMENTAL, since = "0.1.0")
-public final class MavenOptions {
+@API(status = EXPERIMENTAL, since = "0.9.0")
+public final class MavenCLIOptions {
 
   /**
    * {@code --builder <arg>}
@@ -193,7 +193,7 @@ public final class MavenOptions {
    */
   public static final String ACTIVATE_PROFILES = "--activate-profiles";
 
-  private MavenOptions() {
+  private MavenCLIOptions() {
     // prevent instantiation.
   }
 

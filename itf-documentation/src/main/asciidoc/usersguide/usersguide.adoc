@@ -509,12 +509,12 @@ class CompareDependenciesIT
 === Command Line Options
 In different scenarios it is needed to define command line options for example `--non-recursive` etc.
 This can be done by using the `options` part of `@MavenTest`. There is a convenience class
-`MavenOptions` available, which contains all existing command line options. You are not forced to
-use the `MavenOptions` class.
+`MavenCLIOptions` available, which contains all existing command line options. You are not forced to
+use the `MavenCLIOptions` class.
 
 [source,java]
 ----
-@MavenTest( options = {MavenOptions.NON_RECURSIVE, "--offline"},
+@MavenTest( options = {MavenCLIOptions.NON_RECURSIVE, "--offline"},
             goals = {"${project.groupId}:${project.artifactId}:${project.version}:set"},
             systemProperties = {"newVersion=2.0"} )
 void first( MavenExecutionResult result )
@@ -522,7 +522,7 @@ void first( MavenExecutionResult result )
     assertThat( result ).isSuccessful();
 }
 ----
-This gives you the choice to decide to use `MavenOptions` or not:
+This gives you the choice to decide to use `MavenCLIOptions` or not:
 [source,java]
 ----
 @MavenTest( options = {"-N", "--offline"},
@@ -762,12 +762,12 @@ each test case (`project_001` and `proeject_002`) in this test class.
 @MavenPredefinedRepository
 class ProjectIT {
 
-  @MavenTest(options = {MavenOptions.DEBUG})
+  @MavenTest(options = {MavenCLIOptions.DEBUG})
   void project_001(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
 
-  @MavenTest(options = {MavenOptions.DEBUG})
+  @MavenTest(options = {MavenCLIOptions.DEBUG})
   void project_002(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
@@ -805,13 +805,13 @@ define the `@MavenPredefinedRepository` also on the test method level, which wou
 @MavenJupiterExtension
 class ProjectIT {
 
-  @MavenTest(options = {MavenOptions.DEBUG})
+  @MavenTest(options = {MavenCLIOptions.DEBUG})
   @MavenPredefinedRepository
   void project_001(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
 
-  @MavenTest(options = {MavenOptions.DEBUG})
+  @MavenTest(options = {MavenCLIOptions.DEBUG})
   @MavenPredefinedRepository
   void project_002(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
@@ -861,7 +861,7 @@ class SetIT
     {
 
         @MavenTest(
-            options = MavenOptions.NON_RECURSIVE,
+            options = MavenCLIOptions.NON_RECURSIVE,
             goals = {VERSIONS_PLUGIN + ":set"},
             systemProperties = {"newVersion=2.0"} )
         @Order(10)
@@ -871,7 +871,7 @@ class SetIT
         }
 
         @MavenTest(
-            options = MavenOptions.NON_RECURSIVE,
+            options = MavenCLIOptions.NON_RECURSIVE,
             goals = {VERSIONS_PLUGIN + ":set"},
             systemProperties = {
                 "newVersion=2.0",
@@ -1147,7 +1147,7 @@ Let us take a look into an example test case like this:
 package com.its;
 
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
-import com.soebes.itf.jupiter.extension.MavenOptions;
+import com.soebes.itf.jupiter.extension.MavenCLIOptions;
 
 @MavenJupiterExtension
 class LogoutputIT {

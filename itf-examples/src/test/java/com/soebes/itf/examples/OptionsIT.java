@@ -24,8 +24,8 @@ import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
-import static com.soebes.itf.jupiter.extension.MavenOptions.DEBUG;
-import static com.soebes.itf.jupiter.extension.MavenOptions.LOG_FILE;
+import static com.soebes.itf.jupiter.extension.MavenCLIOptions.DEBUG;
+import static com.soebes.itf.jupiter.extension.MavenCLIOptions.LOG_FILE;
 
 @MavenJupiterExtension
 class OptionsIT {

@@ -19,8 +19,8 @@ package com.soebes.itf.examples;
  * under the License.
  */
 
+import com.soebes.itf.jupiter.extension.MavenCLIOptions;
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
-import com.soebes.itf.jupiter.extension.MavenOptions;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.soebes.itf.jupiter.maven.MavenLog;
@@ -40,7 +40,7 @@ import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 @MavenJupiterExtension
 class LogoutputIT {
 
-  @MavenTest(options = MavenOptions.DEBUG)
+  @MavenTest(options = MavenCLIOptions.DEBUG)
   @EnabledOnOs({OS.MAC, OS.LINUX})
   void basic(MavenExecutionResult result, MavenLog mavenLog)
       throws IOException {
@@ -89,7 +89,7 @@ class LogoutputIT {
 
   }
 
-  @MavenTest(options = MavenOptions.DEBUG)
+  @MavenTest(options = MavenCLIOptions.DEBUG)
   @EnabledOnOs(OS.WINDOWS)
   void basic_windows(MavenExecutionResult result, MavenLog mavenLog)
       throws IOException {
