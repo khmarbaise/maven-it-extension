@@ -9,7 +9,7 @@
 //   http://www.apache.org/licenses/LICENSE-2.0
 //
 //   Unless required by applicable law or agreed to in writing,
-//   software distributed under the Lƒicense is distributed on an
+//   software distributed under the License is distributed on an
 //   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 //   KIND, either express or implied. See the License for the
 //   specific language governing permissions and limitations
@@ -28,6 +28,7 @@
 :issue-136: https://github.com/khmarbaise/maven-it-extension/issues/136[Fixed #136]
 :issue-137: https://github.com/khmarbaise/maven-it-extension/issues/137[Fixed #137]
 :issue-138: https://github.com/khmarbaise/maven-it-extension/issues/138[Fixed #138]
+:issue-139: https://github.com/khmarbaise/maven-it-extension/issues/139[Fixed #139]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -46,7 +47,7 @@
 
 *Details*
 
- * ??
+ * {issue-139} - Typos in License Text
 
 *Breaking Changes*
 
