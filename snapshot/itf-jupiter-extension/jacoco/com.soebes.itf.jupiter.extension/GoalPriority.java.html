@@ -19,11 +19,16 @@
  * under the License.
  */
 
+import org.apiguardian.api.API;
+
 import static com.soebes.itf.jupiter.extension.Preconditions.requireNotNull;
+import static org.apiguardian.api.API.Status.DEPRECATED;
 
 /**
  * @author Karl Heinz Marbaise
  */
+@Deprecated
+@API(status = DEPRECATED, since = &quot;0.9.0&quot;)
 final class GoalPriority {
 
   private GoalPriority() {
@@ -39,12 +44,12 @@ final class GoalPriority {
    * @return The goals which are defined by {@link MavenTest} if have been overwritten.
    */
   static String[] goals(String[] mavenITGoals, String[] mavenTestGoals) {
-<span class="fc" id="L42">    requireNotNull(mavenITGoals, &quot;mavenITGoals is not allowed to be null.&quot;);</span>
-<span class="fc" id="L43">    requireNotNull(mavenTestGoals, &quot;mavenTestGoals is not allowed to be null.&quot;);</span>
-<span class="fc bfc" id="L44" title="All 2 branches covered.">    if (mavenTestGoals.length == 0) {</span>
-<span class="fc" id="L45">      return mavenITGoals;</span>
+<span class="fc" id="L47">    requireNotNull(mavenITGoals, &quot;mavenITGoals is not allowed to be null.&quot;);</span>
+<span class="fc" id="L48">    requireNotNull(mavenTestGoals, &quot;mavenTestGoals is not allowed to be null.&quot;);</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">    if (mavenTestGoals.length == 0) {</span>
+<span class="fc" id="L50">      return mavenITGoals;</span>
     } else {
-<span class="fc" id="L47">      return mavenTestGoals;</span>
+<span class="fc" id="L52">      return mavenTestGoals;</span>
     }
   }
 }

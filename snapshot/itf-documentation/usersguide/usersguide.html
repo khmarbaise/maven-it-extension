@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="Karl Heinz Marbaise, 2020-08-11">
+<meta name="author" content="Karl Heinz Marbaise, 2020-08-12">
 <title>Integration Testing Framework Users Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Integration Testing Framework Users Guide</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2020-08-11</span><br>
+<span id="author2" class="author">2020-08-12</span><br>
 <span id="revnumber">version 0.9.0-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
@@ -469,11 +469,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_several_test_cases">5.3. Several Test Cases</a></li>
 </ul>
 </li>
-<li><a href="#_goals_properties_and_command_line_options">6. Goals, Properties and Command Line Options</a>
+<li><a href="#_goals_profiles_properties_and_command_line_options">6. Goals, Profiles, Properties and Command Line Options</a>
 <ul class="sectlevel2">
 <li><a href="#_goals">6.1. Goals</a></li>
-<li><a href="#_system_properties">6.2. System Properties</a></li>
-<li><a href="#_command_line_options">6.3. Command Line Options</a></li>
+<li><a href="#_profiles">6.2. Profiles</a></li>
+<li><a href="#_system_properties">6.3. System Properties</a></li>
+<li><a href="#_command_line_options">6.4. Command Line Options</a></li>
 </ul>
 </li>
 <li><a href="#_scenarios">7. Scenarios</a>
@@ -1063,7 +1064,7 @@ in the <code>.m2/repository</code> directory.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_goals_properties_and_command_line_options">6. Goals, Properties and Command Line Options</h2>
+<h2 id="_goals_profiles_properties_and_command_line_options">6. Goals, Profiles, Properties and Command Line Options</h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_goals">6.1. Goals</h3>
@@ -1085,29 +1086,30 @@ default goals and parameters. A typical integration test looks like this:</p>
 </div>
 <div class="paragraph">
 <p>So now the question is: Which goals and parameters will be used to execute Maven for the <code>first</code>
-test case? In general the <code>MavenJupiterExtension</code> annotation defines a default set of goals which will be executed
-if not defined otherwise. The default for goals in <code>MavenJupiterExtension</code> is <code>package</code>. That means if we keep
+test case? In general the a default set of goals which will be executed if not defined otherwise.
+The default for goals is <code>package</code>. That means if we keep
 the test as in our example maven would be called like <code>mvn package</code>. From a technical perspective
 some other parameters have been added which are <code>mvn -Dmaven.repo.local=Path package</code>.
 The <code>-Dmaven.repo.local=..</code> is needed to make sure that each call uses the defined local cache
 (See <a href="_common_maven_cache">Common Maven Cache</a>).
-You can of course change the default for the goal, if you like by simply changing the parameter for
-<code>@MavenJupiterExtension(goals = {"install"})</code> that would mean to execute all subjacent tests like <code>mvn -D.. install</code>
+You can of course change the default for the goal, if you like by simply add the <code>@MavenGoal</code> annotation
+<code>@MavenGoal("install")</code> that would mean to execute all subjacent tests like <code>mvn -D.. install</code>
 instead of <code>mvn -D .. package</code>. A usual command parameter set includes
 <code>--batch-mode</code> and <code>-V</code> (This can&#8217;t be changed currently.).</p>
 </div>
 <div class="paragraph">
 <p>How could you write a test which uses a plugin goal instead? You can simply define the
-goal(s) with the <code>@MavenTest</code> annotation like this:</p>
+goal(s) via the <code>@MavenGoal</code> annotation like this:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenTest</span>( goals = {<span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies</span><span class="delimiter">&quot;</span></span>})</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@MavenTest</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The used <code>goals</code> in the above <code>@MavenTest</code> will overwrite any goal which is defined by <code>MavenJupiterExtension</code>. The <code>goals</code>
-also support replacement of placeholders where currently the following are supported:</p>
+<p>The used <code>@MavenGoal</code> will overwrite any goal which is predefined. The given goals in <code>@MavenGoal</code>
+support replacement of placeholders which currently supports the following:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1128,11 +1130,10 @@ call several goals and/or lifecycle parts in one go you can simply define it lik
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenTest</span>( goals = {
-    <span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies</span><span class="delimiter">&quot;</span></span>,
-    <span class="string"><span class="delimiter">&quot;</span><span class="content">site:stage</span><span class="delimiter">&quot;</span></span>,
-    <span class="string"><span class="delimiter">&quot;</span><span class="content">install</span><span class="delimiter">&quot;</span></span>
-})
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">site:stage</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">install</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@MavenTest</span>
 <span class="type">void</span> test_case(MavenExecutionResult result) {
 ..
 }</code></pre>
@@ -1148,7 +1149,87 @@ call several goals and/or lifecycle parts in one go you can simply define it lik
 </div>
 </div>
 <div class="sect2">
-<h3 id="_system_properties">6.2. System Properties</h3>
+<h3 id="_profiles">6.2. Profiles</h3>
+<div class="paragraph">
+<p>In some cases you need to activate one or <a href="https://maven.apache.org/guides/introduction/introduction-to-profiles.html">more Maven profiles</a>
+for test purposes etc. This can be achieved by using <code>@MavenProfile</code> which looks like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="type">class</span> <span class="class">BasicIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenProfile</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">run-its</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">void</span> first(MavenExecutionResult result) {
+  }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you like to activate multiple Maven profiles you can simply repeat the annotation like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="type">class</span> <span class="class">BasicIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenProfile</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">run-its</span><span class="delimiter">&quot;</span></span>)
+  <span class="annotation">@MavenProfile</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">run-e2e</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">void</span> first(MavenExecutionResult result) {
+  }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>An alternative is to use the array like definition like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="type">class</span> <span class="class">BasicIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenProfile</span>({<span class="string"><span class="delimiter">&quot;</span><span class="content">run-its</span><span class="delimiter">&quot;</span></span>,<span class="string"><span class="delimiter">&quot;</span><span class="content">run-e2e</span><span class="delimiter">&quot;</span></span>})
+  <span class="type">void</span> first(MavenExecutionResult result) {
+  }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The profiles can also be activated for a bunch of test cases that you don&#8217;t need to add the
+annotation on each test case. So you can define the Maven profile on the class level instead.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenProfile</span>({<span class="string"><span class="delimiter">&quot;</span><span class="content">run-its</span><span class="delimiter">&quot;</span></span>,<span class="string"><span class="delimiter">&quot;</span><span class="content">run-e2e</span><span class="delimiter">&quot;</span></span>})
+<span class="type">class</span> <span class="class">BasicIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> first(MavenExecutionResult result) {
+  }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you want to explicitly deactivate a profile this can be achieved like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="type">class</span> <span class="class">BasicIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenProfile</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">+run-its</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">void</span> first(MavenExecutionResult result) {
+  }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>+</code> prefix is responsible for deactivating a given profile during the build. We strongly recommend to use <code>+</code>
+sign (instead of <code>!</code>) to prevent issues on different operating systems.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_system_properties">6.3. System Properties</h3>
 <div class="paragraph">
 <p>There are situations where you need to use system properties which are usually defined on command like this:</p>
 </div>
@@ -1158,7 +1239,7 @@ call several goals and/or lifecycle parts in one go you can simply define it lik
 </div>
 </div>
 <div class="paragraph">
-<p>This can be achieved by enhancing the <code>@MavenTest</code> annotation with <code>systemProperties</code> which could look like this:</p>
+<p>This can be achieved by using the <code>@SystemProperty</code> annotation which could look like this:</p>
 </div>
 <div class="listingblock">
 <div class="title">CompareDependenciesIT.java</div>
@@ -1175,12 +1256,48 @@ call several goals and/or lifecycle parts in one go you can simply define it lik
 <span class="annotation">@MavenJupiterExtension</span>
 <span class="type">class</span> <span class="class">CompareDependenciesIT</span>
 {
-    <span class="annotation">@MavenTest</span>( goals = {<span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies</span><span class="delimiter">&quot;</span></span>},
-                systemProperties = {
-                    <span class="string"><span class="delimiter">&quot;</span><span class="content">remotePom=localhost:dummy-bom-pom:1.0</span><span class="delimiter">&quot;</span></span>,
-                    <span class="string"><span class="delimiter">&quot;</span><span class="content">reportOutputFile=target/depDiffs.txt</span><span class="delimiter">&quot;</span></span>}
-               )
+    <span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">versions:set</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@SystemProperty</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">generateBackups</span><span class="delimiter">&quot;</span></span>, content = <span class="string"><span class="delimiter">&quot;</span><span class="content">false</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@SystemProperty</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">newVersion</span><span class="delimiter">&quot;</span></span>, content = <span class="string"><span class="delimiter">&quot;</span><span class="content">2.0</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@MavenTest</span>
     <span class="type">void</span> it_compare_dependencies_001( MavenExecutionResult result )
+    {
+       ...
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Other options are to set only the value for example if you like to do this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">mvn clean verify -DskipTests</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can do it the like the following:</p>
+</div>
+<div class="listingblock">
+<div class="title">CompareDependenciesIT.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">org.codehaus.mojo.versions.it</span>;
+
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenJupiterExtension</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenTest</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenExecutionResult</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenProjectResult</span>;
+
+<span class="keyword">import</span> <span class="include">com.soebes.itf.extension.assertj.MavenITAssertions.assertThat</span>;
+
+<span class="annotation">@MavenJupiterExtension</span>
+<span class="type">class</span> <span class="class">RunningIT</span>
+{
+    <span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">clean</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">verify</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@SystemProperty</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">skipTests</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@MavenTest</span>
+    <span class="type">void</span> running( MavenExecutionResult result )
     {
        ...
     }
@@ -1189,18 +1306,20 @@ call several goals and/or lifecycle parts in one go you can simply define it lik
 </div>
 </div>
 <div class="sect2">
-<h3 id="_command_line_options">6.3. Command Line Options</h3>
+<h3 id="_command_line_options">6.4. Command Line Options</h3>
 <div class="paragraph">
 <p>In different scenarios it is needed to define command line options for example <code>--non-recursive</code> etc.
-This can be done by using the <code>options</code> part of <code>@MavenTest</code>. There is a convenience class
+This can be done by using the <code>@MavenOption</code> annotation. There is a convenience class
 <code>MavenCLIOptions</code> available, which contains all existing command line options. You are not forced to
 use the <code>MavenCLIOptions</code> class.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenTest</span>( options = {MavenCLIOptions.NON_RECURSIVE, <span class="string"><span class="delimiter">&quot;</span><span class="content">--offline</span><span class="delimiter">&quot;</span></span>},
-            goals = {<span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}:set</span><span class="delimiter">&quot;</span></span>},
-            systemProperties = {<span class="string"><span class="delimiter">&quot;</span><span class="content">newVersion=2.0</span><span class="delimiter">&quot;</span></span>} )
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">versions:set</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@SystemProperty</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">newVersion</span><span class="delimiter">&quot;</span></span>, content = <span class="string"><span class="delimiter">&quot;</span><span class="content">2.0</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@MavenOption</span>(MavenCLIOptions.NON_RECURSIVE)
+<span class="annotation">@MavenOption</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">--offline</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@MavenTest</span>
 <span class="type">void</span> first( MavenExecutionResult result )
 {
     assertThat( result ).isSuccessful();
@@ -1212,9 +1331,10 @@ use the <code>MavenCLIOptions</code> class.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenTest</span>( options = {<span class="string"><span class="delimiter">&quot;</span><span class="content">-N</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">--offline</span><span class="delimiter">&quot;</span></span>},
-            goals = {<span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}:set</span><span class="delimiter">&quot;</span></span>},
-            systemProperties = {<span class="string"><span class="delimiter">&quot;</span><span class="content">newVersion=2.0</span><span class="delimiter">&quot;</span></span>} )
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">versions:set</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@SystemProperty</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">newVersion</span><span class="delimiter">&quot;</span></span>, content = <span class="string"><span class="delimiter">&quot;</span><span class="content">2.0</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@MavenOption</span>({<span class="string"><span class="delimiter">&quot;</span><span class="content">-N</span><span class="delimiter">&quot;</span></span>,<span class="string"><span class="delimiter">&quot;</span><span class="content">--offline</span><span class="delimiter">&quot;</span></span>})
+<span class="annotation">@MavenTest</span>
 <span class="type">void</span> first( MavenExecutionResult result )
 {
     assertThat( result ).isSuccessful();
@@ -1468,12 +1588,14 @@ each test case (<code>project_001</code> and <code>proeject_002</code>) in this 
 <span class="annotation">@MavenPredefinedRepository</span>
 <span class="type">class</span> <span class="class">ProjectIT</span> {
 
-  <span class="annotation">@MavenTest</span>(options = {MavenCLIOptions.DEBUG})
+  <span class="annotation">@MavenOption</span>(MavenCLIOptions.DEBUG)
+  <span class="annotation">@MavenTest</span>
   <span class="type">void</span> project_001(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
 
-  <span class="annotation">@MavenTest</span>(options = {MavenCLIOptions.DEBUG})
+  <span class="annotation">@MavenOption</span>(MavenCLIOptions.DEBUG)
+  <span class="annotation">@MavenTest</span>
   <span class="type">void</span> project_002(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
@@ -1515,13 +1637,15 @@ define the <code>@MavenPredefinedRepository</code> also on the test method level
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
 <span class="type">class</span> <span class="class">ProjectIT</span> {
 
-  <span class="annotation">@MavenTest</span>(options = {MavenCLIOptions.DEBUG})
+  <span class="annotation">@MavenOption</span>(MavenCLIOptions.DEBUG)
+  <span class="annotation">@MavenTest</span>
   <span class="annotation">@MavenPredefinedRepository</span>
   <span class="type">void</span> project_001(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
 
-  <span class="annotation">@MavenTest</span>(options = {MavenCLIOptions.DEBUG})
+  <span class="annotation">@MavenOption</span>(MavenCLIOptions.DEBUG)
+  <span class="annotation">@MavenTest</span>
   <span class="annotation">@MavenPredefinedRepository</span>
   <span class="type">void</span> project_002(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
@@ -1566,33 +1690,30 @@ on that project in the end. Such a use case looks like this:</p>
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
 <span class="type">class</span> <span class="class">SetIT</span>
 {
-    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">String</span> VERSIONS_PLUGIN =
-      <span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}</span><span class="delimiter">&quot;</span></span>;
+    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">String</span> VERSIONS_PLUGIN_SET =
+      <span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}:set</span><span class="delimiter">&quot;</span></span>;
 
     <span class="annotation">@Nested</span>
     <span class="annotation">@MavenProject</span>
     <span class="annotation">@TestMethodOrder</span>( OrderAnnotation.class )
+    <span class="annotation">@MavenOption</span>(MavenCLIOptions.NON_RECURSIVE)
+    <span class="annotation">@MavenGoal</span>(VERSIONS_PLUGIN_SET)
     <span class="type">class</span> <span class="class">set_001</span>
     {
 
-        <span class="annotation">@MavenTest</span>(
-            options = MavenCLIOptions.NON_RECURSIVE,
-            goals = {VERSIONS_PLUGIN + <span class="string"><span class="delimiter">&quot;</span><span class="content">:set</span><span class="delimiter">&quot;</span></span>},
-            systemProperties = {<span class="string"><span class="delimiter">&quot;</span><span class="content">newVersion=2.0</span><span class="delimiter">&quot;</span></span>} )
+        <span class="annotation">@SystemProperty</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">newVersion</span><span class="delimiter">&quot;</span></span>, content=<span class="string"><span class="delimiter">&quot;</span><span class="content">2.0</span><span class="delimiter">&quot;</span></span>)
+        <span class="annotation">@MavenTest</span>
         <span class="annotation">@Order</span>(<span class="integer">10</span>)
         <span class="type">void</span> first( MavenExecutionResult result )
         {
             assertThat( result ).isSuccessful();
         }
 
-        <span class="annotation">@MavenTest</span>(
-            options = MavenCLIOptions.NON_RECURSIVE,
-            goals = {VERSIONS_PLUGIN + <span class="string"><span class="delimiter">&quot;</span><span class="content">:set</span><span class="delimiter">&quot;</span></span>},
-            systemProperties = {
-                <span class="string"><span class="delimiter">&quot;</span><span class="content">newVersion=2.0</span><span class="delimiter">&quot;</span></span>,
-                <span class="string"><span class="delimiter">&quot;</span><span class="content">groupId=*</span><span class="delimiter">&quot;</span></span>,
-                <span class="string"><span class="delimiter">&quot;</span><span class="content">artifactId=*</span><span class="delimiter">&quot;</span></span>,
-                <span class="string"><span class="delimiter">&quot;</span><span class="content">oldVersion=*</span><span class="delimiter">&quot;</span></span>} )
+        <span class="annotation">@SystemProperty</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">newVersion</span><span class="delimiter">&quot;</span></span>, content=<span class="string"><span class="delimiter">&quot;</span><span class="content">2.0</span><span class="delimiter">&quot;</span></span>)
+        <span class="annotation">@SystemProperty</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">groupId</span><span class="delimiter">&quot;</span></span>, content=<span class="string"><span class="delimiter">&quot;</span><span class="content">*</span><span class="delimiter">&quot;</span></span>)
+        <span class="annotation">@SystemProperty</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">artifactId</span><span class="delimiter">&quot;</span></span>, content=<span class="string"><span class="delimiter">&quot;</span><span class="content">*</span><span class="delimiter">&quot;</span></span>)
+        <span class="annotation">@SystemProperty</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">oldVersion</span><span class="delimiter">&quot;</span></span>, content=<span class="string"><span class="delimiter">&quot;</span><span class="content">*</span><span class="delimiter">&quot;</span></span>)
+        <span class="annotation">@MavenTest</span>
         <span class="annotation">@Order</span>(<span class="integer">20</span>)
         <span class="type">void</span> second( MavenExecutionResult result)
         {
@@ -2054,13 +2175,10 @@ within the itf project.</p>
 <span class="annotation">@MavenJupiterExtension</span>
 <span class="type">class</span> <span class="class">CompareDependenciesIT</span>
 {
-    <span class="annotation">@MavenTest</span>(
-      goals =
-        {<span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies</span><span class="delimiter">&quot;</span></span>},
-      systemProperties = {
-          <span class="string"><span class="delimiter">&quot;</span><span class="content">remotePom=localhost:dummy-bom-pom:1.0</span><span class="delimiter">&quot;</span></span>,
-          <span class="string"><span class="delimiter">&quot;</span><span class="content">reportOutputFile=target/depDiffs.txt</span><span class="delimiter">&quot;</span></span>
-      } )
+    <span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@SystemProperty</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">remotePom</span><span class="delimiter">&quot;</span></span>, content=<span class="string"><span class="delimiter">&quot;</span><span class="content">localhost:dummy-bom-pom:1.0</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@SystemProperty</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">reportOutputFile</span><span class="delimiter">&quot;</span></span>, content=<span class="string"><span class="delimiter">&quot;</span><span class="content">target/depDiffs.txt</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@MavenTest</span>
     <span class="type">void</span> it_compare_dependencies_001( MavenExecutionResult result )
     {
         assertThat( result ).isSuccessful()
@@ -2165,7 +2283,7 @@ can given via <code>exception</code> configuration part as before.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.9.0-SNAPSHOT<br>
-Last updated 2020-08-11 10:05:52 UTC
+Last updated 2020-08-12 08:04:32 UTC
 </div>
 </div>
 <style>
