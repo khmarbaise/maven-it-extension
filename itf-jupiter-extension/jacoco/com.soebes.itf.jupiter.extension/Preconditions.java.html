@@ -19,10 +19,15 @@
  * under the License.
  */
 
+import org.apiguardian.api.API;
+
+import static org.apiguardian.api.API.Status.INTERNAL;
+
 /**
  * @author Karl Heinz Marbaise
  */
-class Preconditions {
+@API(status = INTERNAL, since = &quot;0.9.0&quot;)
+public class Preconditions {
 
   private Preconditions() {
     // prevent instantiation.
@@ -36,11 +41,11 @@ class Preconditions {
    * @return the given paremter in case not being {@code null}.
    * @throws IllegalArgumentException in case of parameter is {@code null}.
    */
-  static &lt;T&gt; T requireNotNull(T parameter, String message) {
-<span class="fc bfc" id="L40" title="All 2 branches covered.">    if (parameter == null) {</span>
-<span class="fc" id="L41">      throw new IllegalArgumentException(message);</span>
+  public static &lt;T&gt; T requireNotNull(T parameter, String message) {
+<span class="fc bfc" id="L45" title="All 2 branches covered.">    if (parameter == null) {</span>
+<span class="fc" id="L46">      throw new IllegalArgumentException(message);</span>
     }
-<span class="fc" id="L43">    return parameter;</span>
+<span class="fc" id="L48">    return parameter;</span>
   }
 
   /**
@@ -51,11 +56,11 @@ class Preconditions {
    * @return Return the original {@code paramter} if not raised the execption.
    * @throws IllegalArgumentException in case the condition has not been fulfilled.
    */
-  static &lt;T&gt; T[] requireGreaterZero(T[] parameter, String message) {
-<span class="fc bfc" id="L55" title="All 2 branches covered.">    if (parameter.length &lt; 1) {</span>
-<span class="fc" id="L56">      throw new IllegalArgumentException(message);</span>
+  public static &lt;T&gt; T[] requireGreaterZero(T[] parameter, String message) {
+<span class="fc bfc" id="L60" title="All 2 branches covered.">    if (parameter.length &lt; 1) {</span>
+<span class="fc" id="L61">      throw new IllegalArgumentException(message);</span>
     }
-<span class="fc" id="L58">    return parameter;</span>
+<span class="fc" id="L63">    return parameter;</span>
   }
 
   /**
@@ -66,11 +71,11 @@ class Preconditions {
    * @return Return the original {@code parameter} if not raised the execption.
    * @throws IllegalArgumentException in case the condition has not been fulfilled.
    */
-  static String requireNotEmpty(String parameter, String message) {
-<span class="fc bfc" id="L70" title="All 2 branches covered.">    if (parameter.isEmpty()) {</span>
-<span class="fc" id="L71">      throw new IllegalArgumentException(message);</span>
+  public static String requireNotEmpty(String parameter, String message) {
+<span class="fc bfc" id="L75" title="All 2 branches covered.">    if (parameter.isEmpty()) {</span>
+<span class="fc" id="L76">      throw new IllegalArgumentException(message);</span>
     }
-<span class="fc" id="L73">    return parameter;</span>
+<span class="fc" id="L78">    return parameter;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

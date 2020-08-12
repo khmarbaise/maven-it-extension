@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="Karl Heinz Marbaise, 2020-07-11">
+<meta name="author" content="Karl Heinz Marbaise, 2020-08-12">
 <title>Integration Testing Framework Concept Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,8 +442,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Integration Testing Framework Concept Guide</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2020-07-11</span><br>
-<span id="revnumber">version 0.8.0</span>
+<span id="author2" class="author">2020-08-12</span><br>
+<span id="revnumber">version 0.9.0</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -473,10 +473,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#_open_things">6. Open Things</a></li>
-<li><a href="#_ideas_2">7. Ideas</a>
+<li><a href="#_log_assertion">7. Log Assertion</a></li>
+<li><a href="#_ideas_2">8. Ideas</a>
 <ul class="sectlevel2">
-<li><a href="#_ide_integration">7.1. IDE Integration</a></li>
-<li><a href="#_log_assertion">7.2. Log Assertion</a></li>
+<li><a href="#_ide_integration">8.1. IDE Integration</a></li>
+<li><a href="#_test_execution">8.2. Test Execution</a></li>
+</ul>
+</li>
+<li><a href="#_annotations_repeatable_annotations">9. Annotations / Repeatable Annotations</a>
+<ul class="sectlevel2">
+<li><a href="#_example_test_case">9.1. Example Test case</a></li>
+<li><a href="#_rule_for_nested_classes">9.2. Rule for Nested Classes</a></li>
+<li><a href="#_ideas_3">9.3. Ideas</a></li>
+<li><a href="#_implementation_steps">9.4. Implementation Steps</a></li>
 </ul>
 </li>
 </ul>
@@ -1421,7 +1430,8 @@ The simple answer is like this:</p>
 <span class="annotation">@TestMethodOrder</span>(OrderAnnotation.class)
 <span class="type">class</span> <span class="class">CustomContainerDescriptorHandlerIT</span> {
 
-  <span class="annotation">@MavenTest</span>(goals = {<span class="string"><span class="delimiter">&quot;</span><span class="content">install</span><span class="delimiter">&quot;</span></span>})
+  <span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">install</span><span class="delimiter">&quot;</span></span>)
+  <span class="annotation">@MavenTest</span>
   <span class="annotation">@Order</span>(<span class="integer">10</span>)
   <span class="type">void</span> handler_ref(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
@@ -1479,7 +1489,8 @@ into a single file.</p>
   <span class="annotation">@MavenRepository</span>
   <span class="type">class</span> <span class="class">CustomContainerDescriptorHandler</span> {
 
-    <span class="annotation">@MavenTest</span>(goals = {<span class="string"><span class="delimiter">&quot;</span><span class="content">install</span><span class="delimiter">&quot;</span></span>})
+    <span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">install</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@MavenTest</span>
     <span class="annotation">@Order</span>(<span class="integer">10</span>)
     <span class="type">void</span> handler_ref(MavenExecutionResult result) {
       assertThat(result).isSuccessful();
@@ -1497,7 +1508,8 @@ into a single file.</p>
   <span class="annotation">@MavenRepository</span>
   <span class="type">class</span> <span class="class">ConfiguredHandler</span> {
 
-    <span class="annotation">@MavenTest</span>(goals = {<span class="string"><span class="delimiter">&quot;</span><span class="content">install</span><span class="delimiter">&quot;</span></span>})
+    <span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">install</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@MavenTest</span>
     <span class="annotation">@Order</span>(<span class="integer">10</span>)
     <span class="type">void</span> handler_ref(MavenExecutionResult result) {
       assertThat(result).isSuccessful();
@@ -1579,16 +1591,16 @@ which the tests should run on. <code>${project.artifactId}</code> will be replac
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
 <span class="type">class</span> <span class="class">CustomContainerDescriptorHandlerIT</span> {
 
-  <span class="annotation">@MavenTest</span>(goals = {<span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies</span><span class="delimiter">&quot;</span></span>})
+  <span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies</span><span class="delimiter">&quot;</span></span>)
+  <span class="annotation">@MavenTest</span>
   <span class="type">void</span> calling_a_goal(...) {
     ...
   }
 
-  <span class="annotation">@MavenTest</span>(goals = {<span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies</span><span class="delimiter">&quot;</span></span>},
-    systemProperties = {
-      <span class="string"><span class="delimiter">&quot;</span><span class="content">remotePom=localhost:dummy-bom-pom:1.0</span><span class="delimiter">&quot;</span></span>,
-      <span class="string"><span class="delimiter">&quot;</span><span class="content">reportOutputFile=target/depDiffs.txt</span><span class="delimiter">&quot;</span></span>
-  })
+  <span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies</span><span class="delimiter">&quot;</span></span>)
+  <span class="annotation">@SystemProperty</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">remotePom</span><span class="delimiter">&quot;</span></span>, content=<span class="string"><span class="delimiter">&quot;</span><span class="content">localhost:dummy-bom-pom:1.0</span><span class="delimiter">&quot;</span></span>)
+  <span class="annotation">@SystemProperty</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">reportOutputFile</span><span class="delimiter">&quot;</span></span>, content=<span class="string"><span class="delimiter">&quot;</span><span class="content">target/depDiffs.txt</span><span class="delimiter">&quot;</span></span>)
+  <span class="annotation">@MavenTest</span>
   <span class="type">void</span> calling_a_goal_with_sytem_properties(...) {
     ...
   }
@@ -1672,15 +1684,23 @@ We should make the <code>@MavenRepository</code> part of <code>@MavenProject</co
   <span class="annotation">@MavenProject</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">set_001</span><span class="delimiter">&quot;</span></span>) <span class="comment">//Define the project to be used. Only valid on Nested class or root class.</span>
   <span class="annotation">@DisplayName</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Test the set mojo when the new version is the same as the old version, using wildcards. This kind of build used to fail accourding the issue 83 from github.</span><span class="delimiter">&quot;</span></span>)
   <span class="type">class</span> <span class="class">Set001</span> {
-    <span class="annotation">@MavenTest</span>(options = {<span class="string"><span class="delimiter">&quot;</span><span class="content">-N</span><span class="delimiter">&quot;</span></span>}, goals = { <span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}:set</span><span class="delimiter">&quot;</span></span>}
-      systemProperties = {<span class="string"><span class="delimiter">&quot;</span><span class="content">newVersion=2.0</span><span class="delimiter">&quot;</span></span>})
+
+    <span class="annotation">@MavenOption</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">-N</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}:set</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@SystemProperty</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">newVersion</span><span class="delimiter">&quot;</span></span>, content = <span class="string"><span class="delimiter">&quot;</span><span class="content">2.0</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@MavenTest</span>
     <span class="annotation">@Order</span>(<span class="integer">10</span>)
     <span class="type">void</span> first_test(MavenExecutionResult result) {
       assertThat(result).isSuccessful();
     }
 
-    <span class="annotation">@MavenTest</span>(options = {<span class="string"><span class="delimiter">&quot;</span><span class="content">-N</span><span class="delimiter">&quot;</span></span>}, goals = { <span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}:set</span><span class="delimiter">&quot;</span></span>}
-      systemProperties = {<span class="string"><span class="delimiter">&quot;</span><span class="content">newVersion=2.0</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">groupId=*</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">artifactId=*</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">DoldVersion=*</span><span class="delimiter">&quot;</span></span>})
+    <span class="annotation">@MavenOption</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">-N</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}:set</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@SystemProperty</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">newVersion</span><span class="delimiter">&quot;</span></span>, content = <span class="string"><span class="delimiter">&quot;</span><span class="content">2.0</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@SystemProperty</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">groupId</span><span class="delimiter">&quot;</span></span>, content = <span class="string"><span class="delimiter">&quot;</span><span class="content">*</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@SystemProperty</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">artifactId</span><span class="delimiter">&quot;</span></span>, content = <span class="string"><span class="delimiter">&quot;</span><span class="content">*</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@SystemProperty</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">oldVersion</span><span class="delimiter">&quot;</span></span>, content = <span class="string"><span class="delimiter">&quot;</span><span class="content">*</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@MavenTest</span>
     <span class="annotation">@Order</span>(<span class="integer">20</span>)
     <span class="annotation">@DisplayName</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">where setup two is needed.</span><span class="delimiter">&quot;</span></span>)
     <span class="type">void</span> second_test(MavenExecutionResult result) {
@@ -1803,10 +1823,38 @@ extension and somehow configure that for the test cases?</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_ideas_2">7. Ideas</h2>
+<h2 id="_log_assertion">7. Log Assertion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We have at the moment at least three different outputs:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The stdout as <code>mvn-stdout.log</code></p>
+</li>
+<li>
+<p>The stderr as <code>mvn-stderr.log</code></p>
+</li>
+<li>
+<p>The list of used command line parameters <code>mvn-arguments.log</code></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="title">filename.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">assertThat(result).isSuccessful().out()...
+assertThat(result).out().warn()</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ideas_2">8. Ideas</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_ide_integration">7.1. IDE Integration</h3>
+<h3 id="_ide_integration">8.1. IDE Integration</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1848,29 +1896,765 @@ directories and then run the test as usual.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_log_assertion">7.2. Log Assertion</h3>
+<h3 id="_test_execution">8.2. Test Execution</h3>
 <div class="paragraph">
-<p>We have at the moment at least three different outputs:</p>
+<p>When should tests being executed?</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
-<p>The stdout as <code>mvn-stdout.log</code></p>
+<p>If the test has been changed? Yes</p>
 </li>
 <li>
-<p>The stderr as <code>mvn-stderr.log</code></p>
+<p>If the SUT (Plugin/Extension) has been changed? Yes</p>
 </li>
 <li>
-<p>The list of used command line parameters <code>mvn-arguments.log</code></p>
+<p>How can we identify if something has been changed?</p>
+<div class="ulist">
+<ul>
+<li>
+<p>What should be taken into consideration?</p>
 </li>
-</ol>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Can we calculate a checksum or alike? over a larger number of files?</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_annotations_repeatable_annotations">9. Annotations / Repeatable Annotations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Based on the ideas in <a href="https://github.com/khmarbaise/maven-it-extension/issues/135" class="bare">https://github.com/khmarbaise/maven-it-extension/issues/135</a> we have to
+reconsider annotation based setup for goals, profiles, options and system properties etc.</p>
+</div>
+<div class="paragraph">
+<p>Create separate annotations like the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>@MavenGoal</code> (make it repeatable <code>@MavenGoals</code>)</p>
+</li>
+<li>
+<p><code>@MavenProfile</code> (make it repeatable <code>@MavenProfiles</code>)</p>
+</li>
+<li>
+<p><code>@MavenOption</code> (make it repeatable <code>@MavenOptions</code>)</p>
+</li>
+<li>
+<p><code>@SystemProperty</code> (make it repeatable <code>@SystemProperties</code>)</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_example_test_case">9.1. Example Test case</h3>
+<div class="paragraph">
+<p>An example test (based on release 0.8.0):</p>
+</div>
+<div class="paragraph">
+<p>The following IT means to execute each integration test
+case with the goal <code>package</code>.</p>
+</div>
+<div class="paragraph">
+<p>The following assumptions (based on release 0.8.0) where made:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>--error</code> option will be added by default <a href="https://github.com/khmarbaise/maven-it-extension/issues/134">issue-134</a>.</p>
+</li>
+<li>
+<p><code>package</code> The life cycle phase is default (currently define by <code>@MavenJupiterExtension</code>)</p>
+</li>
+</ul>
 </div>
 <div class="listingblock">
-<div class="title">filename.java</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">assertThat(result).isSuccessful().out()...
-assertThat(result).out().warn()</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="type">class</span> <span class="class">AnIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_one(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_two(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_three(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+}</code></pre>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_changing_default_goal">9.1.1. Changing Default Goal</h4>
+<div class="paragraph">
+<p>In this case the given <code>@MavenGoal</code> will automatically replace the default goal <code>package</code> as defined
+in <code>@MavenJupiterExtension</code> with the given goal <code>verify</code> in the given case.
+Based on the position of the <code>@MavenGoal</code> annotation this means all consecutive test methods will
+inherit the given goal.</p>
+</div>
+<div class="paragraph">
+<p>We have not defined a profile by default nor a system property.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">verify</span><span class="delimiter">&quot;</span></span>)
+<span class="type">class</span> <span class="class">AnIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_one(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_two(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_three(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can change the globally defined goal on a test case base:
+The following setup will result in executing:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>basic_one</code> with goal <code>package</code></p>
+</li>
+<li>
+<p><code>basic_three</code> with goal <code>package</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>as defined by the <code>@MavenGoal</code> defined on the class level.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>basic_two</code> with goal <code>install</code> instead of <code>package</code></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">verify</span><span class="delimiter">&quot;</span></span>)
+<span class="type">class</span> <span class="class">AnIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_one(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">install</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">void</span> basic_two(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_three(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can now combine several <code>MavenGoal</code> definitions. The result will
+be having executed the goal <code>clean</code> and <code>verify</code> for each test case
+<code>basic_one</code>, <code>basic_two</code> and <code>basic_three</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">clean</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">verify</span><span class="delimiter">&quot;</span></span>)
+<span class="type">class</span> <span class="class">AnIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_one(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_two(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_three(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Based on the opportunity to create meta annotations we can now change the example like this:</p>
+</div>
+<div class="paragraph">
+<p>The <code>@MavenCleanVerify</code> is a meta annotation defined like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Target</span>({ <span class="predefined-type">ElementType</span>.TYPE })
+<span class="annotation">@Retention</span>(<span class="predefined-type">RetentionPolicy</span>.RUNTIME)
+<span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">clean</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">verify</span><span class="delimiter">&quot;</span></span>)
+<span class="directive">public</span> <span class="annotation">@interface</span> MavenCleanVerify {
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Based on the possibility to define JUnit Jupiter annotations on an interface you can define an interface
+like <code>CleanVerify</code> and implement the interface in all your integration tests which makes
+it very easy to define a global definition of the goals you like to execute.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenCleanVerify</span>
+<span class="type">class</span> <span class="class">AnIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_one(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_two(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_three(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_changing_default_options">9.1.2. Changing Default Options</h4>
+<div class="paragraph">
+<p>By defining the <code>MavenOption</code> annotation you can replace the default option <code>--error</code> very easily (Defined in <code>@MavenJupiterExtension</code>).
+Here we have the same mechanism as already shown for the <code>@MavenGoal</code> including meta annotations etc.
+It is important that the <code>MavenOption</code> could have parameters for particular options like <code>--projects</code> or
+<code>--settings xyz.xml</code> for example.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenOption</span>(option = MavenOptions.DEBUG)
+<span class="annotation">@MavenOption</span>(option = MavenOptions.FAIL_AT_END)
+<span class="type">class</span> <span class="class">AnIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_one(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_two(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_three(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can overwrite options for particular test cases like this:
+The <code>basic_three</code> will be executed by using the only options defined
+via <code>MavenOption</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenOption</span>(DEBUG)
+<span class="annotation">@MavenOption</span>(FAIL_AT_END)
+<span class="type">class</span> <span class="class">AnIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_one(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_two(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenOption</span>(DEBUG)
+  <span class="annotation">@MavenOption</span>(FAIL_AT_END)
+  <span class="annotation">@MavenOption</span>(value = PROJECTS, parameters=<span class="string"><span class="delimiter">&quot;</span><span class="content">m1,m2</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">void</span> basic_three(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_defining_profiles">9.1.3. Defining Profiles</h4>
+<div class="paragraph">
+<p>By defining the <code>@MavenProfile</code> annotation like the following you can
+define a single profile:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenProfile</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">run-its</span><span class="delimiter">&quot;</span></span>)
+<span class="type">class</span> <span class="class">AnIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_one(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_two(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_three(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can combine a number of annotations like this to activate more than one profile:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenProfile</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">run-its</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@MavenProfile</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">run-e2e</span><span class="delimiter">&quot;</span></span>)
+<span class="type">class</span> <span class="class">AnIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_one(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_two(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_three(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_defining_system_properties">9.1.4. Defining System Properties</h4>
+<div class="paragraph">
+<p>By defining the <code>SystemProperty</code> annotation like the following you can
+define a single property:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@SystemProperty</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">skipTests</span><span class="delimiter">&quot;</span></span>)
+<span class="type">class</span> <span class="class">AnIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_one(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_two(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_three(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The above means to put the system property on each execution in this case on <code>basic_one</code>, <code>basic_two</code>
+and <code>basic_three</code>.</p>
+</div>
+<div class="paragraph">
+<p>You can define a system property like the following which includes the
+definition of the value:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">rat.ignoreErrors</span><span class="delimiter">&quot;</span></span>, value=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span>)</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">newVersion</span><span class="delimiter">&quot;</span></span>, value=<span class="string"><span class="delimiter">&quot;</span><span class="content">2.0</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">groupId</span><span class="delimiter">&quot;</span></span>, value=<span class="string"><span class="delimiter">&quot;</span><span class="content">*</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">artifactId</span><span class="delimiter">&quot;</span></span>, value=<span class="string"><span class="delimiter">&quot;</span><span class="content">*</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">oldVersion</span><span class="delimiter">&quot;</span></span>, value=<span class="string"><span class="delimiter">&quot;</span><span class="content">*</span><span class="delimiter">&quot;</span></span>)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following test case defines on the root of the test class a single system property.
+The methods <code>basic_one</code> defines a supplemental system property. This
+means that <code>basic_one</code> will be executed with two system properties being set and
+<code>basic_two</code> as well (different ones) and finally <code>basic_three</code> will have
+three system properties set.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">newVersion</span><span class="delimiter">&quot;</span></span>, value=<span class="string"><span class="delimiter">&quot;</span><span class="content">2.0</span><span class="delimiter">&quot;</span></span>)
+<span class="type">class</span> <span class="class">AnIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">groupId</span><span class="delimiter">&quot;</span></span>, value = <span class="string"><span class="delimiter">&quot;</span><span class="content">*</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">void</span> basic_one(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">artifactId</span><span class="delimiter">&quot;</span></span>, value = <span class="string"><span class="delimiter">&quot;</span><span class="content">*</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">void</span> basic_two(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">groupId</span><span class="delimiter">&quot;</span></span>, value = <span class="string"><span class="delimiter">&quot;</span><span class="content">*</span><span class="delimiter">&quot;</span></span>)
+  <span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">artifactId</span><span class="delimiter">&quot;</span></span>, value = <span class="string"><span class="delimiter">&quot;</span><span class="content">*</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">void</span> basic_three(MavenExecutionResult result)
+      <span class="directive">throws</span> <span class="exception">IOException</span> {
+
+  }
+
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_real_test_case">9.1.5. Real Test Case</h4>
+<div class="paragraph">
+<p>The following is a real test which works (realized with ITF Release 0.8.0):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="type">class</span> <span class="class">CompareDependenciesIT</span>
+{
+
+    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">String</span> VERSIONS_PLUGIN = <span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}</span><span class="delimiter">&quot;</span></span>;
+
+
+    <span class="annotation">@MavenTest</span>(options = {MavenOptions.SETTINGS, <span class="string"><span class="delimiter">&quot;</span><span class="content">settings.xml</span><span class="delimiter">&quot;</span></span>}, goals={VERSIONS_PLUGIN + <span class="string"><span class="delimiter">&quot;</span><span class="content">:compare-dependencies</span><span class="delimiter">&quot;</span></span>},
+               systemProperties = {<span class="string"><span class="delimiter">&quot;</span><span class="content">remotePom=localhost:dummy-bom-pom:1.0</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">reportOutputFile=target/depDiffs.txt</span><span class="delimiter">&quot;</span></span>} )
+    <span class="type">void</span> it_compare_dependencies_001( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+    {
+        assertThat( result ).isSuccessful()
+                .project()
+                .hasTarget()
+                .withFile( <span class="string"><span class="delimiter">&quot;</span><span class="content">depDiffs.txt</span><span class="delimiter">&quot;</span></span> )
+                .hasContent( <span class="predefined-type">String</span>.join( <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="content">The following differences were found:</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">  org.apache.maven:maven-artifact ..................... 2.0.10 -&gt; 2.0.9</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">The following property differences were found:</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">  none</span><span class="delimiter">&quot;</span></span> ) );
+    }
+
+    <span class="annotation">@MavenTest</span>( goals = {VERSIONS_PLUGIN + <span class="string"><span class="delimiter">&quot;</span><span class="content">:compare-dependencies</span><span class="delimiter">&quot;</span></span>},
+                systemProperties = {<span class="string"><span class="delimiter">&quot;</span><span class="content">remotePom=localhost:dummy-bom-pom:1.0</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">reportMode=false</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">updatePropertyVersions=true</span><span class="delimiter">&quot;</span></span>} )
+    <span class="type">void</span> it_compare_dependencies_002( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+    {
+        assertThat( result ).isSuccessful()
+                .project()
+                .hasTarget()
+                .withFile( <span class="string"><span class="delimiter">&quot;</span><span class="content">depDiffs.txt</span><span class="delimiter">&quot;</span></span> )
+                .hasContent( <span class="predefined-type">String</span>.join( <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="content">The following differences were found:</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">  org.apache.maven:maven-artifact ..................... 2.0.10 -&gt; 2.0.9</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">The following property differences were found:</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">  none</span><span class="delimiter">&quot;</span></span> ) );
+    }
+    <span class="annotation">@MavenTest</span>( goals = {VERSIONS_PLUGIN + <span class="string"><span class="delimiter">&quot;</span><span class="content">:compare-dependencies</span><span class="delimiter">&quot;</span></span>},
+                systemProperties = {<span class="string"><span class="delimiter">&quot;</span><span class="content">remotePom=localhost:dummy-bom-maven-mismatch:1.0</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">reportMode=false</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">updatePropertyVersions=true</span><span class="delimiter">&quot;</span></span>} )
+    <span class="type">void</span> it_compare_dependencies_003( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+    {
+        assertThat( result ).isSuccessful()
+                .project()
+                .hasTarget()
+                .withFile( <span class="string"><span class="delimiter">&quot;</span><span class="content">depDiffs.txt</span><span class="delimiter">&quot;</span></span> )
+                .hasContent( <span class="predefined-type">String</span>.join( <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="content">The following differences were found:</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">  org.apache.maven:maven-artifact ..................... 2.0.10 -&gt; 2.0.9</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">The following property differences were found:</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">  none</span><span class="delimiter">&quot;</span></span> ) );
+    }
+
+    <span class="annotation">@MavenTest</span>( goals = {VERSIONS_PLUGIN + <span class="string"><span class="delimiter">&quot;</span><span class="content">:compare-dependencies</span><span class="delimiter">&quot;</span></span>},
+                systemProperties = {
+            <span class="string"><span class="delimiter">&quot;</span><span class="content">remotePom=localhost:dummy-bom-pom:1.0</span><span class="delimiter">&quot;</span></span>,
+            <span class="string"><span class="delimiter">&quot;</span><span class="content">reportMode=true</span><span class="delimiter">&quot;</span></span>,
+            <span class="string"><span class="delimiter">&quot;</span><span class="content">reportOutputFile=target/depDiffs.txt</span><span class="delimiter">&quot;</span></span>,
+            <span class="string"><span class="delimiter">&quot;</span><span class="content">updatePropertyVersions=true</span><span class="delimiter">&quot;</span></span>} )
+    <span class="type">void</span> it_compare_dependencies_004( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+    {
+        assertThat( result ).isSuccessful()
+                .project()
+                .hasTarget()
+                .withFile( <span class="string"><span class="delimiter">&quot;</span><span class="content">depDiffs.txt</span><span class="delimiter">&quot;</span></span> )
+                .hasContent( <span class="predefined-type">String</span>.join( <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="content">The following differences were found:</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="content">  org.apache.maven:maven-artifact ..................... 2.0.10 -&gt; 2.0.9</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="content">  junit:junit .............................................. 4.8 -&gt; 4.1</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="content">The following property differences were found:</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="content">  junit.version ............................................ 4.8 -&gt; 4.1</span><span class="delimiter">&quot;</span></span> ) );
+    }
+
+    <span class="annotation">@MavenTest</span>( goals = {VERSIONS_PLUGIN + <span class="string"><span class="delimiter">&quot;</span><span class="content">:compare-dependencies</span><span class="delimiter">&quot;</span></span>},
+                systemProperties = {
+            <span class="string"><span class="delimiter">&quot;</span><span class="content">remotePom=localhost:dummy-bom-pom:1.0</span><span class="delimiter">&quot;</span></span>,
+            <span class="string"><span class="delimiter">&quot;</span><span class="content">reportMode=true</span><span class="delimiter">&quot;</span></span>,
+            <span class="string"><span class="delimiter">&quot;</span><span class="content">reportOutputFile=target/depDiffs.txt</span><span class="delimiter">&quot;</span></span>,
+            <span class="string"><span class="delimiter">&quot;</span><span class="content">updatePropertyVersions=true</span><span class="delimiter">&quot;</span></span>} )
+    <span class="type">void</span> it_compare_dependencies_005( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+    {
+        assertThat( result ).isSuccessful()
+                .project()
+                .hasTarget()
+                .withFile( <span class="string"><span class="delimiter">&quot;</span><span class="content">depDiffs.txt</span><span class="delimiter">&quot;</span></span> )
+                .hasContent( <span class="predefined-type">String</span>.join( <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">The following differences were found:</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">  org.apache.maven:maven-artifact ..................... 2.0.10 -&gt; 2.0.9</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">The following property differences were found:</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">  none</span><span class="delimiter">&quot;</span></span> ));
+    }
+
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Based on the presented ideas before it could look like that:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">${project.groupId}:${project.artifactId}:${project.version}:comopare-dependencies</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@SystemProperty</span>(name=<span class="string"><span class="delimiter">&quot;</span><span class="content">remotePom</span><span class="delimiter">&quot;</span></span>, value=<span class="string"><span class="delimiter">&quot;</span><span class="content">localhost:dummy-bom-pom:1.0</span><span class="delimiter">&quot;</span></span>)
+<span class="type">class</span> <span class="class">CompareDependenciesIT</span>
+{
+
+    <span class="annotation">@MavenTest</span>
+    <span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">reportOutputFile</span><span class="delimiter">&quot;</span></span>, value=<span class="string"><span class="delimiter">&quot;</span><span class="content">target/depDiffs.txt</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@MavenOption</span>(name = MavenOptions.SETTINGS, value = <span class="string"><span class="delimiter">&quot;</span><span class="content">settings.xml</span><span class="delimiter">&quot;</span></span>)
+    <span class="type">void</span> it_compare_dependencies_001( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+    {
+        assertThat( result ).isSuccessful()
+                .project()
+                .hasTarget()
+                .withFile( <span class="string"><span class="delimiter">&quot;</span><span class="content">depDiffs.txt</span><span class="delimiter">&quot;</span></span> )
+                .hasContent( <span class="predefined-type">String</span>.join( <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="content">The following differences were found:</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">  org.apache.maven:maven-artifact ..................... 2.0.10 -&gt; 2.0.9</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">The following property differences were found:</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">  none</span><span class="delimiter">&quot;</span></span> ) );
+    }
+
+    <span class="annotation">@MavenTest</span>
+    <span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">reportMode</span><span class="delimiter">&quot;</span></span>, value=<span class="string"><span class="delimiter">&quot;</span><span class="content">false</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">updatePropertyVersions</span><span class="delimiter">&quot;</span></span>, value=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span>)
+    <span class="type">void</span> it_compare_dependencies_002( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+    {
+        assertThat( result ).isSuccessful()
+                .project()
+                .hasTarget()
+                .withFile( <span class="string"><span class="delimiter">&quot;</span><span class="content">depDiffs.txt</span><span class="delimiter">&quot;</span></span> )
+                .hasContent( <span class="predefined-type">String</span>.join( <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="content">The following differences were found:</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">  org.apache.maven:maven-artifact ..................... 2.0.10 -&gt; 2.0.9</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">The following property differences were found:</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">  none</span><span class="delimiter">&quot;</span></span> ) );
+    }
+
+    <span class="annotation">@MavenTest</span>
+    <span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">remotePom</span><span class="delimiter">&quot;</span></span>, value=<span class="string"><span class="delimiter">&quot;</span><span class="content">localhost:dummy-bom-maven-mismatch:1.0</span><span class="delimiter">&quot;</span></span>) <span class="comment">//OVERWRITE ??? Replace?</span>
+    <span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">reportMode</span><span class="delimiter">&quot;</span></span>, value=<span class="string"><span class="delimiter">&quot;</span><span class="content">false</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">updatePropertyVersions</span><span class="delimiter">&quot;</span></span>, value=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span>)
+    <span class="type">void</span> it_compare_dependencies_003( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+    {
+        assertThat( result ).isSuccessful()
+                .project()
+                .hasTarget()
+                .withFile( <span class="string"><span class="delimiter">&quot;</span><span class="content">depDiffs.txt</span><span class="delimiter">&quot;</span></span> )
+                .hasContent( <span class="predefined-type">String</span>.join( <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="content">The following differences were found:</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">  org.apache.maven:maven-artifact ..................... 2.0.10 -&gt; 2.0.9</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">The following property differences were found:</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">  none</span><span class="delimiter">&quot;</span></span> ) );
+    }
+
+    <span class="annotation">@MavenTest</span>
+    <span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">reportMode</span><span class="delimiter">&quot;</span></span>, value=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">reportOutputFile</span><span class="delimiter">&quot;</span></span>, value=<span class="string"><span class="delimiter">&quot;</span><span class="content">target/depDiffs.txt</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">updatePropertyVersions</span><span class="delimiter">&quot;</span></span>, value=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span>)
+    <span class="type">void</span> it_compare_dependencies_004( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+    {
+        assertThat( result ).isSuccessful()
+                .project()
+                .hasTarget()
+                .withFile( <span class="string"><span class="delimiter">&quot;</span><span class="content">depDiffs.txt</span><span class="delimiter">&quot;</span></span> )
+                .hasContent( <span class="predefined-type">String</span>.join( <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="content">The following differences were found:</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="content">  org.apache.maven:maven-artifact ..................... 2.0.10 -&gt; 2.0.9</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="content">  junit:junit .............................................. 4.8 -&gt; 4.1</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="content">The following property differences were found:</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                        <span class="string"><span class="delimiter">&quot;</span><span class="content">  junit.version ............................................ 4.8 -&gt; 4.1</span><span class="delimiter">&quot;</span></span> ) );
+    }
+
+    <span class="annotation">@MavenTest</span>
+    <span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">reportMode</span><span class="delimiter">&quot;</span></span>, value=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">reportOutputFile</span><span class="delimiter">&quot;</span></span>, value=<span class="string"><span class="delimiter">&quot;</span><span class="content">target/depDiffs.txt</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@SystemProperty</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">updatePropertyVersions</span><span class="delimiter">&quot;</span></span>, value=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span>)
+    <span class="type">void</span> it_compare_dependencies_005( MavenExecutionResult result, MavenProjectResult mavenProjectResult )
+    {
+        assertThat( result ).isSuccessful()
+                .project()
+                .hasTarget()
+                .withFile( <span class="string"><span class="delimiter">&quot;</span><span class="content">depDiffs.txt</span><span class="delimiter">&quot;</span></span> )
+                .hasContent( <span class="predefined-type">String</span>.join( <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">The following differences were found:</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">  org.apache.maven:maven-artifact ..................... 2.0.10 -&gt; 2.0.9</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">The following property differences were found:</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+                    <span class="string"><span class="delimiter">&quot;</span><span class="content">  none</span><span class="delimiter">&quot;</span></span> ));
+    }
+
+
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rule_for_nested_classes">9.2. Rule for Nested Classes</h3>
+<div class="paragraph">
+<p>What should be the rules for nested classes in IT&#8217;s? Inheriting ? Replace system
+properties based on the name with the new value?</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ideas_3">9.3. Ideas</h3>
+<div class="paragraph">
+<p>We could try to define <code>@MavenGoal</code> on a package level (within <code>package-info.java</code>?)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_implementation_steps">9.4. Implementation Steps</h3>
+<div class="paragraph">
+<p>Steps to move forward:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Mark <code>goal</code> in <code>MavenJupiterExtension</code> deprecated with release 0.9.0 and remove it with release 0.10.0</p>
+</li>
+<li>
+<p>Mark <code>goals</code>, <code>activeProfiles</code>, <code>options</code>, <code>systemProperties</code> and <code>debug</code> in <code>MavenTest</code> deprecated (release 0.9.0)
+and remove with release 0.10.0.</p>
+</li>
+<li>
+<p>Starting with Release 0.10.0</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>package</code> will only used if no <code>@MavenGoal</code> is defined at all.</p>
+</li>
+<li>
+<p>The <code>--error</code> option will only used if no <code>MavenOption</code> is defined at all.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -1878,8 +2662,8 @@ assertThat(result).out().warn()</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.8.0<br>
-Last updated 2020-07-11 16:01:13 +0200
+Version 0.9.0<br>
+Last updated 2020-08-12 13:32:44 +0200
 </div>
 </div>
 <style>

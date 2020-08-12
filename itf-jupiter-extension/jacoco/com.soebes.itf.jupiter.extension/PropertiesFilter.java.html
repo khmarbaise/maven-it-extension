@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.soebes.itf.jupiter.extension.Preconditions.requireNotNull;
+import static com.soebes.itf.jupiter.extension.StringInterpolator.interpolate;
 
 /**
  * This will replace the placeholders which can be defined in {@link MavenTest#goals()}.
@@ -36,15 +37,14 @@ class PropertiesFilter {
 
   private final List&lt;String&gt; items;
 
-<span class="fc" id="L39">  public PropertiesFilter(Map&lt;String, String&gt; keyValues, List&lt;String&gt; items) {</span>
-<span class="fc" id="L40">    this.keyValues = requireNotNull(keyValues, &quot;keyValues is not allowed to be null.&quot;);</span>
-<span class="fc" id="L41">    this.items = requireNotNull(items, &quot;items not allowed to be null.&quot;);</span>
-<span class="fc" id="L42">  }</span>
+<span class="fc" id="L40">  public PropertiesFilter(Map&lt;String, String&gt; keyValues, List&lt;String&gt; items) {</span>
+<span class="fc" id="L41">    this.keyValues = requireNotNull(keyValues, &quot;keyValues is not allowed to be null.&quot;);</span>
+<span class="fc" id="L42">    this.items = requireNotNull(items, &quot;items not allowed to be null.&quot;);</span>
+<span class="fc" id="L43">  }</span>
 
   List&lt;String&gt; filter() {
-<span class="fc" id="L45">    StringInterpolator si = new StringInterpolator(this.keyValues);</span>
 <span class="fc" id="L46">    return this.items.stream()</span>
-<span class="fc" id="L47">        .map(si::interpolate)</span>
+<span class="fc" id="L47">        .map(interpolate(this.keyValues))</span>
 <span class="fc" id="L48">        .collect(Collectors.toList());</span>
   }
 
