@@ -23,12 +23,9 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.platform.commons.support.AnnotationSupport;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
-
-import static com.soebes.itf.jupiter.extension.Preconditions.requireNotNull;
 
 /**
  * @author Karl Heinz Marbaise
@@ -39,65 +36,7 @@ class AnnotationHelper {
     // prevent instantiation.
   }
 
-  @Deprecated
-  static boolean isDebug(Method method) {
-    checkParameterAndRequirements(method);
-    return method.getAnnotation(MavenTest.class).debug();
-  }
 
-  @Deprecated
-  static String[] getActiveProfiles(Method method) {
-    checkParameterAndRequirements(method);
-    return method.getAnnotation(MavenTest.class).activeProfiles();
-  }
-
-  @Deprecated
-  static String[] getGoals(Method method) {
-    checkParameterAndRequirements(method);
-    return method.getAnnotation(MavenTest.class).goals();
-  }
-
-  @Deprecated
-  static boolean hasOptions(Method method) {
-    return getCommandLineOptions(method).length > 0;
-  }
-
-  //TODO: We might consider to return a Stream instead of String[]
-  @Deprecated
-  static String[] getCommandLineOptions(Method method) {
-    checkParameterAndRequirements(method);
-    return method.getAnnotation(MavenTest.class).options();
-  }
-
-  //TODO: We might consider to return a Stream instead of String[]
-  @Deprecated
-  static String[] getCommandLineSystemProperties(Method method) {
-    checkParameterAndRequirements(method);
-    return method.getAnnotation(MavenTest.class).systemProperties();
-  }
-
-  @Deprecated
-  static boolean hasSystemProperties(Method method) {
-    return getCommandLineSystemProperties(method).length > 0;
-  }
-
-  @Deprecated
-  static boolean hasActiveProfiles(Method method) {
-    return getActiveProfiles(method).length > 0;
-  }
-
-  @Deprecated
-  static boolean hasGoals(Method method) {
-    return getGoals(method).length > 0;
-  }
-
-  @Deprecated
-  static Stream<String> goals(Method method) {
-    MavenGoal[] annotationsByType = method.getAnnotationsByType(MavenGoal.class);
-    return Stream
-        .of(annotationsByType)
-        .flatMap(s -> Stream.of(s.value()));
-  }
 
   static boolean hasProfiles(ExtensionContext context) {
     return profiles(context).count() > 0;
@@ -168,14 +107,6 @@ class AnnotationHelper {
     return repeatableAnnotationsOnClass;
   }
 
-  @Deprecated
-  private static void checkParameterAndRequirements(Method method) {
-    requireNotNull(method, "method is not allowed to be null.");
-    if (!method.isAnnotationPresent(MavenTest.class)) {
-      throw new IllegalStateException("MavenTest Annotation is not given on method: '" + method.getName() + "'");
-    }
-  }
-
   private static Optional<Class<?>> findAnnotation(ExtensionContext context,
                                                    Class<? extends Annotation> annotationClass) {
     Optional<ExtensionContext> current = Optional.of(context);
@@ -202,10 +133,6 @@ class AnnotationHelper {
 
   static Optional<Class<?>> findMavenPredefinedRepositoryAnnotation(ExtensionContext context) {
     return findAnnotation(context, MavenPredefinedRepository.class);
-  }
-
-  static Optional<Class<?>> findMavenITAnnotation(ExtensionContext context) {
-    return findAnnotation(context, MavenJupiterExtension.class);
   }
 
 }

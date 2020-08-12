@@ -28,7 +28,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import static org.apiguardian.api.API.Status.DEPRECATED;
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
@@ -44,17 +43,5 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 @Documented
 @API(status = EXPERIMENTAL, since = "0.1.0")
 public @interface MavenJupiterExtension {
-
-  /**
-   * <b>Hint: This annotation element is marked deprecated. Please use {@code @MavenGoal} instead.</b>
-   * <p>
-   * Defines the goals which are being executed by default for all test cases within the class.</p>
-   *
-   * @return The default goals which is executed is {@code package}.
-   * @see MavenGoal
-   */
-  @API(status = DEPRECATED, since = "0.9.0")
-  @Deprecated
-  String[] goals() default {"package"};
 
 }

@@ -27,7 +27,7 @@ import static com.soebes.itf.jupiter.extension.Preconditions.requireNotNull;
 import static com.soebes.itf.jupiter.extension.StringInterpolator.interpolate;
 
 /**
- * This will replace the placeholders which can be defined in {@link MavenTest#goals()}.
+ * This will replace the placeholders which can be defined in {@link MavenGoal}.
  *
  * @author Karl Heinz Marbaise
  */
