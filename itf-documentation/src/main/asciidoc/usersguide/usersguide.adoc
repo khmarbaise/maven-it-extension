@@ -20,6 +20,8 @@
 Karl Heinz Marbaise; {docdate}
 :author: Karl Heinz Marbaise
 :sectnums:
+:sectlinks:
+:xrefstyle: full
 :toc: left
 //
 :junit-jupiter: https://junit.org/junit5/[JUnit Jupiter]
@@ -423,16 +425,16 @@ class BasicIT {
 }
 ----
 So now the question is: Which goals and parameters will be used to execute Maven for the `first`
-test case? In general the a default set of goals which will be executed if not defined otherwise.
-The default for goals is `package`. That means if we keep
-the test as in our example maven would be called like `mvn package`. From a technical perspective
-some other parameters have been added which are `mvn -Dmaven.repo.local=Path package`.
+test case? Very brief the default set of goals which will be executed if not defined otherwise is
+`package` (See xref:_default_goalsoptions[for a more detailed explanation]).
+That means if we keep the test as in our example maven would be called like `mvn package`.
+From a technical perspective some other parameters have been added which are `mvn -Dmaven.repo.local=Path package`.
 The `-Dmaven.repo.local=..` is needed to make sure that each call uses the defined local cache
-(See link:_common_maven_cache[Common Maven Cache]).
+(See xref:_common_maven_cache[Common Maven Cache]).
 You can of course change the default for the goal, if you like by simply add the `@MavenGoal` annotation
 `@MavenGoal("install")` that would mean to execute all subjacent tests like `mvn -D.. install`
 instead of `mvn -D .. package`. A usual command parameter set includes
-`--batch-mode` and `-V` (This can't be changed currently.).
+`--batch-mode` and `-V` (See xref:_default_goalsoptions[for a more detailed explanation]).
 
 How could you write a test which uses a plugin goal instead? You can simply define the
 goal(s) via the `@MavenGoal` annotation like this:
@@ -631,6 +633,195 @@ void first( MavenExecutionResult result )
     assertThat( result ).isSuccessful();
 }
 ----
+
+=== Default Goals,Options
+
+==== Goals
+Basically to run a usual integration test it needs to be defined by which goals and options such
+test has to run. Let us take a look at a simple example:
+[source,java]
+----
+@MavenJupiterExtension
+class BasicIT {
+
+  @MavenTest
+  void first(MavenExecutionResult result) {
+  }
+}
+----
+The execution of the test will run with the goal `package` which is defined by default
+if not defined otherwise. There are defined some useful default command line options like
+`--errors`, `-V` and `--batch-mode` also by default if not defined otherwise. So let
+us take a look what otherwise means.
+
+You can replace the default goal `package` by simply defining a different goal on your test class
+like this (you can also put that annotation on the method as well):
+[source,java]
+----
+@MavenJupiterExtension
+@MavenGoal("verify")
+class BasicIT {
+
+  @MavenTest
+  void first(MavenExecutionResult result) {
+  }
+}
+----
+This means all consecutive tests will run with the goal `verify` instead of `package`. It is also
+possible to define several goals like this:
+[source,java]
+----
+@MavenJupiterExtension
+@MavenGoal("clean")
+@MavenGoal("verify")
+class BasicIT {
+
+  @MavenTest
+  void first(MavenExecutionResult result) {
+  }
+}
+----
+If you don't like to repeat that on each test class you can define a meta annotation like this:
+
+[source,java]
+----
+@Target({ElementType.METHOD, ElementType.TYPE})
+@Retention(RUNTIME)
+@Inherited
+@MavenGoal({"clean", "verify"})
+public @interface GoalsCleanVerify {
+}
+----
+This meta annotation can now be used instead. This makes it easy to change the goal for all of your tests from
+a single location.
+[source,java]
+----
+@MavenJupiterExtension
+@GoalsCleanVerify
+class BasicIT {
+
+  @MavenTest
+  void first(MavenExecutionResult result) {
+  }
+}
+----
+Now let us summarize the information for goals. As long as no explicit `@MavenGoal` is defined the
+default will be used which is `package`.
+
+==== Options
+Now let us going back to the example:
+[source,java]
+----
+@MavenJupiterExtension
+class BasicIT {
+
+  @MavenTest
+  void first(MavenExecutionResult result) {
+  }
+}
+----
+This example will run the test with the following command line options:
+
+* `-V`
+* `--batch-mode`
+* `--errors`
+
+So if you like to change the command line options which are used to run an integration test you
+can simply define different options via the appropriate annotations:
+
+[source,java]
+----
+@MavenJupiterExtension
+@MavenOption(MavenCLIOptions.DEBUG)
+class BasicIT {
+
+  @MavenTest
+  void first(MavenExecutionResult result) {
+  }
+}
+----
+Using the option like this means (like for goals as mentioned before) all consecutive tests will
+now run with the given option which in this case is only a single command line option `--debug`
+and nothing else. You can add supplemental command line options just by adding supplemental
+annotations to your tests like this:
+[source,java]
+----
+@MavenJupiterExtension
+@MavenOption(MavenCLIOptions.ERRORS)
+@MavenOption(MavenCLIOptions.DEBUG)
+class BasicIT {
+
+  @MavenTest
+  void first(MavenExecutionResult result) {
+  }
+}
+----
+The MavenOption annotation can also be used to create a meta annotation like this:
+
+[source,java]
+----
+@Target({ElementType.METHOD, ElementType.TYPE})
+@Retention(RUNTIME)
+@Inherited
+@MavenOption(MavenCLIOptions.DEBUG)
+@MavenOption(MavenCLIOptions.ERRORS)
+@MavenOption(MavenCLIOptions.FAIL_AT_END)
+public @interface OptionDebugErrorFailAtEnd {
+}
+----
+The newly defined meta annotation can simply being used like this:
+
+[source,java]
+----
+@MavenJupiterExtension
+@OptionDebugErrorFailAtEnd
+class BasicIT {
+
+  @MavenTest
+  void first(MavenExecutionResult result) {
+  }
+}
+----
+Now let us summarize the information for options. As long as no explicit `@MavenOption` is defined the
+default will be used which are the following:
+
+* `-V`
+* `--batch-mode`
+* `--errors`
+
+==== Combined Annotation
+Sometimes you would like to combine things from options and goals in a more convenient way.
+That is possible by using a custom annotation like this one:
+
+[source,java]
+----
+@Target({ElementType.METHOD, ElementType.TYPE})
+@Retention(RUNTIME)
+@Inherited
+@MavenJupiterExtension
+@MavenOption(MavenCLIOptions.DEBUG)
+@MavenOption(MavenCLIOptions.ERRORS)
+@MavenOption(MavenCLIOptions.FAIL_AT_END)
+@MavenGoal("clean")
+@MavenGoal("verify")
+public @interface MavenJupiterExtensionWithDefaults {
+}
+----
+The given annotation include the usage of `@MavenJupiterExtension` which handles the loading of the
+extension part. By using the above defined annotation your test could look like this:
+
+[source,java]
+----
+@MavenJupiterExtensionWithDefaults
+class BasicIT {
+
+  @MavenTest
+  void first(MavenExecutionResult result) {
+  }
+}
+----
+So this makes it very easy to define your own default set of goals, options or maybe more.
+You can of course add properties etc. if you need.
 
 <<<
 == Scenarios

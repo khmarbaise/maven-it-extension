@@ -1,4 +1,4 @@
-package com.soebes.itf.jupiter.extension;
+package com.soebes.itf.examples.defaults;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,40 +19,33 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import org.apiguardian.api.API;
+import com.soebes.itf.jupiter.extension.MavenCLIOptions;
+import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
+import com.soebes.itf.jupiter.extension.MavenOption;
 
-import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
-import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * {@code @MavenOption} is used to define options for calling Maven
- * command line.
+ * A meta annotation which defines the used default options for all
+ * test classes which are annotated by this annotation instead of
+ * {@code MavenJupiterExtension}.
  *
- * <p>When applied at the class level, all test methods within that class
- * are automatically inheriting the given goal.</p>
+ * This makes it possible to override the defaults which are defined in
+ * {@code MavenITExtension} code.
  *
- * <p>The annotation {@code @MavenOption} is an repeatable annotation.</p>
- *
- * @since 0.9.0
  * @author Karl Heinz Marbaise
  */
-@Target({ElementType.TYPE,ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
+@Target({ElementType.METHOD, ElementType.TYPE})
+@Retention(RUNTIME)
 @Inherited
-@Repeatable(value = MavenOptions.class)
-@API(status = EXPERIMENTAL, since = "0.9.0")
-public @interface MavenOption {
-
-  String value();
-
-  String parameter() default "";
-
+@MavenJupiterExtension
+@MavenOption(MavenCLIOptions.DEBUG)
+@MavenOption(MavenCLIOptions.ERRORS)
+@MavenOption(MavenCLIOptions.FAIL_AT_END)
+public @interface MavenJupiterExtensionWithDefaults {
 }

@@ -199,7 +199,7 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
 
     //TODO: Reconsider about the default options which are being defined here? Documented? users guide?
     List<String> defaultArguments = Arrays.asList(
-        "-Dmaven.repo.local=" + directoryResolverResult.getCacheDirectory().toString(), MavenCLIOptions.BATCH_MODE, MavenCLIOptions.SHOW_VERSION);
+        "-Dmaven.repo.local=" + directoryResolverResult.getCacheDirectory().toString());
     executionArguments.addAll(defaultArguments);
 
     if (hasActiveProfiles(methodName)) {
@@ -239,6 +239,9 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     } else {
       if (hasOptions(context)) {
         executionArguments.addAll(options(context).collect(toList()));
+      } else {
+        // If no option is defined at all the following are the defaults.
+        executionArguments.addAll(Arrays.asList(MavenCLIOptions.BATCH_MODE, MavenCLIOptions.SHOW_VERSION, MavenCLIOptions.ERRORS));
       }
     }
 
@@ -275,7 +278,7 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
         List<String> filteredGoals = propertiesFilter.filter();
         executionArguments.addAll(filteredGoals);
       } else {
-        //TODO: This is the default goal which will be executed if no `@MavenGoal` annotation is defined.
+        //TODO: This is the default goal which will be executed if no `@MavenGoal` at all annotation is defined.
         executionArguments.add("package");
       }
     }

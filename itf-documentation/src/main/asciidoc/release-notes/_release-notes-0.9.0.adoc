@@ -43,6 +43,7 @@
    * {issue-130} - Moving Conditions into separate package
    * {issue-131} - Reduce visibility of MavenITExtension.
    * {issue-132} - Remove StringInterpolator from public API
+   * {issue-134} - Maven test should use options = "--errors" by default
    * {issue-135} - Split properties of @MavenTest across multiple (@Repeatable) annotations
    * {issue-136} - Remove `debug` from MavenJupiterExtension annotation
    * {issue-138} - Rename `MavenOptions` into `MavenCLIOptions`.
@@ -84,6 +85,7 @@
 *Reporter of this release*
 
  * Andreas Sewe
+ ** {issue-134} - Maven test should use options = "--errors" by default
  ** {issue-135} - Split properties of @MavenTest across multiple (@Repeatable) annotations
 
 *Contributors of this release*
