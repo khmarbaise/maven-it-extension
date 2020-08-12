@@ -199,7 +199,7 @@ import static java.util.stream.Collectors.toList;
 
     //TODO: Reconsider about the default options which are being defined here? Documented? users guide?
 <span class="nc" id="L201">    List&lt;String&gt; defaultArguments = Arrays.asList(</span>
-<span class="nc" id="L202">        &quot;-Dmaven.repo.local=&quot; + directoryResolverResult.getCacheDirectory().toString(), MavenCLIOptions.BATCH_MODE, MavenCLIOptions.SHOW_VERSION);</span>
+<span class="nc" id="L202">        &quot;-Dmaven.repo.local=&quot; + directoryResolverResult.getCacheDirectory().toString());</span>
 <span class="nc" id="L203">    executionArguments.addAll(defaultArguments);</span>
 
 <span class="nc bnc" id="L205" title="All 2 branches missed.">    if (hasActiveProfiles(methodName)) {</span>
@@ -239,69 +239,72 @@ import static java.util.stream.Collectors.toList;
     } else {
 <span class="nc bnc" id="L240" title="All 2 branches missed.">      if (hasOptions(context)) {</span>
 <span class="nc" id="L241">        executionArguments.addAll(options(context).collect(toList()));</span>
+      } else {
+        // If no option is defined at all the following are the defaults.
+<span class="nc" id="L244">        executionArguments.addAll(Arrays.asList(MavenCLIOptions.BATCH_MODE, MavenCLIOptions.SHOW_VERSION, MavenCLIOptions.ERRORS));</span>
       }
     }
 
 
     //FIXME: Need to introduce better directory names
     //Refactor out the following lines
-<span class="nc" id="L248">    File mavenBaseDirectory = new File(directoryResolverResult.getTargetDirectory(), &quot;..&quot;);</span>
-<span class="nc" id="L249">    File pomFile = new File(mavenBaseDirectory, &quot;pom.xml&quot;);</span>
+<span class="nc" id="L251">    File mavenBaseDirectory = new File(directoryResolverResult.getTargetDirectory(), &quot;..&quot;);</span>
+<span class="nc" id="L252">    File pomFile = new File(mavenBaseDirectory, &quot;pom.xml&quot;);</span>
 
-<span class="nc" id="L251">    ModelReader modelReader = new ModelReader(ProjectHelper.readProject(pomFile));</span>
-<span class="nc" id="L252">    Map&lt;String, String&gt; keyValues = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L254">    ModelReader modelReader = new ModelReader(ProjectHelper.readProject(pomFile));</span>
+<span class="nc" id="L255">    Map&lt;String, String&gt; keyValues = new HashMap&lt;&gt;();</span>
     //The following three elements we are reading from the original pom file.
-<span class="nc" id="L254">    keyValues.put(&quot;project.groupId&quot;, modelReader.getGroupId());</span>
-<span class="nc" id="L255">    keyValues.put(&quot;project.artifactId&quot;, modelReader.getArtifactId());</span>
-<span class="nc" id="L256">    keyValues.put(&quot;project.version&quot;, modelReader.getVersion());</span>
+<span class="nc" id="L257">    keyValues.put(&quot;project.groupId&quot;, modelReader.getGroupId());</span>
+<span class="nc" id="L258">    keyValues.put(&quot;project.artifactId&quot;, modelReader.getArtifactId());</span>
+<span class="nc" id="L259">    keyValues.put(&quot;project.version&quot;, modelReader.getVersion());</span>
 
-<span class="nc bnc" id="L258" title="All 2 branches missed.">    if (AnnotationHelper.hasGoals(methodName)) {</span>
-<span class="nc" id="L259">      LOGGER.warning(&quot;You are using @MavenJupiterExtension(goals =) and/or @MavenTest(goals = ..) on method &quot;</span>
-<span class="nc" id="L260">          + methodName.getName() + &quot; which has been deprecated. Use @MavenGoal instead. See users guide.&quot;);</span>
+<span class="nc bnc" id="L261" title="All 2 branches missed.">    if (AnnotationHelper.hasGoals(methodName)) {</span>
+<span class="nc" id="L262">      LOGGER.warning(&quot;You are using @MavenJupiterExtension(goals =) and/or @MavenTest(goals = ..) on method &quot;</span>
+<span class="nc" id="L263">          + methodName.getName() + &quot; which has been deprecated. Use @MavenGoal instead. See users guide.&quot;);</span>
 
-<span class="nc" id="L262">      Class&lt;?&gt; mavenIT = AnnotationHelper.findMavenITAnnotation(context).orElseThrow(IllegalStateException::new);</span>
-<span class="nc" id="L263">      MavenJupiterExtension mavenJupiterExtensionAnnotation = mavenIT.getAnnotation(MavenJupiterExtension.class);</span>
+<span class="nc" id="L265">      Class&lt;?&gt; mavenIT = AnnotationHelper.findMavenITAnnotation(context).orElseThrow(IllegalStateException::new);</span>
+<span class="nc" id="L266">      MavenJupiterExtension mavenJupiterExtensionAnnotation = mavenIT.getAnnotation(MavenJupiterExtension.class);</span>
 
-<span class="nc" id="L265">      List&lt;String&gt; resultingGoals = Stream.of(GoalPriority.goals(mavenJupiterExtensionAnnotation.goals(), getGoals(methodName))).collect(toList());</span>
-<span class="nc" id="L266">      PropertiesFilter propertiesFilter = new PropertiesFilter(keyValues, resultingGoals);</span>
+<span class="nc" id="L268">      List&lt;String&gt; resultingGoals = Stream.of(GoalPriority.goals(mavenJupiterExtensionAnnotation.goals(), getGoals(methodName))).collect(toList());</span>
+<span class="nc" id="L269">      PropertiesFilter propertiesFilter = new PropertiesFilter(keyValues, resultingGoals);</span>
 
-<span class="nc" id="L268">      List&lt;String&gt; filteredGoals = propertiesFilter.filter();</span>
-<span class="nc" id="L269">      executionArguments.addAll(filteredGoals);</span>
-<span class="nc" id="L270">    } else {</span>
-<span class="nc bnc" id="L271" title="All 2 branches missed.">      if (hasGoals(context)) {</span>
-<span class="nc" id="L272">        List&lt;String&gt; resultingGoals = goals(context).collect(toList());</span>
-<span class="nc" id="L273">        PropertiesFilter propertiesFilter = new PropertiesFilter(keyValues, resultingGoals);</span>
+<span class="nc" id="L271">      List&lt;String&gt; filteredGoals = propertiesFilter.filter();</span>
+<span class="nc" id="L272">      executionArguments.addAll(filteredGoals);</span>
+<span class="nc" id="L273">    } else {</span>
+<span class="nc bnc" id="L274" title="All 2 branches missed.">      if (hasGoals(context)) {</span>
+<span class="nc" id="L275">        List&lt;String&gt; resultingGoals = goals(context).collect(toList());</span>
+<span class="nc" id="L276">        PropertiesFilter propertiesFilter = new PropertiesFilter(keyValues, resultingGoals);</span>
 
-<span class="nc" id="L275">        List&lt;String&gt; filteredGoals = propertiesFilter.filter();</span>
-<span class="nc" id="L276">        executionArguments.addAll(filteredGoals);</span>
-<span class="nc" id="L277">      } else {</span>
-        //TODO: This is the default goal which will be executed if no `@MavenGoal` annotation is defined.
-<span class="nc" id="L279">        executionArguments.add(&quot;package&quot;);</span>
+<span class="nc" id="L278">        List&lt;String&gt; filteredGoals = propertiesFilter.filter();</span>
+<span class="nc" id="L279">        executionArguments.addAll(filteredGoals);</span>
+<span class="nc" id="L280">      } else {</span>
+        //TODO: This is the default goal which will be executed if no `@MavenGoal` at all annotation is defined.
+<span class="nc" id="L282">        executionArguments.add(&quot;package&quot;);</span>
       }
     }
 
 
-<span class="nc" id="L284">    Process start = mavenExecutor.start(executionArguments);</span>
+<span class="nc" id="L287">    Process start = mavenExecutor.start(executionArguments);</span>
 
-<span class="nc" id="L286">    int processCompletableFuture = start.waitFor();</span>
+<span class="nc" id="L289">    int processCompletableFuture = start.waitFor();</span>
 
-<span class="nc" id="L288">    ExecutionResult executionResult = ExecutionResult.Successful;</span>
-<span class="nc bnc" id="L289" title="All 2 branches missed.">    if (processCompletableFuture != 0) {</span>
-<span class="nc" id="L290">      executionResult = ExecutionResult.Failure;</span>
+<span class="nc" id="L291">    ExecutionResult executionResult = ExecutionResult.Successful;</span>
+<span class="nc bnc" id="L292" title="All 2 branches missed.">    if (processCompletableFuture != 0) {</span>
+<span class="nc" id="L293">      executionResult = ExecutionResult.Failure;</span>
     }
 
-<span class="nc" id="L293">    MavenLog log = new MavenLog(mavenExecutor.getStdout(), mavenExecutor.getStdErr());</span>
-<span class="nc" id="L294">    MavenCacheResult mavenCacheResult = new MavenCacheResult(directoryResolverResult.getCacheDirectory().toPath());</span>
+<span class="nc" id="L296">    MavenLog log = new MavenLog(mavenExecutor.getStdout(), mavenExecutor.getStdErr());</span>
+<span class="nc" id="L297">    MavenCacheResult mavenCacheResult = new MavenCacheResult(directoryResolverResult.getCacheDirectory().toPath());</span>
 
-<span class="nc" id="L296">    Model model = ProjectHelper.readProject(new File(directoryResolverResult.getProjectDirectory(), &quot;pom.xml&quot;));</span>
-<span class="nc" id="L297">    MavenProjectResult mavenProjectResult = new MavenProjectResult(directoryResolverResult.getProjectDirectory(),</span>
+<span class="nc" id="L299">    Model model = ProjectHelper.readProject(new File(directoryResolverResult.getProjectDirectory(), &quot;pom.xml&quot;));</span>
+<span class="nc" id="L300">    MavenProjectResult mavenProjectResult = new MavenProjectResult(directoryResolverResult.getProjectDirectory(),</span>
         model);
 
-<span class="nc" id="L300">    MavenExecutionResult result = new MavenExecutionResult(executionResult, processCompletableFuture, log,</span>
+<span class="nc" id="L303">    MavenExecutionResult result = new MavenExecutionResult(executionResult, processCompletableFuture, log,</span>
         mavenProjectResult, mavenCacheResult);
 
-<span class="nc" id="L303">    new StorageHelper(context).save(result, log, mavenCacheResult, mavenProjectResult);</span>
-<span class="nc" id="L304">  }</span>
+<span class="nc" id="L306">    new StorageHelper(context).save(result, log, mavenCacheResult, mavenProjectResult);</span>
+<span class="nc" id="L307">  }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
