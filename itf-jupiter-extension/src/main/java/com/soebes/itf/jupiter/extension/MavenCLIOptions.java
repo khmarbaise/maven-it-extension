@@ -24,9 +24,39 @@ import org.apiguardian.api.API;
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
- * The different command line value which are supported by Apache Maven.
+ * The different command line options which are supported by Apache Maven.
  *
  * @author Karl Heinz Marbaise
+ * @see MavenCLIOptions#BUILDER
+ * @see MavenCLIOptions#DEFINE
+ * @see MavenCLIOptions#ENCRYPT_MASTER_PASSWORD
+ * @see MavenCLIOptions#ENCRYPT_PASSWORD
+ * @see MavenCLIOptions#FILE
+ * @see MavenCLIOptions#FAIL_AT_END
+ * @see MavenCLIOptions#FAIL_FAST
+ * @see MavenCLIOptions#FAIL_NEVER
+ * @see MavenCLIOptions#GLOBAL_SETTINGS
+ * @see MavenCLIOptions#GLOBAL_TOOLCHAINS
+ * @see MavenCLIOptions#HELP
+ * @see MavenCLIOptions#NON_RECURSIVE
+ * @see MavenCLIOptions#OFFLINE
+ * @see MavenCLIOptions#PROJECTS
+ * @see MavenCLIOptions#QUIET
+ * @see MavenCLIOptions#RESUME_FROM
+ * @see MavenCLIOptions#TOOLCHAINS
+ * @see MavenCLIOptions#THREADS
+ * @see MavenCLIOptions#UPDATE_SNAPSHOTS
+ * @see MavenCLIOptions#VERSION
+ * @see MavenCLIOptions#ERRORS
+ * @see MavenCLIOptions#LAX_CHECKSUMS
+ * @see MavenCLIOptions#ALSO_MAKE_DEPENDENCIES
+ * @see MavenCLIOptions#ALSO_MAKE
+ * @see MavenCLIOptions#DEBUG
+ * @see MavenCLIOptions#NO_TRANSFER_PROGRESS
+ * @see MavenCLIOptions#SHOW_VERSION
+ * @see MavenCLIOptions#BATCH_MODE
+ * @see MavenCLIOptions#LOG_FILE
+ * @see MavenCLIOptions#ACTIVATE_PROFILES
  */
 @API(status = EXPERIMENTAL, since = "0.9.0")
 public final class MavenCLIOptions {

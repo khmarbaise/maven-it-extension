@@ -31,14 +31,22 @@ import java.lang.annotation.Target;
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
+ * {@code @MavenProfiles} is a container for one or more {@code @MavenProfile}
+ * declarations.
+ *
  * @author Karl Heinz Marbaise
+ * @see MavenProfile
+ * @see java.lang.annotation.Repeatable
  */
-@Target({ElementType.TYPE,ElementType.METHOD,ElementType.PACKAGE})
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.PACKAGE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
 @API(status = EXPERIMENTAL, since = "0.9.0")
 public @interface MavenProfiles {
 
+  /**
+   * An array of one or more {@link MavenProfile @MavenProfile} declarations.
+   */
   MavenProfile[] value();
 }

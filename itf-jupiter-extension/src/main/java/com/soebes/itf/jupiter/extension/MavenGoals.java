@@ -31,17 +31,21 @@ import java.lang.annotation.Target;
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
- * {@code @MavenGoals} is used to define the repeatability of {@code @MavenGoal}.
+ * {@code @MavenGoals} is a container for one or more {@code @MavenGoal}
+ * declarations.
  *
- * @since 0.9.0
  * @author Karl Heinz Marbaise
+ * @since 0.9.0
  */
-@Target({ElementType.TYPE,ElementType.METHOD})
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
 @API(status = EXPERIMENTAL, since = "0.9.0")
 public @interface MavenGoals {
 
+  /**
+   * An array of one or more {@link MavenGoal @MavenGoal} declarations.
+   */
   MavenGoal[] value();
 }

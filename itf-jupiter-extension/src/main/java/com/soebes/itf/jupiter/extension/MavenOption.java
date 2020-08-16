@@ -38,12 +38,29 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
  * <p>When applied at the class level, all test methods within that class
  * are automatically inheriting the given goal.</p>
  *
+ * <p>
+ * You can define command line options like the following:
+ * <pre>
+ *    &#x40;MavenOptions(MavenCLIOptions.FAIL_AT_END)
+ * </pre>
+ * </p>
+ * <p>For multiple command line options:
+ * <pre>
+ *    &#x40;MavenOptions(MavenCLIOptions.FAIL_AT_END)
+ *    &#x40;MavenOptions(MavenCLIOptions.ERROR)
+ * </pre>
+ * This is the equivalent to the command line like: {@code --fail-at-end --error}</p>
+ * </p>
+ *
+ *
  * <p>The annotation {@code @MavenOption} is an repeatable annotation.</p>
  *
- * @since 0.9.0
  * @author Karl Heinz Marbaise
+ * @see MavenOptions
+ * @see MavenCLIOptions
+ * @since 0.9.0
  */
-@Target({ElementType.TYPE,ElementType.METHOD})
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited

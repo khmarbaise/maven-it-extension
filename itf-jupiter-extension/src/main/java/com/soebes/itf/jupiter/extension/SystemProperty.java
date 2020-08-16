@@ -39,7 +39,7 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
  * are automatically inheriting the given goal.</p>
  *
  * <p>The annotation {@code @SystemProperty} is an repeatable annotation.</p>
- *
+ * <p>
  * Example:
  * <pre>
  *    &#x40;SystemProperty(value = "remotePom", content="localhost:dummy-bom-pom:1.0")
@@ -50,11 +50,11 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
  * <pre>
  *   mvn -DremotePom=localhost:dummy-bom-pom:1.0 -DreportOutputFile=target/depDiffs.txt ...
  * </pre>
-
- * @since 0.9.0
+ *
  * @author Karl Heinz Marbaise
+ * @since 0.9.0
  */
-@Target({ElementType.TYPE,ElementType.METHOD})
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited

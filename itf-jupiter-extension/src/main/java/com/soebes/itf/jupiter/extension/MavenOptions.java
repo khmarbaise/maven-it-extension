@@ -31,17 +31,22 @@ import java.lang.annotation.Target;
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
- * {@code @MavenOptions} is used to define the repeatability of {@code @MavenOption}.
+ * {@code @MavenOptions} is a container for one or more {@code @MavenOption}
+ * declarations.
  *
- * @since 0.9.0
  * @author Karl Heinz Marbaise
+ * @see MavenOption
+ * @since 0.9.0
  */
-@Target({ElementType.TYPE,ElementType.METHOD})
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
 @API(status = EXPERIMENTAL, since = "0.9.0")
 public @interface MavenOptions {
 
+  /**
+   * An array of one or more {@link MavenOption @MavenOption} declarations.
+   */
   MavenOption[] value();
 }

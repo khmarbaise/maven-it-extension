@@ -53,8 +53,9 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
  * </p>
  *
  * @author Karl Heinz Marbaise
+ * @see MavenProfiles
  */
-@Target({ElementType.TYPE,ElementType.METHOD,ElementType.PACKAGE})
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.PACKAGE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited

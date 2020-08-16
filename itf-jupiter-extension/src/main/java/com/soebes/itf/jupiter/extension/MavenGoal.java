@@ -38,10 +38,26 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
  * <p>When applied at the class level, all test methods within that class
  * are automatically inheriting the given goal.</p>
  *
+ * <p>
+ * You can define a goal on command line for Maven like the following:
+ * <pre>
+ *    &#x40;MavenGoal("install")
+ * </pre>
+ * </p>
+ * <p>For multiple command line options:
+ * <pre>
+ *    &#x40;MavenGoal("clean")
+ *    &#x40;MavenGoal("install")
+ * </pre>
+ * This is the equivalent to the command line like: {@code mvn clean install}</p>
+ * </p>
+
+ *
  * <p>The annotation {@code @MavenGoal} is an repeatable annotation.</p>
  *
- * @since 0.9.0
  * @author Karl Heinz Marbaise
+ * @see MavenGoals
+ * @since 0.9.0
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

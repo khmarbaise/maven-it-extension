@@ -31,12 +31,13 @@ import java.lang.annotation.Target;
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
- * {@code @SystemProperty} is used to define the repeatability of {@code @SystemProperty}.
+ * {@code @SystemProperties} is a container for one or more {@code @SystemProperty}
+ * declarations.
  *
- * @since 0.9.0
  * @author Karl Heinz Marbaise
+ * @since 0.9.0
  */
-@Target({ElementType.TYPE,ElementType.METHOD})
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
