@@ -156,6 +156,7 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
           <configuration>
+            <show>package</show>
             <tags>
               <tag>
                 <name>implNote</name>

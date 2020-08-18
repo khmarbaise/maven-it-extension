@@ -38,6 +38,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+      - name: 'Show Env'
+        run: printenv
       - name: 'Build'
         run: mvn -V --no-transfer-progress clean verify site:site site:stage
       - name: 'Deploy to gh-pages'
