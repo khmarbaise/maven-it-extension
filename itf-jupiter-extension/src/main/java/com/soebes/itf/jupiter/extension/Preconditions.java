@@ -53,6 +53,7 @@ public class Preconditions {
    *
    * @param parameter The array parameter of which the length will be checked.
    * @param message The message to thrown in case of not fulfilling the condition.
+   * @param <T> The type of the parameter.
    * @return Return the original {@code paramter} if not raised the execption.
    * @throws IllegalArgumentException in case the condition has not been fulfilled.
    */

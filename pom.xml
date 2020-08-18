@@ -153,6 +153,24 @@
     <pluginManagement>
       <plugins>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <configuration>
+            <tags>
+              <tag>
+                <name>implNote</name>
+                <placement>a</placement>
+                <head>Implementation Note:</head>
+              </tag>
+              <tag>
+                <name>implSpec</name>
+                <placement>a</placement>
+                <head>Implementation Requirements:</head>
+              </tag>
+            </tags>
+          </configuration>
+        </plugin>
+        <plugin>
           <groupId>org.sonarsource.scanner.maven</groupId>
           <artifactId>sonar-maven-plugin</artifactId>
           <version>3.7.0.1746</version>

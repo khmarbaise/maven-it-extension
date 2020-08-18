@@ -56,7 +56,7 @@ import static java.util.function.Function.identity;
 /**
  * itf-maven-plugin.
  *
- * @author @author <a href="mailto:khmarbaise@apache.org">Karl Heinz Marbaise</a>
+ * @author <a href="mailto:khmarbaise@apache.org">Karl Heinz Marbaise</a>
  * @implNote Several parts are taken from the maven-invoker-plugin.
  */
 @Mojo(name = "install", defaultPhase = LifecyclePhase.PRE_INTEGRATION_TEST,

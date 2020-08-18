@@ -46,7 +46,7 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 public @interface MavenProfiles {
 
   /**
-   * An array of one or more {@link MavenProfile @MavenProfile} declarations.
+   * @return An array of one or more {@link MavenProfile @MavenProfile} declarations.
    */
   MavenProfile[] value();
 }

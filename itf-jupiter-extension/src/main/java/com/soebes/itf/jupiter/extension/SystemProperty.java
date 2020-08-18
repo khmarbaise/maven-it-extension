@@ -40,13 +40,13 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
  *
  * <p>The annotation {@code @SystemProperty} is an repeatable annotation.</p>
  * <p>
- * Example:
+ * Example:</p>
  * <pre>
  *    &#x40;SystemProperty(value = "remotePom", content="localhost:dummy-bom-pom:1.0")
  *    &#x40;SystemProperty(value = "reportOutputFile", content="target/depDiffs.txt")
  * </pre>
- * This will be the equivalent of giving the properties via command line
- * like this:
+ * <p>This will be the equivalent of giving the properties via command line
+ * like this:</p>
  * <pre>
  *   mvn -DremotePom=localhost:dummy-bom-pom:1.0 -DreportOutputFile=target/depDiffs.txt ...
  * </pre>

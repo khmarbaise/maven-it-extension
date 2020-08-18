@@ -46,14 +46,13 @@ public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
   /**
    * Will give you back the stdout and removes the prefix "[INFO] " from all lines.
    * <p>
-   * It can be used to check for a sequence in the log output like this:
+   * It can be used to check for a sequence in the log output like this:</p>
    * <pre>
    *   assertThat(result)
    *    .log()
    *    .info()
    *    .containsSequence("The first line matching.", "The second line matching");
    * </pre>
-   * </p>
    *
    * @return {@link ListAssert}
    * @see ListAssert#containsSequence(Object[])

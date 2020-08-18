@@ -34,23 +34,22 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 /**
  * This annotation is intended to define a profile you would like to activate.
  * <p>
- * You can define the profile you would like to activate like this:
+ * You can define the profile you would like to activate like this:</p>
  * <pre>
  *    &#x40;MavenProfile("run-its")
  * </pre>
- * </p>
- * <p>For multiple profiles:
+ *
+ * <p>For multiple profiles:</p>
  * <pre>
  *    &#x40;MavenProfile({"run-its", "second-profile"})
  * </pre>
- * This is the equivalent to the command line like: {@code -Prun-its,second-profile}</p>
+ * <p>This is the equivalent to the command line like: {@code -Prun-its,second-profile}</p>
  *
- * <p>You can take advantage of the feature being a repeatable annotation like this:
+ * <p>You can take advantage of the feature being a repeatable annotation like this:</p>
  * <pre>
  *    &#x40;MavenProfile("first-profile")
  *    &#x40;MavenProfile("second-profile")
  * </pre>
- * </p>
  *
  * @author Karl Heinz Marbaise
  * @see MavenProfiles

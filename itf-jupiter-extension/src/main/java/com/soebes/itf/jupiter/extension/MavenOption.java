@@ -39,18 +39,16 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
  * are automatically inheriting the given goal.</p>
  *
  * <p>
- * You can define command line options like the following:
+ * You can define command line options like the following:</p>
  * <pre>
  *    &#x40;MavenOptions(MavenCLIOptions.FAIL_AT_END)
  * </pre>
- * </p>
- * <p>For multiple command line options:
+ * <p>For multiple command line options:</p>
  * <pre>
  *    &#x40;MavenOptions(MavenCLIOptions.FAIL_AT_END)
  *    &#x40;MavenOptions(MavenCLIOptions.ERROR)
  * </pre>
- * This is the equivalent to the command line like: {@code --fail-at-end --error}</p>
- * </p>
+ * <p>This is the equivalent to the command line like: {@code --fail-at-end --error}</p>
  *
  *
  * <p>The annotation {@code @MavenOption} is an repeatable annotation.</p>

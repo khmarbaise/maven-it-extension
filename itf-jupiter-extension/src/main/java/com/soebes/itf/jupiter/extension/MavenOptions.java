@@ -46,7 +46,7 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 public @interface MavenOptions {
 
   /**
-   * An array of one or more {@link MavenOption @MavenOption} declarations.
+   * @return An array of one or more {@link MavenOption @MavenOption} declarations.
    */
   MavenOption[] value();
 }

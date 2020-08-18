@@ -39,19 +39,16 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
  * are automatically inheriting the given goal.</p>
  *
  * <p>
- * You can define a goal on command line for Maven like the following:
+ * You can define a goal on command line for Maven like the following:</p>
  * <pre>
  *    &#x40;MavenGoal("install")
  * </pre>
- * </p>
- * <p>For multiple command line options:
+ * <p>For multiple command line options:</p>
  * <pre>
  *    &#x40;MavenGoal("clean")
  *    &#x40;MavenGoal("install")
  * </pre>
- * This is the equivalent to the command line like: {@code mvn clean install}</p>
- * </p>
-
+ * <p>This is the equivalent to the command line like: {@code mvn clean install}</p>
  *
  * <p>The annotation {@code @MavenGoal} is an repeatable annotation.</p>
  *
@@ -67,6 +64,6 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 @API(status = EXPERIMENTAL, since = "0.9.0")
 public @interface MavenGoal {
 
-  String[] value() default {"package"};
+  String[] value() default {"package"}; //Need to reconsider the default value.
 
 }

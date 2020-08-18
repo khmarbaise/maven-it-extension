@@ -45,7 +45,7 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 public @interface MavenGoals {
 
   /**
-   * An array of one or more {@link MavenGoal @MavenGoal} declarations.
+   * @return An array of one or more {@link MavenGoal @MavenGoal} declarations.
    */
   MavenGoal[] value();
 }

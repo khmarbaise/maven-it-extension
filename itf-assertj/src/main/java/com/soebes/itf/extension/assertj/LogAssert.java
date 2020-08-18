@@ -56,14 +56,13 @@ public class LogAssert extends AbstractAssert<LogAssert, LogClass> {
   /**
    * Will give you back the stdout and removes the prefix {@code "[INFO] "} (including the single space) from all lines.
    * <p>
-   * It can be used to check for a sequence in the log output like this:
+   * It can be used to check for a sequence in the log output like this:</p>
    * <pre><code class="java">
    *   assertThat(result)
    *    .out()
    *    .info()
    *    .containsSequence("The first line matching.", "The second line matching");
    * </code></pre>
-   * </p>
    *
    * @return {@link ListAssert}
    * @see ListAssert#containsSequence(Object[])

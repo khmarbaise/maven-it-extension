@@ -44,5 +44,8 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 @API(status = EXPERIMENTAL, since = "0.9.0")
 public @interface SystemProperties {
 
+  /**
+   * @return An array of one or more {@link SystemProperty @SystemProperty} declarations.
+   */
   SystemProperty[] value();
 }
