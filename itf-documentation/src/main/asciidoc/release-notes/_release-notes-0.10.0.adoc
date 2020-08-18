@@ -20,6 +20,7 @@
 
 :issue-140: https://github.com/khmarbaise/maven-it-extension/issues/140[Fixed #140]
 :issue-141: https://github.com/khmarbaise/maven-it-extension/issues/141[Fixed #141]
+:issue-142: https://github.com/khmarbaise/maven-it-extension/issues/142[Fixed #142]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -31,6 +32,7 @@
 
  - Refactoring/Code cleanups
    * {issue-140} - Remove deprecated marked annotation elements and code
+   * {issue-142} - Reduce visibility of classes
 
 *Details*
 
@@ -39,6 +41,9 @@
 *Breaking Changes*
 
  * {issue-140} - Remove deprecated marked annotation elements and code
+ * {issue-142} - Reduce visibility of classes; If you have used the following
+    classes `ApplicationExecutor` or `DirectoryHelper` in your code they have
+    be made invisible for users. No alternative available.
 
 *Reporter of this release*
 

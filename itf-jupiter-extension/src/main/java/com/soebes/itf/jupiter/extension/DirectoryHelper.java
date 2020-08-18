@@ -24,20 +24,24 @@ import java.io.File;
 /**
  * @author Karl Heinz Marbaise
  */
-public class DirectoryHelper {
+class DirectoryHelper {
 
-  public static File getMavenBaseDir() {
+  private DirectoryHelper() {
+    // intentionally empty to prevent instantiation.
+  }
+
+  static File getMavenBaseDir() {
     return new File(System.getProperty("basedir", System.getProperty("user.dir", ".")));
   }
 
-  public static String toFullyQualifiedPath(Class<?> testClass) {
+  static String toFullyQualifiedPath(Class<?> testClass) {
     return testClass.getCanonicalName().replace('.', '/');
   }
 
   /**
    * @return the target directory of the current project.
    */
-  public static File getTargetDir() {
+  static File getTargetDir() {
     return new File(getMavenBaseDir(), "target");
   }
 

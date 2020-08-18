@@ -37,7 +37,7 @@ import java.util.stream.Stream;
 /**
  * @author Karl Heinz Marbaise
  */
-public class ApplicationExecutor {
+class ApplicationExecutor {
 
   private final File loggingDirectory;
 
@@ -51,7 +51,7 @@ public class ApplicationExecutor {
 
   private final String javaHome;
 
-  public ApplicationExecutor(String javaHome, File loggingDirectory, File workingDirectory, Path applicationExecutable,
+  ApplicationExecutor(String javaHome, File loggingDirectory, File workingDirectory, Path applicationExecutable,
                              List<String> jvmArguments, String prefix) {
     this.javaHome = javaHome;
     this.loggingDirectory = loggingDirectory;
@@ -61,14 +61,14 @@ public class ApplicationExecutor {
     this.prefix = prefix;
   }
 
-  public ApplicationExecutor(File workingDirectory, File loggingDirectory, Path applicationExecutable,
+  ApplicationExecutor(File workingDirectory, File loggingDirectory, Path applicationExecutable,
                              List<String> jvmArguments, String prefix) {
     //TODO: This should be made configurable
     this(System.getProperty("java.home"), loggingDirectory, workingDirectory, applicationExecutable, jvmArguments,
         prefix);
   }
 
-  public Process start(List<String> startArguments) throws IOException {
+  Process start(List<String> startArguments) throws IOException {
 
     List<String> applicationArguments = new ArrayList<>();
     //TODO: Can make that better?
@@ -96,12 +96,12 @@ public class ApplicationExecutor {
     return pb.start();
   }
 
-  public int startAndWaitUntilEnded(List<String> args) throws IOException, InterruptedException {
+  int startAndWaitUntilEnded(List<String> args) throws IOException, InterruptedException {
     Process start = start(args);
     return start.waitFor();
   }
 
-  public Path getStdout() {
+  Path getStdout() {
     return Paths.get(loggingDirectory.toString(), this.prefix + "-stdout.log");
   }
 
@@ -110,7 +110,7 @@ public class ApplicationExecutor {
     return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();
   }
 
-  public Path getStdErr() {
+  Path getStdErr() {
     return Paths.get(loggingDirectory.toString(), this.prefix + "-stderr.log");
   }
 
