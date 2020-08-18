@@ -39,9 +39,7 @@ jobs:
         with:
           java-version: 11
       - name: 'Build'
-        run:
-          - unset JAVA_TOOL_OPTIONS
-          - mvn -V --no-transfer-progress clean verify site:site site:stage
+        run: unset JAVA_TOOL_OPTIONS;mvn -V --no-transfer-progress clean verify site:site site:stage
       - name: 'Deploy to gh-pages'
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
