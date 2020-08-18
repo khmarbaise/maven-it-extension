@@ -27,25 +27,19 @@ jobs:
     name: Linux
     runs-on: ubuntu-latest
     steps:
-      - name: 'Show Env I'
-        run: printenv
+      - name: 'UNSET JAVA_TOOL_OPTIONS'
+        run: unset JAVA_TOOL_OPTIONS
       - name: 'Checkout'
         uses: actions/checkout@v2
-      - name: 'Show Env II'
-        run: printenv
       - uses: actions/cache@v2
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-ubuntu-latest-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven-ubuntu-latest
-      - name: 'Show Env III'
-        run: printenv
       - name: 'Setup Java Version'
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: 'Show Env IV'
-        run: printenv
       - name: 'Build'
         run: mvn -V --no-transfer-progress clean verify site:site site:stage
       - name: 'Deploy to gh-pages'
