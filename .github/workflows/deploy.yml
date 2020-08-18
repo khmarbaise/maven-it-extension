@@ -27,8 +27,6 @@ jobs:
     name: Linux
     runs-on: ubuntu-latest
     steps:
-      - name: 'UNSET JAVA_TOOL_OPTIONS'
-        run: unset JAVA_TOOL_OPTIONS
       - name: 'Checkout'
         uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -41,7 +39,9 @@ jobs:
         with:
           java-version: 11
       - name: 'Build'
-        run: mvn -V --no-transfer-progress clean verify site:site site:stage
+        run:
+          - unset JAVA_TOOL_OPTIONS
+          - mvn -V --no-transfer-progress clean verify site:site site:stage
       - name: 'Deploy to gh-pages'
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
