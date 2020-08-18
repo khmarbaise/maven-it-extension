@@ -56,24 +56,23 @@ public class LogAssert extends AbstractAssert&lt;LogAssert, LogClass&gt; {
   /**
    * Will give you back the stdout and removes the prefix {@code &quot;[INFO] &quot;} (including the single space) from all lines.
    * &lt;p&gt;
-   * It can be used to check for a sequence in the log output like this:
+   * It can be used to check for a sequence in the log output like this:&lt;/p&gt;
    * &lt;pre&gt;&lt;code class=&quot;java&quot;&gt;
    *   assertThat(result)
    *    .out()
    *    .info()
    *    .containsSequence(&quot;The first line matching.&quot;, &quot;The second line matching&quot;);
    * &lt;/code&gt;&lt;/pre&gt;
-   * &lt;/p&gt;
    *
    * @return {@link ListAssert}
    * @see ListAssert#containsSequence(Object[])
    * @since 0.8.0
    */
   public ListAssert&lt;String&gt; info() {
-<span class="nc" id="L73">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getLog())</span>
-<span class="nc" id="L74">        .filter(IS_INFO)</span>
-<span class="nc" id="L75">        .map(s -&gt; s.substring(7)) // Need to reconsider?</span>
-<span class="nc" id="L76">        .collect(Collectors.toList()));</span>
+<span class="nc" id="L72">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getLog())</span>
+<span class="nc" id="L73">        .filter(IS_INFO)</span>
+<span class="nc" id="L74">        .map(s -&gt; s.substring(7)) // Need to reconsider?</span>
+<span class="nc" id="L75">        .collect(Collectors.toList()));</span>
   }
 
   /**
@@ -104,10 +103,10 @@ public class LogAssert extends AbstractAssert&lt;LogAssert, LogClass&gt; {
    * @see ListAssert#contains(Object[])
    */
   public ListAssert&lt;String&gt; debug() {
-<span class="nc" id="L107">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getLog())</span>
-<span class="nc" id="L108">        .filter(IS_DEBUG)</span>
-<span class="nc" id="L109">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
-<span class="nc" id="L110">        .collect(Collectors.toList()));</span>
+<span class="nc" id="L106">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getLog())</span>
+<span class="nc" id="L107">        .filter(IS_DEBUG)</span>
+<span class="nc" id="L108">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
+<span class="nc" id="L109">        .collect(Collectors.toList()));</span>
   }
 
   /**
@@ -136,10 +135,10 @@ public class LogAssert extends AbstractAssert&lt;LogAssert, LogClass&gt; {
    * @see ListAssert#contains(Object[])
    */
   public ListAssert&lt;String&gt; warn() {
-<span class="nc" id="L139">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getLog())</span>
-<span class="nc" id="L140">        .filter(IS_WARNING)</span>
-<span class="nc" id="L141">        .map(s -&gt; s.substring(10)) // Need to reconsider?</span>
-<span class="nc" id="L142">        .collect(Collectors.toList()));</span>
+<span class="nc" id="L138">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getLog())</span>
+<span class="nc" id="L139">        .filter(IS_WARNING)</span>
+<span class="nc" id="L140">        .map(s -&gt; s.substring(10)) // Need to reconsider?</span>
+<span class="nc" id="L141">        .collect(Collectors.toList()));</span>
   }
 
   /**
@@ -161,10 +160,10 @@ public class LogAssert extends AbstractAssert&lt;LogAssert, LogClass&gt; {
    * @see ListAssert#contains(Object[])
    */
   public ListAssert&lt;String&gt; error() {
-<span class="nc" id="L164">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getLog())</span>
-<span class="nc" id="L165">        .filter(IS_ERROR)</span>
-<span class="nc" id="L166">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
-<span class="nc" id="L167">        .collect(Collectors.toList()));</span>
+<span class="nc" id="L163">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getLog())</span>
+<span class="nc" id="L164">        .filter(IS_ERROR)</span>
+<span class="nc" id="L165">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
+<span class="nc" id="L166">        .collect(Collectors.toList()));</span>
   }
 
   /**
@@ -183,7 +182,7 @@ public class LogAssert extends AbstractAssert&lt;LogAssert, LogClass&gt; {
    * @see ListAssert#contains(Object[])
    */
   public ListAssert&lt;String&gt; plain() {
-<span class="nc" id="L186">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getLog()));</span>
+<span class="nc" id="L185">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getLog()));</span>
   }
 
 }
