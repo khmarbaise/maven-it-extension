@@ -303,7 +303,7 @@ has its own local repository (aka local cache) `.m2/repository`. Furthermore you
 project is being built within the `project` directory. This gives you a view of the built project as you
 did on plain command line and take a look into it. The output of the build has been written into
 `mvn-stdout.log`(stdout) and the output to stderr is written to `mvn-stderr.log`. The used
- line parameters command to call Maven are wrote into `mvn-arguments.log`.
+ command line parameters to call Maven are wrote into `mvn-arguments.log`.
 
 //TODO: Define `other logs` ? environment output, command line parameters ?
 //FIXME: Needs to be implemented
@@ -1466,7 +1466,7 @@ In using the `..out()` it can be combined with things like:
 * `.info()`
 * `.warn()`
 * `.debug()`
-* `.error()'
+* `.error()`
 
 Those parts will remove the appropriate prefix from each output line `[INFO]`, `[WARNING]`, `[DEBUG]` or `[ERROR]`
 (This includes the single space which is followed by them).
