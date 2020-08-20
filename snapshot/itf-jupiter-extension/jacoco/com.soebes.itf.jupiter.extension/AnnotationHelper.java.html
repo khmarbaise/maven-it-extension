@@ -94,7 +94,7 @@ class AnnotationHelper {
   }
 
   static boolean hasSystemProperties(ExtensionContext context) {
-<span class="nc bnc" id="L97" title="All 2 branches missed.">    return systemProperties(context).size() &gt; 0;</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">    return !systemProperties(context).isEmpty();</span>
   }
 
   static List&lt;SystemProperty&gt; systemProperties(ExtensionContext context) {
@@ -103,36 +103,35 @@ class AnnotationHelper {
 <span class="nc" id="L103">      return repeatableAnnotationsOnMethod;</span>
     }
 
-<span class="nc" id="L106">    List&lt;SystemProperty&gt; repeatableAnnotationsOnClass = AnnotationSupport.findRepeatableAnnotations(context.getTestClass(), SystemProperty.class);</span>
-<span class="nc" id="L107">    return repeatableAnnotationsOnClass;</span>
+<span class="nc" id="L106">    return AnnotationSupport.findRepeatableAnnotations(context.getTestClass(), SystemProperty.class);</span>
   }
 
   private static Optional&lt;Class&lt;?&gt;&gt; findAnnotation(ExtensionContext context,
                                                    Class&lt;? extends Annotation&gt; annotationClass) {
-<span class="nc" id="L112">    Optional&lt;ExtensionContext&gt; current = Optional.of(context);</span>
-<span class="nc bnc" id="L113" title="All 2 branches missed.">    while (current.isPresent()) {</span>
-<span class="nc" id="L114">      Optional&lt;Class&lt;?&gt;&gt; testClassNumber1 = current.get().getTestClass();</span>
-<span class="nc bnc" id="L115" title="All 2 branches missed.">      if (testClassNumber1.isPresent()) {</span>
-<span class="nc" id="L116">        Class&lt;?&gt; testClass = testClassNumber1.get();</span>
-<span class="nc bnc" id="L117" title="All 2 branches missed.">        if (testClass.isAnnotationPresent(annotationClass)) {</span>
-<span class="nc" id="L118">          return Optional.of(testClass);</span>
+<span class="nc" id="L111">    Optional&lt;ExtensionContext&gt; current = Optional.of(context);</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">    while (current.isPresent()) {</span>
+<span class="nc" id="L113">      Optional&lt;Class&lt;?&gt;&gt; testClassNumber1 = current.get().getTestClass();</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">      if (testClassNumber1.isPresent()) {</span>
+<span class="nc" id="L115">        Class&lt;?&gt; testClass = testClassNumber1.get();</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        if (testClass.isAnnotationPresent(annotationClass)) {</span>
+<span class="nc" id="L117">          return Optional.of(testClass);</span>
         }
       }
-<span class="nc" id="L121">      current = current.get().getParent();</span>
-<span class="nc" id="L122">    }</span>
-<span class="nc" id="L123">    return Optional.empty();</span>
+<span class="nc" id="L120">      current = current.get().getParent();</span>
+<span class="nc" id="L121">    }</span>
+<span class="nc" id="L122">    return Optional.empty();</span>
   }
 
   static Optional&lt;Class&lt;?&gt;&gt; findMavenRepositoryAnnotation(ExtensionContext context) {
-<span class="nc" id="L127">    return findAnnotation(context, MavenRepository.class);</span>
+<span class="nc" id="L126">    return findAnnotation(context, MavenRepository.class);</span>
   }
 
   static Optional&lt;Class&lt;?&gt;&gt; findMavenProjectAnnotation(ExtensionContext context) {
-<span class="nc" id="L131">    return findAnnotation(context, MavenProject.class);</span>
+<span class="nc" id="L130">    return findAnnotation(context, MavenProject.class);</span>
   }
 
   static Optional&lt;Class&lt;?&gt;&gt; findMavenPredefinedRepositoryAnnotation(ExtensionContext context) {
-<span class="nc" id="L135">    return findAnnotation(context, MavenPredefinedRepository.class);</span>
+<span class="nc" id="L134">    return findAnnotation(context, MavenPredefinedRepository.class);</span>
   }
 
 }
