@@ -92,6 +92,7 @@ public class MavenExecutionResult {
         .toString();
   }
 
+  @SuppressWarnings("java:S115")
   public enum ExecutionResult {
     Successful,
     Failure,

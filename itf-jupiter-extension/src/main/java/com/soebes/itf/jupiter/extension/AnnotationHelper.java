@@ -94,7 +94,7 @@ class AnnotationHelper {
   }
 
   static boolean hasSystemProperties(ExtensionContext context) {
-    return systemProperties(context).size() > 0;
+    return !systemProperties(context).isEmpty();
   }
 
   static List<SystemProperty> systemProperties(ExtensionContext context) {
@@ -103,8 +103,7 @@ class AnnotationHelper {
       return repeatableAnnotationsOnMethod;
     }
 
-    List<SystemProperty> repeatableAnnotationsOnClass = AnnotationSupport.findRepeatableAnnotations(context.getTestClass(), SystemProperty.class);
-    return repeatableAnnotationsOnClass;
+    return AnnotationSupport.findRepeatableAnnotations(context.getTestClass(), SystemProperty.class);
   }
 
   private static Optional<Class<?>> findAnnotation(ExtensionContext context,

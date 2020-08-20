@@ -54,6 +54,10 @@ class MetadataUtils {
   private static final String LAST_UPDATED = "lastUpdated";
   private static final String VERSIONS = "versions";
 
+  private MetadataUtils() {
+    // intentionally empty to prevent instantiation.
+  }
+  
   /**
    * Creates local metadata files for the specified artifact. The goal is to simulate the installation of the artifact
    * by a local build, thereby decoupling the forked builds from the inderministic collection of remote repositories
