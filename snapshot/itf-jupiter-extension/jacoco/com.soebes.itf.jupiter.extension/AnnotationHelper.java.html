@@ -36,10 +36,8 @@ class AnnotationHelper {
     // prevent instantiation.
   }
 
-
-
   static boolean hasProfiles(ExtensionContext context) {
-<span class="nc bnc" id="L42" title="All 2 branches missed.">    return profiles(context).count() &gt; 0;</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">    return profiles(context).count() &gt; 0;</span>
   }
 
   /**
@@ -50,17 +48,17 @@ class AnnotationHelper {
    */
   static Stream&lt;String&gt; profiles(ExtensionContext context) {
     //MavenProfile[] annotationsByType = context.getClass().getPackage().getAnnotationsByType(MavenProfile.class);
-<span class="nc" id="L53">    List&lt;MavenProfile&gt; repeatableAnnotationsOnMethod = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), MavenProfile.class);</span>
-<span class="nc bnc" id="L54" title="All 2 branches missed.">    if (repeatableAnnotationsOnMethod.stream().flatMap(s -&gt; Stream.of(s.value())).count() &gt; 0) {</span>
-<span class="nc" id="L55">      return repeatableAnnotationsOnMethod.stream().flatMap(s -&gt; Stream.of(s.value()));</span>
+<span class="nc" id="L51">    List&lt;MavenProfile&gt; repeatableAnnotationsOnMethod = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), MavenProfile.class);</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">    if (repeatableAnnotationsOnMethod.stream().flatMap(s -&gt; Stream.of(s.value())).count() &gt; 0) {</span>
+<span class="nc" id="L53">      return repeatableAnnotationsOnMethod.stream().flatMap(s -&gt; Stream.of(s.value()));</span>
     }
 
-<span class="nc" id="L58">    List&lt;MavenProfile&gt; repeatableAnnotationsOnClass = AnnotationSupport.findRepeatableAnnotations(context.getTestClass(), MavenProfile.class);</span>
-<span class="nc" id="L59">    return repeatableAnnotationsOnClass.stream().flatMap(s -&gt; Stream.of(s.value()));</span>
+<span class="nc" id="L56">    List&lt;MavenProfile&gt; repeatableAnnotationsOnClass = AnnotationSupport.findRepeatableAnnotations(context.getTestClass(), MavenProfile.class);</span>
+<span class="nc" id="L57">    return repeatableAnnotationsOnClass.stream().flatMap(s -&gt; Stream.of(s.value()));</span>
   }
 
   static boolean hasGoals(ExtensionContext context) {
-<span class="nc bnc" id="L63" title="All 2 branches missed.">    return goals(context).count() &gt; 0;</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">    return goals(context).count() &gt; 0;</span>
   }
 
   /**
@@ -70,68 +68,68 @@ class AnnotationHelper {
    * @return The stream with the goals if exist.
    */
   static Stream&lt;String&gt; goals(ExtensionContext context) {
-<span class="nc" id="L73">    List&lt;MavenGoal&gt; repeatableAnnotationsOnMethod = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), MavenGoal.class);</span>
-<span class="nc bnc" id="L74" title="All 2 branches missed.">    if (repeatableAnnotationsOnMethod.stream().flatMap(s -&gt; Stream.of(s.value())).count() &gt; 0) {</span>
-<span class="nc" id="L75">      return repeatableAnnotationsOnMethod.stream().flatMap(s -&gt; Stream.of(s.value()));</span>
+<span class="nc" id="L71">    List&lt;MavenGoal&gt; repeatableAnnotationsOnMethod = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), MavenGoal.class);</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">    if (repeatableAnnotationsOnMethod.stream().flatMap(s -&gt; Stream.of(s.value())).count() &gt; 0) {</span>
+<span class="nc" id="L73">      return repeatableAnnotationsOnMethod.stream().flatMap(s -&gt; Stream.of(s.value()));</span>
     }
 
-<span class="nc" id="L78">    List&lt;MavenGoal&gt; repeatableAnnotationsOnClass = AnnotationSupport.findRepeatableAnnotations(context.getTestClass(), MavenGoal.class);</span>
-<span class="nc" id="L79">    return repeatableAnnotationsOnClass.stream().flatMap(s -&gt; Stream.of(s.value()));</span>
+<span class="nc" id="L76">    List&lt;MavenGoal&gt; repeatableAnnotationsOnClass = AnnotationSupport.findRepeatableAnnotations(context.getTestClass(), MavenGoal.class);</span>
+<span class="nc" id="L77">    return repeatableAnnotationsOnClass.stream().flatMap(s -&gt; Stream.of(s.value()));</span>
   }
 
   static boolean hasOptions(ExtensionContext context) {
-<span class="nc bnc" id="L83" title="All 2 branches missed.">    return options(context).count() &gt; 0;</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">    return options(context).count() &gt; 0;</span>
   }
 
   static Stream&lt;String&gt; options(ExtensionContext context) {
-<span class="nc" id="L87">    List&lt;MavenOption&gt; repeatableAnnotationsOnMethod = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), MavenOption.class);</span>
-<span class="nc bnc" id="L88" title="All 4 branches missed.">    if (repeatableAnnotationsOnMethod.stream().flatMap(s -&gt; s.parameter().isEmpty() ? Stream.of(s.value()) : Stream.of(s.value(), s.parameter())).count() &gt; 0) {</span>
-<span class="nc bnc" id="L89" title="All 2 branches missed.">      return repeatableAnnotationsOnMethod.stream().flatMap(s -&gt; s.parameter().isEmpty() ? Stream.of(s.value()) : Stream.of(s.value(), s.parameter()));</span>
+<span class="nc" id="L85">    List&lt;MavenOption&gt; repeatableAnnotationsOnMethod = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), MavenOption.class);</span>
+<span class="nc bnc" id="L86" title="All 4 branches missed.">    if (repeatableAnnotationsOnMethod.stream().flatMap(s -&gt; s.parameter().isEmpty() ? Stream.of(s.value()) : Stream.of(s.value(), s.parameter())).count() &gt; 0) {</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">      return repeatableAnnotationsOnMethod.stream().flatMap(s -&gt; s.parameter().isEmpty() ? Stream.of(s.value()) : Stream.of(s.value(), s.parameter()));</span>
     }
 
-<span class="nc" id="L92">    List&lt;MavenOption&gt; repeatableAnnotationsOnClass = AnnotationSupport.findRepeatableAnnotations(context.getTestClass(), MavenOption.class);</span>
-<span class="nc bnc" id="L93" title="All 2 branches missed.">    return repeatableAnnotationsOnClass.stream().flatMap(s -&gt; s.parameter().isEmpty() ? Stream.of(s.value()) : Stream.of(s.value(), s.parameter()));</span>
+<span class="nc" id="L90">    List&lt;MavenOption&gt; repeatableAnnotationsOnClass = AnnotationSupport.findRepeatableAnnotations(context.getTestClass(), MavenOption.class);</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">    return repeatableAnnotationsOnClass.stream().flatMap(s -&gt; s.parameter().isEmpty() ? Stream.of(s.value()) : Stream.of(s.value(), s.parameter()));</span>
   }
 
   static boolean hasSystemProperties(ExtensionContext context) {
-<span class="nc bnc" id="L97" title="All 2 branches missed.">    return !systemProperties(context).isEmpty();</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">    return !systemProperties(context).isEmpty();</span>
   }
 
   static List&lt;SystemProperty&gt; systemProperties(ExtensionContext context) {
-<span class="nc" id="L101">    List&lt;SystemProperty&gt; repeatableAnnotationsOnMethod = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), SystemProperty.class);</span>
-<span class="nc bnc" id="L102" title="All 4 branches missed.">    if (repeatableAnnotationsOnMethod.stream().flatMap(s -&gt; s.value().isEmpty() ? Stream.of(s.value()) : Stream.of(s.value(), s.value())).count() &gt; 0) {</span>
-<span class="nc" id="L103">      return repeatableAnnotationsOnMethod;</span>
+<span class="nc" id="L99">    List&lt;SystemProperty&gt; repeatableAnnotationsOnMethod = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), SystemProperty.class);</span>
+<span class="nc bnc" id="L100" title="All 4 branches missed.">    if (repeatableAnnotationsOnMethod.stream().flatMap(s -&gt; s.value().isEmpty() ? Stream.of(s.value()) : Stream.of(s.value(), s.value())).count() &gt; 0) {</span>
+<span class="nc" id="L101">      return repeatableAnnotationsOnMethod;</span>
     }
 
-<span class="nc" id="L106">    return AnnotationSupport.findRepeatableAnnotations(context.getTestClass(), SystemProperty.class);</span>
+<span class="nc" id="L104">    return AnnotationSupport.findRepeatableAnnotations(context.getTestClass(), SystemProperty.class);</span>
   }
 
   private static Optional&lt;Class&lt;?&gt;&gt; findAnnotation(ExtensionContext context,
                                                    Class&lt;? extends Annotation&gt; annotationClass) {
-<span class="nc" id="L111">    Optional&lt;ExtensionContext&gt; current = Optional.of(context);</span>
-<span class="nc bnc" id="L112" title="All 2 branches missed.">    while (current.isPresent()) {</span>
-<span class="nc" id="L113">      Optional&lt;Class&lt;?&gt;&gt; testClassNumber1 = current.get().getTestClass();</span>
-<span class="nc bnc" id="L114" title="All 2 branches missed.">      if (testClassNumber1.isPresent()) {</span>
-<span class="nc" id="L115">        Class&lt;?&gt; testClass = testClassNumber1.get();</span>
-<span class="nc bnc" id="L116" title="All 2 branches missed.">        if (testClass.isAnnotationPresent(annotationClass)) {</span>
-<span class="nc" id="L117">          return Optional.of(testClass);</span>
+<span class="nc" id="L109">    Optional&lt;ExtensionContext&gt; current = Optional.of(context);</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">    while (current.isPresent()) {</span>
+<span class="nc" id="L111">      Optional&lt;Class&lt;?&gt;&gt; testClassNumber1 = current.get().getTestClass();</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">      if (testClassNumber1.isPresent()) {</span>
+<span class="nc" id="L113">        Class&lt;?&gt; testClass = testClassNumber1.get();</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        if (testClass.isAnnotationPresent(annotationClass)) {</span>
+<span class="nc" id="L115">          return Optional.of(testClass);</span>
         }
       }
-<span class="nc" id="L120">      current = current.get().getParent();</span>
-<span class="nc" id="L121">    }</span>
-<span class="nc" id="L122">    return Optional.empty();</span>
+<span class="nc" id="L118">      current = current.get().getParent();</span>
+<span class="nc" id="L119">    }</span>
+<span class="nc" id="L120">    return Optional.empty();</span>
   }
 
   static Optional&lt;Class&lt;?&gt;&gt; findMavenRepositoryAnnotation(ExtensionContext context) {
-<span class="nc" id="L126">    return findAnnotation(context, MavenRepository.class);</span>
+<span class="nc" id="L124">    return findAnnotation(context, MavenRepository.class);</span>
   }
 
   static Optional&lt;Class&lt;?&gt;&gt; findMavenProjectAnnotation(ExtensionContext context) {
-<span class="nc" id="L130">    return findAnnotation(context, MavenProject.class);</span>
+<span class="nc" id="L128">    return findAnnotation(context, MavenProject.class);</span>
   }
 
   static Optional&lt;Class&lt;?&gt;&gt; findMavenPredefinedRepositoryAnnotation(ExtensionContext context) {
-<span class="nc" id="L134">    return findAnnotation(context, MavenPredefinedRepository.class);</span>
+<span class="nc" id="L132">    return findAnnotation(context, MavenPredefinedRepository.class);</span>
   }
 
 }
