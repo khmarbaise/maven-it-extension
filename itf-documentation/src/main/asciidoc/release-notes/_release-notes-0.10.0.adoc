@@ -21,6 +21,7 @@
 :issue-140: https://github.com/khmarbaise/maven-it-extension/issues/140[Fixed #140]
 :issue-141: https://github.com/khmarbaise/maven-it-extension/issues/141[Fixed #141]
 :issue-142: https://github.com/khmarbaise/maven-it-extension/issues/142[Fixed #142]
+:issue-143: https://github.com/khmarbaise/maven-it-extension/issues/143[Fixed #143]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -33,6 +34,7 @@
  - Refactoring/Code cleanups
    * {issue-140} - Remove deprecated marked annotation elements and code
    * {issue-142} - Reduce visibility of classes
+   * {issue-143} - Deprecate ExecutionResult.Error
 
 *Details*
 
@@ -44,6 +46,9 @@
  * {issue-142} - Reduce visibility of classes; If you have used the following
     classes `ApplicationExecutor` or `DirectoryHelper` in your code they have
     be made invisible for users. No alternative available.
+ * {issue-143} - Deprecate ExecutionResult.Error; If you have used that directly
+   within your code you should change your code. This is being marked deprecated
+   and will be removed with release 0.11.0.
 
 *Reporter of this release*
 

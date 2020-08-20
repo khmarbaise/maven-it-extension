@@ -23,6 +23,7 @@ import org.apiguardian.api.API;
 
 import java.util.StringJoiner;
 
+import static org.apiguardian.api.API.Status.DEPRECATED;
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
@@ -96,6 +97,8 @@ public class MavenExecutionResult {
   public enum ExecutionResult {
     Successful,
     Failure,
+    @API(status = DEPRECATED, since = "0.10.0")
+    @Deprecated
     Error
   }
 }
