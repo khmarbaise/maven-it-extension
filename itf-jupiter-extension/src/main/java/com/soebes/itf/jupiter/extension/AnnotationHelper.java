@@ -36,8 +36,6 @@ class AnnotationHelper {
     // prevent instantiation.
   }
 
-
-
   static boolean hasProfiles(ExtensionContext context) {
     return profiles(context).count() > 0;
   }

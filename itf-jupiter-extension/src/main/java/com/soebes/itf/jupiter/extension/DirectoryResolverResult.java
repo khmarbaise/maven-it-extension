@@ -74,11 +74,14 @@ class DirectoryResolverResult {
 
     Class<?> testClass = context.getTestClass().orElseThrow(() -> new IllegalStateException("Test class not found."));
     String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);
+
+
+    File intermediate = new File(this.mavenItsBaseDirectory, toFullyQualifiedPath);
     if (mavenProject.isPresent()) {
       MavenProject mavenProjectAnnotation = mavenProject.get().getAnnotation(MavenProject.class);
-      this.sourceMavenProject = new File(this.mavenItsBaseDirectory, toFullyQualifiedPath + "/" + mavenProjectAnnotation.value());
+      this.sourceMavenProject = new File(intermediate, mavenProjectAnnotation.value());
     } else {
-      this.sourceMavenProject = new File(this.mavenItsBaseDirectory, toFullyQualifiedPath + "/" + methodName.getName());
+      this.sourceMavenProject = new File( intermediate, methodName.getName());
     }
 
     Optional<Class<?>> optionalMavenRepository = AnnotationHelper.findMavenRepositoryAnnotation(context);
@@ -143,36 +146,6 @@ class DirectoryResolverResult {
 
   final File getTargetDirectory() {
     return targetDirectory;
-  }
-
-  class DirectoryExtensionContextResolver {
-
-    private File mavenItBaseDirectory;
-
-    private File mavenBaseDirectory;
-
-    private File targetDirectory;
-
-    DirectoryResolverResult resolve(ExtensionContext context) {
-      StorageHelper sh = new StorageHelper(context);
-      this.mavenItBaseDirectory = sh.get(Storage.MAVEN_IT_TESTCASE_BASEDIRECTORY, File.class);
-      this.mavenBaseDirectory = sh.get(Storage.MAVEN_IT_BASEDIRECTORY, File.class);
-      this.targetDirectory = sh.get(Storage.TARGET_DIRECTORY, File.class);
-
-      return new DirectoryResolverResult(context);
-    }
-
-    public File getMavenItBaseDirectory() {
-      return mavenItBaseDirectory;
-    }
-
-    public File getMavenBaseDirectory() {
-      return mavenBaseDirectory;
-    }
-
-    public File getTargetDirectory() {
-      return targetDirectory;
-    }
   }
 
 }
