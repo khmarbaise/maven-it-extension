@@ -23,6 +23,7 @@
 :issue-142: https://github.com/khmarbaise/maven-it-extension/issues/142[Fixed #142]
 :issue-143: https://github.com/khmarbaise/maven-it-extension/issues/143[Fixed #143]
 :issue-144: https://github.com/khmarbaise/maven-it-extension/issues/144[Fixed #144]
+:issue-145: https://github.com/khmarbaise/maven-it-extension/issues/145[Fixed #145]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -36,6 +37,7 @@
    * {issue-140} - Remove deprecated marked annotation elements and code
    * {issue-142} - Reduce visibility of classes
    * {issue-143} - Deprecate ExecutionResult.Error
+   * {issue-145} - Remove not used dependency to testcontainers.
 
 *Details*
 
