@@ -26,6 +26,7 @@
 :issue-145: https://github.com/khmarbaise/maven-it-extension/issues/145[Fixed #145]
 :issue-146: https://github.com/khmarbaise/maven-it-extension/issues/146[Fixed #146]
 :issue-147: https://github.com/khmarbaise/maven-it-extension/issues/147[Fixed #147]
+:issue-148: https://github.com/khmarbaise/maven-it-extension/issues/148[Fixed #148]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -71,6 +72,7 @@
  * {issue-144} - Upgrade assertj to 3.17.0
  * {issue-146} - Upgrade commons-io to 2.7
  * {issue-147} - Update byte-buddy to 1.10.14
+ * {issue-148} - Upgrade equalsverifier to 3.4.2
  * {issue-??} - ??
 
 *Build Improvements*
