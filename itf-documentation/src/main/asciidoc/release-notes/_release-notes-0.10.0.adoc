@@ -22,6 +22,7 @@
 :issue-141: https://github.com/khmarbaise/maven-it-extension/issues/141[Fixed #141]
 :issue-142: https://github.com/khmarbaise/maven-it-extension/issues/142[Fixed #142]
 :issue-143: https://github.com/khmarbaise/maven-it-extension/issues/143[Fixed #143]
+:issue-144: https://github.com/khmarbaise/maven-it-extension/issues/144[Fixed #144]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -63,6 +64,7 @@
 *Dependency Upgrades*
 
  * {issue-141} - Upgrade mockito to 3.5.0
+ * {issue-144} - Upgrade assertj to 3.17.0
  * {issue-??} - ??
 
 *Build Improvements*
