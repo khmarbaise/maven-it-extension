@@ -24,6 +24,7 @@
 :issue-143: https://github.com/khmarbaise/maven-it-extension/issues/143[Fixed #143]
 :issue-144: https://github.com/khmarbaise/maven-it-extension/issues/144[Fixed #144]
 :issue-145: https://github.com/khmarbaise/maven-it-extension/issues/145[Fixed #145]
+:issue-146: https://github.com/khmarbaise/maven-it-extension/issues/146[Fixed #146]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -67,6 +68,7 @@
 
  * {issue-141} - Upgrade mockito to 3.5.0
  * {issue-144} - Upgrade assertj to 3.17.0
+ * {issue-146} - Upgrade commons-io to 2.7
  * {issue-??} - ??
 
 *Build Improvements*
