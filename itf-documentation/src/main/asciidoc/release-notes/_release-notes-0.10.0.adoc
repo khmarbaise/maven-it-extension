@@ -27,6 +27,7 @@
 :issue-146: https://github.com/khmarbaise/maven-it-extension/issues/146[Fixed #146]
 :issue-147: https://github.com/khmarbaise/maven-it-extension/issues/147[Fixed #147]
 :issue-148: https://github.com/khmarbaise/maven-it-extension/issues/148[Fixed #148]
+:issue-150: https://github.com/khmarbaise/maven-it-extension/issues/150[Fixed #150]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -41,6 +42,7 @@
    * {issue-142} - Reduce visibility of classes
    * {issue-143} - Deprecate ExecutionResult.Error
    * {issue-145} - Remove not used dependency to testcontainers.
+   * {issue-150} - Make LogoutputIT more stable
 
 *Details*
 
