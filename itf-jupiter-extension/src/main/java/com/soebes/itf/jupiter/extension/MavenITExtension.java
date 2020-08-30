@@ -69,6 +69,11 @@ import static java.util.stream.Collectors.toList;
 class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeTestExecutionCallback,
     InvocationInterceptor {
 
+  /**
+   * The command line options which are given is no annotation at all is defined.
+   */
+  private static final List<String> DEFAULT_COMMAND_LINE_OPTIONS = Arrays.asList(MavenCLIOptions.BATCH_MODE, MavenCLIOptions.SHOW_VERSION, MavenCLIOptions.ERRORS);
+
   @Override
   public void beforeEach(ExtensionContext context) {
     Class<?> testClass = context.getTestClass()
@@ -194,7 +199,7 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     executionArguments.addAll(defaultArguments);
 
     if (hasProfiles(context)) {
-      String collect = profiles(context).collect(joining(",", "-P", ""));
+      String collect = profiles(context).stream().collect(joining(",", "-P", ""));
       executionArguments.add(collect);
     }
 
@@ -207,30 +212,18 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     }
 
     if (hasOptions(context)) {
-      executionArguments.addAll(options(context).collect(toList()));
+      executionArguments.addAll(options(context));
     } else {
       // If no option is defined at all the following are the defaults.
-      executionArguments.addAll(Arrays.asList(MavenCLIOptions.BATCH_MODE, MavenCLIOptions.SHOW_VERSION, MavenCLIOptions.ERRORS));
+      executionArguments.addAll(DEFAULT_COMMAND_LINE_OPTIONS);
     }
 
 
-    //FIXME: Need to introduce better directory names
-    //Refactor out the following lines
-    File mavenBaseDirectory = new File(directoryResolverResult.getTargetDirectory(), "..");
-    File pomFile = new File(mavenBaseDirectory, "pom.xml");
-
-    ModelReader modelReader = new ModelReader(ProjectHelper.readProject(pomFile));
-    Map<String, String> keyValues = new HashMap<>();
-    //The following three elements we are reading from the original pom file.
-    keyValues.put("project.groupId", modelReader.getGroupId());
-    keyValues.put("project.artifactId", modelReader.getArtifactId());
-    keyValues.put("project.version", modelReader.getVersion());
-
     if (hasGoals(context)) {
-      List<String> resultingGoals = goals(context).collect(toList());
-      PropertiesFilter propertiesFilter = new PropertiesFilter(keyValues, resultingGoals);
+      List<String> resultingGoals = goals(context);
+      Map<String, String> keyValues = pomEntries(directoryResolverResult);
 
-      List<String> filteredGoals = propertiesFilter.filter();
+      List<String> filteredGoals = new PropertiesFilter(keyValues, resultingGoals).filter();
       executionArguments.addAll(filteredGoals);
     } else {
       //TODO: This is the default goal which will be executed if no `@MavenGoal` at all annotation is defined.
@@ -258,6 +251,20 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
         mavenProjectResult, mavenCacheResult);
 
     new StorageHelper(context).save(result, log, mavenCacheResult, mavenProjectResult);
+  }
+
+  private Map<String, String> pomEntries(DirectoryResolverResult directoryResolverResult) {
+    //FIXME: Need to introduce better directory names
+    File mavenBaseDirectory = new File(directoryResolverResult.getTargetDirectory(), "..");
+    File pomFile = new File(mavenBaseDirectory, "pom.xml");
+
+    ModelReader modelReader = new ModelReader(ProjectHelper.readProject(pomFile));
+    Map<String, String> keyValues = new HashMap<>();
+    //The following three elements are read from the original pom file.
+    keyValues.put("project.groupId", modelReader.getGroupId());
+    keyValues.put("project.artifactId", modelReader.getArtifactId());
+    keyValues.put("project.version", modelReader.getVersion());
+    return keyValues;
   }
 
 }
