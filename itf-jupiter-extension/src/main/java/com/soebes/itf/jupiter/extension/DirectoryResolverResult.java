@@ -124,10 +124,6 @@ class DirectoryResolverResult {
     return sourceMavenProject;
   }
 
-  final File getMavenItsBaseDirectory() {
-    return mavenItsBaseDirectory;
-  }
-
   final File getProjectDirectory() {
     return projectDirectory;
   }
@@ -138,10 +134,6 @@ class DirectoryResolverResult {
 
   final File getMavenItTestCaseBaseDirectory() {
     return mavenItTestCaseBaseDirectory;
-  }
-
-  final File getMavenBaseDirectory() {
-    return mavenBaseDirectory;
   }
 
   final File getTargetDirectory() {
