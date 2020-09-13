@@ -56,6 +56,8 @@ class FailureIT {
 
   @MavenTest
   void fail_with_mojo_failure_exception(MavenExecutionResult result) {
+
+    String version = result.getMavenProject().getModel().getVersion();
     assertThat(result).isFailure();
 
     assertThat(result).out().info().containsSequence(SEPARATOR_LINE, "BUILD FAILURE", SEPARATOR_LINE);
@@ -63,6 +65,7 @@ class FailureIT {
     //TODO: Is there a simpler way to do this? Can we somehow create better support for that?
     assertThat(result).out().error().filteredOn(s -> s.startsWith("Failed to execute goal ")).satisfies(s -> {
       assertThat(s).startsWith("Failed to execute goal com.soebes.itf.jupiter.extension:itf-failure-plugin:");
+      assertThat(s).contains(version);
       assertThat(s).endsWith(":failure (fail_the_build) on project fail_the_build: This is the FailureException. -> [Help 1]");
     }, atIndex(0));
 

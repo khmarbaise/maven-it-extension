@@ -242,6 +242,8 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     MavenLog log = new MavenLog(mavenExecutor.getStdout(), mavenExecutor.getStdErr());
     MavenCacheResult mavenCacheResult = new MavenCacheResult(directoryResolverResult.getCacheDirectory().toPath());
 
+    System.out.println("directoryResolverResult.getMavenBaseDirectory() = " + directoryResolverResult.getMavenBaseDirectory());
+    System.out.println("directoryResolverResult.getProjectDirectory() = " + directoryResolverResult.getProjectDirectory());
     MavenProjectResult mavenProjectResult = createMavenProject(directoryResolverResult.getProjectDirectory());
     MavenProjectResult mavenProject = createMavenProject(directoryResolverResult.getMavenBaseDirectory());
 
