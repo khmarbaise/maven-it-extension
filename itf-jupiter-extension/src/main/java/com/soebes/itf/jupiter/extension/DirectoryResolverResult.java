@@ -128,6 +128,10 @@ class DirectoryResolverResult {
     return projectDirectory;
   }
 
+  final File getMavenBaseDirectory() {
+    return mavenBaseDirectory;
+  }
+
   final File getIntegrationTestCaseDirectory() {
     return integrationTestCaseDirectory;
   }

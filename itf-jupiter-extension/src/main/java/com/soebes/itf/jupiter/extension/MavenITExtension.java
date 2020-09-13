@@ -134,11 +134,11 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     Method methodName = context.getTestMethod().orElseThrow(() -> new IllegalStateException("No method given"));
 
     String prefix = "mvn";
-    Optional<Class<?>> mavenProject = AnnotationHelper.findMavenProjectAnnotation(context);
+    Optional<Class<?>> mavenProjectAnnotation = AnnotationHelper.findMavenProjectAnnotation(context);
     //TODO: In cases where we have MavenProject it might be better to have
     // different directories (which would be more concise with the other assumptions) with directory idea instead
     // of prefixed files.
-    if (mavenProject.isPresent()) {
+    if (mavenProjectAnnotation.isPresent()) {
       prefix = methodName.getName() + "-mvn";
     }
 
@@ -146,7 +146,7 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     File integrationTestCaseDirectory = directoryResolverResult.getIntegrationTestCaseDirectory();
     integrationTestCaseDirectory.mkdirs();
 
-    if (mavenProject.isPresent()) {
+    if (mavenProjectAnnotation.isPresent()) {
       if (!directoryResolverResult.getProjectDirectory().exists()) {
         directoryResolverResult.getProjectDirectory().mkdirs();
         directoryResolverResult.getCacheDirectory().mkdirs();
@@ -230,7 +230,6 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
       executionArguments.add("package");
     }
 
-
     Process start = mavenExecutor.start(executionArguments);
 
     int processCompletableFuture = start.waitFor();
@@ -243,14 +242,19 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     MavenLog log = new MavenLog(mavenExecutor.getStdout(), mavenExecutor.getStdErr());
     MavenCacheResult mavenCacheResult = new MavenCacheResult(directoryResolverResult.getCacheDirectory().toPath());
 
-    Model model = ProjectHelper.readProject(new File(directoryResolverResult.getProjectDirectory(), "pom.xml"));
-    MavenProjectResult mavenProjectResult = new MavenProjectResult(directoryResolverResult.getProjectDirectory(),
-        model);
+    MavenProjectResult mavenProjectResult = createMavenProject(directoryResolverResult.getProjectDirectory());
+    MavenProjectResult mavenProject = createMavenProject(directoryResolverResult.getMavenBaseDirectory());
 
     MavenExecutionResult result = new MavenExecutionResult(executionResult, processCompletableFuture, log,
-        mavenProjectResult, mavenCacheResult);
+        mavenProjectResult, mavenProject, mavenCacheResult);
 
     new StorageHelper(context).save(result, log, mavenCacheResult, mavenProjectResult);
+  }
+
+  private MavenProjectResult createMavenProject(File directory) {
+    Model model = ProjectHelper.readProject(new File(directory, "pom.xml"));
+    return new MavenProjectResult(directory,
+        model);
   }
 
   private Map<String, String> pomEntries(DirectoryResolverResult directoryResolverResult) {

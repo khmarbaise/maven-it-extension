@@ -40,14 +40,17 @@ public class MavenExecutionResult {
 
   private final MavenProjectResult mavenProjectResult;
 
+  private final MavenProjectResult mavenProject;
+
   private final MavenCacheResult mavenCacheResult;
 
   public MavenExecutionResult(ExecutionResult result, int returnCode, MavenLog mavenLog,
-                              MavenProjectResult mavenProjectResult, MavenCacheResult mavenCacheResult) {
+                              MavenProjectResult mavenProjectResult, MavenProjectResult mavenProject, MavenCacheResult mavenCacheResult) {
     this.result = result;
     this.returnCode = returnCode;
     this.mavenLog = mavenLog;
     this.mavenProjectResult = mavenProjectResult;
+    this.mavenProject = mavenProject;
     this.mavenCacheResult = mavenCacheResult;
   }
 
@@ -79,8 +82,21 @@ public class MavenExecutionResult {
     return mavenCacheResult;
   }
 
+  /**
+   * Access to the project under test.
+   * @return {@link MavenProjectResult}
+   */
   public MavenProjectResult getMavenProjectResult() {
     return mavenProjectResult;
+  }
+
+  /**
+   * Access to the original project.
+   * @return {@link MavenProjectResult}
+   */
+  @API(status = EXPERIMENTAL, since = "0.10.0")
+  public MavenProjectResult getMavenProject() {
+    return mavenProject;
   }
 
   @Override
