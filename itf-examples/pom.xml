@@ -134,10 +134,14 @@
         </configuration>
         <executions>
           <execution>
+            <id>standard</id>
             <goals>
               <goal>integration-test</goal>
               <goal>verify</goal>
             </goals>
+            <configuration>
+              <excludedGroups>Failing</excludedGroups>
+            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -156,7 +160,34 @@
         </executions>
       </plugin>
     </plugins>
-
   </build>
-
+  
+  <profiles>
+    <profile>
+      <id>failing</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>standard</id>
+                <phase>none</phase>
+              </execution>
+              <execution>
+                <id>failing</id>
+                <goals>
+                  <goal>integration-test</goal>
+                  <goal>verify</goal>
+                </goals>
+                <configuration>
+                  <groups>Failing</groups>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
