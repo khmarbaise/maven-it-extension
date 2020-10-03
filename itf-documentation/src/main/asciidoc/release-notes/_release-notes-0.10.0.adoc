@@ -35,6 +35,7 @@
 :issue-155: https://github.com/khmarbaise/maven-it-extension/issues/155[Fixed #155]
 :issue-156: https://github.com/khmarbaise/maven-it-extension/issues/156[Fixed #156]
 :issue-157: https://github.com/khmarbaise/maven-it-extension/issues/157[Fixed #157]
+:issue-162: https://github.com/khmarbaise/maven-it-extension/issues/162[Fixed #162]
 :issue-166: https://github.com/khmarbaise/maven-it-extension/issues/166[Fixed #166]
 :issue-173: https://github.com/khmarbaise/maven-it-extension/issues/173[Fixed #173]
 :issue-174: https://github.com/khmarbaise/maven-it-extension/issues/174[Fixed #174]
@@ -99,7 +100,7 @@
 
 *Build Improvements*
 
- * {issue-??} - ??
+ * {issue-162} - Removed JDK 13+JDK14 and keep only JDK8, 11 based on JaCoCo issue.
 
 
 The full release notes can be found here {release_0_10_0}[Release 0.10.0].
