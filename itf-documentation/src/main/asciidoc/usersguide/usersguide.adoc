@@ -152,15 +152,10 @@ get the support for your Maven integration tests.
 Based on the described structures the content (with the projects which is used as test) from
 `src/test/resources-its` has to be copied into `target/test-classes` which usually means including
 filtering. This is used to replace placeholders in files like `@project.version@` and replace with
-the real version of your extension/plugin etc. You have to be careful, which delimiter you have
-chosen. So you might need to tweak your configuration based on your choices.
+the real version of your extension/plugin etc. so you can use the `itf-maven-plugin` which is doing
+this job on it's own which means you don't have to do something special here.
 
-[source,xml]
-----
-include::{itfexample}/itf-examples/pom.xml[tag=resources]
-----
-
-The next thing is to configure the `itf-maven-plugin` with the `install` goal
+The next thing is to configure the `itf-maven-plugin` with the `install` and the `resources-its` goal
 like this:
 
 [source,xml]
@@ -168,8 +163,9 @@ like this:
 include::{itfexample}/itf-examples/pom.xml[tag=itf-maven-plugin]
 ----
 //FIXME: Needed to be changed after itf-maven-plugin will run also the tests.
-The `itf-maven-plugin` copies the code of your extension/plugin into appropriate directories which are used during the
-integration tests.
+The `itf-maven-plugin` copies the code of your extension/plugin into appropriate directories which are
+used during the integration tests. Further more it will handle the copying of the structure from
+`src/test/resources-its` into the correct location and will also handle the filtering as described above.
 
 Finally you have to add a configuration for {maven-failsafe-plugin} like the following:
 

@@ -207,6 +207,7 @@
             <exclude>.github/ISSUE_TEMPLATE/bug_report.md</exclude>
             <exclude>.github/ISSUE_TEMPLATE/config.yml</exclude>
             <exclude>IDEASetup.xml</exclude>
+            <exclude>**/.invisible-file</exclude><!-- Only used in ITs. -->
             <exclude>.repository/**</exclude><!-- Jenkins job with local Maven repository -->
             <exclude>.maven/spy.log</exclude><!-- Hudson Maven3 integration log -->
             <exclude>dependency-reduced-pom.xml</exclude><!-- Maven shade plugin -->

@@ -1846,7 +1846,8 @@ properties based on the name with the new value?
 
 
 === Ideas
-We could try to define `@MavenGoal` on a package level (within `package-info.java`?)
+We could try to define `@MavenGoal` on a package level (within `package-info.java`?).
+Currently JUnit Jupiter does not support to define annotations on package level.
 
 === Implementation Steps
 Steps to move forward:
@@ -1857,6 +1858,61 @@ Steps to move forward:
 * Starting with Release 0.10.0
 ** The `package` will only used if no `@MavenGoal` is defined at all.
 ** The `--error` option will only used if no `MavenOption` is defined at all.
+
+== Configuration / Resources-its
+
+=== Current State
+Based on the current implementation you have to configure the `resources-its`
+as a resource which needs to be filtered to replace placeholders in
+`pom.xml` files via the following `pom.xml` file snippet:
+
+[source,xml]
+----
+<testResources>
+  <testResource>
+    <directory>src/test/resources</directory>
+    <filtering>false</filtering>
+  </testResource>
+  <!--
+   ! Currently those tests do need to be filtered.
+  -->
+  <testResource>
+    <directory>src/test/resources-its</directory>
+    <filtering>true</filtering>
+  </testResource>
+</testResources>
+----
+
+The current setup has a number of disadvantages:
+
+* Everything is copied and filtered
+** Filtering of binary files and other files which shouldn't being filtered at all.
+* To make it correctly very inconvenient for the user.
+* Usage of a Git/SVN/Hg/Bzr repositories for a test setup is more or less impossible
+  based on default configurations of maven-resources-plugin.
+
+To make the setup correctly you have to do it like this:
+
+* Define a large list of non filtered extensions like `jar`, `war`, `zip` etc.
+* Define only a single delimiter `@project.version@` instead of the default which
+  contains also `@{..}` which could be mistaken with other information within
+  the test case(s).
+* Furthermore, you might need to turn off `<addDefaultExcludes>false</addDefaultExcludes>`.
+
+=== Change it
+
+We should enhance the `itf-maven-plugin` accordingly to handle the coping and filtering.
+
+Advantages:
+
+* Much easier for the user.
+** The whole configuration can be done within the `itf-maven-pugin` with better
+defaults than manually setting up.
+** This removes the need to configure resources separately and filtering.
+** Separation of concern.
+* We can also analyse the content and make some checks for later caching (future)
+** For example could calculate hashes (like SHA-256?) to detect if changes have been made
+   to the projects or not.
 
 
 == Injections

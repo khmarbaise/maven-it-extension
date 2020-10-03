@@ -37,6 +37,7 @@
 :issue-156: https://github.com/khmarbaise/maven-it-extension/issues/156[Fixed #156]
 :issue-157: https://github.com/khmarbaise/maven-it-extension/issues/157[Fixed #157]
 :issue-162: https://github.com/khmarbaise/maven-it-extension/issues/162[Fixed #162]
+:issue-163: https://github.com/khmarbaise/maven-it-extension/issues/163[Fixed #163]
 :issue-166: https://github.com/khmarbaise/maven-it-extension/issues/166[Fixed #166]
 :issue-173: https://github.com/khmarbaise/maven-it-extension/issues/173[Fixed #173]
 :issue-174: https://github.com/khmarbaise/maven-it-extension/issues/174[Fixed #174]
@@ -96,6 +97,40 @@
    `getTargetBaseDirectory()` is the same as `getBaseDir()` to keep compatibility
    in release 0.10.0. The `getBaseDir()` has been marked deprecated and will be
    removed with release 0.11.0.
+ * {issue-163} - You have to change the configuration within your test `pom.xml`
+   file. The configuration to filter the content of the `resources-its` directory.
++
+[source,xml]
+----
+<testResource>
+  <directory>src/test/resources-its</directory>
+  <filtering>true</filtering>
+</testResource>
+----
+This is not allowed anymore. This means you have to bind the `itf-maven-plugin`
+with a supplemental goal in your pom file as shown in the following example:
++
+[source,xml]
+----
+<plugin>
+<groupId>com.soebes.itf.jupiter.extension</groupId>
+<artifactId>itf-maven-plugin</artifactId>
+<version>0.10.0</version>
+<executions>
+  <execution>
+    <id>installing</id>
+    <phase>pre-integration-test</phase>
+    <goals>
+      <goal>install</goal>
+      <goal>resources-its</goal>
+    </goals>
+  </execution>
+</executions>
+</plugin>
+----
++
+You have to add the supplemental goal `resources-its` in your configuration.
+
  * {issue-186} - based on a typo in the method name `isSuccesful()` of the class
    `MavenExecutionResult` instead of `isSuccessful()` the method `isSuccesful()`
    is marked deprecated and should not being used anymore and will be removed
