@@ -38,6 +38,7 @@
 :issue-157: https://github.com/khmarbaise/maven-it-extension/issues/157[Fixed #157]
 :issue-162: https://github.com/khmarbaise/maven-it-extension/issues/162[Fixed #162]
 :issue-163: https://github.com/khmarbaise/maven-it-extension/issues/163[Fixed #163]
+:issue-164: https://github.com/khmarbaise/maven-it-extension/issues/164[Fixed #164]
 :issue-166: https://github.com/khmarbaise/maven-it-extension/issues/166[Fixed #166]
 :issue-173: https://github.com/khmarbaise/maven-it-extension/issues/173[Fixed #173]
 :issue-174: https://github.com/khmarbaise/maven-it-extension/issues/174[Fixed #174]
@@ -174,6 +175,7 @@ You have to add the supplemental goal `resources-its` in your configuration.
  * {issue-182} - Upgrade mockito-core to 3.7.7
  * {issue-183} - Remove unused dependency xmlunit-assertj
  * {issue-185} - Upgrade to JUnit Jupiter 5.7.1
+ * {issue-164} - Upgrade smpp 5.3.3
  * {issue-??} - ??
 
 *Build Improvements*
