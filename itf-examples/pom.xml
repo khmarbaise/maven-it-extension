@@ -134,7 +134,7 @@
         </configuration>
         <executions>
           <execution>
-            <id>standard</id>
+            <id>default</id>
             <goals>
               <goal>integration-test</goal>
               <goal>verify</goal>
@@ -171,7 +171,7 @@
             <artifactId>maven-failsafe-plugin</artifactId>
             <executions>
               <execution>
-                <id>standard</id>
+                <id>default</id>
                 <phase>none</phase>
               </execution>
               <execution>
