@@ -17,8 +17,7 @@
 # Integration Testing Framework Extension
 
 [![Apache License, Version 2.0, January 2004](https://img.shields.io/github/license/apache/maven.svg?label=License)][license]
-[![JDKBuilds](https://github.com/khmarbaise/maven-it-extension/workflows/JDKBuilds/badge.svg)][jdkbuilds]
-[![Main](https://github.com/khmarbaise/maven-it-extension/workflows/Main/badge.svg)][mainbuilds]
+[![Build Status](https://cloud.drone.io/api/badges/khmarbaise/maven-it-extension/status.svg)](https://cloud.drone.io/khmarbaise/maven-it-extension)
 [![Site](https://github.com/khmarbaise/maven-it-extension/workflows/SitePublishing/badge.svg)][published-site]
 [![Issues](https://img.shields.io/github/issues/khmarbaise/maven-it-extension)](https://github.com/khmarbaise/maven-it-extension/issues)
 [![Issues Closed](https://img.shields.io/github/issues-closed/khmarbaise/maven-it-extension)](https://github.com/khmarbaise/maven-it-extension/issues?q=is%3Aissue+is%3Aclosed)
@@ -66,7 +65,7 @@ Of course there is a lot of convenience integrated into it to make integration t
 The requirements to write integration tests with the integration testing framework are the folloing:
 
 * JDK11+
-* Apache Maven 3.1.0 or above.
+* Apache Maven 3.1.0 or above. (I recommend to use Maven 3.8.1)
 
 ## The Maven Configuration
 

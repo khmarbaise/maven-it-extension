@@ -50,6 +50,7 @@
 :issue-183: https://github.com/khmarbaise/maven-it-extension/issues/183[Fixed #183]
 :issue-185: https://github.com/khmarbaise/maven-it-extension/issues/185[Fixed #185]
 :issue-186: https://github.com/khmarbaise/maven-it-extension/issues/186[Fixed #186]
+:issue-189: https://github.com/khmarbaise/maven-it-extension/issues/189[Fixed #189]
 :issue-190: https://github.com/khmarbaise/maven-it-extension/issues/190[Fixed #190]
 :issue-191: https://github.com/khmarbaise/maven-it-extension/issues/191[Fixed #191]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
@@ -174,6 +175,7 @@ You have to add the supplemental goal `resources-its` in your configuration.
  * {issue-162} - Removed JDK 13+JDK14 and keep only JDK8, 11 based on JaCoCo issue.
  * {issue-190} - Building on JDK11 only.
  * {issue-191} - javadoc.io is abandoned
+ * {issue-189} - Using drone for building.
 
 
 The full release notes can be found here {release_0_10_0}[Release 0.10.0].

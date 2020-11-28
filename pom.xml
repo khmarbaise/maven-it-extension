@@ -54,6 +54,8 @@
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
     <mockito.version>3.7.7</mockito.version>
+    <maven.compiler.target>8</maven.compiler.target>
+    <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.release>8</maven.compiler.release>
     <smpp.component>maven-it-extension</smpp.component>
     <!--
@@ -209,10 +211,12 @@
             <exclude>IDEASetup.xml</exclude>
             <exclude>**/.invisible-file</exclude><!-- Only used in ITs. -->
             <exclude>.repository/**</exclude><!-- Jenkins job with local Maven repository -->
+            <exclude>.repo/**</exclude><!-- Jenkins job with local Maven repository -->
             <exclude>.maven/spy.log</exclude><!-- Hudson Maven3 integration log -->
             <exclude>dependency-reduced-pom.xml</exclude><!-- Maven shade plugin -->
             <exclude>.asf.yaml</exclude><!-- GitHub Support -->
             <exclude>.java-version</exclude>
+            <exclude>.drone.yml</exclude>
             <exclude>src/test/resources/**</exclude>
           </excludes>
         </configuration>
@@ -224,17 +228,6 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <configuration>
-          <rules combine.children="append">
-            <requireJavaVersion>
-              <version>11</version>
-            </requireJavaVersion>
-          </rules>
-        </configuration>
       </plugin>
     </plugins>
   </build>
