@@ -36,6 +36,7 @@
 :issue-156: https://github.com/khmarbaise/maven-it-extension/issues/156[Fixed #156]
 :issue-157: https://github.com/khmarbaise/maven-it-extension/issues/157[Fixed #157]
 :issue-166: https://github.com/khmarbaise/maven-it-extension/issues/166[Fixed #166]
+:issue-173: https://github.com/khmarbaise/maven-it-extension/issues/173[Fixed #173]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -53,6 +54,7 @@
    * {issue-150} - Make LogoutputIT more stable
    * {issue-151} - Refactor code.
    * {issue-156} - Remove unused code.
+   * {issue-173} - Improve issue template.
 
 *Details*
 
