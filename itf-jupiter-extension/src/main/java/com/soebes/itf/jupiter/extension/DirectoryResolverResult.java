@@ -65,23 +65,27 @@ class DirectoryResolverResult {
       this.integrationTestCaseDirectory = new File(this.getMavenItTestCaseBaseDirectory(),
           mavenProjectAnnotation.value());
     } else {
-      this.integrationTestCaseDirectory = new File(this.getMavenItTestCaseBaseDirectory(), methodName.getName());
+      this.integrationTestCaseDirectory = new File(this.getMavenItTestCaseBaseDirectory(),
+          methodName.getName());
     }
 
     this.projectDirectory = new File(integrationTestCaseDirectory, "project");
     this.mavenItsBaseDirectory = new File(DirectoryHelper.getTargetDir(), "test-classes");
-    this.componentUnderTestDirectory = new File(this.getTargetDirectory(), "itf-repo"); // Hard Coded!!
+    this.componentUnderTestDirectory = new File(this.getTargetDirectory(),
+        "itf-repo"); // Hard Coded!!
+    // ensure that hardcoded directory exists
+    this.componentUnderTestDirectory.mkdirs();
 
-    Class<?> testClass = context.getTestClass().orElseThrow(() -> new IllegalStateException("Test class not found."));
+    Class<?> testClass = context.getTestClass()
+        .orElseThrow(() -> new IllegalStateException("Test class not found."));
     String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);
-
 
     File intermediate = new File(this.mavenItsBaseDirectory, toFullyQualifiedPath);
     if (mavenProject.isPresent()) {
       MavenProject mavenProjectAnnotation = mavenProject.get().getAnnotation(MavenProject.class);
       this.sourceMavenProject = new File(intermediate, mavenProjectAnnotation.value());
     } else {
-      this.sourceMavenProject = new File( intermediate, methodName.getName());
+      this.sourceMavenProject = new File(intermediate, methodName.getName());
     }
 
     Optional<Class<?>> optionalMavenRepository = AnnotationHelper.findMavenRepositoryAnnotation(context);
