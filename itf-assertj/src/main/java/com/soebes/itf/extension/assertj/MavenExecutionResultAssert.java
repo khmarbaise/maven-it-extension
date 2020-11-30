@@ -100,7 +100,7 @@ public class MavenExecutionResultAssert extends AbstractAssert<MavenExecutionRes
   public MavenExecutionResultAssert isSuccessful() {
     isNotNull();
     if (!this.actual.isSuccesful()) {
-      List<String> logs = Helper.logs(this.actual.getMavenLog().getStdout()).map(s -> " --> " + s + "\n").collect(Collectors.toList());
+      List<String> logs = Helper.logs(this.actual.getMavenLog().getStdout()).map(s -> " [STDOUT] " + s + "\n").collect(Collectors.toList());
       failWithMessage("The build was not successful but was <%s> with returnCode:<%s> log file: <%s>", actual.getResult(),
           actual.getReturnCode(), logs);
     }
@@ -115,7 +115,7 @@ public class MavenExecutionResultAssert extends AbstractAssert<MavenExecutionRes
   public MavenExecutionResultAssert isFailure() {
     isNotNull();
     if (!this.actual.isFailure()) {
-      List<String> logs = Helper.logs(this.actual.getMavenLog().getStdout()).map(s -> " --> " + s + "\n").collect(Collectors.toList());
+      List<String> logs = Helper.logs(this.actual.getMavenLog().getStdout()).map(s -> " [STDOUT] " + s + "\n").collect(Collectors.toList());
       failWithMessage("The build should be not successful but was <%s> with returnCode:<%s> log file: <%s>", actual.getResult(),
           actual.getReturnCode(), logs);
     }

@@ -37,6 +37,7 @@
 :issue-157: https://github.com/khmarbaise/maven-it-extension/issues/157[Fixed #157]
 :issue-166: https://github.com/khmarbaise/maven-it-extension/issues/166[Fixed #166]
 :issue-173: https://github.com/khmarbaise/maven-it-extension/issues/173[Fixed #173]
+:issue-174: https://github.com/khmarbaise/maven-it-extension/issues/174[Fixed #174]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -55,6 +56,7 @@
    * {issue-151} - Refactor code.
    * {issue-156} - Remove unused code.
    * {issue-173} - Improve issue template.
+   * {issue-174} - Improve the output in case of an error.
 
 *Details*
 
