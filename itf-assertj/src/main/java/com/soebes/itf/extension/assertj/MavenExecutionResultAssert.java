@@ -97,7 +97,8 @@ public class MavenExecutionResultAssert extends AbstractAssert<MavenExecutionRes
     isNotNull();
     if (!this.actual.isSuccesful()) {
       failWithMessage("The build was not successful but was <%s> with returnCode:<%s>", actual.getResult(),
-          actual.getReturnCode());
+          actual.getReturnCode(), actual.getMavenLog().getStdout());
+      actual.getMavenLog().getStdout()
     }
     return myself;
   }
