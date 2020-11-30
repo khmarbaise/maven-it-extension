@@ -29,6 +29,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 import static com.soebes.itf.jupiter.extension.MavenCLIOptions.LOG_FILE;
@@ -134,7 +137,8 @@ class OptionsIT {
         Default locale: en_GB, platform encoding: UTF-8
         OS name: "mac os x", version: "10.14.6", arch: "x86_64", family: "mac"
      */
-    assertThat(Files.lines(Paths.get(baseDir.getPath(), "test.log"))).hasSize(5);
+    List<String> lines = Files.lines(Paths.get(baseDir.getPath(), "test.log")).collect(Collectors.toList());
+    assertThat(lines).describedAs("The log container more than five lines.", lines).hasSize(5);
   }
 
 
