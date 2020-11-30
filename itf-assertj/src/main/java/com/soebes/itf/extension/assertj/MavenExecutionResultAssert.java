@@ -23,6 +23,10 @@ import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import org.apiguardian.api.API;
 import org.assertj.core.api.AbstractAssert;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
@@ -96,9 +100,9 @@ public class MavenExecutionResultAssert extends AbstractAssert<MavenExecutionRes
   public MavenExecutionResultAssert isSuccessful() {
     isNotNull();
     if (!this.actual.isSuccesful()) {
-      failWithMessage("The build was not successful but was <%s> with returnCode:<%s>", actual.getResult(),
-          actual.getReturnCode(), actual.getMavenLog().getStdout());
-      actual.getMavenLog().getStdout()
+      List<String> logs = Helper.logs(this.actual.getMavenLog().getStdout()).collect(Collectors.toList());
+      failWithMessage("The build was not successful but was <%s> with returnCode:<%s> log file: <%s>", actual.getResult(),
+          actual.getReturnCode(), logs);
     }
     return myself;
   }
@@ -111,8 +115,9 @@ public class MavenExecutionResultAssert extends AbstractAssert<MavenExecutionRes
   public MavenExecutionResultAssert isFailure() {
     isNotNull();
     if (!this.actual.isFailure()) {
-      failWithMessage("The build should be not successful but was <%s> with returnCode:<%s>", actual.getResult(),
-          actual.getReturnCode());
+      List<String> logs = Helper.logs(this.actual.getMavenLog().getStdout()).collect(Collectors.toList());
+      failWithMessage("The build should be not successful but was <%s> with returnCode:<%s> log file: <%s>", actual.getResult(),
+          actual.getReturnCode(), logs);
     }
     return myself;
   }
