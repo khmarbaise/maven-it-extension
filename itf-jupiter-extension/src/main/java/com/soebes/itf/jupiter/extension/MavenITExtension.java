@@ -75,7 +75,7 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
   private static final List<String> DEFAULT_COMMAND_LINE_OPTIONS = Arrays.asList(MavenCLIOptions.BATCH_MODE, MavenCLIOptions.SHOW_VERSION, MavenCLIOptions.ERRORS);
 
   @Override
-  public void beforeEach(ExtensionContext context) {
+  public void beforeEach(ExtensionContext context) throws IOException {
     Class<?> testClass = context.getTestClass()
         .orElseThrow(() -> new ExtensionConfigurationException("MavenITExtension is only supported for classes."));
 
@@ -89,6 +89,46 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     mavenItTestCaseBaseDirectory.mkdirs();
 
     new StorageHelper(context).save(targetTestClassesDirectory, mavenItTestCaseBaseDirectory, DirectoryHelper.getTargetDir());
+    Method methodName = context.getTestMethod().orElseThrow(() -> new IllegalStateException("No method given"));
+
+    StorageHelper storageHelper = new StorageHelper(context);
+    storageHelper.save(mavenItTestCaseBaseDirectory, mavenItTestCaseBaseDirectory, DirectoryHelper.getTargetDir());
+
+    Optional<Class<?>> mavenProject = AnnotationHelper.findMavenProjectAnnotation(context);
+
+    DirectoryResolverResult directoryResolverResult = new DirectoryResolverResult(context);
+    File integrationTestCaseDirectory = directoryResolverResult.getIntegrationTestCaseDirectory();
+
+    // FIXME: Model should be done right.
+    MavenProjectResult mavenProjectResult = new MavenProjectResult(directoryResolverResult.getTargetDirectory(), directoryResolverResult.getProjectDirectory(), directoryResolverResult.getIntegrationTestCaseDirectory(), new Model());
+    storageHelper.put(ParameterType.ProjectResult + context.getUniqueId(), mavenProjectResult);
+
+    integrationTestCaseDirectory.mkdirs();
+
+    //TODO: Reconsider deleting the local cache .m2/repository with each run yes/no
+    // Define default behaviour => Remove it.
+    // Make it configurable. How? Think about?
+    if (mavenProject.isPresent()) {
+      if (!directoryResolverResult.getProjectDirectory().exists()) {
+        directoryResolverResult.getProjectDirectory().mkdirs();
+        directoryResolverResult.getCacheDirectory().mkdirs();
+
+        FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),
+            directoryResolverResult.getProjectDirectory());
+        FileUtils.copyDirectory(directoryResolverResult.getTargetItfRepoDirectory(),
+            directoryResolverResult.getCacheDirectory());
+      }
+    } else {
+      FileUtils.deleteQuietly(directoryResolverResult.getProjectDirectory());
+      directoryResolverResult.getProjectDirectory().mkdirs();
+      directoryResolverResult.getCacheDirectory().mkdirs();
+
+      FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),
+          directoryResolverResult.getProjectDirectory());
+      FileUtils.copyDirectory(directoryResolverResult.getTargetItfRepoDirectory(),
+          directoryResolverResult.getCacheDirectory());
+    }
+
   }
 
   @Override
@@ -145,27 +185,6 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     DirectoryResolverResult directoryResolverResult = new DirectoryResolverResult(context);
     File integrationTestCaseDirectory = directoryResolverResult.getIntegrationTestCaseDirectory();
     integrationTestCaseDirectory.mkdirs();
-
-    if (mavenProject.isPresent()) {
-      if (!directoryResolverResult.getProjectDirectory().exists()) {
-        directoryResolverResult.getProjectDirectory().mkdirs();
-        directoryResolverResult.getCacheDirectory().mkdirs();
-
-        FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),
-            directoryResolverResult.getProjectDirectory());
-        FileUtils.copyDirectory(directoryResolverResult.getTargetItfRepoDirectory(),
-            directoryResolverResult.getCacheDirectory());
-      }
-    } else {
-      FileUtils.deleteQuietly(directoryResolverResult.getProjectDirectory());
-      directoryResolverResult.getProjectDirectory().mkdirs();
-      directoryResolverResult.getCacheDirectory().mkdirs();
-
-      FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),
-          directoryResolverResult.getProjectDirectory());
-      FileUtils.copyDirectory(directoryResolverResult.getTargetItfRepoDirectory(),
-          directoryResolverResult.getCacheDirectory());
-    }
 
     //Copy ".predefined-repo" into ".m2/repository"
     Optional<File> predefinedRepository = directoryResolverResult.getPredefinedRepository();

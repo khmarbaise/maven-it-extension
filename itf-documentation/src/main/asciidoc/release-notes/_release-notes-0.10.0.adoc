@@ -42,6 +42,7 @@
 :issue-174: https://github.com/khmarbaise/maven-it-extension/issues/174[Fixed #174]
 :issue-175: https://github.com/khmarbaise/maven-it-extension/issues/175[Fixed #175]
 :issue-176: https://github.com/khmarbaise/maven-it-extension/issues/176[Fixed #176]
+:issue-177: https://github.com/khmarbaise/maven-it-extension/issues/177[Fixed #177]
 :issue-181: https://github.com/khmarbaise/maven-it-extension/issues/181[Fixed #181]
 :issue-182: https://github.com/khmarbaise/maven-it-extension/issues/182[Fixed #182]
 :issue-183: https://github.com/khmarbaise/maven-it-extension/issues/183[Fixed #183]
@@ -92,6 +93,9 @@
    `MavenExecutionResult` instead of `isSuccessful()` the method `isSuccesful()`
    is marked deprecated and should not being used anymore and will be removed
    with release 0.11.0. Replace it with `isSuccessful()`.
+ * {issue-177} - Move creation of target structure into beforeEach. This change
+   could influence your integration tests. So please check your build. If you have
+   issues please report them.
 
 
 *Reporter of this release*
