@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.soebes.itf.extension.assertj"}]
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"m":"com.soebes.itf.jupiter.extension.assertj","l":"com.soebes.itf.extension.assertj"}]
