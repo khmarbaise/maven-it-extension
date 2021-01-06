@@ -61,7 +61,7 @@ class BasicIT {
     assertThat(result).isSuccessful().project();
 
     //FIXME: The following should be made easier See https://github.com/khmarbaise/maven-it-extension/issues/39
-    File target = new File(result.getMavenProjectResult().getBaseDir(), "target");
+    File target = new File(result.getMavenProjectResult().getTargetProjectDirectory(), "target");
     File itfRepo = new File(target, "itf-repo");
 
     File install_should_not_fail = new File(itfRepo, "com/soebes/itf/maven/plugin/its/install_should_not_fail");
@@ -99,7 +99,7 @@ class BasicIT {
   void install_with_a_single_dependency(MavenExecutionResult result) {
     assertThat(result).isSuccessful().project();
 
-    File target = new File(result.getMavenProjectResult().getBaseDir(), "target");
+    File target = new File(result.getMavenProjectResult().getTargetProjectDirectory(), "target");
     File itfRepo = new File(target, "itf-repo");
 
     File install_should_not_fail = new File(itfRepo, "com/soebes/itf/maven/plugin/its/install_with_a_single_dependency");
@@ -150,7 +150,7 @@ class BasicIT {
   void install_with_dep_and_transitive_dep(MavenExecutionResult result) {
     assertThat(result).isSuccessful().project();
 
-    File target = new File(result.getMavenProjectResult().getBaseDir(), "target");
+    File target = new File(result.getMavenProjectResult().getTargetProjectDirectory(), "target");
     File itfRepo = new File(target, "itf-repo");
 
     File install_should_not_fail = new File(itfRepo, "com/soebes/itf/maven/plugin/its/install_with_dep_and_transitive_dep");

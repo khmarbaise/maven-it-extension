@@ -19,6 +19,7 @@
 = Integration Testing Framework Users Guide
 Karl Heinz Marbaise; {docdate}
 :author: Karl Heinz Marbaise
+:appendix-number:
 :sectnums:
 :sectlinks:
 :xrefstyle: full
@@ -1585,3 +1586,64 @@ can given via `exception` configuration part as before.
 include::{itfexample}/itf-failure-plugin/src/test/resources-its/com/soebes/itf/maven/plugin/failure/FailureIT/fail_with_mojo_failure_exception/pom.xml[tag=configuration]
 ----
 
+
+
+[appendix]
+== MavenExecutionResult
+In some situations you need access to the directories which have been created during
+the integration tests. That can simply being achieved by using the injection of
+`MavenExecutionResult` or `MavenProjectResult` depending on your needs.
+[source,java]
+----
+@MavenJupiterExtension
+class FirstIT {
+  @MavenTest
+  void the_first_test_case(MavenExecutionResult result) {
+    assertThat(result).isSuccessful();
+  }
+}
+----
+the resulting directory structure looks like this:
+[source,text]
+----
+.
+└──target/
+   └── maven-its/
+       └── org/
+           └── it/
+               └── FirstIT/
+                   └── the_first_test_case/
+                       ├── .m2/
+                       ├── project/
+                       │   ├── src/
+                       │   ├── target/
+                       │   └── pom.xml
+                       ├── mvn-stdout.log
+                       ├── mvn-stderr.log
+                       └── other logs
+----
+
+There are existing the following information which you can use for further check etc.
+You can access them via:
+
+* `result.getMavenProjectResult().getTargetBaseDirectory();`
+   This represents the directory `the_first_test_case` in the above directory
+   structure.
+* `result.getMavenProjectResult().getTargetProjectDirectory()`
+   This represents the directory `project` in the above directory structure.
+* `result.getMavenProjectResult().getCacheDirectory()`
+   This represents the directory `.m2` in the above directory structure.
+
+If you only need access to the directory structure and not to the result of the build
+or the logging output of the Maven build you can change your integration test like this:
+
+[source,java]
+----
+@MavenJupiterExtension
+class FirstIT {
+  @MavenTest
+  void the_first_test_case(MavenProjectResult result) {
+    ...
+  }
+}
+----

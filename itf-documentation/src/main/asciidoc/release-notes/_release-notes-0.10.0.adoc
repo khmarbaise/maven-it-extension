@@ -40,6 +40,7 @@
 :issue-166: https://github.com/khmarbaise/maven-it-extension/issues/166[Fixed #166]
 :issue-173: https://github.com/khmarbaise/maven-it-extension/issues/173[Fixed #173]
 :issue-174: https://github.com/khmarbaise/maven-it-extension/issues/174[Fixed #174]
+:issue-175: https://github.com/khmarbaise/maven-it-extension/issues/175[Fixed #175]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -59,6 +60,7 @@
    * {issue-156} - Remove unused code.
    * {issue-173} - Improve issue template.
    * {issue-174} - Improve the output in case of an error.
+   * {issue-175} - Enhance the MavenProjectResult.
 
 *Details*
 
@@ -73,6 +75,11 @@
  * {issue-143} - Deprecate ExecutionResult.Error; If you have used that directly
    within your code you should change your code. This is being marked deprecated
    and will be removed with release 0.11.0.
+ * {issue-175} - Enhance the MavenProjectResult. Based on the enhancements we
+   have added `getTargetBaseDirectory()` and `getTargetCacheDirectory()`.
+   `getTargetBaseDirectory()` is the same as `getBaseDir()` to keep compatibility
+   in release 0.10.0. The `getBaseDir()` has been marked deprecated and will be
+   removed with release 0.11.0.
 
 *Reporter of this release*
 

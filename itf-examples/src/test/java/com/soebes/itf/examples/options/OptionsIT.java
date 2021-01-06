@@ -31,7 +31,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 import static com.soebes.itf.jupiter.extension.MavenCLIOptions.LOG_FILE;
@@ -128,7 +127,7 @@ class OptionsIT {
         .out()
         .debug().isEmpty();
 
-    File baseDir = result.getMavenProjectResult().getBaseDir();
+    File baseDir = result.getMavenProjectResult().getTargetProjectDirectory();
     /*
        Ony the following lines will be written to the resulting test.log:
         Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)

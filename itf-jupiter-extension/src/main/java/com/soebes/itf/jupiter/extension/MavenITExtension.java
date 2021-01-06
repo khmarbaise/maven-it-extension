@@ -80,15 +80,15 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
         .orElseThrow(() -> new ExtensionConfigurationException("MavenITExtension is only supported for classes."));
 
     //FIXME: Need to reconsider the maven-it directory?
-    File mavenItBaseDirectory = new File(DirectoryHelper.getTargetDir(), "maven-it");
+    File targetTestClassesDirectory = new File(DirectoryHelper.getTargetDir(), "maven-it");
     String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);
 
-    File mavenItTestCaseBaseDirectory = new File(mavenItBaseDirectory, toFullyQualifiedPath);
+    File mavenItTestCaseBaseDirectory = new File(targetTestClassesDirectory, toFullyQualifiedPath);
     //TODO: What happends if the directory has been created by a previous run?
     // should we delete that structure here? Maybe we should make this configurable.
     mavenItTestCaseBaseDirectory.mkdirs();
 
-    new StorageHelper(context).save(mavenItBaseDirectory, mavenItTestCaseBaseDirectory, DirectoryHelper.getTargetDir());
+    new StorageHelper(context).save(targetTestClassesDirectory, mavenItTestCaseBaseDirectory, DirectoryHelper.getTargetDir());
   }
 
   @Override
@@ -153,7 +153,7 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
 
         FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),
             directoryResolverResult.getProjectDirectory());
-        FileUtils.copyDirectory(directoryResolverResult.getComponentUnderTestDirectory(),
+        FileUtils.copyDirectory(directoryResolverResult.getTargetItfRepoDirectory(),
             directoryResolverResult.getCacheDirectory());
       }
     } else {
@@ -163,7 +163,7 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
 
       FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),
           directoryResolverResult.getProjectDirectory());
-      FileUtils.copyDirectory(directoryResolverResult.getComponentUnderTestDirectory(),
+      FileUtils.copyDirectory(directoryResolverResult.getTargetItfRepoDirectory(),
           directoryResolverResult.getCacheDirectory());
     }
 
@@ -244,8 +244,9 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     MavenCacheResult mavenCacheResult = new MavenCacheResult(directoryResolverResult.getCacheDirectory().toPath());
 
     Model model = ProjectHelper.readProject(new File(directoryResolverResult.getProjectDirectory(), "pom.xml"));
-    MavenProjectResult mavenProjectResult = new MavenProjectResult(directoryResolverResult.getProjectDirectory(),
-        model);
+
+    MavenProjectResult mavenProjectResult = new MavenProjectResult(directoryResolverResult.getIntegrationTestCaseDirectory(),
+        directoryResolverResult.getProjectDirectory(), directoryResolverResult.getCacheDirectory(), model);
 
     MavenExecutionResult result = new MavenExecutionResult(executionResult, processCompletableFuture, log,
         mavenProjectResult, mavenCacheResult);

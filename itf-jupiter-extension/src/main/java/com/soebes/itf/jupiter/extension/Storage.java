@@ -23,10 +23,28 @@ package com.soebes.itf.jupiter.extension;
  * @author Karl Heinz Marbaise
  */
 enum Storage {
+
+  /*
+   * <pre>
+   *   target/                                   <-- TARGET_DIRECTORY
+   *      +-- itf-repo/                          <-- targetItfRepoDirectory
+   *      +-- test-classes/                      <-- targetTestClassesDirectory
+   *            +--- FirstIT/
+   *                    +--- test_case_one       <-- sourceMavenProject
+   *
+   *      +-- maven-it/                          <-- TARGET_MAVEN_IT_DIRECTORY
+   *           +-- FirstIT/                      <-- mavenItTestCaseBaseDirectory
+   *                 +--- test_case_one/         <-- integrationTestCaseDirectory
+   *                       +--- .m2/repository   <-- cacheDirectory
+   *                       +--- project          <-- projectDirectory
+   *                               +--- src/
+   *                               +--- pom.xml
+   * </pre>
+   */
   /**
    * The {@code target/maven-it} directory.
    */
-  MAVEN_IT_BASEDIRECTORY,
+  TARGET_MAVEN_IT_DIRECTORY,
   /**
    * The directory for the single test cases which is being built of the
    * {@code package+testClassName+(Optional:NestedClassNames)+MethodName}.
