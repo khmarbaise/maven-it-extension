@@ -554,7 +554,6 @@ package org.codehaus.mojo.versions.it;
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
-import com.soebes.itf.jupiter.maven.MavenProjectResult;
 
 import com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
@@ -586,7 +585,6 @@ package org.codehaus.mojo.versions.it;
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
-import com.soebes.itf.jupiter.maven.MavenProjectResult;
 
 import com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
@@ -1515,7 +1513,6 @@ package org.codehaus.mojo.versions.it;
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
-import com.soebes.itf.jupiter.maven.MavenProjectResult;
 
 import com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
