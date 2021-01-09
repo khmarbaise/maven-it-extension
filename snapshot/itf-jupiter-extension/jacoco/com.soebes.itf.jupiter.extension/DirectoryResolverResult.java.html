@@ -26,13 +26,42 @@ import java.lang.reflect.Method;
 import java.util.Optional;
 
 /**
+ * The source structure looks usually like this:
+ * &lt;pre&gt;
+ *   src/test/java/../
+ *      +--- FirstIT.java
+ *             +--- test_case_one
+ *   src/test/resources-its/.../
+ *      +--- FirstIT/
+ *              +--- test_case_one
+ *                      +--- src/...
+ *                      +--- pom.xml
+ * &lt;/pre&gt;
+ * during the execution of the integration tests the following
+ * will be generated:
+ * &lt;pre&gt;
+ *   target/                                   &lt;-- targetDirectory
+ *      +-- itf-repo/                          &lt;-- targetItfRepoDirectory
+ *      +-- test-classes/                      &lt;-- targetTestClassesDirectory
+ *            +--- FirstIT/
+ *                    +--- test_case_one       &lt;-- sourceMavenProject
+ *
+ *      +-- maven-it/                          &lt;-- targetMavenItDirectory
+ *           +-- FirstIT/                      &lt;-- mavenItTestCaseBaseDirectory
+ *                 +--- test_case_one/         &lt;-- integrationTestCaseDirectory
+ *                       +--- .m2/repository   &lt;-- cacheDirectory
+ *                       +--- project          &lt;-- projectDirectory
+ *                               +--- src/
+ *                               +--- pom.xml
+ * &lt;/pre&gt;
+ *
  * @author Karl Heinz Marbaise
  */
 class DirectoryResolverResult {
 
   private final File mavenItTestCaseBaseDirectory;
 
-  private final File mavenBaseDirectory;
+  private final File targetMavenItDirectory;
 
   private final File targetDirectory;
 
@@ -40,104 +69,104 @@ class DirectoryResolverResult {
 
   private final File projectDirectory;
 
-  private final File mavenItsBaseDirectory;
+  private final File targetTestClassesDirectory;
 
   private final File sourceMavenProject;
 
   private final File cacheDirectory;
 
-  private final File componentUnderTestDirectory;
+  private final File targetItfRepoDirectory;
 
   private final Optional&lt;File&gt; predefinedRepository;
 
-<span class="nc" id="L53">  DirectoryResolverResult(ExtensionContext context) {</span>
-<span class="nc" id="L54">    StorageHelper sh = new StorageHelper(context);</span>
+<span class="nc" id="L82">  DirectoryResolverResult(ExtensionContext context) {</span>
+<span class="nc" id="L83">    StorageHelper sh = new StorageHelper(context);</span>
 
-<span class="nc" id="L56">    this.mavenItTestCaseBaseDirectory = sh.get(Storage.MAVEN_IT_TESTCASE_BASEDIRECTORY, File.class);</span>
-<span class="nc" id="L57">    this.mavenBaseDirectory = sh.get(Storage.MAVEN_IT_BASEDIRECTORY, File.class);</span>
-<span class="nc" id="L58">    this.targetDirectory = sh.get(Storage.TARGET_DIRECTORY, File.class);</span>
+<span class="nc" id="L85">    this.mavenItTestCaseBaseDirectory = sh.get(Storage.MAVEN_IT_TESTCASE_BASEDIRECTORY, File.class);</span>
+<span class="nc" id="L86">    this.targetMavenItDirectory = sh.get(Storage.TARGET_MAVEN_IT_DIRECTORY, File.class);</span>
+<span class="nc" id="L87">    this.targetDirectory = sh.get(Storage.TARGET_DIRECTORY, File.class);</span>
 
-<span class="nc" id="L60">    Method methodName = context.getTestMethod().orElseThrow(() -&gt; new IllegalStateException(&quot;No method given&quot;));</span>
+<span class="nc" id="L89">    Method methodName = context.getTestMethod().orElseThrow(() -&gt; new IllegalStateException(&quot;No method given&quot;));</span>
 
-<span class="nc" id="L62">    Optional&lt;Class&lt;?&gt;&gt; mavenProject = AnnotationHelper.findMavenProjectAnnotation(context);</span>
-<span class="nc bnc" id="L63" title="All 2 branches missed.">    if (mavenProject.isPresent()) {</span>
-<span class="nc" id="L64">      MavenProject mavenProjectAnnotation = mavenProject.get().getAnnotation(MavenProject.class);</span>
-<span class="nc" id="L65">      this.integrationTestCaseDirectory = new File(this.getMavenItTestCaseBaseDirectory(),</span>
-<span class="nc" id="L66">          mavenProjectAnnotation.value());</span>
-<span class="nc" id="L67">    } else {</span>
-<span class="nc" id="L68">      this.integrationTestCaseDirectory = new File(this.getMavenItTestCaseBaseDirectory(), methodName.getName());</span>
+<span class="nc" id="L91">    Optional&lt;Class&lt;?&gt;&gt; mavenProject = AnnotationHelper.findMavenProjectAnnotation(context);</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">    if (mavenProject.isPresent()) {</span>
+<span class="nc" id="L93">      MavenProject mavenProjectAnnotation = mavenProject.get().getAnnotation(MavenProject.class);</span>
+<span class="nc" id="L94">      this.integrationTestCaseDirectory = new File(this.getMavenItTestCaseBaseDirectory(),</span>
+<span class="nc" id="L95">          mavenProjectAnnotation.value());</span>
+<span class="nc" id="L96">    } else {</span>
+<span class="nc" id="L97">      this.integrationTestCaseDirectory = new File(this.getMavenItTestCaseBaseDirectory(), methodName.getName());</span>
     }
 
-<span class="nc" id="L71">    this.projectDirectory = new File(integrationTestCaseDirectory, &quot;project&quot;);</span>
-<span class="nc" id="L72">    this.mavenItsBaseDirectory = new File(DirectoryHelper.getTargetDir(), &quot;test-classes&quot;);</span>
-<span class="nc" id="L73">    this.componentUnderTestDirectory = new File(this.getTargetDirectory(), &quot;itf-repo&quot;); // Hard Coded!!</span>
+<span class="nc" id="L100">    this.projectDirectory = new File(integrationTestCaseDirectory, &quot;project&quot;);</span>
+<span class="nc" id="L101">    this.targetTestClassesDirectory = new File(DirectoryHelper.getTargetDir(), &quot;test-classes&quot;);</span>
+<span class="nc" id="L102">    this.targetItfRepoDirectory = new File(this.getTargetDirectory(), &quot;itf-repo&quot;); // Hard Coded!!</span>
 
-<span class="nc" id="L75">    Class&lt;?&gt; testClass = context.getTestClass().orElseThrow(() -&gt; new IllegalStateException(&quot;Test class not found.&quot;));</span>
-<span class="nc" id="L76">    String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);</span>
+<span class="nc" id="L104">    Class&lt;?&gt; testClass = context.getTestClass().orElseThrow(() -&gt; new IllegalStateException(&quot;Test class not found.&quot;));</span>
+<span class="nc" id="L105">    String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);</span>
 
 
-<span class="nc" id="L79">    File intermediate = new File(this.mavenItsBaseDirectory, toFullyQualifiedPath);</span>
-<span class="nc bnc" id="L80" title="All 2 branches missed.">    if (mavenProject.isPresent()) {</span>
-<span class="nc" id="L81">      MavenProject mavenProjectAnnotation = mavenProject.get().getAnnotation(MavenProject.class);</span>
-<span class="nc" id="L82">      this.sourceMavenProject = new File(intermediate, mavenProjectAnnotation.value());</span>
-<span class="nc" id="L83">    } else {</span>
-<span class="nc" id="L84">      this.sourceMavenProject = new File( intermediate, methodName.getName());</span>
+<span class="nc" id="L108">    File intermediate = new File(this.targetTestClassesDirectory, toFullyQualifiedPath);</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">    if (mavenProject.isPresent()) {</span>
+<span class="nc" id="L110">      MavenProject mavenProjectAnnotation = mavenProject.get().getAnnotation(MavenProject.class);</span>
+<span class="nc" id="L111">      this.sourceMavenProject = new File(intermediate, mavenProjectAnnotation.value());</span>
+<span class="nc" id="L112">    } else {</span>
+<span class="nc" id="L113">      this.sourceMavenProject = new File(intermediate, methodName.getName());</span>
     }
 
-<span class="nc" id="L87">    Optional&lt;Class&lt;?&gt;&gt; optionalMavenRepository = AnnotationHelper.findMavenRepositoryAnnotation(context);</span>
-<span class="nc bnc" id="L88" title="All 2 branches missed.">    if (optionalMavenRepository.isPresent()) {</span>
-<span class="nc" id="L89">      MavenRepository mavenRepository = optionalMavenRepository.get().getAnnotation(MavenRepository.class);</span>
-<span class="nc" id="L90">      String repositoryPath = DirectoryHelper.toFullyQualifiedPath(optionalMavenRepository.get());</span>
-<span class="nc" id="L91">      File cacheDirectoryBase = new File(this.mavenBaseDirectory, repositoryPath);</span>
-<span class="nc" id="L92">      this.cacheDirectory = new File(cacheDirectoryBase, mavenRepository.value());</span>
-<span class="nc" id="L93">    } else {</span>
+<span class="nc" id="L116">    Optional&lt;Class&lt;?&gt;&gt; optionalMavenRepository = AnnotationHelper.findMavenRepositoryAnnotation(context);</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">    if (optionalMavenRepository.isPresent()) {</span>
+<span class="nc" id="L118">      MavenRepository mavenRepository = optionalMavenRepository.get().getAnnotation(MavenRepository.class);</span>
+<span class="nc" id="L119">      String repositoryPath = DirectoryHelper.toFullyQualifiedPath(optionalMavenRepository.get());</span>
+<span class="nc" id="L120">      File cacheDirectoryBase = new File(this.targetMavenItDirectory, repositoryPath);</span>
+<span class="nc" id="L121">      this.cacheDirectory = new File(cacheDirectoryBase, mavenRepository.value());</span>
+<span class="nc" id="L122">    } else {</span>
       //FIXME: Hard coded default. Should we get the default from the Annotation?
-<span class="nc" id="L95">      this.cacheDirectory = new File(this.integrationTestCaseDirectory, &quot;.m2/repository&quot;);</span>
+<span class="nc" id="L124">      this.cacheDirectory = new File(this.integrationTestCaseDirectory, &quot;.m2/repository&quot;);</span>
     }
 
-<span class="nc" id="L98">    Optional&lt;Class&lt;?&gt;&gt; optionalMavenPredefinedRepository = AnnotationHelper.findMavenPredefinedRepositoryAnnotation(context);</span>
-<span class="nc bnc" id="L99" title="All 2 branches missed.">    if (optionalMavenPredefinedRepository.isPresent()) {</span>
-<span class="nc" id="L100">      MavenPredefinedRepository mavenRepository = optionalMavenPredefinedRepository.get().getAnnotation(MavenPredefinedRepository.class);</span>
-<span class="nc" id="L101">      String repositoryPath = DirectoryHelper.toFullyQualifiedPath(optionalMavenPredefinedRepository.get());</span>
-<span class="nc" id="L102">      File cacheDirectoryBase = new File(this.mavenItsBaseDirectory, repositoryPath);</span>
-<span class="nc" id="L103">      this.predefinedRepository = Optional.of(new File(cacheDirectoryBase, mavenRepository.value()));</span>
-<span class="nc" id="L104">    } else {</span>
+<span class="nc" id="L127">    Optional&lt;Class&lt;?&gt;&gt; optionalMavenPredefinedRepository = AnnotationHelper.findMavenPredefinedRepositoryAnnotation(context);</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">    if (optionalMavenPredefinedRepository.isPresent()) {</span>
+<span class="nc" id="L129">      MavenPredefinedRepository mavenRepository = optionalMavenPredefinedRepository.get().getAnnotation(MavenPredefinedRepository.class);</span>
+<span class="nc" id="L130">      String repositoryPath = DirectoryHelper.toFullyQualifiedPath(optionalMavenPredefinedRepository.get());</span>
+<span class="nc" id="L131">      File cacheDirectoryBase = new File(this.targetTestClassesDirectory, repositoryPath);</span>
+<span class="nc" id="L132">      this.predefinedRepository = Optional.of(new File(cacheDirectoryBase, mavenRepository.value()));</span>
+<span class="nc" id="L133">    } else {</span>
       //FIXME: Hard coded default. Should we get the default from the Annotation?
-<span class="nc" id="L106">      this.predefinedRepository = Optional.empty();</span>
+<span class="nc" id="L135">      this.predefinedRepository = Optional.empty();</span>
     }
 
-<span class="nc" id="L109">  }</span>
+<span class="nc" id="L138">  }</span>
 
-  final File getComponentUnderTestDirectory() {
-<span class="nc" id="L112">    return componentUnderTestDirectory;</span>
+  final File getTargetItfRepoDirectory() {
+<span class="nc" id="L141">    return targetItfRepoDirectory;</span>
   }
 
   final Optional&lt;File&gt; getPredefinedRepository() {
-<span class="nc" id="L116">    return predefinedRepository;</span>
+<span class="nc" id="L145">    return predefinedRepository;</span>
   }
 
   final File getCacheDirectory() {
-<span class="nc" id="L120">    return cacheDirectory;</span>
+<span class="nc" id="L149">    return cacheDirectory;</span>
   }
 
   final File getSourceMavenProject() {
-<span class="nc" id="L124">    return sourceMavenProject;</span>
+<span class="nc" id="L153">    return sourceMavenProject;</span>
   }
 
   final File getProjectDirectory() {
-<span class="nc" id="L128">    return projectDirectory;</span>
+<span class="nc" id="L157">    return projectDirectory;</span>
   }
 
   final File getIntegrationTestCaseDirectory() {
-<span class="nc" id="L132">    return integrationTestCaseDirectory;</span>
+<span class="nc" id="L161">    return integrationTestCaseDirectory;</span>
   }
 
   final File getMavenItTestCaseBaseDirectory() {
-<span class="nc" id="L136">    return mavenItTestCaseBaseDirectory;</span>
+<span class="nc" id="L165">    return mavenItTestCaseBaseDirectory;</span>
   }
 
   final File getTargetDirectory() {
-<span class="nc" id="L140">    return targetDirectory;</span>
+<span class="nc" id="L169">    return targetDirectory;</span>
   }
 
 }

@@ -32,20 +32,102 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 @API(status = EXPERIMENTAL, since = &quot;0.1.0&quot;)
 public class MavenProjectResult {
 
+  @Deprecated
   private final File baseDir;
+
   private final Model model;
+  /**
+   * This is the {@code project} directory of the test case.
+   */
+  @API(status = EXPERIMENTAL, since = &quot;0.10.0&quot;)
+  private final File targetProjectDirectory;
 
-<span class="nc" id="L38">  public MavenProjectResult(File baseDir, Model model) {</span>
-<span class="nc" id="L39">    this.baseDir = baseDir;</span>
-<span class="nc" id="L40">    this.model = model;</span>
-<span class="nc" id="L41">  }</span>
+  /**
+   * This is the {@code base} directory of the test case.
+   */
+  @API(status = EXPERIMENTAL, since = &quot;0.10.0&quot;)
+  private final File targetBaseDirectory;
 
+  /**
+   * This is the {@code cache} directory of the test case.
+   */
+  @API(status = EXPERIMENTAL, since = &quot;0.10.0&quot;)
+  private final File targetCacheDirectory;
+
+  /**
+   * The source structure looks usually like this:
+   * &lt;pre&gt;
+   *   src/test/java/../
+   *      +--- FirstIT.java
+   *             +--- test_case_one
+   *   src/test/resources-its/.../
+   *      +--- FirstIT/
+   *              +--- test_case_one
+   *                      +--- src/...
+   *                      +--- pom.xml
+   * &lt;/pre&gt;
+   * during the execution of the integration tests the following
+   * will be generated:
+   * &lt;pre&gt;
+   *   target/maven-it/
+   *      .../FirstIT
+   *           +--- test_case_one            &lt;-- targetBaseDirectory
+   *                   +--- .m2/             &lt;-- targetCacheDirectory
+   *                   +--- project          &lt;-- targetProjectDirectory
+   *                           +--- src/
+   *                           +--- pom.xml  &lt;-- model
+   *                   +--- mvn-stdout.log
+   *                   +--- mvn-stderr.log
+   * &lt;/pre&gt;
+   *
+   * @param targetBaseDirectory This represents the root directory of test case in {@code target} directory.
+   * @param targetProjectDirectory This represents the root directory in the {@code target} structure.
+   * @param targetCacheDirectory This represents the root directory in the {@code cache} structure.
+   * @param model The model read from {@code pom.xml} file in the {@code target} structure.
+   * @implNote Currently we only read the single {@code pom.xml} file. An existing multi module
+   * structure with it's {@code pom.xml} files will not being read.
+   */
+<span class="nc" id="L90">  public MavenProjectResult(File targetBaseDirectory, File targetProjectDirectory, File targetCacheDirectory, Model model) {</span>
+<span class="nc" id="L91">    this.targetBaseDirectory = targetBaseDirectory;</span>
+<span class="nc" id="L92">    this.targetProjectDirectory = targetProjectDirectory;</span>
+<span class="nc" id="L93">    this.targetCacheDirectory = targetCacheDirectory;</span>
+<span class="nc" id="L94">    this.model = model;</span>
+    //The following assignments only exist to initialize the deprecated marked field. Will be removed
+    //with Release 0.11.0
+<span class="nc" id="L97">    this.baseDir = targetBaseDirectory;</span>
+<span class="nc" id="L98">  }</span>
+
+  /**
+   * @return The base directory of the test case within {@code target} directory.
+   */
+  @API(status = EXPERIMENTAL, since = &quot;0.10.0&quot;)
+  public File getTargetBaseDirectory() {
+<span class="nc" id="L105">    return targetBaseDirectory;</span>
+  }
+
+  /**
+   * @return The {@code project} directory of the test case.
+   */
+  @API(status = EXPERIMENTAL, since = &quot;0.10.0&quot;)
+  public File getTargetProjectDirectory() {
+<span class="nc" id="L113">    return targetProjectDirectory;</span>
+  }
+
+  /**
+   * @return The {@code cache} directory of the test case.
+   */
+  @API(status = EXPERIMENTAL, since = &quot;0.10.0&quot;)
+  public File getTargetCacheDirectory() {
+<span class="nc" id="L121">    return targetCacheDirectory;</span>
+  }
+
+  @Deprecated
   public File getBaseDir() {
-<span class="nc" id="L44">    return baseDir;</span>
+<span class="nc" id="L126">    return baseDir;</span>
   }
 
   public Model getModel() {
-<span class="nc" id="L48">    return model;</span>
+<span class="nc" id="L130">    return model;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

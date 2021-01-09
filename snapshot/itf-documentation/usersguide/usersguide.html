@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="Karl Heinz Marbaise, 2020-12-14">
+<meta name="author" content="Karl Heinz Marbaise, 2021-01-09">
 <title>Integration Testing Framework Users Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Integration Testing Framework Users Guide</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2020-12-14</span><br>
+<span id="author2" class="author">2021-01-09</span><br>
 <span id="revnumber">version 0.10.0-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
@@ -504,6 +504,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_failing_the_build">10.2. Failing the build</a></li>
 </ul>
 </li>
+<li><a href="#_mavenexecutionresult">Appendix A: MavenExecutionResult</a></li>
 </ul>
 </div>
 </div>
@@ -2529,6 +2530,85 @@ can given via <code>exception</code> configuration part as before.</p>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_mavenexecutionresult"><a class="link" href="#_mavenexecutionresult">Appendix A: MavenExecutionResult</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In some situations you need access to the directories which have been created during
+the integration tests. That can simply being achieved by using the injection of
+<code>MavenExecutionResult</code> or <code>MavenProjectResult</code> depending on your needs.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="type">class</span> <span class="class">FirstIT</span> {
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> the_first_test_case(MavenExecutionResult result) {
+    assertThat(result).isSuccessful();
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>the resulting directory structure looks like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="text">.
+└──target/
+   └── maven-its/
+       └── org/
+           └── it/
+               └── FirstIT/
+                   └── the_first_test_case/
+                       ├── .m2/
+                       ├── project/
+                       │   ├── src/
+                       │   ├── target/
+                       │   └── pom.xml
+                       ├── mvn-stdout.log
+                       ├── mvn-stderr.log
+                       └── other logs</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There are existing the following information which you can use for further check etc.
+You can access them via:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>result.getMavenProjectResult().getTargetBaseDirectory();</code>
+This represents the directory <code>the_first_test_case</code> in the above directory
+structure.</p>
+</li>
+<li>
+<p><code>result.getMavenProjectResult().getTargetProjectDirectory()</code>
+This represents the directory <code>project</code> in the above directory structure.</p>
+</li>
+<li>
+<p><code>result.getMavenProjectResult().getCacheDirectory()</code>
+This represents the directory <code>.m2</code> in the above directory structure.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If you only need access to the directory structure and not to the result of the build
+or the logging output of the Maven build you can change your integration test like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="type">class</span> <span class="class">FirstIT</span> {
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> the_first_test_case(MavenProjectResult result) {
+    ...
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footnotes">
 <hr>
@@ -2539,7 +2619,7 @@ can given via <code>exception</code> configuration part as before.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.10.0-SNAPSHOT<br>
-Last updated 2020-12-14 19:40:38 UTC
+Last updated 2021-01-09 17:48:09 UTC
 </div>
 </div>
 <style>

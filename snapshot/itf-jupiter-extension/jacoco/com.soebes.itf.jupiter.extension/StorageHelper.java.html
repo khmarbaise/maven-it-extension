@@ -57,9 +57,9 @@ final class StorageHelper {
 <span class="nc" id="L57">    nameSpace.put(key, value);</span>
 <span class="nc" id="L58">  }</span>
 
-  void save(File mavenItBaseDirectory, File mavenItTestCaseBaseDirectory, File targetDirectory) {
+  void save(File targetTestClassesDirectory, File mavenItTestCaseBaseDirectory, File targetDirectory) {
 <span class="nc" id="L61">    StorageHelper sh = new StorageHelper(context);</span>
-<span class="nc" id="L62">    sh.put(Storage.MAVEN_IT_BASEDIRECTORY, mavenItBaseDirectory);</span>
+<span class="nc" id="L62">    sh.put(Storage.TARGET_MAVEN_IT_DIRECTORY, targetTestClassesDirectory);</span>
 <span class="nc" id="L63">    sh.put(Storage.MAVEN_IT_TESTCASE_BASEDIRECTORY, mavenItTestCaseBaseDirectory);</span>
 <span class="nc" id="L64">    sh.put(Storage.TARGET_DIRECTORY, targetDirectory);</span>
 <span class="nc" id="L65">  }</span>

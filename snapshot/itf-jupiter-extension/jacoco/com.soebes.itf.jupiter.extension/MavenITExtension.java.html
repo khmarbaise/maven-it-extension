@@ -80,15 +80,15 @@ import static java.util.stream.Collectors.toList;
 <span class="nc" id="L80">        .orElseThrow(() -&gt; new ExtensionConfigurationException(&quot;MavenITExtension is only supported for classes.&quot;));</span>
 
     //FIXME: Need to reconsider the maven-it directory?
-<span class="nc" id="L83">    File mavenItBaseDirectory = new File(DirectoryHelper.getTargetDir(), &quot;maven-it&quot;);</span>
+<span class="nc" id="L83">    File targetTestClassesDirectory = new File(DirectoryHelper.getTargetDir(), &quot;maven-it&quot;);</span>
 <span class="nc" id="L84">    String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);</span>
 
-<span class="nc" id="L86">    File mavenItTestCaseBaseDirectory = new File(mavenItBaseDirectory, toFullyQualifiedPath);</span>
+<span class="nc" id="L86">    File mavenItTestCaseBaseDirectory = new File(targetTestClassesDirectory, toFullyQualifiedPath);</span>
     //TODO: What happends if the directory has been created by a previous run?
     // should we delete that structure here? Maybe we should make this configurable.
 <span class="nc" id="L89">    mavenItTestCaseBaseDirectory.mkdirs();</span>
 
-<span class="nc" id="L91">    new StorageHelper(context).save(mavenItBaseDirectory, mavenItTestCaseBaseDirectory, DirectoryHelper.getTargetDir());</span>
+<span class="nc" id="L91">    new StorageHelper(context).save(targetTestClassesDirectory, mavenItTestCaseBaseDirectory, DirectoryHelper.getTargetDir());</span>
 <span class="nc" id="L92">  }</span>
 
   @Override
@@ -153,7 +153,7 @@ import static java.util.stream.Collectors.toList;
 
 <span class="nc" id="L154">        FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),</span>
 <span class="nc" id="L155">            directoryResolverResult.getProjectDirectory());</span>
-<span class="nc" id="L156">        FileUtils.copyDirectory(directoryResolverResult.getComponentUnderTestDirectory(),</span>
+<span class="nc" id="L156">        FileUtils.copyDirectory(directoryResolverResult.getTargetItfRepoDirectory(),</span>
 <span class="nc" id="L157">            directoryResolverResult.getCacheDirectory());</span>
       }
     } else {
@@ -163,7 +163,7 @@ import static java.util.stream.Collectors.toList;
 
 <span class="nc" id="L164">      FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),</span>
 <span class="nc" id="L165">          directoryResolverResult.getProjectDirectory());</span>
-<span class="nc" id="L166">      FileUtils.copyDirectory(directoryResolverResult.getComponentUnderTestDirectory(),</span>
+<span class="nc" id="L166">      FileUtils.copyDirectory(directoryResolverResult.getTargetItfRepoDirectory(),</span>
 <span class="nc" id="L167">          directoryResolverResult.getCacheDirectory());</span>
     }
 
@@ -244,27 +244,28 @@ import static java.util.stream.Collectors.toList;
 <span class="nc" id="L244">    MavenCacheResult mavenCacheResult = new MavenCacheResult(directoryResolverResult.getCacheDirectory().toPath());</span>
 
 <span class="nc" id="L246">    Model model = ProjectHelper.readProject(new File(directoryResolverResult.getProjectDirectory(), &quot;pom.xml&quot;));</span>
-<span class="nc" id="L247">    MavenProjectResult mavenProjectResult = new MavenProjectResult(directoryResolverResult.getProjectDirectory(),</span>
-        model);
 
-<span class="nc" id="L250">    MavenExecutionResult result = new MavenExecutionResult(executionResult, processCompletableFuture, log,</span>
+<span class="nc" id="L248">    MavenProjectResult mavenProjectResult = new MavenProjectResult(directoryResolverResult.getIntegrationTestCaseDirectory(),</span>
+<span class="nc" id="L249">        directoryResolverResult.getProjectDirectory(), directoryResolverResult.getCacheDirectory(), model);</span>
+
+<span class="nc" id="L251">    MavenExecutionResult result = new MavenExecutionResult(executionResult, processCompletableFuture, log,</span>
         mavenProjectResult, mavenCacheResult);
 
-<span class="nc" id="L253">    new StorageHelper(context).save(result, log, mavenCacheResult, mavenProjectResult);</span>
-<span class="nc" id="L254">  }</span>
+<span class="nc" id="L254">    new StorageHelper(context).save(result, log, mavenCacheResult, mavenProjectResult);</span>
+<span class="nc" id="L255">  }</span>
 
   private Map&lt;String, String&gt; pomEntries(DirectoryResolverResult directoryResolverResult) {
     //FIXME: Need to introduce better directory names
-<span class="nc" id="L258">    File mavenBaseDirectory = new File(directoryResolverResult.getTargetDirectory(), &quot;..&quot;);</span>
-<span class="nc" id="L259">    File pomFile = new File(mavenBaseDirectory, &quot;pom.xml&quot;);</span>
+<span class="nc" id="L259">    File mavenBaseDirectory = new File(directoryResolverResult.getTargetDirectory(), &quot;..&quot;);</span>
+<span class="nc" id="L260">    File pomFile = new File(mavenBaseDirectory, &quot;pom.xml&quot;);</span>
 
-<span class="nc" id="L261">    ModelReader modelReader = new ModelReader(ProjectHelper.readProject(pomFile));</span>
-<span class="nc" id="L262">    Map&lt;String, String&gt; keyValues = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L262">    ModelReader modelReader = new ModelReader(ProjectHelper.readProject(pomFile));</span>
+<span class="nc" id="L263">    Map&lt;String, String&gt; keyValues = new HashMap&lt;&gt;();</span>
     //The following three elements are read from the original pom file.
-<span class="nc" id="L264">    keyValues.put(&quot;project.groupId&quot;, modelReader.getGroupId());</span>
-<span class="nc" id="L265">    keyValues.put(&quot;project.artifactId&quot;, modelReader.getArtifactId());</span>
-<span class="nc" id="L266">    keyValues.put(&quot;project.version&quot;, modelReader.getVersion());</span>
-<span class="nc" id="L267">    return keyValues;</span>
+<span class="nc" id="L265">    keyValues.put(&quot;project.groupId&quot;, modelReader.getGroupId());</span>
+<span class="nc" id="L266">    keyValues.put(&quot;project.artifactId&quot;, modelReader.getArtifactId());</span>
+<span class="nc" id="L267">    keyValues.put(&quot;project.version&quot;, modelReader.getVersion());</span>
+<span class="nc" id="L268">    return keyValues;</span>
   }
 
 }
