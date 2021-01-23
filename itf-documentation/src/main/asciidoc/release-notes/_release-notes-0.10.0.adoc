@@ -43,6 +43,7 @@
 :issue-175: https://github.com/khmarbaise/maven-it-extension/issues/175[Fixed #175]
 :issue-176: https://github.com/khmarbaise/maven-it-extension/issues/176[Fixed #176]
 :issue-181: https://github.com/khmarbaise/maven-it-extension/issues/181[Fixed #181]
+:issue-182: https://github.com/khmarbaise/maven-it-extension/issues/182[Fixed #182]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -108,6 +109,7 @@
  * {issue-157} - Upgrade asciidoctor-maven-plugin to 2.1.0.
  * {issue-166} - Upgrade mockito to 3.6.0
  * {issue-181} - Upgrade assertj-core to 3.18.1
+ * {issue-182} - Upgrade mockito-core to 3.7.7
  * {issue-??} - ??
 
 *Build Improvements*
