@@ -45,6 +45,7 @@
 :issue-181: https://github.com/khmarbaise/maven-it-extension/issues/181[Fixed #181]
 :issue-182: https://github.com/khmarbaise/maven-it-extension/issues/182[Fixed #182]
 :issue-183: https://github.com/khmarbaise/maven-it-extension/issues/183[Fixed #183]
+:issue-185: https://github.com/khmarbaise/maven-it-extension/issues/185[Fixed #185]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -112,6 +113,7 @@
  * {issue-181} - Upgrade assertj-core to 3.18.1
  * {issue-182} - Upgrade mockito-core to 3.7.7
  * {issue-183} - Remove unused dependency xmlunit-assertj
+ * {issue-185} - Upgrade to JUnit Jupiter 5.7.1
  * {issue-??} - ??
 
 *Build Improvements*
