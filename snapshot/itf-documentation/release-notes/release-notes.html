@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="Karl Heinz Marbaise, 2021-02-04">
+<meta name="author" content="Karl Heinz Marbaise, 2021-02-22">
 <title>Integration Testing Framework Release Notes</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Integration Testing Framework Release Notes</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2021-02-04</span><br>
+<span id="author2" class="author">2021-02-22</span><br>
 <span id="revnumber">version 0.10.0-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
@@ -522,6 +522,9 @@ overview and detailed instructions how to use the Integration Testing Framework.
 <li>
 <p><a href="https://github.com/khmarbaise/maven-it-extension/issues/176">Fixed #176</a> - Remove needless import on MavenProjectResult in docs.</p>
 </li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/186">Fixed #186</a> - Typo in method name should be isSuccessful.</p>
+</li>
 </ul>
 </div>
 </li>
@@ -561,6 +564,12 @@ have added <code>getTargetBaseDirectory()</code> and <code>getTargetCacheDirecto
 <code>getTargetBaseDirectory()</code> is the same as <code>getBaseDir()</code> to keep compatibility
 in release 0.10.0. The <code>getBaseDir()</code> has been marked deprecated and will be
 removed with release 0.11.0.</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/186">Fixed #186</a> - based on a typo in the method name <code>isSuccesful()</code> of the class
+<code>MavenExecutionResult</code> instead of <code>isSuccessful()</code> the method <code>isSuccesful()</code>
+is marked deprecated and should not being used anymore and will be removed
+with release 0.11.0. Replace it with <code>isSuccessful()</code>.</p>
 </li>
 </ul>
 </div>
@@ -1622,7 +1631,7 @@ publish in <a href="https://central.sonatype.org/">Central Repository</a>.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.10.0-SNAPSHOT<br>
-Last updated 2021-02-04 21:02:00 UTC
+Last updated 2021-02-22 19:51:52 UTC
 </div>
 </div>
 </body>
