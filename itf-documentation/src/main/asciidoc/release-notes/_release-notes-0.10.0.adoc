@@ -46,6 +46,7 @@
 :issue-182: https://github.com/khmarbaise/maven-it-extension/issues/182[Fixed #182]
 :issue-183: https://github.com/khmarbaise/maven-it-extension/issues/183[Fixed #183]
 :issue-185: https://github.com/khmarbaise/maven-it-extension/issues/185[Fixed #185]
+:issue-186: https://github.com/khmarbaise/maven-it-extension/issues/186[Fixed #186]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -67,6 +68,7 @@
    * {issue-174} - Improve the output in case of an error.
    * {issue-175} - Enhance the MavenProjectResult.
    * {issue-176} - Remove needless import on MavenProjectResult in docs.
+   * {issue-186} - Typo in method name should be isSuccessful.
 
 *Details*
 
@@ -86,6 +88,11 @@
    `getTargetBaseDirectory()` is the same as `getBaseDir()` to keep compatibility
    in release 0.10.0. The `getBaseDir()` has been marked deprecated and will be
    removed with release 0.11.0.
+ * {issue-186} - based on a typo in the method name `isSuccesful()` of the class
+   `MavenExecutionResult` instead of `isSuccessful()` the method `isSuccesful()`
+   is marked deprecated and should not being used anymore and will be removed
+   with release 0.11.0. Replace it with `isSuccessful()`.
+
 
 *Reporter of this release*
 

@@ -55,7 +55,16 @@ public class MavenExecutionResult {
     return returnCode;
   }
 
+  /**
+   * This method is simply a typo.
+   * Please use {@link #isSuccessful()} instead.
+   */
+  @Deprecated
   public boolean isSuccesful() {
+    return ExecutionResult.Successful.equals(this.result);
+  }
+
+  public boolean isSuccessful() {
     return ExecutionResult.Successful.equals(this.result);
   }
 
