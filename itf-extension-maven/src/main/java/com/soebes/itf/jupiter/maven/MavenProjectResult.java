@@ -28,8 +28,10 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
  * @author Karl Heinz Marbaise
+ * @deprecated Use either {@link MavenSource} or {@link MavenTarget} or both.
  */
 @API(status = EXPERIMENTAL, since = "0.1.0")
+@Deprecated
 public class MavenProjectResult {
 
   @Deprecated
@@ -39,19 +41,16 @@ public class MavenProjectResult {
   /**
    * This is the {@code project} directory of the test case.
    */
-  @API(status = EXPERIMENTAL, since = "0.10.0")
   private final File targetProjectDirectory;
 
   /**
    * This is the {@code base} directory of the test case.
    */
-  @API(status = EXPERIMENTAL, since = "0.10.0")
   private final File targetBaseDirectory;
 
   /**
    * This is the {@code cache} directory of the test case.
    */
-  @API(status = EXPERIMENTAL, since = "0.10.0")
   private final File targetCacheDirectory;
 
   /**
@@ -99,33 +98,43 @@ public class MavenProjectResult {
 
   /**
    * @return The base directory of the test case within {@code target} directory.
+   * You should use {@link MavenTarget#baseDirectory()} instead.
    */
-  @API(status = EXPERIMENTAL, since = "0.10.0")
+  @Deprecated
   public File getTargetBaseDirectory() {
     return targetBaseDirectory;
   }
 
   /**
    * @return The {@code project} directory of the test case.
+   * You should use {@link MavenTarget#projectDirectory()} instead.
    */
-  @API(status = EXPERIMENTAL, since = "0.10.0")
+  @Deprecated
   public File getTargetProjectDirectory() {
     return targetProjectDirectory;
   }
 
   /**
    * @return The {@code cache} directory of the test case.
+   * You should use {@link MavenTarget#cacheDirectory()} instead.
    */
-  @API(status = EXPERIMENTAL, since = "0.10.0")
+  @Deprecated
   public File getTargetCacheDirectory() {
     return targetCacheDirectory;
   }
 
+  /**
+   * You should use {@link MavenTarget#baseDirectory()} instead.
+   */
   @Deprecated
   public File getBaseDir() {
     return baseDir;
   }
 
+  /**
+   * You should use {@link MavenTargetModel} instead.
+   */
+  @Deprecated
   public Model getModel() {
     return model;
   }

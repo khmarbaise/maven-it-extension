@@ -88,6 +88,7 @@ public class MavenExecutionResult {
     return mavenCacheResult;
   }
 
+  @Deprecated
   public MavenProjectResult getMavenProjectResult() {
     return mavenProjectResult;
   }

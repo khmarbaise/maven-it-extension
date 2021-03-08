@@ -48,6 +48,7 @@
 :issue-183: https://github.com/khmarbaise/maven-it-extension/issues/183[Fixed #183]
 :issue-185: https://github.com/khmarbaise/maven-it-extension/issues/185[Fixed #185]
 :issue-186: https://github.com/khmarbaise/maven-it-extension/issues/186[Fixed #186]
+:issue-187: https://github.com/khmarbaise/maven-it-extension/issues/187[Fixed #187]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -70,6 +71,7 @@
    * {issue-175} - Enhance the MavenProjectResult.
    * {issue-176} - Remove needless import on MavenProjectResult in docs.
    * {issue-186} - Typo in method name should be isSuccessful.
+   * {issue-187} - Replace MavenProjectResult with more appropriate Information.
 
 *Details*
 
@@ -96,7 +98,11 @@
  * {issue-177} - Move creation of target structure into beforeEach. This change
    could influence your integration tests. So please check your build. If you have
    issues please report them.
-
+ * {issue-187} - The whole class `MavenProjectResult` is marked deprecated and will be
+   removed with release 0.11.0. This means you have to replace the usage of
+   `MavenProjectResult` with one of the appropriate replacements like `MavenTarget`,
+   `MavenSource`, `MavenModelSource` or `MavenModelTarget` (details can be looked
+    up in the users guide).
 
 *Reporter of this release*
 
