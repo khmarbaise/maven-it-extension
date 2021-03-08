@@ -1147,22 +1147,6 @@ class UpdateChildModuleIT {
 }
 ----
 
-== Open Things
-
-.Things which currently not working or net yet tested/thought about
-* [ ] A build/tool(s) running without relation to Maven?
-This means we only need to define what we start simply a different thing than Maven.
-Would we like to support this?
-* [ ] POM Less builds currently not tried. Calling only a goal like `site:stage` ?
-* [ ] Setup projects which should be run
-* [ ] General Setup repositories which already contain particular dependencies which are needed
-for test cases. Here we need to make it possible having a local repository to be pre defined
-on a test case or on a more general way.
-* [ ] Support for a mock repository manager (mrm) to make tests cases with deploy/releases
-etc. possible. A thought might be to integrate the functionality of mrm into this
-extension and somehow configure that for the test cases?
-* [ ] Support for {mock-repository-manager}
-
 == Log Assertion
 
 We have at the moment at least three different outputs:
@@ -1873,3 +1857,106 @@ Steps to move forward:
 * Starting with Release 0.10.0
 ** The `package` will only used if no `@MavenGoal` is defined at all.
 ** The `--error` option will only used if no `MavenOption` is defined at all.
+
+
+== Injections
+
+=== MavenProjectResult, MavenProject, Model
+Based on the current implementation it is possible to inject the information about the directory
+structure into the `beforeEach` Method as well as the test method like this:
+[source,java]
+----
+@BeforeEach
+void beforeEach(MavenProjectResult project) {
+  ...
+}
+
+@MavenTest
+void testCase( MavenExecutionResult result, MavenProjectResult mavenProjectResult ) {
+  ...
+
+}
+----
+Basically we have implemented the `MavenProjectResult` in the way to contain information
+about the `target` directory structures like this:
+[source]
+----
+target/maven-it/
+  .../FirstIT
+       +--- test_case_one            <-- targetBaseDirectory
+               +--- .m2/             <-- targetCacheDirectory
+               +--- project          <-- targetProjectDirectory
+                       +--- src/
+                       +--- pom.xml  <-- model (targetModel)
+               +--- mvn-stdout.log
+               +--- mvn-stderr.log
+----
+Taking a deeper look into the use cases in particular for `beforeEach` it becomes
+clear that the naming is misleading furthermore the `MavenProjectResult` contains
+different things than directories for example a `Model`. Further more the whole directory
+structure which is from the source area is completely missing:
+
+[source]
+----
+src/test/java/../
+   +--- FirstIT.java
+          +--- test_case_one      <--- sourceBaseDirectory
+src/test/resources-its/.../
+   +--- FirstIT/
+           +--- .predefined-repo  <--- sourceRepo (optional)
+           +--- test_case_one     <--- sourceProjectDirectory
+                   +--- src/...
+                   +--- pom.xml   <--- sourceModel
+----
+
+Let us think about a different naming/structures:
+
+* MavenTarget
+   - baseDirectory, cacheDirectory, projectDirectory
+
+* MavenSource
+   - baseDirectory, projectDirectory, repository (optional)
+
+The model information should be handled in two different ways:
+
+* MavenModelTarget
+  - model (targetModel)
+* MavenModelSource
+  - model (sourceModel)
+
+This means also we can make the injection optional in cases where we might
+no Model (`pom.xml`) files at all.
+
+Based on the above a IT case could look like this:
+[source,java]
+----
+@BeforeEach
+void beforeEach(MavenSource source, MavenTarget target, MavenModelSource modelSource, MavenModelTarget modelTarget) {
+...
+}
+
+@MavenTest
+void testCase( MavenTarget mavenTarget ) {
+...
+
+}
+----
+This means that within the `beforeEach` method you could access the state of the IT before the
+execution of Maven can be access or done something special.
+
+== Open Things
+
+.Things which currently not working or net yet tested/thought about
+* [ ] A build/tool(s) running without relation to Maven?
+This means we only need to define what we start simply a different thing than Maven.
+Would we like to support this?
+* [ ] POM Less builds currently not tried. Calling only a goal like `site:stage` ?
+* [ ] Setup projects which should be run
+* [ ] General Setup repositories which already contain particular dependencies which are needed
+for test cases. Here we need to make it possible having a local repository to be pre defined
+on a test case or on a more general way.
+* [ ] Support for a mock repository manager (mrm) to make tests cases with deploy/releases
+etc. possible. A thought might be to integrate the functionality of mrm into this
+extension and somehow configure that for the test cases?
+* [ ] Support for {mock-repository-manager}
+
