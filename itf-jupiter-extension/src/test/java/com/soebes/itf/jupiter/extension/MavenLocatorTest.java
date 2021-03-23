@@ -135,7 +135,6 @@ class MavenLocatorTest {
 
     }
 
-
     @Nested
     @DisplayName("Prefer maven.home over PATH")
     class PreferMavenHome {
@@ -171,6 +170,47 @@ class MavenLocatorTest {
           MavenLocator mavenLocator = new MavenLocator(wfs, pathEnvironment, false);
           Optional<Path> mvn = mavenLocator.findMvn();
           assertThat(mvn).contains(wfs.getPath(LINUX_TOOLS_MAVEN_BIN_DIRECTORY, "mvn"));
+        }
+      }
+
+    }
+
+    @Nested
+    @DisplayName("ITF_DEBUG")
+    class ITFDebugging {
+
+      private final String LINUX_TOOLS_MAVEN_HOME_DIRECTORY = "/tools/apache-maven-3.6.3";
+      private final String LINUX_TOOLS_MAVEN_BIN_DIRECTORY = "/tools/apache-maven-3.6.3/bin";
+
+      private Properties backup;
+      private Optional<String> pathEnvironment;
+
+      void createMvn(FileSystem wfs) throws IOException {
+        create(wfs, LINUX_TOOLS_MAVEN_BIN_DIRECTORY, "mvnDebug");
+      }
+
+      @BeforeEach
+      void beforeEach() {
+        backup = new Properties();
+        backup.putAll(System.getProperties());
+        this.pathEnvironment = createLinuxEnvironmentPath();
+        System.setProperty("maven.home", LINUX_TOOLS_MAVEN_HOME_DIRECTORY);
+        System.setProperty("ITF_DEBUG", "true");
+      }
+
+      @AfterEach
+      void restore() {
+        System.setProperties(backup);
+      }
+
+      @Test
+      @DisplayName("mvnDebug")
+      void priority_works() throws IOException {
+        try (FileSystem wfs = MemoryFileSystemBuilder.newLinux().build("LinuxSystem")) {
+          createMvn(wfs);
+          MavenLocator mavenLocator = new MavenLocator(wfs, pathEnvironment, false);
+          Optional<Path> mvn = mavenLocator.findMvn();
+          assertThat(mvn).contains(wfs.getPath(LINUX_TOOLS_MAVEN_BIN_DIRECTORY, "mvnDebug"));
         }
       }
 
@@ -340,6 +380,64 @@ class MavenLocatorTest {
           MavenLocator mavenLocator = new MavenLocator(wfs, pathEnvironment, true);
           Optional<Path> mvn = mavenLocator.findMvn();
           assertThat(mvn).contains(wfs.getPath(WINDOWS_TOOLS_MAVEN_BIN_DIRECTORY, "mvn.cmd"));
+        }
+      }
+
+    }
+    @Nested
+    @DisplayName("ITF_DEBUG")
+    class ITFDebugging {
+
+      private final String WINDOWS_TOOLS_MAVEN_HOME_DIRECTORY = "C:\\tools\\maven";
+      private final String WINDOWS_TOOLS_MAVEN_BIN_DIRECTORY = "C:\\tools\\maven\\bin";
+
+      private Properties backup;
+      private Optional<String> pathEnvironment;
+
+      void createToolsDebugBat(FileSystem wfs) throws IOException {
+        create(wfs, WINDOWS_TOOLS_MAVEN_BIN_DIRECTORY, "mvnDebug.bat");
+      }
+
+      void createToolsDebugCmd(FileSystem wfs) throws IOException {
+        create(wfs, WINDOWS_TOOLS_MAVEN_BIN_DIRECTORY, "mvnDebug.cmd");
+      }
+
+      @BeforeEach
+      void beforeEach() {
+        backup = new Properties();
+        backup.putAll(System.getProperties());
+        this.pathEnvironment = createWindowsEnvironmentPath();
+        System.setProperty("maven.home", WINDOWS_TOOLS_MAVEN_HOME_DIRECTORY);
+        System.setProperty("ITF_DEBUG", "true");
+      }
+
+      @AfterEach
+      void restore() {
+        System.setProperties(backup);
+      }
+
+      @Test
+      @DisplayName("mvnDebug.bat")
+      void priority_works_with_debug_bat() throws IOException {
+        try (FileSystem wfs = MemoryFileSystemBuilder.newWindows().build("WindowsSystem")) {
+          createMvnBat(wfs);
+          createToolsDebugBat(wfs);
+          MavenLocator mavenLocator = new MavenLocator(wfs, pathEnvironment, true);
+          Optional<Path> mvn = mavenLocator.findMvn();
+          assertThat(mvn).contains(wfs.getPath(WINDOWS_TOOLS_MAVEN_BIN_DIRECTORY, "mvnDebug.bat"));
+        }
+      }
+
+      @Test
+      @DisplayName("mvnDebug.cmd")
+      void priority_works_with_debug_cmd() throws IOException {
+        try (FileSystem wfs = MemoryFileSystemBuilder.newWindows().build("WindowsSystem")) {
+          createMvnCmd(wfs);
+          createToolsDebugCmd(wfs);
+
+          MavenLocator mavenLocator = new MavenLocator(wfs, pathEnvironment, true);
+          Optional<Path> mvn = mavenLocator.findMvn();
+          assertThat(mvn).contains(wfs.getPath(WINDOWS_TOOLS_MAVEN_BIN_DIRECTORY, "mvnDebug.cmd"));
         }
       }
 

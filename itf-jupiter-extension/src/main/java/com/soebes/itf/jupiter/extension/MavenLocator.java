@@ -48,10 +48,16 @@ class MavenLocator {
    */
   private static final String MAVEN_HOME = "maven.home";
 
+  /**
+   * The name of the system property to activate remote debugging.
+   */
+  private static final String ITF_DEBUG = "ITF_DEBUG";
+
 
   private final FileSystem fileSystem;
   private final Optional<String> pathEnvironment;
   private final boolean isRunningOnWindows;
+  private final String  mvnExecutable;
 
   /**
    * @param fileSystem The {@link FileSystem} which is used.
@@ -62,6 +68,7 @@ class MavenLocator {
     this.fileSystem = fileSystem;
     this.pathEnvironment = pathEnvironment;
     this.isRunningOnWindows = isRunningOnWindows;
+    this.mvnExecutable = Boolean.getBoolean(ITF_DEBUG) ? "mvnDebug" : "mvn";
   }
 
   private Path intoPath(String s) {
@@ -77,15 +84,15 @@ class MavenLocator {
   }
 
   private Path toMvn(Path p) {
-    return p.resolve("mvn");
+    return p.resolve(this.mvnExecutable);
   }
 
   private Path toBat(Path p) {
-    return p.resolve("mvn.bat");
+    return p.resolve(this.mvnExecutable + ".bat");
   }
 
   private Path toCmd(Path p) {
-    return p.resolve("mvn.cmd");
+    return p.resolve(this.mvnExecutable + ".cmd");
   }
 
   private boolean isExecutable(Path s) {

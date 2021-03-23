@@ -1541,6 +1541,56 @@ class CompareDependenciesIT
 }
 ----
 
+[#_debugging]
+== Debugging Plugins
+
+:intellij-junit: https://www.jetbrains.com/help/idea/run-debug-configuration-junit.html#configTab
+:intellij-remote: https://www.jetbrains.com/help/idea/tutorial-remote-debug.html#335b9aea
+
+=== Overview
+
+Sometimes you need to debug your code of your implemented plugin because
+usual tests or even integration tests are not enough. The question is
+how?
+
+Generally you have to define the system property `ITF_DEBUG=true` before you
+run your integration test. This will start the integration test while executing `mvnDebug`
+instead of `mvn` and will simply wait for a connection of a remote debugger usually
+from your IDE.
+
+=== Limitations
+
+Debugging can only being done after you have run your whole integration tests once via
+command line. An idea for the future might be a plugin for IDE's to support that in a
+more convenient way (Help is appreciated).
+
+==== IDEA IntelliJ
+
+You have to define a {intellij-junit}[system property for debugging in your IDE run configuration].
+In the configuration you will find an entry for the VM which usually contains already `-ea` and
+exactly that field needs to be enhanced with the entry `-DITF_DEBUG=true`. By using this run
+configuration you can start the integration test just as before from within your IDE. The process
+will wait until you are connected.
+
+The next step is to {intellij-remote}[configure remote debugging] which means to define the port `8000`
+as port and check if you are using JDK8 or JDK9+ in your configuration.
+
+I recommend to start only a single integration test case via the above described run configuration,
+in debugging mode otherwise all processes woulduse the same port which would result in failure
+because only one can use that port.
+
+==== Eclipse
+
+Basically it should work the same.
+
+(Feedback is welcome to give more details on that.)
+
+==== Netbeans
+
+Basically it should work the same.
+
+(Feedback is welcome to give more details on that.)
+
 
 <<<
 

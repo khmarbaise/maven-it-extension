@@ -43,6 +43,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -210,7 +211,6 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
         integrationTestCaseDirectory, mvnLocation.get(), Collections.emptyList(), prefix);
 
     List<String> executionArguments = new ArrayList<>();
-
 
     //TODO: Reconsider about the default options which are being defined here? Documented? users guide?
     List<String> defaultArguments = Arrays.asList(

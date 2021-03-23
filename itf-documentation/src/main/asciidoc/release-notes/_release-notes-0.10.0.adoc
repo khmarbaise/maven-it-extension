@@ -43,6 +43,7 @@
 :issue-175: https://github.com/khmarbaise/maven-it-extension/issues/175[Fixed #175]
 :issue-176: https://github.com/khmarbaise/maven-it-extension/issues/176[Fixed #176]
 :issue-177: https://github.com/khmarbaise/maven-it-extension/issues/177[Fixed #177]
+:issue-180: https://github.com/khmarbaise/maven-it-extension/issues/180[Fixed #180]
 :issue-181: https://github.com/khmarbaise/maven-it-extension/issues/181[Fixed #181]
 :issue-182: https://github.com/khmarbaise/maven-it-extension/issues/182[Fixed #182]
 :issue-183: https://github.com/khmarbaise/maven-it-extension/issues/183[Fixed #183]
@@ -72,6 +73,10 @@
    * {issue-175} - Enhance the MavenProjectResult.
    * {issue-176} - Remove needless import on MavenProjectResult in docs.
    * {issue-186} - Typo in method name should be isSuccessful.
+
+*Enhancements*
+
+ * {issue-180} - Enable debugging of plugin while running integration tests.
 
 *Details*
 
