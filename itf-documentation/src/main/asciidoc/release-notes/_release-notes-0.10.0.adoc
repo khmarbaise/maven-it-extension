@@ -49,6 +49,7 @@
 :issue-185: https://github.com/khmarbaise/maven-it-extension/issues/185[Fixed #185]
 :issue-186: https://github.com/khmarbaise/maven-it-extension/issues/186[Fixed #186]
 :issue-190: https://github.com/khmarbaise/maven-it-extension/issues/190[Fixed #190]
+:issue-191: https://github.com/khmarbaise/maven-it-extension/issues/191[Fixed #191]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -132,6 +133,7 @@
 
  * {issue-162} - Removed JDK 13+JDK14 and keep only JDK8, 11 based on JaCoCo issue.
  * {issue-190} - Building on JDK11 only.
+ * {issue-191} - javadoc.io is abandoned
 
 
 The full release notes can be found here {release_0_10_0}[Release 0.10.0].
