@@ -1628,6 +1628,33 @@ can given via `exception` configuration part as before.
 include::{itfexample}/itf-failure-plugin/src/test/resources-its/com/soebes/itf/maven/plugin/failure/FailureIT/fail_with_mojo_failure_exception/pom.xml[tag=configuration]
 ----
 
+=== Integration Tests in Separate Module
+
+Usually you will put the integration test of your plugin within the same module where you implement
+your plugin code. Sometimes it might be appropriate to separate that.
+
+[source,text]
+----
+.
+└──my-maven-plugin/
+   └── src/
+       └── main/
+           └── ...
+└──its-my-maven-plugin/
+   └── maven-its/
+       └── org/
+           └── it/
+               └── FirstIT/
+                   └── the_first_test_case/
+                       ├── .m2/
+                       ├── project/
+                       │   ├── src/
+                       │   ├── target/
+                       │   └── pom.xml
+                       ├── mvn-stdout.log
+                       ├── mvn-stderr.log
+                       └── other logs
+----
 
 
 [appendix]
