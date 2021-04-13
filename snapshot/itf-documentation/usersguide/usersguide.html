@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="Karl Heinz Marbaise, 2021-04-02">
+<meta name="author" content="Karl Heinz Marbaise, 2021-04-13">
 <title>Integration Testing Framework Users Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Integration Testing Framework Users Guide</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2021-04-02</span><br>
+<span id="author2" class="author">2021-04-13</span><br>
 <span id="revnumber">version 0.10.0-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
@@ -498,10 +498,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_expressing_assertions">9.3. Expressing Assertions</a></li>
 </ul>
 </li>
-<li><a href="#_special_cases">10. Special Cases</a>
+<li><a href="#_debugging">10. Debugging Plugins</a>
 <ul class="sectlevel2">
 <li><a href="#_overview_4">10.1. Overview</a></li>
-<li><a href="#_failing_the_build">10.2. Failing the build</a></li>
+<li><a href="#_limitations">10.2. Limitations</a></li>
+</ul>
+</li>
+<li><a href="#_special_cases">11. Special Cases</a>
+<ul class="sectlevel2">
+<li><a href="#_overview_5">11.1. Overview</a></li>
+<li><a href="#_failing_the_build">11.2. Failing the build</a></li>
 </ul>
 </li>
 <li><a href="#_mavenexecutionresult">Appendix A: MavenExecutionResult</a></li>
@@ -2451,22 +2457,86 @@ within the itf project.</p>
 }</code></pre>
 </div>
 </div>
-<div style="page-break-after: always;"></div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_special_cases"><a class="link" href="#_special_cases">10. Special Cases</a></h2>
+<h2 id="_debugging"><a class="link" href="#_debugging">10. Debugging Plugins</a></h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_overview_4"><a class="link" href="#_overview_4">10.1. Overview</a></h3>
+<div class="paragraph">
+<p>Sometimes you need to debug your code of your implemented plugin because
+usual tests or even integration tests are not enough. The question is
+how?</p>
+</div>
+<div class="paragraph">
+<p>Generally you have to define the system property <code>ITF_DEBUG=true</code> before you
+run your integration test. This will start the integration test while executing <code>mvnDebug</code>
+instead of <code>mvn</code> and will simply wait for a connection of a remote debugger usually
+from your IDE.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_limitations"><a class="link" href="#_limitations">10.2. Limitations</a></h3>
+<div class="paragraph">
+<p>Debugging can only being done after you have run your whole integration tests once via
+command line. An idea for the future might be a plugin for IDE&#8217;s to support that in a
+more convenient way (Help is appreciated).</p>
+</div>
+<div class="sect3">
+<h4 id="_idea_intellij"><a class="link" href="#_idea_intellij">10.2.1. IDEA IntelliJ</a></h4>
+<div class="paragraph">
+<p>You have to define a <a href="https://www.jetbrains.com/help/idea/run-debug-configuration-junit.html#configTab">system property for debugging in your IDE run configuration</a>.
+In the configuration you will find an entry for the VM which usually contains already <code>-ea</code> and
+exactly that field needs to be enhanced with the entry <code>-DITF_DEBUG=true</code>. By using this run
+configuration you can start the integration test just as before from within your IDE. The process
+will wait until you are connected.</p>
+</div>
+<div class="paragraph">
+<p>The next step is to <a href="https://www.jetbrains.com/help/idea/tutorial-remote-debug.html#335b9aea">configure remote debugging</a> which means to define the port <code>8000</code>
+as port and check if you are using JDK8 or JDK9+ in your configuration.</p>
+</div>
+<div class="paragraph">
+<p>I recommend to start only a single integration test case via the above described run configuration,
+in debugging mode otherwise all processes woulduse the same port which would result in failure
+because only one can use that port.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_eclipse"><a class="link" href="#_eclipse">10.2.2. Eclipse</a></h4>
+<div class="paragraph">
+<p>Basically it should work the same.</p>
+</div>
+<div class="paragraph">
+<p>(Feedback is welcome to give more details on that.)</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_netbeans"><a class="link" href="#_netbeans">10.2.3. Netbeans</a></h4>
+<div class="paragraph">
+<p>Basically it should work the same.</p>
+</div>
+<div class="paragraph">
+<p>(Feedback is welcome to give more details on that.)</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_special_cases"><a class="link" href="#_special_cases">11. Special Cases</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_overview_5"><a class="link" href="#_overview_5">11.1. Overview</a></h3>
 <div class="paragraph">
 <p>In some situations it is needed to fail a build of a plugin/extension for testing purposes or other things
 which not that usual. This chapter describes such situations and shows solutions for those.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_failing_the_build"><a class="link" href="#_failing_the_build">10.2. Failing the build</a></h3>
+<h3 id="_failing_the_build"><a class="link" href="#_failing_the_build">11.2. Failing the build</a></h3>
 <div class="paragraph">
 <p>The integration testing framework contains a plugin <code>itf-failure-plugin</code> which (implied by the name) it&#8217;s only
 purpose is to fail a build. The following shows a configuration which will produce a <code>[WARNING]</code> during
@@ -2616,7 +2686,7 @@ or the logging output of the Maven build you can change your integration test li
 <div id="footer">
 <div id="footer-text">
 Version 0.10.0-SNAPSHOT<br>
-Last updated 2021-04-02 13:52:38 UTC
+Last updated 2021-04-13 16:18:14 UTC
 </div>
 </div>
 <style>
