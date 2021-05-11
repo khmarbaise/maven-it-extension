@@ -53,6 +53,7 @@
 :issue-189: https://github.com/khmarbaise/maven-it-extension/issues/189[Fixed #189]
 :issue-190: https://github.com/khmarbaise/maven-it-extension/issues/190[Fixed #190]
 :issue-191: https://github.com/khmarbaise/maven-it-extension/issues/191[Fixed #191]
+:issue-196: https://github.com/khmarbaise/maven-it-extension/issues/196[Fixed #196]
 :issue-197: https://github.com/khmarbaise/maven-it-extension/issues/197[Fixed #197]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
@@ -149,7 +150,7 @@ You have to add the supplemental goal `resources-its` in your configuration.
 *Reporter of this release*
 
  * ??
-   ** ..
+   ** {pr-???} - ..
 
 *Contributors of this release*
 
@@ -181,6 +182,7 @@ You have to add the supplemental goal `resources-its` in your configuration.
  * {issue-190} - Building on JDK11 only.
  * {issue-191} - javadoc.io is abandoned
  * {issue-189} - Using drone for building.
+ * {issue-196} - Remove SonarQube
 
 
 The full release notes can be found here {release_0_10_0}[Release 0.10.0].

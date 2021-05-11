@@ -21,9 +21,7 @@
 [![Site](https://github.com/khmarbaise/maven-it-extension/workflows/SitePublishing/badge.svg)][published-site]
 [![Issues](https://img.shields.io/github/issues/khmarbaise/maven-it-extension)](https://github.com/khmarbaise/maven-it-extension/issues)
 [![Issues Closed](https://img.shields.io/github/issues-closed/khmarbaise/maven-it-extension)](https://github.com/khmarbaise/maven-it-extension/issues?q=is%3Aissue+is%3Aclosed)
-
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=com.soebes.itf.jupiter.extension%3Aitf-extension&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.soebes.itf.jupiter.extension%3Aitf-extension)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=com.soebes.itf.jupiter.extension%3Aitf-extension&metric=coverage)](https://sonarcloud.io/dashboard?id=com.soebes.itf.jupiter.extension%3Aitf-extension)
+[![codecov](https://codecov.io/gh/khmarbaise/maven-it-extension/branch/master/graph/badge.svg?token=DLPH6544C0)](https://codecov.io/gh/khmarbaise/maven-it-extension)
 
 <!---
  -green will be done for 1.0.0 the first time.
