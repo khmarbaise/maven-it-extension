@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="Karl Heinz Marbaise, 2021-04-13">
+<meta name="author" content="Karl Heinz Marbaise, 2021-05-11">
 <title>Integration Testing Framework Concept Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Integration Testing Framework Concept Guide</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2021-04-13</span><br>
+<span id="author2" class="author">2021-05-11</span><br>
 <span id="revnumber">version 0.10.0-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
@@ -487,12 +487,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_implementation_steps">8.4. Implementation Steps</a></li>
 </ul>
 </li>
-<li><a href="#_injections">9. Injections</a>
+<li><a href="#_configuration_resources_its">9. Configuration / Resources-its</a>
 <ul class="sectlevel2">
-<li><a href="#_mavenprojectresult_mavenproject_model">9.1. MavenProjectResult, MavenProject, Model</a></li>
+<li><a href="#_current_state">9.1. Current State</a></li>
+<li><a href="#_change_it">9.2. Change it</a></li>
 </ul>
 </li>
-<li><a href="#_open_things">10. Open Things</a></li>
+<li><a href="#_injections">10. Injections</a>
+<ul class="sectlevel2">
+<li><a href="#_mavenprojectresult_mavenproject_model">10.1. MavenProjectResult, MavenProject, Model</a></li>
+</ul>
+</li>
+<li><a href="#_open_things">11. Open Things</a></li>
 </ul>
 </div>
 </div>
@@ -2595,7 +2601,8 @@ properties based on the name with the new value?</p>
 <div class="sect2">
 <h3 id="_ideas_3">8.3. Ideas</h3>
 <div class="paragraph">
-<p>We could try to define <code>@MavenGoal</code> on a package level (within <code>package-info.java</code>?)</p>
+<p>We could try to define <code>@MavenGoal</code> on a package level (within <code>package-info.java</code>?).
+Currently JUnit Jupiter does not support to define annotations on package level.</p>
 </div>
 </div>
 <div class="sect2">
@@ -2631,10 +2638,123 @@ and remove with release 0.10.0.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_injections">9. Injections</h2>
+<h2 id="_configuration_resources_its">9. Configuration / Resources-its</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_mavenprojectresult_mavenproject_model">9.1. MavenProjectResult, MavenProject, Model</h3>
+<h3 id="_current_state">9.1. Current State</h3>
+<div class="paragraph">
+<p>Based on the current implementation you have to configure the <code>resources-its</code>
+as a resource which needs to be filtered to replace placeholders in
+<code>pom.xml</code> files via the following <code>pom.xml</code> file snippet:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;testResources&gt;</span>
+  <span class="tag">&lt;testResource&gt;</span>
+    <span class="tag">&lt;directory&gt;</span>src/test/resources<span class="tag">&lt;/directory&gt;</span>
+    <span class="tag">&lt;filtering&gt;</span>false<span class="tag">&lt;/filtering&gt;</span>
+  <span class="tag">&lt;/testResource&gt;</span>
+  <span class="comment">&lt;!--
+   ! Currently those tests do need to be filtered.
+  --&gt;</span>
+  <span class="tag">&lt;testResource&gt;</span>
+    <span class="tag">&lt;directory&gt;</span>src/test/resources-its<span class="tag">&lt;/directory&gt;</span>
+    <span class="tag">&lt;filtering&gt;</span>true<span class="tag">&lt;/filtering&gt;</span>
+  <span class="tag">&lt;/testResource&gt;</span>
+<span class="tag">&lt;/testResources&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The current setup has a number of disadvantages:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Everything is copied and filtered</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Filtering of binary files and other files which shouldn&#8217;t being filtered at all.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>To make it correctly very inconvenient for the user.</p>
+</li>
+<li>
+<p>Usage of a Git/SVN/Hg/Bzr repositories for a test setup is more or less impossible
+based on default configurations of maven-resources-plugin.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To make the setup correctly you have to do it like this:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Define a large list of non filtered extensions like <code>jar</code>, <code>war</code>, <code>zip</code> etc.</p>
+</li>
+<li>
+<p>Define only a single delimiter <code>@project.version@</code> instead of the default which
+contains also <code>@{..}</code> which could be mistaken with other information within
+the test case(s).</p>
+</li>
+<li>
+<p>Furthermore, you might need to turn off <code>&lt;addDefaultExcludes&gt;false&lt;/addDefaultExcludes&gt;</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_change_it">9.2. Change it</h3>
+<div class="paragraph">
+<p>We should enhance the <code>itf-maven-plugin</code> accordingly to handle the coping and filtering.</p>
+</div>
+<div class="paragraph">
+<p>Advantages:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Much easier for the user.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The whole configuration can be done within the <code>itf-maven-pugin</code> with better
+defaults than manually setting up.</p>
+</li>
+<li>
+<p>This removes the need to configure resources separately and filtering.</p>
+</li>
+<li>
+<p>Separation of concern.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>We can also analyse the content and make some checks for later caching (future)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>For example could calculate hashes (like SHA-256?) to detect if changes have been made
+to the projects or not.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_injections">10. Injections</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_mavenprojectresult_mavenproject_model">10.1. MavenProjectResult, MavenProject, Model</h3>
 <div class="paragraph">
 <p>Based on the current implementation it is possible to inject the information about the directory
 structure into the <code>beforeEach</code> Method as well as the test method like this:</p>
@@ -2772,7 +2892,7 @@ execution of Maven can be access or done something special.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_open_things">10. Open Things</h2>
+<h2 id="_open_things">11. Open Things</h2>
 <div class="sectionbody">
 <div class="ulist checklist">
 <div class="title">Things which currently not working or net yet tested/thought about</div>
@@ -2809,7 +2929,7 @@ extension and somehow configure that for the test cases?</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.10.0-SNAPSHOT<br>
-Last updated 2021-04-13 16:18:14 UTC
+Last updated 2021-05-11 16:58:48 UTC
 </div>
 </div>
 <style>
