@@ -53,6 +53,7 @@
 :issue-189: https://github.com/khmarbaise/maven-it-extension/issues/189[Fixed #189]
 :issue-190: https://github.com/khmarbaise/maven-it-extension/issues/190[Fixed #190]
 :issue-191: https://github.com/khmarbaise/maven-it-extension/issues/191[Fixed #191]
+:issue-197: https://github.com/khmarbaise/maven-it-extension/issues/197[Fixed #197]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -140,11 +141,15 @@ You have to add the supplemental goal `resources-its` in your configuration.
    could influence your integration tests. So please check your build. If you have
    issues please report them.
 
+*Reporter of issues*
+
+ * Vincent Privat
+   ** {issue-197} - README example does not compile.
 
 *Reporter of this release*
 
  * ??
-   ** {pr-???} - ..
+   ** ..
 
 *Contributors of this release*
 

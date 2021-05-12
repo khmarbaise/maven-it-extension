@@ -210,26 +210,25 @@ So now the real a test code looks like this:
 ```java
 package org.it;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
 @MavenJupiterExtension // <1>
-class FirstMavenIT {
+public class FirstMavenIT {
 
-  @MavenTest // <2>
-  void the_first_test_case(MavenExecutionResult result) { //<3>
-    assertThat(result).build().isSuccessful(); // <4>
-  }
-
+ void the_first_test_case(MavenExecutionResult result) { //<3>
+  assertThat(result).isSuccessful(); // <4>
+ }
+ 
 }
 ```
 1. Maven Integration test annotation.
 2. Maven Test Annotation.
 3. Injected execution result
-4. Custom assertions to check the result of the build.
+4. [Custom assertions][usersguide-html-assertions] to check the result of the build.
 
 ### The Project to Test With
 The project you would like to use as a foundation for your test of the plugin. This is located in a special location
@@ -329,6 +328,7 @@ Currently we have two states of site:
 [maven-failsafe-plugin]: https://maven.apache.org/surefire/maven-failsafe-plugin/ 
 
 [usersguide-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/usersguide.html
+[usersguide-html-assertions]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/usersguide.html#_assertions
 [usersguide-pdf]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/usersguide/usersguide.pdf
 [releasenotes-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/release-notes/release-notes.html
 [releasenotes-pdf]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/release-notes/release-notes.pdf
