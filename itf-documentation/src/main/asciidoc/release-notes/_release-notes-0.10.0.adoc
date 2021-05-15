@@ -56,6 +56,7 @@
 :issue-191: https://github.com/khmarbaise/maven-it-extension/issues/191[Fixed #191]
 :issue-196: https://github.com/khmarbaise/maven-it-extension/issues/196[Fixed #196]
 :issue-197: https://github.com/khmarbaise/maven-it-extension/issues/197[Fixed #197]
+:issue-198: https://github.com/khmarbaise/maven-it-extension/issues/198[Fixed #198]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -176,6 +177,7 @@ You have to add the supplemental goal `resources-its` in your configuration.
  * {issue-183} - Remove unused dependency xmlunit-assertj
  * {issue-185} - Upgrade to JUnit Jupiter 5.7.1
  * {issue-164} - Upgrade smpp 5.3.3
+ * {issue-198} - Upgrade to JUnit Jupiter 5.7.2
  * {issue-??} - ??
 
 *Build Improvements*
