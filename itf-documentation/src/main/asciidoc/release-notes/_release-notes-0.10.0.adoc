@@ -57,6 +57,7 @@
 :issue-196: https://github.com/khmarbaise/maven-it-extension/issues/196[Fixed #196]
 :issue-197: https://github.com/khmarbaise/maven-it-extension/issues/197[Fixed #197]
 :issue-198: https://github.com/khmarbaise/maven-it-extension/issues/198[Fixed #198]
+:issue-199: https://github.com/khmarbaise/maven-it-extension/issues/199[Fixed #199]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -187,6 +188,7 @@ You have to add the supplemental goal `resources-its` in your configuration.
  * {issue-191} - javadoc.io is abandoned
  * {issue-189} - Using drone for building.
  * {issue-196} - Remove SonarQube
+ * {issue-199} - Remove jacoco plugin from pom. Followup for {issue-164}
 
 
 The full release notes can be found here {release_0_10_0}[Release 0.10.0].
