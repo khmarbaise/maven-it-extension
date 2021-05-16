@@ -19,6 +19,7 @@
 == Pre-release 0.11.0
 
 :issue-152: https://github.com/khmarbaise/maven-it-extension/issues/152[Fixed #152]
+:issue-168: https://github.com/khmarbaise/maven-it-extension/issues/168[Fixed #168]
 :issue-200: https://github.com/khmarbaise/maven-it-extension/issues/200[Fixed #200]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
@@ -56,8 +57,8 @@
 
 *Reporter of issues*
 
- * ???
-   ** {issue-???} - ??
+ * Maarten Mulders
+   ** {issue-169} - Explain what to do in a multi-module structure
 
 *Reporter of this release*
 
