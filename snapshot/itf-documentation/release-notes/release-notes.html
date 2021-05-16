@@ -524,6 +524,44 @@ overview and detailed instructions how to use the Integration Testing Framework.
 <div class="ulist">
 <ul>
 <li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/152">Fixed #152</a> - Remove deprecated marked code.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>MavenProjectResult</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Method <code>getBaseDir()</code> has been removed.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>MavenExecutionResult</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Method <code>isSuccesful()</code> has been removed</p>
+</li>
+<li>
+<p><code>ExecutionResult</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Error</code> has been removed. Based on that we have to remove
+<code>MavenExecutionResult.isError()</code> as well.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
 <p>{issue-???} - ???</p>
 </li>
 </ul>
@@ -1852,7 +1890,7 @@ publish in <a href="https://central.sonatype.org/">Central Repository</a>.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.11.0-SNAPSHOT<br>
-Last updated 2021-05-16 20:20:24 UTC
+Last updated 2021-05-16 20:52:03 UTC
 </div>
 </div>
 <style>

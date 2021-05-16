@@ -99,7 +99,7 @@ public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecution
    */
   public MavenExecutionResultAssert isSuccessful() {
 <span class="nc" id="L101">    isNotNull();</span>
-<span class="nc bnc" id="L102" title="All 2 branches missed.">    if (!this.actual.isSuccesful()) {</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">    if (!this.actual.isSuccessful()) {</span>
 <span class="nc" id="L103">      List&lt;String&gt; logs = Helper.logs(this.actual.getMavenLog().getStdout()).map(s -&gt; &quot; [STDOUT] &quot; + s + &quot;\n&quot;).collect(Collectors.toList());</span>
 <span class="nc" id="L104">      failWithMessage(&quot;The build was not successful but was &lt;%s&gt; with returnCode:&lt;%s&gt; log file: &lt;%s&gt;&quot;, actual.getResult(),</span>
 <span class="nc" id="L105">          actual.getReturnCode(), logs);</span>

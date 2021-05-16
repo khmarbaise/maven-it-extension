@@ -19,12 +19,10 @@
  * under the License.
  */
 
-import org.apiguardian.api.API;
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 import java.util.StringJoiner;
-
-import static org.apiguardian.api.API.Status.DEPRECATED;
-import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+import org.apiguardian.api.API;
 
 /**
  * @author Karl Heinz Marbaise
@@ -43,72 +41,56 @@ public class MavenExecutionResult {
   private final MavenCacheResult mavenCacheResult;
 
   public MavenExecutionResult(ExecutionResult result, int returnCode, MavenLog mavenLog,
-<span class="nc" id="L46">                              MavenProjectResult mavenProjectResult, MavenCacheResult mavenCacheResult) {</span>
-<span class="nc" id="L47">    this.result = result;</span>
-<span class="nc" id="L48">    this.returnCode = returnCode;</span>
-<span class="nc" id="L49">    this.mavenLog = mavenLog;</span>
-<span class="nc" id="L50">    this.mavenProjectResult = mavenProjectResult;</span>
-<span class="nc" id="L51">    this.mavenCacheResult = mavenCacheResult;</span>
-<span class="nc" id="L52">  }</span>
+<span class="nc" id="L44">                              MavenProjectResult mavenProjectResult, MavenCacheResult mavenCacheResult) {</span>
+<span class="nc" id="L45">    this.result = result;</span>
+<span class="nc" id="L46">    this.returnCode = returnCode;</span>
+<span class="nc" id="L47">    this.mavenLog = mavenLog;</span>
+<span class="nc" id="L48">    this.mavenProjectResult = mavenProjectResult;</span>
+<span class="nc" id="L49">    this.mavenCacheResult = mavenCacheResult;</span>
+<span class="nc" id="L50">  }</span>
 
   public int getReturnCode() {
-<span class="nc" id="L55">    return returnCode;</span>
-  }
-
-  /**
-   * This method is simply a typo.
-   * Please use {@link #isSuccessful()} instead.
-   */
-  @Deprecated
-  public boolean isSuccesful() {
-<span class="nc" id="L64">    return ExecutionResult.Successful.equals(this.result);</span>
+<span class="nc" id="L53">    return returnCode;</span>
   }
 
   public boolean isSuccessful() {
-<span class="nc" id="L68">    return ExecutionResult.Successful.equals(this.result);</span>
+<span class="nc" id="L57">    return ExecutionResult.Successful.equals(this.result);</span>
   }
 
   public boolean isFailure() {
-<span class="nc" id="L72">    return ExecutionResult.Failure.equals(this.result);</span>
-  }
-
-  public boolean isError() {
-<span class="nc" id="L76">    return ExecutionResult.Error.equals(this.result);</span>
+<span class="nc" id="L61">    return ExecutionResult.Failure.equals(this.result);</span>
   }
 
   public ExecutionResult getResult() {
-<span class="nc" id="L80">    return this.result;</span>
+<span class="nc" id="L65">    return this.result;</span>
   }
 
   public MavenLog getMavenLog() {
-<span class="nc" id="L84">    return mavenLog;</span>
+<span class="nc" id="L69">    return mavenLog;</span>
   }
 
   public MavenCacheResult getMavenCacheResult() {
-<span class="nc" id="L88">    return mavenCacheResult;</span>
+<span class="nc" id="L73">    return mavenCacheResult;</span>
   }
 
   public MavenProjectResult getMavenProjectResult() {
-<span class="nc" id="L92">    return mavenProjectResult;</span>
+<span class="nc" id="L77">    return mavenProjectResult;</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L97">    return new StringJoiner(&quot;, &quot;, MavenExecutionResult.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;).add(&quot;result=&quot; + result)</span>
-<span class="nc" id="L98">        .add(&quot;returnCode=&quot; + returnCode)</span>
-<span class="nc" id="L99">        .add(&quot;mavenLog=&quot; + mavenLog)</span>
-<span class="nc" id="L100">        .add(&quot;mavenProjectResult=&quot; + mavenProjectResult)</span>
-<span class="nc" id="L101">        .add(&quot;mavenCacheResult=&quot; + mavenCacheResult)</span>
-<span class="nc" id="L102">        .toString();</span>
+<span class="nc" id="L82">    return new StringJoiner(&quot;, &quot;, MavenExecutionResult.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;).add(&quot;result=&quot; + result)</span>
+<span class="nc" id="L83">        .add(&quot;returnCode=&quot; + returnCode)</span>
+<span class="nc" id="L84">        .add(&quot;mavenLog=&quot; + mavenLog)</span>
+<span class="nc" id="L85">        .add(&quot;mavenProjectResult=&quot; + mavenProjectResult)</span>
+<span class="nc" id="L86">        .add(&quot;mavenCacheResult=&quot; + mavenCacheResult)</span>
+<span class="nc" id="L87">        .toString();</span>
   }
 
-<span class="nc" id="L105">  @SuppressWarnings(&quot;java:S115&quot;)</span>
+<span class="nc" id="L90">  @SuppressWarnings(&quot;java:S115&quot;)</span>
   public enum ExecutionResult {
-<span class="nc" id="L107">    Successful,</span>
-<span class="nc" id="L108">    Failure,</span>
-<span class="nc" id="L109">    @API(status = DEPRECATED, since = &quot;0.10.0&quot;)</span>
-    @Deprecated
-    Error
+<span class="nc" id="L92">    Successful,</span>
+<span class="nc" id="L93">    Failure,</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
