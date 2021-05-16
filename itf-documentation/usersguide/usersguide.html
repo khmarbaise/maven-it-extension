@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="Karl Heinz Marbaise, 2020-08-12">
+<meta name="author" content="Karl Heinz Marbaise, 2021-05-16">
 <title>Integration Testing Framework Users Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,8 +442,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Integration Testing Framework Users Guide</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2020-08-12</span><br>
-<span id="revnumber">version 0.9.0</span>
+<span id="author2" class="author">2021-05-16</span><br>
+<span id="revnumber">version 0.10.0</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -498,12 +498,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_expressing_assertions">9.3. Expressing Assertions</a></li>
 </ul>
 </li>
-<li><a href="#_special_cases">10. Special Cases</a>
+<li><a href="#_debugging">10. Debugging Plugins</a>
 <ul class="sectlevel2">
 <li><a href="#_overview_4">10.1. Overview</a></li>
-<li><a href="#_failing_the_build">10.2. Failing the build</a></li>
+<li><a href="#_limitations">10.2. Limitations</a></li>
 </ul>
 </li>
+<li><a href="#_special_cases">11. Special Cases</a>
+<ul class="sectlevel2">
+<li><a href="#_overview_5">11.1. Overview</a></li>
+<li><a href="#_failing_the_build">11.2. Failing the build</a></li>
+</ul>
+</li>
+<li><a href="#_mavenexecutionresult">Appendix A: MavenExecutionResult</a></li>
 </ul>
 </div>
 </div>
@@ -668,7 +675,7 @@ cause you only need them during the integration tests.</p>
     <span class="tag">&lt;dependency&gt;</span>
       <span class="tag">&lt;groupId&gt;</span>com.soebes.itf.jupiter.extension<span class="tag">&lt;/groupId&gt;</span>
       <span class="tag">&lt;artifactId&gt;</span>itf-assertj<span class="tag">&lt;/artifactId&gt;</span>
-      <span class="tag">&lt;version&gt;</span>0.9.0<span class="tag">&lt;/version&gt;</span>
+      <span class="tag">&lt;version&gt;</span>0.10.0<span class="tag">&lt;/version&gt;</span>
       <span class="tag">&lt;scope&gt;</span>test<span class="tag">&lt;/scope&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span>
     <span class="tag">&lt;dependency&gt;</span>
@@ -679,7 +686,7 @@ cause you only need them during the integration tests.</p>
     <span class="tag">&lt;dependency&gt;</span>
       <span class="tag">&lt;groupId&gt;</span>com.soebes.itf.jupiter.extension<span class="tag">&lt;/groupId&gt;</span>
       <span class="tag">&lt;artifactId&gt;</span>itf-jupiter-extension<span class="tag">&lt;/artifactId&gt;</span>
-      <span class="tag">&lt;version&gt;</span>0.9.0<span class="tag">&lt;/version&gt;</span>
+      <span class="tag">&lt;version&gt;</span>0.10.0<span class="tag">&lt;/version&gt;</span>
       <span class="tag">&lt;scope&gt;</span>test<span class="tag">&lt;/scope&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span></code></pre>
 </div>
@@ -698,29 +705,11 @@ get the support for your Maven integration tests.</p>
 <p>Based on the described structures the content (with the projects which is used as test) from
 <code>src/test/resources-its</code> has to be copied into <code>target/test-classes</code> which usually means including
 filtering. This is used to replace placeholders in files like <code>@project.version@</code> and replace with
-the real version of your extension/plugin etc. You have to be careful, which delimiter you have
-chosen. So you might need to tweak your configuration based on your choices.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml">    <span class="tag">&lt;testResources&gt;</span>
-      <span class="tag">&lt;testResource&gt;</span>
-        <span class="tag">&lt;directory&gt;</span>src/test/resources<span class="tag">&lt;/directory&gt;</span>
-        <span class="tag">&lt;filtering&gt;</span>false<span class="tag">&lt;/filtering&gt;</span>
-      <span class="tag">&lt;/testResource&gt;</span>
-      <span class="comment">&lt;!--
-       ! Currently those tests do need to be filtered.
-      --&gt;</span>
-      <span class="tag">&lt;testResource&gt;</span>
-        <span class="tag">&lt;directory&gt;</span>src/test/resources-its<span class="tag">&lt;/directory&gt;</span>
-        <span class="tag">&lt;filtering&gt;</span>true<span class="tag">&lt;/filtering&gt;</span>
-      <span class="tag">&lt;/testResource&gt;</span>
-    <span class="tag">&lt;/testResources&gt;</span>
-    <span class="tag">&lt;plugins&gt;</span></code></pre>
-</div>
+the real version of your extension/plugin etc. so you can use the <code>itf-maven-plugin</code> which is doing
+this job on it&#8217;s own which means you don&#8217;t have to do something special here.</p>
 </div>
 <div class="paragraph">
-<p>The next thing is to configure the <code>itf-maven-plugin</code> with the <code>install</code> goal
+<p>The next thing is to configure the <code>itf-maven-plugin</code> with the <code>install</code> and the <code>resources-its</code> goal
 like this:</p>
 </div>
 <div class="listingblock">
@@ -728,13 +717,14 @@ like this:</p>
 <pre class="CodeRay highlight"><code data-lang="xml">      <span class="tag">&lt;plugin&gt;</span>
         <span class="tag">&lt;groupId&gt;</span>com.soebes.itf.jupiter.extension<span class="tag">&lt;/groupId&gt;</span>
         <span class="tag">&lt;artifactId&gt;</span>itf-maven-plugin<span class="tag">&lt;/artifactId&gt;</span>
-        <span class="tag">&lt;version&gt;</span>0.9.0<span class="tag">&lt;/version&gt;</span>
+        <span class="tag">&lt;version&gt;</span>0.10.0<span class="tag">&lt;/version&gt;</span>
         <span class="tag">&lt;executions&gt;</span>
           <span class="tag">&lt;execution&gt;</span>
             <span class="tag">&lt;id&gt;</span>installing<span class="tag">&lt;/id&gt;</span>
             <span class="tag">&lt;phase&gt;</span>pre-integration-test<span class="tag">&lt;/phase&gt;</span>
             <span class="tag">&lt;goals&gt;</span>
               <span class="tag">&lt;goal&gt;</span>install<span class="tag">&lt;/goal&gt;</span>
+              <span class="tag">&lt;goal&gt;</span>resources-its<span class="tag">&lt;/goal&gt;</span>
             <span class="tag">&lt;/goals&gt;</span>
           <span class="tag">&lt;/execution&gt;</span>
         <span class="tag">&lt;/executions&gt;</span>
@@ -742,8 +732,9 @@ like this:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>itf-maven-plugin</code> copies the code of your extension/plugin into appropriate directories which are used during the
-integration tests.</p>
+<p>The <code>itf-maven-plugin</code> copies the code of your extension/plugin into appropriate directories which are
+used during the integration tests. Further more it will handle the copying of the structure from
+<code>src/test/resources-its</code> into the correct location and will also handle the filtering as described above.</p>
 </div>
 <div class="paragraph">
 <p>Finally you have to add a configuration for <a href="https://maven.apache.org/surefire/maven-failsafe-plugin/">Maven Failsafe Plugin</a> like the following:</p>
@@ -949,7 +940,7 @@ has its own local repository (aka local cache) <code>.m2/repository</code>. Furt
 project is being built within the <code>project</code> directory. This gives you a view of the built project as you
 did on plain command line and take a look into it. The output of the build has been written into
 <code>mvn-stdout.log</code>(stdout) and the output to stderr is written to <code>mvn-stderr.log</code>. The used
- line parameters command to call Maven are wrote into <code>mvn-arguments.log</code>.</p>
+ command line parameters to call Maven are wrote into <code>mvn-arguments.log</code>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1250,7 +1241,6 @@ sign (instead of <code>!</code>) to prevent issues on different operating system
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenJupiterExtension</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenTest</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenExecutionResult</span>;
-<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenProjectResult</span>;
 
 <span class="keyword">import</span> <span class="include">com.soebes.itf.extension.assertj.MavenITAssertions.assertThat</span>;
 
@@ -1287,7 +1277,6 @@ sign (instead of <code>!</code>) to prevent issues on different operating system
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenJupiterExtension</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenTest</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenExecutionResult</span>;
-<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenProjectResult</span>;
 
 <span class="keyword">import</span> <span class="include">com.soebes.itf.extension.assertj.MavenITAssertions.assertThat</span>;
 
@@ -2326,7 +2315,7 @@ whereas the second one give you access to the <code>stderr</code> of the build (
 <p><code>.debug()</code></p>
 </li>
 <li>
-<p>`.error()'</p>
+<p><code>.error()</code></p>
 </li>
 </ul>
 </div>
@@ -2369,10 +2358,13 @@ at least one line which contains the given content.</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>assertThat(result)
-    .out()
+<pre>assertThat(result).out()
     .warn()
-    .containsExactly("Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!");</pre>
+    .hasSize(1)
+    .allSatisfy(l -&gt; {
+      assertThat(l).startsWith("Using platform encoding (");
+      assertThat(l).endsWith("to copy filtered resources, i.e. build is platform dependent!");
+    });</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2384,8 +2376,11 @@ if you prefer to go that way. In this case you have to add another injection to 
 <div class="content">
 <pre>assertThat(Files.lines(mavenLog.getStdout()))
     .filteredOn(s1 -&gt; s1.startsWith("[WARNING]"))
-    .first()
-    .isEqualTo("[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!");</pre>
+    .hasSize(1)
+    .allSatisfy(l -&gt; {
+      assertThat(l).startsWith("[WARNING] Using platform encoding (");
+      assertThat(l).endsWith("to copy filtered resources, i.e. build is platform dependent!");
+    });</pre>
 </div>
 </div>
 <div class="literalblock">
@@ -2418,7 +2413,6 @@ within the itf project.</p>
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenJupiterExtension</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenTest</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenExecutionResult</span>;
-<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenProjectResult</span>;
 
 <span class="keyword">import</span> <span class="include">com.soebes.itf.extension.assertj.MavenITAssertions.assertThat</span>;
 
@@ -2447,22 +2441,86 @@ within the itf project.</p>
 }</code></pre>
 </div>
 </div>
-<div style="page-break-after: always;"></div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_special_cases"><a class="link" href="#_special_cases">10. Special Cases</a></h2>
+<h2 id="_debugging"><a class="link" href="#_debugging">10. Debugging Plugins</a></h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_overview_4"><a class="link" href="#_overview_4">10.1. Overview</a></h3>
+<div class="paragraph">
+<p>Sometimes you need to debug your code of your implemented plugin because
+usual tests or even integration tests are not enough. The question is
+how?</p>
+</div>
+<div class="paragraph">
+<p>Generally you have to define the system property <code>ITF_DEBUG=true</code> before you
+run your integration test. This will start the integration test while executing <code>mvnDebug</code>
+instead of <code>mvn</code> and will simply wait for a connection of a remote debugger usually
+from your IDE.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_limitations"><a class="link" href="#_limitations">10.2. Limitations</a></h3>
+<div class="paragraph">
+<p>Debugging can only being done after you have run your whole integration tests once via
+command line. An idea for the future might be a plugin for IDE&#8217;s to support that in a
+more convenient way (Help is appreciated).</p>
+</div>
+<div class="sect3">
+<h4 id="_idea_intellij"><a class="link" href="#_idea_intellij">10.2.1. IDEA IntelliJ</a></h4>
+<div class="paragraph">
+<p>You have to define a <a href="https://www.jetbrains.com/help/idea/run-debug-configuration-junit.html#configTab">system property for debugging in your IDE run configuration</a>.
+In the configuration you will find an entry for the VM which usually contains already <code>-ea</code> and
+exactly that field needs to be enhanced with the entry <code>-DITF_DEBUG=true</code>. By using this run
+configuration you can start the integration test just as before from within your IDE. The process
+will wait until you are connected.</p>
+</div>
+<div class="paragraph">
+<p>The next step is to <a href="https://www.jetbrains.com/help/idea/tutorial-remote-debug.html#335b9aea">configure remote debugging</a> which means to define the port <code>8000</code>
+as port and check if you are using JDK8 or JDK9+ in your configuration.</p>
+</div>
+<div class="paragraph">
+<p>I recommend to start only a single integration test case via the above described run configuration,
+in debugging mode otherwise all processes woulduse the same port which would result in failure
+because only one can use that port.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_eclipse"><a class="link" href="#_eclipse">10.2.2. Eclipse</a></h4>
+<div class="paragraph">
+<p>Basically it should work the same.</p>
+</div>
+<div class="paragraph">
+<p>(Feedback is welcome to give more details on that.)</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_netbeans"><a class="link" href="#_netbeans">10.2.3. Netbeans</a></h4>
+<div class="paragraph">
+<p>Basically it should work the same.</p>
+</div>
+<div class="paragraph">
+<p>(Feedback is welcome to give more details on that.)</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_special_cases"><a class="link" href="#_special_cases">11. Special Cases</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_overview_5"><a class="link" href="#_overview_5">11.1. Overview</a></h3>
 <div class="paragraph">
 <p>In some situations it is needed to fail a build of a plugin/extension for testing purposes or other things
 which not that usual. This chapter describes such situations and shows solutions for those.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_failing_the_build"><a class="link" href="#_failing_the_build">10.2. Failing the build</a></h3>
+<h3 id="_failing_the_build"><a class="link" href="#_failing_the_build">11.2. Failing the build</a></h3>
 <div class="paragraph">
 <p>The integration testing framework contains a plugin <code>itf-failure-plugin</code> which (implied by the name) it&#8217;s only
 purpose is to fail a build. The following shows a configuration which will produce a <code>[WARNING]</code> during
@@ -2523,6 +2581,85 @@ can given via <code>exception</code> configuration part as before.</p>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_mavenexecutionresult"><a class="link" href="#_mavenexecutionresult">Appendix A: MavenExecutionResult</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In some situations you need access to the directories which have been created during
+the integration tests. That can simply being achieved by using the injection of
+<code>MavenExecutionResult</code> or <code>MavenProjectResult</code> depending on your needs.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="type">class</span> <span class="class">FirstIT</span> {
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> the_first_test_case(MavenExecutionResult result) {
+    assertThat(result).isSuccessful();
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>the resulting directory structure looks like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="text">.
+└──target/
+   └── maven-its/
+       └── org/
+           └── it/
+               └── FirstIT/
+                   └── the_first_test_case/
+                       ├── .m2/
+                       ├── project/
+                       │   ├── src/
+                       │   ├── target/
+                       │   └── pom.xml
+                       ├── mvn-stdout.log
+                       ├── mvn-stderr.log
+                       └── other logs</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There are existing the following information which you can use for further check etc.
+You can access them via:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>result.getMavenProjectResult().getTargetBaseDirectory();</code>
+This represents the directory <code>the_first_test_case</code> in the above directory
+structure.</p>
+</li>
+<li>
+<p><code>result.getMavenProjectResult().getTargetProjectDirectory()</code>
+This represents the directory <code>project</code> in the above directory structure.</p>
+</li>
+<li>
+<p><code>result.getMavenProjectResult().getCacheDirectory()</code>
+This represents the directory <code>.m2</code> in the above directory structure.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If you only need access to the directory structure and not to the result of the build
+or the logging output of the Maven build you can change your integration test like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="type">class</span> <span class="class">FirstIT</span> {
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> the_first_test_case(MavenProjectResult result) {
+    ...
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footnotes">
 <hr>
@@ -2532,8 +2669,8 @@ can given via <code>exception</code> configuration part as before.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.9.0<br>
-Last updated 2020-08-12 13:32:44 +0200
+Version 0.10.0<br>
+Last updated 2021-05-16 20:00:19 +0200
 </div>
 </div>
 <style>

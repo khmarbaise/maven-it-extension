@@ -46,14 +46,13 @@ public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&g
   /**
    * Will give you back the stdout and removes the prefix &quot;[INFO] &quot; from all lines.
    * &lt;p&gt;
-   * It can be used to check for a sequence in the log output like this:
+   * It can be used to check for a sequence in the log output like this:&lt;/p&gt;
    * &lt;pre&gt;
    *   assertThat(result)
    *    .log()
    *    .info()
    *    .containsSequence(&quot;The first line matching.&quot;, &quot;The second line matching&quot;);
    * &lt;/pre&gt;
-   * &lt;/p&gt;
    *
    * @return {@link ListAssert}
    * @see ListAssert#containsSequence(Object[])
@@ -61,10 +60,10 @@ public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&g
    */
   @API(status = EXPERIMENTAL, since = &quot;0.8.0&quot;)
   public ListAssert&lt;String&gt; info() {
-<span class="fc" id="L64">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getStdout())</span>
-<span class="fc" id="L65">        .filter(Helper.IS_INFO)</span>
-<span class="fc" id="L66">        .map(s -&gt; s.substring(7)) // Need to reconsider?</span>
-<span class="fc" id="L67">        .collect(Collectors.toList()));</span>
+<span class="fc" id="L63">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getStdout())</span>
+<span class="fc" id="L64">        .filter(Helper.IS_INFO)</span>
+<span class="fc" id="L65">        .map(s -&gt; s.substring(7)) // Need to reconsider?</span>
+<span class="fc" id="L66">        .collect(Collectors.toList()));</span>
   }
 
   /**
@@ -96,10 +95,10 @@ public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&g
    */
   @API(status = EXPERIMENTAL, since = &quot;0.8.0&quot;)
   public ListAssert&lt;String&gt; debug() {
-<span class="fc" id="L99">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getStdout())</span>
-<span class="fc" id="L100">        .filter(Helper.IS_DEBUG)</span>
-<span class="fc" id="L101">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
-<span class="fc" id="L102">        .collect(Collectors.toList()));</span>
+<span class="fc" id="L98">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getStdout())</span>
+<span class="fc" id="L99">        .filter(Helper.IS_DEBUG)</span>
+<span class="fc" id="L100">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
+<span class="fc" id="L101">        .collect(Collectors.toList()));</span>
   }
 
   /**
@@ -129,10 +128,10 @@ public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&g
    */
   @API(status = EXPERIMENTAL, since = &quot;0.8.0&quot;)
   public ListAssert&lt;String&gt; warn() {
-<span class="fc" id="L132">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getStdout())</span>
-<span class="fc" id="L133">        .filter(Helper.IS_WARNING)</span>
-<span class="fc" id="L134">        .map(s -&gt; s.substring(10)) // Need to reconsider?</span>
-<span class="fc" id="L135">        .collect(Collectors.toList()));</span>
+<span class="fc" id="L131">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getStdout())</span>
+<span class="fc" id="L132">        .filter(Helper.IS_WARNING)</span>
+<span class="fc" id="L133">        .map(s -&gt; s.substring(10)) // Need to reconsider?</span>
+<span class="fc" id="L134">        .collect(Collectors.toList()));</span>
   }
 
   /**
@@ -163,10 +162,10 @@ public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&g
    */
   @API(status = EXPERIMENTAL, since = &quot;0.8.0&quot;)
   public ListAssert&lt;String&gt; error() {
-<span class="fc" id="L166">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getStdout())</span>
-<span class="fc" id="L167">        .filter(Helper.IS_ERROR)</span>
-<span class="fc" id="L168">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
-<span class="fc" id="L169">        .collect(Collectors.toList()));</span>
+<span class="fc" id="L165">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getStdout())</span>
+<span class="fc" id="L166">        .filter(Helper.IS_ERROR)</span>
+<span class="fc" id="L167">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
+<span class="fc" id="L168">        .collect(Collectors.toList()));</span>
   }
 
   /**
@@ -185,8 +184,8 @@ public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&g
    * @see ListAssert#contains(Object[])
    */
   public ListAssert&lt;String&gt; plain() {
-<span class="fc" id="L188">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getStdout()));</span>
+<span class="fc" id="L187">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getStdout()));</span>
   }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

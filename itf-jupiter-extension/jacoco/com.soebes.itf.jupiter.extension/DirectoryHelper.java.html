@@ -24,22 +24,26 @@ import java.io.File;
 /**
  * @author Karl Heinz Marbaise
  */
-<span class="nc" id="L27">public class DirectoryHelper {</span>
+class DirectoryHelper {
 
-  public static File getMavenBaseDir() {
-<span class="nc" id="L30">    return new File(System.getProperty(&quot;basedir&quot;, System.getProperty(&quot;user.dir&quot;, &quot;.&quot;)));</span>
+  private DirectoryHelper() {
+    // intentionally empty to prevent instantiation.
   }
 
-  public static String toFullyQualifiedPath(Class&lt;?&gt; testClass) {
-<span class="nc" id="L34">    return testClass.getCanonicalName().replace('.', '/');</span>
+  static File getMavenBaseDir() {
+<span class="nc" id="L34">    return new File(System.getProperty(&quot;basedir&quot;, System.getProperty(&quot;user.dir&quot;, &quot;.&quot;)));</span>
+  }
+
+  static String toFullyQualifiedPath(Class&lt;?&gt; testClass) {
+<span class="nc" id="L38">    return testClass.getCanonicalName().replace('.', '/');</span>
   }
 
   /**
    * @return the target directory of the current project.
    */
-  public static File getTargetDir() {
-<span class="nc" id="L41">    return new File(getMavenBaseDir(), &quot;target&quot;);</span>
+  static File getTargetDir() {
+<span class="nc" id="L45">    return new File(getMavenBaseDir(), &quot;target&quot;);</span>
   }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

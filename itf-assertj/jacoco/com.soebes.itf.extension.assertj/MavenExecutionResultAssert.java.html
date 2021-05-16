@@ -23,6 +23,10 @@ import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import org.apiguardian.api.API;
 import org.assertj.core.api.AbstractAssert;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
@@ -32,8 +36,8 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecutionResultAssert, MavenExecutionResult&gt; {
 
   protected MavenExecutionResultAssert(MavenExecutionResult actual) {
-<span class="nc" id="L35">    super(actual, MavenExecutionResultAssert.class);</span>
-<span class="nc" id="L36">  }</span>
+<span class="nc" id="L39">    super(actual, MavenExecutionResultAssert.class);</span>
+<span class="nc" id="L40">  }</span>
 
   /**
    * An entry point for MavenExecutionResultAssert to follow AssertJ standard &lt;code&gt;assertThat()&lt;/code&gt; statements.&lt;br&gt;
@@ -43,7 +47,7 @@ public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecution
    * @return a new {@link MavenExecutionResultAssert}
    */
   public static MavenExecutionResultAssert assertThat(MavenExecutionResult actual) {
-<span class="nc" id="L46">    return new MavenExecutionResultAssert(actual);</span>
+<span class="nc" id="L50">    return new MavenExecutionResultAssert(actual);</span>
   }
 
   /**
@@ -52,8 +56,8 @@ public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecution
    * @return Stdout
    */
   public LogAssert out() {
-<span class="nc" id="L55">    isNotNull();</span>
-<span class="nc" id="L56">    return new LogAssert(new LogClass(this.actual.getMavenLog().getStdout()));</span>
+<span class="nc" id="L59">    isNotNull();</span>
+<span class="nc" id="L60">    return new LogAssert(new LogClass(this.actual.getMavenLog().getStdout()));</span>
   }
 
   /**
@@ -62,8 +66,8 @@ public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecution
    * @return Std Err
    */
   public LogAssert err() {
-<span class="nc" id="L65">    isNotNull();</span>
-<span class="nc" id="L66">    return new LogAssert(new LogClass(this.actual.getMavenLog().getStderr()));</span>
+<span class="nc" id="L69">    isNotNull();</span>
+<span class="nc" id="L70">    return new LogAssert(new LogClass(this.actual.getMavenLog().getStderr()));</span>
   }
 
   /**
@@ -73,8 +77,8 @@ public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecution
    * @return The project result.
    */
   public MavenProjectResultAssert project() {
-<span class="nc" id="L76">    isNotNull();</span>
-<span class="nc" id="L77">    return new MavenProjectResultAssert(this.actual.getMavenProjectResult());</span>
+<span class="nc" id="L80">    isNotNull();</span>
+<span class="nc" id="L81">    return new MavenProjectResultAssert(this.actual.getMavenProjectResult());</span>
   }
 
   /**
@@ -84,8 +88,8 @@ public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecution
    * @return The cache result
    */
   public MavenCacheResultAssert cache() {
-<span class="nc" id="L87">    isNotNull();</span>
-<span class="nc" id="L88">    return new MavenCacheResultAssert(this.actual.getMavenCacheResult());</span>
+<span class="nc" id="L91">    isNotNull();</span>
+<span class="nc" id="L92">    return new MavenCacheResultAssert(this.actual.getMavenCacheResult());</span>
   }
 
   /**
@@ -94,12 +98,13 @@ public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecution
    * @throws AssertionError if the actual value is not {@code true}.
    */
   public MavenExecutionResultAssert isSuccessful() {
-<span class="nc" id="L97">    isNotNull();</span>
-<span class="nc bnc" id="L98" title="All 2 branches missed.">    if (!this.actual.isSuccesful()) {</span>
-<span class="nc" id="L99">      failWithMessage(&quot;The build was not successful but was &lt;%s&gt; with returnCode:&lt;%s&gt;&quot;, actual.getResult(),</span>
-<span class="nc" id="L100">          actual.getReturnCode());</span>
+<span class="nc" id="L101">    isNotNull();</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">    if (!this.actual.isSuccesful()) {</span>
+<span class="nc" id="L103">      List&lt;String&gt; logs = Helper.logs(this.actual.getMavenLog().getStdout()).map(s -&gt; &quot; [STDOUT] &quot; + s + &quot;\n&quot;).collect(Collectors.toList());</span>
+<span class="nc" id="L104">      failWithMessage(&quot;The build was not successful but was &lt;%s&gt; with returnCode:&lt;%s&gt; log file: &lt;%s&gt;&quot;, actual.getResult(),</span>
+<span class="nc" id="L105">          actual.getReturnCode(), logs);</span>
     }
-<span class="nc" id="L102">    return myself;</span>
+<span class="nc" id="L107">    return myself;</span>
   }
 
   /**
@@ -108,12 +113,13 @@ public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecution
    * @throws AssertionError if the actual value is not {@code true}.
    */
   public MavenExecutionResultAssert isFailure() {
-<span class="nc" id="L111">    isNotNull();</span>
-<span class="nc bnc" id="L112" title="All 2 branches missed.">    if (!this.actual.isFailure()) {</span>
-<span class="nc" id="L113">      failWithMessage(&quot;The build should be not successful but was &lt;%s&gt; with returnCode:&lt;%s&gt;&quot;, actual.getResult(),</span>
-<span class="nc" id="L114">          actual.getReturnCode());</span>
+<span class="nc" id="L116">    isNotNull();</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">    if (!this.actual.isFailure()) {</span>
+<span class="nc" id="L118">      List&lt;String&gt; logs = Helper.logs(this.actual.getMavenLog().getStdout()).map(s -&gt; &quot; [STDOUT] &quot; + s + &quot;\n&quot;).collect(Collectors.toList());</span>
+<span class="nc" id="L119">      failWithMessage(&quot;The build should be not successful but was &lt;%s&gt; with returnCode:&lt;%s&gt; log file: &lt;%s&gt;&quot;, actual.getResult(),</span>
+<span class="nc" id="L120">          actual.getReturnCode(), logs);</span>
     }
-<span class="nc" id="L116">    return myself;</span>
+<span class="nc" id="L122">    return myself;</span>
   }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

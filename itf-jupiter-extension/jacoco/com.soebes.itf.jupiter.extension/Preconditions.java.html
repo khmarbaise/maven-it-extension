@@ -53,14 +53,15 @@ public class Preconditions {
    *
    * @param parameter The array parameter of which the length will be checked.
    * @param message The message to thrown in case of not fulfilling the condition.
+   * @param &lt;T&gt; The type of the parameter.
    * @return Return the original {@code paramter} if not raised the execption.
    * @throws IllegalArgumentException in case the condition has not been fulfilled.
    */
   public static &lt;T&gt; T[] requireGreaterZero(T[] parameter, String message) {
-<span class="fc bfc" id="L60" title="All 2 branches covered.">    if (parameter.length &lt; 1) {</span>
-<span class="fc" id="L61">      throw new IllegalArgumentException(message);</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">    if (parameter.length &lt; 1) {</span>
+<span class="fc" id="L62">      throw new IllegalArgumentException(message);</span>
     }
-<span class="fc" id="L63">    return parameter;</span>
+<span class="fc" id="L64">    return parameter;</span>
   }
 
   /**
@@ -72,10 +73,10 @@ public class Preconditions {
    * @throws IllegalArgumentException in case the condition has not been fulfilled.
    */
   public static String requireNotEmpty(String parameter, String message) {
-<span class="fc bfc" id="L75" title="All 2 branches covered.">    if (parameter.isEmpty()) {</span>
-<span class="fc" id="L76">      throw new IllegalArgumentException(message);</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">    if (parameter.isEmpty()) {</span>
+<span class="fc" id="L77">      throw new IllegalArgumentException(message);</span>
     }
-<span class="fc" id="L78">    return parameter;</span>
+<span class="fc" id="L79">    return parameter;</span>
   }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

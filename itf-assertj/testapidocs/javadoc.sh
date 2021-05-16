@@ -1,1 +1,0 @@
-/Users/khmarbaise/.sdkman/candidates/java/11.0.8.hs-adpt/bin/javadoc @options @packages

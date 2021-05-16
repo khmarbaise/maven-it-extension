@@ -37,7 +37,7 @@ import java.util.stream.Stream;
 /**
  * @author Karl Heinz Marbaise
  */
-public class ApplicationExecutor {
+class ApplicationExecutor {
 
   private final File loggingDirectory;
 
@@ -51,7 +51,7 @@ public class ApplicationExecutor {
 
   private final String javaHome;
 
-  public ApplicationExecutor(String javaHome, File loggingDirectory, File workingDirectory, Path applicationExecutable,
+  ApplicationExecutor(String javaHome, File loggingDirectory, File workingDirectory, Path applicationExecutable,
 <span class="nc" id="L55">                             List&lt;String&gt; jvmArguments, String prefix) {</span>
 <span class="nc" id="L56">    this.javaHome = javaHome;</span>
 <span class="nc" id="L57">    this.loggingDirectory = loggingDirectory;</span>
@@ -61,14 +61,14 @@ public class ApplicationExecutor {
 <span class="nc" id="L61">    this.prefix = prefix;</span>
 <span class="nc" id="L62">  }</span>
 
-  public ApplicationExecutor(File workingDirectory, File loggingDirectory, Path applicationExecutable,
+  ApplicationExecutor(File workingDirectory, File loggingDirectory, Path applicationExecutable,
                              List&lt;String&gt; jvmArguments, String prefix) {
     //TODO: This should be made configurable
 <span class="nc" id="L67">    this(System.getProperty(&quot;java.home&quot;), loggingDirectory, workingDirectory, applicationExecutable, jvmArguments,</span>
         prefix);
 <span class="nc" id="L69">  }</span>
 
-  public Process start(List&lt;String&gt; startArguments) throws IOException {
+  Process start(List&lt;String&gt; startArguments) throws IOException {
 
 <span class="nc" id="L73">    List&lt;String&gt; applicationArguments = new ArrayList&lt;&gt;();</span>
     //TODO: Can make that better?
@@ -96,12 +96,12 @@ public class ApplicationExecutor {
 <span class="nc" id="L96">    return pb.start();</span>
   }
 
-  public int startAndWaitUntilEnded(List&lt;String&gt; args) throws IOException, InterruptedException {
+  int startAndWaitUntilEnded(List&lt;String&gt; args) throws IOException, InterruptedException {
 <span class="nc" id="L100">    Process start = start(args);</span>
 <span class="nc" id="L101">    return start.waitFor();</span>
   }
 
-  public Path getStdout() {
+  Path getStdout() {
 <span class="nc" id="L105">    return Paths.get(loggingDirectory.toString(), this.prefix + &quot;-stdout.log&quot;);</span>
   }
 
@@ -110,9 +110,9 @@ public class ApplicationExecutor {
 <span class="nc" id="L110">    return new BufferedReader(new InputStreamReader(resourceAsStream, Charset.defaultCharset())).lines();</span>
   }
 
-  public Path getStdErr() {
+  Path getStdErr() {
 <span class="nc" id="L114">    return Paths.get(loggingDirectory.toString(), this.prefix + &quot;-stderr.log&quot;);</span>
   }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

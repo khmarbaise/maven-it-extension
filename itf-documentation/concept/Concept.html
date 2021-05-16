@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="Karl Heinz Marbaise, 2020-08-12">
+<meta name="author" content="Karl Heinz Marbaise, 2021-05-16">
 <title>Integration Testing Framework Concept Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,8 +442,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Integration Testing Framework Concept Guide</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2020-08-12</span><br>
-<span id="revnumber">version 0.9.0</span>
+<span id="author2" class="author">2021-05-16</span><br>
+<span id="revnumber">version 0.10.0</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -472,22 +472,33 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_versions_maven_plugin">5.2. Versions Maven Plugin</a></li>
 </ul>
 </li>
-<li><a href="#_open_things">6. Open Things</a></li>
-<li><a href="#_log_assertion">7. Log Assertion</a></li>
-<li><a href="#_ideas_2">8. Ideas</a>
+<li><a href="#_log_assertion">6. Log Assertion</a></li>
+<li><a href="#_ideas_2">7. Ideas</a>
 <ul class="sectlevel2">
-<li><a href="#_ide_integration">8.1. IDE Integration</a></li>
-<li><a href="#_test_execution">8.2. Test Execution</a></li>
+<li><a href="#_ide_integration">7.1. IDE Integration</a></li>
+<li><a href="#_test_execution">7.2. Test Execution</a></li>
 </ul>
 </li>
-<li><a href="#_annotations_repeatable_annotations">9. Annotations / Repeatable Annotations</a>
+<li><a href="#_annotations_repeatable_annotations">8. Annotations / Repeatable Annotations</a>
 <ul class="sectlevel2">
-<li><a href="#_example_test_case">9.1. Example Test case</a></li>
-<li><a href="#_rule_for_nested_classes">9.2. Rule for Nested Classes</a></li>
-<li><a href="#_ideas_3">9.3. Ideas</a></li>
-<li><a href="#_implementation_steps">9.4. Implementation Steps</a></li>
+<li><a href="#_example_test_case">8.1. Example Test case</a></li>
+<li><a href="#_rule_for_nested_classes">8.2. Rule for Nested Classes</a></li>
+<li><a href="#_ideas_3">8.3. Ideas</a></li>
+<li><a href="#_implementation_steps">8.4. Implementation Steps</a></li>
 </ul>
 </li>
+<li><a href="#_configuration_resources_its">9. Configuration / Resources-its</a>
+<ul class="sectlevel2">
+<li><a href="#_current_state">9.1. Current State</a></li>
+<li><a href="#_change_it">9.2. Change it</a></li>
+</ul>
+</li>
+<li><a href="#_injections">10. Injections</a>
+<ul class="sectlevel2">
+<li><a href="#_mavenprojectresult_mavenproject_model">10.1. MavenProjectResult, MavenProject, Model</a></li>
+</ul>
+</li>
+<li><a href="#_open_things">11. Open Things</a></li>
 </ul>
 </div>
 </div>
@@ -1789,41 +1800,7 @@ invoker.buildResult.4=success</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_open_things">6. Open Things</h2>
-<div class="sectionbody">
-<div class="ulist checklist">
-<div class="title">Things which currently not working or net yet tested/thought about</div>
-<ul class="checklist">
-<li>
-<p>&#10063; A build/tool(s) running without relation to Maven?
-This means we only need to define what we start simply a different thing than Maven.
-Would we like to support this?</p>
-</li>
-<li>
-<p>&#10063; POM Less builds currently not tried. Calling only a goal like <code>site:stage</code> ?</p>
-</li>
-<li>
-<p>&#10063; Setup projects which should be run</p>
-</li>
-<li>
-<p>&#10063; General Setup repositories which already contain particular dependencies which are needed
-for test cases. Here we need to make it possible having a local repository to be pre defined
-on a test case or on a more general way.</p>
-</li>
-<li>
-<p>&#10063; Support for a mock repository manager (mrm) to make tests cases with deploy/releases
-etc. possible. A thought might be to integrate the functionality of mrm into this
-extension and somehow configure that for the test cases?</p>
-</li>
-<li>
-<p>&#10063; Support for <a href="https://www.mojohaus.org/mrm/index.html">Mock Repository Manager</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_log_assertion">7. Log Assertion</h2>
+<h2 id="_log_assertion">6. Log Assertion</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>We have at the moment at least three different outputs:</p>
@@ -1851,10 +1828,10 @@ assertThat(result).out().warn()</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_ideas_2">8. Ideas</h2>
+<h2 id="_ideas_2">7. Ideas</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_ide_integration">8.1. IDE Integration</h3>
+<h3 id="_ide_integration">7.1. IDE Integration</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1896,7 +1873,7 @@ directories and then run the test as usual.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_test_execution">8.2. Test Execution</h3>
+<h3 id="_test_execution">7.2. Test Execution</h3>
 <div class="paragraph">
 <p>When should tests being executed?</p>
 </div>
@@ -1927,7 +1904,7 @@ directories and then run the test as usual.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_annotations_repeatable_annotations">9. Annotations / Repeatable Annotations</h2>
+<h2 id="_annotations_repeatable_annotations">8. Annotations / Repeatable Annotations</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Based on the ideas in <a href="https://github.com/khmarbaise/maven-it-extension/issues/135" class="bare">https://github.com/khmarbaise/maven-it-extension/issues/135</a> we have to
@@ -1953,7 +1930,7 @@ reconsider annotation based setup for goals, profiles, options and system proper
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_example_test_case">9.1. Example Test case</h3>
+<h3 id="_example_test_case">8.1. Example Test case</h3>
 <div class="paragraph">
 <p>An example test (based on release 0.8.0):</p>
 </div>
@@ -1998,7 +1975,7 @@ case with the goal <code>package</code>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_changing_default_goal">9.1.1. Changing Default Goal</h4>
+<h4 id="_changing_default_goal">8.1.1. Changing Default Goal</h4>
 <div class="paragraph">
 <p>In this case the given <code>@MavenGoal</code> will automatically replace the default goal <code>package</code> as defined
 in <code>@MavenJupiterExtension</code> with the given goal <code>verify</code> in the given case.
@@ -2162,7 +2139,7 @@ it very easy to define a global definition of the goals you like to execute.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_changing_default_options">9.1.2. Changing Default Options</h4>
+<h4 id="_changing_default_options">8.1.2. Changing Default Options</h4>
 <div class="paragraph">
 <p>By defining the <code>MavenOption</code> annotation you can replace the default option <code>--error</code> very easily (Defined in <code>@MavenJupiterExtension</code>).
 Here we have the same mechanism as already shown for the <code>@MavenGoal</code> including meta annotations etc.
@@ -2233,7 +2210,7 @@ via <code>MavenOption</code>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_defining_profiles">9.1.3. Defining Profiles</h4>
+<h4 id="_defining_profiles">8.1.3. Defining Profiles</h4>
 <div class="paragraph">
 <p>By defining the <code>@MavenProfile</code> annotation like the following you can
 define a single profile:</p>
@@ -2294,7 +2271,7 @@ define a single profile:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_defining_system_properties">9.1.4. Defining System Properties</h4>
+<h4 id="_defining_system_properties">8.1.4. Defining System Properties</h4>
 <div class="paragraph">
 <p>By defining the <code>SystemProperty</code> annotation like the following you can
 define a single property:</p>
@@ -2383,7 +2360,7 @@ three system properties set.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_real_test_case">9.1.5. Real Test Case</h4>
+<h4 id="_real_test_case">8.1.5. Real Test Case</h4>
 <div class="paragraph">
 <p>The following is a real test which works (realized with ITF Release 0.8.0):</p>
 </div>
@@ -2615,20 +2592,21 @@ three system properties set.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_rule_for_nested_classes">9.2. Rule for Nested Classes</h3>
+<h3 id="_rule_for_nested_classes">8.2. Rule for Nested Classes</h3>
 <div class="paragraph">
 <p>What should be the rules for nested classes in IT&#8217;s? Inheriting ? Replace system
 properties based on the name with the new value?</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ideas_3">9.3. Ideas</h3>
+<h3 id="_ideas_3">8.3. Ideas</h3>
 <div class="paragraph">
-<p>We could try to define <code>@MavenGoal</code> on a package level (within <code>package-info.java</code>?)</p>
+<p>We could try to define <code>@MavenGoal</code> on a package level (within <code>package-info.java</code>?).
+Currently JUnit Jupiter does not support to define annotations on package level.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_implementation_steps">9.4. Implementation Steps</h3>
+<h3 id="_implementation_steps">8.4. Implementation Steps</h3>
 <div class="paragraph">
 <p>Steps to move forward:</p>
 </div>
@@ -2659,11 +2637,299 @@ and remove with release 0.10.0.</p>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_configuration_resources_its">9. Configuration / Resources-its</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_current_state">9.1. Current State</h3>
+<div class="paragraph">
+<p>Based on the current implementation you have to configure the <code>resources-its</code>
+as a resource which needs to be filtered to replace placeholders in
+<code>pom.xml</code> files via the following <code>pom.xml</code> file snippet:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;testResources&gt;</span>
+  <span class="tag">&lt;testResource&gt;</span>
+    <span class="tag">&lt;directory&gt;</span>src/test/resources<span class="tag">&lt;/directory&gt;</span>
+    <span class="tag">&lt;filtering&gt;</span>false<span class="tag">&lt;/filtering&gt;</span>
+  <span class="tag">&lt;/testResource&gt;</span>
+  <span class="comment">&lt;!--
+   ! Currently those tests do need to be filtered.
+  --&gt;</span>
+  <span class="tag">&lt;testResource&gt;</span>
+    <span class="tag">&lt;directory&gt;</span>src/test/resources-its<span class="tag">&lt;/directory&gt;</span>
+    <span class="tag">&lt;filtering&gt;</span>true<span class="tag">&lt;/filtering&gt;</span>
+  <span class="tag">&lt;/testResource&gt;</span>
+<span class="tag">&lt;/testResources&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The current setup has a number of disadvantages:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Everything is copied and filtered</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Filtering of binary files and other files which shouldn&#8217;t being filtered at all.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>To make it correctly very inconvenient for the user.</p>
+</li>
+<li>
+<p>Usage of a Git/SVN/Hg/Bzr repositories for a test setup is more or less impossible
+based on default configurations of maven-resources-plugin.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To make the setup correctly you have to do it like this:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Define a large list of non filtered extensions like <code>jar</code>, <code>war</code>, <code>zip</code> etc.</p>
+</li>
+<li>
+<p>Define only a single delimiter <code>@project.version@</code> instead of the default which
+contains also <code>@{..}</code> which could be mistaken with other information within
+the test case(s).</p>
+</li>
+<li>
+<p>Furthermore, you might need to turn off <code>&lt;addDefaultExcludes&gt;false&lt;/addDefaultExcludes&gt;</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_change_it">9.2. Change it</h3>
+<div class="paragraph">
+<p>We should enhance the <code>itf-maven-plugin</code> accordingly to handle the coping and filtering.</p>
+</div>
+<div class="paragraph">
+<p>Advantages:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Much easier for the user.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The whole configuration can be done within the <code>itf-maven-pugin</code> with better
+defaults than manually setting up.</p>
+</li>
+<li>
+<p>This removes the need to configure resources separately and filtering.</p>
+</li>
+<li>
+<p>Separation of concern.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>We can also analyse the content and make some checks for later caching (future)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>For example could calculate hashes (like SHA-256?) to detect if changes have been made
+to the projects or not.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_injections">10. Injections</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_mavenprojectresult_mavenproject_model">10.1. MavenProjectResult, MavenProject, Model</h3>
+<div class="paragraph">
+<p>Based on the current implementation it is possible to inject the information about the directory
+structure into the <code>beforeEach</code> Method as well as the test method like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@BeforeEach</span>
+<span class="type">void</span> beforeEach(MavenProjectResult project) {
+  ...
+}
+
+<span class="annotation">@MavenTest</span>
+<span class="type">void</span> testCase( MavenExecutionResult result, MavenProjectResult mavenProjectResult ) {
+  ...
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Basically we have implemented the <code>MavenProjectResult</code> in the way to contain information
+about the <code>target</code> directory structures like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>target/maven-it/
+  .../FirstIT
+       +--- test_case_one            &lt;-- targetBaseDirectory
+               +--- .m2/             &lt;-- targetCacheDirectory
+               +--- project          &lt;-- targetProjectDirectory
+                       +--- src/
+                       +--- pom.xml  &lt;-- model (targetModel)
+               +--- mvn-stdout.log
+               +--- mvn-stderr.log</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Taking a deeper look into the use cases in particular for <code>beforeEach</code> it becomes
+clear that the naming is misleading furthermore the <code>MavenProjectResult</code> contains
+different things than directories for example a <code>Model</code>. Further more the whole directory
+structure which is from the source area is completely missing:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>src/test/java/../
+   +--- FirstIT.java
+          +--- test_case_one      &lt;--- sourceBaseDirectory
+src/test/resources-its/.../
+   +--- FirstIT/
+           +--- .predefined-repo  &lt;--- sourceRepo (optional)
+           +--- test_case_one     &lt;--- sourceProjectDirectory
+                   +--- src/...
+                   +--- pom.xml   &lt;--- sourceModel</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Let us think about a different naming/structures:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>MavenTarget</p>
+<div class="ulist">
+<ul>
+<li>
+<p>baseDirectory, cacheDirectory, projectDirectory</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>MavenSource</p>
+<div class="ulist">
+<ul>
+<li>
+<p>baseDirectory, projectDirectory, repository (optional)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The model information should be handled in two different ways:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>MavenModelTarget</p>
+<div class="ulist">
+<ul>
+<li>
+<p>model (targetModel)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>MavenModelSource</p>
+<div class="ulist">
+<ul>
+<li>
+<p>model (sourceModel)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This means also we can make the injection optional in cases where we might
+no Model (<code>pom.xml</code>) files at all.</p>
+</div>
+<div class="paragraph">
+<p>Based on the above a IT case could look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@BeforeEach</span>
+<span class="type">void</span> beforeEach(MavenSource source, MavenTarget target, MavenModelSource modelSource, MavenModelTarget modelTarget) {
+...
+}
+
+<span class="annotation">@MavenTest</span>
+<span class="type">void</span> testCase( MavenTarget mavenTarget ) {
+...
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This means that within the <code>beforeEach</code> method you could access the state of the IT before the
+execution of Maven can be access or done something special.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_open_things">11. Open Things</h2>
+<div class="sectionbody">
+<div class="ulist checklist">
+<div class="title">Things which currently not working or net yet tested/thought about</div>
+<ul class="checklist">
+<li>
+<p>&#10063; A build/tool(s) running without relation to Maven?
+This means we only need to define what we start simply a different thing than Maven.
+Would we like to support this?</p>
+</li>
+<li>
+<p>&#10063; POM Less builds currently not tried. Calling only a goal like <code>site:stage</code> ?</p>
+</li>
+<li>
+<p>&#10063; Setup projects which should be run</p>
+</li>
+<li>
+<p>&#10063; General Setup repositories which already contain particular dependencies which are needed
+for test cases. Here we need to make it possible having a local repository to be pre defined
+on a test case or on a more general way.</p>
+</li>
+<li>
+<p>&#10063; Support for a mock repository manager (mrm) to make tests cases with deploy/releases
+etc. possible. A thought might be to integrate the functionality of mrm into this
+extension and somehow configure that for the test cases?</p>
+</li>
+<li>
+<p>&#10063; Support for <a href="https://www.mojohaus.org/mrm/index.html">Mock Repository Manager</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.9.0<br>
-Last updated 2020-08-12 13:32:44 +0200
+Version 0.10.0<br>
+Last updated 2021-05-16 20:00:19 +0200
 </div>
 </div>
 <style>

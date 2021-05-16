@@ -23,15 +23,33 @@
  * @author Karl Heinz Marbaise
  */
 <span class="nc" id="L25">enum Storage {</span>
+
+  /*
+   * &lt;pre&gt;
+   *   target/                                   &lt;-- TARGET_DIRECTORY
+   *      +-- itf-repo/                          &lt;-- targetItfRepoDirectory
+   *      +-- test-classes/                      &lt;-- targetTestClassesDirectory
+   *            +--- FirstIT/
+   *                    +--- test_case_one       &lt;-- sourceMavenProject
+   *
+   *      +-- maven-it/                          &lt;-- TARGET_MAVEN_IT_DIRECTORY
+   *           +-- FirstIT/                      &lt;-- mavenItTestCaseBaseDirectory
+   *                 +--- test_case_one/         &lt;-- integrationTestCaseDirectory
+   *                       +--- .m2/repository   &lt;-- cacheDirectory
+   *                       +--- project          &lt;-- projectDirectory
+   *                               +--- src/
+   *                               +--- pom.xml
+   * &lt;/pre&gt;
+   */
   /**
    * The {@code target/maven-it} directory.
    */
-<span class="nc" id="L29">  MAVEN_IT_BASEDIRECTORY,</span>
+<span class="nc" id="L47">  TARGET_MAVEN_IT_DIRECTORY,</span>
   /**
    * The directory for the single test cases which is being built of the
    * {@code package+testClassName+(Optional:NestedClassNames)+MethodName}.
    */
-<span class="nc" id="L34">  MAVEN_IT_TESTCASE_BASEDIRECTORY,</span>
-<span class="nc" id="L35">  TARGET_DIRECTORY</span>
+<span class="nc" id="L52">  MAVEN_IT_TESTCASE_BASEDIRECTORY,</span>
+<span class="nc" id="L53">  TARGET_DIRECTORY</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
