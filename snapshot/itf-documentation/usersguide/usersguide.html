@@ -596,19 +596,18 @@ test for a <a href="https://maven.apache.org/plugins/">Maven Plugins</a>/Maven E
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">org.it</span>;
 
-<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.assertj.core.api.Assertions.assertThat</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">com.soebes.itf.extension.assertj.MavenITAssertions.assertThat</span>;
 
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenJupiterExtension</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenTest</span>;
 <span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenExecutionResult</span>;
 
 <span class="annotation">@MavenJupiterExtension</span> // <b class="conum">(1)</b>
-<span class="type">class</span> <span class="class">FirstMavenIT</span> {
+<span class="directive">public</span> <span class="type">class</span> <span class="class">FirstMavenIT</span> {
 
-  <span class="annotation">@MavenTest</span> // <b class="conum">(2)</b>
-  <span class="type">void</span> the_first_test_case(MavenExecutionResult result) { // <b class="conum">(3)</b>
-    assertThat(result).build().isSuccessful(); // <b class="conum">(4)</b>
-  }
+ <span class="type">void</span> the_first_test_case(MavenExecutionResult result) { //<b class="conum">(3)</b>
+  assertThat(result).isSuccessful(); // <b class="conum">(4)</b>
+ }
 
 }</code></pre>
 </div>
@@ -2670,7 +2669,7 @@ or the logging output of the Maven build you can change your integration test li
 <div id="footer">
 <div id="footer-text">
 Version 0.11.0-SNAPSHOT<br>
-Last updated 2021-05-16 18:52:29 UTC
+Last updated 2021-05-16 20:20:24 UTC
 </div>
 </div>
 <style>
