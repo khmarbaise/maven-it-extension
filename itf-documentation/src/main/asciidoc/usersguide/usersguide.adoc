@@ -91,19 +91,18 @@ test for a {maven-plugins}/Maven Extensions/Maven-Core should look like:
 ----
 package org.it;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
 @MavenJupiterExtension // <1>
-class FirstMavenIT {
+public class FirstMavenIT {
 
-  @MavenTest // <2>
-  void the_first_test_case(MavenExecutionResult result) { // <3>
-    assertThat(result).build().isSuccessful(); // <4>
-  }
+ void the_first_test_case(MavenExecutionResult result) { //<3>
+  assertThat(result).isSuccessful(); // <4>
+ }
 
 }
 ----

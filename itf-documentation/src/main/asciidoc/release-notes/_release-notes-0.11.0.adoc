@@ -18,6 +18,7 @@
 [[release-notes-0.11.0]]
 == Pre-release 0.11.0
 
+:issue-200: https://github.com/khmarbaise/maven-it-extension/issues/200[Fixed #200]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -28,7 +29,7 @@
 *Scope:*
 
  - Refactoring/Code cleanups
-   * {issue-???} - XXX
+   * {issue-200} - Example in usersguide does not work.
 
 *Enhancements*
 
