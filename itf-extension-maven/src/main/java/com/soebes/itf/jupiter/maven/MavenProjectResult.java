@@ -32,9 +32,6 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 @API(status = EXPERIMENTAL, since = "0.1.0")
 public class MavenProjectResult {
 
-  @Deprecated
-  private final File baseDir;
-
   private final Model model;
   /**
    * This is the {@code project} directory of the test case.
@@ -92,9 +89,6 @@ public class MavenProjectResult {
     this.targetProjectDirectory = targetProjectDirectory;
     this.targetCacheDirectory = targetCacheDirectory;
     this.model = model;
-    //The following assignments only exist to initialize the deprecated marked field. Will be removed
-    //with Release 0.11.0
-    this.baseDir = targetBaseDirectory;
   }
 
   /**
@@ -119,11 +113,6 @@ public class MavenProjectResult {
   @API(status = EXPERIMENTAL, since = "0.10.0")
   public File getTargetCacheDirectory() {
     return targetCacheDirectory;
-  }
-
-  @Deprecated
-  public File getBaseDir() {
-    return baseDir;
   }
 
   public Model getModel() {

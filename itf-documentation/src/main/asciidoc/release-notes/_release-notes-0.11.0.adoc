@@ -18,6 +18,7 @@
 [[release-notes-0.11.0]]
 == Pre-release 0.11.0
 
+:issue-152: https://github.com/khmarbaise/maven-it-extension/issues/152[Fixed #152]
 :issue-200: https://github.com/khmarbaise/maven-it-extension/issues/200[Fixed #200]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
@@ -41,7 +42,17 @@
 
 *Breaking Changes*
 
- * {issue-???} - ???
+ * {issue-152} - Remove deprecated marked code.
+   ** MavenProjectResult
+   *** Method `getBaseDir()` has been removed.
+   ** `MavenExecutionResult`
+   *** Method `isSuccesful()` has been removed
+   *** `ExecutionResult`
+   **** `Error` has been removed. Based on that we have to remove
+        `MavenExecutionResult.isError()` as well.
+
+
+* {issue-???} - ???
 
 *Reporter of issues*
 

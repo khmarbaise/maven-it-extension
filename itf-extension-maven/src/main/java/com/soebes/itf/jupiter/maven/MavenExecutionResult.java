@@ -19,12 +19,10 @@ package com.soebes.itf.jupiter.maven;
  * under the License.
  */
 
-import org.apiguardian.api.API;
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 import java.util.StringJoiner;
-
-import static org.apiguardian.api.API.Status.DEPRECATED;
-import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+import org.apiguardian.api.API;
 
 /**
  * @author Karl Heinz Marbaise
@@ -55,25 +53,12 @@ public class MavenExecutionResult {
     return returnCode;
   }
 
-  /**
-   * This method is simply a typo.
-   * Please use {@link #isSuccessful()} instead.
-   */
-  @Deprecated
-  public boolean isSuccesful() {
-    return ExecutionResult.Successful.equals(this.result);
-  }
-
   public boolean isSuccessful() {
     return ExecutionResult.Successful.equals(this.result);
   }
 
   public boolean isFailure() {
     return ExecutionResult.Failure.equals(this.result);
-  }
-
-  public boolean isError() {
-    return ExecutionResult.Error.equals(this.result);
   }
 
   public ExecutionResult getResult() {
@@ -106,8 +91,5 @@ public class MavenExecutionResult {
   public enum ExecutionResult {
     Successful,
     Failure,
-    @API(status = DEPRECATED, since = "0.10.0")
-    @Deprecated
-    Error
   }
 }
