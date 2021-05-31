@@ -100,6 +100,7 @@ import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 @MavenJupiterExtension // <1>
 public class FirstMavenIT {
 
+ @MavenTest // <2>
  void the_first_test_case(MavenExecutionResult result) { //<3>
   assertThat(result).isSuccessful(); // <4>
  }
