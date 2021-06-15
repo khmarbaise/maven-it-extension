@@ -313,7 +313,7 @@ class layout:
 ----
 package org.it;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
@@ -551,7 +551,7 @@ import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
-import com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
+import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
 @MavenJupiterExtension
 class CompareDependenciesIT
@@ -582,7 +582,7 @@ import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
-import com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
+import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
 @MavenJupiterExtension
 class RunningIT
@@ -1510,7 +1510,7 @@ import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
-import com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
+import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
 @MavenJupiterExtension
 class CompareDependenciesIT
