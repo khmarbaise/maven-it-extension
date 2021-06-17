@@ -101,6 +101,8 @@ public class ResourcesMojo extends AbstractMojo {
    *   <li>ear</li>
    *   <li>aar</li>
    *   <li>rar</li>
+   *   <li>har</li>
+   *   <li>sar</li>
    *   <li>zip</li>
    *   <li>tar</li>
    *   <li>tar.gz</li>
@@ -224,6 +226,9 @@ public class ResourcesMojo extends AbstractMojo {
     //TODO: Document the default excludes we are using?
     resource.setExcludes(Collections.emptyList());
 
+    // Enable filtering of resources
+    resource.setFiltering(true);
+
     //TODO: Need to clean up.
     this.resources = new ArrayList<>();
     this.resources.add(resource);
@@ -262,7 +267,7 @@ public class ResourcesMojo extends AbstractMojo {
       mavenResourcesExecution.setPropertiesEncoding(propertiesEncoding);
 
       //Default list of extensions which are not filtered.
-      List<String> filter = Arrays.asList("jpg", "jar", "war", "ear", "aar", "rar", "zip", "tar", "tar.gz");
+      List<String> filter = Arrays.asList("jpg", "jar", "war", "ear", "aar", "rar", "har", "sar", "zip", "tar", "tar.gz");
       mavenResourcesExecution.setNonFilteredFileExtensions(filter);
       if (nonFilteredFileExtensions != null) {
         mavenResourcesExecution.setNonFilteredFileExtensions(nonFilteredFileExtensions);

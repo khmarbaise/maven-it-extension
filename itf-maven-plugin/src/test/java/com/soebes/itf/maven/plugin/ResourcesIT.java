@@ -26,6 +26,8 @@ import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import org.junit.jupiter.api.DisplayName;
 
+import java.io.File;
+
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 import static com.soebes.itf.jupiter.extension.MavenCLIOptions.DEBUG;
 import static com.soebes.itf.jupiter.extension.MavenCLIOptions.NO_TRANSFER_PROGRESS;
@@ -42,4 +44,13 @@ class ResourcesIT {
     assertThat(result).isSuccessful();
   }
 
+  @MavenTest
+  @MavenGoal("${project.groupId}:${project.artifactId}:${project.version}:resources-its")
+  @DisplayName("Test resources-its to see if resources are filtered.")
+  void filter_resources(MavenExecutionResult result) {
+    assertThat(result).isSuccessful();
+
+    File filteredFile = new File(result.getMavenProjectResult().getTargetProjectDirectory(), "target/test-classes/com/soebes/.invisible-file");
+    assertThat(filteredFile).hasContent("Project filter_resources, Version 1.0");
+  }
 }
