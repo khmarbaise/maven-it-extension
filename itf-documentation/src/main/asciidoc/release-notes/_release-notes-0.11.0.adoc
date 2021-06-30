@@ -21,6 +21,7 @@
 :issue-152: https://github.com/khmarbaise/maven-it-extension/issues/152[Fixed #152]
 :issue-200: https://github.com/khmarbaise/maven-it-extension/issues/200[Fixed #200]
 :issue-202: https://github.com/khmarbaise/maven-it-extension/issues/202[Fixed #202]
+:issue-206: https://github.com/khmarbaise/maven-it-extension/issues/206[Fixed #206]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -40,6 +41,7 @@
 *Details*
 
  * {issue-202}  - Bug during generation of usersguide.adoc.
+ * {issue-206} - Annotation @MavenRepository used wrong directory.
 
 *Breaking Changes*
 
