@@ -1,0 +1,62 @@
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements. See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership. The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License. You may obtain a copy of the License at
+//
+//   http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing,
+//   software distributed under the License is distributed on an
+//   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+//   KIND, either express or implied. See the License for the
+//   specific language governing permissions and limitations
+//   under the License.
+//
+[[release-notes-0.12.0]]
+== Pre-release 0.12.0
+
+:issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
+:pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
+
+:release_0_12_0: https://github.com/khmarbaise/maven-it-extension/milestone/12?closed=1
+
+*Date of Release:* ??, 2021
+
+*Scope:*
+
+ - ??
+
+*Details*
+
+ * {issue-??} - ?
+
+*Breaking Changes*
+
+ * {issue-152} - Remove deprecated marked code.
+   ** MavenProjectResult
+   *** Method `getBaseDir()` has been removed.
+   ** `MavenExecutionResult`
+   *** Method `isSuccesful()` has been removed
+   *** `ExecutionResult`
+   **** `Error` has been removed. Based on that we have to remove
+        `MavenExecutionResult.isError()` as well.
+
+
+*Reporter of this release*
+
+ * ???
+   ** {issue-??} - ??
+
+*Contributors of this release*
+
+ * ??
+   ** {issue-??} - ..
+
+*Dependency Upgrades*
+
+ * {issue-???} - ??
+
+The full release notes can be found here {release_0_12_0}[Release 0.12.0].
