@@ -28,12 +28,13 @@
 
 :release_0_11_0: https://github.com/khmarbaise/maven-it-extension/milestone/11?closed=1
 
-*Date of Release:* ??, 2021
+*Date of Release:* July 25, 2021
 
 *Scope:*
 
+ - Bug Fix Release {issue-204}, {issue-206}.
  - Refactoring/Code cleanups
-   * {issue-200} - Example in usersguide does not work.
+   * {issue-200} - Example in user guide does not work.
 
 *Enhancements*
 
@@ -59,20 +60,17 @@
 
 * {issue-???} - ???
 
-*Reporter of issues*
-
- * ???
-   ** {issue-???} - ??
-
 *Reporter of this release*
 
- * ??
-   ** {pr-???} - ..
+ * Roland Weisleder
+   ** {issue-204} - Goal itf-maven-plugin:resources-its did not replace placeholder.
+   ** {issue-206} - Annotation @MavenRepository used wrong directory.
 
 *Contributors of this release*
 
- * ??
-   ** {issue-??} - ??
+ * Roland Weisleder
+   ** {issue-204} - Goal itf-maven-plugin:resources-its did not replace placeholder.
+   ** {issue-206} - Annotation @MavenRepository used wrong directory.
 
 *Dependency Upgrades*
 
