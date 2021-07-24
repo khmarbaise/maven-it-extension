@@ -1,1 +1,1 @@
-/opt/hostedtoolcache/jdk/11.0.11/x64/bin/javadoc @options @packages
+/opt/hostedtoolcache/jdk/11.0.12/x64/bin/javadoc @options @packages
