@@ -32,14 +32,14 @@
 
   <groupId>com.soebes.itf.jupiter.extension</groupId>
   <artifactId>itf-extension</artifactId>
-  <version>0.11.0-SNAPSHOT</version>
+  <version>0.11.0</version>
   <packaging>pom</packaging>
 
   <scm>
     <connection>scm:git:https://github.com/khmarbaise/maven-it-extension.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/khmarbaise/maven-it-extension.git</developerConnection>
     <url>https://github.com/khmarbaise/maven-it-extension</url>
-    <tag>HEAD</tag>
+    <tag>itf-extension-0.11.0</tag>
   </scm>
 
   <distributionManagement>
