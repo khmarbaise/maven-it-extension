@@ -29,17 +29,13 @@
 
 :release_0_11_0: https://github.com/khmarbaise/maven-it-extension/milestone/11?closed=1
 
-*Date of Release:* July 25, 2021
+*Date of Release:* July 24, 2021
 
 *Scope:*
 
  - Bug Fix Release {issue-204}, {issue-206}.
  - Refactoring/Code cleanups
    * {issue-200} - Example in user guide does not work.
-
-*Enhancements*
-
- * {issue-???} - ???
 
 *Details*
 
@@ -59,8 +55,6 @@
         `MavenExecutionResult.isError()` as well.
 
 
-* {issue-???} - ???
-
 *Reporter of this release*
 
  * Roland Weisleder
@@ -76,10 +70,5 @@
 *Dependency Upgrades*
 
  * {issue-208} - Updated asserj-core to 3.20.2
-
-*Build Improvements*
-
- * {issue-??} - ??
-
 
 The full release notes can be found here {release_0_11_0}[Release 0.11.0].
