@@ -101,6 +101,8 @@ import java.util.List;
    *   &lt;li&gt;ear&lt;/li&gt;
    *   &lt;li&gt;aar&lt;/li&gt;
    *   &lt;li&gt;rar&lt;/li&gt;
+   *   &lt;li&gt;har&lt;/li&gt;
+   *   &lt;li&gt;sar&lt;/li&gt;
    *   &lt;li&gt;zip&lt;/li&gt;
    *   &lt;li&gt;tar&lt;/li&gt;
    *   &lt;li&gt;tar.gz&lt;/li&gt;
@@ -194,7 +196,7 @@ import java.util.List;
   @Parameter
   private List&lt;String&gt; mavenFilteringHints;
 
-<span class="nc" id="L197">  private List&lt;MavenResourcesFiltering&gt; mavenFilteringComponents = new ArrayList&lt;MavenResourcesFiltering&gt;();</span>
+<span class="nc" id="L199">  private List&lt;MavenResourcesFiltering&gt; mavenFilteringComponents = new ArrayList&lt;MavenResourcesFiltering&gt;();</span>
 
   /**
    * stop searching endToken at the end of line
@@ -214,65 +216,68 @@ import java.util.List;
   public void execute()
       throws MojoExecutionException {
 
-<span class="nc" id="L217">    Resource resource = new Resource();</span>
-<span class="nc" id="L218">    resource.setDirectory(&quot;src/test/resources-its&quot;);</span>
-<span class="nc" id="L219">    resource.setTargetPath(project.getBuild().getTestOutputDirectory());</span>
-<span class="nc" id="L220">    ArrayList&lt;String&gt; includes = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L221">    includes.add(&quot;**/**&quot;);</span>
-<span class="nc" id="L222">    resource.setIncludes(includes);</span>
+<span class="nc" id="L219">    Resource resource = new Resource();</span>
+<span class="nc" id="L220">    resource.setDirectory(&quot;src/test/resources-its&quot;);</span>
+<span class="nc" id="L221">    resource.setTargetPath(project.getBuild().getTestOutputDirectory());</span>
+<span class="nc" id="L222">    ArrayList&lt;String&gt; includes = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L223">    includes.add(&quot;**/**&quot;);</span>
+<span class="nc" id="L224">    resource.setIncludes(includes);</span>
 
     //TODO: Document the default excludes we are using?
-<span class="nc" id="L225">    resource.setExcludes(Collections.emptyList());</span>
+<span class="nc" id="L227">    resource.setExcludes(Collections.emptyList());</span>
+
+    // Enable filtering of resources
+<span class="nc" id="L230">    resource.setFiltering(true);</span>
 
     //TODO: Need to clean up.
-<span class="nc" id="L228">    this.resources = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L229">    this.resources.add(resource);</span>
+<span class="nc" id="L233">    this.resources = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L234">    this.resources.add(resource);</span>
 
-<span class="nc bnc" id="L231" title="All 4 branches missed.">    if (Helper.isBlank(encoding) &amp;&amp; isFilteringEnabled(this.resources)) {</span>
-<span class="nc" id="L232">      getLog().warn(&quot;File encoding has not been set, using platform encoding &quot;</span>
-<span class="nc" id="L233">          + System.getProperty(&quot;file.encoding&quot;)</span>
+<span class="nc bnc" id="L236" title="All 4 branches missed.">    if (Helper.isBlank(encoding) &amp;&amp; isFilteringEnabled(this.resources)) {</span>
+<span class="nc" id="L237">      getLog().warn(&quot;File encoding has not been set, using platform encoding &quot;</span>
+<span class="nc" id="L238">          + System.getProperty(&quot;file.encoding&quot;)</span>
           + &quot;. Build is platform dependent!&quot;);
-<span class="nc" id="L235">      getLog().warn(&quot;See https://maven.apache.org/general.html#encoding-warning&quot;);</span>
+<span class="nc" id="L240">      getLog().warn(&quot;See https://maven.apache.org/general.html#encoding-warning&quot;);</span>
     }
 
     try {
-<span class="nc" id="L239">      MavenResourcesExecution mavenResourcesExecution =</span>
-<span class="nc" id="L240">          new MavenResourcesExecution(this.resources, this.outputDirectory, project, encoding, Collections.emptyList(),</span>
-<span class="nc" id="L241">              Collections.emptyList(), session);</span>
+<span class="nc" id="L244">      MavenResourcesExecution mavenResourcesExecution =</span>
+<span class="nc" id="L245">          new MavenResourcesExecution(this.resources, this.outputDirectory, project, encoding, Collections.emptyList(),</span>
+<span class="nc" id="L246">              Collections.emptyList(), session);</span>
 
-<span class="nc" id="L243">      mavenResourcesExecution.setEscapeWindowsPaths(escapeWindowsPaths);</span>
+<span class="nc" id="L248">      mavenResourcesExecution.setEscapeWindowsPaths(escapeWindowsPaths);</span>
 
       // never include project build filters in this call, since we've already accounted for the POM build filters
       // above, in getCombinedFiltersList().
-<span class="nc" id="L247">      mavenResourcesExecution.setInjectProjectBuildFilters(false);</span>
+<span class="nc" id="L252">      mavenResourcesExecution.setInjectProjectBuildFilters(false);</span>
 
-<span class="nc" id="L249">      mavenResourcesExecution.setEscapeString(escapeString);</span>
-<span class="nc" id="L250">      mavenResourcesExecution.setOverwrite(overwrite);</span>
-<span class="nc" id="L251">      mavenResourcesExecution.setIncludeEmptyDirs(includeEmptyDirs);</span>
-<span class="nc" id="L252">      mavenResourcesExecution.setSupportMultiLineFiltering(supportMultiLineFiltering);</span>
-<span class="nc" id="L253">      mavenResourcesExecution.setFilterFilenames(fileNameFiltering);</span>
-<span class="nc" id="L254">      mavenResourcesExecution.setAddDefaultExcludes(addDefaultExcludes);</span>
+<span class="nc" id="L254">      mavenResourcesExecution.setEscapeString(escapeString);</span>
+<span class="nc" id="L255">      mavenResourcesExecution.setOverwrite(overwrite);</span>
+<span class="nc" id="L256">      mavenResourcesExecution.setIncludeEmptyDirs(includeEmptyDirs);</span>
+<span class="nc" id="L257">      mavenResourcesExecution.setSupportMultiLineFiltering(supportMultiLineFiltering);</span>
+<span class="nc" id="L258">      mavenResourcesExecution.setFilterFilenames(fileNameFiltering);</span>
+<span class="nc" id="L259">      mavenResourcesExecution.setAddDefaultExcludes(addDefaultExcludes);</span>
 
       // We don't define supplemental properties at the moment.
-<span class="nc" id="L257">      mavenResourcesExecution.setAdditionalProperties(null);</span>
+<span class="nc" id="L262">      mavenResourcesExecution.setAdditionalProperties(null);</span>
 
       //Using only `@project.version@`...
-<span class="nc" id="L260">      mavenResourcesExecution.setDelimiters(delimiters);</span>
+<span class="nc" id="L265">      mavenResourcesExecution.setDelimiters(delimiters);</span>
 
-<span class="nc" id="L262">      mavenResourcesExecution.setPropertiesEncoding(propertiesEncoding);</span>
+<span class="nc" id="L267">      mavenResourcesExecution.setPropertiesEncoding(propertiesEncoding);</span>
 
       //Default list of extensions which are not filtered.
-<span class="nc" id="L265">      List&lt;String&gt; filter = Arrays.asList(&quot;jpg&quot;, &quot;jar&quot;, &quot;war&quot;, &quot;ear&quot;, &quot;aar&quot;, &quot;rar&quot;, &quot;zip&quot;, &quot;tar&quot;, &quot;tar.gz&quot;);</span>
-<span class="nc" id="L266">      mavenResourcesExecution.setNonFilteredFileExtensions(filter);</span>
-<span class="nc bnc" id="L267" title="All 2 branches missed.">      if (nonFilteredFileExtensions != null) {</span>
-<span class="nc" id="L268">        mavenResourcesExecution.setNonFilteredFileExtensions(nonFilteredFileExtensions);</span>
+<span class="nc" id="L270">      List&lt;String&gt; filter = Arrays.asList(&quot;jpg&quot;, &quot;jar&quot;, &quot;war&quot;, &quot;ear&quot;, &quot;aar&quot;, &quot;rar&quot;, &quot;har&quot;, &quot;sar&quot;, &quot;zip&quot;, &quot;tar&quot;, &quot;tar.gz&quot;);</span>
+<span class="nc" id="L271">      mavenResourcesExecution.setNonFilteredFileExtensions(filter);</span>
+<span class="nc bnc" id="L272" title="All 2 branches missed.">      if (nonFilteredFileExtensions != null) {</span>
+<span class="nc" id="L273">        mavenResourcesExecution.setNonFilteredFileExtensions(nonFilteredFileExtensions);</span>
       }
-<span class="nc" id="L270">      mavenResourcesFiltering.filterResources(mavenResourcesExecution);</span>
+<span class="nc" id="L275">      mavenResourcesFiltering.filterResources(mavenResourcesExecution);</span>
 
-<span class="nc" id="L272">    } catch (MavenFilteringException e) {</span>
-<span class="nc" id="L273">      throw new MojoExecutionException(e.getMessage(), e);</span>
-<span class="nc" id="L274">    }</span>
-<span class="nc" id="L275">  }</span>
+<span class="nc" id="L277">    } catch (MavenFilteringException e) {</span>
+<span class="nc" id="L278">      throw new MojoExecutionException(e.getMessage(), e);</span>
+<span class="nc" id="L279">    }</span>
+<span class="nc" id="L280">  }</span>
 
   /**
    * Determines whether filtering has been enabled for any resource.
@@ -281,10 +286,10 @@ import java.util.List;
    * @return &lt;code&gt;true&lt;/code&gt; if at least one resource uses filtering, &lt;code&gt;false&lt;/code&gt; otherwise.
    */
   private boolean isFilteringEnabled(Collection&lt;Resource&gt; theResources) {
-<span class="nc bnc" id="L284" title="All 2 branches missed.">    if (theResources != null) {</span>
-<span class="nc" id="L285">      return theResources.stream().anyMatch(resource -&gt; resource.isFiltering());</span>
+<span class="nc bnc" id="L289" title="All 2 branches missed.">    if (theResources != null) {</span>
+<span class="nc" id="L290">      return theResources.stream().anyMatch(resource -&gt; resource.isFiltering());</span>
     }
-<span class="nc" id="L287">    return false;</span>
+<span class="nc" id="L292">    return false;</span>
   }
 
 }
