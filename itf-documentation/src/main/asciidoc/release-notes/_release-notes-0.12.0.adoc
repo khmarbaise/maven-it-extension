@@ -18,6 +18,7 @@
 [[release-notes-0.12.0]]
 == Pre-release 0.12.0
 
+:issue-210: https://github.com/khmarbaise/maven-it-extension/issues/210[Fixed #210]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -31,11 +32,12 @@
 
 *Details*
 
+ * {issue-210} - Removed unused dependency commons-compress.
  * {issue-??} - ?
 
 *Breaking Changes*
 
- * {issue-152} - Remove deprecated marked code.
+ * {issue-XXX} - Remove deprecated marked code.
    ** MavenProjectResult
    *** Method `getBaseDir()` has been removed.
    ** `MavenExecutionResult`
