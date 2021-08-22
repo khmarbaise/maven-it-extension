@@ -63,7 +63,7 @@ Of course there is a lot of convenience integrated into it to make integration t
 The requirements to write integration tests with the integration testing framework are the folloing:
 
 * JDK11+
-* Apache Maven 3.1.0 or above. (I recommend to use Maven 3.8.1)
+* Apache Maven 3.1.0 or above. (I recommend to use Maven 3.8.2)
 
 ## The Maven Configuration
 
@@ -203,7 +203,8 @@ import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 @MavenJupiterExtension // <1>
 public class FirstMavenIT {
 
- void the_first_test_case(MavenExecutionResult result) { //<3>
+ @MavenTest // <2>
+ void the_first_test_case(MavenExecutionResult result) { // <3>
   assertThat(result).isSuccessful(); // <4>
  }
  
