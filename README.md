@@ -284,7 +284,7 @@ make the development of the plugin easier.
 
 # Concept and Background Guide
 
-The concept guide decribe my ideas I have in mind (just not to forget them). It is
+The concept guide describe my ideas I have in mind (just not to forget them). It is
 neither a roadmap nor about future releases etc. It's only intended to keep my ideas at a central location.
 
   * [![PDF](https://img.shields.io/badge/PDF-Conceptguide-orange)][conceptguide-pdf]
