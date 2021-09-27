@@ -20,6 +20,7 @@
 
 :issue-184: https://github.com/khmarbaise/maven-it-extension/issues/184[Fixed #184]
 :issue-210: https://github.com/khmarbaise/maven-it-extension/issues/210[Fixed #210]
+:issue-212: https://github.com/khmarbaise/maven-it-extension/issues/212[Fixed #212]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -61,6 +62,7 @@
 *Dependency Upgrades*
 
  * {issue-184} - Upgrade to JUnit Jupiter 5.8.0
+ * {issue-212} - Upgrade smpp parent to 5.3.4
  * {issue-???} - ??
 
 The full release notes can be found here {release_0_12_0}[Release 0.12.0].

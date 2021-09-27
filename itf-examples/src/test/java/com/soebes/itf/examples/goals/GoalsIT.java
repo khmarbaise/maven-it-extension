@@ -38,13 +38,13 @@ class GoalsIT {
         .out()
         .info()
         .containsSubsequence(
-            "--- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-maven) @ kata-fraction ---",
-            "--- jacoco-maven-plugin:0.8.5:prepare-agent (default) @ kata-fraction ---",
-            "--- maven-resources-plugin:3.1.0:resources (default-resources) @ kata-fraction ---",
+            "--- maven-enforcer-plugin:3.0.0:enforce (enforce-maven) @ kata-fraction ---",
+            "--- jacoco-maven-plugin:0.8.7:prepare-agent (default) @ kata-fraction ---",
+            "--- maven-resources-plugin:3.2.0:resources (default-resources) @ kata-fraction ---",
             "--- maven-compiler-plugin:3.8.1:compile (default-compile) @ kata-fraction ---",
-            "--- maven-resources-plugin:3.1.0:testResources (default-testResources) @ kata-fraction ---",
+            "--- maven-resources-plugin:3.2.0:testResources (default-testResources) @ kata-fraction ---",
             "--- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ kata-fraction ---",
-            "--- maven-surefire-plugin:3.0.0-M4:test (default-test) @ kata-fraction ---",
+            "--- maven-surefire-plugin:3.0.0-M5:test (default-test) @ kata-fraction ---",
             "--- maven-jar-plugin:3.2.0:jar (default-jar) @ kata-fraction ---",
             "--- maven-site-plugin:3.9.1:attach-descriptor (attach-descriptor) @ kata-fraction ---"
         );
@@ -89,9 +89,9 @@ class GoalsIT {
             "Building kata-fraction 1.0-SNAPSHOT",
             "--------------------------------[ jar ]---------------------------------",
             "--- maven-clean-plugin:3.1.0:clean (default-clean) @ kata-fraction ---",
-            "--- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-maven) @ kata-fraction ---",
-            "--- jacoco-maven-plugin:0.8.5:prepare-agent (default) @ kata-fraction ---",
-            "--- maven-resources-plugin:3.1.0:resources (default-resources) @ kata-fraction ---",
+            "--- maven-enforcer-plugin:3.0.0:enforce (enforce-maven) @ kata-fraction ---",
+            "--- jacoco-maven-plugin:0.8.7:prepare-agent (default) @ kata-fraction ---",
+            "--- maven-resources-plugin:3.2.0:resources (default-resources) @ kata-fraction ---",
             "--- maven-compiler-plugin:3.8.1:compile (default-compile) @ kata-fraction ---"
         );
     assertThat(result)
