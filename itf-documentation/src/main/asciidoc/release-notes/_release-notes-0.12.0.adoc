@@ -23,6 +23,7 @@
 :issue-212: https://github.com/khmarbaise/maven-it-extension/issues/212[Fixed #212]
 :issue-213: https://github.com/khmarbaise/maven-it-extension/issues/213[Fixed #213]
 :issue-214: https://github.com/khmarbaise/maven-it-extension/issues/214[Fixed #214]
+:issue-215: https://github.com/khmarbaise/maven-it-extension/issues/215[Fixed #215]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -67,5 +68,9 @@
  * {issue-212} - Upgrade smpp parent to 5.3.4
  * {issue-214} - Upgrade mockito-core to 3.12.4
  * {issue-???} - ??
+
+*Build Improvements*
+
+* {issue-215} - Lift build to JDK17.
 
 The full release notes can be found here {release_0_12_0}[Release 0.12.0].

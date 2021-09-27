@@ -270,8 +270,8 @@ as described or as you expected them to work.
 
 If you like to build the project from source yourself you need the following:
 
-* JDK 11+
-* Apache Maven 3.6.3
+* JDK 17+
+* Apache Maven 3.8.2+
 
 The whole project can be built via:
 ```bash
