@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"com.soebes.itf.jupiter.maven","l":"ProjectHelperTest"}]
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"com.soebes.itf.jupiter.maven","l":"ProjectHelperTest"}];updateSearchResults();
