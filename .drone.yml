@@ -12,7 +12,7 @@ platform:
 
 steps:
   - name: restore
-    image: meltwater/drone-cache:v1.1.0
+    image: meltwater/drone-cache:v1.2.1
     pull: always
     volumes:
       - name: jdk17m2cache
