@@ -53,7 +53,7 @@ steps:
         - itf-jupiter-extension/target/site/jacoco/jacoco.xml
         - itf-maven-plugin/target/site/jacoco/jacoco.xml
   - name: rebuild
-    image: meltwater/drone-cache:v1.1.0
+    image: meltwater/drone-cache:v1.2.1
     pull: always
     volumes:
       - name: jdk17m2cache
