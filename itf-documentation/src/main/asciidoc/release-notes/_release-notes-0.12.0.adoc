@@ -26,6 +26,7 @@
 :issue-215: https://github.com/khmarbaise/maven-it-extension/issues/215[Fixed #215]
 :issue-216: https://github.com/khmarbaise/maven-it-extension/issues/216[Fixed #216]
 :issue-217: https://github.com/khmarbaise/maven-it-extension/issues/217[Fixed #217]
+:issue-218: https://github.com/khmarbaise/maven-it-extension/issues/218[Fixed #218]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -71,6 +72,7 @@
  * {issue-214} - Upgrade mockito-core to 3.12.4
  * {issue-216} - Upgrade smpp parent to 5.3.5
  * {issue-217} - Upgrade meltwater/drone-cache to version 1.2.1
+ * {issue-218} - Upgrade to JUnit Jupiter 5.8.1
  * {issue-???} - ??
 
 *Build Improvements*
