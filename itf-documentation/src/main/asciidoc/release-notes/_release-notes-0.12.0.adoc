@@ -29,6 +29,7 @@
 :issue-218: https://github.com/khmarbaise/maven-it-extension/issues/218[Fixed #218]
 :issue-219: https://github.com/khmarbaise/maven-it-extension/issues/219[Fixed #219]
 :issue-221: https://github.com/khmarbaise/maven-it-extension/issues/221[Fixed #221]
+:issue-222: https://github.com/khmarbaise/maven-it-extension/issues/222[Fixed #222]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -82,5 +83,6 @@
 *Build Improvements*
 
 * {issue-215} - Lift build to JDK17.
+* {issue-222} - Use Maven Compiler Release only.
 
 The full release notes can be found here {release_0_12_0}[Release 0.12.0].
