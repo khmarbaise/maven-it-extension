@@ -31,6 +31,7 @@
 :issue-221: https://github.com/khmarbaise/maven-it-extension/issues/221[Fixed #221]
 :issue-222: https://github.com/khmarbaise/maven-it-extension/issues/222[Fixed #222]
 :issue-223: https://github.com/khmarbaise/maven-it-extension/issues/223[Fixed #223]
+:issue-224: https://github.com/khmarbaise/maven-it-extension/issues/224[Fixed #224]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -80,6 +81,7 @@
  * {issue-219} - Upgrade mockito-core to 4.0.0
  * {issue-221} - Upgrade Byte Buddy to 1.11.21
  * {issue-223} - Upgrade assertj-core 3.21.0
+ * {issue-224} - Upgrade meltwater/drone-cache to version 1.2.1
 * {issue-???} - ??
 
 *Build Improvements*
