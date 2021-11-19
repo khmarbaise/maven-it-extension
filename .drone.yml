@@ -32,7 +32,7 @@ steps:
 
   - name: mavenjdk17
     pull: always
-    image: docker.io/maven:3.8.2-openjdk-17-slim
+    image: docker.io/maven:3.8.3-openjdk-17-slim
     volumes:
       - name: jdk17m2cache
         path: /drone/src/.repo
