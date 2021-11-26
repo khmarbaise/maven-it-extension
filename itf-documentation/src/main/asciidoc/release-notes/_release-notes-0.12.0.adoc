@@ -33,6 +33,7 @@
 :issue-223: https://github.com/khmarbaise/maven-it-extension/issues/223[Fixed #223]
 :issue-224: https://github.com/khmarbaise/maven-it-extension/issues/224[Fixed #224]
 :issue-225: https://github.com/khmarbaise/maven-it-extension/issues/225[Fixed #225]
+:issue-226: https://github.com/khmarbaise/maven-it-extension/issues/226[Fixed #226]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 :pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
@@ -46,6 +47,7 @@
 
 *Details*
 
+ * {issue-226} - itf-assertj dependency is missing in README
  * {issue-210} - Removed unused dependency commons-compress.
  * {issue-??} - ?
 
@@ -62,6 +64,9 @@
 
 
 *Reporter of this release*
+
+ * Simon Martinelli {issue-226}
+   ** Reported that itf-assertj dependency is missing in README
 
  * Stephan Schroevers
    ** Fixed issue in README.md

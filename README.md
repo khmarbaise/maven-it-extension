@@ -73,8 +73,7 @@ The first thing before you can run integration tests is to add the following dep
 <project..>
    ...
   <dependencies>
-    ..
-    <dependency>
+   <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
       <scope>test</scope>
@@ -85,16 +84,27 @@ The first thing before you can run integration tests is to add the following dep
       <version>0.11.0</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+     <groupId>com.soebes.itf.jupiter.extension</groupId>
+     <artifactId>itf-assertj</artifactId>
+     <version>0.11.0</version>
+     <scope>test</scope>
+    </dependency>
   </dependencies>
   ..
 </project..>
 ```
-The first dependency `org.junit.jupiter:junit-jupiter-engine` is needed for JUnit Jupiter (We recommend the
-most recent version) working and the second one `com.soebes.itf.jupiter.extension:itf-jupiter-extension` is the extension
-to get support for running in general integration tests as described later. 
 
-The next part is to add `itf-maven-plugin` in your `pom.xml` file like this which handles the first part which
-is involved:
+The first dependency `org.junit.jupiter:junit-jupiter-engine` is needed for
+JUnit Jupiter (We recommend the most recent version) working and the second
+one `com.soebes.itf.jupiter.extension:itf-jupiter-extension` is the extension to
+get support for running in general integration tests as described later.
+Finally, you have to add `com.soebes.itf.jupiter.extension:itf-assertj` which
+contains custom assertions based on  [AssertJ][assertj].
+
+The next part is to add `itf-maven-plugin` in your `pom.xml` file like this
+which handles the first part which is involved:
+
 ```xml
 <project...>
   ..
@@ -199,6 +209,8 @@ import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
+
+import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
 @MavenJupiterExtension // <1>
 public class FirstMavenIT {
