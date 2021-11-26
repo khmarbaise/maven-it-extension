@@ -34,6 +34,7 @@
 :issue-224: https://github.com/khmarbaise/maven-it-extension/issues/224[Fixed #224]
 :issue-225: https://github.com/khmarbaise/maven-it-extension/issues/225[Fixed #225]
 :issue-226: https://github.com/khmarbaise/maven-it-extension/issues/226[Fixed #226]
+:issue-227: https://github.com/khmarbaise/maven-it-extension/issues/227[Fixed #227]
 :pr-211: https://github.com/khmarbaise/maven-it-extension/pull/211[Pull request #211]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
@@ -89,5 +90,6 @@
 
 * {issue-215} - Lift build to JDK17.
 * {issue-222} - Use Maven Compiler Release only.
+* {issue-227} - Upgrade to Maven 3.8.4
 
 The full release notes can be found here {release_0_12_0}[Release 0.12.0].
