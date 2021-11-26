@@ -34,8 +34,8 @@
 :issue-224: https://github.com/khmarbaise/maven-it-extension/issues/224[Fixed #224]
 :issue-225: https://github.com/khmarbaise/maven-it-extension/issues/225[Fixed #225]
 :issue-226: https://github.com/khmarbaise/maven-it-extension/issues/226[Fixed #226]
+:pr-211: https://github.com/khmarbaise/maven-it-extension/pull/211[Pull request #211]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
-:pr-??: https://github.com/khmarbaise/maven-it-extension/pull/??[Pull request #??]
 
 :release_0_12_0: https://github.com/khmarbaise/maven-it-extension/milestone/12?closed=1
 
@@ -49,32 +49,26 @@
 
  * {issue-226} - itf-assertj dependency is missing in README
  * {issue-210} - Removed unused dependency commons-compress.
+ * {pr-211} - Add @MavenTest annotation to README example
  * {issue-??} - ?
 
 *Breaking Changes*
 
- * {issue-XXX} - Remove deprecated marked code.
-   ** MavenProjectResult
-   *** Method `getBaseDir()` has been removed.
-   ** `MavenExecutionResult`
-   *** Method `isSuccesful()` has been removed
-   *** `ExecutionResult`
-   **** `Error` has been removed. Based on that we have to remove
-        `MavenExecutionResult.isError()` as well.
-
+ * {issue-XXX} - XXX
+   ** ????
 
 *Reporter of this release*
 
- * Simon Martinelli {issue-226}
+ * https://github.com/simasch[Simon Martinelli] {issue-226}
    ** Reported that itf-assertj dependency is missing in README
 
- * Stephan Schroevers
-   ** Fixed issue in README.md
+ * https://github.com/Stephan202[Stephan Schroevers]
+   ** Reported: Add @MavenTest annotation to README example
 
 *Contributors of this release*
 
- * Stephan Schroevers
-   ** Fixed issue in README.md
+ * https://github.com/Stephan202[Stephan Schroevers] with {pr-211}
+   ** Add @MavenTest annotation to README example
 
 *Dependency Upgrades*
 
