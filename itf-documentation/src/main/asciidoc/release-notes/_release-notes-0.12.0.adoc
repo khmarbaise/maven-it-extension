@@ -35,6 +35,7 @@
 :issue-225: https://github.com/khmarbaise/maven-it-extension/issues/225[Fixed #225]
 :issue-226: https://github.com/khmarbaise/maven-it-extension/issues/226[Fixed #226]
 :issue-227: https://github.com/khmarbaise/maven-it-extension/issues/227[Fixed #227]
+:issue-228: https://github.com/khmarbaise/maven-it-extension/issues/228[Fixed #228]
 :pr-211: https://github.com/khmarbaise/maven-it-extension/pull/211[Pull request #211]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
@@ -84,6 +85,7 @@
  * {issue-223} - Upgrade assertj-core 3.21.0
  * {issue-224} - Upgrade meltwater/drone-cache to version 1.2.2
  * {issue-225} - Upgrade to Maven 3.8.3
+ * {issue-228} - Upgrade to JUnit Jupiter 5.8.2
 * {issue-???} - ??
 
 *Build Improvements*
