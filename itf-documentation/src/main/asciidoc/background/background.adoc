@@ -742,7 +742,7 @@ This is:
 
 === Support for running with several Maven Versions
 
- * Currently we are limited to run under the Maven version which is used by
+ * Actually we are limited to run under the Maven version which is used by
    running the integration tests.
 
  * We need to consider where we ran tests with different versions of Maven to check
@@ -752,6 +752,12 @@ This is:
  ** Where to download the appropriate Apache Maven versions?
  ** Handle each test case separately into a separate directory to
     keep them independent.
+
+The following example would describe a test case which runs the test case
+`third_test_case` two times. The first run should be done with Apache Maven 3.0.5
+and the second run with Apache Maven 3.3.9. Based on this the first run should be
+done within a separate directory which might be named like `MVN_3_0_5_third_test_case`
+and the second one `MVN_3_3_9_third_test_case`.
 
 [source,java]
 .MultiVersionIT.java
