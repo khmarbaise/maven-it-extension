@@ -106,7 +106,11 @@ class DirectoryResolverResult {
 
 
     File intermediate = new File(this.targetTestClassesDirectory, toFullyQualifiedPath);
-    if (mavenProject.isPresent()) {
+    Optional<MavenSourceProject> mavenSourceProject = AnnotationHelper.findMavenSourceProjectAnnotation(context);
+
+    if (mavenSourceProject.isPresent()) {
+      this.sourceMavenProject = new File(this.targetTestClassesDirectory, mavenSourceProject.get().value());
+    } else if (mavenProject.isPresent()) {
       MavenProject mavenProjectAnnotation = mavenProject.get().getAnnotation(MavenProject.class);
       this.sourceMavenProject = new File(intermediate, mavenProjectAnnotation.value());
     } else {

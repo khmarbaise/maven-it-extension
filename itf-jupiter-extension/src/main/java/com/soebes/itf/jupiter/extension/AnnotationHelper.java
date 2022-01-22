@@ -151,6 +151,20 @@ class AnnotationHelper {
     return Optional.empty();
   }
 
+  private static <T extends Annotation> Optional<T> findAnnotationInHierarchy(ExtensionContext context,
+                                                   Class<T> annotationClass) {
+    Optional<ExtensionContext> current = Optional.of(context);
+    while (current.isPresent()) {
+      ExtensionContext currentContext = current.get();
+      Optional<T> annotation = AnnotationSupport.findAnnotation(currentContext.getElement(), annotationClass);
+      if (annotation.isPresent()) {
+        return annotation;
+      }
+      current = currentContext.getParent();
+    }
+    return Optional.empty();
+  }
+
   static Optional<Class<?>> findMavenRepositoryAnnotation(ExtensionContext context) {
     return findAnnotation(context, MavenRepository.class);
   }
@@ -161,6 +175,10 @@ class AnnotationHelper {
 
   static Optional<Class<?>> findMavenPredefinedRepositoryAnnotation(ExtensionContext context) {
     return findAnnotation(context, MavenPredefinedRepository.class);
+  }
+
+  static Optional<MavenSourceProject> findMavenSourceProjectAnnotation(ExtensionContext context) {
+    return findAnnotationInHierarchy(context, MavenSourceProject.class);
   }
 
 }
