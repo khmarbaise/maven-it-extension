@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.soebes.smpp</groupId>
     <artifactId>smpp</artifactId>
-    <version>2.0.0</version>
+    <version>5.3.7</version>
   </parent>
 
   <groupId>com.soebes.maven.plugins</groupId>
@@ -24,7 +24,7 @@
   </prerequisites>
 
   <properties>
-    <maven-plugin-plugin.version>3.4</maven-plugin-plugin.version>
+    <maven-plugin-plugin.version>3.6.4</maven-plugin-plugin.version>
     <gmaven-plugin.version>1.5</gmaven-plugin.version>
     <scmpublish.content>target/site/</scmpublish.content>
   </properties>
@@ -75,6 +75,21 @@
         <version>${maven-plugin-plugin.version}</version>
         <scope>provided</scope>
       </dependency>
+      <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>7.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>3.21.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>4.2.0</version>
+      </dependency>
 
     </dependencies>
   </dependencyManagement>
@@ -83,16 +98,6 @@
   <build>
     <pluginManagement>
       <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>3.2.0</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>3.0.0</version>
-        </plugin>
         <plugin>
           <groupId>org.codehaus.gmaven</groupId>
           <artifactId>gmaven-plugin</artifactId>
@@ -116,10 +121,6 @@
           <artifactId>maven-plugin-plugin</artifactId>
           <version>${maven-plugin-plugin.version}</version>
         </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
-        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -128,7 +129,7 @@
       <plugin>
         <groupId>org.codehaus.plexus</groupId>
         <artifactId>plexus-component-metadata</artifactId>
-        <version>1.6</version>
+        <version>2.1.0</version>
         <executions>
           <execution>
             <id>descriptors</id>
@@ -166,69 +167,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-        <configuration>
-          <reportPlugins>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-project-info-reports-plugin</artifactId>
-              <version>${maven-project-info-report-plugin.version}</version>
-            </plugin>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-plugin-plugin</artifactId>
-              <version>${maven-plugin-plugin.version}</version>
-            </plugin>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-invoker-plugin</artifactId>
-            </plugin>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-surefire-report-plugin</artifactId>
-            </plugin>
-            <plugin>
-              <groupId>org.codehaus.mojo</groupId>
-              <artifactId>jdepend-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-              <groupId>org.codehaus.mojo</groupId>
-              <artifactId>versions-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-failsafe-plugin</artifactId>
-            </plugin>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-javadoc-plugin</artifactId>
-              <version>${maven-javadoc-plugin.version}</version>
-              <reportSets>
-                <reportSet>
-                  <id>default</id>
-                  <reports>
-                    <report>javadoc</report>
-                    <report>test-javadoc</report>
-                  </reports>
-                </reportSet>
-              </reportSets>
-            </plugin>
-          </reportPlugins>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.tinyjee.dim</groupId>
-        <artifactId>doxia-include-macro</artifactId>
-        <version>1.1</version>
-        <executions>
-          <execution>
-            <id>initialize-doxia-include-macro</id>
-            <phase>pre-site</phase>
-            <goals>
-              <goal>initialize</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
@@ -342,7 +280,7 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>mrm-maven-plugin</artifactId>
-            <version>1.0-beta-2</version>
+            <version>1.3.0</version>
             <executions>
               <execution>
                 <goals>

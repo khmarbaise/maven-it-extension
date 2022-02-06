@@ -132,7 +132,7 @@ class BasicIT {
    * including their transitive dependencies.
    * <p>
    * The given test project has a single dependency but no code at all.
-   * The single dependency is <a href="https://search.maven.org/artifact/junit/junit/4.13/jar">junit</a>
+   * The single dependency is <a href="https://search.maven.org/artifact/junit/junit/4.13.2/jar">junit</a>
    * which has a single dependency <a href="https://search.maven.org/artifact/org.hamcrest/hamcrest-core/1.3/jar">hamcrest-core</a>
    * (scope:compile). Furthermore the hamcrest-core has a
    * <a href="https://search.maven.org/artifact/org.hamcrest/hamcrest-parent/1.3/pom">hamcrest-parent</a>
@@ -165,10 +165,10 @@ class BasicIT {
 
     File junit = new File(itfRepo, "junit/junit");
     assertThat(junit).isDirectory().satisfies(isnf -> {
-      assertThat(new File(isnf, "4.13")).isDirectory().satisfies(v4_13 -> {
+      assertThat(new File(isnf, "4.13.2")).isDirectory().satisfies(v4_13 -> {
         assertThat(v4_13).satisfies(file -> {
-          assertThat(new File(file, "junit-4.13.jar")).isNotEmpty();
-          assertThat(new File(file, "junit-4.13.pom")).isNotEmpty();
+          assertThat(new File(file, "junit-4.13.2.jar")).isNotEmpty();
+          assertThat(new File(file, "junit-4.13.2.pom")).isNotEmpty();
         });
       });
     });

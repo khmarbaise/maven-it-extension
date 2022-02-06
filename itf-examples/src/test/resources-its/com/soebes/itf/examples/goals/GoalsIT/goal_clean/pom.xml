@@ -29,7 +29,7 @@
   <parent>
     <groupId>com.soebes.smpp</groupId>
     <artifactId>smpp</artifactId>
-    <version>5.3.4</version>
+    <version>5.3.7</version>
   </parent>
 
   <groupId>com.soebes.katas</groupId>
@@ -46,7 +46,7 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>5.6.2</version>
+        <version>5.8.2</version>
         <scope>import</scope>
         <type>pom</type>
       </dependency>
@@ -100,7 +100,7 @@
         <plugin>
           <groupId>com.soebes.maven.plugins</groupId>
           <artifactId>echo-maven-plugin</artifactId>
-          <version>0.4.0</version>
+          <version>0.5.0</version>
         </plugin>
       </plugins>
     </pluginManagement>

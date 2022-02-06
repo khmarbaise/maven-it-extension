@@ -36,9 +36,9 @@ class MetaAnnotationProfileIT {
         .out()
         .info()
         .containsSubsequence(
-            "--- echo-maven-plugin:0.4.0:echo (echo-in-profile-1) @ kata-fraction ---",
-            "--- echo-maven-plugin:0.4.0:echo (echo-in-profile-2) @ kata-fraction ---",
-            "--- echo-maven-plugin:0.4.0:echo (echo-in-profile-3) @ kata-fraction ---"
+            "--- echo-maven-plugin:0.5.0:echo (echo-in-profile-1) @ kata-fraction ---",
+            "--- echo-maven-plugin:0.5.0:echo (echo-in-profile-2) @ kata-fraction ---",
+            "--- echo-maven-plugin:0.5.0:echo (echo-in-profile-3) @ kata-fraction ---"
         );
     assertThat(result)
         .isSuccessful()
