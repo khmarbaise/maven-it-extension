@@ -40,6 +40,7 @@
 :issue-238: https://github.com/khmarbaise/maven-it-extension/issues/238[Fixed #238]
 :issue-249: https://github.com/khmarbaise/maven-it-extension/issues/249[Fixed #249]
 :issue-256: https://github.com/khmarbaise/maven-it-extension/issues/256[Fixed #256]
+:issue-257: https://github.com/khmarbaise/maven-it-extension/issues/257[Fixed #257]
 :pr-211: https://github.com/khmarbaise/maven-it-extension/pull/211[Pull request #211]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
@@ -93,6 +94,7 @@
  * {issue-229} - Upgrade mockito-core to 4.2.0
  * {issue-249} - Upgrade dependencies in IT's
  * {issue-256} - Upgrade dependencies in IT's - Part II
+ * {issue-257} - Upgrade dependencies in IT's - Part III
  * {issue-???} - ??
 
 *Build Improvements*
