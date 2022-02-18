@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"com.soebes.itf.maven.plugin.failure","l":"FailureIT"}];updateSearchResults();

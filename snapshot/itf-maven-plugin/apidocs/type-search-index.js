@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"com.soebes.itf.maven.plugin","l":"Helper"},{"p":"com.soebes.itf.maven.plugin","l":"HelpMojo"},{"p":"com.soebes.itf.maven.plugin","l":"InstallMojo"},{"p":"com.soebes.itf.maven.plugin","l":"MetadataUtils"},{"p":"com.soebes.itf.maven.plugin","l":"ResourcesMojo"}];updateSearchResults();
