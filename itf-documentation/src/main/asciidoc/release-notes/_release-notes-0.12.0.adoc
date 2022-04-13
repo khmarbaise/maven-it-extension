@@ -44,6 +44,7 @@
 :issue-258: https://github.com/khmarbaise/maven-it-extension/issues/258[Fixed #258]
 :issue-261: https://github.com/khmarbaise/maven-it-extension/issues/261[Fixed #261]
 :issue-263: https://github.com/khmarbaise/maven-it-extension/issues/263[Fixed #263]
+:issue-230: https://github.com/khmarbaise/maven-it-extension/issues/230[Fixed #230]
 :pr-211: https://github.com/khmarbaise/maven-it-extension/pull/211[Pull request #211]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
@@ -60,6 +61,7 @@
  * {issue-226} - itf-assertj dependency is missing in README
  * {issue-210} - Removed unused dependency commons-compress.
  * {pr-211} - Add @MavenTest annotation to README example
+ * {issue-230} - Get rid of commons-io
  * {issue-??} - ?
 
 *Breaking Changes*

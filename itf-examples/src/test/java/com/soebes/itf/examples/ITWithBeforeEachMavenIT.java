@@ -23,13 +23,14 @@ import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.soebes.itf.jupiter.maven.MavenProjectResult;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.TrueFileFilter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
@@ -55,11 +56,13 @@ class ITWithBeforeEachMavenIT {
 
   }
 
-  private List<String> createElements(File xdirectory) {
-    Collection<File> expectedCollectedFiles = FileUtils.listFilesAndDirs(xdirectory, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
-
-    List<String> expectedElements = expectedCollectedFiles.stream().map(p -> p.toString().replace(xdirectory.getAbsolutePath(), "")).collect(toList());
-    return expectedElements;
+  private List<String> createElements(File xdirectory) throws IOException {
+    try (Stream<Path> walk = Files.walk(xdirectory.toPath())) {
+      List<Path> expectedCollectedFiles = walk.filter(s -> Files.isRegularFile(s) || Files.isDirectory(s))
+          .collect(Collectors.toList());
+      List<String> expectedElements = expectedCollectedFiles.stream().map(p -> p.toString().replace(xdirectory.getAbsolutePath(), "")).collect(toList());
+      return expectedElements;
+    }
   }
 
   //FIXME: @RepeatedTest(value = 2) Does not work currently but it should work!

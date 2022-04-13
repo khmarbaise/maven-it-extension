@@ -25,7 +25,6 @@ import com.soebes.itf.jupiter.maven.MavenExecutionResult.ExecutionResult;
 import com.soebes.itf.jupiter.maven.MavenLog;
 import com.soebes.itf.jupiter.maven.MavenProjectResult;
 import com.soebes.itf.jupiter.maven.ProjectHelper;
-import org.apache.commons.io.FileUtils;
 import org.apache.maven.model.Model;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.junit.jupiter.api.condition.OS;
@@ -43,7 +42,6 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -113,20 +111,21 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
         directoryResolverResult.getProjectDirectory().mkdirs();
         directoryResolverResult.getCacheDirectory().mkdirs();
 
-        FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),
-            directoryResolverResult.getProjectDirectory());
-        FileUtils.copyDirectory(directoryResolverResult.getTargetItfRepoDirectory(),
-            directoryResolverResult.getCacheDirectory());
+        PathUtils.copyDirectoryRecursively(directoryResolverResult.getSourceMavenProject().toPath(),
+            directoryResolverResult.getProjectDirectory().toPath());
+
+        PathUtils.copyDirectoryRecursively(directoryResolverResult.getTargetItfRepoDirectory().toPath(),
+            directoryResolverResult.getCacheDirectory().toPath());
       }
     } else {
-      FileUtils.deleteQuietly(directoryResolverResult.getProjectDirectory());
+      PathUtils.deleteRecursively(directoryResolverResult.getProjectDirectory().toPath());
       directoryResolverResult.getProjectDirectory().mkdirs();
       directoryResolverResult.getCacheDirectory().mkdirs();
 
-      FileUtils.copyDirectory(directoryResolverResult.getSourceMavenProject(),
-          directoryResolverResult.getProjectDirectory());
-      FileUtils.copyDirectory(directoryResolverResult.getTargetItfRepoDirectory(),
-          directoryResolverResult.getCacheDirectory());
+      PathUtils.copyDirectoryRecursively(directoryResolverResult.getSourceMavenProject().toPath(),
+          directoryResolverResult.getProjectDirectory().toPath());
+      PathUtils.copyDirectoryRecursively(directoryResolverResult.getTargetItfRepoDirectory().toPath(),
+          directoryResolverResult.getCacheDirectory().toPath());
     }
 
   }
@@ -189,15 +188,15 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     //Copy ".predefined-repo" into ".m2/repository"
     Optional<File> predefinedRepository = directoryResolverResult.getPredefinedRepository();
     if (predefinedRepository.isPresent()) {
-      FileUtils.copyDirectory(predefinedRepository.get(),
-          directoryResolverResult.getCacheDirectory());
+      PathUtils.copyDirectoryRecursively(predefinedRepository.get().toPath(),
+          directoryResolverResult.getCacheDirectory().toPath());
     } else {
       boolean annotationPresent = methodName.isAnnotationPresent(MavenPredefinedRepository.class);
       if (annotationPresent) {
         MavenPredefinedRepository annotation = methodName.getAnnotation(MavenPredefinedRepository.class);
         File predefinedRepoFile = new File(directoryResolverResult.getSourceMavenProject(), annotation.value());
-        FileUtils.copyDirectory(predefinedRepoFile,
-            directoryResolverResult.getCacheDirectory());
+        PathUtils.copyDirectoryRecursively(predefinedRepoFile.toPath(),
+            directoryResolverResult.getCacheDirectory().toPath());
       }
     }
 
