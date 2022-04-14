@@ -19,61 +19,102 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
+import static org.apiguardian.api.API.Status.INTERNAL;
+
+import com.soebes.itf.jupiter.extension.exceptions.PathUtilException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.apiguardian.api.API;
 
+/**
+ * @author Karl Heinz Marbaise
+ */
+@API(status = INTERNAL, since = "0.12.0")
 public class PathUtils {
 
   private PathUtils() {
   }
 
-  public static void deleteRecursively(Path target) throws IOException {
-    if (!Files.exists(target)) {
-      return;
-    }
-    try (Stream<Path> walk = Files.walk(target)) {
-      List<Path> allElements = walk.filter(s -> Files.isRegularFile(s) || Files.isDirectory(s))
-          .collect(Collectors.toList());
-
-      Collections.reverse(allElements);
-
-      allElements.stream().forEachOrdered(s -> {
-        System.out.println("Delete s = " + s);
-        try {
-          if (Files.exists(s)) {
-            Files.delete(s);
-          }
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-      });
+  public static Path copy(Path source, Path target) {
+    try {
+      return Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+    } catch (IOException e) {
+      throw new PathUtilException(e);
     }
   }
 
-  public static void copyDirectoryRecursively(Path source, Path target) throws IOException {
+  public static Consumer<Path> deletePath = toDelete -> {
+    try {
+      Files.delete(toDelete);
+    } catch (IOException e) {
+      throw new PathUtilException(e);
+    }
+  };
+
+  public static Path createDirectory(Path directoryToCreate) {
+    try {
+      return Files.createDirectory(directoryToCreate);
+    } catch (IOException e) {
+      throw new PathUtilException(e);
+    }
+  }
+
+  public static Stream<Path> list(Path toList) {
+    try {
+      return Files.list(toList);
+    } catch (IOException e) {
+      throw new PathUtilException(e);
+    }
+  }
+
+  public static Stream<Path> walk(Path toWalk) {
+    try {
+      return Files.walk(toWalk);
+    } catch (IOException e) {
+      throw new PathUtilException(e);
+    }
+  }
+
+  private static final Predicate<Path> FILE = Files::isRegularFile;
+
+  private static final Predicate<Path> DIRECTORY = Files::isDirectory;
+
+  private static final Predicate<Path> FILE_OR_DIRECTORY = s -> FILE.or(DIRECTORY).test(s);
+
+  public static void deleteRecursively(Path target) {
+    if (!Files.exists(target)) {
+      return;
+    }
+
+    try (Stream<Path> walk = walk(target)) {
+      List<Path> allElements = walk.filter(FILE_OR_DIRECTORY).collect(Collectors.toList());
+
+      Collections.reverse(allElements);
+
+      allElements.stream().filter(Files::exists).forEachOrdered(deletePath);
+    }
+  }
+
+  public static void copyDirectoryRecursively(Path source, Path target) {
     if (!Files.isDirectory(source)) {
-      Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+      copy(source, target);
       return;
     }
 
     if (Files.notExists(target)) {
-      Files.createDirectory(target);
+      createDirectory(target);
     }
 
-    try (Stream<Path> paths = Files.list(source)) {
-      paths.forEachOrdered(s -> {
-        try {
-          copyDirectoryRecursively(s, target.resolve(source.relativize(s)));
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-      });
+    try (Stream<Path> paths = list(source)) {
+      paths.forEachOrdered(s -> copyDirectoryRecursively(s, target.resolve(source.relativize(s))));
     }
   }
 }

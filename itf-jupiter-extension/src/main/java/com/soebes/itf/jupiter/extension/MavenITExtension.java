@@ -26,7 +26,6 @@ import com.soebes.itf.jupiter.maven.MavenLog;
 import com.soebes.itf.jupiter.maven.MavenProjectResult;
 import com.soebes.itf.jupiter.maven.ProjectHelper;
 import org.apache.maven.model.Model;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
@@ -71,10 +70,11 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
   /**
    * The command line options which are given is no annotation at all is defined.
    */
-  private static final List<String> DEFAULT_COMMAND_LINE_OPTIONS = Arrays.asList(MavenCLIOptions.BATCH_MODE, MavenCLIOptions.SHOW_VERSION, MavenCLIOptions.ERRORS);
+  private static final List<String> DEFAULT_COMMAND_LINE_OPTIONS = Arrays.asList(MavenCLIOptions.BATCH_MODE,
+      MavenCLIOptions.SHOW_VERSION, MavenCLIOptions.ERRORS);
 
   @Override
-  public void beforeEach(ExtensionContext context) throws IOException {
+  public void beforeEach(ExtensionContext context) {
     Class<?> testClass = context.getTestClass()
         .orElseThrow(() -> new ExtensionConfigurationException("MavenITExtension is only supported for classes."));
 
@@ -86,8 +86,6 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     //TODO: What happends if the directory has been created by a previous run?
     // should we delete that structure here? Maybe we should make this configurable.
     mavenItTestCaseBaseDirectory.mkdirs();
-
-    Method methodName = context.getTestMethod().orElseThrow(() -> new IllegalStateException("No method given"));
 
     StorageHelper storageHelper = new StorageHelper(context);
     storageHelper.save(targetTestClassesDirectory, mavenItTestCaseBaseDirectory, DirectoryHelper.getTargetDir());
@@ -168,7 +166,7 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
 
   @Override
   public void beforeTestExecution(ExtensionContext context)
-      throws IOException, InterruptedException, XmlPullParserException {
+      throws IOException, InterruptedException {
 
     Method methodName = context.getTestMethod().orElseThrow(() -> new IllegalStateException("No method given"));
 
