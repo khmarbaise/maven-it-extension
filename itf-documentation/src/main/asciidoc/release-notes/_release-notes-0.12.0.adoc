@@ -45,6 +45,7 @@
 :issue-261: https://github.com/khmarbaise/maven-it-extension/issues/261[Fixed #261]
 :issue-263: https://github.com/khmarbaise/maven-it-extension/issues/263[Fixed #263]
 :issue-230: https://github.com/khmarbaise/maven-it-extension/issues/230[Fixed #230]
+:issue-265: https://github.com/khmarbaise/maven-it-extension/issues/265[Fixed #265]
 :issue-267: https://github.com/khmarbaise/maven-it-extension/issues/267[Fixed #267]
 :issue-268: https://github.com/khmarbaise/maven-it-extension/issues/268[Fixed #268]
 
@@ -106,6 +107,7 @@
  * {issue-261} - Upgrade mockito-core to 4.4.0
  * {issue-267} - Remove unused dependencies.
  * {issue-268} - Upgrade smpp parent 5.3.9
+ * {issue-265} - Upgrade JUnit Jupiter 5.9.0
  * {issue-???} - ??
 
 *Build Improvements*
