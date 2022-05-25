@@ -196,6 +196,7 @@
     <module>itf-extension-maven</module>
     <module>itf-examples</module>
     <module>itf-documentation</module>
+    <module>itf-bom</module>
   </modules>
 
 
