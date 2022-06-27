@@ -46,6 +46,7 @@
 :issue-263: https://github.com/khmarbaise/maven-it-extension/issues/263[Fixed #263]
 :issue-230: https://github.com/khmarbaise/maven-it-extension/issues/230[Fixed #230]
 :issue-267: https://github.com/khmarbaise/maven-it-extension/issues/267[Fixed #267]
+:issue-268: https://github.com/khmarbaise/maven-it-extension/issues/268[Fixed #268]
 
 :pr-211: https://github.com/khmarbaise/maven-it-extension/pull/211[Pull request #211]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
@@ -104,6 +105,7 @@
  * {issue-257} - Upgrade dependencies in IT's - Part III
  * {issue-261} - Upgrade mockito-core to 4.4.0
  * {issue-267} - Remove unused dependencies.
+ * {issue-268} - Upgrade smpp parent 5.3.9
  * {issue-???} - ??
 
 *Build Improvements*
