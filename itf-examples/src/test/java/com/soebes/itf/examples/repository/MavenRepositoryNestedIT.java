@@ -25,7 +25,8 @@ import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenProjectResult;
 import org.junit.jupiter.api.Nested;
 
-import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -35,9 +36,9 @@ class MavenRepositoryNestedIT {
 
   @MavenTest
   void repository_in_class_directory(MavenProjectResult result) {
-    File cacheDirectory = result.getTargetCacheDirectory();
-    File expected = new File("target/maven-it/com/soebes/itf/examples/repository/MavenRepositoryNestedIT/.m2/repository");
-    assertThat(cacheDirectory.getAbsoluteFile()).isEqualTo(expected.getAbsoluteFile());
+    Path cacheDirectory = result.getTargetCacheDirectory();
+    Path expected = Paths.get("target/maven-it/com/soebes/itf/examples/repository/MavenRepositoryNestedIT/.m2/repository");
+    assertThat(cacheDirectory.toAbsolutePath()).isEqualTo(expected.toAbsolutePath());
   }
 
   @Nested
@@ -45,9 +46,9 @@ class MavenRepositoryNestedIT {
 
     @MavenTest
     void repository_in_enclosing_class_directory(MavenProjectResult result) {
-      File cacheDirectory = result.getTargetCacheDirectory();
-      File expected = new File("target/maven-it/com/soebes/itf/examples/repository/MavenRepositoryNestedIT/.m2/repository");
-      assertThat(cacheDirectory.getAbsoluteFile()).isEqualTo(expected.getAbsoluteFile());
+      Path cacheDirectory = result.getTargetCacheDirectory();
+      Path expected = Paths.get("target/maven-it/com/soebes/itf/examples/repository/MavenRepositoryNestedIT/.m2/repository");
+      assertThat(cacheDirectory.toAbsolutePath()).isEqualTo(expected.toAbsolutePath());
     }
   }
 }

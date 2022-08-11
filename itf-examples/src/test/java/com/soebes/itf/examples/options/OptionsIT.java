@@ -25,10 +25,9 @@ import com.soebes.itf.jupiter.extension.MavenOption;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -127,7 +126,7 @@ class OptionsIT {
         .out()
         .debug().isEmpty();
 
-    File baseDir = result.getMavenProjectResult().getTargetProjectDirectory();
+    Path baseDir = result.getMavenProjectResult().getTargetProjectDirectory();
     /*
        Ony the following lines will be written to the resulting test.log:
         Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
@@ -136,7 +135,7 @@ class OptionsIT {
         Default locale: en_GB, platform encoding: UTF-8
         OS name: "mac os x", version: "10.14.6", arch: "x86_64", family: "mac"
      */
-    List<String> lines = Files.lines(Paths.get(baseDir.getPath(), "test.log")).collect(Collectors.toList());
+    List<String> lines = Files.lines(baseDir.resolve( "test.log")).collect(Collectors.toList());
     assertThat(lines).describedAs("The log container more than five lines.", lines).hasSize(5);
   }
 

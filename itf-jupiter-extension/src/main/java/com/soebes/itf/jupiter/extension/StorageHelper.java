@@ -27,7 +27,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
 
-import java.io.File;
+import java.nio.file.Path;
 
 /**
  * @author Karl Heinz Marbaise
@@ -57,7 +57,7 @@ final class StorageHelper {
     nameSpace.put(key, value);
   }
 
-  void save(File targetTestClassesDirectory, File mavenItTestCaseBaseDirectory, File targetDirectory) {
+  void save(Path targetTestClassesDirectory, Path mavenItTestCaseBaseDirectory, Path targetDirectory) {
     StorageHelper sh = new StorageHelper(context);
     sh.put(Storage.TARGET_MAVEN_IT_DIRECTORY, targetTestClassesDirectory);
     sh.put(Storage.MAVEN_IT_TESTCASE_BASEDIRECTORY, mavenItTestCaseBaseDirectory);

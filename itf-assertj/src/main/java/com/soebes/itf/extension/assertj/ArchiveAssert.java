@@ -24,8 +24,8 @@ import org.apiguardian.api.API;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +40,7 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
  * @author Karl Heinz Marbaise
  */
 @API(status = EXPERIMENTAL, since = "0.8.0")
-public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
+public class ArchiveAssert extends AbstractAssert<ArchiveAssert, Path> {
 
   private static final String CHECKING_EAR_FILE_NAMES = "Checking ear file names.";
   private static final String IOEXCEPTION_HAPPENED = "IOException happened. <%s> file:<%s>";
@@ -50,7 +50,7 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
 
   private final MavenProjectResultAssert parent;
 
-  ArchiveAssert(File earFile, Model model, MavenProjectResultAssert parent) {
+  ArchiveAssert(Path earFile, Model model, MavenProjectResultAssert parent) {
     super(earFile, ArchiveAssert.class);
     this.model = model;
     this.includes = new ArrayList<>();
@@ -82,7 +82,7 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
   }
 
   public ArchiveAssert doesNotContain(String... files) {
-    try (JarFile jarFile = new JarFile(this.actual)) {
+    try (JarFile jarFile = new JarFile(this.actual.toFile())) {
       List<String> localIncludes = Arrays.asList(files);
       Assertions.assertThat(jarFile.stream())
           .describedAs(CHECKING_EAR_FILE_NAMES)
@@ -99,7 +99,7 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
   }
 
   public ArchiveAssert containsOnlyOnce(String... files) {
-    try (JarFile jarFile = new JarFile(this.actual)) {
+    try (JarFile jarFile = new JarFile(this.actual.toFile())) {
       Assertions.assertThat(jarFile.stream())
           .describedAs(CHECKING_EAR_FILE_NAMES)
           .extracting(ZipEntry::getName)
@@ -111,7 +111,7 @@ public class ArchiveAssert extends AbstractAssert<ArchiveAssert, File> {
   }
 
   public ArchiveAssert containsOnly(String... files) {
-    try (JarFile jarFile = new JarFile(this.actual)) {
+    try (JarFile jarFile = new JarFile(this.actual.toFile())) {
       Assertions.assertThat(jarFile.stream())
           .describedAs(CHECKING_EAR_FILE_NAMES)
           .extracting(ZipEntry::getName)

@@ -23,11 +23,12 @@ import com.soebes.itf.jupiter.maven.MavenProjectResult;
 import com.soebes.itf.jupiter.maven.ProjectHelper;
 import org.apache.maven.model.Model;
 import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.api.AbstractFileAssert;
+import org.assertj.core.api.AbstractPathAssert;
 import org.assertj.core.api.Assertions;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.jar.JarFile;
@@ -67,31 +68,32 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
 
   public MavenProjectResultAssert hasTarget() {
     isNotNull();
-    File target = new File(this.actual.getTargetProjectDirectory(), TARGET);
-    if (!target.isDirectory() || !target.exists() || target.isHidden()) {
-      failWithMessage(THE_TARGET_DIRECTORY_DOES_NOT_EXIST, actual.getTargetBaseDirectory().getAbsolutePath());
+    Path target = this.actual.getTargetProjectDirectory().resolve(TARGET);
+
+    if (!isDirectory(target) || !exists(target) || isHidden(target)) {
+      failWithMessage(THE_TARGET_DIRECTORY_DOES_NOT_EXIST, actual.getTargetBaseDirectory().toAbsolutePath());
     }
     return myself;
   }
 
   public MavenProjectResultAssert has(String directory) {
     isNotNull();
-    File target = new File(this.actual.getTargetProjectDirectory(), directory);
-    if (!target.isDirectory() || !target.exists() || target.isHidden()) {
+    Path target = this.actual.getTargetProjectDirectory().resolve(directory);
+    if (!isDirectory(target) || !exists(target) || isHidden(target)) {
       failWithMessage(THE_TARGET_DIRECTORY_DOES_NOT_EXIST, directory,
-          actual.getTargetBaseDirectory().getAbsolutePath());
+          actual.getTargetBaseDirectory().toAbsolutePath());
     }
     return myself;
   }
 
-  public AbstractFileAssert<?> withFile(String fileName) {
+  public AbstractPathAssert<?> withFile(String fileName) {
     isNotNull();
     //FIXME: wrong way...need to reconsider.
-    File target = new File(this.actual.getTargetProjectDirectory(), TARGET);
-    if (!target.isDirectory() || !target.exists() || target.isHidden()) {
-      failWithMessage(THE_TARGET_DIRECTORY_DOES_NOT_EXIST, actual.getTargetBaseDirectory().getAbsolutePath());
+    Path target = this.actual.getTargetProjectDirectory().resolve(TARGET);
+    if (!isDirectory(target) || !exists(target) || isHidden(target)) {
+      failWithMessage(THE_TARGET_DIRECTORY_DOES_NOT_EXIST, actual.getTargetBaseDirectory().toAbsolutePath());
     }
-    File fileNameFile = new File(target, fileName);
+    Path fileNameFile = target.resolve(fileName);
     return Assertions.assertThat(fileNameFile);
   }
 
@@ -99,11 +101,11 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     isNotNull();
 
     Model model = this.actual.getModel();
-    File target = new File(this.actual.getTargetProjectDirectory(), TARGET);
+    Path target = this.actual.getTargetProjectDirectory().resolve(TARGET);
     String artifact = model.getArtifactId() + "-" + model.getVersion() + ".ear";
-    File earFile = new File(target, artifact);
-    if (!earFile.isFile() || !earFile.canRead() || earFile.isHidden()) {
-      failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, earFile.getAbsolutePath());
+    Path earFile = target.resolve(artifact);
+    if (!isRegularFile(earFile) || !isReadable(earFile) || isHidden(earFile)) {
+      failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, earFile.toAbsolutePath());
     }
 
     return new ArchiveAssert(earFile, this.actual.getModel(), this.myself);
@@ -114,11 +116,11 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     hasTarget();
 
     Model model = this.actual.getModel();
-    File target = new File(this.actual.getTargetProjectDirectory(), TARGET);
+    Path target = this.actual.getTargetProjectDirectory().resolve(TARGET);
     String artifact = model.getArtifactId() + "-" + model.getVersion() + ".jar";
-    File jarFile = new File(target, artifact);
-    if (!jarFile.isFile() && !jarFile.canRead()) {
-      failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, jarFile.getAbsolutePath());
+    Path jarFile = target.resolve(artifact);
+    if (!isRegularFile(jarFile) && !isReadable(jarFile)) {
+      failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, jarFile.toAbsolutePath());
     }
     return new ArchiveAssert(jarFile, this.actual.getModel(), this.myself);
   }
@@ -128,11 +130,11 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     hasTarget();
 
     Model model = this.actual.getModel();
-    File target = new File(this.actual.getTargetProjectDirectory(), TARGET);
+    Path target = this.actual.getTargetProjectDirectory().resolve(TARGET);
     String artifact = model.getArtifactId() + "-" + model.getVersion() + ".war";
-    File warFile = new File(target, artifact);
-    if (!warFile.isFile() && !warFile.canRead()) {
-      failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, warFile.getAbsolutePath());
+    Path warFile = target.resolve(artifact);
+    if (!isRegularFile(warFile) && !isReadable(warFile)) {
+      failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, warFile.toAbsolutePath());
     }
     return new ArchiveAssert(warFile, this.actual.getModel(), this.myself);
   }
@@ -142,11 +144,11 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     hasTarget();
 
     Model model = this.actual.getModel();
-    File target = new File(this.actual.getTargetProjectDirectory(), TARGET);
+    Path target = this.actual.getTargetProjectDirectory().resolve(TARGET);
     String artifact = model.getArtifactId() + "-" + model.getVersion() + ".rar";
-    File rarFile = new File(target, artifact);
-    if (!rarFile.isFile() && !rarFile.canRead()) {
-      failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, rarFile.getAbsolutePath());
+    Path rarFile = target.resolve(artifact);
+    if (!isRegularFile(rarFile) && !isReadable(rarFile)) {
+      failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, rarFile.toAbsolutePath());
     }
     return new ArchiveAssert(rarFile, this.actual.getModel(), this.myself);
   }
@@ -156,17 +158,17 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     hasTarget();
 
     Model model = this.actual.getModel();
-    File target = new File(this.actual.getTargetProjectDirectory(), TARGET);
+    Path target = this.actual.getTargetProjectDirectory().resolve(TARGET);
     String artifact = model.getArtifactId() + "-" + model.getVersion() + ".ear";
-    File earFile = new File(target, artifact);
+    Path earFile = target.resolve(artifact);
 
-    try (JarFile jarFile = new JarFile(earFile)) {
+    try (JarFile jarFile = new JarFile(earFile.toFile())) {
       if (!files.stream()
           .allMatch(fileEntry -> jarFile.stream().anyMatch(jarEntry -> fileEntry.equals(jarEntry.getName())))) {
         failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, files);
       }
     } catch (IOException e) {
-      failWithMessage("IOException happened. <%s> file:<%s>", e.getMessage(), earFile.getAbsolutePath());
+      failWithMessage("IOException happened. <%s> file:<%s>", e.getMessage(), earFile.toAbsolutePath());
     }
     return myself;
   }
@@ -176,14 +178,14 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
    * `target` directory. So it shouldn't be checked.
    *
    * @param moduleName The name of the module.
-   * @return ..
+   * @return {@link MavenProjectResultAssert}
    */
   public MavenProjectResultAssert hasModule(String moduleName) {
     isNotNull();
 
-    File moduleNameFile = new File(this.actual.getTargetProjectDirectory(), moduleName);
+    Path moduleNameFile = this.actual.getTargetProjectDirectory().resolve(moduleName);
 
-    if (!moduleNameFile.exists() || !moduleNameFile.isHidden() && !moduleNameFile.isDirectory()) {
+    if (!exists(moduleNameFile) || !isHidden(moduleNameFile) && !isDirectory(moduleNameFile)) {
       failWithMessage(EXPECT_HAVING_A_MODULE, moduleName);
     }
     return myself;
@@ -192,13 +194,13 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
   public MavenProjectResultAssert withModule(String moduleName) {
     isNotNull();
 
-    File moduleNameFile = new File(this.actual.getTargetProjectDirectory(), moduleName);
+    Path moduleNameFile = this.actual.getTargetProjectDirectory().resolve(moduleName);
 
-    if (!moduleNameFile.exists() || !moduleNameFile.isHidden() && !moduleNameFile.isDirectory()) {
+    if (!exists(moduleNameFile) || !isHidden(moduleNameFile) && !isDirectory(moduleNameFile)) {
       failWithMessage(EXPECT_HAVING_A_MODULE, moduleName);
     }
 
-    Model model = ProjectHelper.readProject(new File(moduleNameFile, "pom.xml"));
+    Model model = ProjectHelper.readProject(moduleNameFile.resolve("pom.xml"));
     //FIXME: Need to reconsider the following call. Maybe we need to use a different ProjectResult here?
     // because it conflicts with the assumption of MavenProjectResult.
     MavenProjectResult mavenProjectResult = new MavenProjectResult(moduleNameFile, moduleNameFile, this.actual.getTargetCacheDirectory(), model);
@@ -210,6 +212,30 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
   public MavenProjectResultAssert isEqualTo(Object expected) {
     objects.assertEqual(info, actual, expected);
     return myself;
+  }
+
+  private boolean isDirectory(Path path) {
+    return Files.isDirectory(path);
+  }
+
+  private boolean exists(Path path) {
+    return Files.exists(path);
+  }
+
+  private boolean isRegularFile(Path path) {
+    return Files.isRegularFile(path);
+  }
+
+  private boolean isHidden(Path path) {
+    try {
+      return Files.isHidden(path);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private boolean isReadable(Path path) {
+    return Files.isReadable(path);
   }
 
 }

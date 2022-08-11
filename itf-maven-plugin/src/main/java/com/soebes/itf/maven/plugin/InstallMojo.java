@@ -393,7 +393,7 @@ public class InstallMojo extends AbstractMojo {
    */
   private void copyParentPoms(File pomFile)
       throws MojoExecutionException {
-    Model model = ProjectHelper.readProject(pomFile);
+    Model model = ProjectHelper.readProject(pomFile.toPath());
     Parent parent = model.getParent();
     if (parent != null) {
       copyParentPoms(parent.getGroupId(), parent.getArtifactId(), parent.getVersion());

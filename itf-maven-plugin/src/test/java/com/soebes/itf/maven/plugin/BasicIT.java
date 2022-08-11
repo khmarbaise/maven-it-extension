@@ -27,6 +27,7 @@ import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import org.junit.jupiter.api.DisplayName;
 
 import java.io.File;
+import java.nio.file.Path;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 import static com.soebes.itf.jupiter.extension.MavenCLIOptions.DEBUG;
@@ -61,18 +62,18 @@ class BasicIT {
     assertThat(result).isSuccessful().project();
 
     //FIXME: The following should be made easier See https://github.com/khmarbaise/maven-it-extension/issues/39
-    File target = new File(result.getMavenProjectResult().getTargetProjectDirectory(), "target");
-    File itfRepo = new File(target, "itf-repo");
+    Path target = result.getMavenProjectResult().getTargetProjectDirectory().resolve( "target");
+    Path itfRepo = target.resolve( "itf-repo");
 
-    File install_should_not_fail = new File(itfRepo, "com/soebes/itf/maven/plugin/its/install_should_not_fail");
+    Path install_should_not_fail = itfRepo.resolve( "com/soebes/itf/maven/plugin/its/install_should_not_fail");
 
     assertThat(install_should_not_fail).isDirectory().satisfies(isnf -> {
-      assertThat(new File(isnf, "maven-metadata-local.xml")).isNotEmpty();
-      assertThat(new File(isnf, "1.0")).isDirectory().satisfies(v10 -> {
+      assertThat(isnf.resolve( "maven-metadata-local.xml")).isNotEmptyFile();
+      assertThat(isnf.resolve("1.0")).isDirectory().satisfies(v10 -> {
         assertThat(v10).satisfies(file -> {
-          assertThat(new File(file, "install_should_not_fail-1.0.jar")).isNotEmpty();
-          assertThat(new File(file, "install_should_not_fail-1.0.pom")).isNotEmpty();
-          assertThat(new File(file, "_remote.repositories")).isNotEmpty();
+          assertThat(file.resolve( "install_should_not_fail-1.0.jar")).isNotEmptyFile();
+          assertThat(file.resolve( "install_should_not_fail-1.0.pom")).isNotEmptyFile();
+          assertThat(file.resolve( "_remote.repositories")).isNotEmptyFile();
         });
       });
     });
@@ -99,28 +100,28 @@ class BasicIT {
   void install_with_a_single_dependency(MavenExecutionResult result) {
     assertThat(result).isSuccessful().project();
 
-    File target = new File(result.getMavenProjectResult().getTargetProjectDirectory(), "target");
-    File itfRepo = new File(target, "itf-repo");
+    Path target = result.getMavenProjectResult().getTargetProjectDirectory().resolve( "target");
+    Path itfRepo = target.resolve( "itf-repo");
 
-    File install_should_not_fail = new File(itfRepo, "com/soebes/itf/maven/plugin/its/install_with_a_single_dependency");
+    Path install_should_not_fail = itfRepo.resolve( "com/soebes/itf/maven/plugin/its/install_with_a_single_dependency");
     assertThat(install_should_not_fail).isDirectory().satisfies(isnf -> {
-      assertThat(new File(isnf, "maven-metadata-local.xml")).isNotEmpty();
-      assertThat(new File(isnf, "1.0")).isDirectory().satisfies(v10 -> {
+      assertThat(isnf.resolve( "maven-metadata-local.xml")).isNotEmptyFile();
+      assertThat(isnf.resolve( "1.0")).isDirectory().satisfies(v10 -> {
         assertThat(v10).satisfies(file -> {
-          assertThat(new File(file, "install_with_a_single_dependency-1.0.jar")).isNotEmpty();
-          assertThat(new File(file, "install_with_a_single_dependency-1.0.pom")).isNotEmpty();
-          assertThat(new File(file, "_remote.repositories")).isNotEmpty();
+          assertThat(file.resolve( "install_with_a_single_dependency-1.0.jar")).isNotEmptyFile();
+          assertThat(file.resolve( "install_with_a_single_dependency-1.0.pom")).isNotEmptyFile();
+          assertThat(file.resolve( "_remote.repositories")).isNotEmptyFile();
         });
       });
     });
 
-    File apiguardian = new File(itfRepo, "org/apiguardian/apiguardian-api");
+    Path apiguardian = itfRepo.resolve( "org/apiguardian/apiguardian-api");
     assertThat(apiguardian).isDirectory().satisfies(isnf -> {
-      assertThat(new File(isnf, "maven-metadata-local.xml")).isNotEmpty();
-      assertThat(new File(isnf, "1.1.0")).isDirectory().satisfies(v10 -> {
+      assertThat(isnf.resolve( "maven-metadata-local.xml")).isNotEmptyFile();
+      assertThat(isnf.resolve( "1.1.0")).isDirectory().satisfies(v10 -> {
         assertThat(v10).satisfies(file -> {
-          assertThat(new File(file, "apiguardian-api-1.1.0.jar")).isNotEmpty();
-          assertThat(new File(file, "apiguardian-api-1.1.0.pom")).isNotEmpty();
+          assertThat(file.resolve( "apiguardian-api-1.1.0.jar")).isNotEmptyFile();
+          assertThat(file.resolve( "apiguardian-api-1.1.0.pom")).isNotEmptyFile();
         });
       });
     });
@@ -150,44 +151,44 @@ class BasicIT {
   void install_with_dep_and_transitive_dep(MavenExecutionResult result) {
     assertThat(result).isSuccessful().project();
 
-    File target = new File(result.getMavenProjectResult().getTargetProjectDirectory(), "target");
-    File itfRepo = new File(target, "itf-repo");
+    Path target = result.getMavenProjectResult().getTargetProjectDirectory().resolve("target");
+    Path itfRepo = target.resolve( "itf-repo");
 
-    File install_should_not_fail = new File(itfRepo, "com/soebes/itf/maven/plugin/its/install_with_dep_and_transitive_dep");
+    Path install_should_not_fail = itfRepo.resolve( "com/soebes/itf/maven/plugin/its/install_with_dep_and_transitive_dep");
     assertThat(install_should_not_fail).isDirectory().satisfies(isnf -> {
-      assertThat(new File(isnf, "1.0")).isDirectory().satisfies(v10 -> {
+      assertThat(isnf.resolve( "1.0")).isDirectory().satisfies(v10 -> {
         assertThat(v10).satisfies(file -> {
-          assertThat(new File(file, "install_with_dep_and_transitive_dep-1.0.jar")).isNotEmpty();
-          assertThat(new File(file, "install_with_dep_and_transitive_dep-1.0.pom")).isNotEmpty();
+          assertThat(file.resolve( "install_with_dep_and_transitive_dep-1.0.jar")).isNotEmptyFile();
+          assertThat(file.resolve( "install_with_dep_and_transitive_dep-1.0.pom")).isNotEmptyFile();
         });
       });
     });
 
-    File junit = new File(itfRepo, "junit/junit");
+    Path junit = itfRepo.resolve( "junit/junit");
     assertThat(junit).isDirectory().satisfies(isnf -> {
-      assertThat(new File(isnf, "4.13.2")).isDirectory().satisfies(v4_13 -> {
+      assertThat(isnf.resolve( "4.13.2")).isDirectory().satisfies(v4_13 -> {
         assertThat(v4_13).satisfies(file -> {
-          assertThat(new File(file, "junit-4.13.2.jar")).isNotEmpty();
-          assertThat(new File(file, "junit-4.13.2.pom")).isNotEmpty();
+          assertThat(file.resolve( "junit-4.13.2.jar")).isNotEmptyFile();
+          assertThat(file.resolve( "junit-4.13.2.pom")).isNotEmptyFile();
         });
       });
     });
 
-    File hamcrestCore = new File(itfRepo, "org/hamcrest/hamcrest-core");
+    Path hamcrestCore = itfRepo.resolve( "org/hamcrest/hamcrest-core");
     assertThat(hamcrestCore).isDirectory().satisfies(isnf -> {
-      assertThat(new File(isnf, "1.3")).isDirectory().satisfies(v13 -> {
+      assertThat(isnf.resolve( "1.3")).isDirectory().satisfies(v13 -> {
         assertThat(v13).satisfies(file -> {
-          assertThat(new File(file, "hamcrest-core-1.3.jar")).isNotEmpty();
-          assertThat(new File(file, "hamcrest-core-1.3.pom")).isNotEmpty();
+          assertThat(file.resolve("hamcrest-core-1.3.jar")).isNotEmptyFile();
+          assertThat(file.resolve("hamcrest-core-1.3.pom")).isNotEmptyFile();
         });
       });
     });
 
-    File hamcrestParent = new File(itfRepo, "org/hamcrest/hamcrest-parent");
+    Path hamcrestParent = itfRepo.resolve( "org/hamcrest/hamcrest-parent");
     assertThat(hamcrestParent).isDirectory().satisfies(isnf -> {
-      assertThat(new File(isnf, "1.3")).isDirectory().satisfies(v10 -> {
+      assertThat(isnf.resolve( "1.3")).isDirectory().satisfies(v10 -> {
         assertThat(v10).satisfies(file -> {
-          assertThat(new File(file, "hamcrest-parent-1.3.pom")).isNotEmpty();
+          assertThat(file.resolve( "hamcrest-parent-1.3.pom")).isNotEmptyFile();
         });
       });
     });

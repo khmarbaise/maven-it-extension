@@ -25,10 +25,12 @@ import org.apiguardian.api.API;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
+import static org.apiguardian.api.API.Status.DEPRECATED;
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
@@ -57,9 +59,26 @@ public final class ProjectHelper {
   /**
    * @param pomFile The directory where to read the {@code pom.xml} from.
    * @return The {@link Model}
+   * @deprecated This method will be removed with release 0.13.0. Use {@code readProject(Path pomFile)} instead.
    */
+  @API(status = DEPRECATED, since = "0.12.0")
+  @Deprecated
   public static Model readProject(File pomFile) {
-    try (InputStream is = new FileInputStream(pomFile)) {
+    try (InputStream is = Files.newInputStream(pomFile.toPath())) {
+      return readProject(is);
+    } catch (IOException e) {
+      throw new IllegalStateException("Failed to read pom.xml", e);
+    }
+  }
+
+  /**
+   * @param pomFile The directory where to read the {@code pom.xml} from.
+   * @return The {@link Model}
+   * @since 0.12.0 Method added.
+   */
+  @API(status = EXPERIMENTAL, since = "0.12.0")
+  public static Model readProject(Path pomFile) {
+    try (InputStream is = Files.newInputStream(pomFile)) {
       return readProject(is);
     } catch (IOException e) {
       throw new IllegalStateException("Failed to read pom.xml", e);

@@ -36,10 +36,10 @@ import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,18 +74,18 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
       MavenCLIOptions.SHOW_VERSION, MavenCLIOptions.ERRORS);
 
   @Override
-  public void beforeEach(ExtensionContext context) {
+  public void beforeEach(ExtensionContext context) throws Exception {
     Class<?> testClass = context.getTestClass()
         .orElseThrow(() -> new ExtensionConfigurationException("MavenITExtension is only supported for classes."));
 
     //FIXME: Need to reconsider the maven-it directory?
-    File targetTestClassesDirectory = new File(DirectoryHelper.getTargetDir(), "maven-it");
+    Path targetTestClassesDirectory = DirectoryHelper.getTargetDir().resolve("maven-it");
     String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);
 
-    File mavenItTestCaseBaseDirectory = new File(targetTestClassesDirectory, toFullyQualifiedPath);
-    //TODO: What happends if the directory has been created by a previous run?
+    Path mavenItTestCaseBaseDirectory = targetTestClassesDirectory.resolve(toFullyQualifiedPath);
+    //TODO: What happens if the directory has been created by a previous run?
     // should we delete that structure here? Maybe we should make this configurable.
-    mavenItTestCaseBaseDirectory.mkdirs();
+    Files.createDirectories(mavenItTestCaseBaseDirectory);
 
     StorageHelper storageHelper = new StorageHelper(context);
     storageHelper.save(targetTestClassesDirectory, mavenItTestCaseBaseDirectory, DirectoryHelper.getTargetDir());
@@ -93,37 +93,37 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     Optional<Class<?>> mavenProject = AnnotationHelper.findMavenProjectAnnotation(context);
 
     DirectoryResolverResult directoryResolverResult = new DirectoryResolverResult(context);
-    File integrationTestCaseDirectory = directoryResolverResult.getIntegrationTestCaseDirectory();
+    Path integrationTestCaseDirectory = directoryResolverResult.getIntegrationTestCaseDirectory();
 
     // FIXME: Model should be done right.
     MavenProjectResult mavenProjectResult = new MavenProjectResult(directoryResolverResult.getTargetDirectory(), directoryResolverResult.getProjectDirectory(), directoryResolverResult.getIntegrationTestCaseDirectory(), new Model());
     storageHelper.put(ParameterType.ProjectResult + context.getUniqueId(), mavenProjectResult);
 
-    integrationTestCaseDirectory.mkdirs();
+    Files.createDirectories(integrationTestCaseDirectory);
 
     //TODO: Reconsider deleting the local cache .m2/repository with each run yes/no
     // Define default behaviour => Remove it.
     // Make it configurable. How? Think about?
     if (mavenProject.isPresent()) {
-      if (!directoryResolverResult.getProjectDirectory().exists()) {
-        directoryResolverResult.getProjectDirectory().mkdirs();
-        directoryResolverResult.getCacheDirectory().mkdirs();
+      if (!Files.exists(directoryResolverResult.getProjectDirectory())) {
+        Files.createDirectories(directoryResolverResult.getProjectDirectory());
+        Files.createDirectories(directoryResolverResult.getCacheDirectory());
 
-        PathUtils.copyDirectoryRecursively(directoryResolverResult.getSourceMavenProject().toPath(),
-            directoryResolverResult.getProjectDirectory().toPath());
+        PathUtils.copyDirectoryRecursively(directoryResolverResult.getSourceMavenProject(),
+            directoryResolverResult.getProjectDirectory());
 
-        PathUtils.copyDirectoryRecursively(directoryResolverResult.getTargetItfRepoDirectory().toPath(),
-            directoryResolverResult.getCacheDirectory().toPath());
+        PathUtils.copyDirectoryRecursively(directoryResolverResult.getTargetItfRepoDirectory(),
+            directoryResolverResult.getCacheDirectory());
       }
     } else {
-      PathUtils.deleteRecursively(directoryResolverResult.getProjectDirectory().toPath());
-      directoryResolverResult.getProjectDirectory().mkdirs();
-      directoryResolverResult.getCacheDirectory().mkdirs();
+      PathUtils.deleteRecursively(directoryResolverResult.getProjectDirectory());
+      Files.createDirectories(directoryResolverResult.getProjectDirectory());
+      Files.createDirectories(directoryResolverResult.getCacheDirectory());
 
-      PathUtils.copyDirectoryRecursively(directoryResolverResult.getSourceMavenProject().toPath(),
-          directoryResolverResult.getProjectDirectory().toPath());
-      PathUtils.copyDirectoryRecursively(directoryResolverResult.getTargetItfRepoDirectory().toPath(),
-          directoryResolverResult.getCacheDirectory().toPath());
+      PathUtils.copyDirectoryRecursively(directoryResolverResult.getSourceMavenProject(),
+          directoryResolverResult.getProjectDirectory());
+      PathUtils.copyDirectoryRecursively(directoryResolverResult.getTargetItfRepoDirectory(),
+          directoryResolverResult.getCacheDirectory());
     }
 
   }
@@ -180,21 +180,21 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     }
 
     DirectoryResolverResult directoryResolverResult = new DirectoryResolverResult(context);
-    File integrationTestCaseDirectory = directoryResolverResult.getIntegrationTestCaseDirectory();
-    integrationTestCaseDirectory.mkdirs();
+    Path integrationTestCaseDirectory = directoryResolverResult.getIntegrationTestCaseDirectory();
+    Files.createDirectories(integrationTestCaseDirectory);
 
     //Copy ".predefined-repo" into ".m2/repository"
-    Optional<File> predefinedRepository = directoryResolverResult.getPredefinedRepository();
+    Optional<Path> predefinedRepository = directoryResolverResult.getPredefinedRepository();
     if (predefinedRepository.isPresent()) {
-      PathUtils.copyDirectoryRecursively(predefinedRepository.get().toPath(),
-          directoryResolverResult.getCacheDirectory().toPath());
+      PathUtils.copyDirectoryRecursively(predefinedRepository.get(),
+          directoryResolverResult.getCacheDirectory());
     } else {
       boolean annotationPresent = methodName.isAnnotationPresent(MavenPredefinedRepository.class);
       if (annotationPresent) {
         MavenPredefinedRepository annotation = methodName.getAnnotation(MavenPredefinedRepository.class);
-        File predefinedRepoFile = new File(directoryResolverResult.getSourceMavenProject(), annotation.value());
-        PathUtils.copyDirectoryRecursively(predefinedRepoFile.toPath(),
-            directoryResolverResult.getCacheDirectory().toPath());
+        Path predefinedRepoPath = directoryResolverResult.getSourceMavenProject().resolve(annotation.value());
+        PathUtils.copyDirectoryRecursively(predefinedRepoPath,
+            directoryResolverResult.getCacheDirectory());
       }
     }
 
@@ -256,9 +256,9 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     }
 
     MavenLog log = new MavenLog(mavenExecutor.getStdout(), mavenExecutor.getStdErr());
-    MavenCacheResult mavenCacheResult = new MavenCacheResult(directoryResolverResult.getCacheDirectory().toPath());
+    MavenCacheResult mavenCacheResult = new MavenCacheResult(directoryResolverResult.getCacheDirectory());
 
-    Model model = ProjectHelper.readProject(new File(directoryResolverResult.getProjectDirectory(), "pom.xml"));
+    Model model = ProjectHelper.readProject(directoryResolverResult.getProjectDirectory().resolve("pom.xml"));
 
     MavenProjectResult mavenProjectResult = new MavenProjectResult(directoryResolverResult.getIntegrationTestCaseDirectory(),
         directoryResolverResult.getProjectDirectory(), directoryResolverResult.getCacheDirectory(), model);
@@ -271,8 +271,8 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
 
   private Map<String, String> pomEntries(DirectoryResolverResult directoryResolverResult) {
     //FIXME: Need to introduce better directory names
-    File mavenBaseDirectory = new File(directoryResolverResult.getTargetDirectory(), "..");
-    File pomFile = new File(mavenBaseDirectory, "pom.xml");
+    Path mavenBaseDirectory = directoryResolverResult.getTargetDirectory().getParent();
+    Path pomFile = mavenBaseDirectory.resolve("pom.xml");
 
     ModelReader modelReader = new ModelReader(ProjectHelper.readProject(pomFile));
     Map<String, String> keyValues = new HashMap<>();

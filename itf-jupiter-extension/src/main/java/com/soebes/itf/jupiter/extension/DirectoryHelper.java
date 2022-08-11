@@ -19,7 +19,8 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * @author Karl Heinz Marbaise
@@ -30,8 +31,8 @@ class DirectoryHelper {
     // intentionally empty to prevent instantiation.
   }
 
-  static File getMavenBaseDir() {
-    return new File(System.getProperty("basedir", System.getProperty("user.dir", ".")));
+  static Path getMavenBaseDir() {
+    return Paths.get(System.getProperty("basedir", System.getProperty("user.dir", ".")));
   }
 
   static String toFullyQualifiedPath(Class<?> testClass) {
@@ -41,8 +42,8 @@ class DirectoryHelper {
   /**
    * @return the target directory of the current project.
    */
-  static File getTargetDir() {
-    return new File(getMavenBaseDir(), "target");
+  static Path getTargetDir() {
+    return getMavenBaseDir().resolve("target");
   }
 
 }

@@ -20,7 +20,6 @@ package com.soebes.itf.jupiter.extension;
  */
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -39,9 +38,9 @@ import java.util.stream.Stream;
  */
 class ApplicationExecutor {
 
-  private final File loggingDirectory;
+  private final Path loggingDirectory;
 
-  private final File workingDirectory;
+  private final Path workingDirectory;
 
   private final Path applicationExecutable;
 
@@ -51,7 +50,7 @@ class ApplicationExecutor {
 
   private final String javaHome;
 
-  ApplicationExecutor(String javaHome, File loggingDirectory, File workingDirectory, Path applicationExecutable,
+  ApplicationExecutor(String javaHome, Path loggingDirectory, Path workingDirectory, Path applicationExecutable,
                              List<String> jvmArguments, String prefix) {
     this.javaHome = javaHome;
     this.loggingDirectory = loggingDirectory;
@@ -61,7 +60,7 @@ class ApplicationExecutor {
     this.prefix = prefix;
   }
 
-  ApplicationExecutor(File workingDirectory, File loggingDirectory, Path applicationExecutable,
+  ApplicationExecutor(Path workingDirectory, Path loggingDirectory, Path applicationExecutable,
                              List<String> jvmArguments, String prefix) {
     //TODO: This should be made configurable
     this(System.getProperty("java.home"), loggingDirectory, workingDirectory, applicationExecutable, jvmArguments,
@@ -76,7 +75,7 @@ class ApplicationExecutor {
     applicationArguments.addAll(startArguments);
 
     //TODO: Can make that better?
-    Path argumentsLog = Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + "-arguments.log");
+    Path argumentsLog = loggingDirectory.resolve(this.prefix + "-arguments.log");
     Files.deleteIfExists(argumentsLog);
     try {
       Files.write(argumentsLog, applicationArguments,
@@ -85,14 +84,14 @@ class ApplicationExecutor {
       throw new IllegalStateException("Failed to write argument log file", e);
     }
 
-    Path stdErrOut = Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + "-stderr.log");
-    Path stdOutOut = Paths.get(loggingDirectory.getAbsolutePath(), this.prefix + "-stdout.log");
+    Path stdErrOut = loggingDirectory.resolve(this.prefix + "-stderr.log");
+    Path stdOutOut = loggingDirectory.resolve( this.prefix + "-stdout.log");
     Files.deleteIfExists(stdErrOut);
     Files.deleteIfExists(stdOutOut);
     ProcessBuilder pb = new ProcessBuilder(applicationArguments);
     pb.redirectError(stdErrOut.toFile());
     pb.redirectOutput(stdOutOut.toFile());
-    pb.directory(workingDirectory);
+    pb.directory(workingDirectory.toFile());
     return pb.start();
   }
 

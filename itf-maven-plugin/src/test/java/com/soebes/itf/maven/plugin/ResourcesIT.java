@@ -26,7 +26,7 @@ import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import org.junit.jupiter.api.DisplayName;
 
-import java.io.File;
+import java.nio.file.Path;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 import static com.soebes.itf.jupiter.extension.MavenCLIOptions.DEBUG;
@@ -50,7 +50,7 @@ class ResourcesIT {
   void filter_resources(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
 
-    File filteredFile = new File(result.getMavenProjectResult().getTargetProjectDirectory(), "target/test-classes/com/soebes/.invisible-file");
+    Path filteredFile = result.getMavenProjectResult().getTargetProjectDirectory().resolve( "target/test-classes/com/soebes/.invisible-file");
     assertThat(filteredFile).hasContent("Project filter_resources, Version 1.0");
   }
 }

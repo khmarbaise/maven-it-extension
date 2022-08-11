@@ -50,6 +50,7 @@
 :issue-268: https://github.com/khmarbaise/maven-it-extension/issues/268[Fixed #268]
 :issue-274: https://github.com/khmarbaise/maven-it-extension/issues/274[Fixed #274]
 :issue-275: https://github.com/khmarbaise/maven-it-extension/issues/275[Fixed #275]
+:issue-276: https://github.com/khmarbaise/maven-it-extension/issues/276[Fixed #276]
 
 :pr-211: https://github.com/khmarbaise/maven-it-extension/pull/211[Pull request #211]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
@@ -72,8 +73,16 @@
 
 *Breaking Changes*
 
- * {issue-XXX} - XXX
-   ** ????
+ * {issue-276} - Replace File with Path
+   ** The return type of the methods `getTargetProjectDirectory()`, `getTargetBaseDirectory()` and
+      `getTargetCacheDirectory()` of the class `MavenProjectResult` has been hanged from `File` into `Path`. That means
+      you have to check your code. It will be obviously getting compile errors if
+      you have used one of the above methods in your own code.
+   ** The method `Model readProject(File pomFile)` of the class `ProjetHelper`
+      has been marked deprecated and will be removed with release 0.13.0. This means you have to replace the
+      call of that method with the same which has a parameter `Model readProject(Path pomFile)`.
+   ** Technically the class `ArchiveAssert` extended before from `AbstractAssert<ArchiveAssert, File>` while
+      it now extends `AbstractAssert<ArchiveAssert, File>` instead.
 
 *Reporter of this release*
 

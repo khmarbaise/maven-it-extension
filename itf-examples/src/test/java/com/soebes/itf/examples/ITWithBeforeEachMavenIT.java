@@ -23,45 +23,50 @@ import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.soebes.itf.jupiter.maven.MavenProjectResult;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 import org.junit.jupiter.api.BeforeEach;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
-import static java.util.stream.Collectors.toList;
 
 @MavenJupiterExtension
 class ITWithBeforeEachMavenIT {
 
   @BeforeEach
-  //TODO: Enhanced MavenProjectResult with `target`
-  //TODO: testMethodProjectFolder should be made part of MavenProjectResult as well! => simplifies the following code
+    //TODO: Enhanced MavenProjectResult with `target`
+    //TODO: testMethodProjectFolder should be made part of MavenProjectResult as well! => simplifies the following code
   void beforeEach(MavenProjectResult project) throws IOException {
     //Each time the beforeEach will be executed the extension will delete the project and
     //recreate from scratch. This will be checked in the following statement.
-    assertThat(new File(project.getTargetProjectDirectory(), "target")).doesNotExist();
+    assertThat(project.getTargetProjectDirectory().resolve("target")).doesNotExist();
 
-    File testMethodProjectFolder = new File(this.getClass().getResource("/").getFile(), "com/soebes/itf/examples/ITWithBeforeEachMavenIT/the_first_test_case");
-    List<String> expectedElements = createElements(testMethodProjectFolder);
+    String resource = this.getClass().getResource("/").getFile();
+    Path testMethodProjectFolder = Paths.get(resource, "com/soebes/itf/examples/ITWithBeforeEachMavenIT/the_first_test_case");
 
-    List<String> actualElements = createElements(project.getTargetProjectDirectory());
+    List<Path> expectedElements = readDirectoryElements(testMethodProjectFolder);
 
-    assertThat(actualElements).containsExactlyInAnyOrderElementsOf(expectedElements);
+    List<Path> expectedResult = expectedElements.stream().map(testMethodProjectFolder::relativize).collect(Collectors.toList());
+
+    List<Path> actualElements = readDirectoryElements(project.getTargetProjectDirectory());
+
+    List<Path> actualResult = actualElements.stream().map(s -> project.getTargetProjectDirectory().relativize(s)).collect(Collectors.toList());
+
+    assertThat(actualResult).containsExactlyInAnyOrderElementsOf(expectedResult);
 
   }
 
-  private List<String> createElements(File xdirectory) throws IOException {
-    try (Stream<Path> walk = Files.walk(xdirectory.toPath())) {
-      List<Path> expectedCollectedFiles = walk.filter(s -> Files.isRegularFile(s) || Files.isDirectory(s))
+  private List<Path> readDirectoryElements(Path xdirectory) throws IOException {
+    try (Stream<Path> walk = Files.walk(xdirectory)) {
+      return walk.filter(s -> Files.isRegularFile(s) || Files.isDirectory(s))
           .collect(Collectors.toList());
-      List<String> expectedElements = expectedCollectedFiles.stream().map(p -> p.toString().replace(xdirectory.getAbsolutePath(), "")).collect(toList());
-      return expectedElements;
     }
   }
 

@@ -23,33 +23,34 @@ import org.apache.maven.model.Model;
 import org.apiguardian.api.API;
 
 import java.io.File;
+import java.nio.file.Path;
 
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
+ * @implNote The return types of the methods: {@link #getTargetProjectDirectory()}, {@link #getTargetBaseDirectory()}
+ * and {@link #getTargetCacheDirectory()} has been changed from {@link File} into {@link Path} in release 0.12.0.
+ *
  * @author Karl Heinz Marbaise
  */
-@API(status = EXPERIMENTAL, since = "0.1.0")
+@API(status = EXPERIMENTAL, since = "0.12.0")
 public class MavenProjectResult {
 
   private final Model model;
   /**
    * This is the {@code project} directory of the test case.
    */
-  @API(status = EXPERIMENTAL, since = "0.10.0")
-  private final File targetProjectDirectory;
+  private final Path targetProjectDirectory;
 
   /**
    * This is the {@code base} directory of the test case.
    */
-  @API(status = EXPERIMENTAL, since = "0.10.0")
-  private final File targetBaseDirectory;
+  private final Path targetBaseDirectory;
 
   /**
    * This is the {@code cache} directory of the test case.
    */
-  @API(status = EXPERIMENTAL, since = "0.10.0")
-  private final File targetCacheDirectory;
+  private final Path targetCacheDirectory;
 
   /**
    * The source structure looks usually like this:
@@ -84,7 +85,7 @@ public class MavenProjectResult {
    * @implNote Currently we only read the single {@code pom.xml} file. An existing multi module
    * structure with it's {@code pom.xml} files will not being read.
    */
-  public MavenProjectResult(File targetBaseDirectory, File targetProjectDirectory, File targetCacheDirectory, Model model) {
+  public MavenProjectResult(Path targetBaseDirectory, Path targetProjectDirectory, Path targetCacheDirectory, Model model) {
     this.targetBaseDirectory = targetBaseDirectory;
     this.targetProjectDirectory = targetProjectDirectory;
     this.targetCacheDirectory = targetCacheDirectory;
@@ -92,26 +93,29 @@ public class MavenProjectResult {
   }
 
   /**
+   * @since 0.12.0 The return type has been changed from {@link File} into {@link Path}
    * @return The base directory of the test case within {@code target} directory.
    */
-  @API(status = EXPERIMENTAL, since = "0.10.0")
-  public File getTargetBaseDirectory() {
+  @API(status = EXPERIMENTAL, since = "0.12.0")
+  public Path getTargetBaseDirectory() {
     return targetBaseDirectory;
   }
 
   /**
+   * @since 0.12.0 The return type has been changed from {@link File} into {@link Path}
    * @return The {@code project} directory of the test case.
    */
-  @API(status = EXPERIMENTAL, since = "0.10.0")
-  public File getTargetProjectDirectory() {
+  @API(status = EXPERIMENTAL, since = "0.12.0")
+  public Path getTargetProjectDirectory() {
     return targetProjectDirectory;
   }
 
   /**
+   * @since 0.12.0 The return type has been changed from {@link File} into {@link Path}
    * @return The {@code cache} directory of the test case.
    */
   @API(status = EXPERIMENTAL, since = "0.10.0")
-  public File getTargetCacheDirectory() {
+  public Path getTargetCacheDirectory() {
     return targetCacheDirectory;
   }
 
