@@ -42,14 +42,14 @@ class AnnotationHelper {
    * @return {@code true} if we have any {@link MavenProfile @MavenProfile} defined or {@code false} otherwise.
    */
   static boolean hasProfiles(ExtensionContext context) {
-<span class="nc bnc" id="L45" title="All 2 branches missed.">    return profiles(context).size() &gt; 0;</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">    return !profiles(context).isEmpty();</span>
   }
 
   /**
    * Get the profiles from the annotation.
    *
    * @param context {@link ExtensionContext}
-   * @return The stream with the profiles if exist.
+   * @return The stream with the profiles which exist.
    */
   static List&lt;String&gt; profiles(ExtensionContext context) {
     //MavenProfile[] annotationsByType = context.getClass().getPackage().getAnnotationsByType(MavenProfile.class);
@@ -68,7 +68,7 @@ class AnnotationHelper {
    * @return {@code true} if we have any {@link MavenGoal @MavenGoal} defined or {@code false} otherwise.
    */
   static boolean hasGoals(ExtensionContext context) {
-<span class="nc bnc" id="L71" title="All 2 branches missed.">    return goals(context).size() &gt; 0;</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">    return !goals(context).isEmpty();</span>
   }
 
   /**
@@ -81,7 +81,7 @@ class AnnotationHelper {
   static List&lt;String&gt; goals(ExtensionContext context) {
 <span class="nc" id="L82">    List&lt;MavenGoal&gt; goalAnnotations = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), MavenGoal.class);</span>
 <span class="nc" id="L83">    List&lt;String&gt; stringStream = goalAnnotations.stream().flatMap(goal -&gt; Stream.of(goal.value())).collect(Collectors.toList());</span>
-<span class="nc bnc" id="L84" title="All 2 branches missed.">    if (stringStream.size() &gt; 0) {</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">    if (!stringStream.isEmpty()) {</span>
 <span class="nc" id="L85">      return stringStream;</span>
     }
 
@@ -94,7 +94,7 @@ class AnnotationHelper {
    * @return {@code true} if we have any {@link MavenOption @MavenOption} defined or {@code false} otherwise.
    */
   static boolean hasOptions(ExtensionContext context) {
-<span class="nc bnc" id="L97" title="All 2 branches missed.">    return options(context).size() &gt; 0;</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">    return !options(context).isEmpty();</span>
   }
 
   /**
@@ -102,14 +102,14 @@ class AnnotationHelper {
    * or on test class level.
    *
    * @param context {@link ExtensionContext}
-   * @return The stream with the options if exist.
+   * @return The stream with the options when exist.
    */
   static List&lt;String&gt; options(ExtensionContext context) {
 <span class="nc" id="L108">    List&lt;MavenOption&gt; mavenOptionsOnTestMethod = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), MavenOption.class);</span>
 <span class="nc" id="L109">    List&lt;String&gt; options = mavenOptionsOnTestMethod.stream()</span>
 <span class="nc bnc" id="L110" title="All 2 branches missed.">        .flatMap(option -&gt; option.parameter().isEmpty() ? Stream.of(option.value()) : Stream.of(option.value(), option.parameter()))</span>
 <span class="nc" id="L111">        .collect(Collectors.toList());</span>
-<span class="nc bnc" id="L112" title="All 2 branches missed.">    if (options.size() &gt; 0) {</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">    if (!options.isEmpty()) {</span>
 <span class="nc" id="L113">      return options;</span>
     }
 
@@ -128,7 +128,7 @@ class AnnotationHelper {
 
   static List&lt;SystemProperty&gt; systemProperties(ExtensionContext context) {
 <span class="nc" id="L130">    List&lt;SystemProperty&gt; systemPropertiesOnTestMethod = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), SystemProperty.class);</span>
-<span class="nc bnc" id="L131" title="All 4 branches missed.">    if (systemPropertiesOnTestMethod.stream().flatMap(s -&gt; s.value().isEmpty() ? Stream.of(s.value()) : Stream.of(s.value(), s.value())).count() &gt; 0) {</span>
+<span class="nc bnc" id="L131" title="All 4 branches missed.">    if (systemPropertiesOnTestMethod.stream().flatMap(s -&gt; s.value().isEmpty() ? Stream.of(s.value()) : Stream.of(s.value(), s.value())).findAny().isPresent()) {</span>
 <span class="nc" id="L132">      return systemPropertiesOnTestMethod;</span>
     }
 

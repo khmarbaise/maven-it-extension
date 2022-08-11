@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
  * @implNote Currently {@code maven.home} is given to the maven-failsafe-plugin
  * configuration as a system property.
  * The parameter {@code isRunningOnWindows} is used instead
- * of using things like {@code org.junit.jupiter.api.condition.OS.WINDOWS.isCurrentOs()} cause
+ * of using things like {@code org.junit.jupiter.api.condition.OS.WINDOWS.isCurrentOs()} because
  * they contain static initializers etc. which can't be tested.
  */
 class MavenLocator {
