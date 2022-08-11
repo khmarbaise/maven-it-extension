@@ -30,7 +30,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
- * {@code @MavenDebug} is an meta annotation for convenience purposes
+ * {@code @MavenDebug} is a meta annotation for convenience purposes
  * to make it easier to activate debugging option for a Maven build
  * just by simply adding {@code @MavenDebug}.
  *

@@ -82,7 +82,7 @@ public class MavenProjectResult {
    * @param targetProjectDirectory This represents the root directory in the {@code target} structure.
    * @param targetCacheDirectory This represents the root directory in the {@code cache} structure.
    * @param model The model read from {@code pom.xml} file in the {@code target} structure.
-   * @implNote Currently we only read the single {@code pom.xml} file. An existing multi module
+   * @implNote Currently we only read the single {@code pom.xml} file. An existing multimodul
    * structure with it's {@code pom.xml} files will not being read.
    */
   public MavenProjectResult(Path targetBaseDirectory, Path targetProjectDirectory, Path targetCacheDirectory, Model model) {

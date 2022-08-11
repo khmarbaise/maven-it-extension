@@ -50,7 +50,7 @@ class BasicIT {
    * <p>
    * The given test project does not have any dependencies nor any code.
    * <p>
-   * We are using {@code pre-integration-test} cause we want to test only the
+   * We are using {@code pre-integration-test} because we want to test only the
    * plugin itself.
    *
    * @param result {@link MavenExecutionResult}
@@ -86,9 +86,9 @@ class BasicIT {
    * <p>
    * The given test project has only a single dependency but no code at all.
    * The single dependency is <a href="https://search.maven.org/artifact/org.apiguardian/apiguardian-api/1.1.0/jar">apiguardian-api 1.1.0</a>
-   * which does not has a dependency on it own.
+   * which does not have a dependency on it own.
    * <p>
-   * We are using {@code pre-integration-test} cause we want to test only the
+   * We are using {@code pre-integration-test} because we want to test only the
    * plugin itself.
    *
    * @param result {@link MavenExecutionResult}
@@ -139,7 +139,7 @@ class BasicIT {
    * <a href="https://search.maven.org/artifact/org.hamcrest/hamcrest-parent/1.3/pom">hamcrest-parent</a>
    * which needs to be installed as well.
    * <p>
-   * We are using {@code pre-integration-test} cause we want to test only the
+   * We are using {@code pre-integration-test} because we want to test only the
    * plugin itself.
    *
    * @param result {@link MavenExecutionResult}

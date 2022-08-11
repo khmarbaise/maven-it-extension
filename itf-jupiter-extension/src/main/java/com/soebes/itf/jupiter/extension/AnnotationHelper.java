@@ -42,14 +42,14 @@ class AnnotationHelper {
    * @return {@code true} if we have any {@link MavenProfile @MavenProfile} defined or {@code false} otherwise.
    */
   static boolean hasProfiles(ExtensionContext context) {
-    return profiles(context).size() > 0;
+    return !profiles(context).isEmpty();
   }
 
   /**
    * Get the profiles from the annotation.
    *
    * @param context {@link ExtensionContext}
-   * @return The stream with the profiles if exist.
+   * @return The stream with the profiles which exist.
    */
   static List<String> profiles(ExtensionContext context) {
     //MavenProfile[] annotationsByType = context.getClass().getPackage().getAnnotationsByType(MavenProfile.class);
@@ -68,7 +68,7 @@ class AnnotationHelper {
    * @return {@code true} if we have any {@link MavenGoal @MavenGoal} defined or {@code false} otherwise.
    */
   static boolean hasGoals(ExtensionContext context) {
-    return goals(context).size() > 0;
+    return !goals(context).isEmpty();
   }
 
   /**
@@ -81,7 +81,7 @@ class AnnotationHelper {
   static List<String> goals(ExtensionContext context) {
     List<MavenGoal> goalAnnotations = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), MavenGoal.class);
     List<String> stringStream = goalAnnotations.stream().flatMap(goal -> Stream.of(goal.value())).collect(Collectors.toList());
-    if (stringStream.size() > 0) {
+    if (!stringStream.isEmpty()) {
       return stringStream;
     }
 
@@ -94,7 +94,7 @@ class AnnotationHelper {
    * @return {@code true} if we have any {@link MavenOption @MavenOption} defined or {@code false} otherwise.
    */
   static boolean hasOptions(ExtensionContext context) {
-    return options(context).size() > 0;
+    return !options(context).isEmpty();
   }
 
   /**
@@ -102,14 +102,14 @@ class AnnotationHelper {
    * or on test class level.
    *
    * @param context {@link ExtensionContext}
-   * @return The stream with the options if exist.
+   * @return The stream with the options when exist.
    */
   static List<String> options(ExtensionContext context) {
     List<MavenOption> mavenOptionsOnTestMethod = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), MavenOption.class);
     List<String> options = mavenOptionsOnTestMethod.stream()
         .flatMap(option -> option.parameter().isEmpty() ? Stream.of(option.value()) : Stream.of(option.value(), option.parameter()))
         .collect(Collectors.toList());
-    if (options.size() > 0) {
+    if (!options.isEmpty()) {
       return options;
     }
 
@@ -128,7 +128,7 @@ class AnnotationHelper {
 
   static List<SystemProperty> systemProperties(ExtensionContext context) {
     List<SystemProperty> systemPropertiesOnTestMethod = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), SystemProperty.class);
-    if (systemPropertiesOnTestMethod.stream().flatMap(s -> s.value().isEmpty() ? Stream.of(s.value()) : Stream.of(s.value(), s.value())).count() > 0) {
+    if (systemPropertiesOnTestMethod.stream().flatMap(s -> s.value().isEmpty() ? Stream.of(s.value()) : Stream.of(s.value(), s.value())).findAny().isPresent()) {
       return systemPropertiesOnTestMethod;
     }
 
