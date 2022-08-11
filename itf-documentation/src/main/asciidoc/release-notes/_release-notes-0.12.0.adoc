@@ -51,6 +51,7 @@
 :issue-274: https://github.com/khmarbaise/maven-it-extension/issues/274[Fixed #274]
 :issue-275: https://github.com/khmarbaise/maven-it-extension/issues/275[Fixed #275]
 :issue-276: https://github.com/khmarbaise/maven-it-extension/issues/276[Fixed #276]
+:issue-278: https://github.com/khmarbaise/maven-it-extension/issues/278[Fixed #278]
 
 :pr-211: https://github.com/khmarbaise/maven-it-extension/pull/211[Pull request #211]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
@@ -69,7 +70,8 @@
  * {issue-210} - Removed unused dependency commons-compress.
  * {pr-211} - Add @MavenTest annotation to README example
  * {issue-230} - Get rid of commons-io
- * {issue-??} - ?
+ * {issue-278} - Enhance list of Maven versions
+ * {issue-??} -
 
 *Breaking Changes*
 

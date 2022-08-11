@@ -45,7 +45,14 @@ public enum MavenVersion {
   M3_6_0("3.6.0"),
   M3_6_1("3.6.1"),
   M3_6_2("3.6.2"),
-  M3_6_3("3.6.3");
+  M3_6_3("3.6.3"),
+  M3_8_1("3.8.1"),
+  M3_8_2("3.8.2"),
+  M3_8_3("3.8.3"),
+  M3_8_4("3.8.4"),
+  M3_8_5("3.8.5"),
+  M3_8_6("3.8.6"),
+  M3_9_0("3.9.0");
 
   private static final MavenVersion CURRENT_MAVEN_VERSION = determineCurrentVersion();
 
@@ -57,7 +64,7 @@ public enum MavenVersion {
 
   private static MavenVersion determineCurrentVersion() {
     String currentVersion = requireNotNull(System.getProperty("maven.version"), "JVM system property 'maven.version' is empty.");
-    requireNotEmpty(currentVersion, "JVM system property 'maven.version' is empty. The maven version can not being deteced.");
+    requireNotEmpty(currentVersion, "JVM system property 'maven.version' is empty. The maven version can not being detected.");
     return Stream.of(values())
         .filter(mavenVersion -> mavenVersion.getVersionString().equals(currentVersion))
         .findFirst()
