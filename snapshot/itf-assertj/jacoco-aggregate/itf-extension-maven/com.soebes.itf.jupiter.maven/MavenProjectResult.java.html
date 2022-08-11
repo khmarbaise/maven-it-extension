@@ -23,33 +23,34 @@ import org.apache.maven.model.Model;
 import org.apiguardian.api.API;
 
 import java.io.File;
+import java.nio.file.Path;
 
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
+ * @implNote The return types of the methods: {@link #getTargetProjectDirectory()}, {@link #getTargetBaseDirectory()}
+ * and {@link #getTargetCacheDirectory()} has been changed from {@link File} into {@link Path} in release 0.12.0.
+ *
  * @author Karl Heinz Marbaise
  */
-@API(status = EXPERIMENTAL, since = &quot;0.1.0&quot;)
+@API(status = EXPERIMENTAL, since = &quot;0.12.0&quot;)
 public class MavenProjectResult {
 
   private final Model model;
   /**
    * This is the {@code project} directory of the test case.
    */
-  @API(status = EXPERIMENTAL, since = &quot;0.10.0&quot;)
-  private final File targetProjectDirectory;
+  private final Path targetProjectDirectory;
 
   /**
    * This is the {@code base} directory of the test case.
    */
-  @API(status = EXPERIMENTAL, since = &quot;0.10.0&quot;)
-  private final File targetBaseDirectory;
+  private final Path targetBaseDirectory;
 
   /**
    * This is the {@code cache} directory of the test case.
    */
-  @API(status = EXPERIMENTAL, since = &quot;0.10.0&quot;)
-  private final File targetCacheDirectory;
+  private final Path targetCacheDirectory;
 
   /**
    * The source structure looks usually like this:
@@ -84,39 +85,42 @@ public class MavenProjectResult {
    * @implNote Currently we only read the single {@code pom.xml} file. An existing multi module
    * structure with it's {@code pom.xml} files will not being read.
    */
-<span class="nc" id="L87">  public MavenProjectResult(File targetBaseDirectory, File targetProjectDirectory, File targetCacheDirectory, Model model) {</span>
-<span class="nc" id="L88">    this.targetBaseDirectory = targetBaseDirectory;</span>
-<span class="nc" id="L89">    this.targetProjectDirectory = targetProjectDirectory;</span>
-<span class="nc" id="L90">    this.targetCacheDirectory = targetCacheDirectory;</span>
-<span class="nc" id="L91">    this.model = model;</span>
-<span class="nc" id="L92">  }</span>
+<span class="nc" id="L88">  public MavenProjectResult(Path targetBaseDirectory, Path targetProjectDirectory, Path targetCacheDirectory, Model model) {</span>
+<span class="nc" id="L89">    this.targetBaseDirectory = targetBaseDirectory;</span>
+<span class="nc" id="L90">    this.targetProjectDirectory = targetProjectDirectory;</span>
+<span class="nc" id="L91">    this.targetCacheDirectory = targetCacheDirectory;</span>
+<span class="nc" id="L92">    this.model = model;</span>
+<span class="nc" id="L93">  }</span>
 
   /**
+   * @since 0.12.0 The return type has been changed from {@link File} into {@link Path}
    * @return The base directory of the test case within {@code target} directory.
    */
-  @API(status = EXPERIMENTAL, since = &quot;0.10.0&quot;)
-  public File getTargetBaseDirectory() {
-<span class="nc" id="L99">    return targetBaseDirectory;</span>
+  @API(status = EXPERIMENTAL, since = &quot;0.12.0&quot;)
+  public Path getTargetBaseDirectory() {
+<span class="nc" id="L101">    return targetBaseDirectory;</span>
   }
 
   /**
+   * @since 0.12.0 The return type has been changed from {@link File} into {@link Path}
    * @return The {@code project} directory of the test case.
    */
-  @API(status = EXPERIMENTAL, since = &quot;0.10.0&quot;)
-  public File getTargetProjectDirectory() {
-<span class="nc" id="L107">    return targetProjectDirectory;</span>
+  @API(status = EXPERIMENTAL, since = &quot;0.12.0&quot;)
+  public Path getTargetProjectDirectory() {
+<span class="nc" id="L110">    return targetProjectDirectory;</span>
   }
 
   /**
+   * @since 0.12.0 The return type has been changed from {@link File} into {@link Path}
    * @return The {@code cache} directory of the test case.
    */
   @API(status = EXPERIMENTAL, since = &quot;0.10.0&quot;)
-  public File getTargetCacheDirectory() {
-<span class="nc" id="L115">    return targetCacheDirectory;</span>
+  public Path getTargetCacheDirectory() {
+<span class="nc" id="L119">    return targetCacheDirectory;</span>
   }
 
   public Model getModel() {
-<span class="nc" id="L119">    return model;</span>
+<span class="nc" id="L123">    return model;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

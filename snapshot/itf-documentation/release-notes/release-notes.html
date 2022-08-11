@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<meta name="author" content="Karl Heinz Marbaise, 2022-08-06">
+<meta name="author" content="Karl Heinz Marbaise, 2022-08-11">
 <title>Integration Testing Framework Release Notes</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>Integration Testing Framework Release Notes</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2022-08-06</span><br>
+<span id="author2" class="author">2022-08-11</span><br>
 <span id="revnumber">version 0.12.0-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
@@ -609,11 +609,23 @@ overview and detailed instructions how to use the Integration Testing Framework.
 <div class="ulist">
 <ul>
 <li>
-<p>{issue-XXX} - XXX</p>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/276">Fixed #276</a> - Replace File with Path</p>
 <div class="ulist">
 <ul>
 <li>
-<p>????</p>
+<p>The return type of the methods <code>getTargetProjectDirectory()</code>, <code>getTargetBaseDirectory()</code> and
+<code>getTargetCacheDirectory()</code> of the class <code>MavenProjectResult</code> has been hanged from <code>File</code> into <code>Path</code>. That means
+you have to check your code. It will be obviously getting compile errors if
+you have used one of the above methods in your own code.</p>
+</li>
+<li>
+<p>The method <code>Model readProject(File pomFile)</code> of the class <code>ProjetHelper</code>
+has been marked deprecated and will be removed with release 0.13.0. This means you have to replace the
+call of that method with the same which has a parameter <code>Model readProject(Path pomFile)</code>.</p>
+</li>
+<li>
+<p>Technically the class <code>ArchiveAssert</code> extended before from <code>AbstractAssert&lt;ArchiveAssert, File&gt;</code> while
+it now extends <code>AbstractAssert&lt;ArchiveAssert, File&gt;</code> instead.</p>
 </li>
 </ul>
 </div>
@@ -2160,7 +2172,7 @@ publish in <a href="https://central.sonatype.org/">Central Repository</a>.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.12.0-SNAPSHOT<br>
-Last updated 2022-08-06 12:47:19 UTC
+Last updated 2022-08-11 21:44:35 UTC
 </div>
 </div>
 </body>

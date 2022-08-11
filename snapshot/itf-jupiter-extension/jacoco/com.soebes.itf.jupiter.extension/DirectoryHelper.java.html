@@ -19,7 +19,8 @@
  * under the License.
  */
 
-import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * @author Karl Heinz Marbaise
@@ -30,19 +31,19 @@ class DirectoryHelper {
     // intentionally empty to prevent instantiation.
   }
 
-  static File getMavenBaseDir() {
-<span class="nc" id="L34">    return new File(System.getProperty(&quot;basedir&quot;, System.getProperty(&quot;user.dir&quot;, &quot;.&quot;)));</span>
+  static Path getMavenBaseDir() {
+<span class="nc" id="L35">    return Paths.get(System.getProperty(&quot;basedir&quot;, System.getProperty(&quot;user.dir&quot;, &quot;.&quot;)));</span>
   }
 
   static String toFullyQualifiedPath(Class&lt;?&gt; testClass) {
-<span class="nc" id="L38">    return testClass.getCanonicalName().replace('.', '/');</span>
+<span class="nc" id="L39">    return testClass.getCanonicalName().replace('.', '/');</span>
   }
 
   /**
    * @return the target directory of the current project.
    */
-  static File getTargetDir() {
-<span class="nc" id="L45">    return new File(getMavenBaseDir(), &quot;target&quot;);</span>
+  static Path getTargetDir() {
+<span class="nc" id="L46">    return getMavenBaseDir().resolve(&quot;target&quot;);</span>
   }
 
 }

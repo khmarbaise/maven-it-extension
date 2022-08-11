@@ -393,7 +393,7 @@ import static java.util.function.Function.identity;
    */
   private void copyParentPoms(File pomFile)
       throws MojoExecutionException {
-<span class="nc" id="L396">    Model model = ProjectHelper.readProject(pomFile);</span>
+<span class="nc" id="L396">    Model model = ProjectHelper.readProject(pomFile.toPath());</span>
 <span class="nc" id="L397">    Parent parent = model.getParent();</span>
 <span class="nc bnc" id="L398" title="All 2 branches missed.">    if (parent != null) {</span>
 <span class="nc" id="L399">      copyParentPoms(parent.getGroupId(), parent.getArtifactId(), parent.getVersion());</span>
