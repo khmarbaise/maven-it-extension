@@ -23,6 +23,11 @@ import com.soebes.itf.extension.assertj.MavenExecutionResultAssert;
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
+import com.soebes.itf.jupiter.maven.MavenProjectResult;
+
+import java.nio.file.Paths;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @MavenJupiterExtension
 class MavenProjectResultIT {
@@ -30,8 +35,11 @@ class MavenProjectResultIT {
   @MavenTest
   void basic(MavenExecutionResult result) {
     MavenExecutionResultAssert.assertThat(result).isSuccessful();
-    System.out.println("   getTargetBaseDirectory: " + result.getMavenProjectResult().getTargetBaseDirectory());
-    System.out.println("getTargetProjectDirectory: " + result.getMavenProjectResult().getTargetProjectDirectory());
+
+    MavenProjectResult mpr = result.getMavenProjectResult();
+    assertThat(mpr.getTargetBaseDirectory()).endsWith(Paths.get("basic"));
+    assertThat(mpr.getTargetProjectDirectory()).endsWith(Paths.get("basic", "project"));
+    assertThat(mpr.getTargetCacheDirectory()).endsWith(Paths.get("basic", ".m2", "repository"));
   }
 
 

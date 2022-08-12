@@ -45,6 +45,7 @@
 :issue-261: https://github.com/khmarbaise/maven-it-extension/issues/261[Fixed #261]
 :issue-263: https://github.com/khmarbaise/maven-it-extension/issues/263[Fixed #263]
 :issue-230: https://github.com/khmarbaise/maven-it-extension/issues/230[Fixed #230]
+:issue-264: https://github.com/khmarbaise/maven-it-extension/issues/264[Fixed #264]
 :issue-265: https://github.com/khmarbaise/maven-it-extension/issues/265[Fixed #265]
 :issue-267: https://github.com/khmarbaise/maven-it-extension/issues/267[Fixed #267]
 :issue-268: https://github.com/khmarbaise/maven-it-extension/issues/268[Fixed #268]
@@ -71,6 +72,8 @@
  * {issue-210} - Removed unused dependency commons-compress.
  * {pr-211} - Add @MavenTest annotation to README example
  * {issue-230} - Get rid of commons-io
+ * {issue-264} - The targetBaseDirectory in MavenProjectResult points to wrong location.
+                 Added some tests to prevent the issue.
  * {issue-278} - Enhance list of Maven versions
  * {issue-279} - Typos / Minor Code cleanups
  * {issue-??} - ?
