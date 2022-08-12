@@ -25,17 +25,19 @@ import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.soebes.itf.jupiter.maven.MavenExecutor;
 import org.junit.jupiter.api.BeforeEach;
 
+import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
+
 @MavenJupiterExtension
 class ITWithBeforeEachIT {
 
   @BeforeEach
   void beforeEach(MavenExecutor executor) {
-    System.out.println("* beforeEach of ITWithBeforeEachIT");
-    //System.out.println("* result = " + executor);
+    //FIXME Need to reconsider and what should being checked here?
   }
 
   @MavenTest
   void the_first_test_case(MavenExecutionResult result) {
-    System.out.println("result = " + result);
+
+    assertThat(result).isSuccessful();
   }
 }

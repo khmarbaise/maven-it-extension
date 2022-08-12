@@ -49,13 +49,12 @@ class AnnotationHelper {
    * Get the profiles from the annotation.
    *
    * @param context {@link ExtensionContext}
-   * @return The stream with the profiles which exist.
+   * @return The stream with the profiles.
    */
   static List<String> profiles(ExtensionContext context) {
-    //MavenProfile[] annotationsByType = context.getClass().getPackage().getAnnotationsByType(MavenProfile.class);
     List<MavenProfile> mavenProfilesOnTestMethod = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), MavenProfile.class);
     List<String> profiles = mavenProfilesOnTestMethod.stream().flatMap(profile -> Stream.of(profile.value())).collect(Collectors.toList());
-    if (profiles.size() > 0) {
+    if (!profiles.isEmpty()) {
       return profiles;
     }
 
@@ -76,7 +75,7 @@ class AnnotationHelper {
    * or on test class level.
    *
    * @param context {@link ExtensionContext}
-   * @return The stream with the goals if exist.
+   * @return The stream with the goals.
    */
   static List<String> goals(ExtensionContext context) {
     List<MavenGoal> goalAnnotations = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), MavenGoal.class);
@@ -102,7 +101,7 @@ class AnnotationHelper {
    * or on test class level.
    *
    * @param context {@link ExtensionContext}
-   * @return The stream with the options when exist.
+   * @return The stream with the options.
    */
   static List<String> options(ExtensionContext context) {
     List<MavenOption> mavenOptionsOnTestMethod = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), MavenOption.class);
