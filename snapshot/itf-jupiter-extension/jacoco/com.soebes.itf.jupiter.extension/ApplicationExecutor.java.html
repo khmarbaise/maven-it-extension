@@ -101,7 +101,7 @@ class ApplicationExecutor {
   }
 
   Path getStdout() {
-<span class="nc" id="L104">    return Paths.get(loggingDirectory.toString(), this.prefix + &quot;-stdout.log&quot;);</span>
+<span class="nc" id="L104">    return loggingDirectory.resolve(this.prefix + &quot;-stdout.log&quot;);</span>
   }
 
   Stream&lt;String&gt; createLogStream() {
@@ -110,7 +110,7 @@ class ApplicationExecutor {
   }
 
   Path getStdErr() {
-<span class="nc" id="L113">    return Paths.get(loggingDirectory.toString(), this.prefix + &quot;-stderr.log&quot;);</span>
+<span class="nc" id="L113">    return loggingDirectory.resolve(this.prefix + &quot;-stderr.log&quot;);</span>
   }
 
 }
