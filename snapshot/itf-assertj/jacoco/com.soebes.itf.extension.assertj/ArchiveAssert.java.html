@@ -51,14 +51,14 @@ public class ArchiveAssert extends AbstractAssert&lt;ArchiveAssert, Path&gt; {
   private final MavenProjectResultAssert parent;
 
   ArchiveAssert(Path earFile, Model model, MavenProjectResultAssert parent) {
-<span class="nc" id="L54">    super(earFile, ArchiveAssert.class);</span>
-<span class="nc" id="L55">    this.model = model;</span>
-<span class="nc" id="L56">    this.includes = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L57">    this.parent = parent;</span>
+<span class="fc" id="L54">    super(earFile, ArchiveAssert.class);</span>
+<span class="fc" id="L55">    this.model = model;</span>
+<span class="fc" id="L56">    this.includes = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L57">    this.parent = parent;</span>
     //TODO: currently ignore maven files and MANIFEST.MF
-<span class="nc" id="L59">    ignoreMavenFiles();</span>
-<span class="nc" id="L60">    ignoreManifest();</span>
-<span class="nc" id="L61">  }</span>
+<span class="fc" id="L59">    ignoreMavenFiles();</span>
+<span class="fc" id="L60">    ignoreManifest();</span>
+<span class="fc" id="L61">  }</span>
 
   /**
    * This will ignore the files within an archive
@@ -70,15 +70,15 @@ public class ArchiveAssert extends AbstractAssert&lt;ArchiveAssert, Path&gt; {
    * @return {@link ArchiveAssert}
    */
   public ArchiveAssert ignoreMavenFiles() {
-<span class="nc" id="L73">    this.includes.addAll(</span>
-<span class="nc" id="L74">        Arrays.asList(&quot;META-INF/maven/&quot; + this.model.getGroupId() + &quot;/&quot; + this.model.getArtifactId() + &quot;pom.xml&quot;,</span>
-<span class="nc" id="L75">            &quot;META-INF/maven/&quot; + this.model.getGroupId() + &quot;/&quot; + this.model.getArtifactId() + &quot;pom.properties&quot;));</span>
-<span class="nc" id="L76">    return myself;</span>
+<span class="fc" id="L73">    this.includes.addAll(</span>
+<span class="fc" id="L74">        Arrays.asList(&quot;META-INF/maven/&quot; + this.model.getGroupId() + &quot;/&quot; + this.model.getArtifactId() + &quot;pom.xml&quot;,</span>
+<span class="fc" id="L75">            &quot;META-INF/maven/&quot; + this.model.getGroupId() + &quot;/&quot; + this.model.getArtifactId() + &quot;pom.properties&quot;));</span>
+<span class="fc" id="L76">    return myself;</span>
   }
 
   public ArchiveAssert ignoreManifest() {
-<span class="nc" id="L80">    this.includes.addAll(Arrays.asList(&quot;META-INF/MANIFEST.MF&quot;));</span>
-<span class="nc" id="L81">    return myself;</span>
+<span class="fc" id="L80">    this.includes.addAll(Arrays.asList(&quot;META-INF/MANIFEST.MF&quot;));</span>
+<span class="fc" id="L81">    return myself;</span>
   }
 
   public ArchiveAssert doesNotContain(String... files) {
@@ -128,9 +128,30 @@ public class ArchiveAssert extends AbstractAssert&lt;ArchiveAssert, Path&gt; {
 
   @Override
   public ArchiveAssert isEqualTo(Object expected) {
-<span class="nc" id="L131">    objects.assertEqual(info, actual, expected);</span>
+<span class="nc" id="L131">    objects.assertEqual(this.info, this.actual, expected);</span>
 <span class="nc" id="L132">    return myself;</span>
   }
 
+  /**
+   * @throws UnsupportedOperationException if this method is called.
+   * @implNote java:S1133: Suppressing &quot;Do not forget to remove this deprecated code someday.&quot; message.
+   * @deprecated use {@link #isEqualTo} instead
+   */
+  @Override
+  @Deprecated
+  @SuppressWarnings(&quot;java:S1133&quot;)
+  public boolean equals(Object obj) {
+<span class="fc" id="L144">    throw new UnsupportedOperationException(&quot;'equals' is not supported...maybe you intended to call 'isEqualTo'&quot;);</span>
+  }
+
+  /**
+   * Always returns 1.
+   *
+   * @return 1.
+   */
+  @Override
+  public int hashCode() {
+<span class="fc" id="L154">    return 1;</span>
+  }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

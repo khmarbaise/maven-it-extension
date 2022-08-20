@@ -144,7 +144,7 @@
 <th>Missing Classes</th></tr>
 <tr class="b">
 <td>9</td>
-<td>14</td>
+<td>20</td>
 <td>0</td>
 <td>0</td></tr></table></section><section>
 <h2><a name="Files"></a>Files</h2>
@@ -154,14 +154,79 @@
 <th>Bugs</th></tr>
 <tr class="b">
 <td><a href="#com.soebes.itf.extension.assertj.ArchiveAssert">com.soebes.itf.extension.assertj.ArchiveAssert</a></td>
-<td>7</td></tr>
+<td>8</td></tr>
+<tr class="a">
+<td><a href="#com.soebes.itf.extension.assertj.LogAssert">com.soebes.itf.extension.assertj.LogAssert</a></td>
+<td>1</td></tr>
+<tr class="b">
+<td><a href="#com.soebes.itf.extension.assertj.MavenCacheResultAssert">com.soebes.itf.extension.assertj.MavenCacheResultAssert</a></td>
+<td>1</td></tr>
 <tr class="a">
 <td><a href="#com.soebes.itf.extension.assertj.MavenExecutionResultAssert">com.soebes.itf.extension.assertj.MavenExecutionResultAssert</a></td>
-<td>2</td></tr>
+<td>3</td></tr>
 <tr class="b">
+<td><a href="#com.soebes.itf.extension.assertj.MavenLogAssert">com.soebes.itf.extension.assertj.MavenLogAssert</a></td>
+<td>1</td></tr>
+<tr class="a">
 <td><a href="#com.soebes.itf.extension.assertj.MavenProjectResultAssert">com.soebes.itf.extension.assertj.MavenProjectResultAssert</a></td>
-<td>5</td></tr></table></section><a name="com.soebes.itf.extension.assertj.ArchiveAssert"></a><section>
+<td>6</td></tr></table></section><a name="com.soebes.itf.extension.assertj.ArchiveAssert"></a><section>
 <h3><a name="com.soebes.itf.extension.assertj.ArchiveAssert"></a>com.soebes.itf.extension.assertj.ArchiveAssert</h3>
+<table border="0" class="table table-striped">
+<tr class="b">
+<th>Bug</th>
+<th>Category</th>
+<th>Details</th>
+<th>Line</th>
+<th>Priority</th></tr>
+<tr class="a">
+<td>com.soebes.itf.extension.assertj.ArchiveAssert.and() may expose internal representation by returning ArchiveAssert.parent</td>
+<td>MALICIOUS_CODE</td>
+<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
+<td>126</td>
+<td>Medium</td></tr>
+<tr class="b">
+<td>com.soebes.itf.extension.assertj.ArchiveAssert.containsOnly(String[]) may expose internal representation by returning org.assertj.core.api.AbstractAssert.myself</td>
+<td>MALICIOUS_CODE</td>
+<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
+<td>122</td>
+<td>Medium</td></tr>
+<tr class="a">
+<td>com.soebes.itf.extension.assertj.ArchiveAssert.containsOnlyOnce(String[]) may expose internal representation by returning org.assertj.core.api.AbstractAssert.myself</td>
+<td>MALICIOUS_CODE</td>
+<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
+<td>110</td>
+<td>Medium</td></tr>
+<tr class="b">
+<td>com.soebes.itf.extension.assertj.ArchiveAssert.doesNotContain(String[]) may expose internal representation by returning org.assertj.core.api.AbstractAssert.myself</td>
+<td>MALICIOUS_CODE</td>
+<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
+<td>94</td>
+<td>Medium</td></tr>
+<tr class="a">
+<td>com.soebes.itf.extension.assertj.ArchiveAssert.ignoreManifest() may expose internal representation by returning org.assertj.core.api.AbstractAssert.myself</td>
+<td>MALICIOUS_CODE</td>
+<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
+<td>81</td>
+<td>Medium</td></tr>
+<tr class="b">
+<td>com.soebes.itf.extension.assertj.ArchiveAssert.ignoreMavenFiles() may expose internal representation by returning org.assertj.core.api.AbstractAssert.myself</td>
+<td>MALICIOUS_CODE</td>
+<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
+<td>76</td>
+<td>Medium</td></tr>
+<tr class="a">
+<td>com.soebes.itf.extension.assertj.ArchiveAssert.isEqualTo(Object) may expose internal representation by returning org.assertj.core.api.AbstractAssert.myself</td>
+<td>MALICIOUS_CODE</td>
+<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
+<td>132</td>
+<td>Medium</td></tr>
+<tr class="b">
+<td>com.soebes.itf.extension.assertj.ArchiveAssert.equals(Object) is unusual</td>
+<td>STYLE</td>
+<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EQ_UNUSUAL">EQ_UNUSUAL</a></td>
+<td>144</td>
+<td>Medium</td></tr></table></section><a name="com.soebes.itf.extension.assertj.LogAssert"></a><section>
+<h3><a name="com.soebes.itf.extension.assertj.LogAssert"></a>com.soebes.itf.extension.assertj.LogAssert</h3>
 <table border="0" class="table table-striped">
 <tr class="a">
 <th>Bug</th>
@@ -170,46 +235,24 @@
 <th>Line</th>
 <th>Priority</th></tr>
 <tr class="b">
-<td>com.soebes.itf.extension.assertj.ArchiveAssert.and() may expose internal representation by returning ArchiveAssert.parent</td>
-<td>MALICIOUS_CODE</td>
-<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
-<td>126</td>
-<td>Medium</td></tr>
+<td>com.soebes.itf.extension.assertj.LogAssert.equals(Object) is unusual</td>
+<td>STYLE</td>
+<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EQ_UNUSUAL">EQ_UNUSUAL</a></td>
+<td>197</td>
+<td>Medium</td></tr></table></section><a name="com.soebes.itf.extension.assertj.MavenCacheResultAssert"></a><section>
+<h3><a name="com.soebes.itf.extension.assertj.MavenCacheResultAssert"></a>com.soebes.itf.extension.assertj.MavenCacheResultAssert</h3>
+<table border="0" class="table table-striped">
 <tr class="a">
-<td>com.soebes.itf.extension.assertj.ArchiveAssert.containsOnly(String[]) may expose internal representation by returning org.assertj.core.api.AbstractAssert.myself</td>
-<td>MALICIOUS_CODE</td>
-<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
-<td>122</td>
-<td>Medium</td></tr>
+<th>Bug</th>
+<th>Category</th>
+<th>Details</th>
+<th>Line</th>
+<th>Priority</th></tr>
 <tr class="b">
-<td>com.soebes.itf.extension.assertj.ArchiveAssert.containsOnlyOnce(String[]) may expose internal representation by returning org.assertj.core.api.AbstractAssert.myself</td>
-<td>MALICIOUS_CODE</td>
-<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
-<td>110</td>
-<td>Medium</td></tr>
-<tr class="a">
-<td>com.soebes.itf.extension.assertj.ArchiveAssert.doesNotContain(String[]) may expose internal representation by returning org.assertj.core.api.AbstractAssert.myself</td>
-<td>MALICIOUS_CODE</td>
-<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
-<td>94</td>
-<td>Medium</td></tr>
-<tr class="b">
-<td>com.soebes.itf.extension.assertj.ArchiveAssert.ignoreManifest() may expose internal representation by returning org.assertj.core.api.AbstractAssert.myself</td>
-<td>MALICIOUS_CODE</td>
-<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
-<td>81</td>
-<td>Medium</td></tr>
-<tr class="a">
-<td>com.soebes.itf.extension.assertj.ArchiveAssert.ignoreMavenFiles() may expose internal representation by returning org.assertj.core.api.AbstractAssert.myself</td>
-<td>MALICIOUS_CODE</td>
-<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
-<td>76</td>
-<td>Medium</td></tr>
-<tr class="b">
-<td>com.soebes.itf.extension.assertj.ArchiveAssert.isEqualTo(Object) may expose internal representation by returning org.assertj.core.api.AbstractAssert.myself</td>
-<td>MALICIOUS_CODE</td>
-<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
-<td>132</td>
+<td>com.soebes.itf.extension.assertj.MavenCacheResultAssert.equals(Object) is unusual</td>
+<td>STYLE</td>
+<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EQ_UNUSUAL">EQ_UNUSUAL</a></td>
+<td>59</td>
 <td>Medium</td></tr></table></section><a name="com.soebes.itf.extension.assertj.MavenExecutionResultAssert"></a><section>
 <h3><a name="com.soebes.itf.extension.assertj.MavenExecutionResultAssert"></a>com.soebes.itf.extension.assertj.MavenExecutionResultAssert</h3>
 <table border="0" class="table table-striped">
@@ -223,51 +266,77 @@
 <td>com.soebes.itf.extension.assertj.MavenExecutionResultAssert.isFailure() may expose internal representation by returning org.assertj.core.api.AbstractAssert.myself</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
-<td>122</td>
+<td>121</td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>com.soebes.itf.extension.assertj.MavenExecutionResultAssert.isSuccessful() may expose internal representation by returning org.assertj.core.api.AbstractAssert.myself</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
-<td>107</td>
-<td>Medium</td></tr></table></section><a name="com.soebes.itf.extension.assertj.MavenProjectResultAssert"></a><section>
-<h3><a name="com.soebes.itf.extension.assertj.MavenProjectResultAssert"></a>com.soebes.itf.extension.assertj.MavenProjectResultAssert</h3>
-<table border="0" class="table table-striped">
+<td>106</td>
+<td>Medium</td></tr>
 <tr class="b">
+<td>com.soebes.itf.extension.assertj.MavenExecutionResultAssert.equals(Object) is unusual</td>
+<td>STYLE</td>
+<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EQ_UNUSUAL">EQ_UNUSUAL</a></td>
+<td>133</td>
+<td>Medium</td></tr></table></section><a name="com.soebes.itf.extension.assertj.MavenLogAssert"></a><section>
+<h3><a name="com.soebes.itf.extension.assertj.MavenLogAssert"></a>com.soebes.itf.extension.assertj.MavenLogAssert</h3>
+<table border="0" class="table table-striped">
+<tr class="a">
 <th>Bug</th>
 <th>Category</th>
 <th>Details</th>
 <th>Line</th>
 <th>Priority</th></tr>
+<tr class="b">
+<td>com.soebes.itf.extension.assertj.MavenLogAssert.equals(Object) is unusual</td>
+<td>STYLE</td>
+<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EQ_UNUSUAL">EQ_UNUSUAL</a></td>
+<td>199</td>
+<td>Medium</td></tr></table></section><a name="com.soebes.itf.extension.assertj.MavenProjectResultAssert"></a><section>
+<h3><a name="com.soebes.itf.extension.assertj.MavenProjectResultAssert"></a>com.soebes.itf.extension.assertj.MavenProjectResultAssert</h3>
+<table border="0" class="table table-striped">
 <tr class="a">
+<th>Bug</th>
+<th>Category</th>
+<th>Details</th>
+<th>Line</th>
+<th>Priority</th></tr>
+<tr class="b">
 <td>com.soebes.itf.extension.assertj.MavenProjectResultAssert.contains(List) may expose internal representation by returning org.assertj.core.api.AbstractAssert.myself</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
-<td>173</td>
+<td>168</td>
 <td>Medium</td></tr>
-<tr class="b">
+<tr class="a">
 <td>com.soebes.itf.extension.assertj.MavenProjectResultAssert.has(String) may expose internal representation by returning org.assertj.core.api.AbstractAssert.myself</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
-<td>86</td>
+<td>81</td>
 <td>Medium</td></tr>
-<tr class="a">
+<tr class="b">
 <td>com.soebes.itf.extension.assertj.MavenProjectResultAssert.hasModule(String) may expose internal representation by returning org.assertj.core.api.AbstractAssert.myself</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
-<td>191</td>
+<td>186</td>
 <td>Medium</td></tr>
-<tr class="b">
+<tr class="a">
 <td>com.soebes.itf.extension.assertj.MavenProjectResultAssert.hasTarget() may expose internal representation by returning org.assertj.core.api.AbstractAssert.myself</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
-<td>76</td>
+<td>71</td>
 <td>Medium</td></tr>
-<tr class="a">
+<tr class="b">
 <td>com.soebes.itf.extension.assertj.MavenProjectResultAssert.isEqualTo(Object) may expose internal representation by returning org.assertj.core.api.AbstractAssert.myself</td>
 <td>MALICIOUS_CODE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EI_EXPOSE_REP">EI_EXPOSE_REP</a></td>
-<td>214</td>
+<td>209</td>
+<td>Medium</td></tr>
+<tr class="a">
+<td>com.soebes.itf.extension.assertj.MavenProjectResultAssert.equals(Object) is unusual</td>
+<td>STYLE</td>
+<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EQ_UNUSUAL">EQ_UNUSUAL</a></td>
+<td>245</td>
 <td>Medium</td></tr></table></section>
         </main>
       </div>

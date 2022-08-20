@@ -50,8 +50,8 @@ public class LogAssert extends AbstractAssert&lt;LogAssert, LogClass&gt; {
    * @param actual {@link LogClass}
    */
   LogAssert(LogClass actual) {
-<span class="nc" id="L53">    super(actual, LogAssert.class);</span>
-<span class="nc" id="L54">  }</span>
+<span class="fc" id="L53">    super(actual, LogAssert.class);</span>
+<span class="fc" id="L54">  }</span>
 
   /**
    * Will give you back the stdout and removes the prefix {@code &quot;[INFO] &quot;} (including the single space) from all lines.
@@ -183,6 +183,28 @@ public class LogAssert extends AbstractAssert&lt;LogAssert, LogClass&gt; {
    */
   public ListAssert&lt;String&gt; plain() {
 <span class="nc" id="L185">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getLog()));</span>
+  }
+
+  /**
+   * @throws UnsupportedOperationException if this method is called.
+   * @implNote java:S1133: Suppressing &quot;Do not forget to remove this deprecated code someday.&quot; message.
+   * @deprecated use {@link #isEqualTo} instead
+   */
+  @Override
+  @Deprecated
+  @SuppressWarnings(&quot;java:S1133&quot;)
+  public boolean equals(Object obj) {
+<span class="fc" id="L197">    throw new UnsupportedOperationException(&quot;'equals' is not supported...maybe you intended to call 'isEqualTo'&quot;);</span>
+  }
+
+  /**
+   * Always returns 1.
+   *
+   * @return 1.
+   */
+  @Override
+  public int hashCode() {
+<span class="fc" id="L207">    return 1;</span>
   }
 
 }
