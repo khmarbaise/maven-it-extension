@@ -25,7 +25,6 @@ import org.assertj.core.api.AbstractAssert;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
@@ -120,5 +119,27 @@ public class MavenExecutionResultAssert extends AbstractAssert<MavenExecutionRes
           actual.getReturnCode(), logs);
     }
     return myself;
+  }
+
+  /**
+   * @throws UnsupportedOperationException if this method is called.
+   * @implNote java:S1133: Suppressing "Do not forget to remove this deprecated code someday." message.
+   * @deprecated use {@link #isEqualTo} instead
+   */
+  @Override
+  @Deprecated
+  @SuppressWarnings("java:S1133")
+  public boolean equals(Object obj) {
+    throw new UnsupportedOperationException("'equals' is not supported...maybe you intended to call 'isEqualTo'");
+  }
+
+  /**
+   * Always returns 1.
+   *
+   * @return 1.
+   */
+  @Override
+  public int hashCode() {
+    return 1;
   }
 }

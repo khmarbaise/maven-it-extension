@@ -45,14 +45,9 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
 
   private Optional<MavenProjectResultAssert> parent;
 
-  protected MavenProjectResultAssert(MavenProjectResult actual) {
+  MavenProjectResultAssert(MavenProjectResult actual) {
     super(actual, MavenProjectResultAssert.class);
     this.parent = Optional.empty();
-  }
-
-  protected MavenProjectResultAssert(MavenProjectResult actual, MavenProjectResultAssert parent) {
-    super(actual, MavenProjectResultAssert.class);
-    this.parent = Optional.of(parent);
   }
 
   /**
@@ -238,4 +233,25 @@ public class MavenProjectResultAssert extends AbstractAssert<MavenProjectResultA
     return Files.isReadable(path);
   }
 
+  /**
+   * @throws UnsupportedOperationException if this method is called.
+   * @implNote java:S1133: Suppressing "Do not forget to remove this deprecated code someday." message.
+   * @deprecated use {@link #isEqualTo} instead
+   */
+  @Override
+  @Deprecated
+  @SuppressWarnings("java:S1133")
+  public boolean equals(Object obj) {
+    throw new UnsupportedOperationException("'equals' is not supported...maybe you intended to call 'isEqualTo'");
+  }
+
+  /**
+   * Always returns 1.
+   *
+   * @return 1.
+   */
+  @Override
+  public int hashCode() {
+    return 1;
+  }
 }

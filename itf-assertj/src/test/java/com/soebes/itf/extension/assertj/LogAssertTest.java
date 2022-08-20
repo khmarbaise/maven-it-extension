@@ -19,14 +19,11 @@ package com.soebes.itf.extension.assertj;
  * under the License.
  */
 
-import org.apache.maven.model.Model;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -35,31 +32,25 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
  * @author Karl Heinz Marbaise
  */
 @ExtendWith(MockitoExtension.class)
-class ArchiveAssertTest {
+class LogAssertTest {
 
   @Mock
-  private Path earFile;
-
-  @Mock
-  private Model model;
-
-  @Mock
-  private MavenProjectResultAssert mavenProjectResultAssert;
+  private LogClass logClass;
 
   @InjectMocks
-  private ArchiveAssert archiveAssert;
+  private LogAssert logAssert;
 
   @Test
   @SuppressWarnings("deprecation")
   void equals_should_throw_unsupported_operation_exception() {
     assertThatExceptionOfType(UnsupportedOperationException.class)
-        .isThrownBy(() -> archiveAssert.equals(null))
+        .isThrownBy(() -> logAssert.equals(null))
         .withMessage("'equals' is not supported...maybe you intended to call 'isEqualTo'");
   }
 
   @Test
   void hashcode_should_return_minus_one() {
-    assertThat(archiveAssert.hashCode()).isEqualTo(1);
+    assertThat(logAssert.hashCode()).isEqualTo(1);
   }
 
 }

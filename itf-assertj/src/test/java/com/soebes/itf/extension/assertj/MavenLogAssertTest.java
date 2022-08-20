@@ -27,6 +27,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+
 /**
  * @author Karl Heinz Marbaise
  */
@@ -35,7 +38,7 @@ class MavenLogAssertTest {
   private MavenLogAssert mavenLogAssert;
 
   @BeforeEach
-   void beforeEach() throws URISyntaxException {
+  void beforeEach() throws URISyntaxException {
     URI stdoutURI = this.getClass().getResource("/mvn-stdout.log").toURI();
     URI stderrURI = this.getClass().getResource("/mvn-stderr.log").toURI();
     MavenLog mavenLog = new MavenLog(Paths.get(stdoutURI), Paths.get(stderrURI));
@@ -86,6 +89,19 @@ class MavenLogAssertTest {
     mavenLogAssert.error().containsExactly(
         "Failure during execution."
     );
+  }
+
+  @Test
+  @SuppressWarnings("deprecation")
+  void equals_should_throw_unsupported_operation_exception() {
+    assertThatExceptionOfType(UnsupportedOperationException.class)
+        .isThrownBy(() -> mavenLogAssert.equals(null))
+        .withMessage("'equals' is not supported...maybe you intended to call 'isEqualTo'");
+  }
+
+  @Test
+  void hashcode_should_return_minus_one() {
+    assertThat(mavenLogAssert.hashCode()).isEqualTo(1);
   }
 
 }

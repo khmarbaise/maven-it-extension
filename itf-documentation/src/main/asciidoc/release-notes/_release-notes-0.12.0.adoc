@@ -57,7 +57,7 @@
 :issue-279: https://github.com/khmarbaise/maven-it-extension/issues/279[Fixed #279]
 :issue-280: https://github.com/khmarbaise/maven-it-extension/issues/280[Fixed #280]
 :issue-281: https://github.com/khmarbaise/maven-it-extension/issues/281[Fixed #281]
-
+:issue-282: https://github.com/khmarbaise/maven-it-extension/issues/282[Fixed #282]
 :pr-211: https://github.com/khmarbaise/maven-it-extension/pull/211[Pull request #211]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
@@ -82,6 +82,7 @@
                  Added some tests to prevent the issue.
  * {issue-278} - Enhance list of Maven versions
  * {issue-279} - Typos / Minor Code cleanups
+ * {issue-282} - Add missing equals/hashCode for custom assertions.
  * {issue-??} - ?
 
 *Breaking Changes*
