@@ -45,7 +45,7 @@ import java.util.List;
  *
  * @implNote Copied the majority of the code from maven-resources-plugin.
  */
-@Mojo(name = "resources-its", defaultPhase = LifecyclePhase.PROCESS_TEST_RESOURCES, requiresProject = true, threadSafe = true)
+@Mojo(name = "resources-its", defaultPhase = LifecyclePhase.PROCESS_TEST_RESOURCES, threadSafe = true)
 public class ResourcesMojo extends AbstractMojo {
 
   @Parameter(defaultValue = "${project}", readonly = true, required = true)
@@ -196,7 +196,7 @@ public class ResourcesMojo extends AbstractMojo {
   @Parameter
   private List<String> mavenFilteringHints;
 
-  private List<MavenResourcesFiltering> mavenFilteringComponents = new ArrayList<MavenResourcesFiltering>();
+  private List<MavenResourcesFiltering> mavenFilteringComponents = new ArrayList<>();
 
   /**
    * stop searching endToken at the end of line
@@ -287,7 +287,7 @@ public class ResourcesMojo extends AbstractMojo {
    */
   private boolean isFilteringEnabled(Collection<Resource> theResources) {
     if (theResources != null) {
-      return theResources.stream().anyMatch(resource -> resource.isFiltering());
+      return theResources.stream().anyMatch(Resource::isFiltering);
     }
     return false;
   }
