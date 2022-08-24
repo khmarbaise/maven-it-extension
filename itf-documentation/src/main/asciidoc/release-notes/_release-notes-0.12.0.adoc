@@ -58,6 +58,7 @@
 :issue-280: https://github.com/khmarbaise/maven-it-extension/issues/280[Fixed #280]
 :issue-281: https://github.com/khmarbaise/maven-it-extension/issues/281[Fixed #281]
 :issue-282: https://github.com/khmarbaise/maven-it-extension/issues/282[Fixed #282]
+:issue-283: https://github.com/khmarbaise/maven-it-extension/issues/283[Fixed #283]
 :pr-211: https://github.com/khmarbaise/maven-it-extension/pull/211[Pull request #211]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
@@ -147,5 +148,6 @@
 * {issue-258} - Upgrade smpp to 5.3.8
 * {issue-263} - Upgrade maven-surefire/failsafe-plugin to 3.0.0-M6.
 * {issue-280} - Upgrade Maven to 3.8.6
+* {issue-283} - Build on JDK18+
 
 The full release notes can be found here {release_0_12_0}[Release 0.12.0].

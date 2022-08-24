@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: linux-pipeline-jdk17
+name: linux-pipeline-jdk18
 type: docker
 
 image_pull_secrets:
@@ -15,7 +15,7 @@ steps:
     image: meltwater/drone-cache:v1.3.0
     pull: always
     volumes:
-      - name: jdk17m2cache
+      - name: jdk18m2cache
         path: /drone/src/.repo
     settings:
       cache_key: "{{ .Repo.Owner }}_{{ .Repo.Name }}_{{ .Commit.Branch }}_{{ checksum \"pom.xml\" }}"
@@ -30,11 +30,11 @@ steps:
       mount:
         - .repo
 
-  - name: mavenjdk17
+  - name: mavenjdk18
     pull: always
-    image: docker.io/maven:3.8.6-eclipse-temurin-17-alpine
+    image: docker.io/maven:3.8.6-eclipse-temurin-18-alpine
     volumes:
-      - name: jdk17m2cache
+      - name: jdk18m2cache
         path: /drone/src/.repo
     commands:
       - mvn -Dmaven.repo.local=/drone/src/.repo -V --no-transfer-progress clean verify --fail-at-end --batch-mode
@@ -56,7 +56,7 @@ steps:
     image: meltwater/drone-cache:v1.3.0
     pull: always
     volumes:
-      - name: jdk17m2cache
+      - name: jdk18m2cache
         path: /drone/src/.repo
     settings:
       cache_key: "{{ .Repo.Owner }}_{{ .Repo.Name }}_{{ .Commit.Branch }}_{{ checksum \"pom.xml\" }}"
@@ -73,5 +73,5 @@ steps:
       when:
         event: push
 volumes:
-  - name: jdk17m2cache
+  - name: jdk18m2cache
     temp: { }

@@ -37,7 +37,7 @@ jobs:
       - name: 'Setup Java Version'
         uses: actions/setup-java@v1
         with:
-          java-version: 17
+          java-version: 18
       - name: 'Build'
         run: unset JAVA_TOOL_OPTIONS;mvn -V --no-transfer-progress clean verify site:site site:stage
       - name: 'Deploy to gh-pages'
