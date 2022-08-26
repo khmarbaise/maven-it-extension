@@ -34,7 +34,6 @@ import java.util.Properties;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.parallel.ResourceAccessMode.READ_WRITE;
 import static org.junit.jupiter.api.parallel.Resources.SYSTEM_PROPERTIES;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -83,7 +82,7 @@ class DisabledForMavenVersionConditionTest {
 
     AnnotatedElement annotatedElement = mock(AnnotatedElement.class);
 
-    when(annotatedElement.isAnnotationPresent(eq(DisabledForMavenVersion.class))).thenReturn(true);
+    when(annotatedElement.isAnnotationPresent(DisabledForMavenVersion.class)).thenReturn(true);
 
     when(extensionContext.getElement()).thenReturn(Optional.of(annotatedElement));
     ConditionEvaluationResult conditionEvaluationResult = disabledForMavenVersionCondition.evaluateExecutionCondition(

@@ -26,7 +26,7 @@ import net.bytebuddy.description.annotation.AnnotationDescription.Builder;
 import java.lang.annotation.Annotation;
 
 /**
- * Helper Class to prevent code duplication in {@link MavenJupiterExtension} and {@link MavenRepositoryTest}.
+ * Helper Class to prevent code duplication in {@link MavenJupiterExtension} and {@link MavenProjectTest}.
  *
  * @author Karl Heinz Marbaise
  */

@@ -384,6 +384,7 @@ class MavenLocatorTest {
       }
 
     }
+
     @Nested
     @DisplayName("ITF_DEBUG")
     class ITFDebugging {

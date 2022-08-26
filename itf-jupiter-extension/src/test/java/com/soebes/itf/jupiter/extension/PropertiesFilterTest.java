@@ -68,6 +68,7 @@ class PropertiesFilterTest {
     List<String> filter = propertiesFilter.filter();
     assertThat(filter).hasSize(1).containsExactly("org.codehaus.mojo:versions-maven-plugin:1.0.0:compare-dependencies");
   }
+
   @Test
   void given_empty_lists() {
     Map<String, String> keyValues = new HashMap<>();
