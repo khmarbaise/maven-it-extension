@@ -265,7 +265,7 @@ After execution of the integration test the result will look like this:
                        ├── mvn-stdout.log
                        ├── mvn-stderr.log
                        ├── mvn-arguments.log
-                       └── orther logs.
+                       └── other logs.
 ```
 This gives you a first impression how an integration test can look like. There are a lot 
 of example in [this project available](https://github.com/khmarbaise/maven-it-extension/blob/master/itf-examples/src/test/java/com/soebes/itf/examples/MavenProjectIT.java)
@@ -309,7 +309,7 @@ The background guide is a conclusion about the reason why I have started this pr
 
 # GitHub Pages
 
-Currently we have two states of site: 
+Currently, we have two states of site: 
 
   * Release State of the generated Maven site https://khmarbaise.github.io/maven-it-extension/
   * The SNAPSHOT State of the Maven site https://khmarbaise.github.io/maven-it-extension/snapshot/
