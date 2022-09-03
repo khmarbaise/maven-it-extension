@@ -22,9 +22,13 @@ package com.soebes.itf.jupiter.maven;
 import org.apache.maven.model.Model;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 /**
  * @author Karl Heinz Marbaise
@@ -32,11 +36,43 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ProjectHelperTest {
 
   @Test
-  void should_read_the_pom_file_without_any_isseu() {
+  void should_read_the_pom_file_without_any_issue() {
     InputStream resourceAsStream = this.getClass().getResourceAsStream("/pom.xml");
     Model model = ProjectHelper.readProject(resourceAsStream);
 
     assertThat(model.getArtifactId()).isEqualTo("versions-maven-plugin");
     assertThat(model.getVersion()).isEqualTo("2.8-SNAPSHOT");
   }
+
+  @Test
+  void fail_to_read_the_pom_file() throws IOException {
+    try (InputStream resourceAsStream = this.getClass().getResourceAsStream("/pom-with-issue.xml")) {
+      assertThatIllegalStateException().isThrownBy(() -> ProjectHelper.readProject(resourceAsStream))
+          .withMessage("Failed to read pom.xml")
+          .havingCause()
+          .withMessage("expected > to finsh end tag not < from line 32 (position: TEXT seen ...<version>2.8-SNAPSHOT</version\\n  <... @33:4) ");
+    }
+    ;
+  }
+
+  @Test
+  void should_read_pom_without_any_issue_as_path() {
+    Path resourcesDirectory = Paths.get("src", "test", "resources", "pom.xml");
+    Model model = ProjectHelper.readProject(resourcesDirectory);
+
+    assertThat(model.getArtifactId()).isEqualTo("versions-maven-plugin");
+    assertThat(model.getVersion()).isEqualTo("2.8-SNAPSHOT");
+  }
+
+  @Test
+  void should_fail() {
+    Path resourcesDirectory = Paths.get("src", "test", "resources", "unknown.xml");
+
+    assertThatIllegalStateException().isThrownBy(() -> ProjectHelper.readProject(resourcesDirectory))
+        .withMessage("Failed to read pom.xml")
+        .havingCause()
+        .withMessage("src/test/resources/unknown.xml");
+
+  }
+
 }
