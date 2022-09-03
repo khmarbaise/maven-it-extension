@@ -23,6 +23,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.platform.commons.support.AnnotationSupport;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -61,7 +62,6 @@ class AnnotationHelper {
     List<MavenProfile> repeatableAnnotationsOnClass = AnnotationSupport.findRepeatableAnnotations(context.getTestClass(), MavenProfile.class);
     return repeatableAnnotationsOnClass.stream().flatMap(profile -> Stream.of(profile.value())).collect(Collectors.toList());
   }
-
   /**
    * @param context {@link ExtensionContext}
    * @return {@code true} if we have any {@link MavenGoal @MavenGoal} defined or {@code false} otherwise.
@@ -134,6 +134,7 @@ class AnnotationHelper {
     return AnnotationSupport.findRepeatableAnnotations(context.getTestClass(), SystemProperty.class);
   }
 
+
   private static Optional<Class<?>> findAnnotation(ExtensionContext context,
                                                    Class<? extends Annotation> annotationClass) {
     Optional<ExtensionContext> current = Optional.of(context);
@@ -160,6 +161,22 @@ class AnnotationHelper {
 
   static Optional<Class<?>> findMavenPredefinedRepositoryAnnotation(ExtensionContext context) {
     return findAnnotation(context, MavenPredefinedRepository.class);
+  }
+
+  static Optional<MavenProjectLocation> findMavenProjectLocationAnnotation(ExtensionContext context) {
+    Method method = context.getTestMethod().orElseThrow(IllegalStateException::new);
+    boolean methodAnnotationPresent = method.isAnnotationPresent(MavenProjectLocation.class);
+    if (methodAnnotationPresent) {
+      return Optional.of(method.getAnnotation(MavenProjectLocation.class));
+    }
+
+    Class<?> testClass = context.getTestClass().orElseThrow(IllegalStateException::new);
+    boolean annotationPresent = testClass.isAnnotationPresent(MavenProjectLocation.class);
+    if (annotationPresent) {
+      return Optional.of(testClass.getAnnotation(MavenProjectLocation.class));
+    }
+
+    return Optional.empty();
   }
 
 }

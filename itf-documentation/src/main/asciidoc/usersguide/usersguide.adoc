@@ -1629,6 +1629,78 @@ include::{itfexample}/itf-failure-plugin/src/test/resources-its/com/soebes/itf/m
 ----
 
 
+=== Project Not at Root Level
+Sometimes you have a structure in your version control repository which does not
+fit with the assumptions which are made by the integration testing framework.
+As an example we will take a look onto the following example:
+[source,text]
+----
+.
+└──root/
+   └── supplemental/
+        └── files
+   └── subdirectory
+        ├── src/
+        └── pom.xml
+----
+
+The `root` is the location where you check out your source.
+The directory `supplemental` contains other files and/or subdirectories which are not needed for testing. The
+`subdirectory` contains the directory with the plugin you would like to test with the framework.A usual setup described
+in previous chapters will not work.
+
+The following integration test shows what you need to do to set up that kind of
+project layout correctly. The important part is `@MavenProjectLocation` which defines the directory where to find the
+`pom.xml`. In our case this is the `subdirectory` (previous layout example).
+
+[source,java]
+.TheIT.java
+----
+package com.its;
+
+@MavenJupiterExtension
+class TheIT {
+
+  @MavenTest
+  @MavenProjectLocation("subdirectory")
+  void basic(MavenExecutionResult result) {
+    ...
+  }
+}
+----
+
+The definition can be done on method level or on class level. That
+is useful if you have several test cases where the `pom.xml`is being found in a subdirectory instead of being at the
+root level.
+
+You can define the `@MavenProjectLocation` on the class level to define the same setup for several tests.
+The test cases `first` and `second` will use that. The configuration for `third` test case is using a different
+location as expressed with the supplemental `@MavenProjectLocation`. This is very unlikely.
+
+[source,java]
+.TheIT.java
+----
+package com.its;
+
+@MavenJupiterExtension
+@MavenProjectLocation("subdirectory")
+class TheIT {
+
+  @MavenTest
+  void first(MavenExecutionResult result) {
+    ...
+  }
+  @MavenTest
+  void second(MavenExecutionResult result) {
+    ...
+  }
+  @MavenTest
+  @MavenProjectLocation("differentsubdir")
+  void third(MavenExecutionResult result) {
+    ...
+  }
+}
+----
 
 [appendix]
 == MavenExecutionResult

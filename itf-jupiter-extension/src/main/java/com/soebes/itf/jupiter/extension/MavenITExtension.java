@@ -50,6 +50,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.findMavenProjectLocationAnnotation;
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.goals;
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.hasGoals;
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.hasOptions;
@@ -203,7 +204,17 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
       throw new IllegalStateException("We could not find the maven executable `mvn` somewhere");
     }
 
-    ApplicationExecutor mavenExecutor = new ApplicationExecutor(directoryResolverResult.getProjectDirectory(),
+    Path projectWorkingDirectory = directoryResolverResult.getProjectDirectory();
+    Optional<MavenProjectLocation> mavenProjectLocationAnnotation = findMavenProjectLocationAnnotation(context);
+    if (mavenProjectLocationAnnotation.isPresent()) {
+      String mavenProjectLocation = mavenProjectLocationAnnotation.get().value();
+      if (mavenProjectLocation.isEmpty()) {
+        throw new IllegalStateException("You have to define a location in your MavenProjectLocation annotation");
+      }
+      projectWorkingDirectory = directoryResolverResult.getProjectDirectory().resolve(mavenProjectLocation);
+    }
+
+    ApplicationExecutor mavenExecutor = new ApplicationExecutor(projectWorkingDirectory,
         integrationTestCaseDirectory, mvnLocation.get(), Collections.emptyList(), prefix);
 
     List<String> executionArguments = new ArrayList<>();
@@ -258,7 +269,7 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     MavenLog log = new MavenLog(mavenExecutor.getStdout(), mavenExecutor.getStdErr());
     MavenCacheResult mavenCacheResult = new MavenCacheResult(directoryResolverResult.getCacheDirectory());
 
-    Model model = ProjectHelper.readProject(directoryResolverResult.getProjectDirectory().resolve("pom.xml"));
+    Model model = ProjectHelper.readProject(projectWorkingDirectory.resolve("pom.xml"));
 
     MavenProjectResult mavenProjectResult = new MavenProjectResult(directoryResolverResult.getIntegrationTestCaseDirectory(),
         directoryResolverResult.getProjectDirectory(), directoryResolverResult.getCacheDirectory(), model);

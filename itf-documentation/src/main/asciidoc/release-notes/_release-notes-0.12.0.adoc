@@ -59,6 +59,7 @@
 :issue-281: https://github.com/khmarbaise/maven-it-extension/issues/281[Fixed #281]
 :issue-282: https://github.com/khmarbaise/maven-it-extension/issues/282[Fixed #282]
 :issue-283: https://github.com/khmarbaise/maven-it-extension/issues/283[Fixed #283]
+:issue-284: https://github.com/khmarbaise/maven-it-extension/issues/284[Fixed #284]
 :issue-285: https://github.com/khmarbaise/maven-it-extension/issues/285[Fixed #285]
 :pr-211: https://github.com/khmarbaise/maven-it-extension/pull/211[Pull request #211]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
@@ -69,7 +70,7 @@
 
 *Scope:*
 
- - ??
+ - {issue-284} - pom.xml in subfolder is not found or not supported
 
 *Details*
 
@@ -99,7 +100,7 @@
       has been marked deprecated and will be removed with release 0.13.0. This means you have to replace the
       call of that method with the same which has a parameter `Model readProject(Path pomFile)`.
    ** Technically the class `ArchiveAssert` extended before from `AbstractAssert<ArchiveAssert, File>` while
-      it now extends `AbstractAssert<ArchiveAssert, File>` instead.
+      it now extends `AbstractAssert<ArchiveAssert, Path>` instead.
  * {issue-281} - Lifting Maven minimum version for itf-maven-plugin to Maven 3.2.5+
 
 *Reporter of this release*
@@ -109,6 +110,9 @@
 
  * https://github.com/Stephan202[Stephan Schroevers]
    ** Reported: Add @MavenTest annotation to README example
+
+ * https://github.com/faltfe[Felix Faltin]
+   ** Reported {issue-284}
 
 *Contributors of this release*
 
