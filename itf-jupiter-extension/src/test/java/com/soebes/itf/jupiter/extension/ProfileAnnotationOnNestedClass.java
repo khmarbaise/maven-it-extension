@@ -19,15 +19,19 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
+import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import org.junit.jupiter.api.Nested;
 
+
+@MavenJupiterExtension
 class ProfileAnnotationOnNestedClass {
 
   @MavenProfile("profile-on-nest-class")
   @Nested
   class NestedClass {
     @MavenTest
-    void name() {
+    void name(MavenExecutionResult result) {
+      System.out.println("result = " + result);
     }
 
   }

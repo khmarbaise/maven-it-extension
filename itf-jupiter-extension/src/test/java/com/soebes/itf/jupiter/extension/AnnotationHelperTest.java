@@ -80,8 +80,7 @@ class AnnotationHelperTest {
   void testKitFirst() {
     Events events = EngineTestKit.engine("junit-jupiter")
         .selectors(selectClass(ProfileAnnotationOnNestedClass.class))
-        .execute()
-        .allEvents();
+        .execute().allEvents();
 
     events.stream().forEach(s -> System.out.println("s = " + s));
   }
