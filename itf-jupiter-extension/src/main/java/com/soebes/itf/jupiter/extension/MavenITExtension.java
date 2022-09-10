@@ -79,6 +79,11 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     Class<?> testClass = context.getTestClass()
         .orElseThrow(() -> new ExtensionConfigurationException("MavenITExtension is only supported for classes."));
 
+    boolean resourcesIts = AnnotationHelper.findMavenJupiterExtensionAnnotation(context)
+        .map(s -> s.getAnnotation(MavenJupiterExtension.class).resourcesIts())
+        .orElse(false);
+
+
     //FIXME: Need to reconsider the maven-it directory?
     Path targetTestClassesDirectory = DirectoryHelper.getTargetDir().resolve("maven-it");
     String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);
@@ -120,6 +125,10 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
       PathUtils.deleteRecursively(directoryResolverResult.getProjectDirectory());
       Files.createDirectories(directoryResolverResult.getProjectDirectory());
       Files.createDirectories(directoryResolverResult.getCacheDirectory());
+
+      if (!resourcesIts) {
+        return;
+      }
 
       PathUtils.copyDirectoryRecursively(directoryResolverResult.getSourceMavenProject(),
           directoryResolverResult.getProjectDirectory());

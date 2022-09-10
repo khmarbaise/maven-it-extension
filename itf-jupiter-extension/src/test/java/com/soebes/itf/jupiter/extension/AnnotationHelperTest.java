@@ -78,8 +78,10 @@ class AnnotationHelperTest {
 
   @Test
   void testKitFirst() {
+    System.setProperty("maven.home", "echo");
     Events events = EngineTestKit.engine("junit-jupiter")
         .selectors(selectClass(ProfileAnnotationOnNestedClass.class))
+        .configurationParameter("maven.home", "echo")
         .execute().allEvents();
 
     events.stream().forEach(s -> System.out.println("s = " + s));

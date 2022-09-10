@@ -23,7 +23,7 @@ import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import org.junit.jupiter.api.Nested;
 
 
-@MavenJupiterExtension
+@MavenJupiterExtension(resourcesIts = false)
 class ProfileAnnotationOnNestedClass {
 
   @MavenProfile("profile-on-nest-class")
