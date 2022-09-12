@@ -20,49 +20,25 @@ package com.soebes.itf.jupiter.extension;
  */
 
 import org.apiguardian.api.API;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
-/**
- * This annotation defines the base to run any kind of integration tests.
- *
- * <p>This also defines defines some useful defaults.</p>
- *
- * @author Karl Heinz Marbaise
- */
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@ExtendWith(MavenITExtension.class)
 @Documented
-@MavenSourceProject
-@API(status = EXPERIMENTAL, since = "0.1.0")
-public @interface MavenJupiterExtension {
+@Inherited
+@API(status = EXPERIMENTAL, since = "0.12.0")
+public @interface MavenSourceProject {
 
-  /**
-   * The source structure looks usually like this:
-   * <pre>
-   *   src/test/resources-its/.../
-   *      +--- FirstIT/
-   *              +--- test_case_one
-   *                      +--- src/...
-   *                      +--- pom.xml
-   *
-   * </pre>
-   * If you don't like to provide an appropriate
-   * project setup as given in `test_case_one` you can turn that
-   * off via setting {@link #resourcesIts()}=false.
-   * This means you have to provide the content of a project on your
-   * own.
-   * The easiest way to provide a project setup is via {@code @BeforeEach} in a
-   * base class in all of your tests.
-   */
-  @API(status = EXPERIMENTAL, since = "0.12.0")
-  boolean resourcesIts() default true;
+  String baseLocation() default "resources-its";
+
+  String value() default "";
+
 }
