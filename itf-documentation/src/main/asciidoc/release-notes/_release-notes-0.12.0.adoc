@@ -61,6 +61,7 @@
 :issue-283: https://github.com/khmarbaise/maven-it-extension/issues/283[Fixed #283]
 :issue-284: https://github.com/khmarbaise/maven-it-extension/issues/284[Fixed #284]
 :issue-285: https://github.com/khmarbaise/maven-it-extension/issues/285[Fixed #285]
+:issue-287: https://github.com/khmarbaise/maven-it-extension/issues/287[Fixed #287]
 :pr-211: https://github.com/khmarbaise/maven-it-extension/pull/211[Pull request #211]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
@@ -143,6 +144,7 @@
  * {issue-265} - Upgrade JUnit Jupiter 5.9.0
  * {issue-274} - Upgrade smpp parent 5.3.10
  * {issue-275} - Upgrade mockito 4.6.1
+ * {issue-287} - Upgrade JUnit Jupiter 5.9.1
  * {issue-???} - ??
 
 *Build Improvements*
