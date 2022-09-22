@@ -1702,6 +1702,218 @@ class TheIT {
 }
 ----
 
+=== Different Project Sources
+
+Default Setup:
+
+Consume the project based on package + ClassName + MethodName to find the
+appropriate project sources which are used to execute the tests.
+
+
+[source,java]
+.TheIT.java
+----
+package com.its;
+
+@MavenJupiterExtension
+class TheIT {
+
+  @MavenTest
+  void basic(MavenExecutionResult result) {
+    ...
+  }
+}
+----
+
+==== Use Case
+
+Do not use any project resources at all. Define it on your own
+project location. A good setup will be using the `@BeforeEach` method to
+setup the test.
+
+[source,java]
+.TheIT.java
+----
+package com.its;
+
+@MavenJupiterExtension
+@MavenProjectSources(resourcesIts=NO)
+class TheIT {
+
+  @BeforeEach
+  void beforeEach(TestInfo testInfo, MavenProjectResult result) {
+    //Setup a project into the appropriate location
+    // on your own
+  }
+  @MavenTest
+  void basic(MavenExecutionResult result) {
+    ...
+  }
+}
+----
+
+
+==== Use Case
+
+The usage should be selected to use a single directory to
+be used for all executed project instead of using
+on per method / class / nested class or alike.
+
+This means we will search in the `src/test/resources-its/`
+plus given the source location to find the source of the project
+which will be used for running the integration test.
+
+Defining on the class level means that the given location
+will be used for all tests within the class or it's nested
+classes.
+
+Intention: Reuse the same project setup for different test
+executions.
+
+[source,java]
+.TheIT.java
+----
+package com.its;
+
+@MavenJupiterExtension
+@MavenProjectSources(source="com/soebes/source-project")
+class TheIT {
+
+  @MavenTest
+  void basic(MavenExecutionResult result) {
+    ...
+  }
+}
+----
+
+==== Use Case
+
+Defining different source location for different
+tests for different testmethods?
+
+The following examle uses the same location for the
+tests `one` and `two`.
+
+The test methods `three` and `four` uses a different
+source location.
+
+[source,java]
+.TheIT.java
+----
+package com.its;
+
+@MavenJupiterExtension
+class TheIT {
+
+  @MavenTest
+  @MavenProjectSources(source="com/soebes/base1")
+  void one(MavenExecutionResult result) {
+    ...
+  }
+  @MavenTest
+  @MavenProjectSources(source="com/soebes/base1")
+  void two(MavenExecutionResult result) {
+    ...
+  }
+  @MavenTest
+  @MavenProjectSources(source="com/soebes/base2")
+  void three(MavenExecutionResult result) {
+    ...
+  }
+  @MavenTest
+  @MavenProjectSources(source="com/soebes/base2")
+  void four(MavenExecutionResult result) {
+    ...
+  }
+}
+----
+
+==== Use Case
+
+The following example will define to use a common location for the
+project sources which is used by `one` and `two` while
+`three` and `four` will use a common location `com/soebes/base-nested`.
+
+[source,java]
+.TheIT.java
+----
+package com.its;
+
+@MavenJupiterExtension
+class TheIT {
+
+  @MavenTest
+  @MavenProjectSources(source="com/soebes/base1")
+  void one(MavenExecutionResult result) {
+    ...
+  }
+  @MavenTest
+  @MavenProjectSources(source="com/soebes/base1")
+  void two(MavenExecutionResult result) {
+    ...
+  }
+
+  @Nested
+  @MavenProjectSources(source="com/soebes/base-nested")
+  class NestedSetup {
+    @MavenTest
+    void three(MavenExecutionResult result) {
+      ...
+    }
+    @MavenTest
+    void four(MavenExecutionResult result) {
+      ...
+    }
+  }
+
+}
+----
+
+==== Use Case
+
+Simplification of the previous example.
+
+The following example will define to use a common location for the
+project sources which is used by `one` and `two` while
+`three` and `four` will use a common location `com/soebes/base-nested`.
+
+[source,java]
+.TheIT.java
+----
+package com.its;
+
+@MavenJupiterExtension
+@MavenProjectSources(source="com/soebes/base1")
+class TheIT {
+
+  @MavenTest
+  void one(MavenExecutionResult result) {
+    ...
+  }
+  @MavenTest
+  void two(MavenExecutionResult result) {
+    ...
+  }
+
+  @Nested
+  @MavenProjectSources(source="com/soebes/base-nested")
+  class NestedSetup {
+    @MavenTest
+    void three(MavenExecutionResult result) {
+      ...
+    }
+    @MavenTest
+    void four(MavenExecutionResult result) {
+      ...
+    }
+  }
+
+}
+----
+
+
+
+
 [appendix]
 == MavenExecutionResult
 In some situations you need access to the directories which have been created during
@@ -1761,3 +1973,5 @@ class FirstIT {
   }
 }
 ----
+
+
