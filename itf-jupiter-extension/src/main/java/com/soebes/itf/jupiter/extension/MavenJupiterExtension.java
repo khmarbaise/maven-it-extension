@@ -41,28 +41,7 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 @Retention(RetentionPolicy.RUNTIME)
 @ExtendWith(MavenITExtension.class)
 @Documented
-@MavenSourceProject
 @API(status = EXPERIMENTAL, since = "0.1.0")
 public @interface MavenJupiterExtension {
 
-  /**
-   * The source structure looks usually like this:
-   * <pre>
-   *   src/test/resources-its/.../
-   *      +--- FirstIT/
-   *              +--- test_case_one
-   *                      +--- src/...
-   *                      +--- pom.xml
-   *
-   * </pre>
-   * If you don't like to provide an appropriate
-   * project setup as given in `test_case_one` you can turn that
-   * off via setting {@link #resourcesIts()}=false.
-   * This means you have to provide the content of a project on your
-   * own.
-   * The easiest way to provide a project setup is via {@code @BeforeEach} in a
-   * base class in all of your tests.
-   */
-  @API(status = EXPERIMENTAL, since = "0.12.0")
-  boolean resourcesIts() default true;
 }

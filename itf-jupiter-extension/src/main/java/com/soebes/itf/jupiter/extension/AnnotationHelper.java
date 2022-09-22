@@ -158,8 +158,8 @@ class AnnotationHelper {
   static Optional<Class<?>> findMavenProjectAnnotation(ExtensionContext context) {
     return findAnnotation(context, MavenProject.class);
   }
-  static Optional<Class<?>> findMavenJupiterExtensionAnnotation(ExtensionContext context) {
-    return findAnnotation(context, MavenJupiterExtension.class);
+  static Optional<Class<?>> findMavenProjectSourcesAnnotation(ExtensionContext context) {
+    return findAnnotation(context, MavenProjectSources.class);
   }
 
   static Optional<Class<?>> findMavenPredefinedRepositoryAnnotation(ExtensionContext context) {

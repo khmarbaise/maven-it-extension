@@ -59,6 +59,7 @@ import static com.soebes.itf.jupiter.extension.AnnotationHelper.hasSystemPropert
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.options;
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.profiles;
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.systemProperties;
+import static com.soebes.itf.jupiter.extension.MavenProjectSources.ResourceUsage.*;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
@@ -79,8 +80,8 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     Class<?> testClass = context.getTestClass()
         .orElseThrow(() -> new ExtensionConfigurationException("MavenITExtension is only supported for classes."));
 
-    boolean resourcesIts = AnnotationHelper.findMavenJupiterExtensionAnnotation(context)
-        .map(s -> s.getAnnotation(MavenJupiterExtension.class).resourcesIts())
+    boolean resourcesIts = AnnotationHelper.findMavenProjectSourcesAnnotation(context)
+        .map(s -> s.getAnnotation(MavenProjectSources.class).resourcesUsage().equals(DEFAULT))
         .orElse(false);
 
 

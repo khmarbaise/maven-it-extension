@@ -1704,10 +1704,14 @@ class TheIT {
 
 === Different Project Sources
 
-Default Setup:
+Sometimes it happens that you need to do the testing of your plugin
+ in a different way than usually. For example you would like to
+make the setup programmatically or in other ways.
 
-Consume the project based on package + ClassName + MethodName to find the
-appropriate project sources which are used to execute the tests.
+The default setup assumes that your projects which are used for the
+integration testings are put into the `resources-its` location
+and copied from that location into the `target/maven-its`
+to execute the tests.
 
 
 [source,java]
@@ -1726,10 +1730,14 @@ class TheIT {
 ----
 
 ==== Use Case
-
-Do not use any project resources at all. Define it on your own
-project location. A good setup will be using the `@BeforeEach` method to
-setup the test.
+If you like to generate your project setup programmatically you can turn of the
+requirement to copy the project from `resources-its/.../` via
+`@MavenProjectSources(resourcesUsage=NONE)` that means you have to provide a
+project setup on your own. The location where you need to create the setup can be
+calculated by using the parameters which are injected in the `beforeEach`
+method. The location where you need to create your project content,
+in particular `pom.xml` is given by `result.getTargetProjectDirectory()` (The injection
+into `beforeEach` method) within that directory you have to do the whole setup.
 
 [source,java]
 .TheIT.java
@@ -1737,7 +1745,7 @@ setup the test.
 package com.its;
 
 @MavenJupiterExtension
-@MavenProjectSources(resourcesIts=NO)
+@MavenProjectSources(resourcesUsage=NONE)
 class TheIT {
 
   @BeforeEach
