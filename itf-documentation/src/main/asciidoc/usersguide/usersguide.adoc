@@ -1702,6 +1702,334 @@ class TheIT {
 }
 ----
 
+=== Different Project Sources
+
+Sometimes it is necessary to do the testing of your plugin
+in a different way than usually. For example, you would like to
+make the testing project setup programmatically or in other ways.
+
+It might also happen that you want to reuse the same project
+setup for a number of different integration tests.
+
+The default setup assumes that your projects which are used for the
+integration tests are located under `src/test/resources-its`.
+Those projects will be copied during the setup into the
+`target/maven-its` directory to execute the tests.
+
+[source,java]
+.TheIT.java
+----
+package com.its;
+
+@MavenJupiterExtension
+class TheIT {
+
+  @MavenTest
+  void basic(MavenExecutionResult result) {
+    ...
+  }
+}
+----
+
+==== Generated Project Setup
+If you like to generate your project setup programmatically you can turn of
+the need of having to provide an appropriate project setup in  `resources-its/.../`.
+
+This can be achieved by defining `@MavenProjectSources(resourcesUsage=NONE)`
+that means in consequence you have to provide a full project setup on your own.
+The location where you have to create the setup can be calculated by using the parameters
+which are injected into the `beforeEach` method (see `MavenProjectResult`).
+
+The location (directory) can be used within your `beforeEach` method
+`result.getTargetProjectDirectory()`.
+
+There is a simple example for such setup in `MavenProjectSourcesBasicIT` for
+more details.
+
+[source,java]
+.TheIT.java
+----
+package com.its;
+
+@MavenJupiterExtension
+@MavenProjectSources(resourcesUsage=NONE)
+class TheIT {
+
+  @BeforeEach
+  void beforeEach(TestInfo testInfo, MavenProjectResult result) {
+    //Setup a project into the appropriate location
+    // on your own
+  }
+  @MavenTest
+  void basic(MavenExecutionResult result) {
+    ...
+  }
+}
+----
+
+
+==== Reusing Project for Several Tests
+
+It could be useful to define a single project setup which should reused for
+several executions of integration tests.
+
+In contradiction the `@MavenProject` gives the option to execute more than
+one integration test on the same project.
+
+The `@MavenProjectSource(source="com/soebes/source-project")`
+defines the location where to find the project setup for the integration test
+relative to the `src/test/resources-its` directory. This location will
+not change based on package of the integration test class, method or alike.
+
+Reconsider the default setup first:
+
+[source,java]
+.TheDefaultIT.java
+----
+package com.its;
+
+@MavenJupiterExtension
+class TheIT {
+
+  @MavenTest
+  void basic(MavenExecutionResult result) {
+    ...
+  }
+}
+----
+Based on the given setup the used integration project has to be located
+in the following directory:
+
+[source,text]
+----
+.
+└── src/
+    └── test/
+        └── resources-its/
+            └── com/
+                └── its/
+                    └── TheIT/
+                          └── basic/
+                               ├── src/
+                               └── pom.xml
+----
+
+If you define the integration test like this:
+
+[source,java]
+.TheIT.java
+----
+package com.its;
+
+@MavenJupiterExtension
+@MavenProjectSources(source="com/soebes/source-project")
+class TheIT {
+
+  @MavenTest
+  void basic(MavenExecutionResult result) {
+    ...
+  }
+}
+----
+This means having the provided test project is now located
+in the `source-project` directory instead:
+
+[source,text]
+----
+.
+└── src/
+    └── test/
+        └── resources-its/
+            └── com/
+                └── soebes/
+                    └── source-project/
+                             ├── src/
+                             └── pom.xml
+----
+
+So you can reuse the same project for more than one integration test simply
+by creating a second integration test like this:
+
+[source,java]
+.TheIT.java
+----
+package com.its;
+
+@MavenJupiterExtension
+@MavenProjectSources(source="com/soebes/source-project")
+class TheIT {
+
+  @MavenTest
+  void basic_one(MavenExecutionResult result) {
+    ...
+  }
+
+  @MavenTest
+  void basic_two(MavenExecutionResult result) {
+    ...
+  }
+}
+----
+
+This setup means to reuse the same project setup for both test cases
+`basice_one` and for `basic_two`.
+
+The most important part will be visible in the `target/` directory:
+
+[source,text]
+----
+.
+└──target/
+   └── maven-its/
+       └── com/
+           └── its/
+               └── TheIT/
+                   ├── basic_one/
+                   │   ├── .m2/
+                   │   ├── project/
+                   │   │   ├── src/
+                   │   │   ├── target/
+                   │   │   └── pom.xml
+                   │   ├── mvn-stdout.log
+                   │   ├── mvn-stderr.log
+                   │   └── other logs
+                   └── basic_two/
+                       ├── .m2/
+                       ├── project/
+                       │   ├── src/
+                       │   ├── target/
+                       │   └── pom.xml
+                       ├── mvn-stdout.log
+                       ├── mvn-stderr.log
+                       └── other logs
+----
+The directory `project` of both cases `basic_one` and `basic_two`
+will contain a copy of the same setup `source-project`.
+
+
+==== Different Setup for Every Method
+
+You can define also different project setups for each
+integration test case individual if you like.
+
+The following example uses the same location for the
+tests `one` and `two`.
+
+The test methods `three` and `four` uses a different
+source location.
+
+[source,java]
+.TheIT.java
+----
+package com.its;
+
+@MavenJupiterExtension
+class TheIT {
+
+  @MavenTest
+  @MavenProjectSources(source="com/soebes/base1")
+  void one(MavenExecutionResult result) {
+    ...
+  }
+  @MavenTest
+  @MavenProjectSources(source="com/soebes/base1")
+  void two(MavenExecutionResult result) {
+    ...
+  }
+  @MavenTest
+  @MavenProjectSources(source="com/soebes/base2")
+  void three(MavenExecutionResult result) {
+    ...
+  }
+  @MavenTest
+  @MavenProjectSources(source="com/soebes/base2")
+  void four(MavenExecutionResult result) {
+    ...
+  }
+}
+----
+
+It is also possible to define the project source location
+on a nested class level. This would simply the previous example
+a bit.
+
+[source,java]
+.TheIT.java
+----
+package com.its;
+
+@MavenJupiterExtension
+class TheIT {
+
+  @MavenTest
+  @MavenProjectSources(source="com/soebes/base1")
+  void one(MavenExecutionResult result) {
+    ...
+  }
+  @MavenTest
+  @MavenProjectSources(source="com/soebes/base1")
+  void two(MavenExecutionResult result) {
+    ...
+  }
+
+  @Nested
+  @MavenProjectSources(source="com/soebes/base-nested")
+  class NestedSetup {
+    @MavenTest
+    void three(MavenExecutionResult result) {
+      ...
+    }
+    @MavenTest
+    void four(MavenExecutionResult result) {
+      ...
+    }
+  }
+
+}
+----
+
+==== Overwrite Location
+
+It's also possible to define a kind of global source location for
+all methods within the class and overwrite that either by defining
+it on a nested class level or on test method level.
+
+[source,java]
+.TheIT.java
+----
+package com.its;
+
+@MavenJupiterExtension
+@MavenProjectSources(source="com/soebes/base1")
+class TheIT {
+
+  @MavenTest
+  void one(MavenExecutionResult result) {
+    ...
+  }
+  @MavenTest
+  void two(MavenExecutionResult result) {
+    ...
+  }
+
+  @Nested
+  @MavenProjectSources(source="com/soebes/base-nested")
+  class NestedSetup {
+    @MavenTest
+    void three(MavenExecutionResult result) {
+      ...
+    }
+    @MavenTest
+    void four(MavenExecutionResult result) {
+      ...
+    }
+  }
+
+}
+----
+
+
+
 [appendix]
 == MavenExecutionResult
 In some situations you need access to the directories which have been created during
@@ -1761,3 +2089,5 @@ class FirstIT {
   }
 }
 ----
+
+

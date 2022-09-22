@@ -37,6 +37,7 @@
 :issue-227: https://github.com/khmarbaise/maven-it-extension/issues/227[Fixed #227]
 :issue-228: https://github.com/khmarbaise/maven-it-extension/issues/228[Fixed #228]
 :issue-229: https://github.com/khmarbaise/maven-it-extension/issues/229[Fixed #229]
+:issue-232: https://github.com/khmarbaise/maven-it-extension/issues/232[Fixed #232]
 :issue-238: https://github.com/khmarbaise/maven-it-extension/issues/238[Fixed #238]
 :issue-249: https://github.com/khmarbaise/maven-it-extension/issues/249[Fixed #249]
 :issue-256: https://github.com/khmarbaise/maven-it-extension/issues/256[Fixed #256]
@@ -61,6 +62,7 @@
 :issue-283: https://github.com/khmarbaise/maven-it-extension/issues/283[Fixed #283]
 :issue-284: https://github.com/khmarbaise/maven-it-extension/issues/284[Fixed #284]
 :issue-285: https://github.com/khmarbaise/maven-it-extension/issues/285[Fixed #285]
+:issue-286: https://github.com/khmarbaise/maven-it-extension/issues/286[Fixed #286]
 :issue-287: https://github.com/khmarbaise/maven-it-extension/issues/287[Fixed #287]
 :issue-289: https://github.com/khmarbaise/maven-it-extension/issues/289[Fixed #289]
 :pr-211: https://github.com/khmarbaise/maven-it-extension/pull/211[Pull request #211]
@@ -80,6 +82,8 @@
  * {issue-210} - Removed unused dependency commons-compress.
  * {pr-211} - Add @MavenTest annotation to README example
  * {issue-230} - Get rid of commons-io
+ * {issue-232} - Support for custom location and reuse of a Maven project from my resources
+                 This is also related to {issue-286}.
  * {issue-260} - Test project's file attributes & links get lost when copied to test target/maven-it
                  Upgraded maven-filtering and maven-artifact-transfer and added explicitly
                  maven-shared-utils to prevent using transitive dependency.
@@ -89,6 +93,7 @@
  * {issue-279} - Typos / Minor Code cleanups
  * {issue-282} - Add missing equals/hashCode for custom assertions.
  * {issue-285} - Add some tests.
+ * {issue-286} - Support a way to avoid the requirement for resources-its directory.
  * {issue-289} - @MavenProjectLocation("subdir") Does not work on nested Class
  * {issue-??} - ?
 
@@ -117,10 +122,16 @@
  * https://github.com/faltfe[Felix Faltin]
    ** Reported {issue-284}
 
+ * https://github.com/filiphr[Filip Hrisafov]
+   ** Reported {issue-232}
+
 *Contributors of this release*
 
  * https://github.com/Stephan202[Stephan Schroevers] with {pr-211}
    ** Add @MavenTest annotation to README example
+
+ * https://github.com/filiphr[Filip Hrisafov]
+   ** Contributed the foundational ideas for {issue-232} and {issue-286}
 
 *Dependency Upgrades*
 

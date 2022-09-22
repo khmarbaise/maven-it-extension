@@ -158,6 +158,22 @@ class AnnotationHelper {
   static Optional<Class<?>> findMavenProjectAnnotation(ExtensionContext context) {
     return findAnnotation(context, MavenProject.class);
   }
+  static Optional<MavenProjectSources> findMavenProjectSourcesAnnotation(ExtensionContext context) {
+    Method method = context.getTestMethod().orElseThrow(IllegalStateException::new);
+
+    boolean methodAnnotationPresent = method.isAnnotationPresent(MavenProjectSources.class);
+    if (methodAnnotationPresent) {
+      return Optional.of(method.getAnnotation(MavenProjectSources.class));
+    }
+
+    Optional<Class<?>> mavenProjectLocationAnnotation = findAnnotation(context, MavenProjectSources.class);
+    if (mavenProjectLocationAnnotation.isPresent()) {
+      MavenProjectSources annotation = mavenProjectLocationAnnotation.get().getAnnotation(MavenProjectSources.class);
+      return Optional.of(annotation);
+    }
+
+    return Optional.empty();
+  }
 
   static Optional<Class<?>> findMavenPredefinedRepositoryAnnotation(ExtensionContext context) {
     return findAnnotation(context, MavenPredefinedRepository.class);

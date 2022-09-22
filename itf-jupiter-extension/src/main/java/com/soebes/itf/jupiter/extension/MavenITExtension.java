@@ -59,6 +59,7 @@ import static com.soebes.itf.jupiter.extension.AnnotationHelper.hasSystemPropert
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.options;
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.profiles;
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.systemProperties;
+import static com.soebes.itf.jupiter.extension.MavenProjectSources.ResourceUsage.*;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
@@ -78,6 +79,10 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
   public void beforeEach(ExtensionContext context) throws Exception {
     Class<?> testClass = context.getTestClass()
         .orElseThrow(() -> new ExtensionConfigurationException("MavenITExtension is only supported for classes."));
+
+    boolean resourcesIts = AnnotationHelper.findMavenProjectSourcesAnnotation(context)
+        .map(s -> s.resourcesUsage().equals(DEFAULT))
+        .orElse(true);
 
     //FIXME: Need to reconsider the maven-it directory?
     Path targetTestClassesDirectory = DirectoryHelper.getTargetDir().resolve("maven-it");
@@ -120,6 +125,10 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
       PathUtils.deleteRecursively(directoryResolverResult.getProjectDirectory());
       Files.createDirectories(directoryResolverResult.getProjectDirectory());
       Files.createDirectories(directoryResolverResult.getCacheDirectory());
+
+      if (!resourcesIts) {
+        return;
+      }
 
       PathUtils.copyDirectoryRecursively(directoryResolverResult.getSourceMavenProject(),
           directoryResolverResult.getProjectDirectory());

@@ -23,6 +23,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 
 import java.lang.reflect.Method;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 /**
@@ -103,13 +104,14 @@ class DirectoryResolverResult {
     Class<?> testClass = context.getTestClass().orElseThrow(() -> new IllegalStateException("Test class not found."));
     String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);
 
-
     Path intermediate = this.targetTestClassesDirectory.resolve(toFullyQualifiedPath);
     if (mavenProject.isPresent()) {
       MavenProject mavenProjectAnnotation = mavenProject.get().getAnnotation(MavenProject.class);
       this.sourceMavenProject = intermediate.resolve(mavenProjectAnnotation.value());
     } else {
-      this.sourceMavenProject = intermediate.resolve(methodName.getName());
+      this.sourceMavenProject = AnnotationHelper.findMavenProjectSourcesAnnotation(context)
+          .map(s -> targetTestClassesDirectory.resolve(s.sources()))
+          .orElse(intermediate.resolve(methodName.getName()));
     }
 
     Optional<Class<?>> optionalMavenRepository = AnnotationHelper.findMavenRepositoryAnnotation(context);
