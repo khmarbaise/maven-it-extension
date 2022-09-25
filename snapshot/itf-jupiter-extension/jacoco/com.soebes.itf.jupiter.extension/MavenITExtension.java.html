@@ -205,9 +205,9 @@ import static java.util.stream.Collectors.toList;
     }
 
 <span class="nc" id="L207">    Path projectWorkingDirectory = directoryResolverResult.getProjectDirectory();</span>
-<span class="nc" id="L208">    Optional&lt;MavenProjectLocation&gt; mavenProjectLocationAnnotation = findMavenProjectLocationAnnotation(context);</span>
-<span class="nc bnc" id="L209" title="All 2 branches missed.">    if (mavenProjectLocationAnnotation.isPresent()) {</span>
-<span class="nc" id="L210">      String mavenProjectLocation = mavenProjectLocationAnnotation.get().value();</span>
+<span class="nc" id="L208">    Optional&lt;MavenProjectLocation&gt; mavenProjectLocationContext = findMavenProjectLocationAnnotation(context);</span>
+<span class="nc bnc" id="L209" title="All 2 branches missed.">    if (mavenProjectLocationContext.isPresent()) {</span>
+<span class="nc" id="L210">      String mavenProjectLocation = mavenProjectLocationContext.get().value();</span>
 <span class="nc bnc" id="L211" title="All 2 branches missed.">      if (mavenProjectLocation.isEmpty()) {</span>
 <span class="nc" id="L212">        throw new IllegalStateException(&quot;You have to define a location in your MavenProjectLocation annotation&quot;);</span>
       }

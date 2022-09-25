@@ -165,18 +165,19 @@ class AnnotationHelper {
 
   static Optional&lt;MavenProjectLocation&gt; findMavenProjectLocationAnnotation(ExtensionContext context) {
 <span class="nc" id="L167">    Method method = context.getTestMethod().orElseThrow(IllegalStateException::new);</span>
-<span class="nc" id="L168">    boolean methodAnnotationPresent = method.isAnnotationPresent(MavenProjectLocation.class);</span>
-<span class="nc bnc" id="L169" title="All 2 branches missed.">    if (methodAnnotationPresent) {</span>
-<span class="nc" id="L170">      return Optional.of(method.getAnnotation(MavenProjectLocation.class));</span>
+
+<span class="nc" id="L169">    boolean methodAnnotationPresent = method.isAnnotationPresent(MavenProjectLocation.class);</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">    if (methodAnnotationPresent) {</span>
+<span class="nc" id="L171">      return Optional.of(method.getAnnotation(MavenProjectLocation.class));</span>
     }
 
-<span class="nc" id="L173">    Class&lt;?&gt; testClass = context.getTestClass().orElseThrow(IllegalStateException::new);</span>
-<span class="nc" id="L174">    boolean annotationPresent = testClass.isAnnotationPresent(MavenProjectLocation.class);</span>
-<span class="nc bnc" id="L175" title="All 2 branches missed.">    if (annotationPresent) {</span>
-<span class="nc" id="L176">      return Optional.of(testClass.getAnnotation(MavenProjectLocation.class));</span>
+<span class="nc" id="L174">    Optional&lt;Class&lt;?&gt;&gt; mavenProjectLocationAnnotation = findAnnotation(context, MavenProjectLocation.class);</span>
+<span class="nc bnc" id="L175" title="All 2 branches missed.">    if (mavenProjectLocationAnnotation.isPresent()) {</span>
+<span class="nc" id="L176">      MavenProjectLocation annotation = mavenProjectLocationAnnotation.get().getAnnotation(MavenProjectLocation.class);</span>
+<span class="nc" id="L177">      return Optional.of(annotation);</span>
     }
 
-<span class="nc" id="L179">    return Optional.empty();</span>
+<span class="nc" id="L180">    return Optional.empty();</span>
   }
 
 }
