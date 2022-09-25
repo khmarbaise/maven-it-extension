@@ -65,6 +65,7 @@
 :issue-286: https://github.com/khmarbaise/maven-it-extension/issues/286[Fixed #286]
 :issue-287: https://github.com/khmarbaise/maven-it-extension/issues/287[Fixed #287]
 :issue-289: https://github.com/khmarbaise/maven-it-extension/issues/289[Fixed #289]
+:issue-290: https://github.com/khmarbaise/maven-it-extension/issues/290[Fixed #290]
 :pr-211: https://github.com/khmarbaise/maven-it-extension/pull/211[Pull request #211]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
@@ -95,6 +96,7 @@
  * {issue-285} - Add some tests.
  * {issue-286} - Support a way to avoid the requirement for resources-its directory.
  * {issue-289} - @MavenProjectLocation("subdir") Does not work on nested Class
+ * {issue-290} - @MavenProjectSources is not usable within another annotation.
  * {issue-??} - ?
 
 *Breaking Changes*

@@ -19,8 +19,6 @@ package com.soebes.itf.examples.mps;
  * under the License.
  */
 
-import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
-import com.soebes.itf.jupiter.extension.MavenProjectSources;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.soebes.itf.jupiter.maven.MavenProjectResult;
@@ -36,7 +34,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
-import static com.soebes.itf.jupiter.extension.MavenProjectSources.ResourceUsage.NONE;
 
 /**
  * Example integration test to demonstrate the usage
@@ -47,14 +44,13 @@ import static com.soebes.itf.jupiter.extension.MavenProjectSources.ResourceUsage
  *
  * @author Karl Heinz Marbaise
  */
-@MavenJupiterExtension
-@MavenProjectSources(resourcesUsage = NONE)
-class MavenProjectSourcesBasicIT {
+@Programmatically
+class MavenProjectSourcesMetaIT {
 
   private static final List<String> POM_STATIC = Arrays.asList(
       "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\">",
       "<modelVersion>4.0.0</modelVersion>",
-      "  <groupId>project-sources-it</groupId>",
+      "  <groupId>project-sources-it-meta-annotation</groupId>",
       "  <artifactId>project-sources-it-artifactid-001</artifactId>",
       "  <version>1.0.0</version>",
       "</project>"
@@ -74,7 +70,7 @@ class MavenProjectSourcesBasicIT {
     assertThat(result).isSuccessful();
     Model model = result.getMavenProjectResult().getModel();
     assertThat(model).satisfies(m -> {
-      assertThat(m.getGroupId()).isEqualTo("project-sources-it");
+      assertThat(m.getGroupId()).isEqualTo("project-sources-it-meta-annotation");
       assertThat(m.getArtifactId()).isEqualTo("project-sources-it-artifactid-001");
       assertThat(m.getVersion()).isEqualTo("1.0.0");
     });

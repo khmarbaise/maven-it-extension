@@ -24,6 +24,7 @@ import org.junit.platform.commons.support.AnnotationSupport;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -166,9 +167,17 @@ class AnnotationHelper {
       return Optional.of(method.getAnnotation(MavenProjectSources.class));
     }
 
-    Optional<Class<?>> mavenProjectLocationAnnotation = findAnnotation(context, MavenProjectSources.class);
+    Optional<Class<?>> firstFinding = findAnnotation(context, MavenProjectSources.class);
+    if (firstFinding.isPresent()) {
+      MavenProjectSources annotation = firstFinding.get().getAnnotation(MavenProjectSources.class);
+      return Optional.of(annotation);
+    }
+
+    firstFinding.map(s -> s.getAnnotation(MavenProjectSources.class));
+
+    Optional<MavenProjectSources> mavenProjectLocationAnnotation = AnnotationSupport.findAnnotation(context.getTestClass(), MavenProjectSources.class);
     if (mavenProjectLocationAnnotation.isPresent()) {
-      MavenProjectSources annotation = mavenProjectLocationAnnotation.get().getAnnotation(MavenProjectSources.class);
+      MavenProjectSources annotation = mavenProjectLocationAnnotation.get();
       return Optional.of(annotation);
     }
 
