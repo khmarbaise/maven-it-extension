@@ -205,9 +205,9 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     }
 
     Path projectWorkingDirectory = directoryResolverResult.getProjectDirectory();
-    Optional<MavenProjectLocation> mavenProjectLocationAnnotation = findMavenProjectLocationAnnotation(context);
-    if (mavenProjectLocationAnnotation.isPresent()) {
-      String mavenProjectLocation = mavenProjectLocationAnnotation.get().value();
+    Optional<MavenProjectLocation> mavenProjectLocationContext = findMavenProjectLocationAnnotation(context);
+    if (mavenProjectLocationContext.isPresent()) {
+      String mavenProjectLocation = mavenProjectLocationContext.get().value();
       if (mavenProjectLocation.isEmpty()) {
         throw new IllegalStateException("You have to define a location in your MavenProjectLocation annotation");
       }

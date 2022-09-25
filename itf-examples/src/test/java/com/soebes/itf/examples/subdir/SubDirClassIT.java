@@ -1,4 +1,4 @@
-package com.soebes.itf.examples;
+package com.soebes.itf.examples.subdir;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -27,10 +27,10 @@ import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
 @MavenJupiterExtension
-class SubDirIT {
+@MavenProjectLocation("subdir")
+class SubDirClassIT {
 
   @MavenTest
-  @MavenProjectLocation("subdir")
   void basic(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }

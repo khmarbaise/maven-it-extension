@@ -1,0 +1,1 @@
+Example project which does NOT contain the pom.xml on the root level.

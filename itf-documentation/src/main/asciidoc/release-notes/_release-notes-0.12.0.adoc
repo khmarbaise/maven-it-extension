@@ -62,6 +62,7 @@
 :issue-284: https://github.com/khmarbaise/maven-it-extension/issues/284[Fixed #284]
 :issue-285: https://github.com/khmarbaise/maven-it-extension/issues/285[Fixed #285]
 :issue-287: https://github.com/khmarbaise/maven-it-extension/issues/287[Fixed #287]
+:issue-289: https://github.com/khmarbaise/maven-it-extension/issues/289[Fixed #289]
 :pr-211: https://github.com/khmarbaise/maven-it-extension/pull/211[Pull request #211]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
@@ -88,6 +89,7 @@
  * {issue-279} - Typos / Minor Code cleanups
  * {issue-282} - Add missing equals/hashCode for custom assertions.
  * {issue-285} - Add some tests.
+ * {issue-289} - @MavenProjectLocation("subdir") Does not work on nested Class
  * {issue-??} - ?
 
 *Breaking Changes*
