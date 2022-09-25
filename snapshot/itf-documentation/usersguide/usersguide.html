@@ -598,6 +598,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_overview_5">11.1. Overview</a></li>
 <li><a href="#_failing_the_build">11.2. Failing the build</a></li>
 <li><a href="#_project_not_at_root_level">11.3. Project Not at Root Level</a></li>
+<li><a href="#_different_project_sources">11.4. Different Project Sources</a></li>
 </ul>
 </li>
 <li><a href="#_mavenexecutionresult">Appendix A: MavenExecutionResult</a></li>
@@ -2750,6 +2751,362 @@ location as expressed with the supplemental <code>@MavenProjectLocation</code>. 
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_different_project_sources"><a class="link" href="#_different_project_sources">11.4. Different Project Sources</a></h3>
+<div class="paragraph">
+<p>Sometimes it is necessary to do the testing of your plugin
+in a different way than usually. For example, you would like to
+make the testing project setup programmatically or in other ways.</p>
+</div>
+<div class="paragraph">
+<p>It might also happen that you want to reuse the same project
+setup for a number of different integration tests.</p>
+</div>
+<div class="paragraph">
+<p>The default setup assumes that your projects which are used for the
+integration tests are located under <code>src/test/resources-its</code>.
+Those projects will be copied during the setup into the
+<code>target/maven-its</code> directory to execute the tests.</p>
+</div>
+<div class="listingblock">
+<div class="title">TheIT.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.its</span>;
+
+<span class="annotation">@MavenJupiterExtension</span>
+<span class="type">class</span> <span class="class">TheIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic(MavenExecutionResult result) {
+    ...
+  }
+}</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_generated_project_setup"><a class="link" href="#_generated_project_setup">11.4.1. Generated Project Setup</a></h4>
+<div class="paragraph">
+<p>If you like to generate your project setup programmatically you can turn of
+the need of having to provide an appropriate project setup in  <code>resources-its/&#8230;&#8203;/</code>.</p>
+</div>
+<div class="paragraph">
+<p>This can be achieved by defining <code>@MavenProjectSources(resourcesUsage=NONE)</code>
+that means in consequence you have to provide a full project setup on your own.
+The location where you have to create the setup can be calculated by using the parameters
+which are injected into the <code>beforeEach</code> method (see <code>MavenProjectResult</code>).</p>
+</div>
+<div class="paragraph">
+<p>The location (directory) can be used within your <code>beforeEach</code> method
+<code>result.getTargetProjectDirectory()</code>.</p>
+</div>
+<div class="paragraph">
+<p>There is a simple example for such setup in <code>MavenProjectSourcesBasicIT</code> for
+more details.</p>
+</div>
+<div class="listingblock">
+<div class="title">TheIT.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.its</span>;
+
+<span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenProjectSources</span>(resourcesUsage=NONE)
+<span class="type">class</span> <span class="class">TheIT</span> {
+
+  <span class="annotation">@BeforeEach</span>
+  <span class="type">void</span> beforeEach(TestInfo testInfo, MavenProjectResult result) {
+    <span class="comment">//Setup a project into the appropriate location</span>
+    <span class="comment">// on your own</span>
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic(MavenExecutionResult result) {
+    ...
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_reusing_project_for_several_tests"><a class="link" href="#_reusing_project_for_several_tests">11.4.2. Reusing Project for Several Tests</a></h4>
+<div class="paragraph">
+<p>It could be useful to define a single project setup which should reused for
+several executions of integration tests.</p>
+</div>
+<div class="paragraph">
+<p>In contradiction the <code>@MavenProject</code> gives the option to execute more than
+one integration test on the same project.</p>
+</div>
+<div class="paragraph">
+<p>The <code>@MavenProjectSource(source="com/soebes/source-project")</code>
+defines the location where to find the project setup for the integration test
+relative to the <code>src/test/resources-its</code> directory. This location will
+not change based on package of the integration test class, method or alike.</p>
+</div>
+<div class="paragraph">
+<p>Reconsider the default setup first:</p>
+</div>
+<div class="listingblock">
+<div class="title">TheDefaultIT.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.its</span>;
+
+<span class="annotation">@MavenJupiterExtension</span>
+<span class="type">class</span> <span class="class">TheIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic(MavenExecutionResult result) {
+    ...
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Based on the given setup the used integration project has to be located
+in the following directory:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="text">.
+└── src/
+    └── test/
+        └── resources-its/
+            └── com/
+                └── its/
+                    └── TheIT/
+                          └── basic/
+                               ├── src/
+                               └── pom.xml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you define the integration test like this:</p>
+</div>
+<div class="listingblock">
+<div class="title">TheIT.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.its</span>;
+
+<span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenProjectSources</span>(source=<span class="string"><span class="delimiter">&quot;</span><span class="content">com/soebes/source-project</span><span class="delimiter">&quot;</span></span>)
+<span class="type">class</span> <span class="class">TheIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic(MavenExecutionResult result) {
+    ...
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This means having the provided test project is now located
+in the <code>source-project</code> directory instead:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="text">.
+└── src/
+    └── test/
+        └── resources-its/
+            └── com/
+                └── soebes/
+                    └── source-project/
+                             ├── src/
+                             └── pom.xml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>So you can reuse the same project for more than one integration test simply
+by creating a second integration test like this:</p>
+</div>
+<div class="listingblock">
+<div class="title">TheIT.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.its</span>;
+
+<span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenProjectSources</span>(source=<span class="string"><span class="delimiter">&quot;</span><span class="content">com/soebes/source-project</span><span class="delimiter">&quot;</span></span>)
+<span class="type">class</span> <span class="class">TheIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_one(MavenExecutionResult result) {
+    ...
+  }
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> basic_two(MavenExecutionResult result) {
+    ...
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This setup means to reuse the same project setup for both test cases
+<code>basice_one</code> and for <code>basic_two</code>.</p>
+</div>
+<div class="paragraph">
+<p>The most important part will be visible in the <code>target/</code> directory:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="text">.
+└──target/
+   └── maven-its/
+       └── com/
+           └── its/
+               └── TheIT/
+                   ├── basic_one/
+                   │   ├── .m2/
+                   │   ├── project/
+                   │   │   ├── src/
+                   │   │   ├── target/
+                   │   │   └── pom.xml
+                   │   ├── mvn-stdout.log
+                   │   ├── mvn-stderr.log
+                   │   └── other logs
+                   └── basic_two/
+                       ├── .m2/
+                       ├── project/
+                       │   ├── src/
+                       │   ├── target/
+                       │   └── pom.xml
+                       ├── mvn-stdout.log
+                       ├── mvn-stderr.log
+                       └── other logs</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The directory <code>project</code> of both cases <code>basic_one</code> and <code>basic_two</code>
+will contain a copy of the same setup <code>source-project</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_different_setup_for_every_method"><a class="link" href="#_different_setup_for_every_method">11.4.3. Different Setup for Every Method</a></h4>
+<div class="paragraph">
+<p>You can define also different project setups for each
+integration test case individual if you like.</p>
+</div>
+<div class="paragraph">
+<p>The following example uses the same location for the
+tests <code>one</code> and <code>two</code>.</p>
+</div>
+<div class="paragraph">
+<p>The test methods <code>three</code> and <code>four</code> uses a different
+source location.</p>
+</div>
+<div class="listingblock">
+<div class="title">TheIT.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.its</span>;
+
+<span class="annotation">@MavenJupiterExtension</span>
+<span class="type">class</span> <span class="class">TheIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenProjectSources</span>(source=<span class="string"><span class="delimiter">&quot;</span><span class="content">com/soebes/base1</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">void</span> one(MavenExecutionResult result) {
+    ...
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenProjectSources</span>(source=<span class="string"><span class="delimiter">&quot;</span><span class="content">com/soebes/base1</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">void</span> two(MavenExecutionResult result) {
+    ...
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenProjectSources</span>(source=<span class="string"><span class="delimiter">&quot;</span><span class="content">com/soebes/base2</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">void</span> three(MavenExecutionResult result) {
+    ...
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenProjectSources</span>(source=<span class="string"><span class="delimiter">&quot;</span><span class="content">com/soebes/base2</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">void</span> four(MavenExecutionResult result) {
+    ...
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It is also possible to define the project source location
+on a nested class level. This would simply the previous example
+a bit.</p>
+</div>
+<div class="listingblock">
+<div class="title">TheIT.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.its</span>;
+
+<span class="annotation">@MavenJupiterExtension</span>
+<span class="type">class</span> <span class="class">TheIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenProjectSources</span>(source=<span class="string"><span class="delimiter">&quot;</span><span class="content">com/soebes/base1</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">void</span> one(MavenExecutionResult result) {
+    ...
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenProjectSources</span>(source=<span class="string"><span class="delimiter">&quot;</span><span class="content">com/soebes/base1</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">void</span> two(MavenExecutionResult result) {
+    ...
+  }
+
+  <span class="annotation">@Nested</span>
+  <span class="annotation">@MavenProjectSources</span>(source=<span class="string"><span class="delimiter">&quot;</span><span class="content">com/soebes/base-nested</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">class</span> <span class="class">NestedSetup</span> {
+    <span class="annotation">@MavenTest</span>
+    <span class="type">void</span> three(MavenExecutionResult result) {
+      ...
+    }
+    <span class="annotation">@MavenTest</span>
+    <span class="type">void</span> four(MavenExecutionResult result) {
+      ...
+    }
+  }
+
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_overwrite_location"><a class="link" href="#_overwrite_location">11.4.4. Overwrite Location</a></h4>
+<div class="paragraph">
+<p>It&#8217;s also possible to define a kind of global source location for
+all methods within the class and overwrite that either by defining
+it on a nested class level or on test method level.</p>
+</div>
+<div class="listingblock">
+<div class="title">TheIT.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.its</span>;
+
+<span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenProjectSources</span>(source=<span class="string"><span class="delimiter">&quot;</span><span class="content">com/soebes/base1</span><span class="delimiter">&quot;</span></span>)
+<span class="type">class</span> <span class="class">TheIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> one(MavenExecutionResult result) {
+    ...
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> two(MavenExecutionResult result) {
+    ...
+  }
+
+  <span class="annotation">@Nested</span>
+  <span class="annotation">@MavenProjectSources</span>(source=<span class="string"><span class="delimiter">&quot;</span><span class="content">com/soebes/base-nested</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">class</span> <span class="class">NestedSetup</span> {
+    <span class="annotation">@MavenTest</span>
+    <span class="type">void</span> three(MavenExecutionResult result) {
+      ...
+    }
+    <span class="annotation">@MavenTest</span>
+    <span class="type">void</span> four(MavenExecutionResult result) {
+      ...
+    }
+  }
+
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -2841,7 +3198,7 @@ or the logging output of the Maven build you can change your integration test li
 <div id="footer">
 <div id="footer-text">
 Version 0.12.0-SNAPSHOT<br>
-Last updated 2022-09-25 18:15:00 UTC
+Last updated 2022-09-25 19:29:48 UTC
 </div>
 </div>
 </body>

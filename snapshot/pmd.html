@@ -180,7 +180,17 @@
 <tr class="a">
 <td><a class="externalLink" href="https://pmd.github.io/pmd-6.38.0/pmd_rules_java_bestpractices.html#unusedprivatefield">UnusedPrivateField</a></td>
 <td>Avoid unused private fields such as 'javaHome'.</td>
-<td>51</td></tr></table></section></section><section>
+<td>51</td></tr></table></section><section>
+<h4><a name="itf-jupiter-extension_-_com.2Fsoebes.2Fitf.2Fjupiter.2Fextension.2FMavenITExtension.java"></a>itf-jupiter-extension - com/soebes/itf/jupiter/extension/MavenITExtension.java</h4>
+<table border="0" class="table table-striped">
+<tr class="b">
+<th>Rule</th>
+<th>Violation</th>
+<th>Line</th></tr>
+<tr class="a">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.38.0/pmd_rules_java_codestyle.html#toomanystaticimports">TooManyStaticImports</a></td>
+<td>Too many static imports may lead to messy code</td>
+<td>1&#x2013;306</td></tr></table></section></section><section>
 <h3><a name="Priority_4"></a>Priority 4</h3><section>
 <h4><a name="itf-jupiter-extension_-_com.2Fsoebes.2Fitf.2Fjupiter.2Fextension.2FApplicationExecutor.java"></a>itf-jupiter-extension - com/soebes/itf/jupiter/extension/ApplicationExecutor.java</h4>
 <table border="0" class="table table-striped">
@@ -192,6 +202,16 @@
 <td><a class="externalLink" href="https://pmd.github.io/pmd-6.38.0/pmd_rules_java_codestyle.html#unnecessaryimport">UnnecessaryImport</a></td>
 <td>Unused import 'java.nio.file.Paths'</td>
 <td>29</td></tr></table></section><section>
+<h4><a name="itf-jupiter-extension_-_com.2Fsoebes.2Fitf.2Fjupiter.2Fextension.2FDirectoryResolverResult.java"></a>itf-jupiter-extension - com/soebes/itf/jupiter/extension/DirectoryResolverResult.java</h4>
+<table border="0" class="table table-striped">
+<tr class="b">
+<th>Rule</th>
+<th>Violation</th>
+<th>Line</th></tr>
+<tr class="a">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.38.0/pmd_rules_java_codestyle.html#unnecessaryimport">UnnecessaryImport</a></td>
+<td>Unused import 'java.nio.file.Paths'</td>
+<td>26</td></tr></table></section><section>
 <h4><a name="itf-jupiter-extension_-_com.2Fsoebes.2Fitf.2Fjupiter.2Fextension.2FMavenProjectLocation.java"></a>itf-jupiter-extension - com/soebes/itf/jupiter/extension/MavenProjectLocation.java</h4>
 <table border="0" class="table table-striped">
 <tr class="b">
@@ -249,6 +269,30 @@
 <td>Avoid unused private fields such as 'javaHome'.</td>
 <td>3</td>
 <td>51</td></tr></table></section><section>
+<h3><a name="itf-jupiter-extension_-_com.2Fsoebes.2Fitf.2Fjupiter.2Fextension.2FDirectoryResolverResult.java"></a>itf-jupiter-extension - com/soebes/itf/jupiter/extension/DirectoryResolverResult.java</h3>
+<table border="0" class="table table-striped">
+<tr class="b">
+<th>Rule</th>
+<th>Violation</th>
+<th>Priority</th>
+<th>Line</th></tr>
+<tr class="a">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.38.0/pmd_rules_java_codestyle.html#unnecessaryimport">UnnecessaryImport</a></td>
+<td>Unused import 'java.nio.file.Paths'</td>
+<td>4</td>
+<td>26</td></tr></table></section><section>
+<h3><a name="itf-jupiter-extension_-_com.2Fsoebes.2Fitf.2Fjupiter.2Fextension.2FMavenITExtension.java"></a>itf-jupiter-extension - com/soebes/itf/jupiter/extension/MavenITExtension.java</h3>
+<table border="0" class="table table-striped">
+<tr class="b">
+<th>Rule</th>
+<th>Violation</th>
+<th>Priority</th>
+<th>Line</th></tr>
+<tr class="a">
+<td><a class="externalLink" href="https://pmd.github.io/pmd-6.38.0/pmd_rules_java_codestyle.html#toomanystaticimports">TooManyStaticImports</a></td>
+<td>Too many static imports may lead to messy code</td>
+<td>3</td>
+<td>1&#x2013;306</td></tr></table></section><section>
 <h3><a name="itf-jupiter-extension_-_com.2Fsoebes.2Fitf.2Fjupiter.2Fextension.2FMavenProjectLocation.java"></a>itf-jupiter-extension - com/soebes/itf/jupiter/extension/MavenProjectLocation.java</h3>
 <table border="0" class="table table-striped">
 <tr class="b">
@@ -267,36 +311,6 @@
 <th>Filename</th>
 <th>Problem</th></tr>
 <tr class="a">
-<td>itf-jupiter-extension - com/soebes/itf/jupiter/extension/MavenITExtension.java</td>
-<td>PMDException: Error while processing /home/runner/work/maven-it-extension/maven-it-extension/itf-jupiter-extension/src/main/java/com/soebes/itf/jupiter/extension/MavenITExtension.java
-<div>
-<pre>net.sourceforge.pmd.PMDException: Error while processing /home/runner/work/maven-it-extension/maven-it-extension/itf-jupiter-extension/src/main/java/com/soebes/itf/jupiter/extension/MavenITExtension.java
-	at net.sourceforge.pmd.SourceCodeProcessor.processSourceCodeWithoutCache(SourceCodeProcessor.java:128)
-	at net.sourceforge.pmd.SourceCodeProcessor.processSourceCode(SourceCodeProcessor.java:100)
-	at net.sourceforge.pmd.SourceCodeProcessor.processSourceCode(SourceCodeProcessor.java:62)
-	at net.sourceforge.pmd.processor.PmdRunnable.call(PmdRunnable.java:85)
-	at net.sourceforge.pmd.processor.PmdRunnable.call(PmdRunnable.java:29)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:833)
-Caused by: java.lang.ArrayIndexOutOfBoundsException: Index 27128 out of bounds for length 16315
-	at org.objectweb.asm.ClassReader.<init>(Unknown Source)
-	at org.objectweb.asm.ClassReader.<init>(Unknown Source)
-	at org.objectweb.asm.ClassReader.<init>(Unknown Source)
-	at net.sourceforge.pmd.lang.java.typeresolution.PMDASMClassLoader.getImportedClasses(PMDASMClassLoader.java:118)
-	at net.sourceforge.pmd.lang.java.typeresolution.ClassTypeResolver.populateClassName(ClassTypeResolver.java:1617)
-	at net.sourceforge.pmd.lang.java.typeresolution.ClassTypeResolver.visit(ClassTypeResolver.java:214)
-	at net.sourceforge.pmd.lang.java.ast.ASTCompilationUnit.jjtAccept(ASTCompilationUnit.java:44)
-	at net.sourceforge.pmd.lang.java.typeresolution.TypeResolutionFacade.initializeWith(TypeResolutionFacade.java:21)
-	at net.sourceforge.pmd.lang.java.AbstractJavaHandler$5.start(AbstractJavaHandler.java:121)
-	at net.sourceforge.pmd.SourceCodeProcessor.usesTypeResolution(SourceCodeProcessor.java:178)
-	at net.sourceforge.pmd.SourceCodeProcessor.processSource(SourceCodeProcessor.java:205)
-	at net.sourceforge.pmd.SourceCodeProcessor.processSourceCodeWithoutCache(SourceCodeProcessor.java:118)
-	... 10 more</pre></div></td></tr>
-<tr class="b">
 <td>itf-maven-plugin - com/soebes/itf/maven/plugin/InstallMojo.java</td>
 <td>PMDException: Error while processing /home/runner/work/maven-it-extension/maven-it-extension/itf-maven-plugin/src/main/java/com/soebes/itf/maven/plugin/InstallMojo.java
 <div>
@@ -326,7 +340,7 @@ Caused by: java.lang.ArrayIndexOutOfBoundsException: Index 64219 out of bounds f
 	at net.sourceforge.pmd.SourceCodeProcessor.processSource(SourceCodeProcessor.java:205)
 	at net.sourceforge.pmd.SourceCodeProcessor.processSourceCodeWithoutCache(SourceCodeProcessor.java:118)
 	... 10 more</pre></div></td></tr>
-<tr class="a">
+<tr class="b">
 <td>itf-maven-plugin - com/soebes/itf/maven/plugin/ResourcesMojo.java</td>
 <td>PMDException: Error while processing /home/runner/work/maven-it-extension/maven-it-extension/itf-maven-plugin/src/main/java/com/soebes/itf/maven/plugin/ResourcesMojo.java
 <div>

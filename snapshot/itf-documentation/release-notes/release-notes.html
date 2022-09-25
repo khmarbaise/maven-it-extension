@@ -599,6 +599,10 @@ overview and detailed instructions how to use the Integration Testing Framework.
 <p><a href="https://github.com/khmarbaise/maven-it-extension/issues/230">Fixed #230</a> - Get rid of commons-io</p>
 </li>
 <li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/232">Fixed #232</a> - Support for custom location and reuse of a Maven project from my resources
+This is also related to <a href="https://github.com/khmarbaise/maven-it-extension/issues/286">Fixed #286</a>.</p>
+</li>
+<li>
 <p><a href="https://github.com/khmarbaise/maven-it-extension/issues/260">Fixed #260</a> - Test project&#8217;s file attributes &amp; links get lost when copied to test target/maven-it
 Upgraded maven-filtering and maven-artifact-transfer and added explicitly
 maven-shared-utils to prevent using transitive dependency.</p>
@@ -618,6 +622,9 @@ Added some tests to prevent the issue.</p>
 </li>
 <li>
 <p><a href="https://github.com/khmarbaise/maven-it-extension/issues/285">Fixed #285</a> - Add some tests.</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/286">Fixed #286</a> - Support a way to avoid the requirement for resources-its directory.</p>
 </li>
 <li>
 <p><a href="https://github.com/khmarbaise/maven-it-extension/issues/289">Fixed #289</a> - @MavenProjectLocation("subdir") Does not work on nested Class</p>
@@ -694,6 +701,16 @@ it now extends <code>AbstractAssert&lt;ArchiveAssert, Path&gt;</code> instead.</
 </ul>
 </div>
 </li>
+<li>
+<p><a href="https://github.com/filiphr">Filip Hrisafov</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Reported <a href="https://github.com/khmarbaise/maven-it-extension/issues/232">Fixed #232</a></p>
+</li>
+</ul>
+</div>
+</li>
 </ul>
 </div>
 <div class="paragraph">
@@ -707,6 +724,16 @@ it now extends <code>AbstractAssert&lt;ArchiveAssert, Path&gt;</code> instead.</
 <ul>
 <li>
 <p>Add @MavenTest annotation to README example</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="https://github.com/filiphr">Filip Hrisafov</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Contributed the foundational ideas for <a href="https://github.com/khmarbaise/maven-it-extension/issues/232">Fixed #232</a> and <a href="https://github.com/khmarbaise/maven-it-extension/issues/286">Fixed #286</a></p>
 </li>
 </ul>
 </div>
@@ -2218,7 +2245,7 @@ publish in <a href="https://central.sonatype.org/">Central Repository</a>.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.12.0-SNAPSHOT<br>
-Last updated 2022-09-25 18:15:00 UTC
+Last updated 2022-09-25 19:29:48 UTC
 </div>
 </div>
 </body>
