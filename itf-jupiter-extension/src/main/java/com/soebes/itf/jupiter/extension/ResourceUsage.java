@@ -1,4 +1,4 @@
-package com.soebes.itf.examples.mps;
+package com.soebes.itf.jupiter.extension;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,18 +19,7 @@ package com.soebes.itf.examples.mps;
  * under the License.
  */
 
-import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
-import com.soebes.itf.jupiter.extension.MavenProjectSources;
-
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
-import static com.soebes.itf.jupiter.extension.ResourceUsage.NONE;
-
-@MavenJupiterExtension
-@MavenProjectSources(resourcesUsage = NONE)
-@Retention(RetentionPolicy.RUNTIME)
-@Inherited
-public @interface Programmatically {
+public enum ResourceUsage {
+  DEFAULT,
+  NONE
 }

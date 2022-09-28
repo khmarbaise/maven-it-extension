@@ -25,7 +25,6 @@ import org.junit.platform.commons.support.AnnotationSupport;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -168,6 +167,29 @@ class AnnotationHelper {
     Optional<MavenProjectSources> mavenProjectLocationAnnotation = AnnotationSupport.findAnnotation(context.getTestClass(), MavenProjectSources.class);
     if (mavenProjectLocationAnnotation.isPresent()) {
       MavenProjectSources annotation = mavenProjectLocationAnnotation.get();
+      return Optional.of(annotation);
+    }
+
+    return Optional.empty();
+  }
+
+  static Optional<MavenSettingsSources> findMavenSettingsSourcesAnnotation(ExtensionContext context) {
+    Method method = context.getTestMethod().orElseThrow(IllegalStateException::new);
+
+    boolean methodAnnotationPresent = method.isAnnotationPresent(MavenSettingsSources.class);
+    if (methodAnnotationPresent) {
+      return Optional.of(method.getAnnotation(MavenSettingsSources.class));
+    }
+
+    Optional<Class<?>> firstFinding = findAnnotation(context, MavenSettingsSources.class);
+    if (firstFinding.isPresent()) {
+      MavenSettingsSources annotation = firstFinding.get().getAnnotation(MavenSettingsSources.class);
+      return Optional.of(annotation);
+    }
+
+    Optional<MavenSettingsSources> mavenProjectLocationAnnotation = AnnotationSupport.findAnnotation(context.getTestClass(), MavenSettingsSources.class);
+    if (mavenProjectLocationAnnotation.isPresent()) {
+      MavenSettingsSources annotation = mavenProjectLocationAnnotation.get();
       return Optional.of(annotation);
     }
 

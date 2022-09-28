@@ -31,10 +31,6 @@ import java.lang.annotation.Target;
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
- * Control the need to provide projects in the
- * default project setup directory `resources-its`
- * or provide them on your own.
- *
  * @author Karl Heinz Marbaise
  *
  */
@@ -43,35 +39,15 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 @Documented
 @Inherited
 @API(status = EXPERIMENTAL, since = "0.12.0")
-public @interface MavenProjectSources {
+public @interface MavenSettingsSources {
 
-  /**
-   * The source structure looks like this:
-   * <pre>
-   *   src/test/resources-its/.../
-   *      +--- FirstIT/
-   *              +--- test_case_one
-   *                      +--- src/...
-   *                      +--- pom.xml
-   *
-   * </pre>
-   * The content of the directory `test_case_one` is
-   * required to execute an integration tests.
-   * If you have a situation where you don't provide the test project
-   * via this you can turn that off via {@link #resourcesUsage()}={@link ResourceUsage#NONE}.
-   * Doing will require to provide a project setup on your own.
-   * This can be done what ever comes into your mind. The easiest
-   * way to make such setup is to us the setup via `{@code @BeforeEach}`.
-   */
+  String DEFAULT_SOURCE = "";
+  String DEFAULT_SETTINGS_XML = "settings.xml";
+
   ResourceUsage resourcesUsage() default ResourceUsage.DEFAULT;
 
-  /**
-   * This is by default empty which means the location will be calculated
-   * based on the given integration test class + the method name and/or
-   * a nested class.
-   *
-   * @return The location where to find the source project.
-   */
-  String sources() default "";
+  String settingsXml() default DEFAULT_SETTINGS_XML;
+
+  String sources() default DEFAULT_SOURCE;
 
 }

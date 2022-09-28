@@ -58,10 +58,7 @@ class MavenProjectSourcesMetaIT {
 
   @BeforeEach
   void beforeEach(TestInfo testInfo, MavenProjectResult result) throws IOException {
-    System.out.println("testInfo = " + testInfo);
-    System.out.println("method = " + testInfo.getTestMethod());
     Path pomFile = result.getTargetProjectDirectory().resolve("pom.xml");
-    System.out.println("pomFile = " + pomFile);
     Files.write(pomFile, POM_STATIC, StandardOpenOption.CREATE);
   }
 

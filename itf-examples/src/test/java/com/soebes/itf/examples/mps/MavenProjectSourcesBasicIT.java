@@ -36,7 +36,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
-import static com.soebes.itf.jupiter.extension.MavenProjectSources.ResourceUsage.NONE;
+import static com.soebes.itf.jupiter.extension.ResourceUsage.NONE;
 
 /**
  * Example integration test to demonstrate the usage

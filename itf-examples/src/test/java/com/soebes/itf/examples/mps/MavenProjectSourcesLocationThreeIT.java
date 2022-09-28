@@ -24,10 +24,8 @@ import com.soebes.itf.jupiter.extension.MavenProjectSources;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import org.apache.maven.model.Model;
-import org.assertj.core.api.Assertions;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Example integration test to demonstrate the usage

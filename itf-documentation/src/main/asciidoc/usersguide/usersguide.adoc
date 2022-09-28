@@ -2071,7 +2071,131 @@ class TheIT {
 }
 ----
 
+=== Different settings.xml
 
+==== Using settings.xml
+
+If you need to change the `settings.xml` in some ways it might be necessary
+to provide a special `settings.xml` within your integration tests.
+This can be achieved by annotating the appropriate integration test with
+`@MavenSettingsSource` to signal that a particular `settings.xml` will be
+loaded during the integration test.
+
+[source,java]
+.TheIT.java
+----
+package com.its;
+
+@MavenJupiterExtension
+@MavenSettingsSource
+class TheIT {
+
+  @MavenTest
+  void basic_one(MavenExecutionResult result) {
+    ...
+  }
+
+  @MavenTest
+  void basic_two(MavenExecutionResult result) {
+    ...
+  }
+}
+----
+
+By just adding `@MavenSettingsSource` you have to provide
+an appropriate `settings.xml` in the `resources-its` location
+based on package of your integration test, class, method name
+maybe based on your nested classes etc. in the same way as the
+appropriate project has to be provided.
+
+[source,text]
+----
+.
+└── src/
+    └── test/
+        └── resources-its/
+            └── com/
+                └── its/
+                    └── TheIT/
+                          ├── basic_one/
+                          │    ├── src/
+                          │    ├── pom.xml
+                          │    └── settings.xml
+                          └── basic_two/
+                               ├── src/
+                               ├── pom.xml
+                               └── settings.xml
+----
+The usage of the annotation on the class level means to require
+a `settings.xml` for each integration test with the class/nested
+class etc.
+
+It's easy to limit the need for a particular `settings.xml` by
+using the annotation `@MavenSettingsSource` on a method level instead.
+
+==== Different location
+
+If you don't like to provide a `settings.xml` for each integration test
+project separately it is easy to provide only a single `settings.xml`
+from a particular location.  This can be achieved by defining the annotation
+using the source attribute of the `@MavenSettingsSource` annotation like this:
+`@MavenSettingsSource(source="com/soebes/source-project")`.
+
+[source,java]
+.TheIT.java
+----
+package com.its;
+
+@MavenJupiterExtension
+@MavenSettingsSource(source="com/soebes/source-project")
+class TheIT {
+
+  @MavenTest
+  void basic_one(MavenExecutionResult result) {
+    ...
+  }
+
+  @MavenTest
+  void basic_two(MavenExecutionResult result) {
+    ...
+  }
+}
+----
+
+By using the previous definition of the integration
+test in the `resources-its` directory looks like the following:
+
+[source,text]
+----
+.
+└── src/
+    └── test/
+        └── resources-its/
+            └── com/
+                ├── soebes/
+                │   └── source-project/
+                │          └── settings.xml
+                └── its/
+                    └── TheIT/
+                          ├── basic_one/
+                          │    ├── src/
+                          │    └── pom.xml
+                          └── basic_two/
+                               ├── src/
+                               └── pom.xml
+----
+
+That means the defined `settings.xml` (`source-project` directory ) will be
+used for both executions `basic_one` and `basic_two``
+
+==== Generate programmatically
+
+In some situations it might be necessary to generate the `settings.xml`
+programmatically instead of providing a handwritten one.
+This can be achieved by using the `@MavenSettingsSource` annotation enhanced
+with `@MavenSettingsSource(resourcesUsage = NONE)`
+There is an example in the examples part of the project `MavenSettingsSourceBasicIT`
+where you can take a deeper look as an inspiration.
 
 [appendix]
 == MavenExecutionResult

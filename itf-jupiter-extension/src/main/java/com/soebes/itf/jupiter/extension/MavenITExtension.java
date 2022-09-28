@@ -51,6 +51,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.findMavenProjectLocationAnnotation;
+import static com.soebes.itf.jupiter.extension.AnnotationHelper.findMavenSettingsSourcesAnnotation;
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.goals;
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.hasGoals;
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.hasOptions;
@@ -59,7 +60,10 @@ import static com.soebes.itf.jupiter.extension.AnnotationHelper.hasSystemPropert
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.options;
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.profiles;
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.systemProperties;
-import static com.soebes.itf.jupiter.extension.MavenProjectSources.ResourceUsage.*;
+import static com.soebes.itf.jupiter.extension.MavenSettingsSources.DEFAULT_SETTINGS_XML;
+import static com.soebes.itf.jupiter.extension.MavenSettingsSources.DEFAULT_SOURCE;
+import static com.soebes.itf.jupiter.extension.ResourceUsage.DEFAULT;
+import static com.soebes.itf.jupiter.extension.ResourceUsage.NONE;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
@@ -70,7 +74,7 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     InvocationInterceptor {
 
   /**
-   * The command line options which are given is no annotation at all is defined.
+   * The command line options which are given if no annotation at all is defined.
    */
   private static final List<String> DEFAULT_COMMAND_LINE_OPTIONS = Arrays.asList(MavenCLIOptions.BATCH_MODE,
       MavenCLIOptions.SHOW_VERSION, MavenCLIOptions.ERRORS);
@@ -226,12 +230,36 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     ApplicationExecutor mavenExecutor = new ApplicationExecutor(projectWorkingDirectory,
         integrationTestCaseDirectory, mvnLocation.get(), Collections.emptyList(), prefix);
 
-    List<String> executionArguments = new ArrayList<>();
-
     //TODO: Reconsider about the default options which are being defined here? Documented? users guide?
     List<String> defaultArguments = Arrays.asList(
         "-Dmaven.repo.local=" + directoryResolverResult.getCacheDirectory().toString());
-    executionArguments.addAll(defaultArguments);
+    List<String> executionArguments = new ArrayList<>(defaultArguments);
+
+    Optional<MavenSettingsSources> mavenSettingsSourcesAnnotation = findMavenSettingsSourcesAnnotation(context);
+    boolean mavenSettingsRresourcesIts = mavenSettingsSourcesAnnotation
+        .map(s -> s.resourcesUsage().equals(NONE))
+        .orElse(false);
+
+    if (mavenSettingsSourcesAnnotation.isPresent()) {
+      Path settingsXml = directoryResolverResult.getProjectDirectory().resolve(DEFAULT_SETTINGS_XML);
+
+      if (mavenSettingsRresourcesIts) {
+        // We assume the location of the settings.xml file is given by the annotation
+        // If sources is empty .. default location will be assumed
+        // otherwise use the given location.
+        if (!mavenSettingsSourcesAnnotation.get().sources().equals(DEFAULT_SOURCE)) {
+          //Given different path
+
+          settingsXml = directoryResolverResult
+              .getProjectDirectory()
+              .resolve(mavenSettingsSourcesAnnotation.get().sources())
+              .resolve(mavenSettingsSourcesAnnotation.get().settingsXml());
+        }
+      }
+
+      executionArguments.add(MavenCLIOptions.SETTINGS);
+      executionArguments.add(settingsXml.toAbsolutePath().toString());
+    }
 
     if (hasProfiles(context)) {
       String collect = profiles(context).stream().collect(joining(",", "-P", ""));
