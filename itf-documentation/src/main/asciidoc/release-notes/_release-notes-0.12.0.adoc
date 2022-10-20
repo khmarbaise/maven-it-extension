@@ -177,6 +177,6 @@
 * {issue-283} - Build on JDK18+
 * {issue-294} - Upgrade drone-cache to 1.4.0
 * {issue-295} - Upgrade to eclipse-temurin-19-alpine
-* {issue-299} - Fixing vulnerable dependencies used in IT's examples
+* {issue-296} - Fixing vulnerable dependencies used in IT's examples
 
 The full release notes can be found here {release_0_12_0}[Release 0.12.0].
