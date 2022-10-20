@@ -68,6 +68,7 @@
 :issue-290: https://github.com/khmarbaise/maven-it-extension/issues/290[Fixed #290]
 :issue-294: https://github.com/khmarbaise/maven-it-extension/issues/294[Fixed #294]
 :issue-295: https://github.com/khmarbaise/maven-it-extension/issues/295[Fixed #295]
+:issue-296: https://github.com/khmarbaise/maven-it-extension/issues/296[Fixed #296]
 :pr-211: https://github.com/khmarbaise/maven-it-extension/pull/211[Pull request #211]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
@@ -176,5 +177,6 @@
 * {issue-283} - Build on JDK18+
 * {issue-294} - Upgrade drone-cache to 1.4.0
 * {issue-295} - Upgrade to eclipse-temurin-19-alpine
+* {issue-299} - Fixing vulnerable dependencies used in IT's examples
 
 The full release notes can be found here {release_0_12_0}[Release 0.12.0].
