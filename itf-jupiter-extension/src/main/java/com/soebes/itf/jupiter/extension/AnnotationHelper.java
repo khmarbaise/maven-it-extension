@@ -24,7 +24,8 @@ import org.junit.platform.commons.support.AnnotationSupport;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -126,16 +127,6 @@ class AnnotationHelper {
     return !systemProperties(context).isEmpty();
   }
 
-  static List<SystemProperty> systemProperties(ExtensionContext context) {
-    List<SystemProperty> systemPropertiesOnTestMethod = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), SystemProperty.class);
-    if (systemPropertiesOnTestMethod.stream().flatMap(s -> s.value().isEmpty() ? Stream.of(s.value()) : Stream.of(s.value(), s.value())).findAny().isPresent()) {
-      return systemPropertiesOnTestMethod;
-    }
-
-    return AnnotationSupport.findRepeatableAnnotations(context.getTestClass(), SystemProperty.class);
-  }
-
-
   private static Optional<Class<?>> findAnnotation(ExtensionContext context,
                                                    Class<? extends Annotation> annotationClass) {
     Optional<ExtensionContext> current = Optional.of(context);
@@ -159,6 +150,7 @@ class AnnotationHelper {
   static Optional<Class<?>> findMavenProjectAnnotation(ExtensionContext context) {
     return findAnnotation(context, MavenProject.class);
   }
+
   static Optional<MavenProjectSources> findMavenProjectSourcesAnnotation(ExtensionContext context) {
     Method method = context.getTestMethod().orElseThrow(IllegalStateException::new);
 
@@ -173,8 +165,6 @@ class AnnotationHelper {
       return Optional.of(annotation);
     }
 
-    firstFinding.map(s -> s.getAnnotation(MavenProjectSources.class));
-
     Optional<MavenProjectSources> mavenProjectLocationAnnotation = AnnotationSupport.findAnnotation(context.getTestClass(), MavenProjectSources.class);
     if (mavenProjectLocationAnnotation.isPresent()) {
       MavenProjectSources annotation = mavenProjectLocationAnnotation.get();
@@ -182,6 +172,19 @@ class AnnotationHelper {
     }
 
     return Optional.empty();
+  }
+
+  static List<SystemProperty> systemProperties(ExtensionContext context) {
+    Method method = context.getTestMethod().orElseThrow(IllegalStateException::new);
+
+    List<SystemProperty> properties = new ArrayList<>(AnnotationSupport.findRepeatableAnnotations(method, SystemProperty.class));
+
+    List<Object> allInstances = context.getTestInstances().orElseThrow(IllegalStateException::new).getAllInstances();
+    for (int i = allInstances.size()-1; i >=0; i--) {
+      properties.addAll(AnnotationSupport.findRepeatableAnnotations(allInstances.get(i).getClass(), SystemProperty.class));
+    }
+
+    return properties;
   }
 
   static Optional<Class<?>> findMavenPredefinedRepositoryAnnotation(ExtensionContext context) {

@@ -26,12 +26,18 @@ import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
+/**
+ * Example integration test to demonstrate the usage
+ * of {@code @SystemProperty(..)} on a method level.
+ *
+ *  @author Karl Heinz Marbaise
+ */
 @MavenJupiterExtension
 class PropertiesIT {
 
   @MavenTest
   @SystemProperty("skipTests")
-  void property_skipttests(MavenExecutionResult result) {
+  void property_skiptests(MavenExecutionResult result) {
     assertThat(result)
         .isSuccessful()
         .out()

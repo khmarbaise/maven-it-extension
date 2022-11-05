@@ -539,7 +539,9 @@ There are situations where you need to use system properties which are usually d
 ----
 mvn versions:set -DgenerateBackups=false -DnewVersion=2.0
 ----
-This can be achieved by using the `@SystemProperty` annotation which could look like this:
+The equivalent for using such properties (which contains name and value) within
+an integration tests can be achieved by using the `@SystemProperty` annotation
+which look like this:
 
 [source,java]
 .CompareDependenciesIT.java
@@ -566,12 +568,13 @@ class CompareDependenciesIT
 }
 ----
 
-Other options are to set only the value for example if you like to do this:
+In other cases it's only necessary to define the name of the property which you do
+on the command like this:
 [source,bash]
 ----
 mvn clean verify -DskipTests
 ----
-You can do it the like the following:
+The same setup can be achieved via:
 [source,java]
 .CompareDependenciesIT.java
 ----
@@ -596,6 +599,46 @@ class RunningIT
     }
 }
 ----
+During the designing of your integration tests you might realize you need the property
+setup for a larger number of integration test cases. You can define a property or
+even several properties on a class level like this:
+
+[source,java]
+.CompareDependenciesIT.java
+----
+package org.codehaus.mojo.versions.it;
+
+import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
+import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.maven.MavenExecutionResult;
+
+import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
+
+@MavenJupiterExtension
+@SystemProperty("skipTests")
+class RunningIT
+{
+
+    @MavenTest
+    void running_first( MavenExecutionResult result )
+    {
+       ...
+    }
+
+    @MavenTest
+    void running_second( MavenExecutionResult result )
+    {
+       ...
+    }
+
+    @MavenTest
+    void running_thrid( MavenExecutionResult result )
+    {
+       ...
+    }
+}
+----
+This prevents the repetition of the property on each test case method.
 
 === Command Line Options
 In different scenarios it is needed to define command line options for example `--non-recursive` etc.

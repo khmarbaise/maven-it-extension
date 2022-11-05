@@ -30,7 +30,7 @@ import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 class MetaAnnotationPropertiesIT {
 
   @MavenTest
-  void property_skipttests(MavenExecutionResult result) {
+  void property_skiptests(MavenExecutionResult result) {
     assertThat(result)
         .isSuccessful()
         .out()
