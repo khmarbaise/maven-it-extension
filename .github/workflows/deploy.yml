@@ -28,8 +28,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout'
-        uses: actions/checkout@v2
-      - uses: actions/cache@v2
+        uses: actions/checkout@v3
+      - uses: actions/cache@v3
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-ubuntu-latest-${{ hashFiles('**/pom.xml') }}
@@ -38,6 +38,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 18
+          distribution: 'temurin'
+          cache: maven
       - name: 'Build'
         run: unset JAVA_TOOL_OPTIONS;mvn -V --no-transfer-progress clean verify site:site site:stage
       - name: 'Deploy to gh-pages'
