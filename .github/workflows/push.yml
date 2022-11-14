@@ -15,27 +15,19 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-name: PUSH
+name: SitePublishing
 
 on:
   push:
-    branches:
-      - 'master'
+    branches: [ main ]
 
 jobs:
-  build:
+  update-site:
+    name: Linux
     runs-on: ubuntu-latest
     steps:
-
-      - uses: actions/checkout@v3
-        name: "Checking out."
-
-      - uses: actions/setup-java@v3
-        with:
-          java-version: 19
-          distribution: "temurin"
-          cache: maven
-
+      - name: 'Checkout'
+        uses: actions/checkout@v3
       - name: Cache local Maven repositories
         uses: actions/cache@v3
         with:
@@ -45,14 +37,19 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-
-      - name: "Building with Maven."
-        run: mvn -V --no-transfer-progress verify site:site site:stage
-
-      - uses: JamesIves/github-pages-deploy-action@releases/v4
-        name: "Deploy to gh-pages"
+      - name: 'Setup Java Version'
+        uses: actions/setup-java@v3
+        with:
+          java-version: 18
+          distribution: 'temurin'
+          cache: maven
+      - name: 'Build'
+        run: unset JAVA_TOOL_OPTIONS;mvn -V --no-transfer-progress verify site:site site:stage
+      - name: 'Deploy to gh-pages'
+        uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
           ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
           FOLDER: target/staging
           TARGET_FOLDER: snapshot
+
