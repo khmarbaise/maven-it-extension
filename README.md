@@ -313,6 +313,15 @@ Currently, we have two states of site:
 
   * Release State of the generated Maven site https://khmarbaise.github.io/maven-it-extension/
   * The SNAPSHOT State of the Maven site https://khmarbaise.github.io/maven-it-extension/snapshot/
+
+
+# Generate Code Coverage
+
+
+Code coverage via:
+```bash
+mvn clean verify org.jacoco:jacoco-maven-plugin:report
+```
   
 [food]: https://en.wikipedia.org/wiki/Eating_your_own_dog_food
 [jdkbuilds]: https://github.com/khmarbaise/maven-it-extension/actions?query=workflow%3AJDKBuilds
