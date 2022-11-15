@@ -45,7 +45,7 @@ jobs:
         if: always()
         with:
           junit_files: |
-            "**/target/surefire-reports/**/*.xml"
+            "**/target/surefire-reports/*.xml"
 
       - name: Add coverage to PR
         id: jacoco
@@ -57,6 +57,6 @@ jobs:
             "./itf-extension-maven/target/site/jacoco/jacoco.xml",
             "./itf-assertj/target/site/jacoco/jacoco.xml",
             "./itf-jupiter-extension/target/site/jacoco/jacoco.xml",
-            "./itf-failure-plugin/target/site/jacoco/jacoco.xml",
+            "./itf-failure-plugin/target/site/jacoco/jacoco.xml"
           token: ${{ secrets.GITHUB_TOKEN }}
           debug-mode: true
