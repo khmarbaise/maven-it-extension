@@ -36,7 +36,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
         if: always()
         with:
-          junit_files: "target/surefire-reports/**/*.xml"
+          junit_files: "**/target/surefire-reports/**/*.xml"
       - name: Add coverage to PR
         id: jacoco
         uses: madrapps/jacoco-report@v1.3
