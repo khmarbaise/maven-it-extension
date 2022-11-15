@@ -48,9 +48,9 @@ jobs:
         with:
           comment_title: Test Results
           junit_files: |
-            "${{ github.workspace }}/itf-assertj/target/surefire-reports/*.xml"
-            "${{ github.workspace }}/itf-extension-maven/target/surefire-reports/*.xml"
-            "${{ github.workspace }}/itf-jupiter-extension/target/surefire-reports/*.xml"
+            ${{ github.workspace }}/itf-assertj/target/surefire-reports/*.xml
+            ${{ github.workspace }}/itf-extension-maven/target/surefire-reports/*.xml
+            ${{ github.workspace }}/itf-jupiter-extension/target/surefire-reports/*.xml
 
       - name: Publish Integration Test Results
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
@@ -58,9 +58,9 @@ jobs:
         with:
           comment_title: Integration Test Results
           junit_files: |
-            "${{ github.workspace }}/itf-examples/target/failsafe-reports/*.xml"
-            "${{ github.workspace }}/itf-failure-plugin/target/failsafe-reports/*.xml"
-            "${{ github.workspace }}/itf-maven-plugin/target/failsafe-reports/*.xml"
+            ${{ github.workspace }}/itf-examples/target/failsafe-reports/*.xml
+            ${{ github.workspace }}/itf-failure-plugin/target/failsafe-reports/*.xml
+            ${{ github.workspace }}/itf-maven-plugin/target/failsafe-reports/*.xml
 #
 #      - name: Add coverage to PR
 #        id: jacoco
