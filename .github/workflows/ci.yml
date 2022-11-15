@@ -32,7 +32,7 @@ jobs:
       - name: Cache local Maven repositories
         uses: actions/cache@v3
         with:
-          path: ${{ github.workspace }}/**/.m2/repository
+          path: ./**/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
@@ -45,18 +45,13 @@ jobs:
         if: always()
         with:
           junit_files: |
-            "**/target/surefire-reports/*.xml"
+            "./itf-extension-maven/target/surefire-reports/*.xml"
 
       - name: Add coverage to PR
         id: jacoco
         uses: madrapps/jacoco-report@v1.3
         with:
           paths: |
-            "./itf-examples/target/site/jacoco/jacoco.xml",
-            "./itf-maven-plugin/target/site/jacoco/jacoco.xml",
-            "./itf-extension-maven/target/site/jacoco/jacoco.xml",
-            "./itf-assertj/target/site/jacoco/jacoco.xml",
-            "./itf-jupiter-extension/target/site/jacoco/jacoco.xml",
-            "./itf-failure-plugin/target/site/jacoco/jacoco.xml"
+            "./itf-extension-maven/target/site/jacoco/jacoco.xml"
           token: ${{ secrets.GITHUB_TOKEN }}
           debug-mode: true
