@@ -317,6 +317,7 @@ Currently, we have two states of site:
 
 # Generate Code Coverage
 
+
 Code coverage via:
 ```bash
 mvn clean verify org.jacoco:jacoco-maven-plugin:report
