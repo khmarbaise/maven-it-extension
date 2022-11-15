@@ -30,7 +30,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
-        run: mvn verify -e -B -V
+        run: mvn verify org.jacoco:jacoco-maven-plugin:report -e -B -V
 
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
