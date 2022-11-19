@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<meta name="author" content="Karl Heinz Marbaise, 2022-10-20">
+<meta name="author" content="Karl Heinz Marbaise, 2022-11-19">
 <title>Integration Testing Framework Users Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>Integration Testing Framework Users Guide</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2022-10-20</span><br>
+<span id="author2" class="author">2022-11-19</span><br>
 <span id="revnumber">version 0.12.0-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
@@ -1322,7 +1322,9 @@ sign (instead of <code>!</code>) to prevent issues on different operating system
 </div>
 </div>
 <div class="paragraph">
-<p>This can be achieved by using the <code>@SystemProperty</code> annotation which could look like this:</p>
+<p>The equivalent for using such properties (which contains name and value) within
+an integration tests can be achieved by using the <code>@SystemProperty</code> annotation
+which look like this:</p>
 </div>
 <div class="listingblock">
 <div class="title">CompareDependenciesIT.java</div>
@@ -1350,7 +1352,8 @@ sign (instead of <code>!</code>) to prevent issues on different operating system
 </div>
 </div>
 <div class="paragraph">
-<p>Other options are to set only the value for example if you like to do this:</p>
+<p>In other cases it&#8217;s only necessary to define the name of the property which you do
+on the command like this:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1358,7 +1361,7 @@ sign (instead of <code>!</code>) to prevent issues on different operating system
 </div>
 </div>
 <div class="paragraph">
-<p>You can do it the like the following:</p>
+<p>The same setup can be achieved via:</p>
 </div>
 <div class="listingblock">
 <div class="title">CompareDependenciesIT.java</div>
@@ -1384,6 +1387,50 @@ sign (instead of <code>!</code>) to prevent issues on different operating system
     }
 }</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>During the designing of your integration tests you might realize you need the property
+setup for a larger number of integration test cases. You can define a property or
+even several properties on a class level like this:</p>
+</div>
+<div class="listingblock">
+<div class="title">CompareDependenciesIT.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">org.codehaus.mojo.versions.it</span>;
+
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenJupiterExtension</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.extension.MavenTest</span>;
+<span class="keyword">import</span> <span class="include">com.soebes.itf.jupiter.maven.MavenExecutionResult</span>;
+
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">com.soebes.itf.extension.assertj.MavenITAssertions.assertThat</span>;
+
+<span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@SystemProperty</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">skipTests</span><span class="delimiter">&quot;</span></span>)
+<span class="type">class</span> <span class="class">RunningIT</span>
+{
+
+    <span class="annotation">@MavenTest</span>
+    <span class="type">void</span> running_first( MavenExecutionResult result )
+    {
+       ...
+    }
+
+    <span class="annotation">@MavenTest</span>
+    <span class="type">void</span> running_second( MavenExecutionResult result )
+    {
+       ...
+    }
+
+    <span class="annotation">@MavenTest</span>
+    <span class="type">void</span> running_thrid( MavenExecutionResult result )
+    {
+       ...
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This prevents the repetition of the property on each test case method.</p>
 </div>
 </div>
 <div class="sect2">
@@ -3198,7 +3245,7 @@ or the logging output of the Maven build you can change your integration test li
 <div id="footer">
 <div id="footer-text">
 Version 0.12.0-SNAPSHOT<br>
-Last updated 2022-10-20 18:55:51 UTC
+Last updated 2022-11-19 12:21:41 UTC
 </div>
 </div>
 </body>
