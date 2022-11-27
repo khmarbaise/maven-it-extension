@@ -236,14 +236,14 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
     List<String> executionArguments = new ArrayList<>(defaultArguments);
 
     Optional<MavenSettingsSources> mavenSettingsSourcesAnnotation = findMavenSettingsSourcesAnnotation(context);
-    boolean mavenSettingsRresourcesIts = mavenSettingsSourcesAnnotation
+    boolean mavenSettingsResourcesIts = mavenSettingsSourcesAnnotation
         .map(s -> s.resourcesUsage().equals(NONE))
         .orElse(false);
 
     if (mavenSettingsSourcesAnnotation.isPresent()) {
       Path settingsXml = directoryResolverResult.getProjectDirectory().resolve(DEFAULT_SETTINGS_XML);
 
-      if (mavenSettingsRresourcesIts) {
+      if (mavenSettingsResourcesIts) {
         // We assume the location of the settings.xml file is given by the annotation
         // If sources is empty .. default location will be assumed
         // otherwise use the given location.
@@ -256,7 +256,6 @@ class MavenITExtension implements BeforeEachCallback, ParameterResolver, BeforeT
               .resolve(mavenSettingsSourcesAnnotation.get().settingsXml());
         }
       }
-
       executionArguments.add(MavenCLIOptions.SETTINGS);
       executionArguments.add(settingsXml.toAbsolutePath().toString());
     }

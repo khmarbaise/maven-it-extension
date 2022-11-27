@@ -4,7 +4,7 @@
   <artifactId>maven-settings-source-basic-it-001</artifactId>
   <version>1.0.0</version>
   <description>Integration tests which has a given pom.xml but the settings.xml file
-    consumed from this directory.</description>
+    consumed from this directory with a different name. (settings-from.xml)</description>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
