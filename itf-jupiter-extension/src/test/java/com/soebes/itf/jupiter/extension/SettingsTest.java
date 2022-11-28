@@ -19,6 +19,9 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
+import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.description.annotation.AnnotationDescription;
+import net.bytebuddy.dynamic.DynamicType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -27,6 +30,7 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,11 +61,25 @@ class SettingsTest {
   }
 
   @Test
-  void name() {
-  
-    try (MockedStatic<AnnotationHelper> annotationHelperMockedStatic = mockStatic(AnnotationHelper.class)) {
-      annotationHelperMockedStatic.when(() -> AnnotationHelper.findMavenSettingsSourcesAnnotation(any())).thenReturn()
+  void name() throws IOException {
+    try (DynamicType.Unloaded<Object> make = getMake()) {
+
+      Class<?> loaded = make
+          .load(getClass().getClassLoader())
+          .getLoaded();
+
+      System.out.println("loaded = " + loaded.getName());
+      System.out.println("loaded = " + make.getClass());
+      System.out.println("loaded.getComponentType() = " + loaded.getComponentType());
     }
+
+  }
+
+  private static DynamicType.Unloaded<Object> getMake() {
+    return new ByteBuddy()
+        .subclass(Object.class)
+        .annotateType(AnnotationDescription.Builder.ofType(MavenSettingsSources.class).build())
+        .make();
   }
 
 
