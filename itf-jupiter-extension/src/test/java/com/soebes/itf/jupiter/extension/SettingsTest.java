@@ -19,9 +19,9 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import net.bytebuddy.ByteBuddy;
-import net.bytebuddy.description.annotation.AnnotationDescription;
-import net.bytebuddy.dynamic.DynamicType;
+import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -30,7 +30,6 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +39,7 @@ import static org.mockito.Mockito.mockStatic;
 
 
 @ExtendWith(MockitoExtension.class)
+@ExtendWith(SoftAssertionsExtension.class)
 class SettingsTest {
 
   @Mock
@@ -51,6 +51,9 @@ class SettingsTest {
   @InjectMocks
   private Settings underTest;
 
+  @InjectSoftAssertions
+  private SoftAssertions softly;
+
   @Test
   void noSettingsAnnotationAvailable() {
     try (MockedStatic<AnnotationHelper> annotationHelperStatic = mockStatic(AnnotationHelper.class)) {
@@ -61,26 +64,20 @@ class SettingsTest {
   }
 
   @Test
-  void name() throws IOException {
-    try (DynamicType.Unloaded<Object> make = getMake()) {
-
-      Class<?> loaded = make
-          .load(getClass().getClassLoader())
-          .getLoaded();
-
-      System.out.println("loaded = " + loaded.getName());
-      System.out.println("loaded = " + make.getClass());
-      System.out.println("loaded.getComponentType() = " + loaded.getComponentType());
-    }
-
+  void validateTheDefaultValues() {
+    MavenSettingsSources annotation = Helper.createAnnotation(this.getClass(), MavenSettingsSources.class);
+    softly.assertThat(annotation.sources()).isEmpty();
+    softly.assertThat(annotation.settingsXml()).isEqualTo("settings.xml");
+    softly.assertThat(annotation.resourcesUsage()).isEqualTo(ResourceUsage.DEFAULT);
   }
 
-  private static DynamicType.Unloaded<Object> getMake() {
-    return new ByteBuddy()
-        .subclass(Object.class)
-        .annotateType(AnnotationDescription.Builder.ofType(MavenSettingsSources.class).build())
-        .make();
-  }
+  @Test
+  void name() {
+    MavenSettingsSources annotation = Helper.createAnnotation(this.getClass(), MavenSettingsSources.class);
 
+    System.out.println("loaded = " + annotation.getClass().getName());
+    System.out.println("loaded = " + annotation.getClass());
+    System.out.println("loaded.getComponentType() = " + annotation.getClass().getComponentType());
+  }
 
 }
