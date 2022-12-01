@@ -30,12 +30,14 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -75,9 +77,12 @@ class SettingsTest {
   void name() {
     MavenSettingsSources annotation = Helper.createAnnotation(this.getClass(), MavenSettingsSources.class);
 
-    System.out.println("loaded = " + annotation.getClass().getName());
-    System.out.println("loaded = " + annotation.getClass());
-    System.out.println("loaded.getComponentType() = " + annotation.getClass().getComponentType());
+    when(directoryResolverResult.getProjectDirectory()).thenReturn(Paths.get("first"));
+    try (MockedStatic<AnnotationHelper> annotationHelperStatic = mockStatic(AnnotationHelper.class)) {
+      annotationHelperStatic.when(() -> AnnotationHelper.findMavenSettingsSourcesAnnotation(any())).thenReturn(Optional.of(annotation));
+      List<String> settings = underTest.settingsSetup();
+      assertThat(settings).isEmpty();
+    }
   }
 
 }
