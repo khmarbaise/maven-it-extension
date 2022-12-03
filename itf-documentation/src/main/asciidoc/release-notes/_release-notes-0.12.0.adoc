@@ -71,6 +71,7 @@
 :issue-296: https://github.com/khmarbaise/maven-it-extension/issues/296[Fixed #296]
 :issue-297: https://github.com/khmarbaise/maven-it-extension/issues/297[Fixed #297]
 :issue-300: https://github.com/khmarbaise/maven-it-extension/issues/300[Fixed #300]
+:issue-301: https://github.com/khmarbaise/maven-it-extension/issues/301[Fixed #301]
 :issue-302: https://github.com/khmarbaise/maven-it-extension/issues/302[Fixed #302]
 :issue-303: https://github.com/khmarbaise/maven-it-extension/issues/303[Fixed #303]
 :pr-211: https://github.com/khmarbaise/maven-it-extension/pull/211[Pull request #211]
@@ -145,6 +146,13 @@
 
  * https://github.com/filiphr[Filip Hrisafov]
    ** Contributed the foundational ideas for {issue-232} and {issue-286}
+
+*Security Issues*
+
+ * {issue-301} - Upgrade TestNG 7.6.1 based on security issue - CVE-2022-4065
+ ** Upgraded to TestNG 7.7.0 which includes the security fix.
+ ** The upgrade is done in all test cases to increase the security during
+    the build of the maven-it-extension itself.
 
 *Dependency Upgrades*
 
