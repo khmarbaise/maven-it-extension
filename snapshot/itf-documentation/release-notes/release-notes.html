@@ -757,6 +757,27 @@ it now extends <code>AbstractAssert&lt;ArchiveAssert, Path&gt;</code> instead.</
 </ul>
 </div>
 <div class="paragraph">
+<p><strong>Security Issues</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/301">Fixed #301</a> - Upgrade TestNG 7.6.1 based on security issue - CVE-2022-4065</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Upgraded to TestNG 7.7.0 which includes the security fix.</p>
+</li>
+<li>
+<p>The upgrade is done in all test cases to increase the security during
+the build of the maven-it-extension itself.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
 <p><strong>Dependency Upgrades</strong></p>
 </div>
 <div class="ulist">
@@ -2279,7 +2300,7 @@ publish in <a href="https://central.sonatype.org/">Central Repository</a>.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.12.0-SNAPSHOT<br>
-Last updated 2022-12-10 22:14:12 UTC
+Last updated 2022-12-10 22:30:38 UTC
 </div>
 </div>
 </body>
