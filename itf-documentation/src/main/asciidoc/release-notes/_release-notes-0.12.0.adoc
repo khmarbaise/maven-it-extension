@@ -72,6 +72,7 @@
 :issue-297: https://github.com/khmarbaise/maven-it-extension/issues/297[Fixed #297]
 :issue-300: https://github.com/khmarbaise/maven-it-extension/issues/300[Fixed #300]
 :issue-302: https://github.com/khmarbaise/maven-it-extension/issues/302[Fixed #302]
+:issue-303: https://github.com/khmarbaise/maven-it-extension/issues/303[Fixed #303]
 :pr-211: https://github.com/khmarbaise/maven-it-extension/pull/211[Pull request #211]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
@@ -176,16 +177,17 @@
 
 *Build Improvements*
 
-* {issue-215} - Lift build to JDK17.
-* {issue-222} - Use Maven Compiler Release only.
-* {issue-227} - Upgrade to Maven 3.8.4
-* {issue-238} - Upgrade smpp to 5.3.7
-* {issue-258} - Upgrade smpp to 5.3.8
-* {issue-263} - Upgrade maven-surefire/failsafe-plugin to 3.0.0-M6.
-* {issue-280} - Upgrade Maven to 3.8.6
-* {issue-283} - Build on JDK18+
-* {issue-294} - Upgrade drone-cache to 1.4.0
-* {issue-295} - Upgrade to eclipse-temurin-19-alpine
-* {issue-296} - Fixing vulnerable dependencies used in IT's examples
+ * {issue-215} - Lift build to JDK17.
+ * {issue-222} - Use Maven Compiler Release only.
+ * {issue-227} - Upgrade to Maven 3.8.4
+ * {issue-238} - Upgrade smpp to 5.3.7
+ * {issue-258} - Upgrade smpp to 5.3.8
+ * {issue-263} - Upgrade maven-surefire/failsafe-plugin to 3.0.0-M6.
+ * {issue-280} - Upgrade Maven to 3.8.6
+ * {issue-283} - Build on JDK18+
+ * {issue-294} - Upgrade drone-cache to 1.4.0
+ * {issue-295} - Upgrade to eclipse-temurin-19-alpine
+ * {issue-296} - Fixing vulnerable dependencies used in IT's examples
+ * {issue-303} - Use mockito-bom instead property
 
 The full release notes can be found here {release_0_12_0}[Release 0.12.0].
