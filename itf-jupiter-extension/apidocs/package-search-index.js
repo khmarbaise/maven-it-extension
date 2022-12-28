@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.soebes.itf.jupiter.extension"},{"l":"com.soebes.itf.jupiter.extension.condition"}]
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.soebes.itf.jupiter.extension"},{"l":"com.soebes.itf.jupiter.extension.condition"},{"l":"com.soebes.itf.jupiter.extension.exceptions"}];updateSearchResults();

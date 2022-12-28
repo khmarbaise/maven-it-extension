@@ -25,7 +25,6 @@ import org.assertj.core.api.AbstractAssert;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
@@ -36,8 +35,8 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecutionResultAssert, MavenExecutionResult&gt; {
 
   protected MavenExecutionResultAssert(MavenExecutionResult actual) {
-<span class="nc" id="L39">    super(actual, MavenExecutionResultAssert.class);</span>
-<span class="nc" id="L40">  }</span>
+<span class="fc" id="L38">    super(actual, MavenExecutionResultAssert.class);</span>
+<span class="fc" id="L39">  }</span>
 
   /**
    * An entry point for MavenExecutionResultAssert to follow AssertJ standard &lt;code&gt;assertThat()&lt;/code&gt; statements.&lt;br&gt;
@@ -47,7 +46,7 @@ public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecution
    * @return a new {@link MavenExecutionResultAssert}
    */
   public static MavenExecutionResultAssert assertThat(MavenExecutionResult actual) {
-<span class="nc" id="L50">    return new MavenExecutionResultAssert(actual);</span>
+<span class="nc" id="L49">    return new MavenExecutionResultAssert(actual);</span>
   }
 
   /**
@@ -56,8 +55,8 @@ public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecution
    * @return Stdout
    */
   public LogAssert out() {
-<span class="nc" id="L59">    isNotNull();</span>
-<span class="nc" id="L60">    return new LogAssert(new LogClass(this.actual.getMavenLog().getStdout()));</span>
+<span class="nc" id="L58">    isNotNull();</span>
+<span class="nc" id="L59">    return new LogAssert(new LogClass(this.actual.getMavenLog().getStdout()));</span>
   }
 
   /**
@@ -66,8 +65,8 @@ public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecution
    * @return Std Err
    */
   public LogAssert err() {
-<span class="nc" id="L69">    isNotNull();</span>
-<span class="nc" id="L70">    return new LogAssert(new LogClass(this.actual.getMavenLog().getStderr()));</span>
+<span class="nc" id="L68">    isNotNull();</span>
+<span class="nc" id="L69">    return new LogAssert(new LogClass(this.actual.getMavenLog().getStderr()));</span>
   }
 
   /**
@@ -77,8 +76,8 @@ public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecution
    * @return The project result.
    */
   public MavenProjectResultAssert project() {
-<span class="nc" id="L80">    isNotNull();</span>
-<span class="nc" id="L81">    return new MavenProjectResultAssert(this.actual.getMavenProjectResult());</span>
+<span class="nc" id="L79">    isNotNull();</span>
+<span class="nc" id="L80">    return new MavenProjectResultAssert(this.actual.getMavenProjectResult());</span>
   }
 
   /**
@@ -88,8 +87,8 @@ public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecution
    * @return The cache result
    */
   public MavenCacheResultAssert cache() {
-<span class="nc" id="L91">    isNotNull();</span>
-<span class="nc" id="L92">    return new MavenCacheResultAssert(this.actual.getMavenCacheResult());</span>
+<span class="nc" id="L90">    isNotNull();</span>
+<span class="nc" id="L91">    return new MavenCacheResultAssert(this.actual.getMavenCacheResult());</span>
   }
 
   /**
@@ -98,13 +97,13 @@ public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecution
    * @throws AssertionError if the actual value is not {@code true}.
    */
   public MavenExecutionResultAssert isSuccessful() {
-<span class="nc" id="L101">    isNotNull();</span>
-<span class="nc bnc" id="L102" title="All 2 branches missed.">    if (!this.actual.isSuccessful()) {</span>
-<span class="nc" id="L103">      List&lt;String&gt; logs = Helper.logs(this.actual.getMavenLog().getStdout()).map(s -&gt; &quot; [STDOUT] &quot; + s + &quot;\n&quot;).collect(Collectors.toList());</span>
-<span class="nc" id="L104">      failWithMessage(&quot;The build was not successful but was &lt;%s&gt; with returnCode:&lt;%s&gt; log file: &lt;%s&gt;&quot;, actual.getResult(),</span>
-<span class="nc" id="L105">          actual.getReturnCode(), logs);</span>
+<span class="nc" id="L100">    isNotNull();</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">    if (!this.actual.isSuccessful()) {</span>
+<span class="nc" id="L102">      List&lt;String&gt; logs = Helper.logs(this.actual.getMavenLog().getStdout()).map(s -&gt; &quot; [STDOUT] &quot; + s + &quot;\n&quot;).collect(Collectors.toList());</span>
+<span class="nc" id="L103">      failWithMessage(&quot;The build was not successful but was &lt;%s&gt; with returnCode:&lt;%s&gt; log file: &lt;%s&gt;&quot;, actual.getResult(),</span>
+<span class="nc" id="L104">          actual.getReturnCode(), logs);</span>
     }
-<span class="nc" id="L107">    return myself;</span>
+<span class="nc" id="L106">    return myself;</span>
   }
 
   /**
@@ -113,13 +112,35 @@ public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecution
    * @throws AssertionError if the actual value is not {@code true}.
    */
   public MavenExecutionResultAssert isFailure() {
-<span class="nc" id="L116">    isNotNull();</span>
-<span class="nc bnc" id="L117" title="All 2 branches missed.">    if (!this.actual.isFailure()) {</span>
-<span class="nc" id="L118">      List&lt;String&gt; logs = Helper.logs(this.actual.getMavenLog().getStdout()).map(s -&gt; &quot; [STDOUT] &quot; + s + &quot;\n&quot;).collect(Collectors.toList());</span>
-<span class="nc" id="L119">      failWithMessage(&quot;The build should be not successful but was &lt;%s&gt; with returnCode:&lt;%s&gt; log file: &lt;%s&gt;&quot;, actual.getResult(),</span>
-<span class="nc" id="L120">          actual.getReturnCode(), logs);</span>
+<span class="nc" id="L115">    isNotNull();</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">    if (!this.actual.isFailure()) {</span>
+<span class="nc" id="L117">      List&lt;String&gt; logs = Helper.logs(this.actual.getMavenLog().getStdout()).map(s -&gt; &quot; [STDOUT] &quot; + s + &quot;\n&quot;).collect(Collectors.toList());</span>
+<span class="nc" id="L118">      failWithMessage(&quot;The build should be not successful but was &lt;%s&gt; with returnCode:&lt;%s&gt; log file: &lt;%s&gt;&quot;, actual.getResult(),</span>
+<span class="nc" id="L119">          actual.getReturnCode(), logs);</span>
     }
-<span class="nc" id="L122">    return myself;</span>
+<span class="nc" id="L121">    return myself;</span>
+  }
+
+  /**
+   * @throws UnsupportedOperationException if this method is called.
+   * @implNote java:S1133: Suppressing &quot;Do not forget to remove this deprecated code someday.&quot; message.
+   * @deprecated use {@link #isEqualTo} instead
+   */
+  @Override
+  @Deprecated
+  @SuppressWarnings(&quot;java:S1133&quot;)
+  public boolean equals(Object obj) {
+<span class="fc" id="L133">    throw new UnsupportedOperationException(&quot;'equals' is not supported...maybe you intended to call 'isEqualTo'&quot;);</span>
+  }
+
+  /**
+   * Always returns 1.
+   *
+   * @return 1.
+   */
+  @Override
+  public int hashCode() {
+<span class="fc" id="L143">    return 1;</span>
   }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

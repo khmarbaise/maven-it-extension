@@ -1,5 +1,5 @@
 -classpath
-'/Users/khmarbaise/.m2/repository/org/apache/maven/maven-model/3.1.0/maven-model-3.1.0.jar:/Users/khmarbaise/.m2/repository/org/codehaus/plexus/plexus-utils/3.0.10/plexus-utils-3.0.10.jar:/Users/khmarbaise/.m2/repository/org/apiguardian/apiguardian-api/1.1.0/apiguardian-api-1.1.0.jar:/Users/khmarbaise/.m2/repository/org/junit/platform/junit-platform-commons/1.7.2/junit-platform-commons-1.7.2.jar:/Users/khmarbaise/.m2/repository/org/assertj/assertj-core/3.18.1/assertj-core-3.18.1.jar:/Users/khmarbaise/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.7.2/junit-jupiter-api-5.7.2.jar:/Users/khmarbaise/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar'
+'/Users/khm/.m2/repository/org/apache/maven/maven-model/3.1.0/maven-model-3.1.0.jar:/Users/khm/.m2/repository/org/codehaus/plexus/plexus-utils/3.0.10/plexus-utils-3.0.10.jar:/Users/khm/.m2/repository/org/apiguardian/apiguardian-api/1.1.0/apiguardian-api-1.1.0.jar:/Users/khm/.m2/repository/org/assertj/assertj-core/3.23.1/assertj-core-3.23.1.jar:/Users/khm/.m2/repository/net/bytebuddy/byte-buddy/1.12.13/byte-buddy-1.12.13.jar:/Users/khm/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.1/junit-jupiter-api-5.9.1.jar:/Users/khm/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/khm/.m2/repository/org/junit/platform/junit-platform-commons/1.9.1/junit-platform-commons-1.9.1.jar'
 -encoding
 'UTF-8'
 -package
@@ -7,20 +7,20 @@
 --release
 8
 -sourcepath
-'/Users/khmarbaise/ws-git-soebes/maven-it-extension/target/checkout/itf-extension-maven/src/main/java:/Users/khmarbaise/ws-git-soebes/maven-it-extension/target/checkout/itf-extension-maven/target/generated-sources/annotations'
+'/Users/khm/ws-git-soebes/maven-it-extension/target/checkout/itf-extension-maven/src/main/java:/Users/khm/ws-git-soebes/maven-it-extension/target/checkout/itf-extension-maven/target/generated-sources/annotations'
 -author
 -bottom
-'Copyright &#169; 2011&#x2013;2021 <a href="https://www.soebes.com">SoftwareEntwicklung Beratung Schulung</a>. All rights reserved.'
+'Copyright &#169; 2011&#x2013;2022 <a href="https://www.soebes.com">SoftwareEntwicklung Beratung Schulung</a>. All rights reserved.'
 -charset
 'UTF-8'
 -d
-'/Users/khmarbaise/ws-git-soebes/maven-it-extension/target/checkout/itf-extension-maven/target/site/apidocs'
+'/Users/khm/ws-git-soebes/maven-it-extension/target/checkout/itf-extension-maven/target/site/apidocs'
 -docencoding
 'UTF-8'
 -doctitle
-'itf-extension-maven 0.11.0 API'
+'itf-extension-maven 0.12.0 API'
 -linkoffline
-'https://docs.oracle.com/javase/8/docs/api' '/Users/khmarbaise/ws-git-soebes/maven-it-extension/target/checkout/itf-extension-maven/target/javadoc-bundle-options'
+'https://docs.oracle.com/javase/8/docs/api' '/Users/khm/ws-git-soebes/maven-it-extension/target/checkout/itf-extension-maven/target/javadoc-bundle-options'
 -tag
 "implNote:a:Implementation Note:"
 -tag
@@ -28,4 +28,4 @@
 -use
 -version
 -windowtitle
-'itf-extension-maven 0.11.0 API'
+'itf-extension-maven 0.12.0 API'

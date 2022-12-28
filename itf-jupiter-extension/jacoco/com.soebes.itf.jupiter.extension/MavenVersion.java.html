@@ -45,23 +45,30 @@ public enum MavenVersion {
 <span class="nc" id="L45">  M3_6_0(&quot;3.6.0&quot;),</span>
 <span class="nc" id="L46">  M3_6_1(&quot;3.6.1&quot;),</span>
 <span class="nc" id="L47">  M3_6_2(&quot;3.6.2&quot;),</span>
-<span class="nc" id="L48">  M3_6_3(&quot;3.6.3&quot;);</span>
+<span class="nc" id="L48">  M3_6_3(&quot;3.6.3&quot;),</span>
+<span class="nc" id="L49">  M3_8_1(&quot;3.8.1&quot;),</span>
+<span class="nc" id="L50">  M3_8_2(&quot;3.8.2&quot;),</span>
+<span class="nc" id="L51">  M3_8_3(&quot;3.8.3&quot;),</span>
+<span class="nc" id="L52">  M3_8_4(&quot;3.8.4&quot;),</span>
+<span class="nc" id="L53">  M3_8_5(&quot;3.8.5&quot;),</span>
+<span class="nc" id="L54">  M3_8_6(&quot;3.8.6&quot;),</span>
+<span class="nc" id="L55">  M3_9_0(&quot;3.9.0&quot;);</span>
 
-<span class="nc" id="L50">  private static final MavenVersion CURRENT_MAVEN_VERSION = determineCurrentVersion();</span>
+<span class="nc" id="L57">  private static final MavenVersion CURRENT_MAVEN_VERSION = determineCurrentVersion();</span>
 
   private final String versionString;
 
-<span class="nc" id="L54">  MavenVersion(String versionString) {</span>
-<span class="nc" id="L55">    this.versionString = versionString;</span>
-<span class="nc" id="L56">  }</span>
+<span class="nc" id="L61">  MavenVersion(String versionString) {</span>
+<span class="nc" id="L62">    this.versionString = versionString;</span>
+<span class="nc" id="L63">  }</span>
 
   private static MavenVersion determineCurrentVersion() {
-<span class="nc" id="L59">    String currentVersion = requireNotNull(System.getProperty(&quot;maven.version&quot;), &quot;JVM system property 'maven.version' is empty.&quot;);</span>
-<span class="nc" id="L60">    requireNotEmpty(currentVersion, &quot;JVM system property 'maven.version' is empty. The maven version can not being deteced.&quot;);</span>
-<span class="nc" id="L61">    return Stream.of(values())</span>
-<span class="nc" id="L62">        .filter(mavenVersion -&gt; mavenVersion.getVersionString().equals(currentVersion))</span>
-<span class="nc" id="L63">        .findFirst()</span>
-<span class="nc" id="L64">        .orElseGet(() -&gt; MavenVersion.UNKNOWN);</span>
+<span class="nc" id="L66">    String currentVersion = requireNotNull(System.getProperty(&quot;maven.version&quot;), &quot;JVM system property 'maven.version' is empty.&quot;);</span>
+<span class="nc" id="L67">    requireNotEmpty(currentVersion, &quot;JVM system property 'maven.version' is empty. The maven version can not being detected.&quot;);</span>
+<span class="nc" id="L68">    return Stream.of(values())</span>
+<span class="nc" id="L69">        .filter(mavenVersion -&gt; mavenVersion.getVersionString().equals(currentVersion))</span>
+<span class="nc" id="L70">        .findFirst()</span>
+<span class="nc" id="L71">        .orElseGet(() -&gt; MavenVersion.UNKNOWN);</span>
   }
 
   /**
@@ -69,11 +76,11 @@ public enum MavenVersion {
    * executed Maven version.
    */
   public boolean isCurrentVersion() {
-<span class="nc bnc" id="L72" title="All 2 branches missed.">    return this == CURRENT_MAVEN_VERSION;</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">    return this == CURRENT_MAVEN_VERSION;</span>
   }
 
   public String getVersionString() {
-<span class="nc" id="L76">    return versionString;</span>
+<span class="nc" id="L83">    return versionString;</span>
   }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

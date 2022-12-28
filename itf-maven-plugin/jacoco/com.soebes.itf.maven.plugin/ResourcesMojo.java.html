@@ -45,7 +45,7 @@ import java.util.List;
  *
  * @implNote Copied the majority of the code from maven-resources-plugin.
  */
-@Mojo(name = &quot;resources-its&quot;, defaultPhase = LifecyclePhase.PROCESS_TEST_RESOURCES, requiresProject = true, threadSafe = true)
+@Mojo(name = &quot;resources-its&quot;, defaultPhase = LifecyclePhase.PROCESS_TEST_RESOURCES, threadSafe = true)
 <span class="nc" id="L49">public class ResourcesMojo extends AbstractMojo {</span>
 
   @Parameter(defaultValue = &quot;${project}&quot;, readonly = true, required = true)
@@ -196,7 +196,7 @@ import java.util.List;
   @Parameter
   private List&lt;String&gt; mavenFilteringHints;
 
-<span class="nc" id="L199">  private List&lt;MavenResourcesFiltering&gt; mavenFilteringComponents = new ArrayList&lt;MavenResourcesFiltering&gt;();</span>
+<span class="nc" id="L199">  private List&lt;MavenResourcesFiltering&gt; mavenFilteringComponents = new ArrayList&lt;&gt;();</span>
 
   /**
    * stop searching endToken at the end of line
@@ -287,10 +287,10 @@ import java.util.List;
    */
   private boolean isFilteringEnabled(Collection&lt;Resource&gt; theResources) {
 <span class="nc bnc" id="L289" title="All 2 branches missed.">    if (theResources != null) {</span>
-<span class="nc" id="L290">      return theResources.stream().anyMatch(resource -&gt; resource.isFiltering());</span>
+<span class="nc" id="L290">      return theResources.stream().anyMatch(Resource::isFiltering);</span>
     }
 <span class="nc" id="L292">    return false;</span>
   }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -31,9 +31,9 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 @API(status = EXPERIMENTAL, since = &quot;0.8.0&quot;)
 public class MavenCacheResultAssert extends AbstractAssert&lt;MavenCacheResultAssert, MavenCacheResult&gt; {
 
-  protected MavenCacheResultAssert(MavenCacheResult actual) {
-<span class="nc" id="L35">    super(actual, MavenCacheResultAssert.class);</span>
-<span class="nc" id="L36">  }</span>
+  MavenCacheResultAssert(MavenCacheResult actual) {
+<span class="fc" id="L35">    super(actual, MavenCacheResultAssert.class);</span>
+<span class="fc" id="L36">  }</span>
 
   /**
    * An entry point for MavenCacheResult to follow AssertJ standard &lt;code&gt;assertThat()&lt;/code&gt; statements.&lt;br&gt;
@@ -46,5 +46,27 @@ public class MavenCacheResultAssert extends AbstractAssert&lt;MavenCacheResultAs
 <span class="nc" id="L46">    return new MavenCacheResultAssert(actual);</span>
   }
 
+  /**
+   * @deprecated use {@link #isEqualTo} instead
+   *
+   * @throws UnsupportedOperationException if this method is called.
+   * @implNote java:S1133: Suppressing &quot;Do not forget to remove this deprecated code someday.&quot; message.
+   */
+  @Override
+  @Deprecated
+  @SuppressWarnings(&quot;java:S1133&quot;)
+  public boolean equals(Object obj) {
+<span class="fc" id="L59">    throw new UnsupportedOperationException(&quot;'equals' is not supported...maybe you intended to call 'isEqualTo'&quot;);</span>
+  }
+
+  /**
+   * Always returns 1.
+   *
+   * @return 1.
+   */
+  @Override
+  public int hashCode() {
+<span class="fc" id="L69">    return 1;</span>
+  }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
