@@ -85,12 +85,12 @@ public class MavenProjectResult {
    * @implNote Currently we only read the single {@code pom.xml} file. An existing multimodul
    * structure with it's {@code pom.xml} files will not being read.
    */
-<span class="fc" id="L88">  public MavenProjectResult(Path targetBaseDirectory, Path targetProjectDirectory, Path targetCacheDirectory, Model model) {</span>
-<span class="fc" id="L89">    this.targetBaseDirectory = targetBaseDirectory;</span>
-<span class="fc" id="L90">    this.targetProjectDirectory = targetProjectDirectory;</span>
-<span class="fc" id="L91">    this.targetCacheDirectory = targetCacheDirectory;</span>
-<span class="fc" id="L92">    this.model = model;</span>
-<span class="fc" id="L93">  }</span>
+<span class="nc" id="L88">  public MavenProjectResult(Path targetBaseDirectory, Path targetProjectDirectory, Path targetCacheDirectory, Model model) {</span>
+<span class="nc" id="L89">    this.targetBaseDirectory = targetBaseDirectory;</span>
+<span class="nc" id="L90">    this.targetProjectDirectory = targetProjectDirectory;</span>
+<span class="nc" id="L91">    this.targetCacheDirectory = targetCacheDirectory;</span>
+<span class="nc" id="L92">    this.model = model;</span>
+<span class="nc" id="L93">  }</span>
 
   /**
    * @since 0.12.0 The return type has been changed from {@link File} into {@link Path}
@@ -107,7 +107,7 @@ public class MavenProjectResult {
    */
   @API(status = EXPERIMENTAL, since = &quot;0.12.0&quot;)
   public Path getTargetProjectDirectory() {
-<span class="fc" id="L110">    return targetProjectDirectory;</span>
+<span class="nc" id="L110">    return targetProjectDirectory;</span>
   }
 
   /**

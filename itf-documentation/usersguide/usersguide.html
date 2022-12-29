@@ -805,21 +805,21 @@ like this:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml">      <span class="tag">&lt;plugin&gt;</span>
-        <span class="tag">&lt;groupId&gt;</span>com.soebes.itf.jupiter.extension<span class="tag">&lt;/groupId&gt;</span>
-        <span class="tag">&lt;artifactId&gt;</span>itf-maven-plugin<span class="tag">&lt;/artifactId&gt;</span>
-        <span class="tag">&lt;version&gt;</span>0.12.0-SNAPSHOT<span class="tag">&lt;/version&gt;</span>
-        <span class="tag">&lt;executions&gt;</span>
-          <span class="tag">&lt;execution&gt;</span>
-            <span class="tag">&lt;id&gt;</span>installing<span class="tag">&lt;/id&gt;</span>
-            <span class="tag">&lt;phase&gt;</span>pre-integration-test<span class="tag">&lt;/phase&gt;</span>
-            <span class="tag">&lt;goals&gt;</span>
-              <span class="tag">&lt;goal&gt;</span>install<span class="tag">&lt;/goal&gt;</span>
-              <span class="tag">&lt;goal&gt;</span>resources-its<span class="tag">&lt;/goal&gt;</span>
-            <span class="tag">&lt;/goals&gt;</span>
-          <span class="tag">&lt;/execution&gt;</span>
-        <span class="tag">&lt;/executions&gt;</span>
-      <span class="tag">&lt;/plugin&gt;</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="xml">          <span class="tag">&lt;plugin&gt;</span>
+            <span class="tag">&lt;groupId&gt;</span>com.soebes.itf.jupiter.extension<span class="tag">&lt;/groupId&gt;</span>
+            <span class="tag">&lt;artifactId&gt;</span>itf-maven-plugin<span class="tag">&lt;/artifactId&gt;</span>
+            <span class="tag">&lt;version&gt;</span>0.12.0-SNAPSHOT<span class="tag">&lt;/version&gt;</span>
+            <span class="tag">&lt;executions&gt;</span>
+              <span class="tag">&lt;execution&gt;</span>
+                <span class="tag">&lt;id&gt;</span>installing<span class="tag">&lt;/id&gt;</span>
+                <span class="tag">&lt;phase&gt;</span>pre-integration-test<span class="tag">&lt;/phase&gt;</span>
+                <span class="tag">&lt;goals&gt;</span>
+                  <span class="tag">&lt;goal&gt;</span>install<span class="tag">&lt;/goal&gt;</span>
+                  <span class="tag">&lt;goal&gt;</span>resources-its<span class="tag">&lt;/goal&gt;</span>
+                <span class="tag">&lt;/goals&gt;</span>
+              <span class="tag">&lt;/execution&gt;</span>
+            <span class="tag">&lt;/executions&gt;</span>
+          <span class="tag">&lt;/plugin&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -832,26 +832,35 @@ used during the integration tests. Further more it will handle the copying of th
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml">      <span class="tag">&lt;plugin&gt;</span>
-        <span class="tag">&lt;artifactId&gt;</span>maven-failsafe-plugin<span class="tag">&lt;/artifactId&gt;</span>
-        <span class="tag">&lt;configuration&gt;</span>
-          <span class="comment">&lt;!--
-           ! currently needed to run integration tests.
-          --&gt;</span>
-          <span class="tag">&lt;systemProperties&gt;</span>
-            <span class="tag">&lt;maven.version&gt;</span>${maven.version}<span class="tag">&lt;/maven.version&gt;</span>
-            <span class="tag">&lt;maven.home&gt;</span>${maven.home}<span class="tag">&lt;/maven.home&gt;</span>
-          <span class="tag">&lt;/systemProperties&gt;</span>
-        <span class="tag">&lt;/configuration&gt;</span>
-        <span class="tag">&lt;executions&gt;</span>
-          <span class="tag">&lt;execution&gt;</span>
-            <span class="tag">&lt;goals&gt;</span>
-              <span class="tag">&lt;goal&gt;</span>integration-test<span class="tag">&lt;/goal&gt;</span>
-              <span class="tag">&lt;goal&gt;</span>verify<span class="tag">&lt;/goal&gt;</span>
-            <span class="tag">&lt;/goals&gt;</span>
-          <span class="tag">&lt;/execution&gt;</span>
-        <span class="tag">&lt;/executions&gt;</span>
-      <span class="tag">&lt;/plugin&gt;</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="xml">          <span class="tag">&lt;plugin&gt;</span>
+            <span class="tag">&lt;artifactId&gt;</span>maven-failsafe-plugin<span class="tag">&lt;/artifactId&gt;</span>
+            <span class="tag">&lt;configuration&gt;</span>
+              <span class="comment">&lt;!--
+               ! currently needed to run integration tests.
+              --&gt;</span>
+              <span class="tag">&lt;systemProperties&gt;</span>
+                <span class="tag">&lt;maven.version&gt;</span>${maven.version}<span class="tag">&lt;/maven.version&gt;</span>
+                <span class="tag">&lt;maven.home&gt;</span>${maven.home}<span class="tag">&lt;/maven.home&gt;</span>
+              <span class="tag">&lt;/systemProperties&gt;</span>
+              <span class="tag">&lt;properties&gt;</span>
+                <span class="tag">&lt;configurationParameters&gt;</span>
+                  junit.jupiter.execution.parallel.enabled=true
+                  junit.jupiter.execution.parallel.mode.default=concurrent
+                  junit.jupiter.execution.parallel.mode.classes.default=same_thread
+                  junit.jupiter.execution.parallel.config.strategy=fixed
+                  junit.jupiter.execution.parallel.config.fixed.parallelism=6
+                <span class="tag">&lt;/configurationParameters&gt;</span>
+              <span class="tag">&lt;/properties&gt;</span>
+            <span class="tag">&lt;/configuration&gt;</span>
+            <span class="tag">&lt;executions&gt;</span>
+              <span class="tag">&lt;execution&gt;</span>
+                <span class="tag">&lt;goals&gt;</span>
+                  <span class="tag">&lt;goal&gt;</span>integration-test<span class="tag">&lt;/goal&gt;</span>
+                  <span class="tag">&lt;goal&gt;</span>verify<span class="tag">&lt;/goal&gt;</span>
+                <span class="tag">&lt;/goals&gt;</span>
+              <span class="tag">&lt;/execution&gt;</span>
+            <span class="tag">&lt;/executions&gt;</span>
+          <span class="tag">&lt;/plugin&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3245,7 +3254,7 @@ or the logging output of the Maven build you can change your integration test li
 <div id="footer">
 <div id="footer-text">
 Version 0.12.0-SNAPSHOT<br>
-Last updated 2022-12-29 19:37:56 UTC
+Last updated 2022-12-29 20:54:03 UTC
 </div>
 </div>
 </body>

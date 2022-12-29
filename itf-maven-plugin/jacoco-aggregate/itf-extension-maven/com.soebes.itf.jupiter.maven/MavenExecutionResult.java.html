@@ -41,20 +41,20 @@ public class MavenExecutionResult {
   private final MavenCacheResult mavenCacheResult;
 
   public MavenExecutionResult(ExecutionResult result, int returnCode, MavenLog mavenLog,
-<span class="fc" id="L44">                              MavenProjectResult mavenProjectResult, MavenCacheResult mavenCacheResult) {</span>
-<span class="fc" id="L45">    this.result = result;</span>
-<span class="fc" id="L46">    this.returnCode = returnCode;</span>
-<span class="fc" id="L47">    this.mavenLog = mavenLog;</span>
-<span class="fc" id="L48">    this.mavenProjectResult = mavenProjectResult;</span>
-<span class="fc" id="L49">    this.mavenCacheResult = mavenCacheResult;</span>
-<span class="fc" id="L50">  }</span>
+<span class="nc" id="L44">                              MavenProjectResult mavenProjectResult, MavenCacheResult mavenCacheResult) {</span>
+<span class="nc" id="L45">    this.result = result;</span>
+<span class="nc" id="L46">    this.returnCode = returnCode;</span>
+<span class="nc" id="L47">    this.mavenLog = mavenLog;</span>
+<span class="nc" id="L48">    this.mavenProjectResult = mavenProjectResult;</span>
+<span class="nc" id="L49">    this.mavenCacheResult = mavenCacheResult;</span>
+<span class="nc" id="L50">  }</span>
 
   public int getReturnCode() {
 <span class="nc" id="L53">    return returnCode;</span>
   }
 
   public boolean isSuccessful() {
-<span class="fc" id="L57">    return ExecutionResult.Successful.equals(this.result);</span>
+<span class="nc" id="L57">    return ExecutionResult.Successful.equals(this.result);</span>
   }
 
   public boolean isFailure() {
@@ -74,7 +74,7 @@ public class MavenExecutionResult {
   }
 
   public MavenProjectResult getMavenProjectResult() {
-<span class="fc" id="L77">    return mavenProjectResult;</span>
+<span class="nc" id="L77">    return mavenProjectResult;</span>
   }
 
   @Override
@@ -87,10 +87,10 @@ public class MavenExecutionResult {
 <span class="nc" id="L87">        .toString();</span>
   }
 
-<span class="fc" id="L90">  @SuppressWarnings(&quot;java:S115&quot;)</span>
+<span class="nc" id="L90">  @SuppressWarnings(&quot;java:S115&quot;)</span>
   public enum ExecutionResult {
-<span class="fc" id="L92">    Successful,</span>
-<span class="fc" id="L93">    Failure,</span>
+<span class="nc" id="L92">    Successful,</span>
+<span class="nc" id="L93">    Failure,</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
