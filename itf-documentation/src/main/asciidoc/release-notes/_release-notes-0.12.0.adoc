@@ -76,6 +76,7 @@
 :issue-303: https://github.com/khmarbaise/maven-it-extension/issues/303[Fixed #303]
 :issue-304: https://github.com/khmarbaise/maven-it-extension/issues/304[Fixed #304]
 :issue-307: https://github.com/khmarbaise/maven-it-extension/issues/307[Fixed #307]
+:issue-312: https://github.com/khmarbaise/maven-it-extension/issues/312[Fixed #312]
 :pr-211: https://github.com/khmarbaise/maven-it-extension/pull/211[Pull request #211]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
@@ -184,6 +185,7 @@
  * {issue-300} - Upgrade mockito 4.9.0
  * {issue-302} - Upgrade assertj-core 3.23.1
  * {issue-304} - Upgrade mockito-bom 4.10.0
+ * {issue-312} - Upgrade smpp parent 5.3.12
  * {issue-???} - ??
 
 *Build Improvements*
