@@ -75,6 +75,7 @@
 :issue-302: https://github.com/khmarbaise/maven-it-extension/issues/302[Fixed #302]
 :issue-303: https://github.com/khmarbaise/maven-it-extension/issues/303[Fixed #303]
 :issue-304: https://github.com/khmarbaise/maven-it-extension/issues/304[Fixed #304]
+:issue-306: https://github.com/khmarbaise/maven-it-extension/issues/306[Fixed #306]
 :issue-307: https://github.com/khmarbaise/maven-it-extension/issues/307[Fixed #307]
 :issue-312: https://github.com/khmarbaise/maven-it-extension/issues/312[Fixed #312]
 :pr-211: https://github.com/khmarbaise/maven-it-extension/pull/211[Pull request #211]
@@ -202,6 +203,7 @@
  * {issue-295} - Upgrade to eclipse-temurin-19-alpine
  * {issue-296} - Fixing vulnerable dependencies used in IT's examples
  * {issue-303} - Use mockito-bom instead property
+ * {issue-306} - Execute integration tests not during release process
  * {issue-307} - Change to GitHub Actions.
 
 The full release notes can be found here {release_0_12_0}[Release 0.12.0].

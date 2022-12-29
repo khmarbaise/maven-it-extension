@@ -134,49 +134,55 @@
         <artifactId>plexus-component-metadata</artifactId>
         <version>2.1.0</version>
       </plugin>
-      <plugin>
-        <groupId>com.soebes.itf.jupiter.extension</groupId>
-        <artifactId>itf-maven-plugin</artifactId>
-        <version>${project.version}</version>
-        <executions>
-          <execution>
-            <id>installing</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>install</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <configuration>
-          <forkCount>5</forkCount>
-          <reuseForks>true</reuseForks>
-          <includes>
-            <include>**/*IT.java</include>
-          </includes>
-          <systemProperties>
-            <maven.version>${maven.version}</maven.version>
-            <maven.home>${maven.home}</maven.home>
-          </systemProperties>
-          <properties>
-            <configurationParameters>
-              junit.jupiter.execution.parallel.enabled = false
-              junit.jupiter.execution.parallel.mode.default = concurrent
-            </configurationParameters>
-          </properties>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>integration-test</goal>
-              <goal>verify</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>run-its</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.soebes.itf.jupiter.extension</groupId>
+            <artifactId>itf-maven-plugin</artifactId>
+            <version>${project.version}</version>
+            <executions>
+              <execution>
+                <id>installing</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>install</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <forkCount>5</forkCount>
+              <reuseForks>true</reuseForks>
+              <systemProperties>
+                <maven.version>${maven.version}</maven.version>
+                <maven.home>${maven.home}</maven.home>
+              </systemProperties>
+              <properties>
+                <configurationParameters>
+                  junit.jupiter.execution.parallel.enabled = false
+                  junit.jupiter.execution.parallel.mode.default = concurrent
+                </configurationParameters>
+              </properties>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>integration-test</goal>
+                  <goal>verify</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
