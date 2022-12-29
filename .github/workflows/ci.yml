@@ -42,16 +42,6 @@ jobs:
       - name: Build with Maven
         run: mvn verify -e -B -V
 
-      - uses: dorny/test-reporter@v1
-        if: success() || failure()
-        with:
-          name: 'Publish Test Results'
-          path: |
-            ${{ github.workspace }}/itf-assertj/target/surefire-reports/TEST-*.xml
-            ${{ github.workspace }}/itf-extension-maven/target/surefire-reports/TEST-*.xml
-            ${{ github.workspace }}/itf-jupiter-extension/target/surefire-reports/TEST-*.xml
-          reporter: 'java-junit'
-
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
         if: always()
