@@ -17,7 +17,7 @@
 # Integration Testing Framework Extension
 
 [![Apache License, Version 2.0, January 2004](https://img.shields.io/github/license/apache/maven.svg?label=License)][license]
-[![Build Status](https://cloud.drone.io/api/badges/khmarbaise/maven-it-extension/status.svg)](https://cloud.drone.io/khmarbaise/maven-it-extension)
+[![Build](https://github.com/khmarbaise/maven-it-extension/actions/workflows/push.yml/badge.svg)](https://github.com/khmarbaise/maven-it-extension/actions/workflows/push.yml)
 [![Site](https://github.com/khmarbaise/maven-it-extension/workflows/SitePublishing/badge.svg)][published-site]
 [![Issues](https://img.shields.io/github/issues/khmarbaise/maven-it-extension)](https://github.com/khmarbaise/maven-it-extension/issues)
 [![Issues Closed](https://img.shields.io/github/issues-closed/khmarbaise/maven-it-extension)](https://github.com/khmarbaise/maven-it-extension/issues?q=is%3Aissue+is%3Aclosed)
