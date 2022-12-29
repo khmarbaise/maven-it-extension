@@ -73,7 +73,7 @@ jobs:
             ${{ github.workspace }}/itf-assertj/target/site/jacoco/jacoco.xml,
             ${{ github.workspace }}/itf-examples/target/site/jacoco-it/jacoco.xml,
             ${{ github.workspace }}/itf-extension-maven/target/site/jacoco/jacoco.xml,
-            ${{ github.workspace }}/itf-failure-maven/target/site/jacoco-it/jacoco.xml,
+            ${{ github.workspace }}/itf-failure-plugin/target/site/jacoco-it/jacoco.xml,
             ${{ github.workspace }}/itf-maven-plugin/target/site/jacoco-it/jacoco.xml
           token: ${{ secrets.GITHUB_TOKEN }}
           debug-mode: true
