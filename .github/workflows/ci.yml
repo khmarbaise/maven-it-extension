@@ -47,9 +47,9 @@ jobs:
         with:
           name: 'Publish Test Results'
           path: |
-            ${{ github.workspace }}/itf-assertj/target/surefire-reports/*.xml
-            ${{ github.workspace }}/itf-extension-maven/target/surefire-reports/*.xml
-            ${{ github.workspace }}/itf-jupiter-extension/target/surefire-reports/*.xml
+            ${{ github.workspace }}/itf-assertj/target/surefire-reports/TEST-*.xml
+            ${{ github.workspace }}/itf-extension-maven/target/surefire-reports/TEST-*.xml
+            ${{ github.workspace }}/itf-jupiter-extension/target/surefire-reports/TEST-*.xml
           reporter: 'java-junit'
 
       - name: Publish Test Results
@@ -60,9 +60,9 @@ jobs:
           log_level: DEBUG
           comment_title: Test Results
           junit_files: |
-            ${{ github.workspace }}/itf-assertj/target/surefire-reports/*.xml
-            ${{ github.workspace }}/itf-extension-maven/target/surefire-reports/*.xml
-            ${{ github.workspace }}/itf-jupiter-extension/target/surefire-reports/*.xml
+            ${{ github.workspace }}/itf-assertj/target/surefire-reports/TEST-*.xml
+            ${{ github.workspace }}/itf-extension-maven/target/surefire-reports/TEST-*.xml
+            ${{ github.workspace }}/itf-jupiter-extension/target/surefire-reports/TEST-*.xml
 
       - name: Publish Integration Test Results
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
@@ -72,9 +72,9 @@ jobs:
           log_level: DEBUG
           comment_title: Integration Test Results
           junit_files: |
-            ${{ github.workspace }}/itf-examples/target/failsafe-reports/*.xml
-            ${{ github.workspace }}/itf-failure-plugin/target/failsafe-reports/*.xml
-            ${{ github.workspace }}/itf-maven-plugin/target/failsafe-reports/*.xml
+            ${{ github.workspace }}/itf-examples/target/failsafe-reports/TEST-*.xml
+            ${{ github.workspace }}/itf-failure-plugin/target/failsafe-reports/TEST-*.xml
+            ${{ github.workspace }}/itf-maven-plugin/target/failsafe-reports/TEST-*.xml
 #
 #      - name: Add coverage to PR
 #        id: jacoco
