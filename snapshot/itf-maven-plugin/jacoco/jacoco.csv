@@ -1,6 +1,0 @@
-GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-itf-maven-plugin,com.soebes.itf.maven.plugin,InstallMojo,723,0,52,0,142,0,46,0,20,0
-itf-maven-plugin,com.soebes.itf.maven.plugin,Helper,25,0,8,0,6,0,5,0,1,0
-itf-maven-plugin,com.soebes.itf.maven.plugin,MetadataUtils,247,0,14,0,55,0,12,0,5,0
-itf-maven-plugin,com.soebes.itf.maven.plugin,HelpMojo,854,0,108,0,153,0,70,0,16,0
-itf-maven-plugin,com.soebes.itf.maven.plugin,ResourcesMojo,214,0,8,0,42,0,7,0,3,0
