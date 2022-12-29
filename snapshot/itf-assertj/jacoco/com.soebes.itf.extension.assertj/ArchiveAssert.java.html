@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ArchiveAssert.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">itf-assertj</a> &gt; <a href="index.source.html" class="el_package">com.soebes.itf.extension.assertj</a> &gt; <span class="el_source">ArchiveAssert.java</span></div><h1>ArchiveAssert.java</h1><pre class="source lang-java linenums">package com.soebes.itf.extension.assertj;
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import org.apache.maven.model.Model;
+import org.apiguardian.api.API;
+import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.Assertions;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+
+/**
+ * Assertions related to Archives like {@code jar}, {@code war}
+ *
+ * @author Karl Heinz Marbaise
+ */
+@API(status = EXPERIMENTAL, since = &quot;0.8.0&quot;)
+public class ArchiveAssert extends AbstractAssert&lt;ArchiveAssert, Path&gt; {
+
+  private static final String CHECKING_EAR_FILE_NAMES = &quot;Checking ear file names.&quot;;
+  private static final String IOEXCEPTION_HAPPENED = &quot;IOException happened. &lt;%s&gt; file:&lt;%s&gt;&quot;;
+  private final Model model;
+
+  private final List&lt;String&gt; includes;
+
+  private final MavenProjectResultAssert parent;
+
+  ArchiveAssert(Path earFile, Model model, MavenProjectResultAssert parent) {
+<span class="fc" id="L54">    super(earFile, ArchiveAssert.class);</span>
+<span class="fc" id="L55">    this.model = model;</span>
+<span class="fc" id="L56">    this.includes = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L57">    this.parent = parent;</span>
+    //TODO: currently ignore maven files and MANIFEST.MF
+<span class="fc" id="L59">    ignoreMavenFiles();</span>
+<span class="fc" id="L60">    ignoreManifest();</span>
+<span class="fc" id="L61">  }</span>
+
+  /**
+   * This will ignore the files within an archive
+   * &lt;ul&gt;
+   *   &lt;li&gt;META-INF/maven/&amp;lt;groupId&amp;gt;/&amp;lt;artifactId&amp;gt;/pom.xml&lt;/li&gt;
+   *   &lt;li&gt;META-INF/maven/&amp;lt;groupId&amp;gt;/&amp;lt;artifactId&amp;gt;/pom.properties&lt;/li&gt;
+   * &lt;/ul&gt;
+   *
+   * @return {@link ArchiveAssert}
+   */
+  public ArchiveAssert ignoreMavenFiles() {
+<span class="fc" id="L73">    this.includes.addAll(</span>
+<span class="fc" id="L74">        Arrays.asList(&quot;META-INF/maven/&quot; + this.model.getGroupId() + &quot;/&quot; + this.model.getArtifactId() + &quot;pom.xml&quot;,</span>
+<span class="fc" id="L75">            &quot;META-INF/maven/&quot; + this.model.getGroupId() + &quot;/&quot; + this.model.getArtifactId() + &quot;pom.properties&quot;));</span>
+<span class="fc" id="L76">    return myself;</span>
+  }
+
+  public ArchiveAssert ignoreManifest() {
+<span class="fc" id="L80">    this.includes.addAll(Arrays.asList(&quot;META-INF/MANIFEST.MF&quot;));</span>
+<span class="fc" id="L81">    return myself;</span>
+  }
+
+  public ArchiveAssert doesNotContain(String... files) {
+<span class="nc" id="L85">    try (JarFile jarFile = new JarFile(this.actual.toFile())) {</span>
+<span class="nc" id="L86">      List&lt;String&gt; localIncludes = Arrays.asList(files);</span>
+<span class="nc" id="L87">      Assertions.assertThat(jarFile.stream())</span>
+<span class="nc" id="L88">          .describedAs(CHECKING_EAR_FILE_NAMES)</span>
+<span class="nc" id="L89">          .extracting(ZipEntry::getName)</span>
+<span class="nc" id="L90">          .doesNotContain(localIncludes.toArray(new String[]{}));</span>
+<span class="nc" id="L91">    } catch (IOException e) {</span>
+<span class="nc" id="L92">      failWithMessage(IOEXCEPTION_HAPPENED, e.getMessage());</span>
+<span class="nc" id="L93">    }</span>
+<span class="nc" id="L94">    return myself;</span>
+  }
+
+  public ArchiveAssert containsOnlyOnce(List&lt;String&gt; files) {
+<span class="nc" id="L98">    return containsOnlyOnce(files.toArray(new String[]{}));</span>
+  }
+
+  public ArchiveAssert containsOnlyOnce(String... files) {
+<span class="nc" id="L102">    try (JarFile jarFile = new JarFile(this.actual.toFile())) {</span>
+<span class="nc" id="L103">      Assertions.assertThat(jarFile.stream())</span>
+<span class="nc" id="L104">          .describedAs(CHECKING_EAR_FILE_NAMES)</span>
+<span class="nc" id="L105">          .extracting(ZipEntry::getName)</span>
+<span class="nc" id="L106">          .containsOnlyOnce(files);</span>
+<span class="nc" id="L107">    } catch (IOException e) {</span>
+<span class="nc" id="L108">      failWithMessage(IOEXCEPTION_HAPPENED, e.getMessage());</span>
+<span class="nc" id="L109">    }</span>
+<span class="nc" id="L110">    return myself;</span>
+  }
+
+  public ArchiveAssert containsOnly(String... files) {
+<span class="nc" id="L114">    try (JarFile jarFile = new JarFile(this.actual.toFile())) {</span>
+<span class="nc" id="L115">      Assertions.assertThat(jarFile.stream())</span>
+<span class="nc" id="L116">          .describedAs(CHECKING_EAR_FILE_NAMES)</span>
+<span class="nc" id="L117">          .extracting(ZipEntry::getName)</span>
+<span class="nc" id="L118">          .containsOnly(files);</span>
+<span class="nc" id="L119">    } catch (IOException e) {</span>
+<span class="nc" id="L120">      failWithMessage(IOEXCEPTION_HAPPENED, e.getMessage());</span>
+<span class="nc" id="L121">    }</span>
+<span class="nc" id="L122">    return myself;</span>
+  }
+
+  public MavenProjectResultAssert and() {
+<span class="nc" id="L126">    return this.parent;</span>
+  }
+
+  @Override
+  public ArchiveAssert isEqualTo(Object expected) {
+<span class="nc" id="L131">    objects.assertEqual(this.info, this.actual, expected);</span>
+<span class="nc" id="L132">    return myself;</span>
+  }
+
+  /**
+   * @throws UnsupportedOperationException if this method is called.
+   * @implNote java:S1133: Suppressing &quot;Do not forget to remove this deprecated code someday.&quot; message.
+   * @deprecated use {@link #isEqualTo} instead
+   */
+  @Override
+  @Deprecated
+  @SuppressWarnings(&quot;java:S1133&quot;)
+  public boolean equals(Object obj) {
+<span class="fc" id="L144">    throw new UnsupportedOperationException(&quot;'equals' is not supported...maybe you intended to call 'isEqualTo'&quot;);</span>
+  }
+
+  /**
+   * Always returns 1.
+   *
+   * @return 1.
+   */
+  @Override
+  public int hashCode() {
+<span class="fc" id="L154">    return 1;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

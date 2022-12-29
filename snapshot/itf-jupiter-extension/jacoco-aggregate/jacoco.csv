@@ -1,0 +1,9 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+itf-jupiter-extension/itf-extension-maven,com.soebes.itf.jupiter.maven,ProjectHelper,18,32,0,0,4,8,1,2,1,2
+itf-jupiter-extension/itf-extension-maven,com.soebes.itf.jupiter.maven,MavenProjectResult,27,0,0,0,10,0,5,0,5,0
+itf-jupiter-extension/itf-extension-maven,com.soebes.itf.jupiter.maven,MavenExecutionResult.ExecutionResult,15,0,0,0,3,0,1,0,1,0
+itf-jupiter-extension/itf-extension-maven,com.soebes.itf.jupiter.maven,MavenLog,15,0,0,0,6,0,3,0,3,0
+itf-jupiter-extension/itf-extension-maven,com.soebes.itf.jupiter.maven,Projects,9,0,0,0,4,0,2,0,2,0
+itf-jupiter-extension/itf-extension-maven,com.soebes.itf.jupiter.maven,MavenExecutor,36,0,0,0,6,0,3,0,3,0
+itf-jupiter-extension/itf-extension-maven,com.soebes.itf.jupiter.maven,MavenCacheResult,9,0,0,0,4,0,2,0,2,0
+itf-jupiter-extension/itf-extension-maven,com.soebes.itf.jupiter.maven,MavenExecutionResult,109,0,0,0,20,0,9,0,9,0

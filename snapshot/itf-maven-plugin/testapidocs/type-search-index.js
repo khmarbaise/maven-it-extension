@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"com.soebes.itf.maven.plugin","l":"BasicIT"},{"p":"com.soebes.itf.maven.plugin","l":"ResourcesIT"}];updateSearchResults();

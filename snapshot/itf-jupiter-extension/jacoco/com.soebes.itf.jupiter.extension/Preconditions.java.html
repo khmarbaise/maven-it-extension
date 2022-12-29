@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Preconditions.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">itf-jupiter-extension</a> &gt; <a href="index.source.html" class="el_package">com.soebes.itf.jupiter.extension</a> &gt; <span class="el_source">Preconditions.java</span></div><h1>Preconditions.java</h1><pre class="source lang-java linenums">package com.soebes.itf.jupiter.extension;
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import org.apiguardian.api.API;
+
+import static org.apiguardian.api.API.Status.INTERNAL;
+
+/**
+ * @author Karl Heinz Marbaise
+ */
+@API(status = INTERNAL, since = &quot;0.9.0&quot;)
+public class Preconditions {
+
+  private Preconditions() {
+    // prevent instantiation.
+  }
+
+  /**
+   * Check that the given parameter is not {@code null}.
+   *
+   * @param parameter The parameter which is checked not to be {@code null}.
+   * @param message The message which is thrown in the exception.
+   * @return the given paremter in case not being {@code null}.
+   * @throws IllegalArgumentException in case of parameter is {@code null}.
+   */
+  public static &lt;T&gt; T requireNotNull(T parameter, String message) {
+<span class="fc bfc" id="L45" title="All 2 branches covered.">    if (parameter == null) {</span>
+<span class="fc" id="L46">      throw new IllegalArgumentException(message);</span>
+    }
+<span class="fc" id="L48">    return parameter;</span>
+  }
+
+  /**
+   * Check that the given array has a length which is greater than zero.
+   *
+   * @param parameter The array parameter of which the length will be checked.
+   * @param message The message to thrown in case of not fulfilling the condition.
+   * @param &lt;T&gt; The type of the parameter.
+   * @return Return the original {@code paramter} if not raised the execption.
+   * @throws IllegalArgumentException in case the condition has not been fulfilled.
+   */
+  public static &lt;T&gt; T[] requireGreaterZero(T[] parameter, String message) {
+<span class="fc bfc" id="L61" title="All 2 branches covered.">    if (parameter.length &lt; 1) {</span>
+<span class="fc" id="L62">      throw new IllegalArgumentException(message);</span>
+    }
+<span class="fc" id="L64">    return parameter;</span>
+  }
+
+  /**
+   * Check that the given parameter is not empty.
+   *
+   * @param parameter The String parameter which should not be empty.
+   * @param message The message to thrown in case of not fulfilling the condition.
+   * @return Return the original {@code parameter} if not raised the execption.
+   * @throws IllegalArgumentException in case the condition has not been fulfilled.
+   */
+  public static String requireNotEmpty(String parameter, String message) {
+<span class="fc bfc" id="L76" title="All 2 branches covered.">    if (parameter.isEmpty()) {</span>
+<span class="fc" id="L77">      throw new IllegalArgumentException(message);</span>
+    }
+<span class="fc" id="L79">    return parameter;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

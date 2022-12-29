@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MavenLocator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">itf-jupiter-extension</a> &gt; <a href="index.source.html" class="el_package">com.soebes.itf.jupiter.extension</a> &gt; <span class="el_source">MavenLocator.java</span></div><h1>MavenLocator.java</h1><pre class="source lang-java linenums">package com.soebes.itf.jupiter.extension;
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import java.nio.file.FileSystem;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Optional;
+import java.util.regex.Pattern;
+
+/**
+ * It's the intention to find the {@code mvn} executable.
+ * &lt;p&gt;
+ * The {@code maven.home} is set during the execution of the
+ * test by the user.
+ * The {@code maven.home} has precedence over searching
+ * of Maven via {@code PATH}. This gives the opportunity
+ * to overload the given Maven version in cases where needed.
+ *
+ * @author Karl Heinz Marbaise
+ * @implNote Currently {@code maven.home} is given to the maven-failsafe-plugin
+ * configuration as a system property.
+ * The parameter {@code isRunningOnWindows} is used instead
+ * of using things like {@code org.junit.jupiter.api.condition.OS.WINDOWS.isCurrentOs()} because
+ * they contain static initializers etc. which can't be tested.
+ */
+class MavenLocator {
+
+  /**
+   * The name of the system property.
+   */
+  private static final String MAVEN_HOME = &quot;maven.home&quot;;
+
+  /**
+   * The name of the system property to activate remote debugging.
+   */
+  private static final String ITF_DEBUG = &quot;ITF_DEBUG&quot;;
+
+
+  private final FileSystem fileSystem;
+  private final Optional&lt;String&gt; pathEnvironment;
+  private final boolean isRunningOnWindows;
+  private final String  mvnExecutable;
+
+  /**
+   * @param fileSystem The {@link FileSystem} which is used.
+   * @param pathEnvironment The value of {@code PATH} if it exists otherwise {@link Optional#empty()}.
+   * @param isRunningOnWindows {@code true} when running on Windows, false otherwise.
+   */
+<span class="fc" id="L67">  MavenLocator(FileSystem fileSystem, Optional&lt;String&gt; pathEnvironment, boolean isRunningOnWindows) {</span>
+<span class="fc" id="L68">    this.fileSystem = fileSystem;</span>
+<span class="fc" id="L69">    this.pathEnvironment = pathEnvironment;</span>
+<span class="fc" id="L70">    this.isRunningOnWindows = isRunningOnWindows;</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">    this.mvnExecutable = Boolean.getBoolean(ITF_DEBUG) ? &quot;mvnDebug&quot; : &quot;mvn&quot;;</span>
+<span class="fc" id="L72">  }</span>
+
+  private Path intoPath(String s) {
+<span class="fc" id="L75">    return this.fileSystem.getPath(s);</span>
+  }
+
+  private Path intoBin(Path p) {
+<span class="fc" id="L79">    return p.resolve(&quot;bin&quot;);</span>
+  }
+
+  private Optional&lt;String&gt; mavenHomeFromSystemProperty() {
+<span class="fc" id="L83">    return Optional.ofNullable(System.getProperty(MAVEN_HOME));</span>
+  }
+
+  private Path toMvn(Path p) {
+<span class="fc" id="L87">    return p.resolve(this.mvnExecutable);</span>
+  }
+
+  private Path toBat(Path p) {
+<span class="fc" id="L91">    return p.resolve(this.mvnExecutable + &quot;.bat&quot;);</span>
+  }
+
+  private Path toCmd(Path p) {
+<span class="fc" id="L95">    return p.resolve(this.mvnExecutable + &quot;.cmd&quot;);</span>
+  }
+
+  private boolean isExecutable(Path s) {
+<span class="fc bfc" id="L99" title="All 2 branches covered.">    return Files.isRegularFile(s)</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">        &amp;&amp; Files.isReadable(s)</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        &amp;&amp; Files.isExecutable(s);</span>
+  }
+
+  private Optional&lt;Path&gt; executableNonWindows(Path s) {
+<span class="fc" id="L105">    return Optional.of(toMvn(s))</span>
+<span class="fc" id="L106">        .filter(this::isExecutable);</span>
+  }
+
+  private Optional&lt;Path&gt; executableWindows(Path s) {
+<span class="fc" id="L110">    Path mvnBat = toBat(s);</span>
+    //Maven 3.0.5...3.2.5
+<span class="fc bfc" id="L112" title="All 2 branches covered.">    if (isExecutable(mvnBat)) {</span>
+<span class="fc" id="L113">      return Optional.of(mvnBat);</span>
+    }
+
+    //Maven 3.3.1...
+<span class="fc" id="L117">    Path mvnCmd = toCmd(s);</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">    if (isExecutable(mvnCmd)) {</span>
+<span class="fc" id="L119">      return Optional.of(mvnCmd);</span>
+    }
+<span class="fc" id="L121">    return Optional.empty();</span>
+  }
+
+  private Optional&lt;Path&gt; executable(Path p) {
+<span class="fc bfc" id="L125" title="All 2 branches covered.">    if (this.isRunningOnWindows) {</span>
+<span class="fc" id="L126">      return executableWindows(p);</span>
+    } else {
+<span class="fc" id="L128">      return executableNonWindows(p);</span>
+    }
+  }
+
+  private Optional&lt;Path&gt; checkExecutableViaPathEnvironment() {
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">    if (!this.pathEnvironment.isPresent()) {</span>
+<span class="nc" id="L134">      return Optional.empty();</span>
+    }
+
+<span class="fc bfc" id="L137" title="All 2 branches covered.">    String pathSeparator = this.isRunningOnWindows ? &quot;;&quot; : &quot;:&quot;;</span>
+<span class="fc" id="L138">    Pattern pathSeparatorPattern = Pattern.compile(Pattern.quote(pathSeparator));</span>
+<span class="fc" id="L139">    return pathSeparatorPattern.splitAsStream(pathEnvironment.get())</span>
+<span class="fc" id="L140">        .map(this::intoPath)</span>
+<span class="fc" id="L141">        .map(this::executable)</span>
+<span class="fc" id="L142">        .filter(Optional::isPresent)</span>
+<span class="fc" id="L143">        .findFirst()</span>
+<span class="fc" id="L144">        .orElse(Optional.empty());</span>
+  }
+
+  Optional&lt;Path&gt; findMvn() {
+<span class="fc" id="L148">    Optional&lt;Path&gt; path = mavenHomeFromSystemProperty()</span>
+<span class="fc" id="L149">        .map(this::intoPath)</span>
+<span class="fc" id="L150">        .map(this::intoBin)</span>
+<span class="fc" id="L151">        .flatMap(this::executable);</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">    if (path.isPresent()) {</span>
+<span class="fc" id="L153">      return path;</span>
+    }
+<span class="fc" id="L155">    return checkExecutableViaPathEnvironment();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

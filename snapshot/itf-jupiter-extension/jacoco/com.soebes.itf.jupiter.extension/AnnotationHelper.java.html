@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AnnotationHelper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">itf-jupiter-extension</a> &gt; <a href="index.source.html" class="el_package">com.soebes.itf.jupiter.extension</a> &gt; <span class="el_source">AnnotationHelper.java</span></div><h1>AnnotationHelper.java</h1><pre class="source lang-java linenums">package com.soebes.itf.jupiter.extension;
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.platform.commons.support.AnnotationSupport;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+/**
+ * @author Karl Heinz Marbaise
+ */
+class AnnotationHelper {
+
+  private AnnotationHelper() {
+    // prevent instantiation.
+  }
+
+  /**
+   * @param context {@link ExtensionContext}
+   * @return {@code true} if we have any {@link MavenProfile @MavenProfile} defined or {@code false} otherwise.
+   */
+  static boolean hasProfiles(ExtensionContext context) {
+<span class="nc bnc" id="L48" title="All 2 branches missed.">    return !profiles(context).isEmpty();</span>
+  }
+
+  /**
+   * Get the profiles from the annotation.
+   *
+   * @param context {@link ExtensionContext}
+   * @return The stream with the profiles.
+   */
+  static List&lt;String&gt; profiles(ExtensionContext context) {
+<span class="nc" id="L58">    List&lt;MavenProfile&gt; mavenProfilesOnTestMethod = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), MavenProfile.class);</span>
+<span class="nc" id="L59">    List&lt;String&gt; profiles = mavenProfilesOnTestMethod.stream().flatMap(profile -&gt; Stream.of(profile.value())).collect(Collectors.toList());</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">    if (!profiles.isEmpty()) {</span>
+<span class="nc" id="L61">      return profiles;</span>
+    }
+
+<span class="nc" id="L64">    List&lt;MavenProfile&gt; repeatableAnnotationsOnClass = AnnotationSupport.findRepeatableAnnotations(context.getTestClass(), MavenProfile.class);</span>
+<span class="nc" id="L65">    return repeatableAnnotationsOnClass.stream().flatMap(profile -&gt; Stream.of(profile.value())).collect(Collectors.toList());</span>
+  }
+  /**
+   * @param context {@link ExtensionContext}
+   * @return {@code true} if we have any {@link MavenGoal @MavenGoal} defined or {@code false} otherwise.
+   */
+  static boolean hasGoals(ExtensionContext context) {
+<span class="nc bnc" id="L72" title="All 2 branches missed.">    return !goals(context).isEmpty();</span>
+  }
+
+  /**
+   * Get the goals from the annotation either on test method level
+   * or on test class level.
+   *
+   * @param context {@link ExtensionContext}
+   * @return The stream with the goals.
+   */
+  static List&lt;String&gt; goals(ExtensionContext context) {
+<span class="nc" id="L83">    List&lt;MavenGoal&gt; goalAnnotations = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), MavenGoal.class);</span>
+<span class="nc" id="L84">    List&lt;String&gt; stringStream = goalAnnotations.stream().flatMap(goal -&gt; Stream.of(goal.value())).collect(Collectors.toList());</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">    if (!stringStream.isEmpty()) {</span>
+<span class="nc" id="L86">      return stringStream;</span>
+    }
+
+<span class="nc" id="L89">    List&lt;MavenGoal&gt; repeatableAnnotationsOnClass = AnnotationSupport.findRepeatableAnnotations(context.getTestClass(), MavenGoal.class);</span>
+<span class="nc" id="L90">    return repeatableAnnotationsOnClass.stream().flatMap(goal -&gt; Stream.of(goal.value())).collect(Collectors.toList());</span>
+  }
+
+  /**
+   * @param context {@link ExtensionContext}
+   * @return {@code true} if we have any {@link MavenOption @MavenOption} defined or {@code false} otherwise.
+   */
+  static boolean hasOptions(ExtensionContext context) {
+<span class="nc bnc" id="L98" title="All 2 branches missed.">    return !options(context).isEmpty();</span>
+  }
+
+  /**
+   * Get the options from the annotation either on test method level
+   * or on test class level.
+   *
+   * @param context {@link ExtensionContext}
+   * @return The stream with the options.
+   */
+  static List&lt;String&gt; options(ExtensionContext context) {
+<span class="nc" id="L109">    List&lt;MavenOption&gt; mavenOptionsOnTestMethod = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), MavenOption.class);</span>
+<span class="nc" id="L110">    List&lt;String&gt; options = mavenOptionsOnTestMethod.stream()</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        .flatMap(option -&gt; option.parameter().isEmpty() ? Stream.of(option.value()) : Stream.of(option.value(), option.parameter()))</span>
+<span class="nc" id="L112">        .collect(Collectors.toList());</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">    if (!options.isEmpty()) {</span>
+<span class="nc" id="L114">      return options;</span>
+    }
+
+<span class="nc" id="L117">    List&lt;MavenOption&gt; mavenOptionsOnTestClass = AnnotationSupport.findRepeatableAnnotations(context.getTestClass(), MavenOption.class);</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">    return mavenOptionsOnTestClass.stream().flatMap(option -&gt; option.parameter().isEmpty() ? Stream.of(option.value()) : Stream.of(option.value(), option.parameter()))</span>
+<span class="nc" id="L119">        .collect(Collectors.toList());</span>
+  }
+
+  /**
+   * @param context {@link ExtensionContext}
+   * @return {@code true} if we have any {@link SystemProperty @SystemProperty} defined or {@code false} otherwise.
+   */
+  static boolean hasSystemProperties(ExtensionContext context) {
+<span class="nc bnc" id="L127" title="All 2 branches missed.">    return !systemProperties(context).isEmpty();</span>
+  }
+
+  private static Optional&lt;Class&lt;?&gt;&gt; findAnnotation(ExtensionContext context,
+                                                   Class&lt;? extends Annotation&gt; annotationClass) {
+<span class="nc" id="L132">    Optional&lt;ExtensionContext&gt; current = Optional.of(context);</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">    while (current.isPresent()) {</span>
+<span class="nc" id="L134">      Optional&lt;Class&lt;?&gt;&gt; testClassNumber1 = current.get().getTestClass();</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">      if (testClassNumber1.isPresent()) {</span>
+<span class="nc" id="L136">        Class&lt;?&gt; testClass = testClassNumber1.get();</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">        if (testClass.isAnnotationPresent(annotationClass)) {</span>
+<span class="nc" id="L138">          return Optional.of(testClass);</span>
+        }
+      }
+<span class="nc" id="L141">      current = current.get().getParent();</span>
+<span class="nc" id="L142">    }</span>
+<span class="nc" id="L143">    return Optional.empty();</span>
+  }
+
+  static Optional&lt;Class&lt;?&gt;&gt; findMavenRepositoryAnnotation(ExtensionContext context) {
+<span class="nc" id="L147">    return findAnnotation(context, MavenRepository.class);</span>
+  }
+
+  static Optional&lt;Class&lt;?&gt;&gt; findMavenProjectAnnotation(ExtensionContext context) {
+<span class="nc" id="L151">    return findAnnotation(context, MavenProject.class);</span>
+  }
+
+  static Optional&lt;MavenProjectSources&gt; findMavenProjectSourcesAnnotation(ExtensionContext context) {
+<span class="nc" id="L155">    Method method = context.getTestMethod().orElseThrow(IllegalStateException::new);</span>
+
+<span class="nc" id="L157">    boolean methodAnnotationPresent = method.isAnnotationPresent(MavenProjectSources.class);</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">    if (methodAnnotationPresent) {</span>
+<span class="nc" id="L159">      return Optional.of(method.getAnnotation(MavenProjectSources.class));</span>
+    }
+
+<span class="nc" id="L162">    Optional&lt;Class&lt;?&gt;&gt; firstFinding = findAnnotation(context, MavenProjectSources.class);</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">    if (firstFinding.isPresent()) {</span>
+<span class="nc" id="L164">      MavenProjectSources annotation = firstFinding.get().getAnnotation(MavenProjectSources.class);</span>
+<span class="nc" id="L165">      return Optional.of(annotation);</span>
+    }
+
+<span class="nc" id="L168">    Optional&lt;MavenProjectSources&gt; mavenProjectLocationAnnotation = AnnotationSupport.findAnnotation(context.getTestClass(), MavenProjectSources.class);</span>
+<span class="nc bnc" id="L169" title="All 2 branches missed.">    if (mavenProjectLocationAnnotation.isPresent()) {</span>
+<span class="nc" id="L170">      MavenProjectSources annotation = mavenProjectLocationAnnotation.get();</span>
+<span class="nc" id="L171">      return Optional.of(annotation);</span>
+    }
+
+<span class="nc" id="L174">    return Optional.empty();</span>
+  }
+
+  static List&lt;SystemProperty&gt; systemProperties(ExtensionContext context) {
+<span class="nc" id="L178">    Method method = context.getTestMethod().orElseThrow(IllegalStateException::new);</span>
+
+<span class="nc" id="L180">    List&lt;SystemProperty&gt; properties = new ArrayList&lt;&gt;(AnnotationSupport.findRepeatableAnnotations(method, SystemProperty.class));</span>
+
+<span class="nc" id="L182">    List&lt;Object&gt; allInstances = context.getTestInstances().orElseThrow(IllegalStateException::new).getAllInstances();</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">    for (int i = allInstances.size()-1; i &gt;=0; i--) {</span>
+<span class="nc" id="L184">      properties.addAll(AnnotationSupport.findRepeatableAnnotations(allInstances.get(i).getClass(), SystemProperty.class));</span>
+    }
+
+<span class="nc" id="L187">    return properties;</span>
+  }
+
+  static Optional&lt;Class&lt;?&gt;&gt; findMavenPredefinedRepositoryAnnotation(ExtensionContext context) {
+<span class="nc" id="L191">    return findAnnotation(context, MavenPredefinedRepository.class);</span>
+  }
+
+  static Optional&lt;MavenProjectLocation&gt; findMavenProjectLocationAnnotation(ExtensionContext context) {
+<span class="nc" id="L195">    Method method = context.getTestMethod().orElseThrow(IllegalStateException::new);</span>
+
+<span class="nc" id="L197">    boolean methodAnnotationPresent = method.isAnnotationPresent(MavenProjectLocation.class);</span>
+<span class="nc bnc" id="L198" title="All 2 branches missed.">    if (methodAnnotationPresent) {</span>
+<span class="nc" id="L199">      return Optional.of(method.getAnnotation(MavenProjectLocation.class));</span>
+    }
+
+<span class="nc" id="L202">    Optional&lt;Class&lt;?&gt;&gt; mavenProjectLocationAnnotation = findAnnotation(context, MavenProjectLocation.class);</span>
+<span class="nc bnc" id="L203" title="All 2 branches missed.">    if (mavenProjectLocationAnnotation.isPresent()) {</span>
+<span class="nc" id="L204">      MavenProjectLocation annotation = mavenProjectLocationAnnotation.get().getAnnotation(MavenProjectLocation.class);</span>
+<span class="nc" id="L205">      return Optional.of(annotation);</span>
+    }
+
+<span class="nc" id="L208">    return Optional.empty();</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

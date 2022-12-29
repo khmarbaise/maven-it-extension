@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MavenCacheResultAssert.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">itf-assertj</a> &gt; <a href="index.source.html" class="el_package">com.soebes.itf.extension.assertj</a> &gt; <span class="el_source">MavenCacheResultAssert.java</span></div><h1>MavenCacheResultAssert.java</h1><pre class="source lang-java linenums">package com.soebes.itf.extension.assertj;
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import com.soebes.itf.jupiter.maven.MavenCacheResult;
+import org.apiguardian.api.API;
+import org.assertj.core.api.AbstractAssert;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+
+/**
+ * @author Karl Heinz Marbaise
+ */
+@API(status = EXPERIMENTAL, since = &quot;0.8.0&quot;)
+public class MavenCacheResultAssert extends AbstractAssert&lt;MavenCacheResultAssert, MavenCacheResult&gt; {
+
+  MavenCacheResultAssert(MavenCacheResult actual) {
+<span class="fc" id="L35">    super(actual, MavenCacheResultAssert.class);</span>
+<span class="fc" id="L36">  }</span>
+
+  /**
+   * An entry point for MavenCacheResult to follow AssertJ standard &lt;code&gt;assertThat()&lt;/code&gt; statements.&lt;br&gt;
+   * With a static import, one's can write directly : &lt;code&gt;assertThat(result).isSuccessful();&lt;/code&gt;
+   *
+   * @param actual the MavenLog we want to make assertions on.
+   * @return a new {@link MavenCacheResultAssert}
+   */
+  public static MavenCacheResultAssert assertThat(MavenCacheResult actual) {
+<span class="nc" id="L46">    return new MavenCacheResultAssert(actual);</span>
+  }
+
+  /**
+   * @deprecated use {@link #isEqualTo} instead
+   *
+   * @throws UnsupportedOperationException if this method is called.
+   * @implNote java:S1133: Suppressing &quot;Do not forget to remove this deprecated code someday.&quot; message.
+   */
+  @Override
+  @Deprecated
+  @SuppressWarnings(&quot;java:S1133&quot;)
+  public boolean equals(Object obj) {
+<span class="fc" id="L59">    throw new UnsupportedOperationException(&quot;'equals' is not supported...maybe you intended to call 'isEqualTo'&quot;);</span>
+  }
+
+  /**
+   * Always returns 1.
+   *
+   * @return 1.
+   */
+  @Override
+  public int hashCode() {
+<span class="fc" id="L69">    return 1;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

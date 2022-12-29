@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DirectoryResolverResult.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">itf-jupiter-extension</a> &gt; <a href="index.source.html" class="el_package">com.soebes.itf.jupiter.extension</a> &gt; <span class="el_source">DirectoryResolverResult.java</span></div><h1>DirectoryResolverResult.java</h1><pre class="source lang-java linenums">package com.soebes.itf.jupiter.extension;
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import org.junit.jupiter.api.extension.ExtensionContext;
+
+import java.lang.reflect.Method;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
+
+/**
+ * The source structure looks usually like this:
+ * &lt;pre&gt;
+ *   src/test/java/../
+ *      +--- FirstIT.java
+ *             +--- test_case_one
+ *   src/test/resources-its/.../
+ *      +--- FirstIT/
+ *              +--- test_case_one
+ *                      +--- src/...
+ *                      +--- pom.xml
+ * &lt;/pre&gt;
+ * during the execution of the integration tests the following
+ * will be generated:
+ * &lt;pre&gt;
+ *   target/                                   &lt;-- targetDirectory
+ *      +-- itf-repo/                          &lt;-- targetItfRepoDirectory
+ *      +-- test-classes/                      &lt;-- targetTestClassesDirectory
+ *            +--- FirstIT/
+ *                    +--- test_case_one       &lt;-- sourceMavenProject
+ *
+ *      +-- maven-it/                          &lt;-- targetMavenItDirectory
+ *           +-- FirstIT/                      &lt;-- mavenItTestCaseBaseDirectory
+ *                 +--- test_case_one/         &lt;-- integrationTestCaseDirectory
+ *                       +--- .m2/repository   &lt;-- cacheDirectory
+ *                       +--- project          &lt;-- projectDirectory
+ *                               +--- src/
+ *                               +--- pom.xml
+ * &lt;/pre&gt;
+ *
+ * @author Karl Heinz Marbaise
+ */
+class DirectoryResolverResult {
+
+  private final Path mavenItTestCaseBaseDirectory;
+
+  private final Path targetMavenItDirectory;
+
+  private final Path targetDirectory;
+
+  private final Path integrationTestCaseDirectory;
+
+  private final Path projectDirectory;
+
+  private final Path targetTestClassesDirectory;
+
+  private final Path sourceMavenProject;
+
+  private final Path cacheDirectory;
+
+  private final Path targetItfRepoDirectory;
+
+  private final Optional&lt;Path&gt; predefinedRepository;
+
+<span class="nc" id="L83">  DirectoryResolverResult(ExtensionContext context) {</span>
+<span class="nc" id="L84">    StorageHelper sh = new StorageHelper(context);</span>
+
+<span class="nc" id="L86">    this.mavenItTestCaseBaseDirectory = sh.get(Storage.MAVEN_IT_TESTCASE_BASEDIRECTORY, Path.class);</span>
+<span class="nc" id="L87">    this.targetMavenItDirectory = sh.get(Storage.TARGET_MAVEN_IT_DIRECTORY, Path.class);</span>
+<span class="nc" id="L88">    this.targetDirectory = sh.get(Storage.TARGET_DIRECTORY, Path.class);</span>
+
+<span class="nc" id="L90">    Method methodName = context.getTestMethod().orElseThrow(() -&gt; new IllegalStateException(&quot;No method given&quot;));</span>
+
+<span class="nc" id="L92">    Optional&lt;Class&lt;?&gt;&gt; mavenProject = AnnotationHelper.findMavenProjectAnnotation(context);</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">    if (mavenProject.isPresent()) {</span>
+<span class="nc" id="L94">      MavenProject mavenProjectAnnotation = mavenProject.get().getAnnotation(MavenProject.class);</span>
+<span class="nc" id="L95">      this.integrationTestCaseDirectory = this.getMavenItTestCaseBaseDirectory().resolve( mavenProjectAnnotation.value());</span>
+<span class="nc" id="L96">    } else {</span>
+<span class="nc" id="L97">      this.integrationTestCaseDirectory = this.getMavenItTestCaseBaseDirectory().resolve( methodName.getName() );</span>
+    }
+
+<span class="nc" id="L100">    this.projectDirectory = integrationTestCaseDirectory.resolve(&quot;project&quot;);</span>
+<span class="nc" id="L101">    this.targetTestClassesDirectory = DirectoryHelper.getTargetDir().resolve(&quot;test-classes&quot;);</span>
+<span class="nc" id="L102">    this.targetItfRepoDirectory = this.getTargetDirectory().resolve(&quot;itf-repo&quot;); // Hard Coded!!</span>
+
+<span class="nc" id="L104">    Class&lt;?&gt; testClass = context.getTestClass().orElseThrow(() -&gt; new IllegalStateException(&quot;Test class not found.&quot;));</span>
+<span class="nc" id="L105">    String toFullyQualifiedPath = DirectoryHelper.toFullyQualifiedPath(testClass);</span>
+
+<span class="nc" id="L107">    Path intermediate = this.targetTestClassesDirectory.resolve(toFullyQualifiedPath);</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">    if (mavenProject.isPresent()) {</span>
+<span class="nc" id="L109">      MavenProject mavenProjectAnnotation = mavenProject.get().getAnnotation(MavenProject.class);</span>
+<span class="nc" id="L110">      this.sourceMavenProject = intermediate.resolve(mavenProjectAnnotation.value());</span>
+<span class="nc" id="L111">    } else {</span>
+<span class="nc" id="L112">      this.sourceMavenProject = AnnotationHelper.findMavenProjectSourcesAnnotation(context)</span>
+<span class="nc" id="L113">          .map(s -&gt; targetTestClassesDirectory.resolve(s.sources()))</span>
+<span class="nc" id="L114">          .orElse(intermediate.resolve(methodName.getName()));</span>
+    }
+
+<span class="nc" id="L117">    Optional&lt;Class&lt;?&gt;&gt; optionalMavenRepository = AnnotationHelper.findMavenRepositoryAnnotation(context);</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">    if (optionalMavenRepository.isPresent()) {</span>
+<span class="nc" id="L119">      MavenRepository mavenRepository = optionalMavenRepository.get().getAnnotation(MavenRepository.class);</span>
+<span class="nc" id="L120">      String repositoryPath = DirectoryHelper.toFullyQualifiedPath(optionalMavenRepository.get());</span>
+<span class="nc" id="L121">      Path cacheDirectoryBase = this.targetMavenItDirectory.resolve(repositoryPath);</span>
+<span class="nc" id="L122">      this.cacheDirectory = cacheDirectoryBase.resolve(mavenRepository.value());</span>
+<span class="nc" id="L123">    } else {</span>
+      //FIXME: Hard coded default. Should we get the default from the Annotation?
+<span class="nc" id="L125">      this.cacheDirectory = this.integrationTestCaseDirectory.resolve(&quot;.m2/repository&quot;);</span>
+    }
+
+<span class="nc" id="L128">    Optional&lt;Class&lt;?&gt;&gt; optionalMavenPredefinedRepository = AnnotationHelper.findMavenPredefinedRepositoryAnnotation(context);</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">    if (optionalMavenPredefinedRepository.isPresent()) {</span>
+<span class="nc" id="L130">      MavenPredefinedRepository mavenRepository = optionalMavenPredefinedRepository.get().getAnnotation(MavenPredefinedRepository.class);</span>
+<span class="nc" id="L131">      String repositoryPath = DirectoryHelper.toFullyQualifiedPath(optionalMavenPredefinedRepository.get());</span>
+<span class="nc" id="L132">      Path cacheDirectoryBase = this.targetTestClassesDirectory.resolve(repositoryPath);</span>
+<span class="nc" id="L133">      this.predefinedRepository = Optional.of(cacheDirectoryBase.resolve(mavenRepository.value()));</span>
+<span class="nc" id="L134">    } else {</span>
+      //FIXME: Hard coded default. Should we get the default from the Annotation?
+<span class="nc" id="L136">      this.predefinedRepository = Optional.empty();</span>
+    }
+
+<span class="nc" id="L139">  }</span>
+
+  Path getTargetItfRepoDirectory() {
+<span class="nc" id="L142">    return targetItfRepoDirectory;</span>
+  }
+
+  Optional&lt;Path&gt; getPredefinedRepository() {
+<span class="nc" id="L146">    return predefinedRepository;</span>
+  }
+
+  Path getCacheDirectory() {
+<span class="nc" id="L150">    return cacheDirectory;</span>
+  }
+
+  Path getSourceMavenProject() {
+<span class="nc" id="L154">    return sourceMavenProject;</span>
+  }
+
+  Path getProjectDirectory() {
+<span class="nc" id="L158">    return projectDirectory;</span>
+  }
+
+  Path getIntegrationTestCaseDirectory() {
+<span class="nc" id="L162">    return integrationTestCaseDirectory;</span>
+  }
+
+  Path getMavenItTestCaseBaseDirectory() {
+<span class="nc" id="L166">    return mavenItTestCaseBaseDirectory;</span>
+  }
+
+  Path getTargetDirectory() {
+<span class="nc" id="L170">    return targetDirectory;</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

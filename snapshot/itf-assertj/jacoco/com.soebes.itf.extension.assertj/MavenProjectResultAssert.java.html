@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MavenProjectResultAssert.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">itf-assertj</a> &gt; <a href="index.source.html" class="el_package">com.soebes.itf.extension.assertj</a> &gt; <span class="el_source">MavenProjectResultAssert.java</span></div><h1>MavenProjectResultAssert.java</h1><pre class="source lang-java linenums">package com.soebes.itf.extension.assertj;
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import com.soebes.itf.jupiter.maven.MavenProjectResult;
+import com.soebes.itf.jupiter.maven.ProjectHelper;
+import org.apache.maven.model.Model;
+import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.AbstractPathAssert;
+import org.assertj.core.api.Assertions;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Optional;
+import java.util.jar.JarFile;
+
+/**
+ * @author Karl Heinz Marbaise
+ */
+public class MavenProjectResultAssert extends AbstractAssert&lt;MavenProjectResultAssert, MavenProjectResult&gt; {
+
+  private static final String THE_TARGET_DIRECTORY_DOES_NOT_EXIST = &quot;The target directory of &lt;%s&gt; does not exist.&quot;;
+  private static final String THE_EAR_FILE_DOES_NOT_EXIST = &quot;The ear file &lt;%s&gt; does not exist or can not be read.&quot;;
+  private static final String EXPECT_HAVING_A_MODULE = &quot;expected having a module &lt;%s&gt; which does not exist&quot;;
+  private static final String TARGET = &quot;target&quot;;
+
+  private Optional&lt;MavenProjectResultAssert&gt; parent;
+
+  MavenProjectResultAssert(MavenProjectResult actual) {
+<span class="fc" id="L49">    super(actual, MavenProjectResultAssert.class);</span>
+<span class="fc" id="L50">    this.parent = Optional.empty();</span>
+<span class="fc" id="L51">  }</span>
+
+  /**
+   * An entry point for MavenExecutionResultAssert to follow AssertJ standard &lt;code&gt;assertThat()&lt;/code&gt; statements.&lt;br&gt;
+   * With a static import, one's can write directly : &lt;code&gt;assertThat(result).isSuccessful();&lt;/code&gt;
+   *
+   * @param actual the MavenExecutionResult we want to make assertions on.
+   * @return a new {@link MavenProjectResultAssert}
+   */
+  public static MavenProjectResultAssert assertThat(MavenProjectResult actual) {
+<span class="nc" id="L61">    return new MavenProjectResultAssert(actual);</span>
+  }
+
+  public MavenProjectResultAssert hasTarget() {
+<span class="nc" id="L65">    isNotNull();</span>
+<span class="nc" id="L66">    Path target = this.actual.getTargetProjectDirectory().resolve(TARGET);</span>
+
+<span class="nc bnc" id="L68" title="All 6 branches missed.">    if (!isDirectory(target) || !exists(target) || isHidden(target)) {</span>
+<span class="nc" id="L69">      failWithMessage(THE_TARGET_DIRECTORY_DOES_NOT_EXIST, actual.getTargetBaseDirectory().toAbsolutePath());</span>
+    }
+<span class="nc" id="L71">    return myself;</span>
+  }
+
+  public MavenProjectResultAssert has(String directory) {
+<span class="nc" id="L75">    isNotNull();</span>
+<span class="nc" id="L76">    Path target = this.actual.getTargetProjectDirectory().resolve(directory);</span>
+<span class="nc bnc" id="L77" title="All 6 branches missed.">    if (!isDirectory(target) || !exists(target) || isHidden(target)) {</span>
+<span class="nc" id="L78">      failWithMessage(THE_TARGET_DIRECTORY_DOES_NOT_EXIST, directory,</span>
+<span class="nc" id="L79">          actual.getTargetBaseDirectory().toAbsolutePath());</span>
+    }
+<span class="nc" id="L81">    return myself;</span>
+  }
+
+  public AbstractPathAssert&lt;?&gt; withFile(String fileName) {
+<span class="nc" id="L85">    isNotNull();</span>
+    //FIXME: wrong way...need to reconsider.
+<span class="nc" id="L87">    Path target = this.actual.getTargetProjectDirectory().resolve(TARGET);</span>
+<span class="nc bnc" id="L88" title="All 6 branches missed.">    if (!isDirectory(target) || !exists(target) || isHidden(target)) {</span>
+<span class="nc" id="L89">      failWithMessage(THE_TARGET_DIRECTORY_DOES_NOT_EXIST, actual.getTargetBaseDirectory().toAbsolutePath());</span>
+    }
+<span class="nc" id="L91">    Path fileNameFile = target.resolve(fileName);</span>
+<span class="nc" id="L92">    return Assertions.assertThat(fileNameFile);</span>
+  }
+
+  public ArchiveAssert withEarFile() {
+<span class="nc" id="L96">    isNotNull();</span>
+
+<span class="nc" id="L98">    Model model = this.actual.getModel();</span>
+<span class="nc" id="L99">    Path target = this.actual.getTargetProjectDirectory().resolve(TARGET);</span>
+<span class="nc" id="L100">    String artifact = model.getArtifactId() + &quot;-&quot; + model.getVersion() + &quot;.ear&quot;;</span>
+<span class="nc" id="L101">    Path earFile = target.resolve(artifact);</span>
+<span class="nc bnc" id="L102" title="All 6 branches missed.">    if (!isRegularFile(earFile) || !isReadable(earFile) || isHidden(earFile)) {</span>
+<span class="nc" id="L103">      failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, earFile.toAbsolutePath());</span>
+    }
+
+<span class="nc" id="L106">    return new ArchiveAssert(earFile, this.actual.getModel(), this.myself);</span>
+  }
+
+  public ArchiveAssert withJarFile() {
+<span class="nc" id="L110">    isNotNull();</span>
+<span class="nc" id="L111">    hasTarget();</span>
+
+<span class="nc" id="L113">    Model model = this.actual.getModel();</span>
+<span class="nc" id="L114">    Path target = this.actual.getTargetProjectDirectory().resolve(TARGET);</span>
+<span class="nc" id="L115">    String artifact = model.getArtifactId() + &quot;-&quot; + model.getVersion() + &quot;.jar&quot;;</span>
+<span class="nc" id="L116">    Path jarFile = target.resolve(artifact);</span>
+<span class="nc bnc" id="L117" title="All 4 branches missed.">    if (!isRegularFile(jarFile) &amp;&amp; !isReadable(jarFile)) {</span>
+<span class="nc" id="L118">      failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, jarFile.toAbsolutePath());</span>
+    }
+<span class="nc" id="L120">    return new ArchiveAssert(jarFile, this.actual.getModel(), this.myself);</span>
+  }
+
+  public ArchiveAssert withWarFile() {
+<span class="nc" id="L124">    isNotNull();</span>
+<span class="nc" id="L125">    hasTarget();</span>
+
+<span class="nc" id="L127">    Model model = this.actual.getModel();</span>
+<span class="nc" id="L128">    Path target = this.actual.getTargetProjectDirectory().resolve(TARGET);</span>
+<span class="nc" id="L129">    String artifact = model.getArtifactId() + &quot;-&quot; + model.getVersion() + &quot;.war&quot;;</span>
+<span class="nc" id="L130">    Path warFile = target.resolve(artifact);</span>
+<span class="nc bnc" id="L131" title="All 4 branches missed.">    if (!isRegularFile(warFile) &amp;&amp; !isReadable(warFile)) {</span>
+<span class="nc" id="L132">      failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, warFile.toAbsolutePath());</span>
+    }
+<span class="nc" id="L134">    return new ArchiveAssert(warFile, this.actual.getModel(), this.myself);</span>
+  }
+
+  public ArchiveAssert withRarFile() {
+<span class="nc" id="L138">    isNotNull();</span>
+<span class="nc" id="L139">    hasTarget();</span>
+
+<span class="nc" id="L141">    Model model = this.actual.getModel();</span>
+<span class="nc" id="L142">    Path target = this.actual.getTargetProjectDirectory().resolve(TARGET);</span>
+<span class="nc" id="L143">    String artifact = model.getArtifactId() + &quot;-&quot; + model.getVersion() + &quot;.rar&quot;;</span>
+<span class="nc" id="L144">    Path rarFile = target.resolve(artifact);</span>
+<span class="nc bnc" id="L145" title="All 4 branches missed.">    if (!isRegularFile(rarFile) &amp;&amp; !isReadable(rarFile)) {</span>
+<span class="nc" id="L146">      failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, rarFile.toAbsolutePath());</span>
+    }
+<span class="nc" id="L148">    return new ArchiveAssert(rarFile, this.actual.getModel(), this.myself);</span>
+  }
+
+  public MavenProjectResultAssert contains(List&lt;String&gt; files) {
+<span class="nc" id="L152">    isNotNull();</span>
+<span class="nc" id="L153">    hasTarget();</span>
+
+<span class="nc" id="L155">    Model model = this.actual.getModel();</span>
+<span class="nc" id="L156">    Path target = this.actual.getTargetProjectDirectory().resolve(TARGET);</span>
+<span class="nc" id="L157">    String artifact = model.getArtifactId() + &quot;-&quot; + model.getVersion() + &quot;.ear&quot;;</span>
+<span class="nc" id="L158">    Path earFile = target.resolve(artifact);</span>
+
+<span class="nc" id="L160">    try (JarFile jarFile = new JarFile(earFile.toFile())) {</span>
+<span class="nc" id="L161">      if (!files.stream()</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">          .allMatch(fileEntry -&gt; jarFile.stream().anyMatch(jarEntry -&gt; fileEntry.equals(jarEntry.getName())))) {</span>
+<span class="nc" id="L163">        failWithMessage(THE_EAR_FILE_DOES_NOT_EXIST, files);</span>
+      }
+<span class="nc" id="L165">    } catch (IOException e) {</span>
+<span class="nc" id="L166">      failWithMessage(&quot;IOException happened. &lt;%s&gt; file:&lt;%s&gt;&quot;, e.getMessage(), earFile.toAbsolutePath());</span>
+<span class="nc" id="L167">    }</span>
+<span class="nc" id="L168">    return myself;</span>
+  }
+
+  /**
+   * A module can have a `target` directory or but in contradiction to a an aggregator project which does not have a
+   * `target` directory. So it shouldn't be checked.
+   *
+   * @param moduleName The name of the module.
+   * @return {@link MavenProjectResultAssert}
+   */
+  public MavenProjectResultAssert hasModule(String moduleName) {
+<span class="nc" id="L179">    isNotNull();</span>
+
+<span class="nc" id="L181">    Path moduleNameFile = this.actual.getTargetProjectDirectory().resolve(moduleName);</span>
+
+<span class="nc bnc" id="L183" title="All 6 branches missed.">    if (!exists(moduleNameFile) || !isHidden(moduleNameFile) &amp;&amp; !isDirectory(moduleNameFile)) {</span>
+<span class="nc" id="L184">      failWithMessage(EXPECT_HAVING_A_MODULE, moduleName);</span>
+    }
+<span class="nc" id="L186">    return myself;</span>
+  }
+
+  public MavenProjectResultAssert withModule(String moduleName) {
+<span class="nc" id="L190">    isNotNull();</span>
+
+<span class="nc" id="L192">    Path moduleNameFile = this.actual.getTargetProjectDirectory().resolve(moduleName);</span>
+
+<span class="nc bnc" id="L194" title="All 6 branches missed.">    if (!exists(moduleNameFile) || !isHidden(moduleNameFile) &amp;&amp; !isDirectory(moduleNameFile)) {</span>
+<span class="nc" id="L195">      failWithMessage(EXPECT_HAVING_A_MODULE, moduleName);</span>
+    }
+
+<span class="nc" id="L198">    Model model = ProjectHelper.readProject(moduleNameFile.resolve(&quot;pom.xml&quot;));</span>
+    //FIXME: Need to reconsider the following call. Maybe we need to use a different ProjectResult here?
+    // because it conflicts with the assumption of MavenProjectResult.
+<span class="nc" id="L201">    MavenProjectResult mavenProjectResult = new MavenProjectResult(moduleNameFile, moduleNameFile, this.actual.getTargetCacheDirectory(), model);</span>
+<span class="nc" id="L202">    return new MavenProjectResultAssert(mavenProjectResult);</span>
+  }
+
+
+  @Override
+  public MavenProjectResultAssert isEqualTo(Object expected) {
+<span class="nc" id="L208">    objects.assertEqual(info, actual, expected);</span>
+<span class="nc" id="L209">    return myself;</span>
+  }
+
+  private boolean isDirectory(Path path) {
+<span class="nc" id="L213">    return Files.isDirectory(path);</span>
+  }
+
+  private boolean exists(Path path) {
+<span class="nc" id="L217">    return Files.exists(path);</span>
+  }
+
+  private boolean isRegularFile(Path path) {
+<span class="nc" id="L221">    return Files.isRegularFile(path);</span>
+  }
+
+  private boolean isHidden(Path path) {
+    try {
+<span class="nc" id="L226">      return Files.isHidden(path);</span>
+<span class="nc" id="L227">    } catch (Exception e) {</span>
+<span class="nc" id="L228">      throw new RuntimeException(e);</span>
+    }
+  }
+
+  private boolean isReadable(Path path) {
+<span class="nc" id="L233">    return Files.isReadable(path);</span>
+  }
+
+  /**
+   * @throws UnsupportedOperationException if this method is called.
+   * @implNote java:S1133: Suppressing &quot;Do not forget to remove this deprecated code someday.&quot; message.
+   * @deprecated use {@link #isEqualTo} instead
+   */
+  @Override
+  @Deprecated
+  @SuppressWarnings(&quot;java:S1133&quot;)
+  public boolean equals(Object obj) {
+<span class="fc" id="L245">    throw new UnsupportedOperationException(&quot;'equals' is not supported...maybe you intended to call 'isEqualTo'&quot;);</span>
+  }
+
+  /**
+   * Always returns 1.
+   *
+   * @return 1.
+   */
+  @Override
+  public int hashCode() {
+<span class="fc" id="L255">    return 1;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

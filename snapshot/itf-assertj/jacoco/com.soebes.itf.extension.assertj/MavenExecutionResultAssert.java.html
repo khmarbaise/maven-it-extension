@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MavenExecutionResultAssert.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">itf-assertj</a> &gt; <a href="index.source.html" class="el_package">com.soebes.itf.extension.assertj</a> &gt; <span class="el_source">MavenExecutionResultAssert.java</span></div><h1>MavenExecutionResultAssert.java</h1><pre class="source lang-java linenums">package com.soebes.itf.extension.assertj;
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import com.soebes.itf.jupiter.maven.MavenExecutionResult;
+import org.apiguardian.api.API;
+import org.assertj.core.api.AbstractAssert;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+
+/**
+ * @author Karl Heinz Marbaise
+ */
+@API(status = EXPERIMENTAL, since = &quot;0.8.0&quot;)
+public class MavenExecutionResultAssert extends AbstractAssert&lt;MavenExecutionResultAssert, MavenExecutionResult&gt; {
+
+  protected MavenExecutionResultAssert(MavenExecutionResult actual) {
+<span class="fc" id="L38">    super(actual, MavenExecutionResultAssert.class);</span>
+<span class="fc" id="L39">  }</span>
+
+  /**
+   * An entry point for MavenExecutionResultAssert to follow AssertJ standard &lt;code&gt;assertThat()&lt;/code&gt; statements.&lt;br&gt;
+   * With a static import, one's can write directly : &lt;code&gt;assertThat(result).isSuccessful();&lt;/code&gt;
+   *
+   * @param actual the MavenExecutionResult we want to make assertions on.
+   * @return a new {@link MavenExecutionResultAssert}
+   */
+  public static MavenExecutionResultAssert assertThat(MavenExecutionResult actual) {
+<span class="nc" id="L49">    return new MavenExecutionResultAssert(actual);</span>
+  }
+
+  /**
+   * This will give you access to the {@code stdout} of the Maven build.
+   *
+   * @return Stdout
+   */
+  public LogAssert out() {
+<span class="nc" id="L58">    isNotNull();</span>
+<span class="nc" id="L59">    return new LogAssert(new LogClass(this.actual.getMavenLog().getStdout()));</span>
+  }
+
+  /**
+   * This will give you access to the {@code stderr} of the Maven build.
+   *
+   * @return Std Err
+   */
+  public LogAssert err() {
+<span class="nc" id="L68">    isNotNull();</span>
+<span class="nc" id="L69">    return new LogAssert(new LogClass(this.actual.getMavenLog().getStderr()));</span>
+  }
+
+  /**
+   * This will give you access to the {@code project} directory of the project
+   * which is under test.
+   *
+   * @return The project result.
+   */
+  public MavenProjectResultAssert project() {
+<span class="nc" id="L79">    isNotNull();</span>
+<span class="nc" id="L80">    return new MavenProjectResultAssert(this.actual.getMavenProjectResult());</span>
+  }
+
+  /**
+   * This will give you access to the {@code maven cache} directory of the
+   * project.
+   *
+   * @return The cache result
+   */
+  public MavenCacheResultAssert cache() {
+<span class="nc" id="L90">    isNotNull();</span>
+<span class="nc" id="L91">    return new MavenCacheResultAssert(this.actual.getMavenCacheResult());</span>
+  }
+
+  /**
+   * @return {@link MavenExecutionResultAssert} for method chaining.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not {@code true}.
+   */
+  public MavenExecutionResultAssert isSuccessful() {
+<span class="nc" id="L100">    isNotNull();</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">    if (!this.actual.isSuccessful()) {</span>
+<span class="nc" id="L102">      List&lt;String&gt; logs = Helper.logs(this.actual.getMavenLog().getStdout()).map(s -&gt; &quot; [STDOUT] &quot; + s + &quot;\n&quot;).collect(Collectors.toList());</span>
+<span class="nc" id="L103">      failWithMessage(&quot;The build was not successful but was &lt;%s&gt; with returnCode:&lt;%s&gt; log file: &lt;%s&gt;&quot;, actual.getResult(),</span>
+<span class="nc" id="L104">          actual.getReturnCode(), logs);</span>
+    }
+<span class="nc" id="L106">    return myself;</span>
+  }
+
+  /**
+   * @return {@link MavenExecutionResultAssert} for method chaining.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not {@code true}.
+   */
+  public MavenExecutionResultAssert isFailure() {
+<span class="nc" id="L115">    isNotNull();</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">    if (!this.actual.isFailure()) {</span>
+<span class="nc" id="L117">      List&lt;String&gt; logs = Helper.logs(this.actual.getMavenLog().getStdout()).map(s -&gt; &quot; [STDOUT] &quot; + s + &quot;\n&quot;).collect(Collectors.toList());</span>
+<span class="nc" id="L118">      failWithMessage(&quot;The build should be not successful but was &lt;%s&gt; with returnCode:&lt;%s&gt; log file: &lt;%s&gt;&quot;, actual.getResult(),</span>
+<span class="nc" id="L119">          actual.getReturnCode(), logs);</span>
+    }
+<span class="nc" id="L121">    return myself;</span>
+  }
+
+  /**
+   * @throws UnsupportedOperationException if this method is called.
+   * @implNote java:S1133: Suppressing &quot;Do not forget to remove this deprecated code someday.&quot; message.
+   * @deprecated use {@link #isEqualTo} instead
+   */
+  @Override
+  @Deprecated
+  @SuppressWarnings(&quot;java:S1133&quot;)
+  public boolean equals(Object obj) {
+<span class="fc" id="L133">    throw new UnsupportedOperationException(&quot;'equals' is not supported...maybe you intended to call 'isEqualTo'&quot;);</span>
+  }
+
+  /**
+   * Always returns 1.
+   *
+   * @return 1.
+   */
+  @Override
+  public int hashCode() {
+<span class="fc" id="L143">    return 1;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

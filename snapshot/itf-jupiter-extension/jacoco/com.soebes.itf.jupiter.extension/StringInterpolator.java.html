@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StringInterpolator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">itf-jupiter-extension</a> &gt; <a href="index.source.html" class="el_package">com.soebes.itf.jupiter.extension</a> &gt; <span class="el_source">StringInterpolator.java</span></div><h1>StringInterpolator.java</h1><pre class="source lang-java linenums">package com.soebes.itf.jupiter.extension;
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * @author Karl Heinz Marbaise
+ */
+interface StringInterpolator {
+
+  /**
+   * This pattern {@code ${..}} with the given group {@code (.*?)} is defined to extract the {@code ${key}} as
+   * {@code key}.
+   */
+<span class="fc" id="L37">  Pattern PLACEHOLDER_PATTERN = Pattern.compile(</span>
+<span class="fc" id="L38">      Pattern.quote(&quot;${&quot;) + &quot;(.*?)&quot; + Pattern.quote(&quot;}&quot;));</span>
+
+  /**
+   * @param mapping The map which contains the mapping between {@code key} and {@code value}. {@code null is not allowed}
+   * @return The interpolated string.
+   */
+  static Function&lt;String, String&gt; interpolate(Map&lt;String, String&gt; mapping) {
+<span class="fc" id="L45">    Objects.requireNonNull(mapping, &quot;mapping is not allowed to be null.&quot;);</span>
+<span class="fc" id="L46">    return s -&gt; {</span>
+<span class="fc" id="L47">      Matcher matcher = PLACEHOLDER_PATTERN.matcher(s);</span>
+<span class="fc" id="L48">      StringBuffer sb = new StringBuffer();</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">      while (matcher.find()) {</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        if (!mapping.containsKey(matcher.group(1))) {</span>
+<span class="fc" id="L51">          continue;</span>
+        }
+
+<span class="fc" id="L54">        String escaped = Matcher.quoteReplacement(mapping.get(matcher.group(1)));</span>
+<span class="fc" id="L55">        matcher.appendReplacement(sb, escaped);</span>
+<span class="fc" id="L56">      }</span>
+<span class="fc" id="L57">      matcher.appendTail(sb);</span>
+<span class="fc" id="L58">      return sb.toString();</span>
+    };
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

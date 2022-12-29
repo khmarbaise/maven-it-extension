@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MavenLogAssert.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">itf-assertj</a> &gt; <a href="index.source.html" class="el_package">com.soebes.itf.extension.assertj</a> &gt; <span class="el_source">MavenLogAssert.java</span></div><h1>MavenLogAssert.java</h1><pre class="source lang-java linenums">package com.soebes.itf.extension.assertj;
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import com.soebes.itf.jupiter.maven.MavenLog;
+import org.apiguardian.api.API;
+import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.ListAssert;
+
+import java.util.stream.Collectors;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+
+/**
+ * @author Karl Heinz Marbaise
+ */
+@API(status = EXPERIMENTAL, since = &quot;0.1.0&quot;)
+public class MavenLogAssert extends AbstractAssert&lt;MavenLogAssert, MavenLog&gt; {
+
+  /**
+   * Create instance of MavenLogAssert.
+   *
+   * @param actual The given Log.
+   */
+  MavenLogAssert(MavenLog actual) {
+<span class="fc" id="L43">    super(actual, MavenLogAssert.class);</span>
+<span class="fc" id="L44">  }</span>
+
+  /**
+   * Will give you back the stdout and removes the prefix &quot;[INFO] &quot; from all lines.
+   * &lt;p&gt;
+   * It can be used to check for a sequence in the log output like this:&lt;/p&gt;
+   * &lt;pre&gt;
+   *   assertThat(result)
+   *    .log()
+   *    .info()
+   *    .containsSequence(&quot;The first line matching.&quot;, &quot;The second line matching&quot;);
+   * &lt;/pre&gt;
+   *
+   * @return {@link ListAssert}
+   * @see ListAssert#containsSequence(Object[])
+   * @since 0.8.0
+   */
+  @API(status = EXPERIMENTAL, since = &quot;0.8.0&quot;)
+  public ListAssert&lt;String&gt; info() {
+<span class="fc" id="L63">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getStdout())</span>
+<span class="fc" id="L64">        .filter(Helper.IS_INFO)</span>
+<span class="fc" id="L65">        .map(s -&gt; s.substring(7)) // Need to reconsider?</span>
+<span class="fc" id="L66">        .collect(Collectors.toList()));</span>
+  }
+
+  /**
+   * Will give you back the stdout and removes the prefix &quot;[DEBUG] &quot; from all lines.
+   * This could be used like the following:
+   * &lt;pre&gt;
+   *   assertThat(result)
+   *    .log()
+   *    .debug()
+   *    .contains(&quot;Text to be checked for.&quot;);
+   * &lt;/pre&gt;
+   * The {@code debug()} will give you back all entries which have the prefix
+   * {@code [DEBUG] }.
+   * The {@code debug()} can be combined with other parts of AssertJ like:
+   * &lt;pre&gt;
+   *   assertThat(result)
+   *    .log()
+   *    .debug()
+   *    .hasSize(1) // Only a single DEBUG line is allowed.
+   *    .contains(&quot;This is something.&quot;);
+   * &lt;/pre&gt;
+   * The above example will obviously fail cause there always more than one line
+   * of debug output being produced during a Maven build.
+   *
+   * @return {@link ListAssert}
+   * @see #warn()
+   * @see #info()
+   * @see ListAssert#contains(Object[])
+   */
+  @API(status = EXPERIMENTAL, since = &quot;0.8.0&quot;)
+  public ListAssert&lt;String&gt; debug() {
+<span class="fc" id="L98">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getStdout())</span>
+<span class="fc" id="L99">        .filter(Helper.IS_DEBUG)</span>
+<span class="fc" id="L100">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
+<span class="fc" id="L101">        .collect(Collectors.toList()));</span>
+  }
+
+  /**
+   * Will read the stdout and removes the prefix &quot;[WARNING] &quot;.
+   * This could be used like the following:
+   * &lt;pre&gt;
+   *   assertThat(result)
+   *    .log()
+   *    .warn()
+   *    .contains(&quot;Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!&quot;);
+   * &lt;/pre&gt;
+   * The {@code warn()} will give you back all entries which have the prefix
+   * {@code [WARNING] }.
+   * The {@code warn()} can be combined with other parts of AssertJ like:
+   * &lt;pre&gt;
+   *   assertThat(result)
+   *    .log()
+   *    .warn()
+   *    .hasSize(1) // Only a single WARNING is allowed.
+   *    .contains(&quot;Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!&quot;);
+   * &lt;/pre&gt;
+   *
+   * @return {@link ListAssert}
+   * @see #debug()
+   * @see #info()
+   * @see ListAssert#contains(Object[])
+   */
+  @API(status = EXPERIMENTAL, since = &quot;0.8.0&quot;)
+  public ListAssert&lt;String&gt; warn() {
+<span class="fc" id="L131">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getStdout())</span>
+<span class="fc" id="L132">        .filter(Helper.IS_WARNING)</span>
+<span class="fc" id="L133">        .map(s -&gt; s.substring(10)) // Need to reconsider?</span>
+<span class="fc" id="L134">        .collect(Collectors.toList()));</span>
+  }
+
+  /**
+   * Will read the stdout and removes the prefix &quot;[ERROR] &quot;.
+   * This could be used like the following:
+   * &lt;pre&gt;
+   *   assertThat(result)
+   *    .log()
+   *    .error()
+   *    .contains(&quot;Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!&quot;);
+   * &lt;/pre&gt;
+   * The {@code warn()} will give you back all entries which have the prefix
+   * {@code [ERROR] }.
+   * The {@code error()} can be combined with other parts of AssertJ like:
+   * &lt;pre&gt;
+   *   assertThat(result)
+   *    .log()
+   *    .error()
+   *    .hasSize(1) // Only a single ERROR is allowed.
+   *    .contains(&quot;Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!&quot;);
+   * &lt;/pre&gt;
+   *
+   * @return {@link ListAssert}
+   * @see #debug()
+   * @see #warn()
+   * @see #info()
+   * @see ListAssert#contains(Object[])
+   */
+  @API(status = EXPERIMENTAL, since = &quot;0.8.0&quot;)
+  public ListAssert&lt;String&gt; error() {
+<span class="fc" id="L165">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getStdout())</span>
+<span class="fc" id="L166">        .filter(Helper.IS_ERROR)</span>
+<span class="fc" id="L167">        .map(s -&gt; s.substring(8)) // Need to reconsider?</span>
+<span class="fc" id="L168">        .collect(Collectors.toList()));</span>
+  }
+
+  /**
+   * Will read the stdout without any filtering etc.
+   * &lt;pre&gt;&lt;code class=&quot;java&quot;&gt;
+   *   assertThat(result)
+   *    .out()
+   *    .plain()
+   *    .contains(&quot;[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!&quot;);
+   * &lt;/code&gt;&lt;/pre&gt;
+   *
+   * @return {@link ListAssert}
+   * @see #info()
+   * @see #debug()
+   * @see #warn()
+   * @see ListAssert#contains(Object[])
+   */
+  public ListAssert&lt;String&gt; plain() {
+<span class="fc" id="L187">    return new ListAssert&lt;&gt;(Helper.logs(this.actual.getStdout()));</span>
+  }
+
+  /**
+   * @throws UnsupportedOperationException if this method is called.
+   * @implNote java:S1133: Suppressing &quot;Do not forget to remove this deprecated code someday.&quot; message.
+   * @deprecated use {@link #isEqualTo} instead
+   */
+  @Override
+  @Deprecated
+  @SuppressWarnings(&quot;java:S1133&quot;)
+  public boolean equals(Object obj) {
+<span class="fc" id="L199">    throw new UnsupportedOperationException(&quot;'equals' is not supported...maybe you intended to call 'isEqualTo'&quot;);</span>
+  }
+
+  /**
+   * Always returns 1.
+   *
+   * @return 1.
+   */
+  @Override
+  public int hashCode() {
+<span class="fc" id="L209">    return 1;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
