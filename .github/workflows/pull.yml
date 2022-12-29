@@ -64,3 +64,16 @@ jobs:
             ${{ github.workspace }}/itf-examples/target/failsafe-reports/TEST-*.xml
             ${{ github.workspace }}/itf-failure-plugin/target/failsafe-reports/TEST-*.xml
             ${{ github.workspace }}/itf-maven-plugin/target/failsafe-reports/TEST-*.xml
+
+      - name: "Add coverage to PR"
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.3
+        with:
+          paths: |
+            ${{ github.workspace }}/itf-assertj/target/site/jacoco/jacoco.xml
+            ${{ github.workspace }}/itf-examples/target/site/jacoco/jacoco.xml
+            ${{ github.workspace }}/itf-extension-maven/target/site/jacoco/jacoco.xml
+            ${{ github.workspace }}/itf-failure-maven/target/site/jacoco/jacoco.xml
+            ${{ github.workspace }}/itf-maven-plugin/target/site/jacoco/jacoco.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          debug-mode: true
