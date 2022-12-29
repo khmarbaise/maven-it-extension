@@ -19,7 +19,7 @@ name: SitePublishing
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   update-site:
