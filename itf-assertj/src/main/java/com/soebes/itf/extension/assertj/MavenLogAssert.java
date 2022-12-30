@@ -188,18 +188,6 @@ public class MavenLogAssert extends AbstractAssert<MavenLogAssert, MavenLog> {
   }
 
   /**
-   * @throws UnsupportedOperationException if this method is called.
-   * @implNote java:S1133: Suppressing "Do not forget to remove this deprecated code someday." message.
-   * @deprecated use {@link #isEqualTo} instead
-   */
-  @Override
-  @Deprecated
-  @SuppressWarnings("java:S1133")
-  public boolean equals(Object obj) {
-    throw new UnsupportedOperationException("'equals' is not supported...maybe you intended to call 'isEqualTo'");
-  }
-
-  /**
    * Always returns 1.
    *
    * @return 1.

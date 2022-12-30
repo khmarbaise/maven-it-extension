@@ -18,6 +18,7 @@
 [[release-notes-0.13.0]]
 == Pre-release 0.13.0
 
+:issue-277: https://github.com/khmarbaise/maven-it-extension/issues/277[Fixed #277]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_13_0: https://github.com/khmarbaise/maven-it-extension/milestone/13
@@ -34,7 +35,7 @@
 
 *Breaking Changes*
 
- * {????} - ???
+ * {issue-277} - Remove Deprecated Code.
 
 *Reporter of this release*
 
