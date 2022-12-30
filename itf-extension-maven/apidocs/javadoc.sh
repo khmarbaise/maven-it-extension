@@ -1,1 +1,1 @@
-/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/18.0.2-101/x64/bin/javadoc @options @packages
+/Users/khm/.sdkman/candidates/java/19.0.1-tem/bin/javadoc @options @packages
