@@ -1,1 +1,1 @@
-/Users/khm/.sdkman/candidates/java/19.0.1-tem/bin/javadoc @options @packages
+/Users/khm/.sdkman/candidates/java/17.0.5-tem/bin/javadoc @options @packages
