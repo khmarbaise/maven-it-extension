@@ -1,5 +1,5 @@
 -classpath
-'/home/runner/work/maven-it-extension/maven-it-extension/itf-extension-maven/target/itf-extension-maven-0.12.1-SNAPSHOT.jar:/home/runner/.m2/repository/org/apiguardian/apiguardian-api/1.1.0/apiguardian-api-1.1.0.jar:/home/runner/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.1/junit-jupiter-api-5.9.1.jar:/home/runner/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/home/runner/.m2/repository/org/junit/platform/junit-platform-commons/1.9.1/junit-platform-commons-1.9.1.jar:/home/runner/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.1/junit-jupiter-engine-5.9.1.jar:/home/runner/.m2/repository/org/junit/platform/junit-platform-engine/1.9.1/junit-platform-engine-1.9.1.jar:/home/runner/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.1/junit-jupiter-params-5.9.1.jar:/home/runner/.m2/repository/org/mockito/mockito-core/4.10.0/mockito-core-4.10.0.jar:/home/runner/.m2/repository/net/bytebuddy/byte-buddy-agent/1.12.19/byte-buddy-agent-1.12.19.jar:/home/runner/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/runner/.m2/repository/org/mockito/mockito-inline/4.10.0/mockito-inline-4.10.0.jar:/home/runner/.m2/repository/net/bytebuddy/byte-buddy/1.12.13/byte-buddy-1.12.13.jar:/home/runner/.m2/repository/org/assertj/assertj-core/3.23.1/assertj-core-3.23.1.jar:/home/runner/.m2/repository/com/github/marschall/memoryfilesystem/2.1.0/memoryfilesystem-2.1.0.jar:/home/runner/.m2/repository/org/apache/maven/maven-model/3.1.0/maven-model-3.1.0.jar:/home/runner/.m2/repository/org/codehaus/plexus/plexus-utils/3.0.10/plexus-utils-3.0.10.jar'
+'/home/runner/work/maven-it-extension/maven-it-extension/itf-extension-maven/target/itf-extension-maven-0.12.0-SNAPSHOT.jar:/home/runner/.m2/repository/org/apiguardian/apiguardian-api/1.1.0/apiguardian-api-1.1.0.jar:/home/runner/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.1/junit-jupiter-api-5.9.1.jar:/home/runner/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/home/runner/.m2/repository/org/junit/platform/junit-platform-commons/1.9.1/junit-platform-commons-1.9.1.jar:/home/runner/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.1/junit-jupiter-engine-5.9.1.jar:/home/runner/.m2/repository/org/junit/platform/junit-platform-engine/1.9.1/junit-platform-engine-1.9.1.jar:/home/runner/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.1/junit-jupiter-params-5.9.1.jar:/home/runner/.m2/repository/org/mockito/mockito-core/4.10.0/mockito-core-4.10.0.jar:/home/runner/.m2/repository/net/bytebuddy/byte-buddy-agent/1.12.19/byte-buddy-agent-1.12.19.jar:/home/runner/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/runner/.m2/repository/org/mockito/mockito-inline/4.10.0/mockito-inline-4.10.0.jar:/home/runner/.m2/repository/net/bytebuddy/byte-buddy/1.12.13/byte-buddy-1.12.13.jar:/home/runner/.m2/repository/org/assertj/assertj-core/3.23.1/assertj-core-3.23.1.jar:/home/runner/.m2/repository/com/github/marschall/memoryfilesystem/2.1.0/memoryfilesystem-2.1.0.jar:/home/runner/.m2/repository/org/apache/maven/maven-model/3.1.0/maven-model-3.1.0.jar:/home/runner/.m2/repository/org/codehaus/plexus/plexus-utils/3.0.10/plexus-utils-3.0.10.jar'
 -encoding
 'UTF-8'
 -package
@@ -10,7 +10,7 @@
 '/home/runner/work/maven-it-extension/maven-it-extension/itf-jupiter-extension/src/main/java:/home/runner/work/maven-it-extension/maven-it-extension/itf-jupiter-extension/target/generated-sources/annotations'
 -author
 -bottom
-'Copyright &#169; 2011&#x2013;2022 <a href="https://www.soebes.com">SoftwareEntwicklung Beratung Schulung</a>. All rights reserved.'
+'Copyright &#169; 2011&#x2013;2023 <a href="https://www.soebes.com">SoftwareEntwicklung Beratung Schulung</a>. All rights reserved.'
 -charset
 'UTF-8'
 -d
@@ -18,7 +18,7 @@
 -docencoding
 'UTF-8'
 -doctitle
-'itf-jupiter-extension 0.12.1-SNAPSHOT API'
+'itf-jupiter-extension 0.12.0-SNAPSHOT API'
 -linkoffline
 'https://docs.oracle.com/javase/8/docs/api' '/home/runner/work/maven-it-extension/maven-it-extension/itf-jupiter-extension/target/javadoc-bundle-options'
 -linkoffline
@@ -30,4 +30,4 @@
 -use
 -version
 -windowtitle
-'itf-jupiter-extension 0.12.1-SNAPSHOT API'
+'itf-jupiter-extension 0.12.0-SNAPSHOT API'
