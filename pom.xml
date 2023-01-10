@@ -77,8 +77,10 @@
       </dependency>
       <dependency>
         <groupId>org.assertj</groupId>
-        <artifactId>assertj-core</artifactId>
-        <version>3.23.1</version>
+        <artifactId>assertj-bom</artifactId>
+        <version>3.24.1</version>
+        <scope>import</scope>
+        <type>pom</type>
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
