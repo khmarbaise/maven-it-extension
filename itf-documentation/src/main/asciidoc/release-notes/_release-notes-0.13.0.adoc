@@ -19,6 +19,7 @@
 == Pre-release 0.13.0
 
 :issue-277: https://github.com/khmarbaise/maven-it-extension/issues/277[Fixed #277]
+:issue-319: https://github.com/khmarbaise/maven-it-extension/issues/319[Fixed #319]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_13_0: https://github.com/khmarbaise/maven-it-extension/milestone/13
@@ -53,7 +54,7 @@
 
 *Dependency Upgrades*
 
- * {issue-???} - ??
+ * {issue-319} - Upgrade JUnit Jupiter to 5.9.2
 
 *Build Improvements*
 
