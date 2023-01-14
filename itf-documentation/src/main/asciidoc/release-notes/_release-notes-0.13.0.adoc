@@ -21,6 +21,7 @@
 :issue-277: https://github.com/khmarbaise/maven-it-extension/issues/277[Fixed #277]
 :issue-319: https://github.com/khmarbaise/maven-it-extension/issues/319[Fixed #319]
 :issue-321: https://github.com/khmarbaise/maven-it-extension/issues/321[Fixed #321]
+:issue-323: https://github.com/khmarbaise/maven-it-extension/issues/323[Fixed #323]
 :issue-326: https://github.com/khmarbaise/maven-it-extension/issues/326[Fixed #326]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
@@ -58,6 +59,7 @@
 
  * {issue-319} - Upgrade JUnit Jupiter to 5.9.2
  * {issue-321} - Upgrade assertj to 3.24.1
+ * {issue-323} - Upgrade mockito to 5.0.0
 
 *Build Improvements*
 
