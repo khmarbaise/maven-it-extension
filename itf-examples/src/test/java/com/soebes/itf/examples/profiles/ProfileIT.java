@@ -93,7 +93,7 @@ class ProfileIT {
     assertThat(result)
         .isSuccessful()
         .out()
-        .warn().containsExactly("The requested profile \"unknown-profile\" could not be activated because it does not exist.");
+        .warn().contains("The requested profile \"unknown-profile\" could not be activated because it does not exist.");
   }
 
 }

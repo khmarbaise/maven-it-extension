@@ -21,6 +21,7 @@
 :issue-277: https://github.com/khmarbaise/maven-it-extension/issues/277[Fixed #277]
 :issue-319: https://github.com/khmarbaise/maven-it-extension/issues/319[Fixed #319]
 :issue-321: https://github.com/khmarbaise/maven-it-extension/issues/321[Fixed #321]
+:issue-326: https://github.com/khmarbaise/maven-it-extension/issues/326[Fixed #326]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_13_0: https://github.com/khmarbaise/maven-it-extension/milestone/13
@@ -33,7 +34,7 @@
 
 *Details*
 
- * {issue-??} - ?
+ * {issue-326} - Failing IT's based on Maven 3.8.7
 
 *Breaking Changes*
 
