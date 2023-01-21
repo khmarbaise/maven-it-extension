@@ -22,6 +22,8 @@ package com.soebes.itf.examples.profiles;
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenProfile;
 import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.extension.MavenVersion;
+import com.soebes.itf.jupiter.extension.condition.DisabledForMavenVersion;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
@@ -89,11 +91,12 @@ class ProfileIT {
 
   @MavenTest
   @MavenProfile("unknown-profile")
+  @DisabledForMavenVersion(MavenVersion.M3_8_7)
   void unknown_profile(MavenExecutionResult result) {
     assertThat(result)
         .isSuccessful()
         .out()
-        .warn().contains("The requested profile \"unknown-profile\" could not be activated because it does not exist.");
+        .warn().containsExactly("The requested profile \"unknown-profile\" could not be activated because it does not exist.");
   }
 
 }

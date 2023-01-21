@@ -52,6 +52,7 @@ public enum MavenVersion {
   M3_8_4("3.8.4"),
   M3_8_5("3.8.5"),
   M3_8_6("3.8.6"),
+  M3_8_7("3.8.7"),
   M3_9_0("3.9.0");
 
   private static final MavenVersion CURRENT_MAVEN_VERSION = determineCurrentVersion();
