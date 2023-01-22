@@ -23,6 +23,7 @@
 :issue-321: https://github.com/khmarbaise/maven-it-extension/issues/321[Fixed #321]
 :issue-323: https://github.com/khmarbaise/maven-it-extension/issues/323[Fixed #323]
 :issue-326: https://github.com/khmarbaise/maven-it-extension/issues/326[Fixed #326]
+:issue-329: https://github.com/khmarbaise/maven-it-extension/issues/329[Fixed #329]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_13_0: https://github.com/khmarbaise/maven-it-extension/milestone/13
@@ -36,6 +37,7 @@
 *Details*
 
  * {issue-326} - Failing IT's based on Maven 3.8.7
+ * {issue-329} - Upgrade to smpp 5.3.14
 
 *Breaking Changes*
 
