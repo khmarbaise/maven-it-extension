@@ -22,6 +22,7 @@ on: [pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: "maven:3.8.7-eclipse-temurin-19"
     steps:
       - uses: actions/checkout@v3
         name: "Checking out."
