@@ -27,6 +27,7 @@
 :issue-332: https://github.com/khmarbaise/maven-it-extension/issues/332[Fixed #332]
 :issue-334: https://github.com/khmarbaise/maven-it-extension/issues/334[Fixed #334]
 :issue-342: https://github.com/khmarbaise/maven-it-extension/issues/342[Fixed #342]
+:issue-344: https://github.com/khmarbaise/maven-it-extension/issues/344[Fixed #344]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_13_0: https://github.com/khmarbaise/maven-it-extension/milestone/13
@@ -68,6 +69,7 @@
  * {issue-332} - Upgrade mockito to 5.1.1
  * {issue-334} - Upgrade assertj-bom to 3.24.2
  * {issue-342} - Upgrade smpp to 6.0.0
+ * {issue-344} - Upgrade smpp to 6.0.1
 
 *Build Improvements*
 
