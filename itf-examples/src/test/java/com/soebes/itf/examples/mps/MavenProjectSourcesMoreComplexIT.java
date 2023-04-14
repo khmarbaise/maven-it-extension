@@ -33,8 +33,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
-import java.util.List;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 import static com.soebes.itf.jupiter.extension.MavenProjectSources.ResourceUsage.NONE;
@@ -49,25 +47,25 @@ import static com.soebes.itf.jupiter.extension.MavenProjectSources.ResourceUsage
 @MavenProjectSources(resourcesUsage = NONE)
 class MavenProjectSourcesMoreComplexIT {
 
-  private List<String> generateProject(String info) {
-    return Arrays.asList(
-        "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\">",
-        "<modelVersion>4.0.0</modelVersion>",
-        "  <groupId>project-sources-it</groupId>",
-        "  <artifactId>" + String.format("%s", info) + "</artifactId>",
-        "  <version>1.0.0</version>",
-        "  <properties>",
-        "    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>",
-        "  </properties>",
-        "</project>"
-    );
+  private String generateProject(String info) {
+    return """
+           <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+             <modelVersion>4.0.0</modelVersion>
+             <groupId>project-sources-it</groupId>
+             <artifactId>%s</artifactId>
+             <version>1.0.0</version>
+             <properties>
+               <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+             </properties>
+           </project>
+           """.formatted(info);
   }
   @BeforeEach
   void beforeEach(TestInfo testInfo, MavenProjectResult result) throws IOException {
     Class<?> testMethod = testInfo.getTestClass().orElseThrow(IllegalStateException::new);
     String artifactId = testMethod.getName().replace('$', '_');
     Path pomFile = result.getTargetProjectDirectory().resolve("pom.xml");
-    Files.write(pomFile, generateProject(artifactId), StandardOpenOption.CREATE);
+    Files.writeString(pomFile, generateProject(artifactId), StandardOpenOption.CREATE);
   }
 
   @MavenTest

@@ -54,6 +54,7 @@
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
     <maven.compiler.release>8</maven.compiler.release>
+    <maven.compiler.testRelease>17</maven.compiler.testRelease>
     <smpp.component>maven-it-extension</smpp.component>
     <!--
      ! Currently, javadoc fails based on module without test sources

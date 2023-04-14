@@ -32,8 +32,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
-import java.util.List;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 import static com.soebes.itf.jupiter.extension.MavenProjectSources.ResourceUsage.NONE;
@@ -51,14 +49,14 @@ import static com.soebes.itf.jupiter.extension.MavenProjectSources.ResourceUsage
 @MavenProjectSources(resourcesUsage = NONE)
 class MavenProjectSourcesBasicIT {
 
-  private static final List<String> POM_STATIC = Arrays.asList(
-      "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\">",
-      "<modelVersion>4.0.0</modelVersion>",
-      "  <groupId>project-sources-it</groupId>",
-      "  <artifactId>project-sources-it-artifactid-001</artifactId>",
-      "  <version>1.0.0</version>",
-      "</project>"
-  );
+  private static final String POM_STATIC = """
+      <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+      <modelVersion>4.0.0</modelVersion>
+        <groupId>project-sources-it</groupId>
+        <artifactId>project-sources-it-artifactid-001</artifactId>
+        <version>1.0.0</version>
+      </project>
+      """;
 
   @BeforeEach
   void beforeEach(TestInfo testInfo, MavenProjectResult result) throws IOException {
@@ -66,7 +64,7 @@ class MavenProjectSourcesBasicIT {
     System.out.println("method = " + testInfo.getTestMethod());
     Path pomFile = result.getTargetProjectDirectory().resolve("pom.xml");
     System.out.println("pomFile = " + pomFile);
-    Files.write(pomFile, POM_STATIC, StandardOpenOption.CREATE);
+    Files.writeString(pomFile, POM_STATIC, StandardOpenOption.CREATE);
   }
 
   @MavenTest
