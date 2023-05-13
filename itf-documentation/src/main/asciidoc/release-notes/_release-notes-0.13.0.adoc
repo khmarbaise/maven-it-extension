@@ -32,6 +32,7 @@
 :issue-348: https://github.com/khmarbaise/maven-it-extension/issues/346[Fixed #348]
 :issue-351: https://github.com/khmarbaise/maven-it-extension/issues/351[Fixed #351]
 :issue-353: https://github.com/khmarbaise/maven-it-extension/issues/353[Fixed #353]
+:issue-355: https://github.com/khmarbaise/maven-it-extension/issues/355[Fixed #355]
 :issue-360: https://github.com/khmarbaise/maven-it-extension/issues/360[Fixed #360]
 :issue-362: https://github.com/khmarbaise/maven-it-extension/issues/362[Fixed #362]
 :issue-364: https://github.com/khmarbaise/maven-it-extension/issues/364[Fixed #363]
@@ -85,6 +86,7 @@
  * {issue-362} - Upgrade mockito to 5.4.0
  * {issue-364} - Upgrade smpp to 6.0.3
  * {issue-366} - Upgrade memoryfilesystem to 2.6.1
+ * {issue-355} - Upgrade JUnit Jupiter to 5.10.0
 
 *Build Improvements*
 
