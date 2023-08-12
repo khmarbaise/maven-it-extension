@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.18">
-<meta name="author" content="Karl Heinz Marbaise, 2023-07-23">
+<meta name="author" content="Karl Heinz Marbaise, 2023-08-12">
 <title>Integration Testing Framework Users Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>Integration Testing Framework Users Guide</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2023-07-23</span><br>
+<span id="author2" class="author">2023-08-12</span><br>
 <span id="revnumber">version 0.13.0-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
@@ -838,10 +838,10 @@ used during the integration tests. Further more it will handle the copying of th
               <span class="comment">&lt;!--
                ! currently needed to run integration tests.
               --&gt;</span>
-              <span class="tag">&lt;systemProperties&gt;</span>
+              <span class="tag">&lt;systemPropertyVariables&gt;</span>
                 <span class="tag">&lt;maven.version&gt;</span>${maven.version}<span class="tag">&lt;/maven.version&gt;</span>
                 <span class="tag">&lt;maven.home&gt;</span>${maven.home}<span class="tag">&lt;/maven.home&gt;</span>
-              <span class="tag">&lt;/systemProperties&gt;</span>
+              <span class="tag">&lt;/systemPropertyVariables&gt;</span>
               <span class="tag">&lt;properties&gt;</span>
                 <span class="tag">&lt;configurationParameters&gt;</span>
                   junit.jupiter.execution.parallel.enabled=true
@@ -1046,7 +1046,7 @@ did on plain command line and take a look into it. The output of the build has b
 <div class="sect2">
 <h3 id="_several_test_cases"><a class="link" href="#_several_test_cases">5.3. Several Test Cases</a></h3>
 <div class="paragraph">
-<p>If we like to define several integration test cases within a single test class <code>SeveralMavenIT</code>
+<p>If we like to define some integration test cases within a single test class <code>SeveralMavenIT</code>
 we have to define different methods, which are the test cases. This results in the following
 class layout:</p>
 </div>
@@ -1147,7 +1147,7 @@ directory will look like this:</p>
 <p>Based on the structure you can exactly dive into each test case separately and take
 a look at the console output of the test case via <code>mvn-stdout.log</code> or maybe in case of errors
 in the <code>mvn-stderr.log</code>. In the <code>project</code> directory you will find the usual <code>target</code> directory,
-which contains the Maven output which might be interesting as well. Furthermore the
+which contains the Maven output which might be interesting as well. Furthermore, the
 local cache (aka maven repository) is available separately for each test case and can be found
 in the <code>.m2/repository</code> directory.</p>
 </div>
@@ -2546,7 +2546,7 @@ assertThat(Files.lines(mavenLog.getStderr()))
 </div>
 </div>
 <div class="paragraph">
-<p>A full fledged example can be found <code>itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java</code>
+<p>A full-fledged example can be found <code>itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java</code>
 within the itf project.</p>
 </div>
 </div>
@@ -2630,7 +2630,7 @@ as port and check if you are using JDK8 or JDK9+ in your configuration.</p>
 </div>
 <div class="paragraph">
 <p>I recommend to start only a single integration test case via the above described run configuration,
-in debugging mode otherwise all processes woulduse the same port which would result in failure
+in debugging mode otherwise all processes would use the same port which would result in failure
 because only one can use that port.</p>
 </div>
 </div>
@@ -3254,7 +3254,7 @@ or the logging output of the Maven build you can change your integration test li
 <div id="footer">
 <div id="footer-text">
 Version 0.13.0-SNAPSHOT<br>
-Last updated 2023-07-23 14:13:32 UTC
+Last updated 2023-08-12 10:04:18 UTC
 </div>
 </div>
 </body>
