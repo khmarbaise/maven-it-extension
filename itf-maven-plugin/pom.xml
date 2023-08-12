@@ -183,10 +183,10 @@
             <configuration>
               <forkCount>5</forkCount>
               <reuseForks>true</reuseForks>
-              <systemProperties>
+              <systemPropertyVariables>
                 <maven.version>${maven.version}</maven.version>
                 <maven.home>${maven.home}</maven.home>
-              </systemProperties>
+              </systemPropertyVariables>
               <properties>
                 <configurationParameters>
                   junit.jupiter.execution.parallel.enabled = false

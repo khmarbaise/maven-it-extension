@@ -52,7 +52,6 @@ class ProjectHelperTest {
           .havingCause()
           .withMessage("expected > to finsh end tag not < from line 32 (position: TEXT seen ...<version>2.8-SNAPSHOT</version\\n  <... @33:4) ");
     }
-    ;
   }
 
   @Test
