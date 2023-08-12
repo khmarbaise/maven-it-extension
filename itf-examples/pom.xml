@@ -131,10 +131,10 @@
               <!--
                ! currently needed to run integration tests.
               -->
-              <systemProperties>
+              <systemPropertyVariables>
                 <maven.version>${maven.version}</maven.version>
                 <maven.home>${maven.home}</maven.home>
-              </systemProperties>
+              </systemPropertyVariables>
               <properties>
                 <configurationParameters>
                   junit.jupiter.execution.parallel.enabled=true

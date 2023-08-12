@@ -101,14 +101,14 @@ and a part which is pom like
 * It's bound to versions of Maven core which might caused issues during testing with other versions
   of Maven.
 * https://maven.apache.org/plugin-testing/maven-plugin-testing-harness/getting-started/index.html
-* Also JUnit 4 based.
+* Also, JUnit 4 based.
 
 //TODO: RECONSIDER this content...
 
 === Mock Repository Manager
 
-Currently it's only possible to have a single instance of the mock repository manager running which
-is based on the limited concept cause we need to define it in the `pom.xml`. Of course
+Currently, it's only possible to have a single instance of the mock repository manager running which
+is based on the limited concept because we need to define it in the `pom.xml`. Of course,
 we could start two or more instances but this would make the setup more or less unreadable.
 
 === Why not Spock?

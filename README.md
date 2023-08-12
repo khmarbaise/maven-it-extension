@@ -146,10 +146,10 @@ will execute the integration tests which checks the functionality; The second pa
       <!--
        ! currently needed to run integration tests.
       -->
-      <systemProperties>
+      <systemPropertyVariables>
         <maven.version>${maven.version}</maven.version>
         <maven.home>${maven.home}</maven.home>
-      </systemProperties>
+      </systemPropertyVariables>
     </configuration>
     <executions>
       <execution>

@@ -305,7 +305,7 @@ did on plain command line and take a look into it. The output of the build has b
 //FIXME: Needs to be implemented
 
 === Several Test Cases
-If we like to define several integration test cases within a single test class `SeveralMavenIT`
+If we like to define some integration test cases within a single test class `SeveralMavenIT`
 we have to define different methods, which are the test cases. This results in the following
 class layout:
 [source,java]
@@ -397,7 +397,7 @@ directory will look like this:
 Based on the structure you can exactly dive into each test case separately and take
 a look at the console output of the test case via `mvn-stdout.log` or maybe in case of errors
 in the `mvn-stderr.log`. In the `project` directory you will find the usual `target` directory,
-which contains the Maven output which might be interesting as well. Furthermore the
+which contains the Maven output which might be interesting as well. Furthermore, the
 local cache (aka maven repository) is available separately for each test case and can be found
 in the `.m2/repository` directory.
 
@@ -1537,7 +1537,7 @@ The `stderr` output can be accessed as well like this:
 
 include::{itfexample}/itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=error]
 
-A full fledged example can be found `itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java`
+A full-fledged example can be found `itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java`
 within the itf project.
 
 === Expressing Assertions
@@ -1614,7 +1614,7 @@ The next step is to {intellij-remote}[configure remote debugging] which means to
 as port and check if you are using JDK8 or JDK9+ in your configuration.
 
 I recommend to start only a single integration test case via the above described run configuration,
-in debugging mode otherwise all processes woulduse the same port which would result in failure
+in debugging mode otherwise all processes would use the same port which would result in failure
 because only one can use that port.
 
 ==== Eclipse
