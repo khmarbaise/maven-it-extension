@@ -33,7 +33,7 @@
   <artifactId>itf-maven-plugin</artifactId>
 
   <properties>
-    <mavenMinimumVersion>3.2.5</mavenMinimumVersion>
+    <mavenMinimumVersion>3.8.1</mavenMinimumVersion>
     <maven.plugin.tool>3.6.4</maven.plugin.tool>
   </properties>
 
