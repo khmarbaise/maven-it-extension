@@ -59,7 +59,7 @@ import static com.soebes.itf.jupiter.extension.AnnotationHelper.hasSystemPropert
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.options;
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.profiles;
 import static com.soebes.itf.jupiter.extension.AnnotationHelper.systemProperties;
-import static com.soebes.itf.jupiter.extension.MavenProjectSources.ResourceUsage.*;
+import static com.soebes.itf.jupiter.extension.MavenProjectSources.ResourceUsage.DEFAULT;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 

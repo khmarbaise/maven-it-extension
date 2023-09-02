@@ -19,9 +19,9 @@ package com.soebes.itf.jupiter.extension;
  * under the License.
  */
 
-import static org.apiguardian.api.API.Status.INTERNAL;
-
 import com.soebes.itf.jupiter.extension.exceptions.PathUtilException;
+import org.apiguardian.api.API;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,7 +32,8 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.apiguardian.api.API;
+
+import static org.apiguardian.api.API.Status.INTERNAL;
 
 /**
  * @author Karl Heinz Marbaise

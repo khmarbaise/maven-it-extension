@@ -26,7 +26,6 @@ import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import org.junit.jupiter.api.DisplayName;
 
-import java.io.File;
 import java.nio.file.Path;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
