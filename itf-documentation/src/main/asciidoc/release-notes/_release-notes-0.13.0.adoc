@@ -39,6 +39,7 @@
 :issue-366: https://github.com/khmarbaise/maven-it-extension/issues/366[Fixed #366]
 :issue-374: https://github.com/khmarbaise/maven-it-extension/issues/374[Fixed #374]
 :issue-375: https://github.com/khmarbaise/maven-it-extension/issues/375[Fixed #375]
+:issue-376: https://github.com/khmarbaise/maven-it-extension/issues/376[Fixed #376]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_13_0: https://github.com/khmarbaise/maven-it-extension/milestone/13
@@ -91,6 +92,7 @@
  * {issue-355} - Upgrade JUnit Jupiter to 5.10.0
  * {issue-374} - Upgrade Upgrade byte buddy version 1.14.7
  * {issue-375} - Upgrade mockito-bom to 5.5.0
+ * {issue-376} - Upgrade apiguardian-api to 1.1.2
 
 *Build Improvements*
 
