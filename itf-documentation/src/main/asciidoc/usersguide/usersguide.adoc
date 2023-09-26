@@ -159,7 +159,7 @@ Based on the described structures the content (with the projects which is used a
 `src/test/resources-its` has to be copied into `target/test-classes` which usually means including
 filtering. This is used to replace placeholders in files like `@project.version@` and replace with
 the real version of your extension/plugin etc. so you can use the `itf-maven-plugin` which is doing
-this job on it's own which means you don't have to do something special here.
+this job on its own which means you don't have to do something special here.
 
 The next thing is to configure the `itf-maven-plugin` with the `install` and the `resources-its` goal
 like this:
@@ -440,7 +440,7 @@ test case? Very brief the default set of goals which will be executed if not def
 That means if we keep the test as in our example maven would be called like `mvn package`.
 From a technical perspective some other parameters have been added which are `mvn -Dmaven.repo.local=Path package`.
 The `-Dmaven.repo.local=..` is needed to make sure that each call uses the defined local cache
-(See xref:_common_maven_cache[Common Maven Cache]).
+(See <<scenarios.common.maven.cache, Common Maven Cache>>).
 You can of course change the default for the goal, if you like by simply add the `@MavenGoal` annotation
 `@MavenGoal("install")` that would mean to execute all subjacent tests like `mvn -D.. install`
 instead of `mvn -D .. package`. A usual command parameter set includes
