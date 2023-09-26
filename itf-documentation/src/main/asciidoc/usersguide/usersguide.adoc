@@ -38,17 +38,20 @@ Karl Heinz Marbaise; {docdate}
 //
 :itfexample: _basedir/../..
 
+[[general.overview]]
 == Overview
 
 The documentation intends to give a comprehensive reference for programmers writing
 integration tests for Maven Plugins / Maven Core Extensions / Maven Core.
 
+[[what]]
 === What is Integration Testing Framework?
 The Integration Testing Framework (ITF for short) is in its foundation a {junit-jupiter-extension}[JUnit Jupiter Extension],
 which supports you in writing integration tests for Maven Plugins etc. There are several aspects,
 that makes writing integration tests for Maven Plugins at the
 {backgorund-guide}[moment harder than it should be]. This is the reason, why this framework exists.
 
+[[status]]
 === Status
 
 The current status of this extension is experimental while some people call it Proof of Concept (PoC).
@@ -56,6 +59,7 @@ This framework has not yet reached version `1.0.0` which means that anything can
 to keep compatibility as much as possible. I will only break it if really needed. In such cases it will
 be documented in the release notes. I strongly recommend reading the release notes.
 
+[[about]]
 == About this Guide
 
 This guide represents the current state of development and things, which work (or more accurate: **should work**).
@@ -66,6 +70,7 @@ all as described or maybe does not work as you might expect it to work.
 WARNING: This guide is of course not a guarantee that it works, cause the project is in a very
 early stage.
 
+[[about.overview]]
 == Overview
 
 The idea of integration tests for Maven Plugins, Maven Extensions, Maven Core is to keep the
@@ -110,13 +115,15 @@ public class FirstMavenIT {
 <2> The Maven Test annotation.
 <3> The result of the execution injected into the test method (details in Chapter link:[Needs to be written])
 <4> The above used assertions like `assertThat(..)` are custom assertions which will be
-explained in link:#_assertions[Assertions chapter].
+explained in <<assertions, Assertions chapter>>.
 
 
 //FIXME: link to chapter for assertions.
 <<<
+[[configuration.maven]]
 == Configuration in Maven
 
+[[configuration.user]]
 === User's Point of View
 
 You are a user who want to use the integration test framework to write integration tests for a plugin etc.
@@ -137,7 +144,7 @@ cause you only need them during the integration tests.
 
 [source,xml]
 ----
-include::{itfexample}/itf-examples/pom.xml[tag=dependencies]
+include::../../../../../itf-examples/pom.xml[tag=dependencies]
 ----
 The dependency `com.soebes.itf.jupiter.extension:itf-assertj` contains custom assertions of {assertj}[AssertJ]
 in case you want to use {assertj}[AssertJ] as your assertion framework. This means you have to include
@@ -159,7 +166,7 @@ like this:
 
 [source,xml]
 ----
-include::{itfexample}/itf-examples/pom.xml[tag=itf-maven-plugin]
+include::../../../../../itf-examples/pom.xml[tag=itf-maven-plugin]
 ----
 //FIXME: Needed to be changed after itf-maven-plugin will run also the tests.
 The `itf-maven-plugin` copies the code of your extension/plugin into appropriate directories which are
@@ -170,7 +177,7 @@ Finally you have to add a configuration for {maven-failsafe-plugin} like the fol
 
 [source,xml]
 ----
-include::{itfexample}/itf-examples/pom.xml[tag=failsafe]
+include::../../../../../itf-examples/pom.xml[tag=failsafe]
 ----
 The given properties like `maven.version` transfers the version of Maven which is used
 within the `itf-jupiter-extension` to run your integration tests and the `maven.home` transfers the
@@ -193,12 +200,13 @@ NOTE: The whole given configuration which comprises of `itf-maven-plugin` and th
 configuration for `maven-failsafe-plugin` should be replaced by separate maven plugin later to make the usage
 more convenient.
 
+[[configuration.developer]]
 === Developer's Point of View
 
 You are a potential contributor or just interested in how the code of this extension is working/looks like or you are a
 user who wants to test with the bleeding edge of this extension.
 
-The requirements for building this extensions are:
+The requirements for building this extension is:
 
 * JDK8+ (need to reconsider)
 * https://maven.apache.org/[Apache Maven 3.6.0+]
@@ -208,8 +216,10 @@ needed to install the created artifacts into your local repository for reuse.
 
 
 <<<
+[[structuring.integrationtests]]
 == Structuring Integration Tests
 
+[[structuring.integrationtests.singletest]]
 === A Single Test Case
 The location of an integration test defaults to `src/test/java/<package>/FirstMavenIT.java`.
 The selected naming schema like `<any>IT.java` implies that it will be executed by the
@@ -271,6 +281,7 @@ The usage of the *method name* implies some limitations based on the naming rule
 The best practice is to write *method names* with lowercase letters and separate words by using an
 underscore `_`. This will prevent issues with case insensitive file systems.
 
+[[structuring.integrationtests.testcaseexecution]]
 === Test Case Execution
 
 During the execution of the integration tests the following directory structure will be created
@@ -304,6 +315,7 @@ did on plain command line and take a look into it. The output of the build has b
 //TODO: Define `other logs` ? environment output, command line parameters ?
 //FIXME: Needs to be implemented
 
+[[structuring.integrationtests.severaltestcases]]
 === Several Test Cases
 If we like to define some integration test cases within a single test class `SeveralMavenIT`
 we have to define different methods, which are the test cases. This results in the following
@@ -403,8 +415,10 @@ in the `.m2/repository` directory.
 
 <<<
 
+[[structuring.goalsprofilesproperties]]
 == Goals, Profiles, Properties and Command Line Options
 
+[[structuring.goalsprofilesproperties.goals]]
 === Goals
 
 In each test case method you define `@MavenTest` which says execute Maven with the given
@@ -422,7 +436,7 @@ class BasicIT {
 ----
 So now the question is: Which goals and parameters will be used to execute Maven for the `first`
 test case? Very brief the default set of goals which will be executed if not defined otherwise is
-`package` (See xref:_default_goalsoptions[for a more detailed explanation]).
+`package` (See <<structuring.default.goals.options, for a more detailed explanation>>).
 That means if we keep the test as in our example maven would be called like `mvn package`.
 From a technical perspective some other parameters have been added which are `mvn -Dmaven.repo.local=Path package`.
 The `-Dmaven.repo.local=..` is needed to make sure that each call uses the defined local cache
@@ -430,7 +444,7 @@ The `-Dmaven.repo.local=..` is needed to make sure that each call uses the defin
 You can of course change the default for the goal, if you like by simply add the `@MavenGoal` annotation
 `@MavenGoal("install")` that would mean to execute all subjacent tests like `mvn -D.. install`
 instead of `mvn -D .. package`. A usual command parameter set includes
-`--batch-mode` and `-V` (See xref:_default_goalsoptions[for a more detailed explanation]).
+`--batch-mode` and `-V` (See <<structuring.default.goals.options, for a more detailed explanation>>).
 
 How could you write a test which uses a plugin goal instead? You can simply define the
 goal(s) via the `@MavenGoal` annotation like this:
@@ -468,6 +482,7 @@ The equivalent on command line would be:
 mvn ${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies site:stage install
 ----
 
+[[structuring.profiles]]
 === Profiles
 
 In some cases you need to activate one or https://maven.apache.org/guides/introduction/introduction-to-profiles.html[more Maven profiles]
@@ -532,6 +547,7 @@ class BasicIT {
 The `+` prefix is responsible for deactivating a given profile during the build. We strongly recommend to use `+`
 sign (instead of `!`) to prevent issues on different operating systems.
 
+[[structuring.system.properties]]
 === System Properties
 
 There are situations where you need to use system properties which are usually defined on command like this:
@@ -640,6 +656,7 @@ class RunningIT
 ----
 This prevents the repetition of the property on each test case method.
 
+[[goals.command.line.options]]
 === Command Line Options
 In different scenarios it is needed to define command line options for example `--non-recursive` etc.
 This can be done by using the `@MavenOption` annotation. There is a convenience class
@@ -671,8 +688,10 @@ void first( MavenExecutionResult result )
 }
 ----
 
+[[structuring.default.goals.options]]
 === Default Goals,Options
 
+[[structuring.goals]]
 ==== Goals
 Basically to run a usual integration test it needs to be defined by which goals and options such
 test has to run. Let us take a look at a simple example:
@@ -745,6 +764,7 @@ class BasicIT {
 Now let us summarize the information for goals. As long as no explicit `@MavenGoal` is defined the
 default will be used which is `package`.
 
+[[structuring.options]]
 ==== Options
 Now let us going back to the example:
 [source,java]
@@ -826,6 +846,7 @@ default will be used which are the following:
 * `--batch-mode`
 * `--errors`
 
+[[structuring.combined.annotations]]
 ==== Combined Annotation
 Sometimes you would like to combine things from options and goals in a more convenient way.
 That is possible by using a custom annotation like this one:
@@ -861,8 +882,10 @@ So this makes it very easy to define your own default set of goals, options or m
 You can of course add properties etc. if you need.
 
 <<<
+[[scenarios]]
 == Scenarios
 
+[[scenarios.grouping.test.cases]]
 === Grouping Test Cases
 Sometimes it makes sense to group test into different groups together. This can be achieved
 via the `@Nested` annotation which is provided by {junit-jupiter}. This would result in
@@ -931,14 +954,15 @@ After test execution the resulting directory tree looks like this:
 ----
 
 
+[[scenarios.common.maven.cache]]
 === Common Maven Cache
 
 In all previous test case examples the maven cache (aka maven repository)
 is created separately for each of the test cases (*test methods*). There are times,
 where you need to have a common cache (aka maven repository) for two or more test
 cases. This can be achieved easily via the `@MavenRepository`
-annotation.footnote:[Based on the usage of this annotation the parallelizing is automatically deactivated,
-cause Maven has never been designed to make a parallel access to the maven cache possible.]
+annotation.footnote:[Based on the usage of this annotation the parallelization is automatically deactivated,
+cause Maven has never been designed to make parallel access to the maven cache possible.]
 The usage looks like the following:
 
 [source,java]
@@ -1067,6 +1091,7 @@ The directory tree looks like this:
 ----
 
 
+[[scenarios.predefined.repository.content.for.tests]]
 === Predefined Repository Content for Tests
 
 There are existing test cases in which you need predefined dependencies, cause you can't rely
@@ -1169,6 +1194,7 @@ The setup directories look like this:
                             └── pom.xml
 ----
 
+[[scenarios.single.project.with.several.executions]]
 === Single Project With Several Executions
 
 Sometimes you need to execute a consecutive number of commands (usually maven executions) on the same
@@ -1268,9 +1294,11 @@ something different this can be achieved by using `@MavenProject("another_projec
 
 <<<
 
+[[test.case.execution]]
 == Test Case Execution
 
 
+[[test.case.execution.conditionally]]
 === Conditionally Executing Tests
 
 You might want to run an integration test only for a particular Maven version for example running
@@ -1346,9 +1374,11 @@ class FirstMavenIT {
 
 <<<
 
-[#_assertions]
+[[assertions]]
 == Assertions
 
+
+[[assertions.overview]]
 === Overview
 Let us take a look into a simple integration test. We would like to concentrate on the assertion part.
 [source,java]
@@ -1433,7 +1463,7 @@ assertThat(project).hasTarget()
 
 ----
 
-
+[[assertions.maven.log]]
 === Assertion for Maven Log
 
 In integration tests is necessary to check the log output of a build. This is sometimes needed because
@@ -1518,24 +1548,24 @@ That will not filter anything.
 
 Another example of using the assertions could look like this:
 
-include::{itfexample}/itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=stdout]
+include::../../../../../itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=stdout]
 
 This will extract all messages with the prefix `[INFO] ` of the log and check if there is
 at least one line which contains the given content.
 
 We can check for warnings like the following:
 
-include::{itfexample}/itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=warning]
+include::../../../../../itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=warning]
 
 You can access directly the `stdout` and/or the `stderr` of the Maven build and do things yourself
 if you prefer to go that way. In this case you have to add another injection to the test case
 (`MavenLog mavenLog` or like this `result.getMavenLog().getStdout()`).
 
-include::{itfexample}/itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=selfmade]
+include::../../../../../itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=selfmade]
 
 The `stderr` output can be accessed as well like this:
 
-include::{itfexample}/itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=error]
+include::../../../../../itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=error]
 
 A full-fledged example can be found `itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java`
 within the itf project.
@@ -1579,12 +1609,13 @@ class CompareDependenciesIT
 }
 ----
 
-[#_debugging]
+[[debugging.plugins]]
 == Debugging Plugins
 
 :intellij-junit: https://www.jetbrains.com/help/idea/run-debug-configuration-junit.html#configTab
 :intellij-remote: https://www.jetbrains.com/help/idea/tutorial-remote-debug.html#335b9aea
 
+[[debugging.plugins.overview]]
 === Overview
 
 Sometimes you need to debug your code of your implemented plugin because
@@ -1596,12 +1627,14 @@ run your integration test. This will start the integration test while executing 
 instead of `mvn` and will simply wait for a connection of a remote debugger usually
 from your IDE.
 
+[[debugging.plugins.limitations]]
 === Limitations
 
 Debugging can only being done after you have run your whole integration tests once via
 command line. An idea for the future might be a plugin for IDE's to support that in a
 more convenient way (Help is appreciated).
 
+[[debugging.plugins.intellij]]
 ==== IDEA IntelliJ
 
 You have to define a {intellij-junit}[system property for debugging in your IDE run configuration].
@@ -1617,12 +1650,14 @@ I recommend to start only a single integration test case via the above described
 in debugging mode otherwise all processes would use the same port which would result in failure
 because only one can use that port.
 
+[[debugging.plugins.eclipse]]
 ==== Eclipse
 
 Basically it should work the same.
 
 (Feedback is welcome to give more details on that.)
 
+[[debugging.plugins.netbeans]]
 ==== Netbeans
 
 Basically it should work the same.
@@ -1632,8 +1667,10 @@ Basically it should work the same.
 
 <<<
 
+[[special.cases]]
 == Special Cases
 
+[[special.cases.overview]]
 === Overview
 
 In some situations it is needed to fail a build of a plugin/extension for testing purposes or other things
@@ -1647,7 +1684,7 @@ the build cause the plugin needs to be configured.
 
 [source,xml]
 ----
-include::{itfexample}/itf-failure-plugin/src/test/resources-its/com/soebes/itf/maven/plugin/failure/FailureIT/basic_configuration/pom.xml[tag=configuration]
+include::../../../../../itf-failure-plugin/src/test/resources-its/com/soebes/itf/maven/plugin/failure/FailureIT/basic_configuration/pom.xml[tag=configuration]
 ----
 
 The plugin does not bind to any life cycle phase by default which is intentionally to require a binding
@@ -1660,7 +1697,7 @@ exception can given via `exception` configuration part.
 
 [source,xml]
 ----
-include::{itfexample}/itf-failure-plugin/src/test/resources-its/com/soebes/itf/maven/plugin/failure/FailureIT/fail_with_mojo_execution_exception/pom.xml[tag=configuration]
+include::../../../../../itf-failure-plugin/src/test/resources-its/com/soebes/itf/maven/plugin/failure/FailureIT/fail_with_mojo_execution_exception/pom.xml[tag=configuration]
 ----
 
 The final example will fail the build with a `MojoFailureException` (failureException=true) and the text of the exception
@@ -1668,7 +1705,7 @@ can given via `exception` configuration part as before.
 
 [source,xml]
 ----
-include::{itfexample}/itf-failure-plugin/src/test/resources-its/com/soebes/itf/maven/plugin/failure/FailureIT/fail_with_mojo_failure_exception/pom.xml[tag=configuration]
+include::../../../../../itf-failure-plugin/src/test/resources-its/com/soebes/itf/maven/plugin/failure/FailureIT/fail_with_mojo_failure_exception/pom.xml[tag=configuration]
 ----
 
 
