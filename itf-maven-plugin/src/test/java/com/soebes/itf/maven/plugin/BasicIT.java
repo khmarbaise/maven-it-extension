@@ -29,15 +29,15 @@ import org.junit.jupiter.api.DisplayName;
 import java.nio.file.Path;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
-import static com.soebes.itf.jupiter.extension.MavenCLIOptions.DEBUG;
 import static com.soebes.itf.jupiter.extension.MavenCLIOptions.NO_TRANSFER_PROGRESS;
+import static com.soebes.itf.jupiter.extension.MavenCLIOptions.VERBOSE;
 
 @MavenJupiterExtension
 class BasicIT {
 
   @MavenTest
   @MavenOption(NO_TRANSFER_PROGRESS)
-  @MavenOption(DEBUG)
+  @MavenOption(VERBOSE)
   @DisplayName("Running a basic test which makes sure the groupId/artifact of the plugin are ok.")
   void groupid_artifactid_should_be_ok(MavenExecutionResult result) {
     assertThat(result).isSuccessful();

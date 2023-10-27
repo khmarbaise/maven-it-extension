@@ -149,6 +149,7 @@ cause you only need them during the integration tests.
 ----
 include::{itf-examples}/pom.xml[tag=dependencies]
 ----
+
 The dependency `com.soebes.itf.jupiter.extension:itf-assertj` contains custom assertions of {assertj}[AssertJ]
 in case you want to use {assertj}[AssertJ] as your assertion framework. This means you have to include
 `org.assertj:assertj-core` as well. If you don't want to use AssertJ as assertion framework you can omit them both.
@@ -171,6 +172,7 @@ like this:
 ----
 include::{itf-examples}/pom.xml[tag=itf-maven-plugin]
 ----
+
 //FIXME: Needed to be changed after itf-maven-plugin will run also the tests.
 The `itf-maven-plugin` copies the code of your extension/plugin into appropriate directories which are
 used during the integration tests. Further more it will handle the copying of the structure from
@@ -182,6 +184,7 @@ Finally you have to add a configuration for {maven-failsafe-plugin} like the fol
 ----
 include::{itf-examples}/pom.xml[tag=failsafe]
 ----
+
 The given properties like `maven.version` transfers the version of Maven which is used
 within the `itf-jupiter-extension` to run your integration tests and the `maven.home` transfers the
 information of where to find the current Maven installation. This is needed to start the Maven process
@@ -792,7 +795,7 @@ can simply define different options via the appropriate annotations:
 [source,java]
 ----
 @MavenJupiterExtension
-@MavenOption(MavenCLIOptions.DEBUG)
+@MavenOption(MavenCLIOptions.VERBOSE)
 class BasicIT {
 
   @MavenTest
@@ -808,7 +811,7 @@ annotations to your tests like this:
 ----
 @MavenJupiterExtension
 @MavenOption(MavenCLIOptions.ERRORS)
-@MavenOption(MavenCLIOptions.DEBUG)
+@MavenOption(MavenCLIOptions.VERBOSE)
 class BasicIT {
 
   @MavenTest
@@ -823,7 +826,7 @@ The MavenOption annotation can also be used to create a meta annotation like thi
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RUNTIME)
 @Inherited
-@MavenOption(MavenCLIOptions.DEBUG)
+@MavenOption(MavenCLIOptions.VERBOSE)
 @MavenOption(MavenCLIOptions.ERRORS)
 @MavenOption(MavenCLIOptions.FAIL_AT_END)
 public @interface OptionDebugErrorFailAtEnd {
@@ -860,7 +863,7 @@ That is possible by using a custom annotation like this one:
 @Retention(RUNTIME)
 @Inherited
 @MavenJupiterExtension
-@MavenOption(MavenCLIOptions.DEBUG)
+@MavenOption(MavenCLIOptions.VERBOSE)
 @MavenOption(MavenCLIOptions.ERRORS)
 @MavenOption(MavenCLIOptions.FAIL_AT_END)
 @MavenGoal("clean")
@@ -1116,13 +1119,13 @@ each test case (`project_001` and `proeject_002`) in this test class.
 @MavenPredefinedRepository
 class ProjectIT {
 
-  @MavenOption(MavenCLIOptions.DEBUG)
+  @MavenOption(MavenCLIOptions.VERBOSE)
   @MavenTest
   void project_001(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
 
-  @MavenOption(MavenCLIOptions.DEBUG)
+  @MavenOption(MavenCLIOptions.VERBOSE)
   @MavenTest
   void project_002(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
@@ -1161,14 +1164,14 @@ define the `@MavenPredefinedRepository` also on the test method level, which wou
 @MavenJupiterExtension
 class ProjectIT {
 
-  @MavenOption(MavenCLIOptions.DEBUG)
+  @MavenOption(MavenCLIOptions.VERBOSE)
   @MavenTest
   @MavenPredefinedRepository
   void project_001(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
 
-  @MavenOption(MavenCLIOptions.DEBUG)
+  @MavenOption(MavenCLIOptions.VERBOSE)
   @MavenTest
   @MavenPredefinedRepository
   void project_002(MavenExecutionResult result) {
@@ -1551,24 +1554,40 @@ That will not filter anything.
 
 Another example of using the assertions could look like this:
 
+=======
+[source,java]
+----
 include::{itf-examples}/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=stdout]
+----
 
 This will extract all messages with the prefix `[INFO] ` of the log and check if there is
 at least one line which contains the given content.
 
 We can check for warnings like the following:
 
+=======
+[source,java]
+----
 include::{itf-examples}/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=warning]
+----
 
 You can access directly the `stdout` and/or the `stderr` of the Maven build and do things yourself
 if you prefer to go that way. In this case you have to add another injection to the test case
 (`MavenLog mavenLog` or like this `result.getMavenLog().getStdout()`).
 
-include::{itf-examples}/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=selfmade]
+The `stderr` output can be accessed as well like this:
+
+[source,java]
+----
+include::{itf-examples}/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=error]
+----
 
 The `stderr` output can be accessed as well like this:
 
-include::{itf-examples}/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=error]
+[source,java]
+----
+include::../../../../../itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=error]
+----
 
 A full-fledged example can be found `itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java`
 within the itf project.
@@ -1710,7 +1729,6 @@ can given via `exception` configuration part as before.
 ----
 include::{itf-failure-plugin}/src/test/resources-its/com/soebes/itf/maven/plugin/failure/FailureIT/fail_with_mojo_failure_exception/pom.xml[tag=configuration]
 ----
-
 
 === Project Not at Root Level
 Sometimes you have a structure in your version control repository which does not

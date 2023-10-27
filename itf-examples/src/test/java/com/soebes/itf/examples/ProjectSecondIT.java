@@ -19,10 +19,10 @@ package com.soebes.itf.examples;
  * under the License.
  */
 
-import com.soebes.itf.jupiter.extension.MavenDebug;
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenPredefinedRepository;
 import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.extension.MavenVerbose;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
@@ -33,14 +33,14 @@ import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 @MavenJupiterExtension
 class ProjectSecondIT {
 
-  @MavenDebug
+  @MavenVerbose
   @MavenTest
   @MavenPredefinedRepository
   void project_001(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
 
-  @MavenDebug
+  @MavenVerbose
   @MavenTest
   @MavenPredefinedRepository
   void project_002(MavenExecutionResult result) {

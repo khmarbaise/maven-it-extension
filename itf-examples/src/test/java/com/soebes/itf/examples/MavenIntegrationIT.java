@@ -19,11 +19,11 @@ package com.soebes.itf.examples;
  * under the License.
  */
 
-import com.soebes.itf.jupiter.extension.MavenDebug;
 import com.soebes.itf.jupiter.extension.MavenGoal;
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenRepository;
 import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.extension.MavenVerbose;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -59,7 +59,7 @@ class MavenIntegrationIT {
   }
 
   @MavenTest
-  @MavenDebug
+  @MavenVerbose
   @MavenGoal({"clean", "verify"})
   @DisplayName("and the test case tries to check for resultion issue.")
   void first_integration_test(MavenExecutionResult result) {

@@ -176,6 +176,7 @@
             <exclude>**/.invisible-file</exclude><!-- Only used in ITs. -->
             <exclude>.repository/**</exclude><!-- Jenkins job with local Maven repository -->
             <exclude>.repo/**</exclude><!-- Jenkins job with local Maven repository -->
+	    <exclude>.mvn/**</exclude><!-- Maven Configuration Directory -->
             <exclude>.maven/spy.log</exclude><!-- Hudson Maven3 integration log -->
 	    <exclude>.mvn/*</exclude><!-- Maven Configuration -->
             <exclude>dependency-reduced-pom.xml</exclude><!-- Maven shade plugin -->

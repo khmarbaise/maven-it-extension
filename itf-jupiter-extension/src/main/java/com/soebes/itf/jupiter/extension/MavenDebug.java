@@ -40,11 +40,13 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
  * @since 0.9.0
  * @see MavenOption
  * @author Karl Heinz Marbaise
+ * @deprecated Will be removed with Release 0.14.0. Use {@link MavenVerbose} instead.
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RUNTIME)
 @Inherited
 @MavenOption(value = MavenCLIOptions.DEBUG)
 @API(status = EXPERIMENTAL, since = "0.9.0")
+@Deprecated
 public @interface MavenDebug {
 }

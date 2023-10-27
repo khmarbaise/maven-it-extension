@@ -19,9 +19,9 @@ package com.soebes.itf.examples;
  * under the License.
  */
 
-import com.soebes.itf.jupiter.extension.MavenDebug;
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.extension.MavenVerbose;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.soebes.itf.jupiter.maven.MavenLog;
 import org.junit.jupiter.api.condition.EnabledOnOs;
@@ -38,7 +38,7 @@ import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
  * @author Karl Heinz Marbaise
  */
 @MavenJupiterExtension
-@MavenDebug
+@MavenVerbose
 class LogoutputIT {
 
   @MavenTest

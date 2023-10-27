@@ -40,6 +40,7 @@
 :issue-374: https://github.com/khmarbaise/maven-it-extension/issues/374[Fixed #374]
 :issue-375: https://github.com/khmarbaise/maven-it-extension/issues/375[Fixed #375]
 :issue-376: https://github.com/khmarbaise/maven-it-extension/issues/376[Fixed #376]
+:issue-379: https://github.com/khmarbaise/maven-it-extension/issues/379[Fixed #379]
 :issue-381: https://github.com/khmarbaise/maven-it-extension/issues/381[Fixed #381]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
@@ -56,9 +57,14 @@
  * {issue-326} - Failing IT's based on Maven 3.8.7
  * {issue-329} - Upgrade to smpp 5.3.14
 
+
 *Breaking Changes*
 
- * {issue-277} - Remove Deprecated Code.
+ * {issue-277} - Remove Deprecated Code. Take a look into the release notes of <<release-0.12.0.breaking-changes, Version 0.12.0>>.
+ * If you have used `@MavenDebug` annotation you have to replace that usage with `@MavenVerbose`. You will
+   get `deprecated warnings` during the compilation.
+   * {issue-379} - Deprecated `@MavenDebug`; Replace the usage with `@MavenVerbose`.
+                   `@MavenDebug` will be removed with release 0.14.0.
 
 *Reporter of this release*
 

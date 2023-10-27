@@ -28,7 +28,7 @@ import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
 @MavenJupiterExtension
-@MavenOption(MavenCLIOptions.DEBUG)
+@MavenOption(MavenCLIOptions.VERBOSE)
 class OptionsOnClassIT {
 
   @MavenTest

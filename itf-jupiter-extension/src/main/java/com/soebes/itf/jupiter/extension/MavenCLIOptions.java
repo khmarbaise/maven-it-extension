@@ -52,6 +52,7 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
  * @see MavenCLIOptions#ALSO_MAKE_DEPENDENCIES
  * @see MavenCLIOptions#ALSO_MAKE
  * @see MavenCLIOptions#DEBUG
+ * @see MavenCLIOptions#VERBOSE
  * @see MavenCLIOptions#NO_TRANSFER_PROGRESS
  * @see MavenCLIOptions#SHOW_VERSION
  * @see MavenCLIOptions#BATCH_MODE
@@ -193,8 +194,20 @@ public final class MavenCLIOptions {
 
   /**
    * {@code --debug}
+   *
+   * @apiNote use {@link #VERBOSE} instead.
+   * @deprecated Will be removed with 0.14.0
    */
+  @Deprecated
   public static final String DEBUG = "--debug";
+
+  /**
+   * {@code -X}
+   *
+   * @since 0.13.0
+   * @implNote With Maven 4.0 the option could also being named {@code --verbose}. So this name is decided accordingly.
+   */
+  public static final String VERBOSE = "-X";
 
   /**
    * {@code --no-transfer-progress}

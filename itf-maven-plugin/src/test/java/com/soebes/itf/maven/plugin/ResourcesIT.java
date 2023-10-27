@@ -29,15 +29,15 @@ import org.junit.jupiter.api.DisplayName;
 import java.nio.file.Path;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
-import static com.soebes.itf.jupiter.extension.MavenCLIOptions.DEBUG;
 import static com.soebes.itf.jupiter.extension.MavenCLIOptions.NO_TRANSFER_PROGRESS;
+import static com.soebes.itf.jupiter.extension.MavenCLIOptions.VERBOSE;
 
 @MavenJupiterExtension
 class ResourcesIT {
 
   @MavenTest
   @MavenOption(NO_TRANSFER_PROGRESS)
-  @MavenOption(DEBUG)
+  @MavenOption(VERBOSE)
   @MavenGoal("verify")
   @DisplayName("Running basic resources to see if resources are copied.")
   void basic_resources(MavenExecutionResult result) {

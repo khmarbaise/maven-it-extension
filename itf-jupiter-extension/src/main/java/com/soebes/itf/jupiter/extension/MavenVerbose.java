@@ -1,4 +1,4 @@
-package com.soebes.itf.examples.defaults;
+package com.soebes.itf.jupiter.extension;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,9 +19,7 @@ package com.soebes.itf.examples.defaults;
  * under the License.
  */
 
-import com.soebes.itf.jupiter.extension.MavenCLIOptions;
-import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
-import com.soebes.itf.jupiter.extension.MavenOption;
+import org.apiguardian.api.API;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -29,23 +27,24 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
- * A meta annotation which defines the used default options for all
- * test classes which are annotated by this annotation instead of
- * {@code MavenJupiterExtension}.
+ * {@code @MavenVerbose} is a meta annotation for convenience purposes
+ * to make it easier to activate verbose option for a Maven build
+ * just by simply adding {@code @MavenVerbose}.
  *
- * This makes it possible to override the defaults which are defined in
- * {@code MavenITExtension} code.
+ * <p>When applied at the class level, all test methods within that class
+ * are automatically inheriting the given goal.</p>
  *
+ * @since 0.13.0
+ * @see MavenOption
  * @author Karl Heinz Marbaise
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RUNTIME)
 @Inherited
-@MavenJupiterExtension
-@MavenOption(MavenCLIOptions.VERBOSE)
-@MavenOption(MavenCLIOptions.ERRORS)
-@MavenOption(MavenCLIOptions.FAIL_AT_END)
-public @interface MavenJupiterExtensionWithDefaults {
+@MavenOption(value = MavenCLIOptions.VERBOSE)
+@API(status = EXPERIMENTAL, since = "0.13.0")
+public @interface MavenVerbose {
 }
