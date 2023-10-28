@@ -40,6 +40,7 @@
 :issue-374: https://github.com/khmarbaise/maven-it-extension/issues/374[Fixed #374]
 :issue-375: https://github.com/khmarbaise/maven-it-extension/issues/375[Fixed #375]
 :issue-376: https://github.com/khmarbaise/maven-it-extension/issues/376[Fixed #376]
+:issue-381: https://github.com/khmarbaise/maven-it-extension/issues/381[Fixed #381]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_13_0: https://github.com/khmarbaise/maven-it-extension/milestone/13
@@ -97,6 +98,6 @@
 *Build Improvements*
 
  * {issue-351} - JDK17+ Usage in Tests
- * {issue-???} - ??
+ * {issue-381} - Improved structuring of documentation.
 
 The full release notes can be found here {release_0_13_0}[Release 0.13.0].

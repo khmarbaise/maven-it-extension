@@ -34,6 +34,10 @@
 
   <description>ITF Documentation</description>
 
+  <properties>
+    <asciidoc>${project.basedir}/src/main/asciidoc</asciidoc>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>com.soebes.itf.jupiter.extension</groupId>
@@ -50,23 +54,91 @@
         <artifactId>asciidoctor-maven-plugin</artifactId>
         <executions>
           <execution>
-            <id>output-html</id>
+            <id>concept-html</id>
             <phase>prepare-package</phase>
             <goals>
               <goal>process-asciidoc</goal>
             </goals>
             <configuration>
               <backend>html</backend>
+              <sourceDirectory>${asciidoc}/concept</sourceDirectory>
             </configuration>
           </execution>
           <execution>
-            <id>output-pdf</id>
+            <id>background-html</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>process-asciidoc</goal>
+            </goals>
+            <configuration>
+              <backend>html</backend>
+              <sourceDirectory>${asciidoc}/background</sourceDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>userguide-html</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>process-asciidoc</goal>
+            </goals>
+            <configuration>
+              <backend>html</backend>
+              <sourceDirectory>${asciidoc}/usersguide</sourceDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>release-notes-html</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>process-asciidoc</goal>
+            </goals>
+            <configuration>
+              <backend>html</backend>
+              <sourceDirectory>${asciidoc}/release-notes</sourceDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>concept-pdf</id>
             <phase>prepare-package</phase>
             <goals>
               <goal>process-asciidoc</goal>
             </goals>
             <configuration>
               <backend>pdf</backend>
+              <sourceDirectory>${asciidoc}/concept</sourceDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>background-pdf</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>process-asciidoc</goal>
+            </goals>
+            <configuration>
+              <backend>pdf</backend>
+              <sourceDirectory>${asciidoc}/background</sourceDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>userguide-pdf</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>process-asciidoc</goal>
+            </goals>
+            <configuration>
+              <backend>pdf</backend>
+              <sourceDirectory>${asciidoc}/usersguide</sourceDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>release-notes-pdf</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>process-asciidoc</goal>
+            </goals>
+            <configuration>
+              <backend>pdf</backend>
+              <sourceDirectory>${asciidoc}/release-notes</sourceDirectory>
             </configuration>
           </execution>
         </executions>
@@ -81,16 +153,12 @@
             <revnumber>${project.version}</revnumber>
             <linkcss>false</linkcss>
             <toc>left</toc>
-            <imagesdir>../resources/images</imagesdir>
             <source-highlighter>coderay</source-highlighter>
           </attributes>
-          <sourceDirectory>src/main/asciidoc</sourceDirectory>
           <headerFooter>true</headerFooter>
           <preserveDirectories>true</preserveDirectories>
-          <baseDir>${project.basedir}</baseDir>
           <outputDirectory>${project.reporting.outputDirectory}</outputDirectory>
         </configuration>
-
       </plugin>
 
     </plugins>

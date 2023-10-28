@@ -23,6 +23,10 @@ Karl Heinz Marbaise; {docdate}
 :sectlinks:
 :xrefstyle: full
 :toc: left
+:includedir: _includes
+:sourcedir: ../../../../../
+:itf-examples: {sourcedir}/itf-examples
+:itf-failure-plugin: {sourcedir}/itf-failure-plugin
 //
 :junit-jupiter: https://junit.org/junit5/[JUnit Jupiter]
 :junit-jupiter-extension: https://junit.org/junit5/docs/current/user-guide/#extensions
@@ -36,7 +40,6 @@ Karl Heinz Marbaise; {docdate}
 :itf-issues: https://github.com/khmarbaise/maven-it-extension/issues
 :assertj: https://assertj.github.io/doc/
 //
-:itfexample: _basedir/../..
 
 [[general.overview]]
 == Overview
@@ -144,7 +147,7 @@ cause you only need them during the integration tests.
 
 [source,xml]
 ----
-include::../../../../../itf-examples/pom.xml[tag=dependencies]
+include::{itf-examples}/pom.xml[tag=dependencies]
 ----
 The dependency `com.soebes.itf.jupiter.extension:itf-assertj` contains custom assertions of {assertj}[AssertJ]
 in case you want to use {assertj}[AssertJ] as your assertion framework. This means you have to include
@@ -166,7 +169,7 @@ like this:
 
 [source,xml]
 ----
-include::../../../../../itf-examples/pom.xml[tag=itf-maven-plugin]
+include::{itf-examples}/pom.xml[tag=itf-maven-plugin]
 ----
 //FIXME: Needed to be changed after itf-maven-plugin will run also the tests.
 The `itf-maven-plugin` copies the code of your extension/plugin into appropriate directories which are
@@ -177,7 +180,7 @@ Finally you have to add a configuration for {maven-failsafe-plugin} like the fol
 
 [source,xml]
 ----
-include::../../../../../itf-examples/pom.xml[tag=failsafe]
+include::{itf-examples}/pom.xml[tag=failsafe]
 ----
 The given properties like `maven.version` transfers the version of Maven which is used
 within the `itf-jupiter-extension` to run your integration tests and the `maven.home` transfers the
@@ -1548,24 +1551,24 @@ That will not filter anything.
 
 Another example of using the assertions could look like this:
 
-include::../../../../../itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=stdout]
+include::{itf-examples}/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=stdout]
 
 This will extract all messages with the prefix `[INFO] ` of the log and check if there is
 at least one line which contains the given content.
 
 We can check for warnings like the following:
 
-include::../../../../../itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=warning]
+include::{itf-examples}/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=warning]
 
 You can access directly the `stdout` and/or the `stderr` of the Maven build and do things yourself
 if you prefer to go that way. In this case you have to add another injection to the test case
 (`MavenLog mavenLog` or like this `result.getMavenLog().getStdout()`).
 
-include::../../../../../itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=selfmade]
+include::{itf-examples}/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=selfmade]
 
 The `stderr` output can be accessed as well like this:
 
-include::../../../../../itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=error]
+include::{itf-examples}/src/test/java/com/soebes/itf/examples/LogoutputIT.java[tag=error]
 
 A full-fledged example can be found `itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java`
 within the itf project.
@@ -1684,7 +1687,7 @@ the build cause the plugin needs to be configured.
 
 [source,xml]
 ----
-include::../../../../../itf-failure-plugin/src/test/resources-its/com/soebes/itf/maven/plugin/failure/FailureIT/basic_configuration/pom.xml[tag=configuration]
+include::{itf-failure-plugin}/src/test/resources-its/com/soebes/itf/maven/plugin/failure/FailureIT/basic_configuration/pom.xml[tag=configuration]
 ----
 
 The plugin does not bind to any life cycle phase by default which is intentionally to require a binding
@@ -1697,7 +1700,7 @@ exception can given via `exception` configuration part.
 
 [source,xml]
 ----
-include::../../../../../itf-failure-plugin/src/test/resources-its/com/soebes/itf/maven/plugin/failure/FailureIT/fail_with_mojo_execution_exception/pom.xml[tag=configuration]
+include::{itf-failure-plugin}/src/test/resources-its/com/soebes/itf/maven/plugin/failure/FailureIT/fail_with_mojo_execution_exception/pom.xml[tag=configuration]
 ----
 
 The final example will fail the build with a `MojoFailureException` (failureException=true) and the text of the exception
@@ -1705,7 +1708,7 @@ can given via `exception` configuration part as before.
 
 [source,xml]
 ----
-include::../../../../../itf-failure-plugin/src/test/resources-its/com/soebes/itf/maven/plugin/failure/FailureIT/fail_with_mojo_failure_exception/pom.xml[tag=configuration]
+include::{itf-failure-plugin}/src/test/resources-its/com/soebes/itf/maven/plugin/failure/FailureIT/fail_with_mojo_failure_exception/pom.xml[tag=configuration]
 ----
 
 
