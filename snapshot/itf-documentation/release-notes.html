@@ -601,7 +601,15 @@ overview and detailed instructions how to use the Integration Testing Framework.
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/277">Fixed #277</a> - Remove Deprecated Code.</p>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/277">Fixed #277</a> - Remove Deprecated Code. Take a look into the release notes of <a href="#release-0.12.0.breaking-changes">Version 0.12.0</a>.</p>
+</li>
+<li>
+<p>If you have used <code>@MavenDebug</code> annotation you have to replace that usage with <code>@MavenVerbose</code>. You will
+get <code>deprecated warnings</code> during the compilation.</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/379">Fixed #379</a> - Deprecated <code>@MavenDebug</code>; Replace the usage with <code>@MavenVerbose</code>.
+<code>@MavenDebug</code> will be removed with release 0.14.0.</p>
 </li>
 </ul>
 </div>
@@ -803,7 +811,7 @@ Added some tests to prevent the issue.</p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
+<div id="release-0.12.0.breaking-changes" class="paragraph">
 <p><strong>Breaking Changes</strong></p>
 </div>
 <div class="ulist">
@@ -2478,7 +2486,7 @@ publish in <a href="https://central.sonatype.org/">Central Repository</a>.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.13.0-SNAPSHOT<br>
-Last updated 2023-10-28 13:26:07 UTC
+Last updated 2023-10-28 13:38:13 UTC
 </div>
 </div>
 </body>

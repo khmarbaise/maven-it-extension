@@ -1610,7 +1610,7 @@ can simply define different options via the appropriate annotations:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
-<span class="annotation">@MavenOption</span>(MavenCLIOptions.DEBUG)
+<span class="annotation">@MavenOption</span>(MavenCLIOptions.VERBOSE)
 <span class="type">class</span> <span class="class">BasicIT</span> {
 
   <span class="annotation">@MavenTest</span>
@@ -1629,7 +1629,7 @@ annotations to your tests like this:</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
 <span class="annotation">@MavenOption</span>(MavenCLIOptions.ERRORS)
-<span class="annotation">@MavenOption</span>(MavenCLIOptions.DEBUG)
+<span class="annotation">@MavenOption</span>(MavenCLIOptions.VERBOSE)
 <span class="type">class</span> <span class="class">BasicIT</span> {
 
   <span class="annotation">@MavenTest</span>
@@ -1646,7 +1646,7 @@ annotations to your tests like this:</p>
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Target</span>({<span class="predefined-type">ElementType</span>.METHOD, <span class="predefined-type">ElementType</span>.TYPE})
 <span class="annotation">@Retention</span>(RUNTIME)
 <span class="annotation">@Inherited</span>
-<span class="annotation">@MavenOption</span>(MavenCLIOptions.DEBUG)
+<span class="annotation">@MavenOption</span>(MavenCLIOptions.VERBOSE)
 <span class="annotation">@MavenOption</span>(MavenCLIOptions.ERRORS)
 <span class="annotation">@MavenOption</span>(MavenCLIOptions.FAIL_AT_END)
 <span class="directive">public</span> <span class="annotation">@interface</span> OptionDebugErrorFailAtEnd {
@@ -1698,7 +1698,7 @@ That is possible by using a custom annotation like this one:</p>
 <span class="annotation">@Retention</span>(RUNTIME)
 <span class="annotation">@Inherited</span>
 <span class="annotation">@MavenJupiterExtension</span>
-<span class="annotation">@MavenOption</span>(MavenCLIOptions.DEBUG)
+<span class="annotation">@MavenOption</span>(MavenCLIOptions.VERBOSE)
 <span class="annotation">@MavenOption</span>(MavenCLIOptions.ERRORS)
 <span class="annotation">@MavenOption</span>(MavenCLIOptions.FAIL_AT_END)
 <span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">clean</span><span class="delimiter">&quot;</span></span>)
@@ -1974,13 +1974,13 @@ each test case (<code>project_001</code> and <code>proeject_002</code>) in this 
 <span class="annotation">@MavenPredefinedRepository</span>
 <span class="type">class</span> <span class="class">ProjectIT</span> {
 
-  <span class="annotation">@MavenOption</span>(MavenCLIOptions.DEBUG)
+  <span class="annotation">@MavenOption</span>(MavenCLIOptions.VERBOSE)
   <span class="annotation">@MavenTest</span>
   <span class="type">void</span> project_001(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
 
-  <span class="annotation">@MavenOption</span>(MavenCLIOptions.DEBUG)
+  <span class="annotation">@MavenOption</span>(MavenCLIOptions.VERBOSE)
   <span class="annotation">@MavenTest</span>
   <span class="type">void</span> project_002(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
@@ -2023,14 +2023,14 @@ define the <code>@MavenPredefinedRepository</code> also on the test method level
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
 <span class="type">class</span> <span class="class">ProjectIT</span> {
 
-  <span class="annotation">@MavenOption</span>(MavenCLIOptions.DEBUG)
+  <span class="annotation">@MavenOption</span>(MavenCLIOptions.VERBOSE)
   <span class="annotation">@MavenTest</span>
   <span class="annotation">@MavenPredefinedRepository</span>
   <span class="type">void</span> project_001(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
 
-  <span class="annotation">@MavenOption</span>(MavenCLIOptions.DEBUG)
+  <span class="annotation">@MavenOption</span>(MavenCLIOptions.VERBOSE)
   <span class="annotation">@MavenTest</span>
   <span class="annotation">@MavenPredefinedRepository</span>
   <span class="type">void</span> project_002(MavenExecutionResult result) {
@@ -2488,12 +2488,14 @@ which implies that only a single would be allowed to have that single warning.</
 <div class="paragraph">
 <p>Another example of using the assertions could look like this:</p>
 </div>
-<div class="literalblock">
+<div class="exampleblock">
 <div class="content">
-<pre>assertThat(result)
-    .out()
-    .info()
-    .contains("Building Maven Integration Test :: it0033 1.0");</pre>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">    assertThat(result)
+        .out()
+        .info()
+        .contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">Building Maven Integration Test :: it0033 1.0</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2503,15 +2505,17 @@ at least one line which contains the given content.</p>
 <div class="paragraph">
 <p>We can check for warnings like the following:</p>
 </div>
-<div class="literalblock">
+</div>
+</div>
+<div class="listingblock">
 <div class="content">
-<pre>assertThat(result).out()
-    .warn()
-    .hasSize(1)
-    .allSatisfy(l -&gt; {
-      assertThat(l).startsWith("Using platform encoding (");
-      assertThat(l).endsWith("to copy filtered resources, i.e. build is platform dependent!");
-    });</pre>
+<pre class="CodeRay highlight"><code data-lang="java">    assertThat(result).out()
+        .warn()
+        .hasSize(<span class="integer">1</span>)
+        .allSatisfy(l -&gt; {
+          assertThat(l).startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">Using platform encoding (</span><span class="delimiter">&quot;</span></span>);
+          assertThat(l).endsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">to copy filtered resources, i.e. build is platform dependent!</span><span class="delimiter">&quot;</span></span>);
+        });</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2519,30 +2523,20 @@ at least one line which contains the given content.</p>
 if you prefer to go that way. In this case you have to add another injection to the test case
 (<code>MavenLog mavenLog</code> or like this <code>result.getMavenLog().getStdout()</code>).</p>
 </div>
-<div class="literalblock">
-<div class="content">
-<pre>assertThat(Files.lines(mavenLog.getStdout()))
-    .filteredOn(s1 -&gt; s1.startsWith("[WARNING]"))
-    .hasSize(1)
-    .allSatisfy(l -&gt; {
-      assertThat(l).startsWith("[WARNING] Using platform encoding (");
-      assertThat(l).endsWith("to copy filtered resources, i.e. build is platform dependent!");
-    });</pre>
+<div class="paragraph">
+<p>The <code>stderr</code> output can be accessed as well like this:</p>
 </div>
-</div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>// You can access the output (stderr) of the maven build directly and do things yourself.
-assertThat(Files.lines(mavenLog.getStderr()))
-    .isEmpty();</pre>
+<pre class="CodeRay highlight"><code data-lang="java">    assertThat(result).err().plain().isEmpty();</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>The <code>stderr</code> output can be accessed as well like this:</p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>assertThat(result).err().plain().isEmpty();</pre>
+<pre class="CodeRay highlight"><code data-lang="java">    assertThat(result).err().plain().isEmpty();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3254,7 +3248,7 @@ or the logging output of the Maven build you can change your integration test li
 <div id="footer">
 <div id="footer-text">
 Version 0.13.0-SNAPSHOT<br>
-Last updated 2023-10-28 13:26:07 UTC
+Last updated 2023-10-28 13:38:13 UTC
 </div>
 </div>
 </body>
