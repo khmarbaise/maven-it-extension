@@ -62,6 +62,7 @@
             <configuration>
               <backend>html</backend>
               <sourceDirectory>${asciidoc}/concept</sourceDirectory>
+              <outputDirectory>${project.reporting.outputDirectory}/concept</outputDirectory>
             </configuration>
           </execution>
           <execution>
@@ -73,6 +74,7 @@
             <configuration>
               <backend>html</backend>
               <sourceDirectory>${asciidoc}/background</sourceDirectory>
+              <outputDirectory>${project.reporting.outputDirectory}/background</outputDirectory>
             </configuration>
           </execution>
           <execution>
@@ -84,6 +86,7 @@
             <configuration>
               <backend>html</backend>
               <sourceDirectory>${asciidoc}/usersguide</sourceDirectory>
+              <outputDirectory>${project.reporting.outputDirectory}/usersguide</outputDirectory>
             </configuration>
           </execution>
           <execution>
@@ -95,6 +98,7 @@
             <configuration>
               <backend>html</backend>
               <sourceDirectory>${asciidoc}/release-notes</sourceDirectory>
+              <outputDirectory>${project.reporting.outputDirectory}/release-notes</outputDirectory>
             </configuration>
           </execution>
           <execution>
@@ -106,6 +110,7 @@
             <configuration>
               <backend>pdf</backend>
               <sourceDirectory>${asciidoc}/concept</sourceDirectory>
+              <outputDirectory>${project.reporting.outputDirectory}/concept</outputDirectory>
             </configuration>
           </execution>
           <execution>
@@ -117,6 +122,7 @@
             <configuration>
               <backend>pdf</backend>
               <sourceDirectory>${asciidoc}/background</sourceDirectory>
+              <outputDirectory>${project.reporting.outputDirectory}/background</outputDirectory>
             </configuration>
           </execution>
           <execution>
@@ -128,6 +134,8 @@
             <configuration>
               <backend>pdf</backend>
               <sourceDirectory>${asciidoc}/usersguide</sourceDirectory>
+              <outputDirectory>${project.reporting.outputDirectory}/usersguide</outputDirectory>
+              <outputDirectory>${project.reporting.outputDirectory}/usersguide</outputDirectory>
             </configuration>
           </execution>
           <execution>
@@ -139,6 +147,7 @@
             <configuration>
               <backend>pdf</backend>
               <sourceDirectory>${asciidoc}/release-notes</sourceDirectory>
+              <outputDirectory>${project.reporting.outputDirectory}/release-notes</outputDirectory>
             </configuration>
           </execution>
         </executions>
