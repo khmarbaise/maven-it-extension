@@ -144,6 +144,9 @@
                   junit.jupiter.execution.parallel.config.fixed.parallelism=6
                 </configurationParameters>
               </properties>
+              <includes>
+                <include>LogoutputIT</include>
+              </includes>
             </configuration>
             <executions>
               <execution>
