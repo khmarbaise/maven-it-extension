@@ -25,15 +25,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ '11', '17', '19' ]
     steps:
-
       - uses: actions/checkout@v3
         name: "Checking out."
 
       - uses: actions/setup-java@v3
         with:
-          java-version: 19
-          distribution: "temurin"
+          java-version: ${{ matrix.java }}
+          # Should we build with different distributions?
+          distribution: 'temurin'
           cache: maven
 
       - name: "Building with Maven."
