@@ -48,6 +48,7 @@
 :issue-388: https://github.com/khmarbaise/maven-it-extension/issues/388[Fixed #388]
 :issue-390: https://github.com/khmarbaise/maven-it-extension/issues/390[Fixed #390]
 :issue-392: https://github.com/khmarbaise/maven-it-extension/issues/392[Fixed #392]
+:issue-394: https://github.com/khmarbaise/maven-it-extension/issues/394[Fixed #394]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_13_0: https://github.com/khmarbaise/maven-it-extension/milestone/13
@@ -111,6 +112,7 @@
  * {issue-388} - Upgrade memoryfilesystem to 2.7.0
  * {issue-390} - Upgrade equalsverifier to 3.15.4
  * {issue-392} - Upgrade byte-buddy to 1.14.10
+ * {issue-394} - Upgrade mockito to 5.8.0
 
 *Build Improvements*
 
