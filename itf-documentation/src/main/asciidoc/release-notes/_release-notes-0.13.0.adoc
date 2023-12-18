@@ -45,6 +45,7 @@
 :issue-382: https://github.com/khmarbaise/maven-it-extension/issues/382[Fixed #382]
 :issue-384: https://github.com/khmarbaise/maven-it-extension/issues/384[Fixed #384]
 :issue-387: https://github.com/khmarbaise/maven-it-extension/issues/387[Fixed #387]
+:issue-388: https://github.com/khmarbaise/maven-it-extension/issues/388[Fixed #388]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_13_0: https://github.com/khmarbaise/maven-it-extension/milestone/13
@@ -105,6 +106,7 @@
  * {issue-376} - Upgrade apiguardian-api to 1.1.2
  * {issue-384} - Upgrade JUnit Jupiter to 5.10.1
  * {issue-387} - Upgrade smpp to 6.0.4
+ * {issue-388} - Upgrade memoryfilesystem to 2.7.0
 
 *Build Improvements*
 
