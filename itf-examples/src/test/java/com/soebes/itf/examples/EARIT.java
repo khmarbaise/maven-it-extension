@@ -87,7 +87,7 @@ class EARIT {
         .project()
         .hasTarget()
         .withEarFile()
-        .containsOnlyOnce("org.apache.maven-maven-core-3.0.jar", "META-INF/application.xml");
+        .containsOnlyOnce("org.apache.maven-maven-core-3.2.5.jar", "META-INF/application.xml");
 
 //    assertThat(log).info().stream().filter(s -> s.startsWith("TESTING"));
 //    assertThat(log).debug().stream().filter(s -> s.endsWith("FAILURE"));

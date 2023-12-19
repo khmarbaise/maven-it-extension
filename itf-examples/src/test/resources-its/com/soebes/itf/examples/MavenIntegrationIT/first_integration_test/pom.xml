@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.soebes.smpp</groupId>
     <artifactId>smpp</artifactId>
-    <version>5.3.7</version>
+    <version>6.0.4</version>
   </parent>
 
   <groupId>com.soebes.maven.plugins</groupId>
@@ -24,7 +24,7 @@
   </prerequisites>
 
   <properties>
-    <maven-plugin-plugin.version>3.6.4</maven-plugin-plugin.version>
+    <maven-plugin-plugin.version>3.10.2</maven-plugin-plugin.version>
     <gmaven-plugin.version>1.5</gmaven-plugin.version>
     <scmpublish.content>target/site/</scmpublish.content>
   </properties>
@@ -72,12 +72,12 @@
       <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
-        <version>3.21.0</version>
+        <version>3.24.2</version>
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>4.2.0</version>
+        <version>5.8.0</version>
       </dependency>
 
     </dependencies>
@@ -100,7 +100,7 @@
       <plugin>
         <groupId>org.codehaus.plexus</groupId>
         <artifactId>plexus-component-metadata</artifactId>
-        <version>2.1.0</version>
+        <version>2.1.1</version>
         <executions>
           <execution>
             <id>descriptors</id>
@@ -180,7 +180,7 @@
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
-      <version>3.0.22</version>
+      <version>4.0.0</version>
     </dependency>
 
     <dependency>
@@ -197,12 +197,12 @@
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-archiver</artifactId>
-      <version>3.1.1</version>
+      <version>4.9.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.shared</groupId>
       <artifactId>maven-filtering</artifactId>
-      <version>3.1.0</version>
+      <version>3.3.1</version>
     </dependency>
   </dependencies>
 

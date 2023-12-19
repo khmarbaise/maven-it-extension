@@ -50,6 +50,7 @@
 :issue-392: https://github.com/khmarbaise/maven-it-extension/issues/392[Fixed #392]
 :issue-394: https://github.com/khmarbaise/maven-it-extension/issues/394[Fixed #394]
 :issue-396: https://github.com/khmarbaise/maven-it-extension/issues/396[Fixed #396]
+:issue-399: https://github.com/khmarbaise/maven-it-extension/issues/399[Fixed #399]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_13_0: https://github.com/khmarbaise/maven-it-extension/milestone/13
@@ -115,6 +116,7 @@
  * {issue-392} - Upgrade byte-buddy to 1.14.10
  * {issue-394} - Upgrade mockito to 5.8.0
  * {issue-396} - Upgrade maven-plugin-plugin to 3.10.2
+ * {issue-399} - Upgrade all plugins used in IT to most recent versions
 
 *Build Improvements*
 

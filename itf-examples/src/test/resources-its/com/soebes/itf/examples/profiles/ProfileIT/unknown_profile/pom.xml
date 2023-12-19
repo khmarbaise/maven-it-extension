@@ -29,37 +29,35 @@
   <parent>
     <groupId>com.soebes.smpp</groupId>
     <artifactId>smpp</artifactId>
-    <version>5.3.10</version>
+    <version>6.0.4</version>
   </parent>
 
   <groupId>com.soebes.katas</groupId>
   <artifactId>kata-fraction</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>Code-Kata Fractions</name>
 
   <properties>
     <smpp.component>kata-fraction</smpp.component>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.release>8</maven.compiler.release>
   </properties>
   <dependencyManagement>
     <dependencies>
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>5.9.0</version>
+        <version>5.10.1</version>
         <scope>import</scope>
         <type>pom</type>
       </dependency>
       <dependency>
         <groupId>nl.jqno.equalsverifier</groupId>
         <artifactId>equalsverifier</artifactId>
-        <version>3.10.1</version>
+        <version>3.15.2</version>
       </dependency>
       <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
-        <version>3.23.1</version>
+        <version>3.24.2</version>
       </dependency>
       <dependency>
         <groupId>org.apiguardian</groupId>
@@ -94,16 +92,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-  <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>com.soebes.maven.plugins</groupId>
-          <artifactId>echo-maven-plugin</artifactId>
-          <version>0.5.0</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
 </project>

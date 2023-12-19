@@ -43,16 +43,16 @@ class PropertiesOnClassIT {
         .out()
         .info()
         .containsSubsequence(
-            "--- maven-enforcer-plugin:3.0.0:enforce (enforce-maven) @ kata-fraction ---",
-            "--- jacoco-maven-plugin:0.8.7:prepare-agent (default) @ kata-fraction ---",
-            "--- maven-resources-plugin:3.2.0:resources (default-resources) @ kata-fraction ---",
-            "--- maven-compiler-plugin:3.9.0:compile (default-compile) @ kata-fraction ---",
-            "--- maven-resources-plugin:3.2.0:testResources (default-testResources) @ kata-fraction ---",
-            "--- maven-compiler-plugin:3.9.0:testCompile (default-testCompile) @ kata-fraction ---",
-            "--- maven-surefire-plugin:3.0.0-M5:test (default-test) @ kata-fraction ---",
+            "--- maven-enforcer-plugin:3.4.1:enforce (enforce-maven) @ kata-fraction ---",
+            "--- jacoco-maven-plugin:0.8.11:prepare-agent (default) @ kata-fraction ---",
+            "--- maven-resources-plugin:3.3.1:resources (default-resources) @ kata-fraction ---",
+            "--- maven-compiler-plugin:3.11.0:compile (default-compile) @ kata-fraction ---",
+            "--- maven-resources-plugin:3.3.1:testResources (default-testResources) @ kata-fraction ---",
+            "--- maven-compiler-plugin:3.11.0:testCompile (default-testCompile) @ kata-fraction ---",
+            "--- maven-surefire-plugin:3.2.2:test (default-test) @ kata-fraction ---",
             "Tests are skipped.",
-            "--- maven-jar-plugin:3.2.2:jar (default-jar) @ kata-fraction ---",
-            "--- maven-site-plugin:3.10.0:attach-descriptor (attach-descriptor) @ kata-fraction ---"
+            "--- maven-jar-plugin:3.3.0:jar (default-jar) @ kata-fraction ---",
+            "--- maven-site-plugin:3.12.1:attach-descriptor (attach-descriptor) @ kata-fraction ---"
         );
     assertThat(result)
         .isSuccessful()

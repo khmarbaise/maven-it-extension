@@ -38,15 +38,15 @@ class GoalsIT {
         .out()
         .info()
         .containsSubsequence(
-            "--- maven-enforcer-plugin:3.1.0:enforce (enforce-maven) @ kata-fraction ---",
-            "--- jacoco-maven-plugin:0.8.8:prepare-agent (default) @ kata-fraction ---",
-            "--- maven-resources-plugin:3.3.0:resources (default-resources) @ kata-fraction ---",
-            "--- maven-compiler-plugin:3.10.1:compile (default-compile) @ kata-fraction ---",
-            "--- maven-resources-plugin:3.3.0:testResources (default-testResources) @ kata-fraction ---",
-            "--- maven-compiler-plugin:3.10.1:testCompile (default-testCompile) @ kata-fraction ---",
-            "--- maven-surefire-plugin:3.0.0-M7:test (default-test) @ kata-fraction ---",
-            "--- maven-jar-plugin:3.2.2:jar (default-jar) @ kata-fraction ---",
-            "--- maven-site-plugin:3.12.0:attach-descriptor (attach-descriptor) @ kata-fraction ---"
+            "--- maven-enforcer-plugin:3.4.1:enforce (enforce-maven) @ kata-fraction ---",
+            "--- jacoco-maven-plugin:0.8.11:prepare-agent (default) @ kata-fraction ---",
+            "--- maven-resources-plugin:3.3.1:resources (default-resources) @ kata-fraction ---",
+            "--- maven-compiler-plugin:3.11.0:compile (default-compile) @ kata-fraction ---",
+            "--- maven-resources-plugin:3.3.1:testResources (default-testResources) @ kata-fraction ---",
+            "--- maven-compiler-plugin:3.11.0:testCompile (default-testCompile) @ kata-fraction ---",
+            "--- maven-surefire-plugin:3.2.2:test (default-test) @ kata-fraction ---",
+            "--- maven-jar-plugin:3.3.0:jar (default-jar) @ kata-fraction ---",
+            "--- maven-site-plugin:3.12.1:attach-descriptor (attach-descriptor) @ kata-fraction ---"
         );
     assertThat(result)
         .isSuccessful()
@@ -67,7 +67,7 @@ class GoalsIT {
             "-------------------< com.soebes.katas:kata-fraction >-------------------",
             "Building kata-fraction 1.0-SNAPSHOT",
             "--------------------------------[ jar ]---------------------------------",
-            "--- maven-clean-plugin:3.2.0:clean (default-clean) @ kata-fraction ---"
+            "--- maven-clean-plugin:3.3.2:clean (default-clean) @ kata-fraction ---"
         );
     assertThat(result)
         .isSuccessful()
@@ -88,11 +88,11 @@ class GoalsIT {
             "-------------------< com.soebes.katas:kata-fraction >-------------------",
             "Building kata-fraction 1.0-SNAPSHOT",
             "--------------------------------[ jar ]---------------------------------",
-            "--- maven-clean-plugin:3.2.0:clean (default-clean) @ kata-fraction ---",
-            "--- maven-enforcer-plugin:3.1.0:enforce (enforce-maven) @ kata-fraction ---",
-            "--- jacoco-maven-plugin:0.8.8:prepare-agent (default) @ kata-fraction ---",
-            "--- maven-resources-plugin:3.3.0:resources (default-resources) @ kata-fraction ---",
-            "--- maven-compiler-plugin:3.10.1:compile (default-compile) @ kata-fraction ---"
+            "--- maven-clean-plugin:3.3.2:clean (default-clean) @ kata-fraction ---",
+            "--- maven-enforcer-plugin:3.4.1:enforce (enforce-maven) @ kata-fraction ---",
+            "--- jacoco-maven-plugin:0.8.11:prepare-agent (default) @ kata-fraction ---",
+            "--- maven-resources-plugin:3.3.1:resources (default-resources) @ kata-fraction ---",
+            "--- maven-compiler-plugin:3.11.0:compile (default-compile) @ kata-fraction ---"
         );
     assertThat(result)
         .isSuccessful()

@@ -31,7 +31,7 @@ under the License.
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-core</artifactId>
-      <version>3.0</version>
+      <version>3.2.5</version>
       <exclusions>
         <exclusion>
           <groupId>*</groupId>
@@ -46,7 +46,7 @@ under the License.
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-ear-plugin</artifactId>
-        <version>3.0.1</version>
+        <version>3.3.0</version>
       </plugin>
     </plugins>
   </build>
