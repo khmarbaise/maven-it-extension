@@ -24,6 +24,7 @@
 :issue-323: https://github.com/khmarbaise/maven-it-extension/issues/323[Fixed #323]
 :issue-326: https://github.com/khmarbaise/maven-it-extension/issues/326[Fixed #326]
 :issue-329: https://github.com/khmarbaise/maven-it-extension/issues/329[Fixed #329]
+:issue-331: https://github.com/khmarbaise/maven-it-extension/issues/331[Fixed #331]
 :issue-332: https://github.com/khmarbaise/maven-it-extension/issues/332[Fixed #332]
 :issue-334: https://github.com/khmarbaise/maven-it-extension/issues/334[Fixed #334]
 :issue-342: https://github.com/khmarbaise/maven-it-extension/issues/342[Fixed #342]
@@ -127,6 +128,7 @@
  * {issue-382} - Fixed output directory for html/pdf files.
  * {issue-398} - Make Build working with JDK21.
  * {issue-401} - Upgrade Build Minimum to Maven 3.9.6
+ * {issue-331} - Build failure with Maven 4.0.0-alpha-4
 
 
 The full release notes can be found here {release_0_13_0}[Release 0.13.0].
