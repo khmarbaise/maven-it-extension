@@ -282,7 +282,7 @@ as described or as you expected them to work.
 
 If you like to build the project from source yourself you need the following:
 
-* JDK 18+
+* JDK 21+
 * Apache Maven 3.9+
 
 The whole project can be built via:
