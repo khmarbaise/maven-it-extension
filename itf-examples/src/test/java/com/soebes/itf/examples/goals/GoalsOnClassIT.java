@@ -43,7 +43,7 @@ class GoalsOnClassIT {
             "-------------------< com.soebes.katas:kata-fraction >-------------------",
             "Building kata-fraction 1.0-SNAPSHOT",
             "--------------------------------[ jar ]---------------------------------",
-            "--- maven-clean-plugin:3.3.2:clean (default-clean) @ kata-fraction ---"
+            "--- clean:3.3.2:clean (default-clean) @ kata-fraction ---"
         );
     assertThat(result)
         .isSuccessful()

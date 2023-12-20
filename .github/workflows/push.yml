@@ -37,12 +37,16 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - name: 'Setup Java Version'
-        uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
-          java-version: 18
-          distribution: 'temurin'
+          java-version: 21
+          distribution: "temurin"
           cache: maven
+      - name: Set up Maven
+        uses: hb0730/maven-action@v1.0.1
+        with:
+          maven-version: 3.9.6
+          url: https://repo1.maven.org/maven2/org/apache/maven/apache-maven/3.9.6/apache-maven-3.9.6-bin.tar.gz
       - name: 'Build'
         run: unset JAVA_TOOL_OPTIONS;mvn -V --no-transfer-progress verify site:site site:stage
       - name: 'Deploy to gh-pages'
@@ -51,4 +55,3 @@ jobs:
           branch: gh-pages
           folder: target/staging
           target-folder: snapshot
-
