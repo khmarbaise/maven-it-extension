@@ -62,6 +62,7 @@
     -->
     <trimStackTrace>false</trimStackTrace>
     <automatic-module-name>com.soebes.itf.extension</automatic-module-name>
+    <maven-plugin-plugin.version>3.10.2</maven-plugin-plugin.version>
   </properties>
 
   <dependencyManagement>
@@ -165,7 +166,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-plugin-plugin</artifactId>
-          <version>3.10.2</version>
+          <version>${maven-plugin-plugin.version}</version>
         </plugin>
       </plugins>
     </pluginManagement>

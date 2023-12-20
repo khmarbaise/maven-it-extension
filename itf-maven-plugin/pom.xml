@@ -34,7 +34,6 @@
 
   <properties>
     <mavenMinimumVersion>3.2.5</mavenMinimumVersion>
-    <maven.plugin.tool>3.6.4</maven.plugin.tool>
   </properties>
 
   <prerequisites>
@@ -72,6 +71,13 @@
       <version>${mavenMinimumVersion}</version>
       <scope>provided</scope>
     </dependency>
+    <!-- Need to reconsider this -->
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-aether-provider</artifactId>
+      <version>${mavenMinimumVersion}</version>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
@@ -81,12 +87,6 @@
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-interpolation</artifactId>
       <version>1.26</version>
-    </dependency>
-    <!-- Need to reconsider this -->
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-aether-provider</artifactId>
-      <version>${mavenMinimumVersion}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.shared</groupId>
@@ -101,7 +101,7 @@
     <dependency>
       <groupId>org.apache.maven.plugin-tools</groupId>
       <artifactId>maven-plugin-annotations</artifactId>
-      <version>${maven.plugin.tool}</version>
+      <version>${maven-plugin-plugin.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -143,7 +143,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
-        <version>${maven.plugin.tool}</version>
         <executions>
           <execution>
             <id>default-descriptor</id>

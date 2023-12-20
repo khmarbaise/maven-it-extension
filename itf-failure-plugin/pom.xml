@@ -32,27 +32,32 @@
   <packaging>maven-plugin</packaging>
   <artifactId>itf-failure-plugin</artifactId>
 
+  <properties>
+    <mavenMinimumVersion>3.2.5</mavenMinimumVersion>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-model</artifactId>
-      <version>3.1.0</version>
+      <version>${mavenMinimumVersion}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-core</artifactId>
-      <version>3.1.0</version>
+      <version>${mavenMinimumVersion}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
+      <version>${mavenMinimumVersion}</version>
       <scope>provided</scope>
-      <version>3.1.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.plugin-tools</groupId>
       <artifactId>maven-plugin-annotations</artifactId>
-      <version>3.6.0</version>
+      <version>${maven-plugin-plugin.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -115,7 +120,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
-        <version>3.6.0</version>
         <executions>
           <execution>
             <id>default-descriptor</id>

@@ -54,6 +54,7 @@
 :issue-398: https://github.com/khmarbaise/maven-it-extension/issues/398[Fixed #398]
 :issue-399: https://github.com/khmarbaise/maven-it-extension/issues/399[Fixed #399]
 :issue-401: https://github.com/khmarbaise/maven-it-extension/issues/401[Fixed #401]
+:issue-405: https://github.com/khmarbaise/maven-it-extension/issues/405[Fixed #405]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_13_0: https://github.com/khmarbaise/maven-it-extension/milestone/13
@@ -129,6 +130,7 @@
  * {issue-398} - Make Build working with JDK21.
  * {issue-401} - Upgrade Build Minimum to Maven 3.9.6
  * {issue-331} - Build failure with Maven 4.0.0-alpha-4
+ * {issue-405} - Change the scope for deps
 
 
 The full release notes can be found here {release_0_13_0}[Release 0.13.0].
