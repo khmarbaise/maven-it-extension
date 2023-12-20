@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.soebes.itf.maven.plugin.failure"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.soebes.itf.jupiter.extension.itf_failure_plugin"},{"l":"com.soebes.itf.maven.plugin.failure"}];updateSearchResults();
