@@ -50,6 +50,7 @@
 :issue-392: https://github.com/khmarbaise/maven-it-extension/issues/392[Fixed #392]
 :issue-394: https://github.com/khmarbaise/maven-it-extension/issues/394[Fixed #394]
 :issue-396: https://github.com/khmarbaise/maven-it-extension/issues/396[Fixed #396]
+:issue-398: https://github.com/khmarbaise/maven-it-extension/issues/398[Fixed #398]
 :issue-399: https://github.com/khmarbaise/maven-it-extension/issues/399[Fixed #399]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
@@ -123,5 +124,7 @@
  * {issue-351} - JDK17+ Usage in Tests
  * {issue-381} - Improved structuring of documentation.
  * {issue-382} - Fixed output directory for html/pdf files.
+ * {issue-398} - Make Build working with JDK21.
+
 
 The full release notes can be found here {release_0_13_0}[Release 0.13.0].
