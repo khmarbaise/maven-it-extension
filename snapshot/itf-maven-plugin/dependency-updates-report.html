@@ -143,15 +143,15 @@
 <tr class="b">
 <td><img src="images/icon_warning_sml.gif" alt="" /></td>
 <td># of dependencies where the next version available is an incremental version update</td>
-<td>1</td></tr>
+<td>2</td></tr>
 <tr class="a">
 <td><img src="images/icon_warning_sml.gif" alt="" /></td>
 <td># of dependencies where the next version available is a minor version update</td>
 <td>6</td></tr>
 <tr class="b">
-<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td><img src="images/icon_warning_sml.gif" alt="" /></td>
 <td># of dependencies where the next version available is a major version update</td>
-<td>0</td></tr></tr></table><section>
+<td>1</td></tr></tr></table><section>
 <h3><a name="Dependency_Management"></a>Dependency Management</h3>
 <table border="0" class="table table-striped">
 <tr class="a">
@@ -627,6 +627,18 @@
 <tr class="a">
 <td><img src="images/icon_warning_sml.gif" alt="" /></td>
 <td>org.apache.maven</td>
+<td>maven-aether-provider</td>
+<td>3.2.5</td>
+<td>compile</td>
+<td></td>
+<td>jar</td>
+<td></td>
+<td></td>
+<td><b>3.3.9</b></td>
+<td></td></tr>
+<tr class="b">
+<td><img src="images/icon_warning_sml.gif" alt="" /></td>
+<td>org.apache.maven</td>
 <td>maven-artifact</td>
 <td>3.2.5</td>
 <td>provided</td>
@@ -636,7 +648,7 @@
 <td></td>
 <td><b>3.9.6</b></td>
 <td><b>4.0.0-alpha-9</b></td></tr>
-<tr class="b">
+<tr class="a">
 <td><img src="images/icon_warning_sml.gif" alt="" /></td>
 <td>org.apache.maven</td>
 <td>maven-core</td>
@@ -648,7 +660,7 @@
 <td></td>
 <td><b>3.9.6</b></td>
 <td><b>4.0.0-alpha-9</b></td></tr>
-<tr class="a">
+<tr class="b">
 <td><img src="images/icon_warning_sml.gif" alt="" /></td>
 <td>org.apache.maven</td>
 <td>maven-plugin-api</td>
@@ -660,7 +672,7 @@
 <td></td>
 <td><b>3.9.6</b></td>
 <td><b>4.0.0-alpha-9</b></td></tr>
-<tr class="b">
+<tr class="a">
 <td><img src="images/icon_warning_sml.gif" alt="" /></td>
 <td>org.apache.maven.plugin-tools</td>
 <td>maven-plugin-annotations</td>
@@ -671,18 +683,6 @@
 <td></td>
 <td></td>
 <td><b>3.10.2</b></td>
-<td></td></tr>
-<tr class="a">
-<td><img src="images/icon_success_sml.gif" alt="" /></td>
-<td>org.apache.maven.shared</td>
-<td>maven-artifact-transfer</td>
-<td>0.13.1</td>
-<td>compile</td>
-<td></td>
-<td>jar</td>
-<td></td>
-<td></td>
-<td></td>
 <td></td></tr>
 <tr class="b">
 <td><img src="images/icon_warning_sml.gif" alt="" /></td>
@@ -700,14 +700,38 @@
 <td><img src="images/icon_warning_sml.gif" alt="" /></td>
 <td>org.apache.maven.shared</td>
 <td>maven-shared-utils</td>
-<td>3.3.4</td>
+<td>3.4.1</td>
+<td>compile</td>
+<td></td>
+<td>jar</td>
+<td></td>
+<td><b>3.4.2</b></td>
+<td></td>
+<td></td></tr>
+<tr class="b">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td>org.codehaus.plexus</td>
+<td>plexus-interpolation</td>
+<td>1.26</td>
 <td>compile</td>
 <td></td>
 <td>jar</td>
 <td></td>
 <td></td>
-<td><b>3.4.2</b></td>
+<td></td>
 <td></td></tr>
+<tr class="a">
+<td><img src="images/icon_warning_sml.gif" alt="" /></td>
+<td>org.codehaus.plexus</td>
+<td>plexus-utils</td>
+<td>3.5.1</td>
+<td>compile</td>
+<td></td>
+<td>jar</td>
+<td></td>
+<td></td>
+<td></td>
+<td><b>4.0.0</b></td></tr>
 <tr class="b">
 <th>Status</th>
 <th>Group Id</th>
@@ -906,6 +930,32 @@
 <tr class="a">
 <th width="30%">Type</th>
 <td align="left">jar</td></tr></table></section><section>
+<h3><a name="org.apache.maven:maven-aether-provider"></a>org.apache.maven:maven-aether-provider</h3>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th width="30%">Status</th>
+<td align="left"><img src="images/icon_warning_sml.gif" alt="" />&#160;There is at least one newer minor version available. Minor updates are sometimes passive.</td></tr>
+<tr class="b">
+<th width="30%">Group Id</th>
+<td align="left">org.apache.maven</td></tr>
+<tr class="a">
+<th width="30%">Artifact Id</th>
+<td align="left">maven-aether-provider</td></tr>
+<tr class="b">
+<th width="30%">Current Version</th>
+<td align="left">3.2.5</td></tr>
+<tr class="a">
+<th width="30%">Scope</th>
+<td align="left">compile</td></tr>
+<tr class="b">
+<th width="30%">Classifier</th>
+<td align="left"></td></tr>
+<tr class="a">
+<th width="30%">Type</th>
+<td align="left">jar</td></tr>
+<tr class="b">
+<th width="30%">Newer versions</th>
+<td align="left">3.3.1<br />3.3.3<br /><b>3.3.9</b>&#160;<i>Latest Minor</i></td></tr></table></section><section>
 <h3><a name="org.apache.maven:maven-artifact"></a>org.apache.maven:maven-artifact</h3>
 <table border="0" class="table table-striped">
 <tr class="a">
@@ -1036,29 +1086,6 @@
 <tr class="b">
 <th width="30%">Newer versions</th>
 <td align="left">3.7.0<br />3.7.1<br />3.8.1<br />3.8.2<br />3.9.0<br />3.10.1<br /><b>3.10.2</b>&#160;<i>Latest Minor</i></td></tr></table></section><section>
-<h3><a name="org.apache.maven.shared:maven-artifact-transfer"></a>org.apache.maven.shared:maven-artifact-transfer</h3>
-<table border="0" class="table table-striped">
-<tr class="a">
-<th width="30%">Status</th>
-<td align="left"><img src="images/icon_success_sml.gif" alt="" />&#160;No newer versions available.</td></tr>
-<tr class="b">
-<th width="30%">Group Id</th>
-<td align="left">org.apache.maven.shared</td></tr>
-<tr class="a">
-<th width="30%">Artifact Id</th>
-<td align="left">maven-artifact-transfer</td></tr>
-<tr class="b">
-<th width="30%">Current Version</th>
-<td align="left">0.13.1</td></tr>
-<tr class="a">
-<th width="30%">Scope</th>
-<td align="left">compile</td></tr>
-<tr class="b">
-<th width="30%">Classifier</th>
-<td align="left"></td></tr>
-<tr class="a">
-<th width="30%">Type</th>
-<td align="left">jar</td></tr></table></section><section>
 <h3><a name="org.apache.maven.shared:maven-filtering"></a>org.apache.maven.shared:maven-filtering</h3>
 <table border="0" class="table table-striped">
 <tr class="a">
@@ -1089,7 +1116,7 @@
 <table border="0" class="table table-striped">
 <tr class="a">
 <th width="30%">Status</th>
-<td align="left"><img src="images/icon_warning_sml.gif" alt="" />&#160;There is at least one newer minor version available. Minor updates are sometimes passive.</td></tr>
+<td align="left"><img src="images/icon_warning_sml.gif" alt="" />&#160;There is at least one newer incremental version available. Incremental updates are typically passive.</td></tr>
 <tr class="b">
 <th width="30%">Group Id</th>
 <td align="left">org.apache.maven.shared</td></tr>
@@ -1098,7 +1125,7 @@
 <td align="left">maven-shared-utils</td></tr>
 <tr class="b">
 <th width="30%">Current Version</th>
-<td align="left">3.3.4</td></tr>
+<td align="left">3.4.1</td></tr>
 <tr class="a">
 <th width="30%">Scope</th>
 <td align="left">compile</td></tr>
@@ -1110,7 +1137,7 @@
 <td align="left">jar</td></tr>
 <tr class="b">
 <th width="30%">Newer versions</th>
-<td align="left">3.4.1<br /><b>3.4.2</b>&#160;<i>Latest Minor</i></td></tr></table></section><section>
+<td align="left"><b>3.4.2</b>&#160;<i>Latest Incremental</i></td></tr></table></section><section>
 <h3><a name="org.apiguardian:apiguardian-api"></a>org.apiguardian:apiguardian-api</h3>
 <table border="0" class="table table-striped">
 <tr class="a">
@@ -1180,6 +1207,55 @@
 <tr class="a">
 <th width="30%">Type</th>
 <td align="left">jar</td></tr></table></section><section>
+<h3><a name="org.codehaus.plexus:plexus-interpolation"></a>org.codehaus.plexus:plexus-interpolation</h3>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th width="30%">Status</th>
+<td align="left"><img src="images/icon_success_sml.gif" alt="" />&#160;No newer versions available.</td></tr>
+<tr class="b">
+<th width="30%">Group Id</th>
+<td align="left">org.codehaus.plexus</td></tr>
+<tr class="a">
+<th width="30%">Artifact Id</th>
+<td align="left">plexus-interpolation</td></tr>
+<tr class="b">
+<th width="30%">Current Version</th>
+<td align="left">1.26</td></tr>
+<tr class="a">
+<th width="30%">Scope</th>
+<td align="left">compile</td></tr>
+<tr class="b">
+<th width="30%">Classifier</th>
+<td align="left"></td></tr>
+<tr class="a">
+<th width="30%">Type</th>
+<td align="left">jar</td></tr></table></section><section>
+<h3><a name="org.codehaus.plexus:plexus-utils"></a>org.codehaus.plexus:plexus-utils</h3>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th width="30%">Status</th>
+<td align="left"><img src="images/icon_warning_sml.gif" alt="" />&#160;There is at least one newer major version available. Major updates are rarely passive.</td></tr>
+<tr class="b">
+<th width="30%">Group Id</th>
+<td align="left">org.codehaus.plexus</td></tr>
+<tr class="a">
+<th width="30%">Artifact Id</th>
+<td align="left">plexus-utils</td></tr>
+<tr class="b">
+<th width="30%">Current Version</th>
+<td align="left">3.5.1</td></tr>
+<tr class="a">
+<th width="30%">Scope</th>
+<td align="left">compile</td></tr>
+<tr class="b">
+<th width="30%">Classifier</th>
+<td align="left"></td></tr>
+<tr class="a">
+<th width="30%">Type</th>
+<td align="left">jar</td></tr>
+<tr class="b">
+<th width="30%">Newer versions</th>
+<td align="left"><b>4.0.0</b>&#160;<i>Latest Major</i></td></tr></table></section><section>
 <h3><a name="org.junit.jupiter:junit-jupiter"></a>org.junit.jupiter:junit-jupiter</h3>
 <table border="0" class="table table-striped">
 <tr class="a">
