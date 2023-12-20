@@ -113,7 +113,6 @@ public class InstallMojo extends AbstractMojo {
   private String scope;
 
   public void execute() throws MojoExecutionException, MojoFailureException {
-    getLog().info("Creating test repository");
     createTestRepository();
 
     Map<String, org.eclipse.aether.artifact.Artifact> resolvedArtifacts = new LinkedHashMap<>();
@@ -153,7 +152,6 @@ public class InstallMojo extends AbstractMojo {
 
     project.getAttachedArtifacts().stream()
         .map(RepositoryUtils::toArtifact)
-        .peek(s -> getLog().info("Artifact: g:" + s.getGroupId() + " a:" + s.getArtifactId() + " v:" + s.getVersion() + " " + s.getFile()))
         .forEach(a -> resolvedArtifacts.put(ArtifactIdUtils.toId(a), a));
   }
 
