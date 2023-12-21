@@ -61,6 +61,7 @@
 :issue-413: https://github.com/khmarbaise/maven-it-extension/issues/413[Fixed #413]
 :issue-414: https://github.com/khmarbaise/maven-it-extension/issues/414[Fixed #414]
 :issue-417: https://github.com/khmarbaise/maven-it-extension/issues/417[Fixed #417]
+:issue-421: https://github.com/khmarbaise/maven-it-extension/issues/421[Fixed #421]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_13_0: https://github.com/khmarbaise/maven-it-extension/milestone/13
@@ -87,6 +88,12 @@
    get `deprecated warnings` during the compilation.
    * {issue-379} - Deprecated `@MavenDebug`; Replace the usage with `@MavenVerbose`.
                    `@MavenDebug` will be removed with release 0.14.0.
+ * {issue-421} - Deprecated the `MavenVersion#UNKNOWN`. If you have used it somewhere you will get a deprecation WARNING
+                 during compilation. That should be replaced with `MavenVersion#ANY`. (Usually you shouldn't have used
+                 that anyway). `MavenVersion#UNKNOWN` will be removed with release 0.14.0.
+                 Also all Maven Version for `M3_0_5` up to `M3_5_4` have been marked deprecated to indicate that those
+                 versions are very old and shouldn't be used anymore; Not even in tests (You should upgrade your Maven
+                 version)
 
 *Reporter of this release*
 
