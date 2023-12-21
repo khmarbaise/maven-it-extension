@@ -58,6 +58,7 @@
 :issue-409: https://github.com/khmarbaise/maven-it-extension/issues/409[Fixed #409]
 :issue-410: https://github.com/khmarbaise/maven-it-extension/issues/410[Fixed #410]
 :issue-411: https://github.com/khmarbaise/maven-it-extension/issues/411[Fixed #411]
+:issue-413: https://github.com/khmarbaise/maven-it-extension/issues/413[Fixed #413]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_13_0: https://github.com/khmarbaise/maven-it-extension/milestone/13
@@ -137,6 +138,7 @@
  * {issue-331} - Build failure with Maven 4.0.0-alpha-4
  * {issue-405} - Change the scope for deps
  * {issue-411} - Replace Deprecated DEBUG Option.
+ * {issue-413} - Add asciidoctor-maven-plugin dependencies
 
 
 The full release notes can be found here {release_0_13_0}[Release 0.13.0].
