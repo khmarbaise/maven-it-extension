@@ -21,10 +21,15 @@ package com.soebes.itf.examples.profiles;
 
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenProfile;
+import com.soebes.itf.jupiter.extension.MavenProject;
 import com.soebes.itf.jupiter.extension.MavenTest;
+import com.soebes.itf.jupiter.extension.condition.EnabledForMavenVersion;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
+import org.junit.jupiter.api.Nested;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
+import static com.soebes.itf.jupiter.extension.MavenVersion.M3_9;
+import static com.soebes.itf.jupiter.extension.MavenVersion.M4_0;
 
 @MavenJupiterExtension
 class ProfileIT {
@@ -87,13 +92,28 @@ class ProfileIT {
         .warn().containsExactly("Message for Profile 1", "Message for Profile 2", "Message for Profile 3");
   }
 
-  @MavenTest
+  @Nested
+  @MavenProject
   @MavenProfile("unknown-profile")
-  void unknown_profile(MavenExecutionResult result) {
-    assertThat(result)
-        .isSuccessful()
-        .out()
-        .warn().contains("The requested profile \"unknown-profile\" could not be activated because it does not exist.");
+  class UnknownProfile {
+    @MavenTest
+    @EnabledForMavenVersion(value = {M3_9})
+    void unknown_profile_maven_3_9(MavenExecutionResult result) {
+      assertThat(result)
+          .isSuccessful()
+          .out()
+          .warn()
+          .contains("The requested profile \"unknown-profile\" could not be activated because it does not exist.");
+    }
+    @MavenTest
+    @EnabledForMavenVersion(value = {M4_0})
+    void unknown_profile_maven_4_0(MavenExecutionResult result) {
+      assertThat(result)
+          .isFailure()
+          .out()
+          .error()
+          .contains("The requested profiles [unknown-profile] could not be activated or deactivated because they do not exist. -> [Help 1]");
+    }
   }
 
 }
