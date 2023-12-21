@@ -67,7 +67,7 @@ class OptionsIT {
   }
 
   @MavenTest
-  @MavenOption(MavenCLIOptions.DEBUG)
+  @MavenOption(MavenCLIOptions.VERBOSE)
   void option_debug(MavenExecutionResult result) {
     assertThat(result)
         .isSuccessful()
