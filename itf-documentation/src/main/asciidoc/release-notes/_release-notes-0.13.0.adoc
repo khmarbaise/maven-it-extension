@@ -60,6 +60,7 @@
 :issue-411: https://github.com/khmarbaise/maven-it-extension/issues/411[Fixed #411]
 :issue-413: https://github.com/khmarbaise/maven-it-extension/issues/413[Fixed #413]
 :issue-414: https://github.com/khmarbaise/maven-it-extension/issues/414[Fixed #414]
+:issue-417: https://github.com/khmarbaise/maven-it-extension/issues/417[Fixed #417]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_13_0: https://github.com/khmarbaise/maven-it-extension/milestone/13
@@ -76,6 +77,7 @@
  * {issue-329} - Upgrade to smpp 5.3.14
  * {issue-409} - Remove superfluous debugging outputs
  * {issue-410} - Document build requirement
+ * {issue-417} - Maven 4.0.0 - Failing IT - maven-resources-plugin not defined
 
 
 *Breaking Changes*
