@@ -1,0 +1,71 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#
+name: PULL_REQUEST_M4
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: "Checking out."
+      - name: Cache local Maven repositories
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2/repository
+            ./**/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: "temurin"
+          cache: maven
+      - name: Set up Maven
+        uses: hb0730/maven-action@v1.0.1
+        with:
+          maven-version: 4.0.0
+          url: https://repo1.maven.org/maven2/org/apache/maven/apache-maven/4.0.0-alpha-10/apache-maven-4.0.0-alpha-10-bin.tar.gz
+      - name: Build with Maven
+        run: mvn verify -Prun-its -e -B -V --no-transfer-progress
+
+      - name: "Publish Unit Test results"
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        if: always()
+        with:
+          check_name: "Publish Unit Test Results"
+          comment_title: "Unit Test Results Maven 4.0.0"
+          junit_files: |
+            ${{ github.workspace }}/itf-assertj/target/surefire-reports/TEST-*.xml
+            ${{ github.workspace }}/itf-extension-maven/target/surefire-reports/TEST-*.xml
+            ${{ github.workspace }}/itf-jupiter-extension/target/surefire-reports/TEST-*.xml
+
+      - name: "Publish Integration Test Results"
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        if: always()
+        with:
+          check_name: "Publish Integration Test Results"
+          comment_title: "Integration Test Results Maven 4.0.0"
+          junit_files: |
+            ${{ github.workspace }}/itf-examples/target/failsafe-reports/TEST-*.xml
+            ${{ github.workspace }}/itf-failure-plugin/target/failsafe-reports/TEST-*.xml
+            ${{ github.workspace }}/itf-maven-plugin/target/failsafe-reports/TEST-*.xml
