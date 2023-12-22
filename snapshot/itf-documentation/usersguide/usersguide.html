@@ -2506,13 +2506,13 @@ at least one line which contains the given content.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">    assertThat(result).out()
-        .warn()
-        .hasSize(<span class="integer">1</span>)
-        .allSatisfy(l -&gt; {
-          assertThat(l).startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">Using platform encoding (</span><span class="delimiter">&quot;</span></span>);
-          assertThat(l).endsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">to copy filtered resources, i.e. build is platform dependent!</span><span class="delimiter">&quot;</span></span>);
-        });</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//    assertThat(result).out()</span>
+<span class="comment">//        .warn()</span>
+<span class="comment">//        .hasSize(1)</span>
+<span class="comment">//        .allSatisfy(l -&gt; {</span>
+<span class="comment">//          assertThat(l).startsWith(&quot;Using platform encoding (&quot;);</span>
+<span class="comment">//          assertThat(l).endsWith(&quot;to copy filtered resources, i.e. build is platform dependent!&quot;);</span>
+<span class="comment">//        });</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3245,7 +3245,7 @@ or the logging output of the Maven build you can change your integration test li
 <div id="footer">
 <div id="footer-text">
 Version 0.13.0-SNAPSHOT<br>
-Last updated 2023-12-22 17:15:44 UTC
+Last updated 2023-12-22 21:13:58 UTC
 </div>
 </div>
 </body>
