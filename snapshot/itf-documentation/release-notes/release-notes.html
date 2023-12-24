@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.20">
-<meta name="author" content="Karl Heinz Marbaise, 2023-12-22">
+<meta name="author" content="Karl Heinz Marbaise, 2023-12-24">
 <title>Integration Testing Framework Release Notes</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -528,7 +528,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>Integration Testing Framework Release Notes</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2023-12-22</span><br>
+<span id="author2" class="author">2023-12-24</span><br>
 <span id="revnumber">version 0.13.0-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
@@ -616,6 +616,14 @@ get <code>deprecated warnings</code> during the compilation.</p>
 <li>
 <p><a href="https://github.com/khmarbaise/maven-it-extension/issues/379">Fixed #379</a> - Deprecated <code>@MavenDebug</code>; Replace the usage with <code>@MavenVerbose</code>.
 <code>@MavenDebug</code> will be removed with release 0.14.0.</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/421">Fixed #421</a> - Deprecated the <code>MavenVersion#UNKNOWN</code>. If you have used it somewhere you will get a deprecation WARNING
+during compilation. That should be replaced with <code>MavenVersion#ANY</code>. (Usually you shouldn&#8217;t have used
+that anyway). <code>MavenVersion#UNKNOWN</code> will be removed with release 0.14.0.
+Also all Maven Version for <code>M3_0_5</code> up to <code>M3_5_4</code> have been marked deprecated to indicate that those
+versions are very old and shouldn&#8217;t be used anymore; Not even in tests (You should upgrade your Maven
+version)</p>
 </li>
 </ul>
 </div>
@@ -2540,7 +2548,7 @@ publish in <a href="https://central.sonatype.org/">Central Repository</a>.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.13.0-SNAPSHOT<br>
-Last updated 2023-12-22 21:13:58 UTC
+Last updated 2023-12-24 13:34:01 UTC
 </div>
 </div>
 </body>

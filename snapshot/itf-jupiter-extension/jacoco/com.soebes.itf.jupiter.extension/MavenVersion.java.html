@@ -21,8 +21,7 @@
 
 import org.apiguardian.api.API;
 
-import java.util.stream.Stream;
-
+import static com.soebes.itf.jupiter.extension.MavenVersionComparator.of;
 import static com.soebes.itf.jupiter.extension.Preconditions.requireNotEmpty;
 import static com.soebes.itf.jupiter.extension.Preconditions.requireNotNull;
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
@@ -30,116 +29,126 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 /**
  * @author Karl Heinz Marbaise
  */
-<span class="nc" id="L33">@API(status = EXPERIMENTAL, since = &quot;0.1.0&quot;)</span>
+<span class="nc" id="L32">@API(status = EXPERIMENTAL, since = &quot;0.1.0&quot;)</span>
 public enum MavenVersion {
-<span class="nc" id="L35">  UNKNOWN(&quot;UNKOWN&quot;), //TODO: Need to reconsider?</span>
+  /**
+   * @deprecated Please use {@link #ANY} instead. Will be removed with Release 0.14.0
+   */
+<span class="nc" id="L37">  @Deprecated</span>
+<span class="nc" id="L38">  UNKNOWN(of()),</span>
+  /**
+   * Represent any Maven version.
+   */
+<span class="nc" id="L42">  ANY(of()),</span>
   /**
    * Apache Maven Version 3.0.X
-   * Do not use those, because Maven 3.0.X is very old!
-   */
-<span class="nc" id="L40">  @Deprecated</span>
-  M3_0(&quot;3.0&quot;),
-<span class="nc" id="L42">  @Deprecated</span>
-  M3_0_5(&quot;3.0.5&quot;),
-  /**
-   * Apache Maven Version 3.2.X
+   * Do not use them anymore, because Maven 3.0.X is very old!
    */
 <span class="nc" id="L47">  @Deprecated</span>
-  M3_1(&quot;3.1&quot;),
+<span class="nc" id="L48">  M3_0(of(3,0)),</span>
 <span class="nc" id="L49">  @Deprecated</span>
-  M3_1_0(&quot;3.1.0&quot;),
-<span class="nc" id="L51">  @Deprecated</span>
-  M3_1_1(&quot;3.1.1&quot;),
+<span class="nc" id="L50">  M3_0_5(of(3,0,5)),</span>
+  /**
+   * Apache Maven Version 3.1.X
+   * Do not use them anymore, because Maven 3.0.X is very old!
+   */
+<span class="nc" id="L55">  @Deprecated</span>
+<span class="nc" id="L56">  M3_1(of(3,1)),</span>
+<span class="nc" id="L57">  @Deprecated</span>
+<span class="nc" id="L58">  M3_1_0(of(3,1,0)),</span>
+<span class="nc" id="L59">  @Deprecated</span>
+<span class="nc" id="L60">  M3_1_1(of(3,1,1)),</span>
   /**
    * Apache Maven Version 3.2.X
+   * Do not use them anymore, because Maven 3.0.X is very old!
    */
-<span class="nc" id="L56">  @Deprecated</span>
-  M3_2(&quot;3.2&quot;),
-<span class="nc" id="L58">  @Deprecated</span>
-  M3_2_1(&quot;3.2.1&quot;),
-<span class="nc" id="L60">  @Deprecated</span>
-  M3_2_2(&quot;3.2.2&quot;),
-<span class="nc" id="L62">  @Deprecated</span>
-  M3_2_3(&quot;3.2.3&quot;),
-<span class="nc" id="L64">  @Deprecated</span>
-  M3_2_5(&quot;3.2.5&quot;),
+<span class="nc" id="L65">  @Deprecated</span>
+<span class="nc" id="L66">  M3_2(of(3,2)),</span>
+<span class="nc" id="L67">  @Deprecated</span>
+<span class="nc" id="L68">  M3_2_1(of(3,2,1)),</span>
+<span class="nc" id="L69">  @Deprecated</span>
+<span class="nc" id="L70">  M3_2_2(of(3,2,2)),</span>
+<span class="nc" id="L71">  @Deprecated</span>
+<span class="nc" id="L72">  M3_2_3(of(3,2,3)),</span>
+<span class="nc" id="L73">  @Deprecated</span>
+<span class="nc" id="L74">  M3_2_5(of(3,2,5)),</span>
   /**
    * Apache Maven Version 3.3.X
+   * Do not use them anymore, because Maven 3.0.X is very old!
    */
-<span class="nc" id="L69">  @Deprecated</span>
-  M3_3(&quot;3.3&quot;),
-<span class="nc" id="L71">  @Deprecated</span>
-  M3_3_1(&quot;3.3.1&quot;),
-<span class="nc" id="L73">  @Deprecated</span>
-  M3_3_3(&quot;3.3.3&quot;),
-<span class="nc" id="L75">  @Deprecated</span>
-  M3_3_9(&quot;3.3.9&quot;),
+<span class="nc" id="L79">  @Deprecated</span>
+<span class="nc" id="L80">  M3_3(of(3,3)),</span>
+<span class="nc" id="L81">  @Deprecated</span>
+<span class="nc" id="L82">  M3_3_1(of(3,3,1)),</span>
+<span class="nc" id="L83">  @Deprecated</span>
+<span class="nc" id="L84">  M3_3_3(of(3,3,3)),</span>
+<span class="nc" id="L85">  @Deprecated</span>
+<span class="nc" id="L86">  M3_3_9(of(3,3,9)),</span>
   /**
    * Apache Maven Version 3.5.X
+   * Do not use them anymore, because Maven 3.0.X is very old!
    */
-<span class="nc" id="L80">  @Deprecated</span>
-  M3_5(&quot;3.5&quot;),
-<span class="nc" id="L82">  @Deprecated</span>
-  M3_5_0(&quot;3.5.0&quot;),
-<span class="nc" id="L84">  @Deprecated</span>
-  M3_5_2(&quot;3.5.2&quot;),
-<span class="nc" id="L86">  @Deprecated</span>
-  M3_5_3(&quot;3.5.3&quot;),
-<span class="nc" id="L88">  @Deprecated</span>
-  M3_5_4(&quot;3.5.4&quot;),
+<span class="nc" id="L91">  @Deprecated</span>
+<span class="nc" id="L92">  M3_5(of(3,5)),</span>
+<span class="nc" id="L93">  @Deprecated</span>
+<span class="nc" id="L94">  M3_5_0(of(3,5,0)),</span>
+<span class="nc" id="L95">  @Deprecated</span>
+<span class="nc" id="L96">  M3_5_2(of(3,5,2)),</span>
+<span class="nc" id="L97">  @Deprecated</span>
+<span class="nc" id="L98">  M3_5_3(of(3,5,3)),</span>
+<span class="nc" id="L99">  @Deprecated</span>
+<span class="nc" id="L100">  M3_5_4(of(3,5,4)),</span>
   /**
    * Apache Maven Version 3.6.X
+   * Do not use them anymore, because Maven 3.0.X is very old!
    */
-<span class="nc" id="L93">  M3_6(&quot;3.6&quot;),</span>
-<span class="nc" id="L94">  M3_6_0(&quot;3.6.0&quot;),</span>
-<span class="nc" id="L95">  M3_6_1(&quot;3.6.1&quot;),</span>
-<span class="nc" id="L96">  M3_6_2(&quot;3.6.2&quot;),</span>
-<span class="nc" id="L97">  M3_6_3(&quot;3.6.3&quot;),</span>
+<span class="nc" id="L105">  M3_6(of(3,6)),</span>
+<span class="nc" id="L106">  M3_6_0(of(3,6,0)),</span>
+<span class="nc" id="L107">  M3_6_1(of(3,6,1)),</span>
+<span class="nc" id="L108">  M3_6_2(of(3,6,2)),</span>
+<span class="nc" id="L109">  M3_6_3(of(3,6,3)),</span>
   /**
    * Apache Maven Version 3.8.X
    */
-<span class="nc" id="L101">  M3_8(&quot;3.8&quot;),</span>
-<span class="nc" id="L102">  M3_8_1(&quot;3.8.1&quot;),</span>
-<span class="nc" id="L103">  M3_8_2(&quot;3.8.2&quot;),</span>
-<span class="nc" id="L104">  M3_8_3(&quot;3.8.3&quot;),</span>
-<span class="nc" id="L105">  M3_8_4(&quot;3.8.4&quot;),</span>
-<span class="nc" id="L106">  M3_8_5(&quot;3.8.5&quot;),</span>
-<span class="nc" id="L107">  M3_8_6(&quot;3.8.6&quot;),</span>
-<span class="nc" id="L108">  M3_8_7(&quot;3.8.7&quot;),</span>
-<span class="nc" id="L109">  M3_8_8(&quot;3.8.8&quot;),</span>
+<span class="nc" id="L113">  M3_8(of(3,8)),</span>
+<span class="nc" id="L114">  M3_8_1(of(3,8,1)),</span>
+<span class="nc" id="L115">  M3_8_2(of(3,8,2)),</span>
+<span class="nc" id="L116">  M3_8_3(of(3,8,3)),</span>
+<span class="nc" id="L117">  M3_8_4(of(3,8,4)),</span>
+<span class="nc" id="L118">  M3_8_5(of(3,8,5)),</span>
+<span class="nc" id="L119">  M3_8_6(of(3,8,6)),</span>
+<span class="nc" id="L120">  M3_8_7(of(3,8,7)),</span>
+<span class="nc" id="L121">  M3_8_8(of(3,8,8)),</span>
   /**
    * Apache Maven Version 3.9.X
    */
-<span class="nc" id="L113">  M3_9(&quot;3.9&quot;),</span>
-<span class="nc" id="L114">  M3_9_0(&quot;3.9.0&quot;),</span>
-<span class="nc" id="L115">  M3_9_1(&quot;3.9.1&quot;),</span>
-<span class="nc" id="L116">  M3_9_2(&quot;3.9.2&quot;),</span>
-<span class="nc" id="L117">  M3_9_3(&quot;3.9.3&quot;),</span>
-<span class="nc" id="L118">  M3_9_4(&quot;3.9.4&quot;),</span>
-<span class="nc" id="L119">  M3_9_5(&quot;3.9.5&quot;),</span>
-<span class="nc" id="L120">  M3_9_6(&quot;3.9.6&quot;),</span>
+<span class="nc" id="L125">  M3_9(of(3,9)),</span>
+<span class="nc" id="L126">  M3_9_0(of(3,9,0)),</span>
+<span class="nc" id="L127">  M3_9_1(of(3,9,1)),</span>
+<span class="nc" id="L128">  M3_9_2(of(3,9,2)),</span>
+<span class="nc" id="L129">  M3_9_3(of(3,9,3)),</span>
+<span class="nc" id="L130">  M3_9_4(of(3,9,4)),</span>
+<span class="nc" id="L131">  M3_9_5(of(3,9,5)),</span>
+<span class="nc" id="L132">  M3_9_6(of(3,9,6)),</span>
   /**
    * Apache Maven Version 4.0.X
    */
-<span class="nc" id="L124">  M4_0(&quot;4.0&quot;),</span>
-<span class="nc" id="L125">  M4_0_0(&quot;4.0.0&quot;),</span>
-<span class="nc" id="L126">  M4_0_1(&quot;4.0.1&quot;);</span>
+<span class="nc" id="L136">  M4_0(of(4,0)),</span>
+<span class="nc" id="L137">  M4_0_0(of(4,0,0)),</span>
+<span class="nc" id="L138">  M4_0_1(of(4,0,1));</span>
 
-<span class="nc" id="L128">  private static final MavenVersion CURRENT_MAVEN_VERSION = determineCurrentVersion();</span>
+<span class="nc" id="L140">  private static final MavenVersionComparator CURRENT_MAVEN_VERSION = determineCurrentVersion();</span>
 
-  private final String versionString;
+  private final MavenVersionComparator versionComparator;
 
-<span class="nc" id="L132">  MavenVersion(String versionString) {</span>
-<span class="nc" id="L133">    this.versionString = versionString;</span>
-<span class="nc" id="L134">  }</span>
+<span class="nc" id="L144">  MavenVersion(MavenVersionComparator versionComparator) {</span>
+<span class="nc" id="L145">    this.versionComparator = versionComparator;</span>
+<span class="nc" id="L146">  }</span>
 
-  private static MavenVersion determineCurrentVersion() {
-<span class="nc" id="L137">    String currentVersion = requireNotNull(System.getProperty(&quot;maven.version&quot;), &quot;JVM system property 'maven.version' is empty.&quot;);</span>
-<span class="nc" id="L138">    requireNotEmpty(currentVersion, &quot;JVM system property 'maven.version' is empty. The maven version can not being detected.&quot;);</span>
-<span class="nc" id="L139">    return Stream.of(values())</span>
-<span class="nc" id="L140">        .filter(mavenVersion -&gt; mavenVersion.getVersionString().equals(currentVersion))</span>
-<span class="nc" id="L141">        .findFirst()</span>
-<span class="nc" id="L142">        .orElseGet(() -&gt; MavenVersion.UNKNOWN);</span>
+  private static MavenVersionComparator determineCurrentVersion() {
+<span class="nc" id="L149">    String currentVersion = requireNotNull(System.getProperty(&quot;maven.version&quot;), &quot;JVM system property 'maven.version' is empty.&quot;);</span>
+<span class="nc" id="L150">    requireNotEmpty(currentVersion, &quot;JVM system property 'maven.version' is empty. The maven version can not being detected.&quot;);</span>
+<span class="nc" id="L151">    return MavenVersionParser.parseVersion(currentVersion);</span>
   }
 
   /**
@@ -147,11 +156,11 @@ public enum MavenVersion {
    * executed Maven version.
    */
   public boolean isCurrentVersion() {
-<span class="nc bnc" id="L150" title="All 2 branches missed.">    return this == CURRENT_MAVEN_VERSION;</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">    return this.getVersion().compareTo(CURRENT_MAVEN_VERSION) == 0;</span>
   }
 
-  public String getVersionString() {
-<span class="nc" id="L154">    return versionString;</span>
+  public MavenVersionComparator getVersion() {
+<span class="nc" id="L163">    return versionComparator;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

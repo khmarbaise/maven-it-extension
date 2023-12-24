@@ -23,8 +23,6 @@
 'https://docs.oracle.com/javase/8/docs/api' '/home/runner/work/maven-it-extension/maven-it-extension/itf-examples/target/javadoc-bundle-options'
 -linkoffline
 'https://github.com/khmarbaise/maven-it-extension/itf-extension/itf-assertj/apidocs' '/home/runner/work/maven-it-extension/maven-it-extension/itf-assertj/target/site/testapidocs'
--linkoffline
-'https://github.com/khmarbaise/maven-it-extension/itf-extension/itf-jupiter-extension/apidocs' '/home/runner/work/maven-it-extension/maven-it-extension/itf-jupiter-extension/target/site/testapidocs'
 -tag
 "implNote:a:Implementation Note:"
 -tag
