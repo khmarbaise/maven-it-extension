@@ -46,7 +46,7 @@ class MavenProjectResultAssertTest {
   void equals_should_throw_unsupported_operation_exception() {
     assertThatExceptionOfType(UnsupportedOperationException.class)
         .isThrownBy(() -> mavenProjectResultAssert.equals(null))
-        .withMessage("'equals' is not supported...maybe you intended to call 'isEqualTo'");
+        .withMessage("'equals' is not supported... maybe you intended to call 'isEqualTo'");
   }
 
   @Test
