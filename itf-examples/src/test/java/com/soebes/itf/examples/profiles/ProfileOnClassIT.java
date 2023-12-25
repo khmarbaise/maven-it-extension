@@ -28,10 +28,11 @@ import org.junit.jupiter.api.DisplayName;
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
 @MavenJupiterExtension
-@MavenProfile({"profile-1", "profile-2", "profile-3"})
+@MavenProfile("profile-1")
 class ProfileOnClassIT {
 
   @MavenTest
+  @MavenProfile({"profile-2", "profile-3"})
   void profile_1_2_3(MavenExecutionResult result) {
     assertThat(result)
         .isSuccessful()
@@ -50,7 +51,6 @@ class ProfileOnClassIT {
 
   @MavenTest
   @DisplayName("This tests shows that the profile on the method level takes precedence over the mavenProfile on the class level.")
-  @MavenProfile("profile-1")
   void profile_1(MavenExecutionResult result) {
     assertThat(result)
         .isSuccessful()

@@ -553,6 +553,46 @@ class BasicIT {
 The `+` prefix is responsible for deactivating a given profile during the build. We strongly recommend to use `+`
 sign (instead of `!`) to prevent issues on different operating systems.
 
+So finally let use show how the inheritance behaviour of the `MavenProfile` annotation is defined.
+
+[source,java]
+----
+@MavenJupiterExtension
+@MavenProfile({"run-its"})
+class BasicIT {
+
+  @MavenTest
+  @MavenProfile("run-its-delta")
+  void first(MavenExecutionResult result) {
+    ..
+  }
+
+  @MavenTest
+  void second(MavenExecutionResult result) {
+    ..
+  }
+
+  @Nested
+  @MavenProfile("nested-class")
+  class NestedClass {
+    @MavenTest
+    @MavenProfile("nested-first")
+    void nested_first(MavenExecutionResult result) {
+      ..
+    }
+    @MavenTest
+    void nested_second(MavenExecutionResult result) {
+      ..
+    }
+  }
+}
+----
+So based on the given example the method `first` will be executed with the activation of the profiles
+`run-its` and `run-its-delta`. The method `second` will be execute with the activated profile `run-its`. The method
+`nested_first` will be executed with the activated profiles `run-its`, `nested-class`and `nested-first`. Finally the
+method `nested_second` will be executed with the activated profiles `run-its` and `nested-class`.
+
+
 [[structuring.system.properties]]
 === System Properties
 
@@ -662,6 +702,54 @@ class RunningIT
 ----
 This prevents the repetition of the property on each test case method.
 
+
+Another option is to define the `SystemProperty` annotation on different levels. For example
+class level, method level or nested levels. Let us make deep dive into the following example:
+[source,java]
+----
+..
+@MavenJupiterExtension
+@SystemProperty("skipTests")
+class RunningIT
+{
+
+    @MavenTest
+    void first( MavenExecutionResult result )
+    {
+       ...
+    }
+
+    @MavenTest
+    @SystemProperty("second")
+    void second( MavenExecutionResult result )
+    {
+       ...
+    }
+
+    @Nested
+    @SystemProperty("NestedLevel")
+    class NestedLevel {
+      @MavenTest
+      void nested_first( MavenExecutionResult result )
+      {
+         ...
+      }
+
+      @MavenTest
+      @SystemProperty("NestedLevelSecond")
+      void nested_second( MavenExecutionResult result )
+      {
+         ...
+      }
+
+    }
+}
+----
+The method `first` will be executed with the defined system property `skipTests` given by the class level `RunningIT`.
+The method `second` will be executed with the defined system properties `skipTests` and also with the `second` property.
+The method `nested_first` will be executed with the following system properties `skipTests` and `NestedLevel` while the
+method `nested_second` will be executed with the following system properties `skipTest`, `NestedLevel` and `NestedLevelSecond`.
+
 [[goals.command.line.options]]
 === Command Line Options
 In different scenarios it is needed to define command line options for example `--non-recursive` etc.
@@ -770,6 +858,43 @@ class BasicIT {
 Now let us summarize the information for goals. As long as no explicit `@MavenGoal` is defined the
 default will be used which is `package`.
 
+Furthermore we can define goal annotation `MavenGoal` on different levels which means class level, method level,
+nested classes etc. We will look at the following example:
+
+[source,java]
+----
+@MavenJupiterExtension
+@MavenGoal("clean")
+class BasicIT {
+
+  @MavenTest
+  void first(MavenExecutionResult result) {
+  }
+
+  @MavenTest
+  @MavenGoal("install")
+  void second(MavenExecutionResult result) {
+  }
+
+  @Nested
+  @MavenGoal("verify")
+  class NestedLevel {
+    @MavenTest
+    void nested_first(MavenExecutionResult result) {
+    }
+    @MavenTest
+    @MavenGoal("site:stage")
+    void nested_second(MavenExecutionResult result) {
+    }
+
+  }
+}
+----
+How would the above test cases executed related to the defined goal annotation? The method `first` will
+be executed with the goal `clean`. The method `second` will be executed with the goals `clean` and `install`.
+The method `nested_first` in the nested class `NestedLevel` will be executed with the goals `clean` and `verify`
+and finally the method `nested_second` will be exectuted with the goals `clean`, `verify` and `site:stage`.
+
 [[structuring.options]]
 ==== Options
 Now let us going back to the example:
@@ -804,7 +929,7 @@ class BasicIT {
 }
 ----
 Using the option like this means (like for goals as mentioned before) all consecutive tests will
-now run with the given option which in this case is only a single command line option `--debug`
+now run with the given option which in this case is only a single command line option `--verbose`
 and nothing else. You can add supplemental command line options just by adding supplemental
 annotations to your tests like this:
 [source,java]
@@ -851,6 +976,45 @@ default will be used which are the following:
 * `-V`
 * `--batch-mode`
 * `--errors`
+
+What will happen if you have a test class like this with nested class and the appropriate annotations:
+[source,java]
+----
+@MavenJupiterExtension
+@MavenOption(MavenCLIOptions.VERBOSE)
+class BasicIT {
+
+  @MavenTest
+  @MavenOption(MavenCLIOptions.FAIL_AT_END)
+  void first(MavenExecutionResult result) {
+     ...
+  }
+  @MavenTest
+  void second(MavenExecutionResult result) {
+     ...
+  }
+
+  @MavenOption(MavenCLIOptions.FAIL_FAST)
+  class NestedClass {
+   @MavenTest
+   void nested_first(MavenExecutionResult result) {
+     ...
+   }
+   @MavenTest
+   @MavenOption(MavenCLIOptions.FAIL_NEVER)
+   void nested_second(MavenExecutionResult result) {
+     ...
+   }
+
+  }
+}
+----
+Let us analyze that. The method `second` will be executed with the option `--verbose` while the
+method `first` will be executed with two options `--verbose` and `--fail-at-end`. Now the interesting part.
+The method `nested_first` will be executed with the options `--verbose` plus the `--fail-fast` and the method
+`nested_second` will be executed with `--verbose`, `--fail-fast` and `--fail-never`. Just ignore that the
+combination of those options does not really makes sense. It's only to show the behaviour over different inheritance
+levels. In other words the behaviour of the `MavenOption` annotation is additive (except for the root level!).
 
 [[structuring.combined.annotations]]
 ==== Combined Annotation

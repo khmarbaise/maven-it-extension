@@ -54,14 +54,17 @@ class AnnotationHelper {
    * @return The stream with the profiles.
    */
   static List<String> profiles(ExtensionContext context) {
-    List<MavenProfile> mavenProfilesOnTestMethod = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), MavenProfile.class);
-    List<String> profiles = mavenProfilesOnTestMethod.stream().flatMap(profile -> Stream.of(profile.value())).collect(Collectors.toList());
-    if (!profiles.isEmpty()) {
-      return profiles;
+    Method method = context.getTestMethod().orElseThrow(IllegalStateException::new);
+
+    List<MavenProfile> profiles = new ArrayList<>(AnnotationSupport.findRepeatableAnnotations(method, MavenProfile.class));
+
+    List<Object> allInstances = context.getTestInstances().orElseThrow(IllegalStateException::new).getAllInstances();
+    for (int i = allInstances.size()-1; i >=0; i--) {
+      List<MavenProfile> repeatableAnnotations = AnnotationSupport.findRepeatableAnnotations(allInstances.get(i).getClass(), MavenProfile.class);
+      profiles.addAll(repeatableAnnotations);
     }
 
-    List<MavenProfile> repeatableAnnotationsOnClass = AnnotationSupport.findRepeatableAnnotations(context.getTestClass(), MavenProfile.class);
-    return repeatableAnnotationsOnClass.stream().flatMap(profile -> Stream.of(profile.value())).collect(Collectors.toList());
+    return profiles.stream().flatMap(profile -> Stream.of(profile.value())).collect(Collectors.toList());
   }
   /**
    * @param context {@link ExtensionContext}
@@ -79,14 +82,16 @@ class AnnotationHelper {
    * @return The stream with the goals.
    */
   static List<String> goals(ExtensionContext context) {
-    List<MavenGoal> goalAnnotations = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), MavenGoal.class);
-    List<String> stringStream = goalAnnotations.stream().flatMap(goal -> Stream.of(goal.value())).collect(Collectors.toList());
-    if (!stringStream.isEmpty()) {
-      return stringStream;
+    Method method = context.getTestMethod().orElseThrow(IllegalStateException::new);
+
+    List<MavenGoal> goalAnnotations = new ArrayList<>(AnnotationSupport.findRepeatableAnnotations(method, MavenGoal.class));
+
+    List<Object> allInstances = context.getTestInstances().orElseThrow(IllegalStateException::new).getAllInstances();
+    for (int i = allInstances.size()-1; i >=0; i--) {
+      goalAnnotations.addAll(AnnotationSupport.findRepeatableAnnotations(allInstances.get(i).getClass(), MavenGoal.class));
     }
 
-    List<MavenGoal> repeatableAnnotationsOnClass = AnnotationSupport.findRepeatableAnnotations(context.getTestClass(), MavenGoal.class);
-    return repeatableAnnotationsOnClass.stream().flatMap(goal -> Stream.of(goal.value())).collect(Collectors.toList());
+    return goalAnnotations.stream().flatMap(goal -> Stream.of(goal.value())).collect(Collectors.toList());
   }
 
   /**
@@ -98,23 +103,22 @@ class AnnotationHelper {
   }
 
   /**
-   * Get the options from the annotation either on test method level
-   * or on test class level.
+   * Get the options from the class level, method level or nested class level.
    *
    * @param context {@link ExtensionContext}
    * @return The stream with the options.
    */
   static List<String> options(ExtensionContext context) {
-    List<MavenOption> mavenOptionsOnTestMethod = AnnotationSupport.findRepeatableAnnotations(context.getTestMethod(), MavenOption.class);
-    List<String> options = mavenOptionsOnTestMethod.stream()
-        .flatMap(option -> option.parameter().isEmpty() ? Stream.of(option.value()) : Stream.of(option.value(), option.parameter()))
-        .collect(Collectors.toList());
-    if (!options.isEmpty()) {
-      return options;
+    Method method = context.getTestMethod().orElseThrow(IllegalStateException::new);
+
+    List<MavenOption> options = new ArrayList<>(AnnotationSupport.findRepeatableAnnotations(method, MavenOption.class));
+
+    List<Object> allInstances = context.getTestInstances().orElseThrow(IllegalStateException::new).getAllInstances();
+    for (int i = allInstances.size()-1; i >=0; i--) {
+      options.addAll(AnnotationSupport.findRepeatableAnnotations(allInstances.get(i).getClass(), MavenOption.class));
     }
 
-    List<MavenOption> mavenOptionsOnTestClass = AnnotationSupport.findRepeatableAnnotations(context.getTestClass(), MavenOption.class);
-    return mavenOptionsOnTestClass.stream().flatMap(option -> option.parameter().isEmpty() ? Stream.of(option.value()) : Stream.of(option.value(), option.parameter()))
+    return options.stream().flatMap(option -> option.parameter().isEmpty() ? Stream.of(option.value()) : Stream.of(option.value(), option.parameter()))
         .collect(Collectors.toList());
   }
 

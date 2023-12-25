@@ -34,6 +34,7 @@
 :issue-351: https://github.com/khmarbaise/maven-it-extension/issues/351[Fixed #351]
 :issue-353: https://github.com/khmarbaise/maven-it-extension/issues/353[Fixed #353]
 :issue-355: https://github.com/khmarbaise/maven-it-extension/issues/355[Fixed #355]
+:issue-359: https://github.com/khmarbaise/maven-it-extension/issues/359[Fixed #359]
 :issue-360: https://github.com/khmarbaise/maven-it-extension/issues/360[Fixed #360]
 :issue-362: https://github.com/khmarbaise/maven-it-extension/issues/362[Fixed #362]
 :issue-364: https://github.com/khmarbaise/maven-it-extension/issues/364[Fixed #363]
@@ -94,11 +95,56 @@
                  Also all Maven Version for `M3_0_5` up to `M3_5_4` have been marked deprecated to indicate that those
                  versions are very old and shouldn't be used anymore; Not even in tests (You should upgrade your Maven
                  version)
+ * {issue-359} - ITF class level annotations misbehave
+ ** if you have used `@MavenProfile` annotation on class level with profiles and relied on the behaviour that
+    on a method or a nested class a definition of another `@MavenProfile` replaced all the original profiles
+    during the execution. That behaviour has been changed. Please refer to the users guide about `@MavenProfile`
+    annotation and it particular behaviour. The following example shows the behaviour in release 0.12.0:
++
+[source,java]
+----
+@MavenProfile({"profile-1", "profile-2", "profile-3"})
+class ProfileOnClassIT {
+
+  @MavenTest
+  void profile_1_2_3(MavenExecutionResult result) {
+     ...
+  }
+
+  @MavenTest
+  @MavenProfile("profile-1")
+  void profile_1(MavenExecutionResult result) {
+    ...
+  }
+}
+----
++
+The way to achieve the same with the release 0.13.0, you have to express is like this:
++
+[source,java]
+----
+@MavenProfile({"profile-1"})
+class ProfileOnClassIT {
+
+  @MavenTest
+  @MavenProfile({"profile-2", "profile-3"})
+  void profile_1_2_3(MavenExecutionResult result) {
+     ...
+  }
+
+  @MavenTest
+  void profile_1(MavenExecutionResult result) {
+    ...
+  }
+}
+----
+
+
 
 *Reporter of this release*
 
- * ???
-   ** Reported ..
+ * {issue-359}
+   ** https://github.com/cstamas[Tamas Cservenak] has reported the issue.
 
 *Contributors of this release*
 
