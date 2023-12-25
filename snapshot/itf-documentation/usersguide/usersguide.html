@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.20">
-<meta name="author" content="Karl Heinz Marbaise, 2023-12-24">
+<meta name="author" content="Karl Heinz Marbaise, 2023-12-25">
 <title>Integration Testing Framework Users Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -528,7 +528,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>Integration Testing Framework Users Guide</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2023-12-24</span><br>
+<span id="author2" class="author">2023-12-25</span><br>
 <span id="revnumber">version 0.13.0-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
@@ -1316,6 +1316,48 @@ annotation on each test case. So you can define the Maven profile on the class l
 <p>The <code>` prefix is responsible for deactivating a given profile during the build. We strongly recommend to use `</code>
 sign (instead of <code>!</code>) to prevent issues on different operating systems.</p>
 </div>
+<div class="paragraph">
+<p>So finally let use show how the inheritance behaviour of the <code>MavenProfile</code> annotation is defined.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenProfile</span>({<span class="string"><span class="delimiter">&quot;</span><span class="content">run-its</span><span class="delimiter">&quot;</span></span>})
+<span class="type">class</span> <span class="class">BasicIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenProfile</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">run-its-delta</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">void</span> first(MavenExecutionResult result) {
+    ..
+  }
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> second(MavenExecutionResult result) {
+    ..
+  }
+
+  <span class="annotation">@Nested</span>
+  <span class="annotation">@MavenProfile</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">nested-class</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">class</span> <span class="class">NestedClass</span> {
+    <span class="annotation">@MavenTest</span>
+    <span class="annotation">@MavenProfile</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">nested-first</span><span class="delimiter">&quot;</span></span>)
+    <span class="type">void</span> nested_first(MavenExecutionResult result) {
+      ..
+    }
+    <span class="annotation">@MavenTest</span>
+    <span class="type">void</span> nested_second(MavenExecutionResult result) {
+      ..
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>So based on the given example the method <code>first</code> will be executed with the activation of the profiles
+<code>run-its</code> and <code>run-its-delta</code>. The method <code>second</code> will be execute with the activated profile <code>run-its</code>. The method
+<code>nested_first</code> will be executed with the activated profiles <code>run-its</code>, <code>nested-class`and `nested-first</code>. Finally the
+method <code>nested_second</code> will be executed with the activated profiles <code>run-its</code> and <code>nested-class</code>.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="structuring.system.properties"><a class="link" href="#structuring.system.properties">6.3. System Properties</a></h3>
@@ -1437,6 +1479,57 @@ even several properties on a class level like this:</p>
 </div>
 <div class="paragraph">
 <p>This prevents the repetition of the property on each test case method.</p>
+</div>
+<div class="paragraph">
+<p>Another option is to define the <code>SystemProperty</code> annotation on different levels. For example
+class level, method level or nested levels. Let us make deep dive into the following example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">..
+<span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@SystemProperty</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">skipTests</span><span class="delimiter">&quot;</span></span>)
+<span class="type">class</span> <span class="class">RunningIT</span>
+{
+
+    <span class="annotation">@MavenTest</span>
+    <span class="type">void</span> first( MavenExecutionResult result )
+    {
+       ...
+    }
+
+    <span class="annotation">@MavenTest</span>
+    <span class="annotation">@SystemProperty</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">second</span><span class="delimiter">&quot;</span></span>)
+    <span class="type">void</span> second( MavenExecutionResult result )
+    {
+       ...
+    }
+
+    <span class="annotation">@Nested</span>
+    <span class="annotation">@SystemProperty</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">NestedLevel</span><span class="delimiter">&quot;</span></span>)
+    <span class="type">class</span> <span class="class">NestedLevel</span> {
+      <span class="annotation">@MavenTest</span>
+      <span class="type">void</span> nested_first( MavenExecutionResult result )
+      {
+         ...
+      }
+
+      <span class="annotation">@MavenTest</span>
+      <span class="annotation">@SystemProperty</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">NestedLevelSecond</span><span class="delimiter">&quot;</span></span>)
+      <span class="type">void</span> nested_second( MavenExecutionResult result )
+      {
+         ...
+      }
+
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The method <code>first</code> will be executed with the defined system property <code>skipTests</code> given by the class level <code>RunningIT</code>.
+The method <code>second</code> will be executed with the defined system properties <code>skipTests</code> and also with the <code>second</code> property.
+The method <code>nested_first</code> will be executed with the following system properties <code>skipTests</code> and <code>NestedLevel</code> while the
+method <code>nested_second</code> will be executed with the following system properties <code>skipTest</code>, <code>NestedLevel</code> and <code>NestedLevelSecond</code>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1567,6 +1660,46 @@ a single location.</p>
 <p>Now let us summarize the information for goals. As long as no explicit <code>@MavenGoal</code> is defined the
 default will be used which is <code>package</code>.</p>
 </div>
+<div class="paragraph">
+<p>Furthermore we can define goal annotation <code>MavenGoal</code> on different levels which means class level, method level,
+nested classes etc. We will look at the following example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">clean</span><span class="delimiter">&quot;</span></span>)
+<span class="type">class</span> <span class="class">BasicIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> first(MavenExecutionResult result) {
+  }
+
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">install</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">void</span> second(MavenExecutionResult result) {
+  }
+
+  <span class="annotation">@Nested</span>
+  <span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">verify</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">class</span> <span class="class">NestedLevel</span> {
+    <span class="annotation">@MavenTest</span>
+    <span class="type">void</span> nested_first(MavenExecutionResult result) {
+    }
+    <span class="annotation">@MavenTest</span>
+    <span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">site:stage</span><span class="delimiter">&quot;</span></span>)
+    <span class="type">void</span> nested_second(MavenExecutionResult result) {
+    }
+
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>How would the above test cases executed related to the defined goal annotation? The method <code>first</code> will
+be executed with the goal <code>clean</code>. The method <code>second</code> will be executed with the goals <code>clean</code> and <code>install</code>.
+The method <code>nested_first</code> in the nested class <code>NestedLevel</code> will be executed with the goals <code>clean</code> and <code>verify</code>
+and finally the method <code>nested_second</code> will be exectuted with the goals <code>clean</code>, <code>verify</code> and <code>site:stage</code>.</p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="structuring.options"><a class="link" href="#structuring.options">6.5.2. Options</a></h4>
@@ -1618,7 +1751,7 @@ can simply define different options via the appropriate annotations:</p>
 </div>
 <div class="paragraph">
 <p>Using the option like this means (like for goals as mentioned before) all consecutive tests will
-now run with the given option which in this case is only a single command line option <code>--debug</code>
+now run with the given option which in this case is only a single command line option <code>--verbose</code>
 and nothing else. You can add supplemental command line options just by adding supplemental
 annotations to your tests like this:</p>
 </div>
@@ -1681,6 +1814,49 @@ default will be used which are the following:</p>
 <p><code>--errors</code></p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>What will happen if you have a test class like this with nested class and the appropriate annotations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenOption</span>(MavenCLIOptions.VERBOSE)
+<span class="type">class</span> <span class="class">BasicIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenOption</span>(MavenCLIOptions.FAIL_AT_END)
+  <span class="type">void</span> first(MavenExecutionResult result) {
+     ...
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> second(MavenExecutionResult result) {
+     ...
+  }
+
+  <span class="annotation">@MavenOption</span>(MavenCLIOptions.FAIL_FAST)
+  <span class="type">class</span> <span class="class">NestedClass</span> {
+   <span class="annotation">@MavenTest</span>
+   <span class="type">void</span> nested_first(MavenExecutionResult result) {
+     ...
+   }
+   <span class="annotation">@MavenTest</span>
+   <span class="annotation">@MavenOption</span>(MavenCLIOptions.FAIL_NEVER)
+   <span class="type">void</span> nested_second(MavenExecutionResult result) {
+     ...
+   }
+
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Let us analyze that. The method <code>second</code> will be executed with the option <code>--verbose</code> while the
+method <code>first</code> will be executed with two options <code>--verbose</code> and <code>--fail-at-end</code>. Now the interesting part.
+The method <code>nested_first</code> will be executed with the options <code>--verbose</code> plus the <code>--fail-fast</code> and the method
+<code>nested_second</code> will be executed with <code>--verbose</code>, <code>--fail-fast</code> and <code>--fail-never</code>. Just ignore that the
+combination of those options does not really makes sense. It&#8217;s only to show the behaviour over different inheritance
+levels. In other words the behaviour of the <code>MavenOption</code> annotation is additive (except for the root level!).</p>
 </div>
 </div>
 <div class="sect3">
@@ -3245,7 +3421,7 @@ or the logging output of the Maven build you can change your integration test li
 <div id="footer">
 <div id="footer-text">
 Version 0.13.0-SNAPSHOT<br>
-Last updated 2023-12-24 13:40:43 UTC
+Last updated 2023-12-25 16:25:25 UTC
 </div>
 </div>
 </body>

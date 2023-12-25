@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.20">
-<meta name="author" content="Karl Heinz Marbaise, 2023-12-24">
+<meta name="author" content="Karl Heinz Marbaise, 2023-12-25">
 <title>Integration Testing Framework Release Notes</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -528,7 +528,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>Integration Testing Framework Release Notes</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2023-12-24</span><br>
+<span id="author2" class="author">2023-12-25</span><br>
 <span id="revnumber">version 0.13.0-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
@@ -625,6 +625,58 @@ Also all Maven Version for <code>M3_0_5</code> up to <code>M3_5_4</code> have be
 versions are very old and shouldn&#8217;t be used anymore; Not even in tests (You should upgrade your Maven
 version)</p>
 </li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/359">Fixed #359</a> - ITF class level annotations misbehave</p>
+<div class="ulist">
+<ul>
+<li>
+<p>if you have used <code>@MavenProfile</code> annotation on class level with profiles and relied on the behaviour that
+on a method or a nested class a definition of another <code>@MavenProfile</code> replaced all the original profiles
+during the execution. That behaviour has been changed. Please refer to the users guide about <code>@MavenProfile</code>
+annotation and it particular behaviour. The following example shows the behaviour in release 0.12.0:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenProfile</span>({<span class="string"><span class="delimiter">&quot;</span><span class="content">profile-1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">profile-2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">profile-3</span><span class="delimiter">&quot;</span></span>})
+<span class="type">class</span> <span class="class">ProfileOnClassIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> profile_1_2_3(MavenExecutionResult result) {
+     ...
+  }
+
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenProfile</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">profile-1</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">void</span> profile_1(MavenExecutionResult result) {
+    ...
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The way to achieve the same with the release 0.13.0, you have to express is like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenProfile</span>({<span class="string"><span class="delimiter">&quot;</span><span class="content">profile-1</span><span class="delimiter">&quot;</span></span>})
+<span class="type">class</span> <span class="class">ProfileOnClassIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenProfile</span>({<span class="string"><span class="delimiter">&quot;</span><span class="content">profile-2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">profile-3</span><span class="delimiter">&quot;</span></span>})
+  <span class="type">void</span> profile_1_2_3(MavenExecutionResult result) {
+     ...
+  }
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> profile_1(MavenExecutionResult result) {
+    ...
+  }
+}</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
 </ul>
 </div>
 <div class="paragraph">
@@ -633,11 +685,11 @@ version)</p>
 <div class="ulist">
 <ul>
 <li>
-<p>???</p>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/359">Fixed #359</a></p>
 <div class="ulist">
 <ul>
 <li>
-<p>Reported ..</p>
+<p><a href="https://github.com/cstamas">Tamas Cservenak</a> has reported the issue.</p>
 </li>
 </ul>
 </div>
@@ -2548,7 +2600,7 @@ publish in <a href="https://central.sonatype.org/">Central Repository</a>.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.13.0-SNAPSHOT<br>
-Last updated 2023-12-24 13:40:43 UTC
+Last updated 2023-12-25 16:25:25 UTC
 </div>
 </div>
 </body>
