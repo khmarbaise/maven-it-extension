@@ -64,6 +64,7 @@
 :issue-417: https://github.com/khmarbaise/maven-it-extension/issues/417[Fixed #417]
 :issue-421: https://github.com/khmarbaise/maven-it-extension/issues/421[Fixed #421]
 :issue-425: https://github.com/khmarbaise/maven-it-extension/issues/425[Fixed #425]
+:issue-429: https://github.com/khmarbaise/maven-it-extension/issues/429[Fixed #429]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_13_0: https://github.com/khmarbaise/maven-it-extension/milestone/13
@@ -186,6 +187,7 @@ class ProfileOnClassIT {
  * {issue-399} - Upgrade all plugins used in IT to most recent versions
  * {issue-425} - Upgrade equalsverifier to 3.15.5
  * {issue-427} - Upgrade byte-buddy 1.4.11
+ * {issue-429} - Upgrade maven-filtering 3.3.1
 
 *Build Improvements*
 
