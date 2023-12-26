@@ -66,6 +66,7 @@
 :issue-425: https://github.com/khmarbaise/maven-it-extension/issues/425[Fixed #425]
 :issue-431: https://github.com/khmarbaise/maven-it-extension/issues/431[Fixed #431]
 :issue-433: https://github.com/khmarbaise/maven-it-extension/issues/433[Fixed #433]
+:issue-435: https://github.com/khmarbaise/maven-it-extension/issues/435[Fixed #435]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_13_0: https://github.com/khmarbaise/maven-it-extension/milestone/13
@@ -191,6 +192,7 @@ class ProfileOnClassIT {
  * {issue-429} - Upgrade maven-filtering 3.3.1
  * {issue-431} - Upgrade maven-shared-utils 3.4.2
  * {issue-433} - Upgrade plexus-interpolation 1.27
+ * {issue-435} - Upgrade plexus-utils 4.0.3
 
 *Build Improvements*
 
