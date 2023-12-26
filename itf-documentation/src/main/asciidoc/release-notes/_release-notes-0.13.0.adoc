@@ -63,6 +63,7 @@
 :issue-414: https://github.com/khmarbaise/maven-it-extension/issues/414[Fixed #414]
 :issue-417: https://github.com/khmarbaise/maven-it-extension/issues/417[Fixed #417]
 :issue-421: https://github.com/khmarbaise/maven-it-extension/issues/421[Fixed #421]
+:issue-424: https://github.com/khmarbaise/maven-it-extension/issues/424[Fixed #424]
 :issue-425: https://github.com/khmarbaise/maven-it-extension/issues/425[Fixed #425]
 :issue-431: https://github.com/khmarbaise/maven-it-extension/issues/431[Fixed #431]
 :issue-433: https://github.com/khmarbaise/maven-it-extension/issues/433[Fixed #433]
@@ -206,6 +207,7 @@ class ProfileOnClassIT {
  * {issue-411} - Replace Deprecated DEBUG Option.
  * {issue-413} - Add asciidoctor-maven-plugin dependencies
  * {issue-414} - Testing with Maven 4.0.0-alpha-10
+ * {issue-424} - Check for WARNING about Java agent
 
 
 The full release notes can be found here {release_0_13_0}[Release 0.13.0].
