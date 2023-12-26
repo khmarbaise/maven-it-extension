@@ -69,6 +69,7 @@
 :issue-433: https://github.com/khmarbaise/maven-it-extension/issues/433[Fixed #433]
 :issue-435: https://github.com/khmarbaise/maven-it-extension/issues/435[Fixed #435]
 :issue-438: https://github.com/khmarbaise/maven-it-extension/issues/438[Fixed #438]
+:issue-441: https://github.com/khmarbaise/maven-it-extension/issues/441[Fixed #441]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_13_0: https://github.com/khmarbaise/maven-it-extension/milestone/13
@@ -195,6 +196,7 @@ class ProfileOnClassIT {
  * {issue-431} - Upgrade maven-shared-utils 3.4.2
  * {issue-433} - Upgrade plexus-interpolation 1.27
  * {issue-435} - Upgrade plexus-utils 4.0.3
+ * {issue-441} - Upgrade smpp 6.0.5
 
 *Build Improvements*
 
