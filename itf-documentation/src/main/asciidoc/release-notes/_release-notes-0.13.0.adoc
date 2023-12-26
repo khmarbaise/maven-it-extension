@@ -185,6 +185,7 @@ class ProfileOnClassIT {
  * {issue-396} - Upgrade maven-plugin-plugin to 3.10.2
  * {issue-399} - Upgrade all plugins used in IT to most recent versions
  * {issue-425} - Upgrade equalsverifier to 3.15.5
+ * {issue-427} - Upgrade byte-buddy 1.4.11
 
 *Build Improvements*
 
