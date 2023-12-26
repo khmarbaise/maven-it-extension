@@ -190,7 +190,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
-            <configuration>
+            <configuration combine.self="append">
               <forkCount>5</forkCount>
               <reuseForks>true</reuseForks>
               <systemPropertyVariables>
