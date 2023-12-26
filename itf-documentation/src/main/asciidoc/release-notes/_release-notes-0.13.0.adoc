@@ -65,6 +65,7 @@
 :issue-421: https://github.com/khmarbaise/maven-it-extension/issues/421[Fixed #421]
 :issue-425: https://github.com/khmarbaise/maven-it-extension/issues/425[Fixed #425]
 :issue-431: https://github.com/khmarbaise/maven-it-extension/issues/431[Fixed #431]
+:issue-433: https://github.com/khmarbaise/maven-it-extension/issues/433[Fixed #433]
 :issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
 
 :release_0_13_0: https://github.com/khmarbaise/maven-it-extension/milestone/13
@@ -189,6 +190,7 @@ class ProfileOnClassIT {
  * {issue-427} - Upgrade byte-buddy 1.4.11
  * {issue-429} - Upgrade maven-filtering 3.3.1
  * {issue-431} - Upgrade maven-shared-utils 3.4.2
+ * {issue-433} - Upgrade plexus-interpolation 1.27
 
 *Build Improvements*
 
