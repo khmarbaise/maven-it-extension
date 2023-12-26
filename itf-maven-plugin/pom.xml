@@ -82,6 +82,7 @@
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-xml</artifactId>
       <version>4.0.3</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
