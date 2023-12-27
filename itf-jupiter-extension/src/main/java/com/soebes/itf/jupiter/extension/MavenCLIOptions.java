@@ -193,15 +193,6 @@ public final class MavenCLIOptions {
   public static final String ALSO_MAKE = "--also-make";
 
   /**
-   * {@code --debug}
-   *
-   * @apiNote use {@link #VERBOSE} instead.
-   * @deprecated Will be removed with 0.14.0
-   */
-  @Deprecated
-  public static final String DEBUG = "--debug";
-
-  /**
    * {@code -X}
    *
    * @since 0.13.0

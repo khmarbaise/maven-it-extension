@@ -19,7 +19,9 @@
 == Pre-release 0.14.0
 
 :issue-277: https://github.com/khmarbaise/maven-it-extension/issues/277[Fixed #277]
-:issue-??: https://github.com/khmarbaise/maven-it-extension/issues/??[Fixed #??]
+:issue-379: https://github.com/khmarbaise/maven-it-extension/issues/379[Fixed #379]
+:issue-380: https://github.com/khmarbaise/maven-it-extension/issues/380[Fixed #380]
+:issue-421: https://github.com/khmarbaise/maven-it-extension/issues/421[Fixed #421]
 
 :release_0_14_0: https://github.com/khmarbaise/maven-it-extension/milestone/14
 
@@ -32,7 +34,9 @@
 
 *Breaking Changes*
 
- * {issue-???} - ?
+ * {issue-380} - Removed deprecated parts
+ ** Removed `@MavenDebug` (related to {issue-379})
+ ** Removed `MavenVersion.UNKNOWN` (related to {issue-421})
 
 *Reporter of this release*
 

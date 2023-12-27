@@ -32,11 +32,6 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 @API(status = EXPERIMENTAL, since = "0.1.0")
 public enum MavenVersion {
   /**
-   * @deprecated Please use {@link #ANY} instead. Will be removed with Release 0.14.0
-   */
-  @Deprecated
-  UNKNOWN(of()),
-  /**
    * Represent any Maven version.
    */
   ANY(of()),
