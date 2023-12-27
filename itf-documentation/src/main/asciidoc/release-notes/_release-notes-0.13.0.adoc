@@ -76,11 +76,7 @@
 
 :release_0_13_0: https://github.com/khmarbaise/maven-it-extension/milestone/13
 
-*Date of Release:* ?? 2023
-
-*Scope:*
-
- - {??} - --
+*Date of Release:* December 27, 2023
 
 *Details*
 
@@ -154,15 +150,6 @@ class ProfileOnClassIT {
 
  * {issue-359}
    ** https://github.com/cstamas[Tamas Cservenak] has reported the issue.
-
-*Contributors of this release*
-
- * ...
-   ** ..
-
-*Security Issues*
-
- * {issue-??} - ???
 
 *Dependency Upgrades*
 
