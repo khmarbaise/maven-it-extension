@@ -22,6 +22,8 @@
 :issue-379: https://github.com/khmarbaise/maven-it-extension/issues/379[Fixed #379]
 :issue-380: https://github.com/khmarbaise/maven-it-extension/issues/380[Fixed #380]
 :issue-421: https://github.com/khmarbaise/maven-it-extension/issues/421[Fixed #421]
+:issue-421: https://github.com/khmarbaise/maven-it-extension/issues/421[Fixed #421]
+:issue-444: https://github.com/khmarbaise/maven-it-extension/issues/444[Fixed #444]
 
 :release_0_14_0: https://github.com/khmarbaise/maven-it-extension/milestone/14
 
@@ -49,6 +51,10 @@
 *Build Improvements*
 
  * {issue-???} - ?
+
+*Documentation Improvements*
+
+* {issue-444} - Upgrade central link
 
 
 The full release notes can be found here {release_0_14_0}[Release 0.14.0].

@@ -355,7 +355,7 @@ mvn clean verify org.jacoco:jacoco-maven-plugin:report
 [unstable-html-usersguide]: https://img.shields.io/badge/0.14.0--SNAPSHOT-HTML--Usersguide-orange
 
 [shield-central]: https://img.shields.io/maven-central/v/com.soebes.itf.jupiter.extension/itf-jupiter-extension.svg?label=Maven%20Central
-[central-search]: https://search.maven.org/search?q=g%3Acom.soebes.itf.jupiter.extension
+[central-search]: https://central.sonatype.com/search?q=g%3Acom.soebes.itf.jupiter.extension
 [not-available-in-central]: https://img.shields.io/badge/Maven%20Central-NOT_AVAILABLE-red
 
 [conceptguide-html]: https://khmarbaise.github.io/maven-it-extension/itf-documentation/concept/Concept.html
