@@ -19,9 +19,9 @@
  * under the License.
  */
 
-import static org.apiguardian.api.API.Status.INTERNAL;
-
 import com.soebes.itf.jupiter.extension.exceptions.PathUtilException;
+import org.apiguardian.api.API;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,7 +32,8 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.apiguardian.api.API;
+
+import static org.apiguardian.api.API.Status.INTERNAL;
 
 /**
  * @author Karl Heinz Marbaise
@@ -45,77 +46,77 @@ public class PathUtils {
 
   public static Path copy(Path source, Path target) {
     try {
-<span class="fc" id="L48">      return Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);</span>
-<span class="nc" id="L49">    } catch (IOException e) {</span>
-<span class="nc" id="L50">      throw new PathUtilException(e);</span>
+<span class="fc" id="L49">      return Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);</span>
+<span class="nc" id="L50">    } catch (IOException e) {</span>
+<span class="nc" id="L51">      throw new PathUtilException(e);</span>
     }
   }
 
-<span class="fc" id="L54">  public static Consumer&lt;Path&gt; deletePath = toDelete -&gt; {</span>
+<span class="fc" id="L55">  public static Consumer&lt;Path&gt; deletePath = toDelete -&gt; {</span>
     try {
-<span class="fc" id="L56">      Files.delete(toDelete);</span>
-<span class="nc" id="L57">    } catch (IOException e) {</span>
-<span class="nc" id="L58">      throw new PathUtilException(e);</span>
-<span class="fc" id="L59">    }</span>
-<span class="fc" id="L60">  };</span>
+<span class="fc" id="L57">      Files.delete(toDelete);</span>
+<span class="nc" id="L58">    } catch (IOException e) {</span>
+<span class="nc" id="L59">      throw new PathUtilException(e);</span>
+<span class="fc" id="L60">    }</span>
+<span class="fc" id="L61">  };</span>
 
   public static Path createDirectory(Path directoryToCreate) {
     try {
-<span class="fc" id="L64">      return Files.createDirectory(directoryToCreate);</span>
-<span class="nc" id="L65">    } catch (IOException e) {</span>
-<span class="nc" id="L66">      throw new PathUtilException(e);</span>
+<span class="fc" id="L65">      return Files.createDirectory(directoryToCreate);</span>
+<span class="nc" id="L66">    } catch (IOException e) {</span>
+<span class="nc" id="L67">      throw new PathUtilException(e);</span>
     }
   }
 
   public static Stream&lt;Path&gt; list(Path toList) {
     try {
-<span class="fc" id="L72">      return Files.list(toList);</span>
-<span class="nc" id="L73">    } catch (IOException e) {</span>
-<span class="nc" id="L74">      throw new PathUtilException(e);</span>
+<span class="fc" id="L73">      return Files.list(toList);</span>
+<span class="nc" id="L74">    } catch (IOException e) {</span>
+<span class="nc" id="L75">      throw new PathUtilException(e);</span>
     }
   }
 
   public static Stream&lt;Path&gt; walk(Path toWalk) {
     try {
-<span class="fc" id="L80">      return Files.walk(toWalk);</span>
-<span class="nc" id="L81">    } catch (IOException e) {</span>
-<span class="nc" id="L82">      throw new PathUtilException(e);</span>
+<span class="fc" id="L81">      return Files.walk(toWalk);</span>
+<span class="nc" id="L82">    } catch (IOException e) {</span>
+<span class="nc" id="L83">      throw new PathUtilException(e);</span>
     }
   }
 
-<span class="fc" id="L86">  private static final Predicate&lt;Path&gt; FILE = Files::isRegularFile;</span>
+<span class="fc" id="L87">  private static final Predicate&lt;Path&gt; FILE = Files::isRegularFile;</span>
 
-<span class="fc" id="L88">  private static final Predicate&lt;Path&gt; DIRECTORY = Files::isDirectory;</span>
+<span class="fc" id="L89">  private static final Predicate&lt;Path&gt; DIRECTORY = Files::isDirectory;</span>
 
-<span class="fc" id="L90">  private static final Predicate&lt;Path&gt; FILE_OR_DIRECTORY = s -&gt; FILE.or(DIRECTORY).test(s);</span>
+<span class="fc" id="L91">  private static final Predicate&lt;Path&gt; FILE_OR_DIRECTORY = s -&gt; FILE.or(DIRECTORY).test(s);</span>
 
   public static void deleteRecursively(Path target) {
-<span class="pc bpc" id="L93" title="1 of 2 branches missed.">    if (!Files.exists(target)) {</span>
-<span class="nc" id="L94">      return;</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">    if (!Files.exists(target)) {</span>
+<span class="nc" id="L95">      return;</span>
     }
 
-<span class="fc" id="L97">    try (Stream&lt;Path&gt; walk = walk(target)) {</span>
-<span class="fc" id="L98">      List&lt;Path&gt; allElements = walk.filter(FILE_OR_DIRECTORY).collect(Collectors.toList());</span>
+<span class="fc" id="L98">    try (Stream&lt;Path&gt; walk = walk(target)) {</span>
+<span class="fc" id="L99">      List&lt;Path&gt; allElements = walk.filter(FILE_OR_DIRECTORY).collect(Collectors.toList());</span>
 
-<span class="fc" id="L100">      Collections.reverse(allElements);</span>
+<span class="fc" id="L101">      Collections.reverse(allElements);</span>
 
-<span class="fc" id="L102">      allElements.stream().filter(Files::exists).forEachOrdered(deletePath);</span>
+<span class="fc" id="L103">      allElements.stream().filter(Files::exists).forEachOrdered(deletePath);</span>
     }
-<span class="fc" id="L104">  }</span>
+<span class="fc" id="L105">  }</span>
 
   public static void copyDirectoryRecursively(Path source, Path target) {
-<span class="fc bfc" id="L107" title="All 2 branches covered.">    if (!Files.isDirectory(source)) {</span>
-<span class="fc" id="L108">      copy(source, target);</span>
-<span class="fc" id="L109">      return;</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">    if (!Files.isDirectory(source)) {</span>
+<span class="fc" id="L109">      copy(source, target);</span>
+<span class="fc" id="L110">      return;</span>
     }
 
-<span class="pc bpc" id="L112" title="1 of 2 branches missed.">    if (Files.notExists(target)) {</span>
-<span class="fc" id="L113">      createDirectory(target);</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">    if (Files.notExists(target)) {</span>
+<span class="fc" id="L114">      createDirectory(target);</span>
     }
 
-<span class="fc" id="L116">    try (Stream&lt;Path&gt; paths = list(source)) {</span>
-<span class="fc" id="L117">      paths.forEachOrdered(s -&gt; copyDirectoryRecursively(s, target.resolve(source.relativize(s))));</span>
+<span class="fc" id="L117">    try (Stream&lt;Path&gt; paths = list(source)) {</span>
+<span class="fc" id="L118">      paths.forEachOrdered(s -&gt; copyDirectoryRecursively(s, target.resolve(source.relativize(s))));</span>
     }
-<span class="fc" id="L119">  }</span>
+<span class="fc" id="L120">  }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

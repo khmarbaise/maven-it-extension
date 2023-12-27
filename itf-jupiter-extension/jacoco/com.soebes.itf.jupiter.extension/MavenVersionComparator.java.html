@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MavenVersionComparator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">itf-jupiter-extension</a> &gt; <a href="index.source.html" class="el_package">com.soebes.itf.jupiter.extension</a> &gt; <span class="el_source">MavenVersionComparator.java</span></div><h1>MavenVersionComparator.java</h1><pre class="source lang-java linenums">package com.soebes.itf.jupiter.extension;
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import org.apiguardian.api.API;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
+import static org.apiguardian.api.API.Status.INTERNAL;
+
+/**
+ * @author Karl Heinz Marbaise
+ */
+@API(status = INTERNAL, since = &quot;0.13.0&quot;)
+public final class MavenVersionComparator implements Comparable&lt;MavenVersionComparator&gt; {
+  private static final int NOT_DEFINED = -1;
+  private static final String NOT_DEFINE_QUALIFIER = &quot;&quot;;
+  private static final String NOT_DEFINED_STRING = &quot;ND&quot;;
+  private final int major;
+  private final int minor;
+  private final int patch;
+  private final String qualifier;
+  private final int qualifierNumber;
+
+<span class="fc" id="L44">  private MavenVersionComparator(int major, int minor, int patch, String qualifier, int qualifierNumber) {</span>
+<span class="fc" id="L45">    this.major = major;</span>
+<span class="fc" id="L46">    this.minor = minor;</span>
+<span class="fc" id="L47">    this.patch = patch;</span>
+<span class="fc" id="L48">    this.qualifier = Objects.requireNonNull(qualifier, &quot;qualifier is not allowed to be null.&quot;);</span>
+<span class="fc" id="L49">    this.qualifierNumber = qualifierNumber;</span>
+<span class="fc" id="L50">  }</span>
+
+  /**
+   * Define a {@link MavenVersionComparator} which identifies any version to be equal to it.
+   * @return {@link MavenVersionComparator}.
+   */
+  public static MavenVersionComparator of() {
+<span class="fc" id="L57">    return MavenVersionComparator.of(NOT_DEFINED);</span>
+  }
+
+  /**
+   * Define a {@link MavenVersionComparator} which identifies only the major version.
+   * Example: {@code 3}. That means in consequence that the following version will
+   * be seen as equal:
+   * &lt;ul&gt;
+   *   &lt;li&gt;3 == 3.6.0 &lt;/li&gt;
+   *   &lt;li&gt;3 == 3.1.1 &lt;/li&gt;
+   *   &lt;li&gt;3 == 3.1.1-alpha-1 &lt;/li&gt;
+   * &lt;/ul&gt;
+   * That means you are only interested in the major version.
+   *
+   * @param major The major version.
+   * @return {@link MavenVersionComparator}.
+   */
+  public static MavenVersionComparator of(int major) {
+<span class="fc" id="L75">    return MavenVersionComparator.of(major, NOT_DEFINED);</span>
+  }
+
+  /**
+   * Define a {@link MavenVersionComparator} which identifies only the major and minor version.
+   * Example: {@code 3.6}. That means in consequence that the following version will
+   * be seen as equal:
+   * &lt;ul&gt;
+   *   &lt;li&gt;3.6 == 3.6.0 &lt;/li&gt;
+   *   &lt;li&gt;3.6 == 3.6.15 &lt;/li&gt;
+   *   &lt;li&gt;3.6 == 3.6.15-alpha-2 &lt;/li&gt;
+   * &lt;/ul&gt;
+   * That means you are only interested in the major and minor version.
+   * @param major The major version.
+   * @param minor The minor version.
+   * @return {@link MavenVersionComparator}.
+   */
+  public static MavenVersionComparator of(int major, int minor) {
+<span class="fc" id="L93">    return MavenVersionComparator.of(major, minor, NOT_DEFINED);</span>
+  }
+
+  /**
+   * Define a {@link MavenVersionComparator} which identifies only the major, minor and patch version.
+   * Example: {@code 3.6.1}.
+   * @param major The major version.
+   * @param minor The minor version.
+   * @param patch The patch version.
+   * @return {@link MavenVersionComparator}.
+   */
+  public static MavenVersionComparator of(int major, int minor, int patch) {
+<span class="fc" id="L105">    return MavenVersionComparator.of(major, minor, patch, NOT_DEFINE_QUALIFIER, NOT_DEFINED);</span>
+  }
+
+  /**
+   * Define a {@link MavenVersionComparator} which identifies only the major, minor, patch, qualifier and qualifierNumber.
+   * Example: {@code 3.6.1-alpha-1}.
+   *
+   * @param major The major version.
+   * @param minor The minor version.
+   * @param patch The patch version.
+   * @param qualifier The qualifier version.
+   * @param qualifierNumber The qualifierNumber version.
+   * @return {@link MavenVersionComparator}.
+   */
+  public static MavenVersionComparator of(int major, int minor, int patch, String qualifier, int qualifierNumber) {
+<span class="fc" id="L120">    return new MavenVersionComparator(major, minor, patch, qualifier, qualifierNumber);</span>
+  }
+
+  public int major() {
+<span class="fc" id="L124">    return major;</span>
+  }
+
+  public int minor() {
+<span class="fc" id="L128">    return minor;</span>
+  }
+
+  public int patch() {
+<span class="fc" id="L132">    return patch;</span>
+  }
+
+  public String qualifier() {
+<span class="fc" id="L136">    return qualifier;</span>
+  }
+
+  public int qualifierNumber() {
+<span class="fc" id="L140">    return qualifierNumber;</span>
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+<span class="pc bpc" id="L145" title="1 of 2 branches missed.">    if (obj == this) return true;</span>
+<span class="pc bpc" id="L146" title="2 of 4 branches missed.">    if (obj == null || obj.getClass() != this.getClass()) return false;</span>
+<span class="fc" id="L147">    MavenVersionComparator that = (MavenVersionComparator) obj;</span>
+<span class="pc bpc" id="L148" title="3 of 6 branches missed.">    return this.major == that.major &amp;&amp;</span>
+           this.minor == that.minor &amp;&amp;
+           this.patch == that.patch &amp;&amp;
+<span class="pc bpc" id="L151" title="2 of 4 branches missed.">           Objects.equals(this.qualifier, that.qualifier) &amp;&amp;</span>
+           this.qualifierNumber == that.qualifierNumber;
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L157">    return Objects.hash(major, minor, patch, qualifier, qualifierNumber);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="fc bfc" id="L162" title="All 2 branches covered.">    String q = this.qualifier.isEmpty() ? &quot;&quot; : &quot;-&quot; + this.qualifier + &quot;-&quot; + qualifierNumber;</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">    String majorStr = this.major == NOT_DEFINED ? NOT_DEFINED_STRING : Integer.toString(this.major);</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">    String minorStr = this.minor == NOT_DEFINED ? NOT_DEFINED_STRING : Integer.toString(this.minor);</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">    String patchStrg = this.patch == NOT_DEFINED ? NOT_DEFINED_STRING : Integer.toString(this.patch);</span>
+<span class="fc" id="L166">    return &quot;{&quot; + majorStr + &quot;.&quot; + minorStr + &quot;.&quot; + patchStrg + q + &quot;}&quot;;</span>
+  }
+
+  /**
+   * This defines the order for qualifiers:
+   * &lt;ol&gt;
+   *   &lt;li&gt;alpha&lt;/li&gt;
+   *   &lt;li&gt;beta&lt;/li&gt;
+   *   &lt;li&gt;rc&lt;/li&gt;
+   * &lt;/ol&gt;
+   * That means based on the time line, {@code beta} comes before {@code rc} while {@code alpha} comes before {@code beta}.
+   */
+<span class="fc" id="L178">  private static final List&lt;String&gt; QUALIFIER_LIST = Arrays.asList(</span>
+      &quot;alpha&quot;,
+      &quot;beta&quot;,
+      &quot;rc&quot;
+  );
+
+  @Override
+  public int compareTo(MavenVersionComparator rhs) {
+<span class="pc bpc" id="L186" title="1 of 4 branches missed.">    if (this.major() == NOT_DEFINED || rhs.major() == NOT_DEFINED) {</span>
+<span class="fc" id="L187">      return 0;</span>
+    }
+
+<span class="fc" id="L190">    int majorComparison = Integer.compare(this.major(), rhs.major());</span>
+<span class="fc bfc" id="L191" title="All 2 branches covered.">    if (majorComparison != 0) {</span>
+<span class="fc" id="L192">      return majorComparison;</span>
+    }
+
+<span class="pc bpc" id="L195" title="1 of 4 branches missed.">    if (this.minor() == NOT_DEFINED || rhs.minor() == NOT_DEFINED) {</span>
+<span class="fc" id="L196">      return 0;</span>
+    }
+
+<span class="fc" id="L199">    int minorComparison = Integer.compare(this.minor(), rhs.minor());</span>
+<span class="fc bfc" id="L200" title="All 2 branches covered.">    if (minorComparison != 0) {</span>
+<span class="fc" id="L201">      return minorComparison;</span>
+    }
+
+<span class="pc bpc" id="L204" title="1 of 4 branches missed.">    if (this.patch() == NOT_DEFINED || rhs.patch() == NOT_DEFINED) {</span>
+<span class="fc" id="L205">      return 0;</span>
+    }
+
+<span class="fc" id="L208">    int patchComparison = Integer.compare(this.patch(), rhs.patch());</span>
+<span class="fc bfc" id="L209" title="All 2 branches covered.">    if (patchComparison != 0) {</span>
+<span class="fc" id="L210">      return patchComparison;</span>
+    }
+
+<span class="fc" id="L213">    boolean lhsContained = QUALIFIER_LIST.contains(this.qualifier());</span>
+<span class="fc" id="L214">    boolean rhsContained = QUALIFIER_LIST.contains(rhs.qualifier());</span>
+<span class="pc bpc" id="L215" title="1 of 4 branches missed.">    if (lhsContained &amp;&amp; rhsContained) {</span>
+<span class="fc" id="L216">      int qualifierComparison = Integer.compare(QUALIFIER_LIST.indexOf(this.qualifier()), QUALIFIER_LIST.indexOf(rhs.qualifier()));</span>
+<span class="fc bfc" id="L217" title="All 2 branches covered.">      if (qualifierComparison != 0) {</span>
+<span class="fc" id="L218">        return qualifierComparison;</span>
+      }
+<span class="fc" id="L220">      return Integer.compare(this.qualifierNumber(), rhs.qualifierNumber());</span>
+    } else {
+<span class="pc bpc" id="L222" title="1 of 4 branches missed.">      return lhsContained ? -1 : rhsContained ? +1 : Boolean.compare(this.qualifier().isEmpty(), rhs.qualifier().isEmpty());</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

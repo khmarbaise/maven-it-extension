@@ -24,13 +24,11 @@ import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.apiguardian.api.API;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static org.apiguardian.api.API.Status.DEPRECATED;
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
@@ -48,26 +46,11 @@ public final class ProjectHelper {
    * @return The {@link Model}
    */
   public static Model readProject(InputStream inputStream) {
-<span class="fc" id="L51">    MavenXpp3Reader mavenXpp3Reader = new MavenXpp3Reader();</span>
+<span class="fc" id="L49">    MavenXpp3Reader mavenXpp3Reader = new MavenXpp3Reader();</span>
     try {
-<span class="fc" id="L53">      return mavenXpp3Reader.read(inputStream);</span>
-<span class="fc" id="L54">    } catch (XmlPullParserException | IOException e) {</span>
-<span class="fc" id="L55">      throw new IllegalStateException(&quot;Failed to read pom.xml&quot;, e);</span>
-    }
-  }
-
-  /**
-   * @param pomFile The directory where to read the {@code pom.xml} from.
-   * @return The {@link Model}
-   * @deprecated This method will be removed with release 0.13.0. Use {@code readProject(Path pomFile)} instead.
-   */
-  @API(status = DEPRECATED, since = &quot;0.12.0&quot;)
-  @Deprecated
-  public static Model readProject(File pomFile) {
-<span class="nc" id="L67">    try (InputStream is = Files.newInputStream(pomFile.toPath())) {</span>
-<span class="nc" id="L68">      return readProject(is);</span>
-<span class="nc" id="L69">    } catch (IOException e) {</span>
-<span class="nc" id="L70">      throw new IllegalStateException(&quot;Failed to read pom.xml&quot;, e);</span>
+<span class="fc" id="L51">      return mavenXpp3Reader.read(inputStream);</span>
+<span class="fc" id="L52">    } catch (XmlPullParserException | IOException e) {</span>
+<span class="fc" id="L53">      throw new IllegalStateException(&quot;Failed to read pom.xml&quot;, e);</span>
     }
   }
 
@@ -78,11 +61,11 @@ public final class ProjectHelper {
    */
   @API(status = EXPERIMENTAL, since = &quot;0.12.0&quot;)
   public static Model readProject(Path pomFile) {
-<span class="fc" id="L81">    try (InputStream is = Files.newInputStream(pomFile)) {</span>
-<span class="fc" id="L82">      return readProject(is);</span>
-<span class="fc" id="L83">    } catch (IOException e) {</span>
-<span class="fc" id="L84">      throw new IllegalStateException(&quot;Failed to read pom.xml&quot;, e);</span>
+<span class="fc" id="L64">    try (InputStream is = Files.newInputStream(pomFile)) {</span>
+<span class="fc" id="L65">      return readProject(is);</span>
+<span class="fc" id="L66">    } catch (IOException e) {</span>
+<span class="fc" id="L67">      throw new IllegalStateException(&quot;Failed to read pom.xml&quot;, e);</span>
     }
   }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

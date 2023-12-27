@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.17">
-<meta name="author" content="Karl Heinz Marbaise, 2023-01-09">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<meta name="author" content="Karl Heinz Marbaise, 2023-12-27">
 <title>Integration Testing Framework Users Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -85,10 +85,10 @@ code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;
 ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
 ul,ol{margin-left:1.5em}
 ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
-ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
-ul.square{list-style-type:square}
 ul.circle{list-style-type:circle}
 ul.disc{list-style-type:disc}
+ul.square{list-style-type:square}
+ul.circle ul:not([class]),ul.disc ul:not([class]),ul.square ul:not([class]){list-style:inherit}
 ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
 dl dt{margin-bottom:.3125em;font-weight:bold}
 dl dd{margin-bottom:1.25em}
@@ -209,13 +209,10 @@ table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
 .admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
 .admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
 .exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
-.exampleblock>.content>:first-child{margin-top:0}
-.exampleblock>.content>:last-child{margin-bottom:0}
 .sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
-.sidebarblock>:first-child{margin-top:0}
-.sidebarblock>:last-child{margin-bottom:0}
 .sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
-.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content>:first-child,.sidebarblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child,.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
 .literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
 @media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
 @media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
@@ -394,7 +391,7 @@ b.conum *{color:inherit!important}
 dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
 h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
 p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
-p,blockquote,dt,td.content,span.alt,summary{font-size:1.0625rem}
+p,blockquote,dt,td.content,td.hdlist1,span.alt,summary{font-size:1.0625rem}
 p{margin-bottom:1.25rem}
 .sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
 .exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
@@ -531,71 +528,71 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>Integration Testing Framework Users Guide</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2023-01-09</span><br>
-<span id="revnumber">version 0.12.0</span>
+<span id="author2" class="author">2023-12-27</span><br>
+<span id="revnumber">version 0.13.0</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_overview">1. Overview</a>
+<li><a href="#general.overview">1. Overview</a>
 <ul class="sectlevel2">
-<li><a href="#_what_is_integration_testing_framework">1.1. What is Integration Testing Framework?</a></li>
-<li><a href="#_status">1.2. Status</a></li>
+<li><a href="#what">1.1. What is Integration Testing Framework?</a></li>
+<li><a href="#status">1.2. Status</a></li>
 </ul>
 </li>
-<li><a href="#_about_this_guide">2. About this Guide</a></li>
-<li><a href="#_overview_2">3. Overview</a></li>
-<li><a href="#_configuration_in_maven">4. Configuration in Maven</a>
+<li><a href="#about">2. About this Guide</a></li>
+<li><a href="#about.overview">3. Overview</a></li>
+<li><a href="#configuration.maven">4. Configuration in Maven</a>
 <ul class="sectlevel2">
-<li><a href="#_users_point_of_view">4.1. User&#8217;s Point of View</a></li>
-<li><a href="#_developers_point_of_view">4.2. Developer&#8217;s Point of View</a></li>
+<li><a href="#configuration.user">4.1. User&#8217;s Point of View</a></li>
+<li><a href="#configuration.developer">4.2. Developer&#8217;s Point of View</a></li>
 </ul>
 </li>
-<li><a href="#_structuring_integration_tests">5. Structuring Integration Tests</a>
+<li><a href="#structuring.integrationtests">5. Structuring Integration Tests</a>
 <ul class="sectlevel2">
-<li><a href="#_a_single_test_case">5.1. A Single Test Case</a></li>
-<li><a href="#_test_case_execution">5.2. Test Case Execution</a></li>
-<li><a href="#_several_test_cases">5.3. Several Test Cases</a></li>
+<li><a href="#structuring.integrationtests.singletest">5.1. A Single Test Case</a></li>
+<li><a href="#structuring.integrationtests.testcaseexecution">5.2. Test Case Execution</a></li>
+<li><a href="#structuring.integrationtests.severaltestcases">5.3. Several Test Cases</a></li>
 </ul>
 </li>
-<li><a href="#_goals_profiles_properties_and_command_line_options">6. Goals, Profiles, Properties and Command Line Options</a>
+<li><a href="#structuring.goalsprofilesproperties">6. Goals, Profiles, Properties and Command Line Options</a>
 <ul class="sectlevel2">
-<li><a href="#_goals">6.1. Goals</a></li>
-<li><a href="#_profiles">6.2. Profiles</a></li>
-<li><a href="#_system_properties">6.3. System Properties</a></li>
-<li><a href="#_command_line_options">6.4. Command Line Options</a></li>
-<li><a href="#_default_goalsoptions">6.5. Default Goals,Options</a></li>
+<li><a href="#structuring.goalsprofilesproperties.goals">6.1. Goals</a></li>
+<li><a href="#structuring.profiles">6.2. Profiles</a></li>
+<li><a href="#structuring.system.properties">6.3. System Properties</a></li>
+<li><a href="#goals.command.line.options">6.4. Command Line Options</a></li>
+<li><a href="#structuring.default.goals.options">6.5. Default Goals,Options</a></li>
 </ul>
 </li>
-<li><a href="#_scenarios">7. Scenarios</a>
+<li><a href="#scenarios">7. Scenarios</a>
 <ul class="sectlevel2">
-<li><a href="#_grouping_test_cases">7.1. Grouping Test Cases</a></li>
-<li><a href="#_common_maven_cache">7.2. Common Maven Cache</a></li>
-<li><a href="#_predefined_repository_content_for_tests">7.3. Predefined Repository Content for Tests</a></li>
-<li><a href="#_single_project_with_several_executions">7.4. Single Project With Several Executions</a></li>
+<li><a href="#scenarios.grouping.test.cases">7.1. Grouping Test Cases</a></li>
+<li><a href="#scenarios.common.maven.cache">7.2. Common Maven Cache</a></li>
+<li><a href="#scenarios.predefined.repository.content.for.tests">7.3. Predefined Repository Content for Tests</a></li>
+<li><a href="#scenarios.single.project.with.several.executions">7.4. Single Project With Several Executions</a></li>
 </ul>
 </li>
-<li><a href="#_test_case_execution_2">8. Test Case Execution</a>
+<li><a href="#test.case.execution">8. Test Case Execution</a>
 <ul class="sectlevel2">
-<li><a href="#_conditionally_executing_tests">8.1. Conditionally Executing Tests</a></li>
+<li><a href="#test.case.execution.conditionally">8.1. Conditionally Executing Tests</a></li>
 </ul>
 </li>
-<li><a href="#_assertions">9. Assertions</a>
+<li><a href="#assertions">9. Assertions</a>
 <ul class="sectlevel2">
-<li><a href="#_overview_3">9.1. Overview</a></li>
-<li><a href="#_assertion_for_maven_log">9.2. Assertion for Maven Log</a></li>
+<li><a href="#assertions.overview">9.1. Overview</a></li>
+<li><a href="#assertions.maven.log">9.2. Assertion for Maven Log</a></li>
 <li><a href="#_expressing_assertions">9.3. Expressing Assertions</a></li>
 </ul>
 </li>
-<li><a href="#_debugging">10. Debugging Plugins</a>
+<li><a href="#debugging.plugins">10. Debugging Plugins</a>
 <ul class="sectlevel2">
-<li><a href="#_overview_4">10.1. Overview</a></li>
-<li><a href="#_limitations">10.2. Limitations</a></li>
+<li><a href="#debugging.plugins.overview">10.1. Overview</a></li>
+<li><a href="#debugging.plugins.limitations">10.2. Limitations</a></li>
 </ul>
 </li>
-<li><a href="#_special_cases">11. Special Cases</a>
+<li><a href="#special.cases">11. Special Cases</a>
 <ul class="sectlevel2">
-<li><a href="#_overview_5">11.1. Overview</a></li>
+<li><a href="#special.cases.overview">11.1. Overview</a></li>
 <li><a href="#_failing_the_build">11.2. Failing the build</a></li>
 <li><a href="#_project_not_at_root_level">11.3. Project Not at Root Level</a></li>
 <li><a href="#_different_project_sources">11.4. Different Project Sources</a></li>
@@ -607,14 +604,14 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_overview"><a class="link" href="#_overview">1. Overview</a></h2>
+<h2 id="general.overview"><a class="link" href="#general.overview">1. Overview</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The documentation intends to give a comprehensive reference for programmers writing
 integration tests for Maven Plugins / Maven Core Extensions / Maven Core.</p>
 </div>
 <div class="sect2">
-<h3 id="_what_is_integration_testing_framework"><a class="link" href="#_what_is_integration_testing_framework">1.1. What is Integration Testing Framework?</a></h3>
+<h3 id="what"><a class="link" href="#what">1.1. What is Integration Testing Framework?</a></h3>
 <div class="paragraph">
 <p>The Integration Testing Framework (ITF for short) is in its foundation a <a href="https://junit.org/junit5/docs/current/user-guide/#extensions">JUnit Jupiter Extension</a>,
 which supports you in writing integration tests for Maven Plugins etc. There are several aspects,
@@ -623,7 +620,7 @@ that makes writing integration tests for Maven Plugins at the
 </div>
 </div>
 <div class="sect2">
-<h3 id="_status"><a class="link" href="#_status">1.2. Status</a></h3>
+<h3 id="status"><a class="link" href="#status">1.2. Status</a></h3>
 <div class="paragraph">
 <p>The current status of this extension is experimental while some people call it Proof of Concept (PoC).
 This framework has not yet reached version <code>1.0.0</code> which means that anything can change, but I try
@@ -634,7 +631,7 @@ be documented in the release notes. I strongly recommend reading the release not
 </div>
 </div>
 <div class="sect1">
-<h2 id="_about_this_guide"><a class="link" href="#_about_this_guide">2. About this Guide</a></h2>
+<h2 id="about"><a class="link" href="#about">2. About this Guide</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This guide represents the current state of development and things, which work (or more accurate: <strong>should work</strong>).
@@ -658,7 +655,7 @@ early stage.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_overview_2"><a class="link" href="#_overview_2">3. Overview</a></h2>
+<h2 id="about.overview"><a class="link" href="#about.overview">3. Overview</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The idea of integration tests for Maven Plugins, Maven Extensions, Maven Core is to keep the
@@ -717,7 +714,7 @@ test for a <a href="https://maven.apache.org/plugins/">Maven Plugins</a>/Maven E
 </li>
 <li>
 <p>The above used assertions like <code>assertThat(..)</code> are custom assertions which will be
-explained in <a href="#_assertions">Assertions chapter</a>.</p>
+explained in <a href="#assertions">Assertions chapter</a>.</p>
 </li>
 </ol>
 </div>
@@ -725,10 +722,10 @@ explained in <a href="#_assertions">Assertions chapter</a>.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_configuration_in_maven"><a class="link" href="#_configuration_in_maven">4. Configuration in Maven</a></h2>
+<h2 id="configuration.maven"><a class="link" href="#configuration.maven">4. Configuration in Maven</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_users_point_of_view"><a class="link" href="#_users_point_of_view">4.1. User&#8217;s Point of View</a></h3>
+<h3 id="configuration.user"><a class="link" href="#configuration.user">4.1. User&#8217;s Point of View</a></h3>
 <div class="paragraph">
 <p>You are a user who want to use the integration test framework to write integration tests for a plugin etc.
 This area shows how to configure the integration test framework in your Maven build and what kind of requirements
@@ -766,7 +763,7 @@ cause you only need them during the integration tests.</p>
     <span class="tag">&lt;dependency&gt;</span>
       <span class="tag">&lt;groupId&gt;</span>com.soebes.itf.jupiter.extension<span class="tag">&lt;/groupId&gt;</span>
       <span class="tag">&lt;artifactId&gt;</span>itf-assertj<span class="tag">&lt;/artifactId&gt;</span>
-      <span class="tag">&lt;version&gt;</span>0.12.0<span class="tag">&lt;/version&gt;</span>
+      <span class="tag">&lt;version&gt;</span>0.13.0<span class="tag">&lt;/version&gt;</span>
       <span class="tag">&lt;scope&gt;</span>test<span class="tag">&lt;/scope&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span>
     <span class="tag">&lt;dependency&gt;</span>
@@ -777,7 +774,7 @@ cause you only need them during the integration tests.</p>
     <span class="tag">&lt;dependency&gt;</span>
       <span class="tag">&lt;groupId&gt;</span>com.soebes.itf.jupiter.extension<span class="tag">&lt;/groupId&gt;</span>
       <span class="tag">&lt;artifactId&gt;</span>itf-jupiter-extension<span class="tag">&lt;/artifactId&gt;</span>
-      <span class="tag">&lt;version&gt;</span>0.12.0<span class="tag">&lt;/version&gt;</span>
+      <span class="tag">&lt;version&gt;</span>0.13.0<span class="tag">&lt;/version&gt;</span>
       <span class="tag">&lt;scope&gt;</span>test<span class="tag">&lt;/scope&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span></code></pre>
 </div>
@@ -797,7 +794,7 @@ get the support for your Maven integration tests.</p>
 <code>src/test/resources-its</code> has to be copied into <code>target/test-classes</code> which usually means including
 filtering. This is used to replace placeholders in files like <code>@project.version@</code> and replace with
 the real version of your extension/plugin etc. so you can use the <code>itf-maven-plugin</code> which is doing
-this job on it&#8217;s own which means you don&#8217;t have to do something special here.</p>
+this job on its own which means you don&#8217;t have to do something special here.</p>
 </div>
 <div class="paragraph">
 <p>The next thing is to configure the <code>itf-maven-plugin</code> with the <code>install</code> and the <code>resources-its</code> goal
@@ -808,7 +805,7 @@ like this:</p>
 <pre class="CodeRay highlight"><code data-lang="xml">          <span class="tag">&lt;plugin&gt;</span>
             <span class="tag">&lt;groupId&gt;</span>com.soebes.itf.jupiter.extension<span class="tag">&lt;/groupId&gt;</span>
             <span class="tag">&lt;artifactId&gt;</span>itf-maven-plugin<span class="tag">&lt;/artifactId&gt;</span>
-            <span class="tag">&lt;version&gt;</span>0.12.0<span class="tag">&lt;/version&gt;</span>
+            <span class="tag">&lt;version&gt;</span>0.13.0<span class="tag">&lt;/version&gt;</span>
             <span class="tag">&lt;executions&gt;</span>
               <span class="tag">&lt;execution&gt;</span>
                 <span class="tag">&lt;id&gt;</span>installing<span class="tag">&lt;/id&gt;</span>
@@ -838,17 +835,17 @@ used during the integration tests. Further more it will handle the copying of th
               <span class="comment">&lt;!--
                ! currently needed to run integration tests.
               --&gt;</span>
-              <span class="tag">&lt;systemProperties&gt;</span>
+              <span class="tag">&lt;systemPropertyVariables&gt;</span>
                 <span class="tag">&lt;maven.version&gt;</span>${maven.version}<span class="tag">&lt;/maven.version&gt;</span>
                 <span class="tag">&lt;maven.home&gt;</span>${maven.home}<span class="tag">&lt;/maven.home&gt;</span>
-              <span class="tag">&lt;/systemProperties&gt;</span>
+              <span class="tag">&lt;/systemPropertyVariables&gt;</span>
               <span class="tag">&lt;properties&gt;</span>
                 <span class="tag">&lt;configurationParameters&gt;</span>
                   junit.jupiter.execution.parallel.enabled=true
                   junit.jupiter.execution.parallel.mode.default=concurrent
                   junit.jupiter.execution.parallel.mode.classes.default=same_thread
                   junit.jupiter.execution.parallel.config.strategy=fixed
-                  junit.jupiter.execution.parallel.config.fixed.parallelism=6
+                  junit.jupiter.execution.parallel.config.fixed.parallelism=12
                 <span class="tag">&lt;/configurationParameters&gt;</span>
               <span class="tag">&lt;/properties&gt;</span>
             <span class="tag">&lt;/configuration&gt;</span>
@@ -907,13 +904,13 @@ more convenient.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_developers_point_of_view"><a class="link" href="#_developers_point_of_view">4.2. Developer&#8217;s Point of View</a></h3>
+<h3 id="configuration.developer"><a class="link" href="#configuration.developer">4.2. Developer&#8217;s Point of View</a></h3>
 <div class="paragraph">
 <p>You are a potential contributor or just interested in how the code of this extension is working/looks like or you are a
 user who wants to test with the bleeding edge of this extension.</p>
 </div>
 <div class="paragraph">
-<p>The requirements for building this extensions are:</p>
+<p>The requirements for building this extension is:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -934,10 +931,10 @@ needed to install the created artifacts into your local repository for reuse.</p
 </div>
 </div>
 <div class="sect1">
-<h2 id="_structuring_integration_tests"><a class="link" href="#_structuring_integration_tests">5. Structuring Integration Tests</a></h2>
+<h2 id="structuring.integrationtests"><a class="link" href="#structuring.integrationtests">5. Structuring Integration Tests</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_a_single_test_case"><a class="link" href="#_a_single_test_case">5.1. A Single Test Case</a></h3>
+<h3 id="structuring.integrationtests.singletest"><a class="link" href="#structuring.integrationtests.singletest">5.1. A Single Test Case</a></h3>
 <div class="paragraph">
 <p>The location of an integration test defaults to <code>src/test/java/&lt;package&gt;/FirstMavenIT.java</code>.
 The selected naming schema like <code>&lt;any&gt;IT.java</code> implies that it will be executed by the
@@ -1009,7 +1006,7 @@ underscore <code>_</code>. This will prevent issues with case insensitive file s
 </div>
 </div>
 <div class="sect2">
-<h3 id="_test_case_execution"><a class="link" href="#_test_case_execution">5.2. Test Case Execution</a></h3>
+<h3 id="structuring.integrationtests.testcaseexecution"><a class="link" href="#structuring.integrationtests.testcaseexecution">5.2. Test Case Execution</a></h3>
 <div class="paragraph">
 <p>During the execution of the integration tests the following directory structure will be created
 within the <code>target</code> directory:</p>
@@ -1044,9 +1041,9 @@ did on plain command line and take a look into it. The output of the build has b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_several_test_cases"><a class="link" href="#_several_test_cases">5.3. Several Test Cases</a></h3>
+<h3 id="structuring.integrationtests.severaltestcases"><a class="link" href="#structuring.integrationtests.severaltestcases">5.3. Several Test Cases</a></h3>
 <div class="paragraph">
-<p>If we like to define several integration test cases within a single test class <code>SeveralMavenIT</code>
+<p>If we like to define some integration test cases within a single test class <code>SeveralMavenIT</code>
 we have to define different methods, which are the test cases. This results in the following
 class layout:</p>
 </div>
@@ -1147,7 +1144,7 @@ directory will look like this:</p>
 <p>Based on the structure you can exactly dive into each test case separately and take
 a look at the console output of the test case via <code>mvn-stdout.log</code> or maybe in case of errors
 in the <code>mvn-stderr.log</code>. In the <code>project</code> directory you will find the usual <code>target</code> directory,
-which contains the Maven output which might be interesting as well. Furthermore the
+which contains the Maven output which might be interesting as well. Furthermore, the
 local cache (aka maven repository) is available separately for each test case and can be found
 in the <code>.m2/repository</code> directory.</p>
 </div>
@@ -1156,10 +1153,10 @@ in the <code>.m2/repository</code> directory.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_goals_profiles_properties_and_command_line_options"><a class="link" href="#_goals_profiles_properties_and_command_line_options">6. Goals, Profiles, Properties and Command Line Options</a></h2>
+<h2 id="structuring.goalsprofilesproperties"><a class="link" href="#structuring.goalsprofilesproperties">6. Goals, Profiles, Properties and Command Line Options</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_goals"><a class="link" href="#_goals">6.1. Goals</a></h3>
+<h3 id="structuring.goalsprofilesproperties.goals"><a class="link" href="#structuring.goalsprofilesproperties.goals">6.1. Goals</a></h3>
 <div class="paragraph">
 <p>In each test case method you define <code>@MavenTest</code> which says execute Maven with the given
 default goals and parameters. A typical integration test looks like this:</p>
@@ -1179,15 +1176,15 @@ default goals and parameters. A typical integration test looks like this:</p>
 <div class="paragraph">
 <p>So now the question is: Which goals and parameters will be used to execute Maven for the <code>first</code>
 test case? Very brief the default set of goals which will be executed if not defined otherwise is
-<code>package</code> (See <a href="#_default_goalsoptions">for a more detailed explanation</a>).
+<code>package</code> (See <a href="#structuring.default.goals.options">for a more detailed explanation</a>).
 That means if we keep the test as in our example maven would be called like <code>mvn package</code>.
 From a technical perspective some other parameters have been added which are <code>mvn -Dmaven.repo.local=Path package</code>.
 The <code>-Dmaven.repo.local=..</code> is needed to make sure that each call uses the defined local cache
-(See <a href="#_common_maven_cache">Common Maven Cache</a>).
+(See <a href="#scenarios.common.maven.cache">Common Maven Cache</a>).
 You can of course change the default for the goal, if you like by simply add the <code>@MavenGoal</code> annotation
 <code>@MavenGoal("install")</code> that would mean to execute all subjacent tests like <code>mvn -D.. install</code>
 instead of <code>mvn -D .. package</code>. A usual command parameter set includes
-<code>--batch-mode</code> and <code>-V</code> (See <a href="#_default_goalsoptions">for a more detailed explanation</a>).</p>
+<code>--batch-mode</code> and <code>-V</code> (See <a href="#structuring.default.goals.options">for a more detailed explanation</a>).</p>
 </div>
 <div class="paragraph">
 <p>How could you write a test which uses a plugin goal instead? You can simply define the
@@ -1241,7 +1238,7 @@ call several goals and/or lifecycle parts in one go you can simply define it lik
 </div>
 </div>
 <div class="sect2">
-<h3 id="_profiles"><a class="link" href="#_profiles">6.2. Profiles</a></h3>
+<h3 id="structuring.profiles"><a class="link" href="#structuring.profiles">6.2. Profiles</a></h3>
 <div class="paragraph">
 <p>In some cases you need to activate one or <a href="https://maven.apache.org/guides/introduction/introduction-to-profiles.html">more Maven profiles</a>
 for test purposes etc. This can be achieved by using <code>@MavenProfile</code> which looks like this:</p>
@@ -1316,12 +1313,54 @@ annotation on each test case. So you can define the Maven profile on the class l
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>+</code> prefix is responsible for deactivating a given profile during the build. We strongly recommend to use <code>+</code>
+<p>The <code>` prefix is responsible for deactivating a given profile during the build. We strongly recommend to use `</code>
 sign (instead of <code>!</code>) to prevent issues on different operating systems.</p>
+</div>
+<div class="paragraph">
+<p>So finally let use show how the inheritance behaviour of the <code>MavenProfile</code> annotation is defined.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenProfile</span>({<span class="string"><span class="delimiter">&quot;</span><span class="content">run-its</span><span class="delimiter">&quot;</span></span>})
+<span class="type">class</span> <span class="class">BasicIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenProfile</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">run-its-delta</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">void</span> first(MavenExecutionResult result) {
+    ..
+  }
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> second(MavenExecutionResult result) {
+    ..
+  }
+
+  <span class="annotation">@Nested</span>
+  <span class="annotation">@MavenProfile</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">nested-class</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">class</span> <span class="class">NestedClass</span> {
+    <span class="annotation">@MavenTest</span>
+    <span class="annotation">@MavenProfile</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">nested-first</span><span class="delimiter">&quot;</span></span>)
+    <span class="type">void</span> nested_first(MavenExecutionResult result) {
+      ..
+    }
+    <span class="annotation">@MavenTest</span>
+    <span class="type">void</span> nested_second(MavenExecutionResult result) {
+      ..
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>So based on the given example the method <code>first</code> will be executed with the activation of the profiles
+<code>run-its</code> and <code>run-its-delta</code>. The method <code>second</code> will be execute with the activated profile <code>run-its</code>. The method
+<code>nested_first</code> will be executed with the activated profiles <code>run-its</code>, <code>nested-class`and `nested-first</code>. Finally the
+method <code>nested_second</code> will be executed with the activated profiles <code>run-its</code> and <code>nested-class</code>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_system_properties"><a class="link" href="#_system_properties">6.3. System Properties</a></h3>
+<h3 id="structuring.system.properties"><a class="link" href="#structuring.system.properties">6.3. System Properties</a></h3>
 <div class="paragraph">
 <p>There are situations where you need to use system properties which are usually defined on command like this:</p>
 </div>
@@ -1441,9 +1480,60 @@ even several properties on a class level like this:</p>
 <div class="paragraph">
 <p>This prevents the repetition of the property on each test case method.</p>
 </div>
+<div class="paragraph">
+<p>Another option is to define the <code>SystemProperty</code> annotation on different levels. For example
+class level, method level or nested levels. Let us make deep dive into the following example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">..
+<span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@SystemProperty</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">skipTests</span><span class="delimiter">&quot;</span></span>)
+<span class="type">class</span> <span class="class">RunningIT</span>
+{
+
+    <span class="annotation">@MavenTest</span>
+    <span class="type">void</span> first( MavenExecutionResult result )
+    {
+       ...
+    }
+
+    <span class="annotation">@MavenTest</span>
+    <span class="annotation">@SystemProperty</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">second</span><span class="delimiter">&quot;</span></span>)
+    <span class="type">void</span> second( MavenExecutionResult result )
+    {
+       ...
+    }
+
+    <span class="annotation">@Nested</span>
+    <span class="annotation">@SystemProperty</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">NestedLevel</span><span class="delimiter">&quot;</span></span>)
+    <span class="type">class</span> <span class="class">NestedLevel</span> {
+      <span class="annotation">@MavenTest</span>
+      <span class="type">void</span> nested_first( MavenExecutionResult result )
+      {
+         ...
+      }
+
+      <span class="annotation">@MavenTest</span>
+      <span class="annotation">@SystemProperty</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">NestedLevelSecond</span><span class="delimiter">&quot;</span></span>)
+      <span class="type">void</span> nested_second( MavenExecutionResult result )
+      {
+         ...
+      }
+
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The method <code>first</code> will be executed with the defined system property <code>skipTests</code> given by the class level <code>RunningIT</code>.
+The method <code>second</code> will be executed with the defined system properties <code>skipTests</code> and also with the <code>second</code> property.
+The method <code>nested_first</code> will be executed with the following system properties <code>skipTests</code> and <code>NestedLevel</code> while the
+method <code>nested_second</code> will be executed with the following system properties <code>skipTest</code>, <code>NestedLevel</code> and <code>NestedLevelSecond</code>.</p>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_command_line_options"><a class="link" href="#_command_line_options">6.4. Command Line Options</a></h3>
+<h3 id="goals.command.line.options"><a class="link" href="#goals.command.line.options">6.4. Command Line Options</a></h3>
 <div class="paragraph">
 <p>In different scenarios it is needed to define command line options for example <code>--non-recursive</code> etc.
 This can be done by using the <code>@MavenOption</code> annotation. There is a convenience class
@@ -1480,9 +1570,9 @@ use the <code>MavenCLIOptions</code> class.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_default_goalsoptions"><a class="link" href="#_default_goalsoptions">6.5. Default Goals,Options</a></h3>
+<h3 id="structuring.default.goals.options"><a class="link" href="#structuring.default.goals.options">6.5. Default Goals,Options</a></h3>
 <div class="sect3">
-<h4 id="_goals_2"><a class="link" href="#_goals_2">6.5.1. Goals</a></h4>
+<h4 id="structuring.goals"><a class="link" href="#structuring.goals">6.5.1. Goals</a></h4>
 <div class="paragraph">
 <p>Basically to run a usual integration test it needs to be defined by which goals and options such
 test has to run. Let us take a look at a simple example:</p>
@@ -1570,9 +1660,49 @@ a single location.</p>
 <p>Now let us summarize the information for goals. As long as no explicit <code>@MavenGoal</code> is defined the
 default will be used which is <code>package</code>.</p>
 </div>
+<div class="paragraph">
+<p>Furthermore we can define goal annotation <code>MavenGoal</code> on different levels which means class level, method level,
+nested classes etc. We will look at the following example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">clean</span><span class="delimiter">&quot;</span></span>)
+<span class="type">class</span> <span class="class">BasicIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> first(MavenExecutionResult result) {
+  }
+
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">install</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">void</span> second(MavenExecutionResult result) {
+  }
+
+  <span class="annotation">@Nested</span>
+  <span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">verify</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">class</span> <span class="class">NestedLevel</span> {
+    <span class="annotation">@MavenTest</span>
+    <span class="type">void</span> nested_first(MavenExecutionResult result) {
+    }
+    <span class="annotation">@MavenTest</span>
+    <span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">site:stage</span><span class="delimiter">&quot;</span></span>)
+    <span class="type">void</span> nested_second(MavenExecutionResult result) {
+    }
+
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>How would the above test cases executed related to the defined goal annotation? The method <code>first</code> will
+be executed with the goal <code>clean</code>. The method <code>second</code> will be executed with the goals <code>clean</code> and <code>install</code>.
+The method <code>nested_first</code> in the nested class <code>NestedLevel</code> will be executed with the goals <code>clean</code> and <code>verify</code>
+and finally the method <code>nested_second</code> will be exectuted with the goals <code>clean</code>, <code>verify</code> and <code>site:stage</code>.</p>
+</div>
 </div>
 <div class="sect3">
-<h4 id="_options"><a class="link" href="#_options">6.5.2. Options</a></h4>
+<h4 id="structuring.options"><a class="link" href="#structuring.options">6.5.2. Options</a></h4>
 <div class="paragraph">
 <p>Now let us going back to the example:</p>
 </div>
@@ -1610,7 +1740,7 @@ can simply define different options via the appropriate annotations:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
-<span class="annotation">@MavenOption</span>(MavenCLIOptions.DEBUG)
+<span class="annotation">@MavenOption</span>(MavenCLIOptions.VERBOSE)
 <span class="type">class</span> <span class="class">BasicIT</span> {
 
   <span class="annotation">@MavenTest</span>
@@ -1621,7 +1751,7 @@ can simply define different options via the appropriate annotations:</p>
 </div>
 <div class="paragraph">
 <p>Using the option like this means (like for goals as mentioned before) all consecutive tests will
-now run with the given option which in this case is only a single command line option <code>--debug</code>
+now run with the given option which in this case is only a single command line option <code>--verbose</code>
 and nothing else. You can add supplemental command line options just by adding supplemental
 annotations to your tests like this:</p>
 </div>
@@ -1629,7 +1759,7 @@ annotations to your tests like this:</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
 <span class="annotation">@MavenOption</span>(MavenCLIOptions.ERRORS)
-<span class="annotation">@MavenOption</span>(MavenCLIOptions.DEBUG)
+<span class="annotation">@MavenOption</span>(MavenCLIOptions.VERBOSE)
 <span class="type">class</span> <span class="class">BasicIT</span> {
 
   <span class="annotation">@MavenTest</span>
@@ -1646,7 +1776,7 @@ annotations to your tests like this:</p>
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Target</span>({<span class="predefined-type">ElementType</span>.METHOD, <span class="predefined-type">ElementType</span>.TYPE})
 <span class="annotation">@Retention</span>(RUNTIME)
 <span class="annotation">@Inherited</span>
-<span class="annotation">@MavenOption</span>(MavenCLIOptions.DEBUG)
+<span class="annotation">@MavenOption</span>(MavenCLIOptions.VERBOSE)
 <span class="annotation">@MavenOption</span>(MavenCLIOptions.ERRORS)
 <span class="annotation">@MavenOption</span>(MavenCLIOptions.FAIL_AT_END)
 <span class="directive">public</span> <span class="annotation">@interface</span> OptionDebugErrorFailAtEnd {
@@ -1685,9 +1815,52 @@ default will be used which are the following:</p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>What will happen if you have a test class like this with nested class and the appropriate annotations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
+<span class="annotation">@MavenOption</span>(MavenCLIOptions.VERBOSE)
+<span class="type">class</span> <span class="class">BasicIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenOption</span>(MavenCLIOptions.FAIL_AT_END)
+  <span class="type">void</span> first(MavenExecutionResult result) {
+     ...
+  }
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> second(MavenExecutionResult result) {
+     ...
+  }
+
+  <span class="annotation">@MavenOption</span>(MavenCLIOptions.FAIL_FAST)
+  <span class="type">class</span> <span class="class">NestedClass</span> {
+   <span class="annotation">@MavenTest</span>
+   <span class="type">void</span> nested_first(MavenExecutionResult result) {
+     ...
+   }
+   <span class="annotation">@MavenTest</span>
+   <span class="annotation">@MavenOption</span>(MavenCLIOptions.FAIL_NEVER)
+   <span class="type">void</span> nested_second(MavenExecutionResult result) {
+     ...
+   }
+
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Let us analyze that. The method <code>second</code> will be executed with the option <code>--verbose</code> while the
+method <code>first</code> will be executed with two options <code>--verbose</code> and <code>--fail-at-end</code>. Now the interesting part.
+The method <code>nested_first</code> will be executed with the options <code>--verbose</code> plus the <code>--fail-fast</code> and the method
+<code>nested_second</code> will be executed with <code>--verbose</code>, <code>--fail-fast</code> and <code>--fail-never</code>. Just ignore that the
+combination of those options does not really makes sense. It&#8217;s only to show the behaviour over different inheritance
+levels. In other words the behaviour of the <code>MavenOption</code> annotation is additive (except for the root level!).</p>
+</div>
 </div>
 <div class="sect3">
-<h4 id="_combined_annotation"><a class="link" href="#_combined_annotation">6.5.3. Combined Annotation</a></h4>
+<h4 id="structuring.combined.annotations"><a class="link" href="#structuring.combined.annotations">6.5.3. Combined Annotation</a></h4>
 <div class="paragraph">
 <p>Sometimes you would like to combine things from options and goals in a more convenient way.
 That is possible by using a custom annotation like this one:</p>
@@ -1698,7 +1871,7 @@ That is possible by using a custom annotation like this one:</p>
 <span class="annotation">@Retention</span>(RUNTIME)
 <span class="annotation">@Inherited</span>
 <span class="annotation">@MavenJupiterExtension</span>
-<span class="annotation">@MavenOption</span>(MavenCLIOptions.DEBUG)
+<span class="annotation">@MavenOption</span>(MavenCLIOptions.VERBOSE)
 <span class="annotation">@MavenOption</span>(MavenCLIOptions.ERRORS)
 <span class="annotation">@MavenOption</span>(MavenCLIOptions.FAIL_AT_END)
 <span class="annotation">@MavenGoal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">clean</span><span class="delimiter">&quot;</span></span>)
@@ -1732,10 +1905,10 @@ You can of course add properties etc. if you need.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_scenarios"><a class="link" href="#_scenarios">7. Scenarios</a></h2>
+<h2 id="scenarios"><a class="link" href="#scenarios">7. Scenarios</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_grouping_test_cases"><a class="link" href="#_grouping_test_cases">7.1. Grouping Test Cases</a></h3>
+<h3 id="scenarios.grouping.test.cases"><a class="link" href="#scenarios.grouping.test.cases">7.1. Grouping Test Cases</a></h3>
 <div class="paragraph">
 <p>Sometimes it makes sense to group test into different groups together. This can be achieved
 via the <code>@Nested</code> annotation which is provided by <a href="https://junit.org/junit5/">JUnit Jupiter</a>. This would result in
@@ -1809,7 +1982,7 @@ a test class like this:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_common_maven_cache"><a class="link" href="#_common_maven_cache">7.2. Common Maven Cache</a></h3>
+<h3 id="scenarios.common.maven.cache"><a class="link" href="#scenarios.common.maven.cache">7.2. Common Maven Cache</a></h3>
 <div class="paragraph">
 <p>In all previous test case examples the maven cache (aka maven repository)
 is created separately for each of the test cases (<strong>test methods</strong>). There are times,
@@ -1952,7 +2125,7 @@ The directory tree looks like this:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_predefined_repository_content_for_tests"><a class="link" href="#_predefined_repository_content_for_tests">7.3. Predefined Repository Content for Tests</a></h3>
+<h3 id="scenarios.predefined.repository.content.for.tests"><a class="link" href="#scenarios.predefined.repository.content.for.tests">7.3. Predefined Repository Content for Tests</a></h3>
 <div class="paragraph">
 <p>There are existing test cases in which you need predefined dependencies, cause you can&#8217;t rely
 on existing dependencies in the central repository or anywhere else.
@@ -1974,13 +2147,13 @@ each test case (<code>project_001</code> and <code>proeject_002</code>) in this 
 <span class="annotation">@MavenPredefinedRepository</span>
 <span class="type">class</span> <span class="class">ProjectIT</span> {
 
-  <span class="annotation">@MavenOption</span>(MavenCLIOptions.DEBUG)
+  <span class="annotation">@MavenOption</span>(MavenCLIOptions.VERBOSE)
   <span class="annotation">@MavenTest</span>
   <span class="type">void</span> project_001(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
 
-  <span class="annotation">@MavenOption</span>(MavenCLIOptions.DEBUG)
+  <span class="annotation">@MavenOption</span>(MavenCLIOptions.VERBOSE)
   <span class="annotation">@MavenTest</span>
   <span class="type">void</span> project_002(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
@@ -2023,14 +2196,14 @@ define the <code>@MavenPredefinedRepository</code> also on the test method level
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenJupiterExtension</span>
 <span class="type">class</span> <span class="class">ProjectIT</span> {
 
-  <span class="annotation">@MavenOption</span>(MavenCLIOptions.DEBUG)
+  <span class="annotation">@MavenOption</span>(MavenCLIOptions.VERBOSE)
   <span class="annotation">@MavenTest</span>
   <span class="annotation">@MavenPredefinedRepository</span>
   <span class="type">void</span> project_001(MavenExecutionResult result) {
     assertThat(result).isSuccessful();
   }
 
-  <span class="annotation">@MavenOption</span>(MavenCLIOptions.DEBUG)
+  <span class="annotation">@MavenOption</span>(MavenCLIOptions.VERBOSE)
   <span class="annotation">@MavenTest</span>
   <span class="annotation">@MavenPredefinedRepository</span>
   <span class="type">void</span> project_002(MavenExecutionResult result) {
@@ -2064,7 +2237,7 @@ define the <code>@MavenPredefinedRepository</code> also on the test method level
 </div>
 </div>
 <div class="sect2">
-<h3 id="_single_project_with_several_executions"><a class="link" href="#_single_project_with_several_executions">7.4. Single Project With Several Executions</a></h3>
+<h3 id="scenarios.single.project.with.several.executions"><a class="link" href="#scenarios.single.project.with.several.executions">7.4. Single Project With Several Executions</a></h3>
 <div class="paragraph">
 <p>Sometimes you need to execute a consecutive number of commands (usually maven executions) on the same
 single project. This means having a single project and executing several maven execution
@@ -2172,10 +2345,10 @@ something different this can be achieved by using <code>@MavenProject("another_p
 </div>
 </div>
 <div class="sect1">
-<h2 id="_test_case_execution_2"><a class="link" href="#_test_case_execution_2">8. Test Case Execution</a></h2>
+<h2 id="test.case.execution"><a class="link" href="#test.case.execution">8. Test Case Execution</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_conditionally_executing_tests"><a class="link" href="#_conditionally_executing_tests">8.1. Conditionally Executing Tests</a></h3>
+<h3 id="test.case.execution.conditionally"><a class="link" href="#test.case.execution.conditionally">8.1. Conditionally Executing Tests</a></h3>
 <div class="paragraph">
 <p>You might want to run an integration test only for a particular Maven version for example running
 only for Maven 3.6.0? So how could you express this? The following code will show how you can do
@@ -2253,10 +2426,10 @@ that.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_assertions"><a class="link" href="#_assertions">9. Assertions</a></h2>
+<h2 id="assertions"><a class="link" href="#assertions">9. Assertions</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_overview_3"><a class="link" href="#_overview_3">9.1. Overview</a></h3>
+<h3 id="assertions.overview"><a class="link" href="#assertions.overview">9.1. Overview</a></h3>
 <div class="paragraph">
 <p>Let us take a look into a simple integration test. We would like to concentrate on the assertion part.</p>
 </div>
@@ -2364,7 +2537,7 @@ as you like.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_assertion_for_maven_log"><a class="link" href="#_assertion_for_maven_log">9.2. Assertion for Maven Log</a></h3>
+<h3 id="assertions.maven.log"><a class="link" href="#assertions.maven.log">9.2. Assertion for Maven Log</a></h3>
 <div class="paragraph">
 <p>In integration tests is necessary to check the log output of a build. This is sometimes needed because
 you want to check for particular output etc. which has been done by a plugin/extension etc.</p>
@@ -2488,12 +2661,14 @@ which implies that only a single would be allowed to have that single warning.</
 <div class="paragraph">
 <p>Another example of using the assertions could look like this:</p>
 </div>
-<div class="literalblock">
+<div class="exampleblock">
 <div class="content">
-<pre>assertThat(result)
-    .out()
-    .info()
-    .contains("Building Maven Integration Test :: it0033 1.0");</pre>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">    assertThat(result)
+        .out()
+        .info()
+        .contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">Building Maven Integration Test :: it0033 1.0</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2503,15 +2678,17 @@ at least one line which contains the given content.</p>
 <div class="paragraph">
 <p>We can check for warnings like the following:</p>
 </div>
-<div class="literalblock">
+</div>
+</div>
+<div class="listingblock">
 <div class="content">
-<pre>assertThat(result).out()
-    .warn()
-    .hasSize(1)
-    .allSatisfy(l -&gt; {
-      assertThat(l).startsWith("Using platform encoding (");
-      assertThat(l).endsWith("to copy filtered resources, i.e. build is platform dependent!");
-    });</pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//    assertThat(result).out()</span>
+<span class="comment">//        .warn()</span>
+<span class="comment">//        .hasSize(1)</span>
+<span class="comment">//        .allSatisfy(l -&gt; {</span>
+<span class="comment">//          assertThat(l).startsWith(&quot;Using platform encoding (&quot;);</span>
+<span class="comment">//          assertThat(l).endsWith(&quot;to copy filtered resources, i.e. build is platform dependent!&quot;);</span>
+<span class="comment">//        });</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2519,34 +2696,24 @@ at least one line which contains the given content.</p>
 if you prefer to go that way. In this case you have to add another injection to the test case
 (<code>MavenLog mavenLog</code> or like this <code>result.getMavenLog().getStdout()</code>).</p>
 </div>
-<div class="literalblock">
-<div class="content">
-<pre>assertThat(Files.lines(mavenLog.getStdout()))
-    .filteredOn(s1 -&gt; s1.startsWith("[WARNING]"))
-    .hasSize(1)
-    .allSatisfy(l -&gt; {
-      assertThat(l).startsWith("[WARNING] Using platform encoding (");
-      assertThat(l).endsWith("to copy filtered resources, i.e. build is platform dependent!");
-    });</pre>
+<div class="paragraph">
+<p>The <code>stderr</code> output can be accessed as well like this:</p>
 </div>
-</div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>// You can access the output (stderr) of the maven build directly and do things yourself.
-assertThat(Files.lines(mavenLog.getStderr()))
-    .isEmpty();</pre>
+<pre class="CodeRay highlight"><code data-lang="java">    assertThat(result).err().plain().isEmpty();</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>The <code>stderr</code> output can be accessed as well like this:</p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>assertThat(result).err().plain().isEmpty();</pre>
+<pre class="CodeRay highlight"><code data-lang="java">    assertThat(result).err().plain().isEmpty();</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>A full fledged example can be found <code>itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java</code>
+<p>A full-fledged example can be found <code>itf-examples/src/test/java/com/soebes/itf/examples/LogoutputIT.java</code>
 within the itf project.</p>
 </div>
 </div>
@@ -2592,10 +2759,10 @@ within the itf project.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_debugging"><a class="link" href="#_debugging">10. Debugging Plugins</a></h2>
+<h2 id="debugging.plugins"><a class="link" href="#debugging.plugins">10. Debugging Plugins</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_overview_4"><a class="link" href="#_overview_4">10.1. Overview</a></h3>
+<h3 id="debugging.plugins.overview"><a class="link" href="#debugging.plugins.overview">10.1. Overview</a></h3>
 <div class="paragraph">
 <p>Sometimes you need to debug your code of your implemented plugin because
 usual tests or even integration tests are not enough. The question is
@@ -2609,14 +2776,14 @@ from your IDE.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_limitations"><a class="link" href="#_limitations">10.2. Limitations</a></h3>
+<h3 id="debugging.plugins.limitations"><a class="link" href="#debugging.plugins.limitations">10.2. Limitations</a></h3>
 <div class="paragraph">
 <p>Debugging can only being done after you have run your whole integration tests once via
 command line. An idea for the future might be a plugin for IDE&#8217;s to support that in a
 more convenient way (Help is appreciated).</p>
 </div>
 <div class="sect3">
-<h4 id="_idea_intellij"><a class="link" href="#_idea_intellij">10.2.1. IDEA IntelliJ</a></h4>
+<h4 id="debugging.plugins.intellij"><a class="link" href="#debugging.plugins.intellij">10.2.1. IDEA IntelliJ</a></h4>
 <div class="paragraph">
 <p>You have to define a <a href="https://www.jetbrains.com/help/idea/run-debug-configuration-junit.html#configTab">system property for debugging in your IDE run configuration</a>.
 In the configuration you will find an entry for the VM which usually contains already <code>-ea</code> and
@@ -2630,12 +2797,12 @@ as port and check if you are using JDK8 or JDK9+ in your configuration.</p>
 </div>
 <div class="paragraph">
 <p>I recommend to start only a single integration test case via the above described run configuration,
-in debugging mode otherwise all processes woulduse the same port which would result in failure
+in debugging mode otherwise all processes would use the same port which would result in failure
 because only one can use that port.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_eclipse"><a class="link" href="#_eclipse">10.2.2. Eclipse</a></h4>
+<h4 id="debugging.plugins.eclipse"><a class="link" href="#debugging.plugins.eclipse">10.2.2. Eclipse</a></h4>
 <div class="paragraph">
 <p>Basically it should work the same.</p>
 </div>
@@ -2644,7 +2811,7 @@ because only one can use that port.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_netbeans"><a class="link" href="#_netbeans">10.2.3. Netbeans</a></h4>
+<h4 id="debugging.plugins.netbeans"><a class="link" href="#debugging.plugins.netbeans">10.2.3. Netbeans</a></h4>
 <div class="paragraph">
 <p>Basically it should work the same.</p>
 </div>
@@ -2657,10 +2824,10 @@ because only one can use that port.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_special_cases"><a class="link" href="#_special_cases">11. Special Cases</a></h2>
+<h2 id="special.cases"><a class="link" href="#special.cases">11. Special Cases</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_overview_5"><a class="link" href="#_overview_5">11.1. Overview</a></h3>
+<h3 id="special.cases.overview"><a class="link" href="#special.cases.overview">11.1. Overview</a></h3>
 <div class="paragraph">
 <p>In some situations it is needed to fail a build of a plugin/extension for testing purposes or other things
 which not that usual. This chapter describes such situations and shows solutions for those.</p>
@@ -3248,13 +3415,13 @@ or the logging output of the Maven build you can change your integration test li
 <div id="footnotes">
 <hr>
 <div class="footnote" id="_footnotedef_1">
-<a href="#_footnoteref_1">1</a>. Based on the usage of this annotation the parallelizing is automatically deactivated, cause Maven has never been designed to make a parallel access to the maven cache possible.
+<a href="#_footnoteref_1">1</a>. Based on the usage of this annotation the parallelization is automatically deactivated, cause Maven has never been designed to make parallel access to the maven cache possible.
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.12.0<br>
-Last updated 2023-01-09 18:20:22 +0100
+Version 0.13.0<br>
+Last updated 2023-12-27 20:50:16 +0100
 </div>
 </div>
 </body>

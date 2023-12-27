@@ -19,10 +19,11 @@
  * under the License.
  */
 
-import static org.apiguardian.api.API.Status.EXPERIMENTAL;
+import org.apiguardian.api.API;
 
 import java.util.StringJoiner;
-import org.apiguardian.api.API;
+
+import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 
 /**
  * @author Karl Heinz Marbaise
@@ -41,56 +42,56 @@ public class MavenExecutionResult {
   private final MavenCacheResult mavenCacheResult;
 
   public MavenExecutionResult(ExecutionResult result, int returnCode, MavenLog mavenLog,
-<span class="nc" id="L44">                              MavenProjectResult mavenProjectResult, MavenCacheResult mavenCacheResult) {</span>
-<span class="nc" id="L45">    this.result = result;</span>
-<span class="nc" id="L46">    this.returnCode = returnCode;</span>
-<span class="nc" id="L47">    this.mavenLog = mavenLog;</span>
-<span class="nc" id="L48">    this.mavenProjectResult = mavenProjectResult;</span>
-<span class="nc" id="L49">    this.mavenCacheResult = mavenCacheResult;</span>
-<span class="nc" id="L50">  }</span>
+<span class="nc" id="L45">                              MavenProjectResult mavenProjectResult, MavenCacheResult mavenCacheResult) {</span>
+<span class="nc" id="L46">    this.result = result;</span>
+<span class="nc" id="L47">    this.returnCode = returnCode;</span>
+<span class="nc" id="L48">    this.mavenLog = mavenLog;</span>
+<span class="nc" id="L49">    this.mavenProjectResult = mavenProjectResult;</span>
+<span class="nc" id="L50">    this.mavenCacheResult = mavenCacheResult;</span>
+<span class="nc" id="L51">  }</span>
 
   public int getReturnCode() {
-<span class="nc" id="L53">    return returnCode;</span>
+<span class="nc" id="L54">    return returnCode;</span>
   }
 
   public boolean isSuccessful() {
-<span class="nc" id="L57">    return ExecutionResult.Successful.equals(this.result);</span>
+<span class="nc" id="L58">    return ExecutionResult.Successful.equals(this.result);</span>
   }
 
   public boolean isFailure() {
-<span class="nc" id="L61">    return ExecutionResult.Failure.equals(this.result);</span>
+<span class="nc" id="L62">    return ExecutionResult.Failure.equals(this.result);</span>
   }
 
   public ExecutionResult getResult() {
-<span class="nc" id="L65">    return this.result;</span>
+<span class="nc" id="L66">    return this.result;</span>
   }
 
   public MavenLog getMavenLog() {
-<span class="nc" id="L69">    return mavenLog;</span>
+<span class="nc" id="L70">    return mavenLog;</span>
   }
 
   public MavenCacheResult getMavenCacheResult() {
-<span class="nc" id="L73">    return mavenCacheResult;</span>
+<span class="nc" id="L74">    return mavenCacheResult;</span>
   }
 
   public MavenProjectResult getMavenProjectResult() {
-<span class="nc" id="L77">    return mavenProjectResult;</span>
+<span class="nc" id="L78">    return mavenProjectResult;</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L82">    return new StringJoiner(&quot;, &quot;, MavenExecutionResult.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;).add(&quot;result=&quot; + result)</span>
-<span class="nc" id="L83">        .add(&quot;returnCode=&quot; + returnCode)</span>
-<span class="nc" id="L84">        .add(&quot;mavenLog=&quot; + mavenLog)</span>
-<span class="nc" id="L85">        .add(&quot;mavenProjectResult=&quot; + mavenProjectResult)</span>
-<span class="nc" id="L86">        .add(&quot;mavenCacheResult=&quot; + mavenCacheResult)</span>
-<span class="nc" id="L87">        .toString();</span>
+<span class="nc" id="L83">    return new StringJoiner(&quot;, &quot;, MavenExecutionResult.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;).add(&quot;result=&quot; + result)</span>
+<span class="nc" id="L84">        .add(&quot;returnCode=&quot; + returnCode)</span>
+<span class="nc" id="L85">        .add(&quot;mavenLog=&quot; + mavenLog)</span>
+<span class="nc" id="L86">        .add(&quot;mavenProjectResult=&quot; + mavenProjectResult)</span>
+<span class="nc" id="L87">        .add(&quot;mavenCacheResult=&quot; + mavenCacheResult)</span>
+<span class="nc" id="L88">        .toString();</span>
   }
 
-<span class="nc" id="L90">  @SuppressWarnings(&quot;java:S115&quot;)</span>
+<span class="nc" id="L91">  @SuppressWarnings(&quot;java:S115&quot;)</span>
   public enum ExecutionResult {
-<span class="nc" id="L92">    Successful,</span>
-<span class="nc" id="L93">    Failure,</span>
+<span class="nc" id="L93">    Successful,</span>
+<span class="nc" id="L94">    Failure,</span>
   }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

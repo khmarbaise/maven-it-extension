@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.17">
-<meta name="author" content="Karl Heinz Marbaise, 2023-01-09">
+<meta name="generator" content="Asciidoctor 2.0.20">
+<meta name="author" content="Karl Heinz Marbaise, 2023-12-27">
 <title>Integration Testing Framework Release Notes</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -85,10 +85,10 @@ code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;
 ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
 ul,ol{margin-left:1.5em}
 ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
-ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
-ul.square{list-style-type:square}
 ul.circle{list-style-type:circle}
 ul.disc{list-style-type:disc}
+ul.square{list-style-type:square}
+ul.circle ul:not([class]),ul.disc ul:not([class]),ul.square ul:not([class]){list-style:inherit}
 ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
 dl dt{margin-bottom:.3125em;font-weight:bold}
 dl dd{margin-bottom:1.25em}
@@ -209,13 +209,10 @@ table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
 .admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
 .admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
 .exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
-.exampleblock>.content>:first-child{margin-top:0}
-.exampleblock>.content>:last-child{margin-bottom:0}
 .sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
-.sidebarblock>:first-child{margin-top:0}
-.sidebarblock>:last-child{margin-bottom:0}
 .sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
-.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content>:first-child,.sidebarblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child,.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
 .literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
 @media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
 @media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
@@ -394,7 +391,7 @@ b.conum *{color:inherit!important}
 dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
 h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
 p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
-p,blockquote,dt,td.content,span.alt,summary{font-size:1.0625rem}
+p,blockquote,dt,td.content,td.hdlist1,span.alt,summary{font-size:1.0625rem}
 p{margin-bottom:1.25rem}
 .sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
 .exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
@@ -531,12 +528,13 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>Integration Testing Framework Release Notes</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2023-01-09</span><br>
-<span id="revnumber">version 0.12.0</span>
+<span id="author2" class="author">2023-12-27</span><br>
+<span id="revnumber">version 0.13.0</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
+<li><a href="#release-notes-0.13.0">Pre-release 0.13.0</a></li>
 <li><a href="#release-notes-0.12.0">Pre-release 0.12.0</a></li>
 <li><a href="#release-notes-0.11.0">Pre-release 0.11.0</a></li>
 <li><a href="#release-notes-0.10.0">Pre-release 0.10.0</a></li>
@@ -562,6 +560,320 @@ releases since 0.1.0.</p>
 <div class="paragraph">
 <p>Please refer to the <a href="../user-guide/index.html#user-guide">User Guide</a> for a comprehensive
 overview and detailed instructions how to use the Integration Testing Framework.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="release-notes-0.13.0">Pre-release 0.13.0</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Date of Release:</strong> ?? 2023</p>
+</div>
+<div class="paragraph">
+<p><strong>Scope:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>{??} -&#8201;&#8212;&#8201;</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Details</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/326">Fixed #326</a> - Failing IT&#8217;s based on Maven 3.8.7</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/329">Fixed #329</a> - Upgrade to smpp 5.3.14</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/409">Fixed #409</a> - Remove superfluous debugging outputs</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/410">Fixed #410</a> - Document build requirement</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/417">Fixed #417</a> - Maven 4.0.0 - Failing IT - maven-resources-plugin not defined</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Breaking Changes</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/277">Fixed #277</a> - Remove Deprecated Code. Take a look into the release notes of <a href="#release-0.12.0.breaking-changes">Version 0.12.0</a>.</p>
+</li>
+<li>
+<p>If you have used <code>@MavenDebug</code> annotation you have to replace that usage with <code>@MavenVerbose</code>. You will
+get <code>deprecated warnings</code> during the compilation.</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/379">Fixed #379</a> - Deprecated <code>@MavenDebug</code>; Replace the usage with <code>@MavenVerbose</code>.
+<code>@MavenDebug</code> will be removed with release 0.14.0.</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/421">Fixed #421</a> - Deprecated the <code>MavenVersion#UNKNOWN</code>. If you have used it somewhere you will get a deprecation WARNING
+during compilation. That should be replaced with <code>MavenVersion#ANY</code>. (Usually you shouldn&#8217;t have used
+that anyway). <code>MavenVersion#UNKNOWN</code> will be removed with release 0.14.0.
+Also all Maven Version for <code>M3_0_5</code> up to <code>M3_5_4</code> have been marked deprecated to indicate that those
+versions are very old and shouldn&#8217;t be used anymore; Not even in tests (You should upgrade your Maven
+version)</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/359">Fixed #359</a> - ITF class level annotations misbehave</p>
+<div class="ulist">
+<ul>
+<li>
+<p>if you have used <code>@MavenProfile</code> annotation on class level with profiles and relied on the behaviour that
+on a method or a nested class a definition of another <code>@MavenProfile</code> replaced all the original profiles
+during the execution. That behaviour has been changed. Please refer to the users guide about <code>@MavenProfile</code>
+annotation and it particular behaviour. The following example shows the behaviour in release 0.12.0:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenProfile</span>({<span class="string"><span class="delimiter">&quot;</span><span class="content">profile-1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">profile-2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">profile-3</span><span class="delimiter">&quot;</span></span>})
+<span class="type">class</span> <span class="class">ProfileOnClassIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> profile_1_2_3(MavenExecutionResult result) {
+     ...
+  }
+
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenProfile</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">profile-1</span><span class="delimiter">&quot;</span></span>)
+  <span class="type">void</span> profile_1(MavenExecutionResult result) {
+    ...
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The way to achieve the same with the release 0.13.0, you have to express is like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@MavenProfile</span>({<span class="string"><span class="delimiter">&quot;</span><span class="content">profile-1</span><span class="delimiter">&quot;</span></span>})
+<span class="type">class</span> <span class="class">ProfileOnClassIT</span> {
+
+  <span class="annotation">@MavenTest</span>
+  <span class="annotation">@MavenProfile</span>({<span class="string"><span class="delimiter">&quot;</span><span class="content">profile-2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">profile-3</span><span class="delimiter">&quot;</span></span>})
+  <span class="type">void</span> profile_1_2_3(MavenExecutionResult result) {
+     ...
+  }
+
+  <span class="annotation">@MavenTest</span>
+  <span class="type">void</span> profile_1(MavenExecutionResult result) {
+    ...
+  }
+}</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reporter of this release</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/359">Fixed #359</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/cstamas">Tamas Cservenak</a> has reported the issue.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Contributors of this release</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>&#8230;&#8203;</p>
+<div class="ulist">
+<ul>
+<li>
+<p>..</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Security Issues</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>{issue-??} - ???</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Dependency Upgrades</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/319">Fixed #319</a> - Upgrade JUnit Jupiter to 5.9.2</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/321">Fixed #321</a> - Upgrade assertj to 3.24.1</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/323">Fixed #323</a> - Upgrade mockito to 5.0.0</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/332">Fixed #332</a> - Upgrade mockito to 5.1.1</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/334">Fixed #334</a> - Upgrade assertj-bom to 3.24.2</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/342">Fixed #342</a> - Upgrade smpp to 6.0.0</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/344">Fixed #344</a> - Upgrade smpp to 6.0.1</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/346">Fixed #346</a> - Upgrade mockito-bom to 5.3.0</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/346">Fixed #348</a> - Upgrade memoryfilesystem to 2.5.0</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/319">Fixed #319</a> - Upgrade JUnit Jupiter to 5.9.3</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/360">Fixed #360</a> - Upgrade smpp to 6.0.2</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/362">Fixed #362</a> - Upgrade mockito to 5.4.0</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/364">Fixed #363</a> - Upgrade smpp to 6.0.3</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/366">Fixed #366</a> - Upgrade memoryfilesystem to 2.6.1</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/355">Fixed #355</a> - Upgrade JUnit Jupiter to 5.10.0</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/374">Fixed #374</a> - Upgrade Upgrade byte buddy version 1.14.7</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/375">Fixed #375</a> - Upgrade mockito-bom to 5.5.0</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/376">Fixed #376</a> - Upgrade apiguardian-api to 1.1.2</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/384">Fixed #384</a> - Upgrade JUnit Jupiter to 5.10.1</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/387">Fixed #387</a> - Upgrade smpp to 6.0.4</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/388">Fixed #388</a> - Upgrade memoryfilesystem to 2.7.0</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/390">Fixed #390</a> - Upgrade equalsverifier to 3.15.4</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/392">Fixed #392</a> - Upgrade byte-buddy to 1.14.10</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/394">Fixed #394</a> - Upgrade mockito to 5.8.0</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/396">Fixed #396</a> - Upgrade maven-plugin-plugin to 3.10.2</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/399">Fixed #399</a> - Upgrade all plugins used in IT to most recent versions</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/425">Fixed #425</a> - Upgrade equalsverifier to 3.15.5</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/427">Fixed #427</a> - Upgrade byte-buddy 1.4.11</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/429">Fixed #429</a> - Upgrade maven-filtering 3.3.1</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/431">Fixed #431</a> - Upgrade maven-shared-utils 3.4.2</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/433">Fixed #433</a> - Upgrade plexus-interpolation 1.27</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/435">Fixed #435</a> - Upgrade plexus-utils 4.0.3</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/441">Fixed #441</a> - Upgrade smpp 6.0.5</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Build Improvements</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/351">Fixed #351</a> - JDK17+ Usage in Tests</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/381">Fixed #381</a> - Improved structuring of documentation.</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/382">Fixed #382</a> - Fixed output directory for html/pdf files.</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/398">Fixed #398</a> - Make Build working with JDK21.</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/401">Fixed #401</a> - Upgrade Build Minimum to Maven 3.9.6</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/331">Fixed #331</a> - Build failure with Maven 4.0.0-alpha-4</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/405">Fixed #405</a> - Change the scope for deps</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/411">Fixed #411</a> - Replace Deprecated DEBUG Option.</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/413">Fixed #413</a> - Add asciidoctor-maven-plugin dependencies</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/414">Fixed #414</a> - Testing with Maven 4.0.0-alpha-10</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/424">Fixed #424</a> - Check for WARNING about Java agent</p>
+</li>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/438">Fixed #438</a> - Dependencies in different scope</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The full release notes can be found here <a href="https://github.com/khmarbaise/maven-it-extension/milestone/13">Release 0.13.0</a>.</p>
 </div>
 </div>
 </div>
@@ -640,7 +952,7 @@ Added some tests to prevent the issue.</p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
+<div id="release-0.12.0.breaking-changes" class="paragraph">
 <p><strong>Breaking Changes</strong></p>
 </div>
 <div class="ulist">
@@ -2314,8 +2626,8 @@ publish in <a href="https://central.sonatype.org/">Central Repository</a>.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.12.0<br>
-Last updated 2023-01-09 18:20:22 +0100
+Version 0.13.0<br>
+Last updated 2023-12-27 20:50:16 +0100
 </div>
 </div>
 </body>

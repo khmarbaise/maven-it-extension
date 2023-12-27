@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MavenVersionParser.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">itf-jupiter-extension</a> &gt; <a href="index.source.html" class="el_package">com.soebes.itf.jupiter.extension</a> &gt; <span class="el_source">MavenVersionParser.java</span></div><h1>MavenVersionParser.java</h1><pre class="source lang-java linenums">package com.soebes.itf.jupiter.extension;
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import org.apiguardian.api.API;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static com.soebes.itf.jupiter.extension.MavenVersionComparator.of;
+import static org.apiguardian.api.API.Status.INTERNAL;
+
+/**
+ * @author Karl Heinz Marbaise
+ */
+@API(status = INTERNAL, since = &quot;0.13.0&quot;)
+public class MavenVersionParser {
+
+<span class="fc" id="L36">  private static final Pattern QUALIFIER_PATTERN = Pattern.compile(&quot;(\\d+)-(\\w+)-(\\d+)&quot;);</span>
+
+  private MavenVersionParser() {
+  }
+
+  /**
+   * @param version The given version as String.
+   * @return {@link MavenVersionComparator}
+   */
+  static MavenVersionComparator parseVersion(String version) {
+<span class="fc" id="L46">    String[] split = Pattern.compile(&quot;\\.&quot;).split(version);</span>
+<span class="fc" id="L47">    String majorStr = split[0];</span>
+<span class="fc" id="L48">    String minorStr = split[1];</span>
+<span class="fc" id="L49">    String qualifierStr = split[2];</span>
+
+<span class="fc" id="L51">    Matcher qualifierMatcher = QUALIFIER_PATTERN.matcher(qualifierStr);</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">    if (qualifierMatcher.matches()) {</span>
+<span class="fc" id="L53">      int major = Integer.parseInt(majorStr);</span>
+<span class="fc" id="L54">      int minor = Integer.parseInt(minorStr);</span>
+<span class="fc" id="L55">      int patch = Integer.parseInt(qualifierMatcher.group(1));</span>
+<span class="fc" id="L56">      String qualifier = qualifierMatcher.group(2);</span>
+<span class="fc" id="L57">      int qualifierNumber = Integer.parseInt(qualifierMatcher.group(3));</span>
+<span class="fc" id="L58">      return of(major, minor, patch, qualifier, qualifierNumber);</span>
+    } else {
+<span class="fc" id="L60">      int major = Integer.parseInt(majorStr);</span>
+<span class="fc" id="L61">      int minor = Integer.parseInt(minorStr);</span>
+<span class="fc" id="L62">      int patch = Integer.parseInt(qualifierStr);</span>
+<span class="fc" id="L63">      return of(major, minor, patch);</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
