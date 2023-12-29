@@ -20,7 +20,6 @@ package com.soebes.itf.maven.plugin;
  */
 
 import org.apache.maven.RepositoryUtils;
-import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.DependencyManagement;
 import org.apache.maven.model.Model;
@@ -103,19 +102,13 @@ public class InstallMojo extends AbstractMojo {
   @Parameter(defaultValue = "${reactorProjects}", readonly = true)
   private Collection<MavenProject> reactorProjects;
 
-  /**
-   *
-   */
-  @Parameter(property = "localRepository", required = true, readonly = true)
-  private ArtifactRepository localRepository;
-
   @Parameter(defaultValue = "runtime")
   private String scope;
 
   public void execute() throws MojoExecutionException, MojoFailureException {
     createTestRepository();
 
-    Map<String, org.eclipse.aether.artifact.Artifact> resolvedArtifacts = new LinkedHashMap<>();
+    Map<String, Artifact> resolvedArtifacts = new LinkedHashMap<>();
 
     try {
 
@@ -142,11 +135,11 @@ public class InstallMojo extends AbstractMojo {
     }
   }
 
-  private void resolveProjectArtifacts(Map<String, org.eclipse.aether.artifact.Artifact> resolvedArtifacts) {
+  private void resolveProjectArtifacts(Map<String, Artifact> resolvedArtifacts) {
 
     // pom packaging doesn't have a main artifact
     if (project.getArtifact() != null && project.getArtifact().getFile() != null) {
-      org.eclipse.aether.artifact.Artifact artifact = RepositoryUtils.toArtifact(project.getArtifact());
+      Artifact artifact = RepositoryUtils.toArtifact(project.getArtifact());
       resolvedArtifacts.put(ArtifactIdUtils.toId(artifact), artifact);
     }
 
@@ -155,24 +148,24 @@ public class InstallMojo extends AbstractMojo {
         .forEach(a -> resolvedArtifacts.put(ArtifactIdUtils.toId(a), a));
   }
 
-  private void resolveProjectPoms(MavenProject project, Map<String, org.eclipse.aether.artifact.Artifact> resolvedArtifacts)
+  private void resolveProjectPoms(MavenProject project, Map<String, Artifact> resolvedArtifacts)
       throws ArtifactResolutionException {
 
     if (project == null) {
       return;
     }
 
-    org.eclipse.aether.artifact.Artifact projectPom = RepositoryUtils.toArtifact(new ProjectArtifact(project));
+    Artifact projectPom = RepositoryUtils.toArtifact(new ProjectArtifact(project));
     if (projectPom.getFile() != null) {
       resolvedArtifacts.put(projectPom.toString(), projectPom);
     } else {
-      org.eclipse.aether.artifact.Artifact artifact = resolveArtifact(projectPom, project.getRemoteProjectRepositories());
+      Artifact artifact = resolveArtifact(projectPom, project.getRemoteProjectRepositories());
       resolvedArtifacts.put(ArtifactIdUtils.toId(artifact), artifact);
     }
     resolveProjectPoms(project.getParent(), resolvedArtifacts);
   }
 
-  private void resolveProjectDependencies(Map<String, org.eclipse.aether.artifact.Artifact> resolvedArtifacts)
+  private void resolveProjectDependencies(Map<String, Artifact> resolvedArtifacts)
       throws ArtifactResolutionException, MojoExecutionException, DependencyResolutionException {
 
     DependencyFilter classpathFilter = DependencyFilterUtils.classpathFilter(scope);
@@ -203,7 +196,7 @@ public class InstallMojo extends AbstractMojo {
     DependencyResult dependencyResult =
         repositorySystem.resolveDependencies(session.getRepositorySession(), request);
 
-    List<org.eclipse.aether.artifact.Artifact> artifacts = dependencyResult.getArtifactResults().stream()
+    List<Artifact> artifacts = dependencyResult.getArtifactResults().stream()
         .map(ArtifactResult::getArtifact)
         .collect(Collectors.toList());
 
@@ -212,19 +205,19 @@ public class InstallMojo extends AbstractMojo {
   }
 
   private void resolvePomsForArtifacts(
-      List<org.eclipse.aether.artifact.Artifact> artifacts,
-      Map<String, org.eclipse.aether.artifact.Artifact> resolvedArtifacts,
+      List<Artifact> artifacts,
+      Map<String, Artifact> resolvedArtifacts,
       List<RemoteRepository> remoteRepositories)
       throws ArtifactResolutionException, MojoExecutionException {
 
-    for (org.eclipse.aether.artifact.Artifact a : artifacts) {
-      org.eclipse.aether.artifact.Artifact artifactResult = resolveArtifact(new SubArtifact(a, "", "pom"), remoteRepositories);
+    for (Artifact a : artifacts) {
+      Artifact artifactResult = resolveArtifact(new SubArtifact(a, "", "pom"), remoteRepositories);
       resolvePomWithParents(artifactResult, resolvedArtifacts, remoteRepositories);
     }
   }
 
   private void resolvePomWithParents(
-      org.eclipse.aether.artifact.Artifact artifact, Map<String, org.eclipse.aether.artifact.Artifact> resolvedArtifacts, List<RemoteRepository> remoteRepositories)
+      Artifact artifact, Map<String, Artifact> resolvedArtifacts, List<RemoteRepository> remoteRepositories)
       throws MojoExecutionException, ArtifactResolutionException {
 
     if (resolvedArtifacts.containsKey(ArtifactIdUtils.toId(artifact))) {
@@ -234,16 +227,16 @@ public class InstallMojo extends AbstractMojo {
     Model model = PomUtils.loadPom(artifact.getFile());
     Parent parent = model.getParent();
     if (parent != null) {
-      org.eclipse.aether.artifact.DefaultArtifact pom =
+      DefaultArtifact pom =
           new DefaultArtifact(parent.getGroupId(), parent.getArtifactId(), "", "pom", parent.getVersion());
-      org.eclipse.aether.artifact.Artifact resolvedPom = resolveArtifact(pom, remoteRepositories);
+      Artifact resolvedPom = resolveArtifact(pom, remoteRepositories);
       resolvePomWithParents(resolvedPom, resolvedArtifacts, remoteRepositories);
     }
 
     resolvedArtifacts.put(ArtifactIdUtils.toId(artifact), artifact);
   }
 
-  private org.eclipse.aether.artifact.Artifact resolveArtifact(Artifact artifact, List<RemoteRepository> remoteRepositories)
+  private Artifact resolveArtifact(Artifact artifact, List<RemoteRepository> remoteRepositories)
       throws ArtifactResolutionException {
 
     ArtifactRequest request = new ArtifactRequest();
@@ -317,7 +310,7 @@ public class InstallMojo extends AbstractMojo {
 
       newSession.setLocalRepositoryManager(localRepositoryManager);
       repositorySystemSession = newSession;
-      getLog().debug("localRepoPath: "
+      getLog().debug("itfRepositoryPath: "
                      + localRepositoryManager.getRepository().getBasedir());
     }
 
