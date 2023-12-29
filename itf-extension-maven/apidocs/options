@@ -18,7 +18,7 @@
 -docencoding
 'UTF-8'
 -doctitle
-'itf-extension-maven 0.13.0 API'
+'itf-extension-maven 0.13.1 API'
 -linkoffline
 'https://docs.oracle.com/javase/8/docs/api' '/Users/khm/ws-git-soebes/maven-it-extension/target/checkout/itf-extension-maven/target/javadoc-bundle-options'
 -tag
@@ -28,4 +28,4 @@
 -use
 -version
 -windowtitle
-'itf-extension-maven 0.13.0 API'
+'itf-extension-maven 0.13.1 API'

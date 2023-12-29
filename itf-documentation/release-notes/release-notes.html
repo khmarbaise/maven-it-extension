@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.20">
-<meta name="author" content="Karl Heinz Marbaise, 2023-12-27">
+<meta name="author" content="Karl Heinz Marbaise, 2023-12-29">
 <title>Integration Testing Framework Release Notes</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -528,12 +528,13 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>Integration Testing Framework Release Notes</h1>
 <div class="details">
 <span id="author" class="author">Karl Heinz Marbaise</span><br>
-<span id="author2" class="author">2023-12-27</span><br>
-<span id="revnumber">version 0.13.0</span>
+<span id="author2" class="author">2023-12-29</span><br>
+<span id="revnumber">version 0.13.1</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
+<li><a href="#release-notes-0.13.1">Pre-release 0.13.1</a></li>
 <li><a href="#release-notes-0.13.0">Pre-release 0.13.0</a></li>
 <li><a href="#release-notes-0.12.0">Pre-release 0.12.0</a></li>
 <li><a href="#release-notes-0.11.0">Pre-release 0.11.0</a></li>
@@ -560,6 +561,52 @@ releases since 0.1.0.</p>
 <div class="paragraph">
 <p>Please refer to the <a href="../user-guide/index.html#user-guide">User Guide</a> for a comprehensive
 overview and detailed instructions how to use the Integration Testing Framework.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="release-notes-0.13.1">Pre-release 0.13.1</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Date of Release:</strong> December 29, 2023</p>
+</div>
+<div class="paragraph">
+<p><strong>Breaking Changes</strong>
+ * A change in 0.13.0 broke the compatibility with Maven before version 3.9.0.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/445">Fixed #445</a> - itf-maven-plugin:0.13.0:install fails due to missing class ArtifactIdUtils</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Restored compatibility with Maven before 3.9.0</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reporter of this release</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/acanda">Philip Graf</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/khmarbaise/maven-it-extension/issues/445">Fixed #445</a> - itf-maven-plugin:0.13.0:install fails due to missing class ArtifactIdUtils</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The full release notes can be found here <a href="https://github.com/khmarbaise/maven-it-extension/milestone/16">Release 0.13.1</a>.</p>
 </div>
 </div>
 </div>
@@ -2626,8 +2673,8 @@ publish in <a href="https://central.sonatype.org/">Central Repository</a>.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.13.0<br>
-Last updated 2023-12-27 20:50:16 +0100
+Version 0.13.1<br>
+Last updated 2023-12-29 21:31:42 +0100
 </div>
 </div>
 </body>

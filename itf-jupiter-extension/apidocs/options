@@ -1,5 +1,5 @@
 -classpath
-'/Users/khm/ws-git-soebes/maven-it-extension/target/checkout/itf-extension-maven/target/classes:/Users/khm/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/khm/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.1/junit-jupiter-api-5.10.1.jar:/Users/khm/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/khm/.m2/repository/org/junit/platform/junit-platform-commons/1.10.1/junit-platform-commons-1.10.1.jar:/Users/khm/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.1/junit-jupiter-engine-5.10.1.jar:/Users/khm/.m2/repository/org/junit/platform/junit-platform-engine/1.10.1/junit-platform-engine-1.10.1.jar:/Users/khm/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.1/junit-jupiter-params-5.10.1.jar:/Users/khm/.m2/repository/org/mockito/mockito-core/5.8.0/mockito-core-5.8.0.jar:/Users/khm/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.11/byte-buddy-agent-1.14.11.jar:/Users/khm/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/khm/.m2/repository/net/bytebuddy/byte-buddy/1.14.11/byte-buddy-1.14.11.jar:/Users/khm/.m2/repository/org/assertj/assertj-core/3.24.2/assertj-core-3.24.2.jar:/Users/khm/.m2/repository/com/github/marschall/memoryfilesystem/2.7.0/memoryfilesystem-2.7.0.jar:/Users/khm/.m2/repository/org/apache/maven/maven-model/3.2.5/maven-model-3.2.5.jar:/Users/khm/.m2/repository/org/codehaus/plexus/plexus-utils/3.0.20/plexus-utils-3.0.20.jar'
+'/Users/khm/ws-git-soebes/maven-it-extension/target/checkout/itf-extension-maven/target/itf-extension-maven-0.13.1.jar:/Users/khm/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/khm/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.1/junit-jupiter-api-5.10.1.jar:/Users/khm/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/khm/.m2/repository/org/junit/platform/junit-platform-commons/1.10.1/junit-platform-commons-1.10.1.jar:/Users/khm/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.1/junit-jupiter-engine-5.10.1.jar:/Users/khm/.m2/repository/org/junit/platform/junit-platform-engine/1.10.1/junit-platform-engine-1.10.1.jar:/Users/khm/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.1/junit-jupiter-params-5.10.1.jar:/Users/khm/.m2/repository/org/mockito/mockito-core/5.8.0/mockito-core-5.8.0.jar:/Users/khm/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.11/byte-buddy-agent-1.14.11.jar:/Users/khm/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/khm/.m2/repository/net/bytebuddy/byte-buddy/1.14.11/byte-buddy-1.14.11.jar:/Users/khm/.m2/repository/org/assertj/assertj-core/3.24.2/assertj-core-3.24.2.jar:/Users/khm/.m2/repository/com/github/marschall/memoryfilesystem/2.7.0/memoryfilesystem-2.7.0.jar:/Users/khm/.m2/repository/org/apache/maven/maven-model/3.2.5/maven-model-3.2.5.jar:/Users/khm/.m2/repository/org/codehaus/plexus/plexus-utils/3.0.20/plexus-utils-3.0.20.jar'
 -encoding
 'UTF-8'
 -package
@@ -18,7 +18,7 @@
 -docencoding
 'UTF-8'
 -doctitle
-'itf-jupiter-extension 0.13.0 API'
+'itf-jupiter-extension 0.13.1 API'
 -linkoffline
 'https://docs.oracle.com/javase/8/docs/api' '/Users/khm/ws-git-soebes/maven-it-extension/target/checkout/itf-jupiter-extension/target/javadoc-bundle-options'
 -linkoffline
@@ -30,4 +30,4 @@
 -use
 -version
 -windowtitle
-'itf-jupiter-extension 0.13.0 API'
+'itf-jupiter-extension 0.13.1 API'
