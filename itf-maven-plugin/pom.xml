@@ -26,7 +26,7 @@
   <parent>
     <groupId>com.soebes.itf.jupiter.extension</groupId>
     <artifactId>itf-extension</artifactId>
-    <version>0.13.0</version>
+    <version>0.13.1-SNAPSHOT</version>
   </parent>
 
   <packaging>maven-plugin</packaging>
@@ -34,6 +34,8 @@
 
   <properties>
     <mavenMinimumVersion>3.2.5</mavenMinimumVersion>
+    <!-- The same version as Maven Core 3.2.5 is using -->
+    <aetherVersion>1.0.0.v20140518</aetherVersion>
   </properties>
 
   <prerequisites>
@@ -42,10 +44,21 @@
 
   <!-- FIXME: move versions into dependencyManagement -->
   <dependencies>
+    <!--
+     ! The following is required to get that running on Maven 3.8.X and below
+    -->
     <dependency>
-      <groupId>com.soebes.itf.jupiter.extension</groupId>
-      <artifactId>itf-extension-maven</artifactId>
-      <version>${project.version}</version>
+      <groupId>org.eclipse.aether</groupId>
+      <artifactId>aether-api</artifactId>
+      <version>${aetherVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.aether</groupId>
+      <artifactId>aether-util</artifactId>
+      <version>${aetherVersion}</version>
+      <!-- To work in Maven versions older than 3.9.0 -->
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
@@ -61,49 +74,30 @@
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
-      <artifactId>maven-artifact</artifactId>
-      <version>${mavenMinimumVersion}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
       <version>${mavenMinimumVersion}</version>
       <scope>provided</scope>
-    </dependency>
-    <!-- Need to reconsider this -->
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-aether-provider</artifactId>
-      <version>${mavenMinimumVersion}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.plexus</groupId>
-      <artifactId>plexus-xml</artifactId>
-      <version>4.0.3</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.plexus</groupId>
-      <artifactId>plexus-interpolation</artifactId>
-      <version>1.27</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.shared</groupId>
-      <artifactId>maven-filtering</artifactId>
-      <version>3.3.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.shared</groupId>
-      <artifactId>maven-shared-utils</artifactId>
-      <version>3.4.2</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.plugin-tools</groupId>
       <artifactId>maven-plugin-annotations</artifactId>
       <version>${maven-plugin-plugin.version}</version>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.soebes.itf.jupiter.extension</groupId>
+      <artifactId>itf-extension-maven</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-utils</artifactId>
+      <version>3.5.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.shared</groupId>
+      <artifactId>maven-filtering</artifactId>
+      <version>3.3.1</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -156,11 +150,6 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.plexus</groupId>
-        <artifactId>plexus-component-metadata</artifactId>
-        <version>2.1.1</version>
       </plugin>
     </plugins>
   </build>
