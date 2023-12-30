@@ -140,7 +140,7 @@ of this extension.
 The requirements are:
 
 * JDK8+
-* Apache Maven 3.1.0 or above.
+* Apache Maven 3.6.3 or above.
 
 The first step is to add the appropriate dependencies to your project. They are usually with `test` scope,
 cause you only need them during the integration tests.
@@ -215,7 +215,7 @@ user who wants to test with the bleeding edge of this extension.
 The requirements for building this extension is:
 
 * JDK8+ (need to reconsider)
-* https://maven.apache.org/[Apache Maven 3.6.0+]
+* https://maven.apache.org/[Apache Maven 3.8.4+]
 
 You have to clone the git repository and you can build the extension simply via: `mvn clean install`. The `install` is
 needed to install the created artifacts into your local repository for reuse.
