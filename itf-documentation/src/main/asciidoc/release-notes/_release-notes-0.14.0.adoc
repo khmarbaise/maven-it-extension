@@ -24,6 +24,7 @@
 :issue-421: https://github.com/khmarbaise/maven-it-extension/issues/421[Fixed #421]
 :issue-421: https://github.com/khmarbaise/maven-it-extension/issues/421[Fixed #421]
 :issue-444: https://github.com/khmarbaise/maven-it-extension/issues/444[Fixed #444]
+:issue-447: https://github.com/khmarbaise/maven-it-extension/issues/447[Fixed #447]
 
 :release_0_14_0: https://github.com/khmarbaise/maven-it-extension/milestone/14
 
@@ -50,7 +51,7 @@
 
 *Build Improvements*
 
- * {issue-???} - ?
+ * {issue-447} - Move to use maven-resolver instead of aether
 
 *Documentation Improvements*
 
