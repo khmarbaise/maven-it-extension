@@ -27,6 +27,7 @@
 :issue-444: https://github.com/khmarbaise/maven-it-extension/issues/444[Fixed #444]
 :issue-447: https://github.com/khmarbaise/maven-it-extension/issues/447[Fixed #447]
 :issue-449: https://github.com/khmarbaise/maven-it-extension/issues/449[Fixed #449]
+:issue-451: https://github.com/khmarbaise/maven-it-extension/issues/451[Fixed #451]
 
 :release_0_14_0: https://github.com/khmarbaise/maven-it-extension/milestone/14
 
@@ -50,6 +51,7 @@
 *Dependency Upgrades*
 
  * {issue-420} - Upgrade assertj-bom to 3.25.0
+ * {issue-451} - Upgrade assertj-bom to 3.25.1
  * {issue-???} - ?
 
 *Build Improvements*
