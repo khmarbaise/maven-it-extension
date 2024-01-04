@@ -20,7 +20,7 @@ name: PUSH_ISSUE
 on:
   push:
     branches:
-      - 'issue-*'
+      - '*'
 
 jobs:
   build:
