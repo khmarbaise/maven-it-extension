@@ -1182,7 +1182,7 @@ From a technical perspective some other parameters have been added which are <co
 The <code>-Dmaven.repo.local=..</code> is needed to make sure that each call uses the defined local cache
 (See <a href="#scenarios.common.maven.cache">Common Maven Cache</a>).
 You can of course change the default for the goal, if you like by simply add the <code>@MavenGoal</code> annotation
-<code>@MavenGoal("install")</code> that would mean to execute all subjacent tests like <code>mvn -D.. install</code>
+<code>@MavenGoal("install")</code> that would mean to execute all subsequent tests like <code>mvn -D.. install</code>
 instead of <code>mvn -D .. package</code>. A usual command parameter set includes
 <code>--batch-mode</code> and <code>-V</code> (See <a href="#structuring.default.goals.options">for a more detailed explanation</a>).</p>
 </div>
@@ -2869,7 +2869,7 @@ example it is bound to <code>initialize</code>.</p>
 </div>
 <div class="paragraph">
 <p>The following example shows a real example how the plugin has been configured correctly (only the <code>configuration</code> area).
-The configuration will fail the build with a <code>MojoExecutionException</code> (exeuctionException=true) and a text of the
+The configuration will fail the build with a <code>MojoExecutionException</code> (executionException=true) and a text of the
 exception can given via <code>exception</code> configuration part.</p>
 </div>
 <div class="listingblock">
@@ -3421,7 +3421,7 @@ or the logging output of the Maven build you can change your integration test li
 <div id="footer">
 <div id="footer-text">
 Version 0.14.0-SNAPSHOT<br>
-Last updated 2024-01-05 09:31:54 UTC
+Last updated 2024-01-05 09:35:52 UTC
 </div>
 </div>
 </body>
