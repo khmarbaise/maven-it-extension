@@ -448,7 +448,7 @@ From a technical perspective some other parameters have been added which are `mv
 The `-Dmaven.repo.local=..` is needed to make sure that each call uses the defined local cache
 (See <<scenarios.common.maven.cache, Common Maven Cache>>).
 You can of course change the default for the goal, if you like by simply add the `@MavenGoal` annotation
-`@MavenGoal("install")` that would mean to execute all subjacent tests like `mvn -D.. install`
+`@MavenGoal("install")` that would mean to execute all subsequent tests like `mvn -D.. install`
 instead of `mvn -D .. package`. A usual command parameter set includes
 `--batch-mode` and `-V` (See <<structuring.default.goals.options, for a more detailed explanation>>).
 
@@ -1878,7 +1878,7 @@ to a phase you like. This means also you can bind that plugin to any phase you w
 example it is bound to `initialize`.
 
 The following example shows a real example how the plugin has been configured correctly (only the `configuration` area).
-The configuration will fail the build with a `MojoExecutionException` (exeuctionException=true) and a text of the
+The configuration will fail the build with a `MojoExecutionException` (executionException=true) and a text of the
 exception can given via `exception` configuration part.
 
 [source,xml]
