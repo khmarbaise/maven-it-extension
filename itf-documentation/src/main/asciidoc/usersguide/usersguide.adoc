@@ -589,7 +589,7 @@ class BasicIT {
 ----
 So based on the given example the method `first` will be executed with the activation of the profiles
 `run-its` and `run-its-delta`. The method `second` will be execute with the activated profile `run-its`. The method
-`nested_first` will be executed with the activated profiles `run-its`, `nested-class`and `nested-first`. Finally the
+`nested_first` will be executed with the activated profiles `run-its`, `nested-class` and `nested-first`. Finally the
 method `nested_second` will be executed with the activated profiles `run-its` and `nested-class`.
 
 
@@ -893,7 +893,7 @@ class BasicIT {
 How would the above test cases executed related to the defined goal annotation? The method `first` will
 be executed with the goal `clean`. The method `second` will be executed with the goals `clean` and `install`.
 The method `nested_first` in the nested class `NestedLevel` will be executed with the goals `clean` and `verify`
-and finally the method `nested_second` will be exectuted with the goals `clean`, `verify` and `site:stage`.
+and finally the method `nested_second` will be executed with the goals `clean`, `verify` and `site:stage`.
 
 [[structuring.options]]
 ==== Options
