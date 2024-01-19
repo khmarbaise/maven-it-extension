@@ -30,6 +30,7 @@
 :issue-451: https://github.com/khmarbaise/maven-it-extension/issues/451[Fixed #451]
 :issue-453: https://github.com/khmarbaise/maven-it-extension/issues/453[Fixed #453]
 :issue-455: https://github.com/khmarbaise/maven-it-extension/issues/455[Fixed #455]
+:issue-456: https://github.com/khmarbaise/maven-it-extension/issues/456[Fixed #456]
 
 :release_0_14_0: https://github.com/khmarbaise/maven-it-extension/milestone/14
 
@@ -61,6 +62,7 @@
 
  * {issue-447} - Move to use maven-resolver instead of aether
  * {issue-455} - Upgrade asciidoctor-maven-plugin 2.2.5
+ * {issue-456} - Upgrade to Maven 4.0.0 Alpha 12
 
 *Documentation Improvements*
 
