@@ -34,6 +34,8 @@
 :issue-458: https://github.com/khmarbaise/maven-it-extension/issues/458[Fixed #458]
 :issue-463: https://github.com/khmarbaise/maven-it-extension/issues/463[Fixed #463]
 :issue-464: https://github.com/khmarbaise/maven-it-extension/issues/464[Fixed #464]
+:issue-457: https://github.com/khmarbaise/maven-it-extension/issues/457[Fixed #457]
+:pr-462: https://github.com/khmarbaise/maven-it-extension/pull/262[Pull request #462]
 
 :release_0_14_0: https://github.com/khmarbaise/maven-it-extension/milestone/14
 
@@ -50,9 +52,10 @@
  ** Removed `@MavenDebug` (related to {issue-379})
  ** Removed `MavenVersion.UNKNOWN` (related to {issue-421})
 
-*Reporter of this release*
+*Contributors of this release*
 
- * {issue-???} - ?
+* https://github.com/JOpsDev[Tobias Frech] with {pr-462}
+** Inconsistent documentation of minimum required Maven version
 
 *Dependency Upgrades*
 
@@ -74,6 +77,7 @@
 
 * {issue-444} - Upgrade central link
 * {issue-449} - Runtime requirement in docs is wrongly Maven 3.1.0
+* {issue-457} - Inconsistent documentation of minimum required Maven version
 
 
 The full release notes can be found here {release_0_14_0}[Release 0.14.0].
