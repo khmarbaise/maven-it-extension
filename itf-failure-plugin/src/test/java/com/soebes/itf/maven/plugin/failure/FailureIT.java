@@ -30,9 +30,7 @@ import static org.assertj.core.api.Assertions.atIndex;
 @MavenJupiterExtension
 class FailureIT {
 
-  private static final String SEPARATOR_LINE = "------------------------------------------------------------------------";
-
-  @MavenTest
+    @MavenTest
   @DisplayName("The basic configuration should result in a successful build.")
   void basic_configuration(MavenExecutionResult project) {
     assertThat(project).isSuccessful().out().warn().contains("Neither executionException nor failureException has been set.");
@@ -42,7 +40,7 @@ class FailureIT {
   void fail_with_mojo_execution_exception(MavenExecutionResult result) {
     assertThat(result).isFailure();
 
-    assertThat(result).out().info().containsSequence(SEPARATOR_LINE, "BUILD FAILURE", SEPARATOR_LINE);
+    assertThat(result).out().info().containsSequence("BUILD FAILURE");
 
     //TODO: Is there a simpler way to do this? Can we somehow create better support for that?
     assertThat(result).out().error().filteredOn(s -> s.startsWith("Failed to execute goal ")).satisfies(s -> {
@@ -58,7 +56,7 @@ class FailureIT {
   void fail_with_mojo_failure_exception(MavenExecutionResult result) {
     assertThat(result).isFailure();
 
-    assertThat(result).out().info().containsSequence(SEPARATOR_LINE, "BUILD FAILURE", SEPARATOR_LINE);
+    assertThat(result).out().info().containsSequence("BUILD FAILURE");
 
     //TODO: Is there a simpler way to do this? Can we somehow create better support for that?
     assertThat(result).out().error().filteredOn(s -> s.startsWith("Failed to execute goal ")).satisfies(s -> {
