@@ -64,6 +64,8 @@
     <automatic-module-name>com.soebes.itf.extension</automatic-module-name>
     <maven-plugin-plugin.version>3.10.2</maven-plugin-plugin.version>
     <maven-resolver.version>1.9.18</maven-resolver.version>
+    <!-- The minimum maven version we expect to build with. -->
+    <minimum.maven.version>3.8.1</minimum.maven.version>
   </properties>
 
   <dependencyManagement>

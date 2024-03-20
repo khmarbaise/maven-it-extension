@@ -31,6 +31,7 @@
 :issue-453: https://github.com/khmarbaise/maven-it-extension/issues/453[Fixed #453]
 :issue-455: https://github.com/khmarbaise/maven-it-extension/issues/455[Fixed #455]
 :issue-456: https://github.com/khmarbaise/maven-it-extension/issues/456[Fixed #456]
+:issue-457: https://github.com/khmarbaise/maven-it-extension/issues/457[Fixed #457]
 
 :release_0_14_0: https://github.com/khmarbaise/maven-it-extension/milestone/14
 
@@ -68,6 +69,7 @@
 
 * {issue-444} - Upgrade central link
 * {issue-449} - Runtime requirement in docs is wrongly Maven 3.1.0
+* {issue-457} - Inconsistent documentation of minimum required Maven version
 
 
 The full release notes can be found here {release_0_14_0}[Release 0.14.0].

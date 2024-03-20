@@ -140,7 +140,7 @@ of this extension.
 The requirements are:
 
 * JDK8+
-* Apache Maven 3.6.3 or above.
+* Apache Maven 3.8.1 or above.
 
 The first step is to add the appropriate dependencies to your project. They are usually with `test` scope,
 cause you only need them during the integration tests.
