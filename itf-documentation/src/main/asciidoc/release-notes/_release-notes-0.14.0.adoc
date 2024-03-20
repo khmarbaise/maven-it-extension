@@ -31,6 +31,7 @@
 :issue-453: https://github.com/khmarbaise/maven-it-extension/issues/453[Fixed #453]
 :issue-455: https://github.com/khmarbaise/maven-it-extension/issues/455[Fixed #455]
 :issue-456: https://github.com/khmarbaise/maven-it-extension/issues/456[Fixed #456]
+:issue-440: https://github.com/khmarbaise/maven-it-extension/issues/440[Fixed #440]
 
 :release_0_14_0: https://github.com/khmarbaise/maven-it-extension/milestone/14
 
@@ -56,7 +57,7 @@
  * {issue-420} - Upgrade assertj-bom to 3.25.0
  * {issue-451} - Upgrade assertj-bom to 3.25.1
  * {issue-453} - Upgrade memoryfilesystem to 2.8.0
- * {issue-???} - ?
+ * {issue-440} - Upgrade ITF Framework Maven Version minimum to 3.8.1
 
 *Build Improvements*
 
