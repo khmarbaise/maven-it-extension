@@ -24,6 +24,7 @@
 :issue-420: https://github.com/khmarbaise/maven-it-extension/issues/420[Fixed #420]
 :issue-421: https://github.com/khmarbaise/maven-it-extension/issues/421[Fixed #421]
 :issue-421: https://github.com/khmarbaise/maven-it-extension/issues/421[Fixed #421]
+:issue-440: https://github.com/khmarbaise/maven-it-extension/issues/440[Fixed #440]
 :issue-444: https://github.com/khmarbaise/maven-it-extension/issues/444[Fixed #444]
 :issue-447: https://github.com/khmarbaise/maven-it-extension/issues/447[Fixed #447]
 :issue-449: https://github.com/khmarbaise/maven-it-extension/issues/449[Fixed #449]
@@ -35,6 +36,7 @@
 :issue-463: https://github.com/khmarbaise/maven-it-extension/issues/463[Fixed #463]
 :issue-464: https://github.com/khmarbaise/maven-it-extension/issues/464[Fixed #464]
 :issue-457: https://github.com/khmarbaise/maven-it-extension/issues/457[Fixed #457]
+:pr-460: https://github.com/khmarbaise/maven-it-extension/pull/460[Pull request #460]
 :pr-462: https://github.com/khmarbaise/maven-it-extension/pull/262[Pull request #462]
 
 :release_0_14_0: https://github.com/khmarbaise/maven-it-extension/milestone/14
@@ -56,6 +58,8 @@
 
 * https://github.com/JOpsDev[Tobias Frech] with {pr-462}
 ** Inconsistent documentation of minimum required Maven version
+* https://github.com/sparsick[Sandra Parsick] with {pr-460}
+** Upgrade ITF Framework Maven Version minimum to 3.8.1
 
 *Dependency Upgrades*
 
@@ -63,6 +67,7 @@
  * {issue-451} - Upgrade assertj-bom to 3.25.1
  * {issue-453} - Upgrade memoryfilesystem to 2.8.0
  * {issue-463} - Upgrade smpp to 6.0.6
+ * {issue-440} - Upgrade ITF Framework Maven Version minimum to 3.8.1
  * {issue-???} - ?
 
 *Build Improvements*
