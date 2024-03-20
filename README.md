@@ -63,7 +63,7 @@ Of course there is a lot of convenience integrated into it to make integration t
 The requirements to write integration tests with the integration testing framework are the following:
 
 * JDK8+
-* Apache Maven 3.8.4 or above.
+* Apache Maven 3.8.1 or above.
 
 ## The Maven Configuration
 
@@ -322,6 +322,11 @@ Code coverage via:
 ```bash
 mvn clean verify org.jacoco:jacoco-maven-plugin:report
 ```
+
+# Contributing
+
+If you want to contribute, there is a [contribution guide](CONTRIBUTING.md) for you.
+
   
 [food]: https://en.wikipedia.org/wiki/Eating_your_own_dog_food
 [jdkbuilds]: https://github.com/khmarbaise/maven-it-extension/actions?query=workflow%3AJDKBuilds
