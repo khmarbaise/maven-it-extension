@@ -40,6 +40,6 @@ jobs:
         uses: hb0730/maven-action@v1.0.1
         with:
           maven-version: 4.0.0
-          url: https://repo1.maven.org/maven2/org/apache/maven/apache-maven/4.0.0-alpha-12/apache-maven-4.0.0-alpha-12-bin.tar.gz
+          url: https://repo1.maven.org/maven2/org/apache/maven/apache-maven/4.0.0-alpha-13/apache-maven-4.0.0-alpha-13-bin.tar.gz
       - name: "Building with Maven."
         run: mvn verify -e -B -V --no-transfer-progress
