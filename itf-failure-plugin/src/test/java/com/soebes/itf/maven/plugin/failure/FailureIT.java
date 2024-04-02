@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.atIndex;
 @MavenJupiterExtension
 class FailureIT {
 
-    @MavenTest
+  @MavenTest
   @DisplayName("The basic configuration should result in a successful build.")
   void basic_configuration(MavenExecutionResult project) {
     assertThat(project).isSuccessful().out().warn().contains("Neither executionException nor failureException has been set.");
