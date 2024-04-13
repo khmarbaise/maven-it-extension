@@ -36,6 +36,7 @@
 :issue-463: https://github.com/khmarbaise/maven-it-extension/issues/463[Fixed #463]
 :issue-464: https://github.com/khmarbaise/maven-it-extension/issues/464[Fixed #464]
 :issue-457: https://github.com/khmarbaise/maven-it-extension/issues/457[Fixed #457]
+:issue-459: https://github.com/khmarbaise/maven-it-extension/issues/459[Fixed #459]
 :pr-460: https://github.com/khmarbaise/maven-it-extension/pull/460[Pull request #460]
 :pr-462: https://github.com/khmarbaise/maven-it-extension/pull/462[Pull request #462]
 
@@ -77,6 +78,7 @@
  * {issue-456} - Upgrade to Maven 4.0.0 Alpha 12
  * {issue-458} - Upgrade to Maven 4.0.0 Alpha 13
  * {issue-464} - Make the IT's running for Maven 4
+ * {issue-459} - Upgrade asciidoctor-maven-plugin 3.0.0
 
 *Documentation Improvements*
 
