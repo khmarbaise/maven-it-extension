@@ -33,6 +33,8 @@
 :issue-456: https://github.com/khmarbaise/maven-it-extension/issues/456[Fixed #456]
 :issue-440: https://github.com/khmarbaise/maven-it-extension/issues/440[Fixed #440]
 :issue-458: https://github.com/khmarbaise/maven-it-extension/issues/458[Fixed #458]
+:issue-463: https://github.com/khmarbaise/maven-it-extension/issues/463[Fixed #463]
+:issue-464: https://github.com/khmarbaise/maven-it-extension/issues/464[Fixed #464]
 
 :release_0_14_0: https://github.com/khmarbaise/maven-it-extension/milestone/14
 
@@ -59,6 +61,8 @@
  * {issue-451} - Upgrade assertj-bom to 3.25.1
  * {issue-453} - Upgrade memoryfilesystem to 2.8.0
  * {issue-440} - Upgrade ITF Framework Maven Version minimum to 3.8.1
+ * {issue-463} - Upgrade smpp to 6.0.6
+ * {issue-???} - ?
 
 *Build Improvements*
 
@@ -66,6 +70,7 @@
  * {issue-455} - Upgrade asciidoctor-maven-plugin 2.2.5
  * {issue-456} - Upgrade to Maven 4.0.0 Alpha 12
  * {issue-458} - Upgrade to Maven 4.0.0 Alpha 13
+ * {issue-464} - Make the IT's running for Maven 4
 
 *Documentation Improvements*
 
