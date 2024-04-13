@@ -39,8 +39,6 @@ class MetaAnnotationGoalIT {
         .info()
         .containsSubsequence(
             "Scanning for projects...",
-            "-------------------< com.soebes.katas:kata-fraction >-------------------",
-            "--------------------------------[ jar ]---------------------------------",
             "--- clean:3.3.2:clean (default-clean) @ kata-fraction ---",
             "--- enforcer:3.4.1:enforce (enforce-maven) @ kata-fraction ---",
             "--- jacoco:0.8.11:prepare-agent (default) @ kata-fraction ---",

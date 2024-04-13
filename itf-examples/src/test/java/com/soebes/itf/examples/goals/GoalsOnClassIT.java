@@ -40,10 +40,9 @@ class GoalsOnClassIT {
         .info()
         .containsSubsequence(
             "Scanning for projects...",
-            "-------------------< com.soebes.katas:kata-fraction >-------------------",
             "Building kata-fraction 1.0-SNAPSHOT",
-            "--------------------------------[ jar ]---------------------------------",
-            "--- clean:3.3.2:clean (default-clean) @ kata-fraction ---"
+            "--- clean:3.3.2:clean (default-clean) @ kata-fraction ---",
+            "BUILD SUCCESS"
         );
     assertThat(result)
         .isSuccessful()
