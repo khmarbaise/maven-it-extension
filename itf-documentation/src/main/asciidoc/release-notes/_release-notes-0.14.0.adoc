@@ -32,6 +32,7 @@
 :issue-455: https://github.com/khmarbaise/maven-it-extension/issues/455[Fixed #455]
 :issue-456: https://github.com/khmarbaise/maven-it-extension/issues/456[Fixed #456]
 :issue-458: https://github.com/khmarbaise/maven-it-extension/issues/458[Fixed #458]
+:issue-463: https://github.com/khmarbaise/maven-it-extension/issues/463[Fixed #463]
 
 :release_0_14_0: https://github.com/khmarbaise/maven-it-extension/milestone/14
 
@@ -57,6 +58,7 @@
  * {issue-420} - Upgrade assertj-bom to 3.25.0
  * {issue-451} - Upgrade assertj-bom to 3.25.1
  * {issue-453} - Upgrade memoryfilesystem to 2.8.0
+ * {issue-463} - Upgrade smpp to 6.0.6
  * {issue-???} - ?
 
 *Build Improvements*
