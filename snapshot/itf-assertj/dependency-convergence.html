@@ -148,20 +148,38 @@
 <td>52</td></tr>
 <tr class="a">
 <th>Number of unique artifacts (NOA):</th>
-<td>58</td></tr>
+<td>60</td></tr>
 <tr class="b">
 <th>Number of version-conflicting artifacts (NOC):</th>
-<td>3</td></tr>
+<td>4</td></tr>
 <tr class="a">
 <th>Number of SNAPSHOT artifacts (NOS):</th>
 <td>0</td></tr>
 <tr class="b">
 <th>Convergence (NOD/NOA):</th>
-<td><img src="images/icon_error_sml.gif" alt="[Error]" />&#160;<b>89 %</b></td></tr>
+<td><img src="images/icon_error_sml.gif" alt="[Error]" />&#160;<b>86 %</b></td></tr>
 <tr class="a">
 <th>Ready for release (100% convergence and no SNAPSHOTS):</th>
 <td><img src="images/icon_error_sml.gif" alt="[Error]" />&#160;<b>Error</b><br />You do not have 100% convergence.</td></tr></table></section><section>
 <h3><a name="Dependencies_used_in_modules"></a>Dependencies used in modules</h3><section>
+<h4><a name="org.apache.maven:maven-model"></a>org.apache.maven:maven-model</h4>
+<table border="0" class="table table-striped">
+<tr class="a">
+<td><img src="images/icon_error_sml.gif" alt="[Error]" /></td>
+<td>
+<table border="0" class="table table-striped">
+<tr class="b">
+<td width="25%">3.2.5</td>
+<td>
+<ol style="list-style-type: decimal">
+<li>com.soebes.itf.jupiter.extension:itf-failure-plugin:maven-plugin:0.14.0-SNAPSHOT<br />\-&#160;org.apache.maven:maven-model:jar:3.2.5:provided<br /></li><br />
+<li>com.soebes.itf.jupiter.extension:itf-maven-plugin:maven-plugin:0.14.0-SNAPSHOT<br />\-&#160;org.apache.maven:maven-model:jar:3.2.5:provided<br /></li><br /></ol></td></tr>
+<tr class="a">
+<td width="25%">3.8.1</td>
+<td>
+<ol style="list-style-type: decimal">
+<li>com.soebes.itf.jupiter.extension:itf-failure-plugin:maven-plugin:0.14.0-SNAPSHOT<br />+-&#160;org.apache.maven:maven-core:jar:3.2.5:provided<br />|&#160;&#160;+-&#160;org.apache.maven:maven-model:jar:3.8.1:provided<br />|&#160;&#160;+-&#160;org.apache.maven:maven-model-builder:jar:3.2.5:provided<br />|&#160;&#160;|&#160;&#160;\-&#160;org.apache.maven:maven-model:jar:3.8.1:provided<br />|&#160;&#160;\-&#160;org.apache.maven:maven-aether-provider:jar:3.2.5:provided<br />|&#160;&#160;&#160;&#160;&#160;\-&#160;org.apache.maven:maven-model:jar:3.8.1:provided<br />+-&#160;org.apache.maven:maven-plugin-api:jar:3.2.5:provided<br />|&#160;&#160;\-&#160;org.apache.maven:maven-model:jar:3.8.1:provided<br />+-&#160;com.soebes.itf.jupiter.extension:itf-extension-maven:jar:0.14.0-SNAPSHOT:test<br />|&#160;&#160;\-&#160;org.apache.maven:maven-model:jar:3.8.1:test<br />\-&#160;com.soebes.itf.jupiter.extension:itf-jupiter-extension:jar:0.14.0-SNAPSHOT:test<br />&#160;&#160;&#160;\-&#160;org.apache.maven:maven-model:jar:3.8.1:test<br /></li><br />
+<li>com.soebes.itf.jupiter.extension:itf-maven-plugin:maven-plugin:0.14.0-SNAPSHOT<br />+-&#160;org.apache.maven:maven-core:jar:3.2.5:provided<br />|&#160;&#160;+-&#160;org.apache.maven:maven-model:jar:3.8.1:provided<br />|&#160;&#160;+-&#160;org.apache.maven:maven-model-builder:jar:3.2.5:provided<br />|&#160;&#160;|&#160;&#160;\-&#160;org.apache.maven:maven-model:jar:3.8.1:provided<br />|&#160;&#160;\-&#160;org.apache.maven:maven-aether-provider:jar:3.2.5:provided<br />|&#160;&#160;&#160;&#160;&#160;\-&#160;org.apache.maven:maven-model:jar:3.8.1:provided<br />+-&#160;org.apache.maven:maven-plugin-api:jar:3.2.5:provided<br />|&#160;&#160;\-&#160;org.apache.maven:maven-model:jar:3.8.1:provided<br />+-&#160;com.soebes.itf.jupiter.extension:itf-extension-maven:jar:0.14.0-SNAPSHOT:compile<br />|&#160;&#160;\-&#160;org.apache.maven:maven-model:jar:3.8.1:compile<br />\-&#160;com.soebes.itf.jupiter.extension:itf-jupiter-extension:jar:0.14.0-SNAPSHOT:test<br />&#160;&#160;&#160;\-&#160;org.apache.maven:maven-model:jar:3.8.1:test<br /></li><br /></ol></td></tr></table></td></tr></table></section><section>
 <h4><a name="org.codehaus.plexus:plexus-classworlds"></a>org.codehaus.plexus:plexus-classworlds</h4>
 <table border="0" class="table table-striped">
 <tr class="a">
