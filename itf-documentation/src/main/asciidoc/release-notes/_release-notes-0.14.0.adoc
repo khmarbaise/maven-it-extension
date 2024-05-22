@@ -37,6 +37,7 @@
 :issue-464: https://github.com/khmarbaise/maven-it-extension/issues/464[Fixed #464]
 :issue-457: https://github.com/khmarbaise/maven-it-extension/issues/457[Fixed #457]
 :issue-459: https://github.com/khmarbaise/maven-it-extension/issues/459[Fixed #459]
+:issue-468: https://github.com/khmarbaise/maven-it-extension/issues/468[Fixed #468]
 :pr-460: https://github.com/khmarbaise/maven-it-extension/pull/460[Pull request #460]
 :pr-462: https://github.com/khmarbaise/maven-it-extension/pull/462[Pull request #462]
 
@@ -69,6 +70,7 @@
  * {issue-453} - Upgrade memoryfilesystem to 2.8.0
  * {issue-463} - Upgrade smpp to 6.0.6
  * {issue-440} - Upgrade ITF Framework Maven Version minimum to 3.8.1
+ * {issue-468} - Upgrade mockito-bom 5.12.0
  * {issue-???} - ?
 
 *Build Improvements*
