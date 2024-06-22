@@ -783,7 +783,7 @@ void first( MavenExecutionResult result )
 ----
 
 [[structuring.default.goals.options]]
-=== Default Goals,Options
+=== Default Goals, Options
 
 [[structuring.goals]]
 ==== Goals
@@ -966,6 +966,18 @@ The newly defined meta annotation can simply being used like this:
 class BasicIT {
 
   @MavenTest
+  void first(MavenExecutionResult result) {
+  }
+}
+----
+If you want to pass a parameter to a `@MavenOption` you have to name the parameters explicit like this:
+[source,java]
+----
+@MavenJupiterExtension
+class BasicIT {
+
+  @MavenTest
+  @MavenOption(value = MavenCLIOptions.FILE, parameter = 'path/to/pom.xml')
   void first(MavenExecutionResult result) {
   }
 }
