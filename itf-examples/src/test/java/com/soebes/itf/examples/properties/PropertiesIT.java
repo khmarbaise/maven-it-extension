@@ -43,15 +43,15 @@ class PropertiesIT {
         .out()
         .info()
         .containsSubsequence(
-            "--- enforcer:3.4.1:enforce (enforce-maven) @ kata-fraction ---",
-            "--- jacoco:0.8.11:prepare-agent (default) @ kata-fraction ---",
+            "--- enforcer:3.5.0:enforce (enforce-maven) @ kata-fraction ---",
+            "--- jacoco:0.8.12:prepare-agent (default) @ kata-fraction ---",
             "--- resources:3.3.1:resources (default-resources) @ kata-fraction ---",
-            "--- compiler:3.11.0:compile (default-compile) @ kata-fraction ---",
+            "--- compiler:3.13.0:compile (default-compile) @ kata-fraction ---",
             "--- resources:3.3.1:testResources (default-testResources) @ kata-fraction ---",
-            "--- compiler:3.11.0:testCompile (default-testCompile) @ kata-fraction ---",
-            "--- surefire:3.2.2:test (default-test) @ kata-fraction ---",
+            "--- compiler:3.13.0:testCompile (default-testCompile) @ kata-fraction ---",
+            "--- surefire:3.3.1:test (default-test) @ kata-fraction ---",
             "Tests are skipped.",
-            "--- jar:3.3.0:jar (default-jar) @ kata-fraction ---",
+            "--- jar:3.4.2:jar (default-jar) @ kata-fraction ---",
             "--- site:3.12.1:attach-descriptor (attach-descriptor) @ kata-fraction ---"
         );
     assertThat(result)

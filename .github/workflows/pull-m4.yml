@@ -41,10 +41,9 @@ jobs:
           distribution: "temurin"
           cache: maven
       - name: Set up Maven
-        uses: hb0730/maven-action@v1.0.1
+        uses: stCarolas/setup-maven@v5
         with:
-          maven-version: 4.0.0
-          url: https://repo1.maven.org/maven2/org/apache/maven/apache-maven/4.0.0-alpha-13/apache-maven-4.0.0-alpha-13-bin.tar.gz
+          maven-version: 4.0.0-alpha-13
       - name: Build with Maven
         run: mvn verify -Prun-its -e -B -V --no-transfer-progress
 

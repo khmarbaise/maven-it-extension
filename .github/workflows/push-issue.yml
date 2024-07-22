@@ -37,9 +37,8 @@ jobs:
           cache: maven
 
       - name: Set up Maven
-        uses: hb0730/maven-action@v1.0.1
+        uses: stCarolas/setup-maven@v5
         with:
-          maven-version: 3.9.6
-          url: https://repo1.maven.org/maven2/org/apache/maven/apache-maven/3.9.6/apache-maven-3.9.6-bin.tar.gz
+          maven-version: 3.9.8
       - name: "Building with Maven."
         run: mvn verify -e -B -V --no-transfer-progress

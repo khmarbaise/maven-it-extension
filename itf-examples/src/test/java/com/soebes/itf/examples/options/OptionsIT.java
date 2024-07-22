@@ -46,14 +46,14 @@ class OptionsIT {
         .out()
         .info()
         .containsSubsequence(
-            "--- enforcer:3.4.1:enforce (enforce-maven) @ kata-fraction ---",
-            "--- jacoco:0.8.11:prepare-agent (default) @ kata-fraction ---",
+            "--- enforcer:3.5.0:enforce (enforce-maven) @ kata-fraction ---",
+            "--- jacoco:0.8.12:prepare-agent (default) @ kata-fraction ---",
             "--- resources:3.3.1:resources (default-resources) @ kata-fraction ---",
-            "--- compiler:3.11.0:compile (default-compile) @ kata-fraction ---",
+            "--- compiler:3.13.0:compile (default-compile) @ kata-fraction ---",
             "--- resources:3.3.1:testResources (default-testResources) @ kata-fraction ---",
-            "--- compiler:3.11.0:testCompile (default-testCompile) @ kata-fraction ---",
-            "--- surefire:3.2.2:test (default-test) @ kata-fraction ---",
-            "--- jar:3.3.0:jar (default-jar) @ kata-fraction ---",
+            "--- compiler:3.13.0:testCompile (default-testCompile) @ kata-fraction ---",
+            "--- surefire:3.3.1:test (default-test) @ kata-fraction ---",
+            "--- jar:3.4.2:jar (default-jar) @ kata-fraction ---",
             "--- site:3.12.1:attach-descriptor (attach-descriptor) @ kata-fraction ---"
         );
     assertThat(result)
@@ -74,14 +74,14 @@ class OptionsIT {
         .out()
         .info()
         .containsSubsequence(
-            "--- enforcer:3.4.1:enforce (enforce-maven) @ kata-fraction ---",
-            "--- jacoco:0.8.11:prepare-agent (default) @ kata-fraction ---",
+            "--- enforcer:3.5.0:enforce (enforce-maven) @ kata-fraction ---",
+            "--- jacoco:0.8.12:prepare-agent (default) @ kata-fraction ---",
             "--- resources:3.3.1:resources (default-resources) @ kata-fraction ---",
-            "--- compiler:3.11.0:compile (default-compile) @ kata-fraction ---",
+            "--- compiler:3.13.0:compile (default-compile) @ kata-fraction ---",
             "--- resources:3.3.1:testResources (default-testResources) @ kata-fraction ---",
-            "--- compiler:3.11.0:testCompile (default-testCompile) @ kata-fraction ---",
-            "--- surefire:3.2.2:test (default-test) @ kata-fraction ---",
-            "--- jar:3.3.0:jar (default-jar) @ kata-fraction ---",
+            "--- compiler:3.13.0:testCompile (default-testCompile) @ kata-fraction ---",
+            "--- surefire:3.3.1:test (default-test) @ kata-fraction ---",
+            "--- jar:3.4.2:jar (default-jar) @ kata-fraction ---",
             "--- site:3.12.1:attach-descriptor (attach-descriptor) @ kata-fraction ---"
         );
     assertThat(result)
@@ -93,14 +93,14 @@ class OptionsIT {
         .out()
         .debug()
         .containsSubsequence(
-            "Goal:          org.apache.maven.plugins:maven-enforcer-plugin:3.4.1:enforce (enforce-maven)",
-            "Goal:          org.jacoco:jacoco-maven-plugin:0.8.11:prepare-agent (default)",
+            "Goal:          org.apache.maven.plugins:maven-enforcer-plugin:3.5.0:enforce (enforce-maven)",
+            "Goal:          org.jacoco:jacoco-maven-plugin:0.8.12:prepare-agent (default)",
             "Goal:          org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources (default-resources)",
-            "Goal:          org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile (default-compile)",
+            "Goal:          org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile)",
             "Goal:          org.apache.maven.plugins:maven-resources-plugin:3.3.1:testResources (default-testResources)",
-            "Goal:          org.apache.maven.plugins:maven-compiler-plugin:3.11.0:testCompile (default-testCompile)",
-            "Goal:          org.apache.maven.plugins:maven-surefire-plugin:3.2.2:test (default-test)",
-            "Goal:          org.apache.maven.plugins:maven-jar-plugin:3.3.0:jar (default-jar)",
+            "Goal:          org.apache.maven.plugins:maven-compiler-plugin:3.13.0:testCompile (default-testCompile)",
+            "Goal:          org.apache.maven.plugins:maven-surefire-plugin:3.3.1:test (default-test)",
+            "Goal:          org.apache.maven.plugins:maven-jar-plugin:3.4.2:jar (default-jar)",
             "Goal:          org.apache.maven.plugins:maven-site-plugin:3.12.1:attach-descriptor (attach-descriptor)"
         );
   }

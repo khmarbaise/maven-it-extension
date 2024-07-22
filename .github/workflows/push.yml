@@ -43,10 +43,9 @@ jobs:
           distribution: "temurin"
           cache: maven
       - name: Set up Maven
-        uses: hb0730/maven-action@v1.0.1
+        uses: stCarolas/setup-maven@v5
         with:
-          maven-version: 3.9.6
-          url: https://repo1.maven.org/maven2/org/apache/maven/apache-maven/3.9.6/apache-maven-3.9.6-bin.tar.gz
+          maven-version: 3.9.8
       - name: 'Build'
         run: unset JAVA_TOOL_OPTIONS;mvn -V --no-transfer-progress verify site:site site:stage
       - name: 'Deploy to gh-pages'

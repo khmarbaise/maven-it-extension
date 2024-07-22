@@ -41,7 +41,7 @@ class GoalsOnClassIT {
         .containsSubsequence(
             "Scanning for projects...",
             "Building kata-fraction 1.0-SNAPSHOT",
-            "--- clean:3.3.2:clean (default-clean) @ kata-fraction ---",
+            "--- clean:3.4.0:clean (default-clean) @ kata-fraction ---",
             "BUILD SUCCESS"
         );
     assertThat(result)
