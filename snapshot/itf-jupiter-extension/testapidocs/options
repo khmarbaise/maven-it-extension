@@ -19,6 +19,8 @@
 'UTF-8'
 -doctitle
 'itf-jupiter-extension 0.14.0-SNAPSHOT Test API'
+-link
+'../apidocs'
 -linkoffline
 'https://docs.oracle.com/javase/8/docs/api' '/home/runner/work/maven-it-extension/maven-it-extension/itf-jupiter-extension/target/javadoc-bundle-options'
 -linkoffline
