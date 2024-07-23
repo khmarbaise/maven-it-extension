@@ -48,7 +48,7 @@ jobs:
         run: mvn verify -Prun-its -e -B -V --no-transfer-progress
 
       - name: "Publish Unit Test results"
-        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        uses: EnricoMi/publish-unit-test-result-action/linux@v2
         if: always()
         with:
           check_name: "Publish Unit Test Results"
@@ -59,7 +59,7 @@ jobs:
             ${{ github.workspace }}/itf-jupiter-extension/target/surefire-reports/TEST-*.xml
 
       - name: "Publish Integration Test Results"
-        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        uses: EnricoMi/publish-unit-test-result-action/linux@v2
         if: always()
         with:
           check_name: "Publish Integration Test Results"
