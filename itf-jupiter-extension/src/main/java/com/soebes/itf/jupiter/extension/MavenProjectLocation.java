@@ -34,13 +34,13 @@ import static org.apiguardian.api.API.Status.EXPERIMENTAL;
  * This annotation is intended to define a location of the directory where
  * the {@code pom.xml} is located. This could be the case if you have
  * a project layout like this:
- * {@code
+ * <pre>{@code
  *   + (root)
  *   !
  *   +-- directory
  *   +-- subdir
  *        +-- pom.xml
- * }
+ * }</pre>
  * @author Karl Heinz Marbaise
  * @since 0.12.0
  */
