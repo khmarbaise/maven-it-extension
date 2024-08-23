@@ -30,6 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+
 /**
  * Test for {@link Fraction}.
  */
@@ -112,26 +113,26 @@ class FractionTest {
 
     @Test
     void fraction_one_identical_to_fraction_two() {
-      Fraction fraction_one = new Fraction(1, 2);
-      Fraction fraction_two = new Fraction(1, 2);
+      Fraction fractionOne = new Fraction(1, 2);
+      Fraction fractionTwo = new Fraction(1, 2);
 
-      assertThat(fraction_one).isEqualByComparingTo(fraction_two);
+      assertThat(fractionOne).isEqualByComparingTo(fractionTwo);
     }
 
     @Test
     void fraction_one_greater_than_fraction_two() {
-      Fraction fraction_one = new Fraction(1, 1);
-      Fraction fraction_two = new Fraction(1, 2);
+      Fraction fractionOne = new Fraction(1, 1);
+      Fraction fractionTwo = new Fraction(1, 2);
 
-      assertThat(fraction_one).isGreaterThan(fraction_two);
+      assertThat(fractionOne).isGreaterThan(fractionTwo);
     }
 
     @Test
     void fraction_one_less_than_fraction_two() {
-      Fraction fraction_one = new Fraction(1, 3);
-      Fraction fraction_two = new Fraction(1, 2);
+      Fraction fractionOne = new Fraction(1, 3);
+      Fraction fractionTwo = new Fraction(1, 2);
 
-      assertThat(fraction_one).isLessThan(fraction_two);
+      assertThat(fractionOne).isLessThan(fractionTwo);
     }
 
   }
@@ -263,52 +264,52 @@ class FractionTest {
 
     @Test
     void chaining_addition_with_improper_fraction_result() {
-      Fraction summand_1 = new Fraction(1, 2);
-      Fraction summand_2 = new Fraction(1, 3);
-      Fraction summand_3 = new Fraction(1, 4);
+      Fraction summand1 = new Fraction(1, 2);
+      Fraction summand2 = new Fraction(1, 3);
+      Fraction summand3 = new Fraction(1, 4);
 
-      Fraction sum = summand_1.plus(summand_2).plus(summand_3);
+      Fraction sum = summand1.plus(summand2).plus(summand3);
 
       assertThat(sum).isEqualTo(new Fraction(26, 24));
     }
 
     @Test
     void chaining_addition_with_proper_fraction_result() {
-      Fraction summand_1 = new Fraction(1, 2);
-      Fraction summand_2 = new Fraction(1, 3);
-      Fraction summand_3 = new Fraction(1, 4);
+      Fraction summand1 = new Fraction(1, 2);
+      Fraction summand2 = new Fraction(1, 3);
+      Fraction summand3 = new Fraction(1, 4);
 
-      Fraction sum = summand_1.plus(summand_2).plus(summand_3);
+      Fraction sum = summand1.plus(summand2).plus(summand3);
 
       assertThat(sum).isEqualTo(new Fraction(13, 12));
     }
 
     @Test
     void addition_with_two_proper_fractions() {
-      Fraction summand_1 = new Fraction(2, 3);
-      Fraction summand_2 = new Fraction(1, 5);
+      Fraction summand1 = new Fraction(2, 3);
+      Fraction summand2 = new Fraction(1, 5);
 
-      Fraction sum = summand_1.plus(summand_2);
+      Fraction sum = summand1.plus(summand2);
 
       assertThat(sum).isEqualTo(new Fraction(13, 15));
     }
 
     @Test
     void add_1_3_plus_2_3_should_be_1_1() {
-      Fraction summand_1 = new Fraction(1, 3);
-      Fraction summand_2 = new Fraction(2, 3);
+      Fraction summand1 = new Fraction(1, 3);
+      Fraction summand2 = new Fraction(2, 3);
 
-      Fraction sum = summand_1.plus(summand_2);
+      Fraction sum = summand1.plus(summand2);
 
       assertThat(sum).isEqualTo(new Fraction(3, 3));
     }
 
     @Test
     void add_1_3_plus_2_3_should_be_1_1_reduced() {
-      Fraction summand_1 = new Fraction(1, 3);
-      Fraction summand_2 = new Fraction(2, 3);
+      Fraction summand1 = new Fraction(1, 3);
+      Fraction summand2 = new Fraction(2, 3);
 
-      Fraction sum = summand_1.plus(summand_2);
+      Fraction sum = summand1.plus(summand2);
 
       assertThat(sum.numerator()).isEqualTo(1);
       assertThat(sum.denominator()).isEqualTo(1);
@@ -352,10 +353,10 @@ class FractionTest {
 
     @Test
     void add_max_value() {
-      Fraction summand_1 = new Fraction(Integer.MAX_VALUE / 2, 1);
-      Fraction summand_2 = new Fraction(Integer.MAX_VALUE / 2, 1);
+      Fraction summand1 = new Fraction(Integer.MAX_VALUE / 2, 1);
+      Fraction summand2 = new Fraction(Integer.MAX_VALUE / 2, 1);
 
-      Fraction sum = summand_1.plus(summand_2);
+      Fraction sum = summand1.plus(summand2);
 
       assertThat(sum.numerator()).isEqualTo(Integer.MAX_VALUE - 1);
       assertThat(sum.denominator()).isEqualTo(1);
@@ -363,10 +364,10 @@ class FractionTest {
 
     @Test
     void add_min_value() {
-      Fraction summand_1 = new Fraction(Integer.MIN_VALUE / 2, 1);
-      Fraction summand_2 = new Fraction(Integer.MIN_VALUE / 2, 1);
+      Fraction summand1 = new Fraction(Integer.MIN_VALUE / 2, 1);
+      Fraction summand2 = new Fraction(Integer.MIN_VALUE / 2, 1);
 
-      Fraction sum = summand_1.plus(summand_2);
+      Fraction sum = summand1.plus(summand2);
 
       assertThat(sum.numerator()).isEqualTo(Integer.MIN_VALUE);
       assertThat(sum.denominator()).isEqualTo(1);

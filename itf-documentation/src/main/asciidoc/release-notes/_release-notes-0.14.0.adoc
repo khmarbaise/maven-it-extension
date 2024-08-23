@@ -41,6 +41,7 @@
 :issue-468: https://github.com/khmarbaise/maven-it-extension/issues/468[Fixed #468]
 :issue-474: https://github.com/khmarbaise/maven-it-extension/issues/474[Fixed #474]
 :issue-477: https://github.com/khmarbaise/maven-it-extension/issues/477[Fixed #477]
+:issue-479: https://github.com/khmarbaise/maven-it-extension/issues/479[Fixed #479]
 :issue-481: https://github.com/khmarbaise/maven-it-extension/issues/481[Fixed #481]
 :issue-483: https://github.com/khmarbaise/maven-it-extension/issues/483[Fixed #483]
 :pr-460: https://github.com/khmarbaise/maven-it-extension/pull/460[Pull request #460]
@@ -52,6 +53,8 @@
 
 *Details*
 
+ * {issue-479} - The .mvn directory is not copied
+   - written IT's to prove it's working correct.
  * {issue-???} - ?
 
 
