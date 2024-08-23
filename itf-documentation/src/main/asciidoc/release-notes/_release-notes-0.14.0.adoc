@@ -40,6 +40,7 @@
 :issue-466: https://github.com/khmarbaise/maven-it-extension/issues/466[Fixed #466]
 :issue-468: https://github.com/khmarbaise/maven-it-extension/issues/468[Fixed #468]
 :issue-474: https://github.com/khmarbaise/maven-it-extension/issues/474[Fixed #474]
+:issue-477: https://github.com/khmarbaise/maven-it-extension/issues/477[Fixed #477]
 :issue-481: https://github.com/khmarbaise/maven-it-extension/issues/481[Fixed #481]
 :issue-483: https://github.com/khmarbaise/maven-it-extension/issues/483[Fixed #483]
 :pr-460: https://github.com/khmarbaise/maven-it-extension/pull/460[Pull request #460]
@@ -77,6 +78,7 @@
  * {issue-468} - Upgrade mockito-bom 5.12.0
  * {issue-481} - Upgrade smpp to 7.0.0
  * {issue-466} - Upgrade JUnit-BOM 5.11.0
+ * {issue-477} - Upgrade assertj-bom 3.26.3
  * {issue-???} - ?
 
 *Build Improvements*
