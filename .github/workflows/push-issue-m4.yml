@@ -39,6 +39,6 @@ jobs:
       - name: Set up Maven
         uses: stCarolas/setup-maven@v5
         with:
-          maven-version: 4.0.0-beta-3
+          maven-version: 4.0.0-beta-4
       - name: "Building with Maven."
         run: mvn verify -e -B -V --no-transfer-progress

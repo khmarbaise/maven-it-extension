@@ -43,7 +43,7 @@ jobs:
       - name: Set up Maven
         uses: stCarolas/setup-maven@v5
         with:
-          maven-version: 3.9.8
+          maven-version: 3.9.9
       - name: Build with Maven
         run: mvn verify -Prun-its -e -B -V --no-transfer-progress
 

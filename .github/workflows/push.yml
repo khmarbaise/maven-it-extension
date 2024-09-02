@@ -45,7 +45,7 @@ jobs:
       - name: Set up Maven
         uses: stCarolas/setup-maven@v5
         with:
-          maven-version: 3.9.8
+          maven-version: 3.9.9
       - name: 'Build'
         run: unset JAVA_TOOL_OPTIONS;mvn -V --no-transfer-progress verify site:site site:stage
       - name: 'Deploy to gh-pages'
