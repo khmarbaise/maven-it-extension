@@ -2000,6 +2000,96 @@ void testCase( MavenTarget mavenTarget ) {
 This means that within the `beforeEach` method you could access the state of the IT before the
 execution of Maven can be access or done something special.
 
+== Project Setup
+
+The basic idea is to have setup which itself is a Maven project. That could be used to
+install a pom file or other artifacts in your local cache for the integration test.
+
+There are currently two ideas at the moment:
+
+The first idea is to use the `@BeforeEach` annotated method `@MavenBeforeEach`. That will execute
+a Maven project (as the `@MavenTest` will do), except before a method like `basic_one` ( or `basic_two`).
+That would make it possible to ran a project before each test and do whatever required as a preparation
+installing artifacts, or pom file (parent pom's for example or alike).
+
+// @MavenGoal("${project.groupId}:${project.artifactId}:${project.version}:compare-dependencies")
+
+[source,java]
+.Using `@MavenBeforeEach`
+----
+@MavenJupiterExtension
+class IntegerIT {
+
+  @BeforeEach
+  @MavenBeforeEach
+  @MavenGoal("install")
+  void beforeEach(MavenExecutionResult result) {
+    //
+  }
+
+  @MavenTest
+  void basic_one(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  void basic_two(MavenExecutionResult result)
+      throws IOException {
+
+  }
+}
+----
+
+[CAUTION]
+====
+* [ ] Check if we require supplemental `@MavenBeforeEach` (could we somehow infer from `@BeforeEach`?)
+* [ ] is the injection into `beforeEach(MavenExecutionResult result)` possible?
+* [ ] Do the annotations like `@MavenGoal` work on `beforeEach` method?
+====
+
+In the case of using `@BeforeAll` which will be executed exactly once for all test cases `basic_one`
+and `basic_two`.
+The question which arises here is: If this setup is required for the `basic_one` and `basic_two` how could we
+combine them together?
+
+[source,java]
+.Using `@MavenBeforeEach`
+----
+@MavenJupiterExtension
+class IntegerIT {
+
+  @BeforeAll
+  @MavenGoal("install")
+  @MavenBeforeAll
+  static void beforeAll(MavenExecutionResult result) {
+    //
+  }
+
+  @MavenTest
+  void basic_one(MavenExecutionResult result)
+      throws IOException {
+
+  }
+  @MavenTest
+  void basic_two(MavenExecutionResult result)
+      throws IOException {
+
+  }
+}
+----
+
+[CAUTION]
+====
+* [ ] Check if we require supplemental `@MavenBeforeAll` (could we somehow infer from `@BeforeAll`?)
+* [ ] Can we somehow find out the paths to the different test methods (`basic_one`, `basic_two`)?
+This is required to install artifacts into the appropriate integration tests caches? (The location of that directory?)
+* [ ] Do the annotations like `@MavenGoal` work on `beforeAll` method?
+====
+
+Is there a way to execute a number of Maven projects (what ever goals) in one go...(deploy pom/jar's etc.) into
+temporary cache.. and reuse that for all executions?
+
+
 == Open Things
 
 .Things which currently not working or net yet tested/thought about
