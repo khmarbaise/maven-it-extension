@@ -46,6 +46,7 @@
 :issue-483: https://github.com/khmarbaise/maven-it-extension/issues/483[Fixed #483]
 :issue-492: https://github.com/khmarbaise/maven-it-extension/issues/492[Fixed #492]
 :issue-493: https://github.com/khmarbaise/maven-it-extension/issues/495[Fixed #495]
+:issue-496: https://github.com/khmarbaise/maven-it-extension/issues/496[Fixed #496]
 :pr-460: https://github.com/khmarbaise/maven-it-extension/pull/460[Pull request #460]
 :pr-462: https://github.com/khmarbaise/maven-it-extension/pull/462[Pull request #462]
 
@@ -98,6 +99,7 @@
  * {issue-459} - Upgrade asciidoctor-maven-plugin 3.0.0
  * {issue-483} - Replace composite with linux variant.
  * {issue-488} - Upgrade to Maven 4.0.0 Beta 4 + Maven 3.9.9
+ * {issue-496} - Upgrade to Maven 4.0.0 rc-1
 
 *Documentation Improvements*
 
