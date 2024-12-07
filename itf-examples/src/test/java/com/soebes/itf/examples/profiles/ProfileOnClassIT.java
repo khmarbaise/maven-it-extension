@@ -46,7 +46,14 @@ class ProfileOnClassIT {
     assertThat(result)
         .isSuccessful()
         .out()
-        .warn().containsExactly("Message for Profile 1", "Message for Profile 2", "Message for Profile 3");
+        .warn().satisfies(s -> {
+          assertThat(s.get(0)).startsWith("Detected 8 pre-Maven 4 legacy encrypted password(s) - configure password encryption with the help of mvnenc for increased security. @ ");
+          assertThat(s).containsSequence(
+              "Message for Profile 1",
+              "Message for Profile 2",
+              "Message for Profile 3"
+          );
+        });
   }
 
   @MavenTest
