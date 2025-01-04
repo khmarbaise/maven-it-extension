@@ -45,13 +45,14 @@
 :issue-481: https://github.com/khmarbaise/maven-it-extension/issues/481[Fixed #481]
 :issue-483: https://github.com/khmarbaise/maven-it-extension/issues/483[Fixed #483]
 :issue-492: https://github.com/khmarbaise/maven-it-extension/issues/492[Fixed #492]
-:issue-493: https://github.com/khmarbaise/maven-it-extension/issues/495[Fixed #495]
+:issue-495: https://github.com/khmarbaise/maven-it-extension/issues/495[Fixed #495]
+:issue-499: https://github.com/khmarbaise/maven-it-extension/issues/499[Fixed #499]
 :pr-460: https://github.com/khmarbaise/maven-it-extension/pull/460[Pull request #460]
 :pr-462: https://github.com/khmarbaise/maven-it-extension/pull/462[Pull request #462]
 
 :release_0_14_0: https://github.com/khmarbaise/maven-it-extension/milestone/14
 
-*Date of Release:* XXX, 2024
+*Date of Release:* XXX, 2025
 
 *Details*
 
@@ -86,6 +87,7 @@
  * {issue-477} - Upgrade assertj-bom 3.26.3
  * {issue-492} - Upgrade JUnit-BOM 5.11.2
  * {issue-495} - Upgrade JUnit-BOM 5.11.3
+ * {issue-499} - Upgrade JUnit-BOM 5.11.4
  * {issue-???} - ?
 
 *Build Improvements*
