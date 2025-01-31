@@ -50,7 +50,7 @@ class ProjectHelperTest {
       assertThatIllegalStateException().isThrownBy(() -> ProjectHelper.readProject(resourceAsStream))
           .withMessage("Failed to read pom.xml")
           .havingCause()
-          .withMessage("expected > to finsh end tag not < from line 32 (position: TEXT seen ...<version>2.8-SNAPSHOT</version\\n  <... @33:4) ");
+          .withMessageMatching("expected > to finsh end tag not < from line 32 \\(position: TEXT seen ...<version>2.8-SNAPSHOT</version(\\\\r)?\\\\n  <... @33:4\\) ");
     }
   }
 
@@ -70,7 +70,7 @@ class ProjectHelperTest {
     assertThatIllegalStateException().isThrownBy(() -> ProjectHelper.readProject(resourcesDirectory))
         .withMessage("Failed to read pom.xml")
         .havingCause()
-        .withMessage("src/test/resources/unknown.xml");
+        .withMessageMatching("src[\\\\/]test[\\\\/]resources[\\\\/]unknown.xml");
 
   }
 
