@@ -48,6 +48,7 @@
 :issue-495: https://github.com/khmarbaise/maven-it-extension/issues/495[Fixed #495]
 :issue-499: https://github.com/khmarbaise/maven-it-extension/issues/499[Fixed #499]
 :issue-502: https://github.com/khmarbaise/maven-it-extension/issues/502[Fixed #502]
+:issue-504: https://github.com/khmarbaise/maven-it-extension/issues/504[Fixed #504]
 :pr-460: https://github.com/khmarbaise/maven-it-extension/pull/460[Pull request #460]
 :pr-462: https://github.com/khmarbaise/maven-it-extension/pull/462[Pull request #462]
 
@@ -90,6 +91,7 @@
  * {issue-495} - Upgrade JUnit-BOM 5.11.3
  * {issue-499} - Upgrade JUnit-BOM 5.11.4
  * {issue-502} - Upgrade JUnit-BOM 5.12.0
+ * {issue-504} - Upgrade Mockito-BOM 5.15.2
  * {issue-???} - ?
 
 *Build Improvements*
