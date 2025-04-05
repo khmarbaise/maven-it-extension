@@ -39,19 +39,19 @@ class MetaAnnotationGoalIT {
         .info()
         .containsSubsequence(
             "Scanning for projects...",
-            "--- clean:3.4.0:clean (default-clean) @ kata-fraction ---",
+            "--- clean:3.4.1:clean (default-clean) @ kata-fraction ---",
             "--- enforcer:3.5.0:enforce (enforce-maven) @ kata-fraction ---",
-            "--- jacoco:0.8.12:prepare-agent (default) @ kata-fraction ---",
+            "--- jacoco:0.8.13:prepare-agent (default) @ kata-fraction ---",
             "--- resources:3.3.1:resources (default-resources) @ kata-fraction ---",
-            "--- compiler:3.13.0:compile (default-compile) @ kata-fraction ---",
+            "--- compiler:3.14.0:compile (default-compile) @ kata-fraction ---",
             "--- resources:3.3.1:testResources (default-testResources) @ kata-fraction ---",
-            "--- compiler:3.13.0:testCompile (default-testCompile) @ kata-fraction ---",
-            "--- surefire:3.3.1:test (default-test) @ kata-fraction ---",
+            "--- compiler:3.14.0:testCompile (default-testCompile) @ kata-fraction ---",
+            "--- surefire:3.5.3:test (default-test) @ kata-fraction ---",
             "Tests run: 34, Failures: 0, Errors: 0, Skipped: 0",
             "--- jar:3.4.2:jar (default-jar) @ kata-fraction ---",
-            "--- site:3.12.1:attach-descriptor (attach-descriptor) @ kata-fraction ---",
+            "--- site:3.21.0:attach-descriptor (attach-descriptor) @ kata-fraction ---",
             "Skipping because packaging 'jar' is not pom.",
-            "--- jacoco:0.8.12:report (default) @ kata-fraction ---"
+            "--- jacoco:0.8.13:report (default) @ kata-fraction ---"
         );
 
     assertThat(result)

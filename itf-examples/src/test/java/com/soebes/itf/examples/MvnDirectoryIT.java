@@ -43,9 +43,9 @@ class MvnDirectoryIT {
             // This means .mvn/maven.config with -T 2 option has been read.
             "Using the MultiThreadedBuilder implementation with a thread count of 2",
             "--- enforcer:3.5.0:enforce (enforce-maven) @ kata-fraction ---",
-            "--- jacoco:0.8.12:prepare-agent (default) @ kata-fraction ---",
+            "--- jacoco:0.8.13:prepare-agent (default) @ kata-fraction ---",
             "--- resources:3.3.1:resources (default-resources) @ kata-fraction ---",
-            "--- compiler:3.13.0:compile (default-compile) @ kata-fraction ---",
+            "--- compiler:3.14.0:compile (default-compile) @ kata-fraction ---",
             "Tests run: 34, Failures: 0, Errors: 0, Skipped: 0"
         );
     assertThat(result)
@@ -64,9 +64,9 @@ class MvnDirectoryIT {
         .containsSubsequence(
             "Scanning for projects...",
             "--- enforcer:3.5.0:enforce (enforce-maven) @ kata-fraction ---",
-            "--- jacoco:0.8.12:prepare-agent (default) @ kata-fraction ---",
+            "--- jacoco:0.8.13:prepare-agent (default) @ kata-fraction ---",
             "--- resources:3.3.1:resources (default-resources) @ kata-fraction ---",
-            "--- compiler:3.13.0:compile (default-compile) @ kata-fraction ---",
+            "--- compiler:3.14.0:compile (default-compile) @ kata-fraction ---",
             "Tests run: 34, Failures: 0, Errors: 0, Skipped: 0"
         );
     assertThat(result)
