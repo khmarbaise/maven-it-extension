@@ -164,7 +164,6 @@
             <toc>left</toc>
             <source-highlighter>coderay</source-highlighter>
           </attributes>
-          <headerFooter>true</headerFooter>
           <preserveDirectories>true</preserveDirectories>
           <outputDirectory>${project.reporting.outputDirectory}</outputDirectory>
         </configuration>
