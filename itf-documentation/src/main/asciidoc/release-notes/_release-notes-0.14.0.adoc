@@ -54,6 +54,7 @@
 :issue-508: https://github.com/khmarbaise/maven-it-extension/issues/508[Fixed #508]
 :issue-509: https://github.com/khmarbaise/maven-it-extension/issues/509[Fixed #509]
 :issue-511: https://github.com/khmarbaise/maven-it-extension/issues/511[Fixed #511]
+:issue-513: https://github.com/khmarbaise/maven-it-extension/issues/513[Fixed #513]
 :pr-460: https://github.com/khmarbaise/maven-it-extension/pull/460[Pull request #460]
 :pr-462: https://github.com/khmarbaise/maven-it-extension/pull/462[Pull request #462]
 
@@ -100,6 +101,7 @@
  * {issue-481} - Upgrade smpp to 7.0.2
  * {issue-508} - Upgrade smpp to 7.0.4
  * {issue-511} - Upgrade JUnit-BOM 5.13.0
+ * {issue-513} - Upgrade smpp to 7.0.5
 * {issue-???} - ?
 
 *Build Improvements*
