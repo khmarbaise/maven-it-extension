@@ -26,7 +26,7 @@
   <parent>
     <groupId>com.soebes.smpp</groupId>
     <artifactId>smpp</artifactId>
-    <version>7.0.4</version>
+    <version>7.0.5</version>
     <relativePath />
   </parent>
 
@@ -73,12 +73,12 @@
       <dependency>
         <groupId>net.bytebuddy</groupId>
         <artifactId>byte-buddy</artifactId>
-        <version>1.15.11</version>
+        <version>1.17.5</version>
       </dependency>
       <dependency>
         <groupId>net.bytebuddy</groupId>
         <artifactId>byte-buddy-agent</artifactId>
-        <version>1.15.11</version>
+        <version>1.17.5</version>
       </dependency>
       <dependency>
         <groupId>org.junit</groupId>
@@ -90,21 +90,21 @@
       <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-bom</artifactId>
-        <version>3.26.3</version>
+        <version>3.27.3</version>
         <scope>import</scope>
         <type>pom</type>
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-bom</artifactId>
-        <version>5.15.2</version>
+        <version>5.18.0</version>
         <scope>import</scope>
         <type>pom</type>
       </dependency>
       <dependency>
         <groupId>nl.jqno.equalsverifier</groupId>
         <artifactId>equalsverifier</artifactId>
-        <version>3.15.5</version>
+        <version>4.0</version>
       </dependency>
       <dependency>
         <groupId>com.github.marschall</groupId>
@@ -141,7 +141,7 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <configuration>
-            <compilerArgs combine.self="append">
+            <compilerArgs>
               <arg>-Xlint:-options</arg>
             </compilerArgs>
           </configuration>
