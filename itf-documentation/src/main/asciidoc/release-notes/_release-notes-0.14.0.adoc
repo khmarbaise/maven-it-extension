@@ -47,6 +47,7 @@
 :issue-488: https://github.com/khmarbaise/maven-it-extension/issues/488[Fixed #488]
 :issue-492: https://github.com/khmarbaise/maven-it-extension/issues/492[Fixed #492]
 :issue-495: https://github.com/khmarbaise/maven-it-extension/issues/495[Fixed #495]
+:issue-496: https://github.com/khmarbaise/maven-it-extension/issues/496[Fixed #496]
 :issue-499: https://github.com/khmarbaise/maven-it-extension/issues/499[Fixed #499]
 :issue-502: https://github.com/khmarbaise/maven-it-extension/issues/502[Fixed #502]
 :issue-504: https://github.com/khmarbaise/maven-it-extension/issues/504[Fixed #504]
@@ -103,7 +104,7 @@
  * {issue-508} - Upgrade smpp to 7.0.4
  * {issue-511} - Upgrade JUnit-BOM 5.13.0
  * {issue-513} - Upgrade smpp to 7.0.5
-* {issue-???} - ?
+ * {issue-???} - ?
 
 *Build Improvements*
 
@@ -117,6 +118,7 @@
  * {issue-488} - Upgrade to Maven 4.0.0 Beta 4 + Maven 3.9.9
  * {issue-509} - Upgrade asciidoctor-maven-plugin 3.2.0
  * {issue-515} - Maven 4.0.X
+ * {issue-496} - Upgrade to Maven 4.0.0 rc-4
 
 *Documentation Improvements*
 

@@ -45,10 +45,16 @@ class DefaultsForAllIT {
             "--- jar:3.4.2:jar (default-jar) @ kata-fraction ---",
             "--- site:3.21.0:attach-descriptor (attach-descriptor) @ kata-fraction ---"
         );
+
     assertThat(result)
         .isSuccessful()
         .out()
-        .warn().isEmpty();
+        .warn()
+        //FIXME:This is currently required for Maven 4.0.0-rc-3 because the setup is not yet in alignment with Maven 4.0.0
+        .filteredOn(s -> !s.startsWith("Pre-Maven 4"))
+        .filteredOn(s -> !s.contains("Some problems were encountered while building the effective settings"))
+        .isEmpty();
+
     assertThat(result)
         .isSuccessful()
         .out()
