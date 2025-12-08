@@ -59,7 +59,11 @@ class OptionsIT {
     assertThat(result)
         .isSuccessful()
         .out()
-        .warn().isEmpty();
+        .warn()
+        //FIXME:This is currently required for Maven 4.0.0-rc-3 because the setup is not yet in alignment with Maven 4.0.0
+        .filteredOn(s -> !s.contains("Pre-Maven 4 legacy encrypted password detected"))
+        .filteredOn(s -> !s.contains("Some problems were encountered while building the effective settings"))
+        .isEmpty();
     assertThat(result)
         .isSuccessful()
         .out()

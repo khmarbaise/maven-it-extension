@@ -210,7 +210,7 @@
         <groupId>org.apache.rat</groupId>
         <artifactId>apache-rat-plugin</artifactId>
         <configuration>
-          <excludes combine.children="append">
+          <excludes>
             <exclude>.github/ISSUE_TEMPLATE/feature_request.md</exclude>
             <exclude>.github/ISSUE_TEMPLATE/bug_report.md</exclude>
             <exclude>.github/ISSUE_TEMPLATE/config.yml</exclude>
