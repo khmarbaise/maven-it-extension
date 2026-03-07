@@ -10,7 +10,7 @@
 '/home/runner/work/maven-it-extension/maven-it-extension/itf-examples/src/test/java:/home/runner/work/maven-it-extension/maven-it-extension/itf-examples/target/generated-test-sources/test-annotations'
 -author
 -bottom
-'Copyright &#169; 2011&#x2013;2025 <a href="https://www.soebes.com">SoftwareEntwicklung Beratung Schulung</a>. All rights reserved.'
+'Copyright &#169; 2011&#x2013;2026 <a href="https://www.soebes.com">SoftwareEntwicklung Beratung Schulung</a>. All rights reserved.'
 -charset
 'UTF-8'
 -d
@@ -23,6 +23,7 @@
 'https://docs.oracle.com/javase/8/docs/api' '/home/runner/work/maven-it-extension/maven-it-extension/itf-examples/target/javadoc-bundle-options'
 -linkoffline
 'https://github.com/khmarbaise/maven-it-extension/itf-extension/itf-assertj/apidocs' '/home/runner/work/maven-it-extension/maven-it-extension/itf-assertj/target/site/testapidocs'
+-quiet
 -tag
 "implNote:a:Implementation Note:"
 -tag
