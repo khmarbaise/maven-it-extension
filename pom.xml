@@ -26,7 +26,7 @@
   <parent>
     <groupId>com.soebes.smpp</groupId>
     <artifactId>smpp</artifactId>
-    <version>7.0.8</version>
+    <version>7.0.9</version>
     <relativePath />
   </parent>
 
@@ -210,22 +210,24 @@
         <groupId>org.apache.rat</groupId>
         <artifactId>apache-rat-plugin</artifactId>
         <configuration>
-          <excludes combine.children="append">
-            <exclude>.github/ISSUE_TEMPLATE/feature_request.md</exclude>
-            <exclude>.github/ISSUE_TEMPLATE/bug_report.md</exclude>
-            <exclude>.github/ISSUE_TEMPLATE/config.yml</exclude>
-            <exclude>IDEASetup.xml</exclude>
-            <exclude>**/.invisible-file</exclude><!-- Only used in ITs. -->
-            <exclude>.repository/**</exclude><!-- Jenkins job with local Maven repository -->
-            <exclude>.repo/**</exclude><!-- Jenkins job with local Maven repository -->
-	    <exclude>.mvn/**</exclude><!-- Maven Configuration Directory -->
-            <exclude>.maven/spy.log</exclude><!-- Hudson Maven3 integration log -->
-	    <exclude>.mvn/*</exclude><!-- Maven Configuration -->
-            <exclude>dependency-reduced-pom.xml</exclude><!-- Maven shade plugin -->
-            <exclude>.asf.yaml</exclude><!-- GitHub Support -->
-            <exclude>.java-version</exclude>
-            <exclude>src/test/resources/**</exclude>
-          </excludes>
+          <inputExcludes combine.children="append">
+            <inputExclude>.github/ISSUE_TEMPLATE/feature_request.md</inputExclude>
+            <inputExclude>.github/ISSUE_TEMPLATE/bug_report.md</inputExclude>
+            <inputExclude>.github/ISSUE_TEMPLATE/config.yml</inputExclude>
+            <inputExclude>IDEASetup.xml</inputExclude>
+            <inputExclude>**/.invisible-file</inputExclude><!-- Only used in ITs. -->
+            <inputExclude>.repository/**</inputExclude><!-- Jenkins job with local Maven repository -->
+            <inputExclude>.repo/**</inputExclude><!-- Jenkins job with local Maven repository -->
+            <inputExclude>itf-examples/src/test/resources-its/**</inputExclude>
+            <inputExclude>itf-examples/src/test/resources/example-files/.gitattributes</inputExclude>
+            <inputExclude>.mvn/**</inputExclude><!-- Maven Configuration Directory -->
+            <inputExclude>.maven/spy.log</inputExclude><!-- Hudson Maven3 integration log -->
+            <inputExclude>.mvn/*</inputExclude><!-- Maven Configuration -->
+            <inputExclude>dependency-reduced-pom.xml</inputExclude><!-- Maven shade plugin -->
+            <inputExclude>.asf.yaml</inputExclude><!-- GitHub Support -->
+            <inputExclude>.java-version</inputExclude>
+            <inputExclude>src/test/resources/**</inputExclude>
+          </inputExcludes>
         </configuration>
         <executions>
           <execution>
