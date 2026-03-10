@@ -199,6 +199,9 @@ structure as follows:
                     └── FirstMavenIT.java
 ```
 
+The integration tests do not have to live in the same Maven project as the component code.
+In such a situation, you must add a dependency on the Maven project that contains the component code.
+
 So now the real a test code looks like this:
 
 ```java
