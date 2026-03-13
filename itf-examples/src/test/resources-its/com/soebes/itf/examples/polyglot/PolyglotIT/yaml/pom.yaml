@@ -1,0 +1,5 @@
+modelVersion: 4.0.0
+groupId: com.soebes.itf.examples.polyglot
+artifactId: yaml-project
+version: 0.0.1-SNAPSHOT
+name: 'ITF using YAML POM'
